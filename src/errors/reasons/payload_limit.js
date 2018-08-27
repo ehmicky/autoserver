@@ -6,7 +6,7 @@
 //  - limit NUM
 const PAYLOAD_LIMIT = {
   status: 'CLIENT_ERROR',
-  title: 'The request payload is too big',
+  title: 'The request or response payload is too large',
 };
 
 module.exports = {

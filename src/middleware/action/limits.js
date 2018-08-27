@@ -3,7 +3,7 @@
 const pluralize = require('pluralize');
 
 const { getWordsList, flatten } = require('../../utilities');
-const { throwError } = require('../../errors');
+const { throwPb } = require('../../errors');
 const { getLimits } = require('../../limits');
 
 const { getColl } = require('./get_coll');
@@ -18,8 +18,10 @@ const validateRequestLimits = function ({ config, mInput }) {
 const validateMaxActions = function ({ limits: { maxActions }, actions }) {
   if (actions.length <= maxActions) { return; }
 
-  const message = `The request must contain less than ${maxActions - 1} nested commands, but there are ${actions.length - 1} of them`;
-  throwError(message, { reason: 'PAYLOAD_LIMIT' });
+  const value = actions.length - 1;
+  const limit = maxActions - 1;
+  const message = `The request must contain less than ${limit} nested commands, but there are ${value} of them`;
+  throwPb({ reason: 'PAYLOAD_LIMIT', message, extra: { value, limit } });
 };
 
 // Nested patch|create|upsert commands use `maxmodels` instead
@@ -35,8 +37,11 @@ const validateNestedFind = function ({ limits, actions, top, config }) {
   const paths = tooNestedActions
     .map(({ commandpath }) => commandpath.join('.'));
   const pathsA = getWordsList(paths, { op: 'and', quotes: true });
+
+  const extra = getNestedFindExtra({ tooNestedActions, limits });
+
   const message = `The following ${pluralize('command', paths.length)} ${pluralize('is', paths.length)} nested too deeply: ${pathsA}. 'find' commands can only target collections at the top level or the second level.`;
-  throwError(message, { reason: 'PAYLOAD_LIMIT' });
+  throwPb({ reason: 'PAYLOAD_LIMIT', message, extra });
 };
 
 const isTooNestedFind = function ({
@@ -49,6 +54,17 @@ const isTooNestedFind = function ({
 
   const { multiple } = getColl({ commandpath, top, config });
   return multiple;
+};
+
+const getNestedFindExtra = function ({
+  tooNestedActions,
+  limits: { maxFindManyDepth },
+}) {
+  const values = tooNestedActions.map(({ commandpath }) => commandpath.length);
+  const value = Math.max(...values);
+  const limit = maxFindManyDepth - 1;
+
+  return { value, limit };
 };
 
 // Validate `args.data` against `maxmodels` limit
@@ -67,8 +83,11 @@ const validateMaxData = function ({
 
   if (dataB.length <= maxmodels) { return; }
 
-  const message = `The 'data' argument must not contain more than ${maxmodels} models, but it contains ${dataB.length} models, including nested models`;
-  throwError(message, { reason: 'PAYLOAD_LIMIT' });
+  const value = dataB.length;
+  const limit = maxmodels;
+
+  const message = `The 'data' argument must not contain more than ${limit} models, but it contains ${value} models, including nested models`;
+  throwPb({ reason: 'PAYLOAD_LIMIT', message, extra: { value, limit } });
 };
 
 const MAX_DATA_COMMANDS = ['create', 'upsert'];

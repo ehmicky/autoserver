@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../../errors');
+const { throwPb } = require('../../../errors');
 
 // Only start a command if we know it won't hit the `maxmodels` limit
 const validateMaxmodels = function ({ results, allIds, maxmodels, top }) {
@@ -14,8 +14,12 @@ const validateMaxmodels = function ({ results, allIds, maxmodels, top }) {
 
   if (results.count <= maxmodels) { return; }
 
-  const message = `The response must contain at most ${maxmodels} models, including nested models`;
-  throwError(message, { reason: 'PAYLOAD_LIMIT' });
+  const message = `The response must contain at most ${maxmodels} models, including nested models, but there are ${results.count} of them`;
+  throwPb({
+    reason: 'PAYLOAD_LIMIT',
+    message,
+    extra: { value: results.count, limit: maxmodels },
+  });
 };
 
 const incrementCount = function ({ results, allIds }) {
