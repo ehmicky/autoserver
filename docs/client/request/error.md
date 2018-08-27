@@ -81,6 +81,7 @@ error-specific [additional properties](#error-responses).
 
 [Client-side errors](#client-side-errors):
   - [`VALIDATION`](#validation): the request syntax or semantics is invalid.
+  - [`ABORTED`](#aborted): the request was aborted.
   - [`AUTHORIZATION`](#authorization): the request is not
     [authorized](../../server/data_model/authorization.md), i.e. not allowed to
     be performed.
@@ -163,6 +164,24 @@ The request syntax or semantics is invalid.
   "type": "VALIDATION",
   "title": "The request syntax or semantics is invalid",
   "description": "",
+  "status": "CLIENT_ERROR",
+  "instance": "/rest/users/"
+}
+```
+
+### `ABORTED`
+
+The request was aborted.
+
+[_HTTP status code_](../protocols/http.md#error-responses): `400`
+
+[_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32600`
+
+```json
+{
+  "type": "ABORTED",
+  "title": "The request was aborted",
+  "description": "The HTTP request was aborted by the client while the server was reading its payload",
   "status": "CLIENT_ERROR",
   "instance": "/rest/users/"
 }

@@ -7,6 +7,7 @@
 module.exports = {
   ...require('./success'),
   ...require('./validation'),
+  ...require('./aborted'),
   ...require('./authorization'),
   ...require('./route'),
   ...require('./not_found'),
