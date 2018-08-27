@@ -1,6 +1,6 @@
 'use strict';
 
-const { addGenErrorHandler, addGenPbHandler } = require('../../../errors');
+const { addGenPbHandler } = require('../../../errors');
 const { getAlgo, getAlgos } = require('../../../compress');
 
 // Retrieve compression asked by client for the response and request payloads
@@ -70,10 +70,9 @@ const getCompressResponse = addGenPbHandler(getAlgo, {
   extra: getExtra,
 });
 
-const getCompressRequest = addGenErrorHandler(getAlgo, {
-  message: algo =>
-    `Unsupported compression algorithm for the request payload: '${algo}'`,
+const getCompressRequest = addGenPbHandler(getAlgo, {
   reason: 'PAYLOAD_NEGOTIATION',
+  extra: getExtra,
 });
 
 module.exports = {

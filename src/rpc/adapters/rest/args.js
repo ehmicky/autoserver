@@ -1,7 +1,7 @@
 'use strict';
 
 const { mapValues } = require('../../../utilities');
-const { throwError } = require('../../../errors');
+const { throwError, throwPb } = require('../../../errors');
 
 // Use query variables, request payload and URL /ID to retrieve `args`
 const getArgs = function ({ method, payload, queryvars, id }) {
@@ -35,8 +35,8 @@ const addData = function ({ args, payload }) {
 const validatePayload = function ({ payload }) {
   if (payload && typeof payload === 'object') { return; }
 
-  const message = 'Invalid request format: payload must be an object or an array';
-  throwError(message, { reason: 'PAYLOAD_NEGOTIATION' });
+  const message = 'Invalid request payload: it must be an object or an array';
+  throwPb({ reason: 'PAYLOAD_NEGOTIATION', message, extra: { kind: 'type' } });
 };
 
 // Use ID in URL /rest/COLLECTION/ID for `args.id`

@@ -3,7 +3,7 @@
 const { parse } = require('graphql');
 
 const { isObject } = require('../../../../utilities');
-const { throwError, addGenErrorHandler } = require('../../../../errors');
+const { throwPb, addCatchAllHandler } = require('../../../../errors');
 
 // Generic/raw GraphQL parsing
 const getGraphqlDocument = function ({ queryvars, payload }) {
@@ -31,23 +31,31 @@ const parsePayload = function ({ payload }) {
     return payload;
   }
 
-  const message = 'Invalid request format: payload must be an object or a GraphQL query string';
-  throwError(message, { reason: 'PAYLOAD_NEGOTIATION' });
+  const message = 'Invalid request payload: it must be an object or a GraphQL query string';
+  throwPb({ reason: 'PAYLOAD_NEGOTIATION', message, extra: { kind: 'type' } });
 };
 
 // Transform GraphQL query string into AST
 const parseQuery = function ({ query }) {
   if (!query) {
-    throwError('Missing GraphQL query');
+    throwPb({ reason: 'VALIDATION', message: 'Missing GraphQL query' });
   }
 
   return parse(query);
 };
 
-const eGetGraphqlDocument = addGenErrorHandler(getGraphqlDocument, {
-  message: 'Could not parse GraphQL query',
-  reason: 'VALIDATION',
-});
+const getGraphqlHandler = function (error) {
+  throwPb({
+    reason: 'VALIDATION',
+    message: 'Could not parse GraphQL query',
+    innererror: error,
+  });
+};
+
+const eGetGraphqlDocument = addCatchAllHandler(
+  getGraphqlDocument,
+  getGraphqlHandler,
+);
 
 module.exports = {
   getGraphqlDocument: eGetGraphqlDocument,

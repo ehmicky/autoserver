@@ -1,6 +1,6 @@
 'use strict';
 
-const { throwError } = require('../../../errors');
+const { throwPb } = require('../../../errors');
 
 // Validate JSON-RPC payload is correct format
 const validatePayload = function ({ payload }) {
@@ -12,7 +12,7 @@ const validatePayload = function ({ payload }) {
 };
 
 const applyValidator = function ({
-  validator: { check, message, reason = 'VALIDATION' },
+  validator: { check, message, reason = 'VALIDATION', extra },
   payload,
   jsonrpc,
   method,
@@ -23,7 +23,7 @@ const applyValidator = function ({
   if (isValid) { return; }
 
   const messageA = `Invalid JSON-RPC payload: ${message}`;
-  throwError(messageA, { reason });
+  throwPb({ reason, message: messageA, extra });
 };
 
 const validators = [
@@ -31,6 +31,7 @@ const validators = [
     check: ({ payload }) => payload && typeof payload === 'object',
     message: 'it must be an object',
     reason: 'PAYLOAD_NEGOTIATION',
+    extra: { kind: 'type' },
   },
   {
     check: ({ payload }) => !Array.isArray(payload),

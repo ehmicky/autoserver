@@ -1,7 +1,7 @@
 'use strict';
 
 const { getSumParams } = require('../../utilities');
-const { addGenErrorHandler } = require('../../errors');
+const { addGenPbHandler, addErrorHandler, throwPb } = require('../../errors');
 const { getLimits } = require('../../limits');
 
 const { validateBoolean } = require('./validate');
@@ -62,20 +62,21 @@ const decompressPayload = function ({ compressRequest, payload }) {
   return compressRequest.decompress(payload);
 };
 
-const eDecompressPayload = addGenErrorHandler(decompressPayload, {
-  message: ({ compressRequest: { name } }) =>
-    `Invalid compression algorithm for the request payload: '${name}'`,
+const eDecompressPayload = addGenPbHandler(decompressPayload, {
   reason: 'PAYLOAD_NEGOTIATION',
+  message: ({ compressRequest: { title } }) =>
+    `The request payload could not be decompressed using ${title}`,
+  extra: { kind: 'compress' },
 });
 
 const decodeCharset = function ({ content, charset }) {
   return charset.decode(content);
 };
 
-const eDecodeCharset = addGenErrorHandler(decodeCharset, {
-  message: ({ charset }) =>
-    `Invalid request charset: '${charset.name}' could not be decoded`,
+const eDecodeCharset = addGenPbHandler(decodeCharset, {
   reason: 'PAYLOAD_NEGOTIATION',
+  message: ({ charset }) => `The request payload could not be decoded using the charset '${charset.name}'`,
+  extra: { kind: 'charset' },
 });
 
 // Parse content, e.g. JSON/YAML parsing
@@ -83,18 +84,26 @@ const parseContent = function ({ format, payload }) {
   return format.parseContent(payload);
 };
 
-const getMessage = function ({ format: { title }, payload }) {
-  if (!payload) {
-    return 'The request payload is empty';
-  }
+const parseContentHandler = function (error, { payload, format }) {
+  const { message, kind } = getContentErrorProps({ payload, format });
 
-  return `The request payload is invalid ${title}`;
+  throwPb({
+    reason: 'PAYLOAD_NEGOTIATION',
+    message,
+    extra: { kind },
+    innererror: error,
+  });
 };
 
-const eParseContent = addGenErrorHandler(parseContent, {
-  message: getMessage,
-  reason: 'PAYLOAD_NEGOTIATION',
-});
+const getContentErrorProps = function ({ payload, format: { title } }) {
+  if (!payload) {
+    return { message: 'The request payload is empty', kind: 'type' };
+  }
+
+  return { message: `The request payload is invalid ${title}`, kind: 'format' };
+};
+
+const eParseContent = addErrorHandler(parseContent, parseContentHandler);
 
 module.exports = {
   parsePayload,

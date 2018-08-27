@@ -75,5 +75,6 @@ module.exports = {
   addErrorHandler: kAddErrorHandler,
   addGenErrorHandler,
   addGenPbHandler,
+  addCatchAllHandler,
   addCatchAllPbHandler,
 };
