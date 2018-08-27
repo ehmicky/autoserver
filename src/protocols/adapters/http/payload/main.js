@@ -3,7 +3,7 @@
 const { hasBody } = require('type-is');
 const getBody = require('raw-body');
 
-const { throwError, addErrorHandler } = require('../../../../errors');
+const { throwPb, addErrorHandler } = require('../../../../errors');
 
 const { getRawBodyHandler } = require('./error');
 
@@ -27,7 +27,7 @@ const getContentLength = function ({ specific: { req: { headers } } }) {
   if (contentLength !== undefined) { return contentLength; }
 
   const message = 'Must specify HTTP header \'Content-Length\' when sending a request payload';
-  throwError(message, { reason: 'NO_CONTENT_LENGTH' });
+  throwPb({ reason: 'NO_CONTENT_LENGTH', message });
 };
 
 const getRawBody = function ({ req, length, maxpayload }) {
