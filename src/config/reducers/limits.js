@@ -1,6 +1,6 @@
 'use strict';
 
-const bytes = require('bytes');
+const { parse: parseBytes, format: formatBytes } = require('bytes');
 
 const { throwError } = require('../../errors');
 const { getLimits } = require('../../limits');
@@ -21,7 +21,7 @@ const validateLimits = function ({ config }) {
 };
 
 const validateMaxpayload = function ({ maxpayload, minMaxpayload }) {
-  const maxpayloadA = bytes.parse(maxpayload);
+  const maxpayloadA = parseBytes(maxpayload);
 
   if (maxpayloadA === null || Number.isNaN(maxpayloadA)) {
     const message = '\'config.limits.maxpayload\' must be a size in bytes, which can include "B", "KB", "MB", "GB" or "TB"';
@@ -29,7 +29,7 @@ const validateMaxpayload = function ({ maxpayload, minMaxpayload }) {
   }
 
   if (maxpayloadA < minMaxpayload) {
-    const message = '\'config.limits.maxpayload\' must be at least 100 bytes';
+    const message = `'config.limits.maxpayload' must be at least ${formatBytes(minMaxpayload)}`;
     throwError(message, { reason: 'CONFIG_VALIDATION' });
   }
 };
