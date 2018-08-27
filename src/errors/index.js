@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   ...require('./main'),
@@ -6,4 +6,4 @@ module.exports = {
   ...require('./standard'),
   ...require('./handler'),
   ...require('./props'),
-};
+}

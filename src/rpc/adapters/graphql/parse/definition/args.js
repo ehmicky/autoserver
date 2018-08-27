@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-const { throwError } = require('../../../../../errors');
-const { mapValues } = require('../../../../../utilities');
-const { validateDuplicates } = require('../duplicates');
+const { throwError } = require('../../../../../errors')
+const { mapValues } = require('../../../../../utilities')
+const { validateDuplicates } = require('../duplicates')
 
 // Parse GraphQL arguments, for each possible argument type
 const parseArgs = function ({
@@ -10,55 +10,55 @@ const parseArgs = function ({
   variables,
 }) {
   // GraphQL spec 5.3.2 'Argument Uniqueness'
-  validateDuplicates({ nodes: fields, type: 'arguments' });
+  validateDuplicates({ nodes: fields, type: 'arguments' })
 
-  return parseObject({ fields, variables });
-};
+  return parseObject({ fields, variables })
+}
 
 const parseObject = function ({ fields: args, variables }) {
-  if (!args || args.length === 0) { return {}; }
+  if (!args || args.length === 0) { return {} }
 
   // And GraphQL spec 5.5.1 'Input Object Field Uniqueness'
-  validateDuplicates({ nodes: args, type: 'arguments' });
+  validateDuplicates({ nodes: args, type: 'arguments' })
 
-  const argsA = args.map(arg => ({ [arg.name.value]: arg }));
-  const argsB = Object.assign({}, ...argsA);
+  const argsA = args.map(arg => ({ [arg.name.value]: arg }))
+  const argsB = Object.assign({}, ...argsA)
   const argsC = mapValues(
     argsB,
     ({ value: arg }) => argParsers[arg.kind]({ ...arg, variables })
-  );
-  return argsC;
-};
+  )
+  return argsC
+}
 
 const parseArray = function ({ values, variables }) {
-  return values.map(arg => argParsers[arg.kind]({ ...arg, variables }));
-};
+  return values.map(arg => argParsers[arg.kind]({ ...arg, variables }))
+}
 
 const parseNumber = function ({ value }) {
-  return Number(value);
-};
+  return Number(value)
+}
 
 // The only enum value we support is undefined, which is the same as null
 const parseEnum = function ({ value }) {
   if (value !== 'undefined') {
-    const message = `'${value}' is an unknown constant`;
-    throwError(message, { reason: 'VALIDATION' });
+    const message = `'${value}' is an unknown constant`
+    throwError(message, { reason: 'VALIDATION' })
   }
 
-  return null;
-};
+  return null
+}
 
 const parseNull = function () {
-  return null;
-};
+  return null
+}
 
 const parseAsIs = function ({ value }) {
-  return value;
-};
+  return value
+}
 
 const parseVariable = function ({ name, variables }) {
-  return variables && variables[name.value];
-};
+  return variables && variables[name.value]
+}
 
 const argParsers = {
   ObjectValue: parseObject,
@@ -70,8 +70,8 @@ const argParsers = {
   StringValue: parseAsIs,
   BooleanValue: parseAsIs,
   Variable: parseVariable,
-};
+}
 
 module.exports = {
   parseArgs,
-};
+}

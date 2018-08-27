@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const { rethrowError } = require('../errors');
-const { logEvent } = require('../log');
+const { rethrowError } = require('../errors')
+const { logEvent } = require('../log')
 
 // Handle exceptions thrown at server startup
 const handleStartupError = async function (
@@ -11,7 +11,7 @@ const handleStartupError = async function (
   // Make sure servers are properly closed if an exception is thrown at end
   // of startup, e.g. during start event handler
   if (exitFunc !== undefined) {
-    await exitFunc({ protocolAdapters, dbAdapters });
+    await exitFunc({ protocolAdapters, dbAdapters })
   }
 
   await logEvent({
@@ -19,11 +19,11 @@ const handleStartupError = async function (
     phase: 'startup',
     params: { error },
     config,
-  });
+  })
 
-  rethrowError(error);
-};
+  rethrowError(error)
+}
 
 module.exports = {
   handleStartupError,
-};
+}

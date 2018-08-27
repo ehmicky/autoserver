@@ -1,20 +1,20 @@
-'use strict';
+'use strict'
 
-const { Buffer: { isBuffer } } = require('buffer');
+const { Buffer: { isBuffer } } = require('buffer')
 
 // Parses a raw value
 const parse = function ({ content }) {
-  return content;
-};
+  return content
+}
 
 // Serializes any value to a string
 const serialize = function ({ content }) {
-  if (typeof content === 'string') { return content; }
+  if (typeof content === 'string') { return content }
 
-  if (isBuffer(content)) { return content.toString(); }
+  if (isBuffer(content)) { return content.toString() }
 
-  return JSON.stringify(content, null, 2);
-};
+  return JSON.stringify(content, null, 2)
+}
 
 // Means this is not a structured type, like media types,
 // and unlike JSON or YAML
@@ -27,4 +27,4 @@ module.exports = {
   jsonCompat: [],
   parse,
   serialize,
-};
+}

@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { getArgs } = require('./args');
+const { getArgs } = require('./args')
 
 // Use JSON-RPC-specific logic to parse the request into an
 // rpc-agnostic `rpcDef`
@@ -10,10 +10,10 @@ const parse = function ({
   queryvars,
   pathvars: { clientCollname, id },
 }) {
-  const commandName = `${METHODS_MAP[method]}_${clientCollname}`;
-  const args = getArgs({ method, payload, queryvars, id });
-  return { rpcDef: { commandName, args } };
-};
+  const commandName = `${METHODS_MAP[method]}_${clientCollname}`
+  const args = getArgs({ method, payload, queryvars, id })
+  return { rpcDef: { commandName, args } }
+}
 
 const METHODS_MAP = {
   GET: 'find',
@@ -22,8 +22,8 @@ const METHODS_MAP = {
   PUT: 'upsert',
   PATCH: 'patch',
   DELETE: 'delete',
-};
+}
 
 module.exports = {
   parse,
-};
+}

@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
 // Parses a JSON file
 const parse = function ({ content }) {
-  return JSON.parse(content);
-};
+  return JSON.parse(content)
+}
 
 // Serializes a JSON file
 const serialize = function ({ content }) {
-  return JSON.stringify(content, null, 2);
-};
+  return JSON.stringify(content, null, 2)
+}
 
 module.exports = {
   name: 'json',
@@ -20,4 +20,4 @@ module.exports = {
   jsonCompat: [],
   parse,
   serialize,
-};
+}

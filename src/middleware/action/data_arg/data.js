@@ -1,24 +1,24 @@
-'use strict';
+'use strict'
 
-const { mapValues } = require('../../../utilities');
-const { preValidate } = require('../../../patch');
-const { getColl } = require('../get_coll');
+const { mapValues } = require('../../../utilities')
+const { preValidate } = require('../../../patch')
+const { getColl } = require('../get_coll')
 
-const { validateData, isModelsType } = require('./validate');
-const { addDefaultIds } = require('./default_id');
-const { isModel } = require('./nested');
+const { validateData, isModelsType } = require('./validate')
+const { addDefaultIds } = require('./default_id')
+const { isModel } = require('./nested')
 
 // Validates `args.data` and adds default ids.
 const parseData = function ({ data, ...rest }) {
-  const { collname } = getColl(rest);
+  const { collname } = getColl(rest)
 
   if (!Array.isArray(data)) {
-    return parseDatum({ datum: data, collname, ...rest });
+    return parseDatum({ datum: data, collname, ...rest })
   }
 
   return data
-    .map((datum, index) => parseDatum({ datum, index, collname, ...rest }));
-};
+    .map((datum, index) => parseDatum({ datum, index, collname, ...rest }))
+}
 
 const parseDatum = function ({
   datum,
@@ -29,12 +29,12 @@ const parseDatum = function ({
   maxAttrValueSize,
   ...rest
 }) {
-  const path = [attrName, index].filter(part => part !== undefined);
-  const commandpathA = [...commandpath, ...path];
+  const path = [attrName, index].filter(part => part !== undefined)
+  const commandpathA = [...commandpath, ...path]
 
-  validateData({ datum, commandpath: commandpathA, top, maxAttrValueSize });
+  validateData({ datum, commandpath: commandpathA, top, maxAttrValueSize })
 
-  const datumA = addDefaultIds({ datum, top, ...rest });
+  const datumA = addDefaultIds({ datum, top, ...rest })
 
   return mapValues(datumA, (obj, attrNameA) => parseAttr({
     obj,
@@ -43,8 +43,8 @@ const parseDatum = function ({
     top,
     maxAttrValueSize,
     ...rest,
-  }));
-};
+  }))
+}
 
 // Recursion over nested collections
 const parseAttr = function ({
@@ -58,7 +58,7 @@ const parseAttr = function ({
   collname,
   ...rest
 }) {
-  const coll = config.collections[collname];
+  const coll = config.collections[collname]
   preValidate({
     patchOp: obj,
     commandpath,
@@ -68,11 +68,11 @@ const parseAttr = function ({
     coll,
     mInput,
     config,
-  });
+  })
 
   const isNested = isModelsType(obj) &&
-    isModel({ attrName, commandpath, top, config });
-  if (!isNested) { return obj; }
+    isModel({ attrName, commandpath, top, config })
+  if (!isNested) { return obj }
 
   return parseData({
     data: obj,
@@ -83,9 +83,9 @@ const parseAttr = function ({
     config,
     mInput,
     ...rest,
-  });
-};
+  })
+}
 
 module.exports = {
   parseData,
-};
+}

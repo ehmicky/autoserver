@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // Extra:
 //  - kind 'feature|protocol|rpc|argument|data|constraint'
@@ -9,8 +9,8 @@
 const VALIDATION = {
   status: 'CLIENT_ERROR',
   title: 'The request syntax or semantics is invalid',
-};
+}
 
 module.exports = {
   VALIDATION,
-};
+}

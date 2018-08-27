@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // All HTTP status codes, according to error reason
 const STATUS_CODE_MAP = {
@@ -43,18 +43,18 @@ const STATUS_CODE_MAP = {
 
   ENGINE: 500,
   UNKNOWN: 500,
-};
+}
 
 // Generic error status when none can be found
-const FAILURE_STATUS_CODE = 500;
+const FAILURE_STATUS_CODE = 500
 
 // Set response's HTTP status code
 const setStatusCode = function ({ res, reason }) {
-  const statuscode = STATUS_CODE_MAP[reason] || FAILURE_STATUS_CODE;
+  const statuscode = STATUS_CODE_MAP[reason] || FAILURE_STATUS_CODE
   // eslint-disable-next-line no-param-reassign, fp/no-mutation
-  res.statusCode = statuscode;
-};
+  res.statusCode = statuscode
+}
 
 module.exports = {
   setStatusCode,
-};
+}

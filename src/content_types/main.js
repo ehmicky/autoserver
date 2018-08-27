@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const CONTENT_TYPES = {
   model: {
@@ -30,32 +30,32 @@ const CONTENT_TYPES = {
     validate: content => typeof content === 'string',
     types: [],
   },
-};
+}
 
 const isObject = function (value) {
   return value &&
     [Object, undefined].includes(value.constructor) &&
-    isJSON(value);
-};
+    isJSON(value)
+}
 
 const isArray = function (value) {
-  return value && Array.isArray(value) && isJSON(value);
-};
+  return value && Array.isArray(value) && isJSON(value)
+}
 
 const isJSON = function (val) {
   try {
-    JSON.stringify(val);
-  } catch { return false; }
+    JSON.stringify(val)
+  } catch { return false }
 
-  return true;
-};
+  return true
+}
 
 const isType = function (contentType, type) {
   return CONTENT_TYPES[contentType] !== undefined &&
-    CONTENT_TYPES[contentType].types.includes(type);
-};
+    CONTENT_TYPES[contentType].types.includes(type)
+}
 
 module.exports = {
   CONTENT_TYPES,
   isType,
-};
+}

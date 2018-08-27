@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-const { isObject } = require('../../../utilities');
+const { isObject } = require('../../../utilities')
 
-const { normalizePartialProtocol } = require('./partial');
+const { normalizePartialProtocol } = require('./partial')
 
 // Normalize parameters created during protocol layer
 const protocolNormalization = function ({
@@ -27,12 +27,12 @@ const protocolNormalization = function ({
     method,
     path,
     payload,
-  });
+  })
 
   const {
     headers: headersB,
     topargs: topargsA,
-  } = normalizeProtocol({ headers: headersA, topargs });
+  } = normalizeProtocol({ headers: headersA, topargs })
 
   return {
     payload: payloadA,
@@ -41,25 +41,25 @@ const protocolNormalization = function ({
     path: pathA,
     queryvars: queryvarsA,
     topargs: topargsA,
-  };
-};
+  }
+}
 
 // Normalization for any protocol, even non-partial ones
 const normalizeProtocol = function ({ headers, topargs }) {
-  const headersA = isObject(headers) ? headers : {};
+  const headersA = isObject(headers) ? headers : {}
 
-  const topargsA = getTopargs({ topargs, headers: headersA });
+  const topargsA = getTopargs({ topargs, headers: headersA })
 
-  return { headers: headersA, topargs: topargsA };
-};
+  return { headers: headersA, topargs: topargsA }
+}
 
 // Client-specific parameters can be specified in protocol headers
 const getTopargs = function ({ topargs = {}, headers: { params } }) {
-  if (params === undefined) { return topargs; }
+  if (params === undefined) { return topargs }
 
-  return { ...topargs, params };
-};
+  return { ...topargs, params }
+}
 
 module.exports = {
   protocolNormalization,
-};
+}

@@ -1,23 +1,23 @@
-'use strict';
+'use strict'
 
-const { omitBy } = require('../utilities');
+const { omitBy } = require('../utilities')
 
-const { getReason, getProps } = require('./props');
-const { normalizeError } = require('./main');
+const { getReason, getProps } = require('./props')
+const { normalizeError } = require('./main')
 
 // Gets normalized error information
 const getStandardError = function ({ error, mInput }) {
-  if (!error) { return; }
+  if (!error) { return }
 
-  const errorA = normalizeError({ error });
+  const errorA = normalizeError({ error })
 
-  const errorB = fillError({ error: errorA, mInput });
+  const errorB = fillError({ error: errorA, mInput })
 
   // Do not expose undefined values
-  const errorC = omitBy(errorB, val => val === undefined);
+  const errorC = omitBy(errorB, val => val === undefined)
 
-  return errorC;
-};
+  return errorC
+}
 
 // Order matters, as this will be kept in final output
 const fillError = function ({
@@ -27,21 +27,21 @@ const fillError = function ({
     status = 'SERVER_ERROR',
   } = {},
 }) {
-  const type = getReason(error);
-  const { title } = getProps(error);
+  const type = getReason(error)
+  const { title } = getProps(error)
 
   const {
     message: description,
     stack: outerStack,
     innererror: { stack: details = outerStack } = {},
     extra = {},
-  } = error;
+  } = error
 
-  const errorA = { type, title, description, status, instance };
+  const errorA = { type, title, description, status, instance }
 
-  return { ...errorA, ...extra, details };
-};
+  return { ...errorA, ...extra, details }
+}
 
 module.exports = {
   getStandardError,
-};
+}

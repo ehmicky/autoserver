@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { getBackwardFilter } = require('../backward');
+const { getBackwardFilter } = require('../backward')
 
 // Patches args.filter to allow for cursor pagination
 // E.g. if:
@@ -15,11 +15,11 @@ const { getBackwardFilter } = require('../backward');
 //   ]
 // Using backward pagination would replace _gt to _lt and vice-versa.
 const getTokenFilter = function ({ args, token }) {
-  if (token === undefined) { return; }
+  if (token === undefined) { return }
 
-  const filter = getPaginatedFilter({ args, token });
-  return { filter };
-};
+  const filter = getPaginatedFilter({ args, token })
+  return { filter }
+}
 
 const getPaginatedFilter = function ({
   args,
@@ -27,8 +27,8 @@ const getPaginatedFilter = function ({
   token: { parts },
 }) {
   const partsObj = parts
-    .map((part, index) => ({ [order[index].attrName]: part }));
-  const partsObjA = Object.assign({}, ...partsObj);
+    .map((part, index) => ({ [order[index].attrName]: part }))
+  const partsObjA = Object.assign({}, ...partsObj)
 
   const extraFilters = order
     .map(({ attrName, dir }, index) => getExtraFilters({
@@ -38,10 +38,10 @@ const getPaginatedFilter = function ({
       attrName,
       dir,
       index,
-    }));
-  const filterA = mergeExtraFilters({ extraFilters, filter });
-  return filterA;
-};
+    }))
+  const filterA = mergeExtraFilters({ extraFilters, filter })
+  return filterA
+}
 
 const getExtraFilters = function ({
   args,
@@ -53,36 +53,36 @@ const getExtraFilters = function ({
 }) {
   const eqOrders = order
     .slice(0, index)
-    .map(sOrder => getEqOrder({ partsObj, sOrder }));
+    .map(sOrder => getEqOrder({ partsObj, sOrder }))
 
-  const type = dir === 'asc' ? '_gt' : '_lt';
-  const orderVal = { type, attrName, value: partsObj[attrName] };
+  const type = dir === 'asc' ? '_gt' : '_lt'
+  const orderVal = { type, attrName, value: partsObj[attrName] }
 
-  const orderValA = getBackwardFilter({ args, node: orderVal });
+  const orderValA = getBackwardFilter({ args, node: orderVal })
 
   if (eqOrders.length === 0) {
-    return orderValA;
+    return orderValA
   }
 
-  return { type: '_and', value: [...eqOrders, orderValA] };
-};
+  return { type: '_and', value: [...eqOrders, orderValA] }
+}
 
 const getEqOrder = function ({ partsObj, sOrder: { attrName } }) {
-  return { type: '_eq', attrName, value: partsObj[attrName] };
-};
+  return { type: '_eq', attrName, value: partsObj[attrName] }
+}
 
 const mergeExtraFilters = function ({ extraFilters, filter }) {
   const extraFiltersA = extraFilters.length === 1
     ? extraFilters[0]
-    : { type: '_or', value: extraFilters };
+    : { type: '_or', value: extraFilters }
 
   if (filter === undefined) {
-    return extraFiltersA;
+    return extraFiltersA
   }
 
-  return { type: '_and', value: [filter, extraFiltersA] };
-};
+  return { type: '_and', value: [filter, extraFiltersA] }
+}
 
 module.exports = {
   getTokenFilter,
-};
+}

@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-const { wrapAdapters } = require('../adapters');
+const { wrapAdapters } = require('../adapters')
 
-const adapters = require('./adapters');
+const adapters = require('./adapters')
 
 const members = [
   'name',
@@ -10,14 +10,14 @@ const members = [
   'report',
   'reportPerf',
   'getOpts',
-];
+]
 
 const logAdapters = wrapAdapters({
   adapters,
   members,
   reason: 'LOG',
-});
+})
 
 module.exports = {
   logAdapters,
-};
+}

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   ...require('./keys'),
@@ -6,4 +6,4 @@ module.exports = {
   ...require('./system'),
   ...require('./server'),
   ...require('./reduce'),
-};
+}

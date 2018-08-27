@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   ...require('./readonly'),
@@ -6,4 +6,4 @@ module.exports = {
   ...require('./value'),
   ...require('./aliases'),
   ...require('./colls_names'),
-};
+}

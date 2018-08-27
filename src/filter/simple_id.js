@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { uniq, intersection } = require('../utilities');
+const { uniq, intersection } = require('../utilities')
 
 // Try to guess the model `id`s by looking at `args.filter`
 // This won't work on top-level filter of findMany command using a complex one,
@@ -10,53 +10,53 @@ const { uniq, intersection } = require('../utilities');
 // e.g. `{ filter: { id: { _in: [] } } }`
 const extractSimpleIds = function ({ filter: { type, attrName, value } = {} }) {
   if (type === '_and') {
-    return parseAndNode({ value });
+    return parseAndNode({ value })
   }
 
-  const isSimple = isSimpleFilter({ type, attrName });
-  if (!isSimple) { return; }
+  const isSimple = isSimpleFilter({ type, attrName })
+  if (!isSimple) { return }
 
-  const ids = getIds({ type, value });
-  return ids;
-};
+  const ids = getIds({ type, value })
+  return ids
+}
 
 // Parses '_and' top-level node
 const parseAndNode = function ({ value }) {
-  const idsA = value.map(node => extractSimpleIds({ filter: node }));
+  const idsA = value.map(node => extractSimpleIds({ filter: node }))
 
-  const isSimple = idsA.every(ids => Array.isArray(ids));
+  const isSimple = idsA.every(ids => Array.isArray(ids))
   // E.g. `{ id: '5', name: '...' }`
-  if (!isSimple) { return; }
+  if (!isSimple) { return }
 
-  const idsB = intersection(...idsA);
-  return idsB;
-};
+  const idsB = intersection(...idsA)
+  return idsB
+}
 
 // Check if `args.filter` is simple enough to guess model `id`s
 const isSimpleFilter = function ({ type, attrName }) {
   // Means there is no filter
-  if (type === undefined) { return false; }
+  if (type === undefined) { return false }
 
-  return attrName === 'id' && ['_eq', '_in'].includes(type);
-};
+  return attrName === 'id' && ['_eq', '_in'].includes(type)
+}
 
 const getIds = function ({ type, value }) {
   // Use either type `_eq` or `_in`
-  const ids = type === '_in' ? value : [value];
+  const ids = type === '_in' ? value : [value]
 
-  const idsA = uniq(ids);
+  const idsA = uniq(ids)
 
-  return idsA;
-};
+  return idsA
+}
 
 // Returns simple `args.filter` that only filters by `model.id`
 const getSimpleFilter = function ({ ids }) {
   return ids.length === 1
     ? { attrName: 'id', type: '_eq', value: ids[0] }
-    : { attrName: 'id', type: '_in', value: uniq(ids) };
-};
+    : { attrName: 'id', type: '_in', value: uniq(ids) }
+}
 
 module.exports = {
   extractSimpleIds,
   getSimpleFilter,
-};
+}

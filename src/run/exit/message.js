@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { logEvent } = require('../../log');
+const { logEvent } = require('../../log')
 
 const emitMessageEvent = function ({
   step,
@@ -8,16 +8,16 @@ const emitMessageEvent = function ({
   adapter: { title },
   config,
 }) {
-  const message = SUCCESS_MESSAGES[type][step];
-  const messageA = `${title} - ${message}`;
+  const message = SUCCESS_MESSAGES[type][step]
+  const messageA = `${title} - ${message}`
 
   return logEvent({
     event: 'message',
     phase: 'shutdown',
     message: messageA,
     config,
-  });
-};
+  })
+}
 
 const SUCCESS_MESSAGES = {
   protocols: {
@@ -28,8 +28,8 @@ const SUCCESS_MESSAGES = {
     start: 'Starts disconnection',
     end: 'Successful disconnection',
   },
-};
+}
 
 module.exports = {
   emitMessageEvent,
-};
+}

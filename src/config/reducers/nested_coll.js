@@ -1,23 +1,23 @@
-'use strict';
+'use strict'
 
-const { mapAttrs } = require('../helpers');
+const { mapAttrs } = require('../helpers')
 
 // Copy `attr.type|description` to nested collections
 // from the `coll.id` they refer to
 const mapAttr = function ({ attr, config: { collections } }) {
-  if (attr.target === undefined) { return; }
+  if (attr.target === undefined) { return }
 
   const [, collA] = Object.entries(collections).find(([name, coll]) =>
-    coll.collname === attr.target || name === attr.target);
+    coll.collname === attr.target || name === attr.target)
 
-  const { type } = collA.attributes.id;
-  const description = attr.description || collA.description;
+  const { type } = collA.attributes.id
+  const description = attr.description || collA.description
 
-  return { type, description };
-};
+  return { type, description }
+}
 
-const mergeNestedColl = mapAttrs.bind(null, mapAttr);
+const mergeNestedColl = mapAttrs.bind(null, mapAttr)
 
 module.exports = {
   mergeNestedColl,
-};
+}

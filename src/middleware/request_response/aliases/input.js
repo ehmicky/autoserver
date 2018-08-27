@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const { applyDataAliases } = require('./data');
-const { applyOrderAliases } = require('./order');
+const { applyDataAliases } = require('./data')
+const { applyOrderAliases } = require('./order')
 
 // Apply `alias` in server input
 const applyInputAliases = function ({ args, modelAliases }) {
@@ -9,16 +9,16 @@ const applyInputAliases = function ({ args, modelAliases }) {
     (argsA, [attrName, aliases]) =>
       applyInputAlias({ args: argsA, attrName, aliases }),
     args,
-  );
-  return { args: argsB };
-};
+  )
+  return { args: argsB }
+}
 
 const applyInputAlias = function ({ args = {}, attrName, aliases }) {
   return modifiers.reduce(
     (argsA, modifier) => modifier({ args: argsA, attrName, aliases }),
     args,
-  );
-};
+  )
+}
 
 const getNewData = function ({
   args,
@@ -26,29 +26,29 @@ const getNewData = function ({
   attrName,
   aliases,
 }) {
-  if (!newData) { return args; }
+  if (!newData) { return args }
 
   const newDataA = applyDataAliases({
     newData,
     currentData,
     attrName,
     aliases,
-  });
-  return { ...args, newData: newDataA };
-};
+  })
+  return { ...args, newData: newDataA }
+}
 
 const getOrder = function ({ args, args: { order }, attrName, aliases }) {
-  if (!order) { return args; }
+  if (!order) { return args }
 
-  const orderA = applyOrderAliases({ order, attrName, aliases });
-  return { ...args, order: orderA };
-};
+  const orderA = applyOrderAliases({ order, attrName, aliases })
+  return { ...args, order: orderA }
+}
 
 const modifiers = [
   getNewData,
   getOrder,
-];
+]
 
 module.exports = {
   applyInputAliases,
-};
+}

@@ -1,11 +1,11 @@
-'use strict';
+'use strict'
 
-const { getRequirePerf } = require('../require_perf');
-const { monitoredReduce } = require('../perf');
-const { addErrorHandler } = require('../errors');
+const { getRequirePerf } = require('../require_perf')
+const { monitoredReduce } = require('../perf')
+const { addErrorHandler } = require('../errors')
 
-const { startupSteps } = require('./steps');
-const { handleStartupError } = require('./error');
+const { startupSteps } = require('./steps')
+const { handleStartupError } = require('./error')
 
 // Start server for each protocol
 const runServer = async function ({
@@ -13,8 +13,8 @@ const runServer = async function ({
   config: configPath,
   ...config
 } = {}) {
-  const requirePerf = getRequirePerf();
-  const measuresA = [requirePerf, ...measures];
+  const requirePerf = getRequirePerf()
+  const measuresA = [requirePerf, ...measures]
 
   // Run each startup step
   const { startPayload } = await monitoredReduce({
@@ -22,15 +22,15 @@ const runServer = async function ({
     initialInput: { measures: measuresA, configPath, config },
     mapResponse: (input, newInput) => ({ ...input, ...newInput }),
     category: 'main',
-  });
+  })
 
-  return startPayload;
-};
+  return startPayload
+}
 
 // Add startup error handler
 const eStartupSteps = startupSteps
-  .map(startupStep => addErrorHandler(startupStep, handleStartupError));
+  .map(startupStep => addErrorHandler(startupStep, handleStartupError))
 
 module.exports = {
   runServer,
-};
+}

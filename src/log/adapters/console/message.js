@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-const { getPrefix } = require('./prefix');
-const { getErrorMessage } = require('./error_message');
-const { getRequestMessage } = require('./request_message');
+const { getPrefix } = require('./prefix')
+const { getErrorMessage } = require('./error_message')
+const { getRequestMessage } = require('./request_message')
 
 // Build a standardized event message:
 // `[EVENT] [LEVEL] [HOSTID] [PROCESSNAME] [PROCESSID] [TIMESTAMP] [PHASE]
@@ -12,42 +12,42 @@ const { getRequestMessage } = require('./request_message');
 const getConsoleMessage = function ({ log }) {
   return parts
     .map(getPart => getPart({ log }))
-    .join(' ');
-};
+    .join(' ')
+}
 
 const getMessage = function ({
   log,
   log: { event, phase, error, message = '' },
 }) {
   if (event === 'failure') {
-    return getErrorMessage({ error, message });
+    return getErrorMessage({ error, message })
   }
 
   if (event === 'call' && phase === 'request') {
-    return getRequestMessage(log);
+    return getRequestMessage(log)
   }
 
-  return message;
-};
+  return message
+}
 
 // Adds how long startup, shutdown or request took
 const getDuration = function ({ log: { duration } }) {
   if (duration === undefined) {
-    return ' '.repeat(DURATION_LENGTH);
+    return ' '.repeat(DURATION_LENGTH)
   }
 
-  const durationText = `${duration}ms`.padEnd(DURATION_LENGTH - 2);
-  return `[${durationText}]`;
-};
+  const durationText = `${duration}ms`.padEnd(DURATION_LENGTH - 2)
+  return `[${durationText}]`
+}
 
-const DURATION_LENGTH = 8;
+const DURATION_LENGTH = 8
 
 const parts = [
   getPrefix,
   getDuration,
   getMessage,
-];
+]
 
 module.exports = {
   getConsoleMessage,
-};
+}

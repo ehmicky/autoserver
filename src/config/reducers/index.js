@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   ...require('./load'),
@@ -26,4 +26,4 @@ module.exports = {
   ...require('./json_schema'),
   // eslint-disable-next-line import/max-dependencies
   ...require('./rpc'),
-};
+}

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   ...require('./top'),
@@ -28,4 +28,4 @@ module.exports = {
   ...require('./parse_response'),
   // eslint-disable-next-line import/max-dependencies
   ...require('./validation_out'),
-};
+}

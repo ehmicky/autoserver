@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // Extra:
 //  - value STR
@@ -7,8 +7,8 @@ const COMMAND = {
   status: 'CLIENT_ERROR',
   title: 'The command name is invalid',
   getMessage: ({ value }) => `Unsupported command '${value}'`,
-};
+}
 
 module.exports = {
   COMMAND,
-};
+}

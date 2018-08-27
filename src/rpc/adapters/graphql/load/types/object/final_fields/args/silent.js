@@ -1,11 +1,11 @@
-'use strict';
+'use strict'
 
-const { GraphQLBoolean } = require('graphql');
+const { GraphQLBoolean } = require('graphql')
 
 // `silent` argument
 const getSilentArgument = function () {
-  return SILENT_ARGS;
-};
+  return SILENT_ARGS
+}
 
 const SILENT_ARGS = {
   silent: {
@@ -14,8 +14,8 @@ const SILENT_ARGS = {
 The action is still performed.`,
     defaultValue: false,
   },
-};
+}
 
 module.exports = {
   getSilentArgument,
-};
+}

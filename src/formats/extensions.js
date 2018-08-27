@@ -1,12 +1,12 @@
-'use strict';
+'use strict'
 
 // Retrieve format's prefered extension
 const getExtension = function ({ extensions: [extension] = [] }) {
-  if (extension === undefined) { return; }
+  if (extension === undefined) { return }
 
-  return `.${extension}`;
-};
+  return `.${extension}`
+}
 
 module.exports = {
   getExtension,
-};
+}

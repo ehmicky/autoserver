@@ -1,28 +1,28 @@
-'use strict';
+'use strict'
 
-const { EVENTS, LEVELS } = require('../../constants');
+const { EVENTS, LEVELS } = require('../../constants')
 
 // Retrieves `[EVENT] [LEVEL] [HOSTID] [PROCESSNAME] [PROCESSID] [TIMESTAMP]
 // [PHASE]`
 const getPrefix = function ({ log }) {
   return PREFIXES
     .map(({ value, length }) => getEachPrefix({ value, length, log }))
-    .join(' ');
-};
+    .join(' ')
+}
 
 const getEachPrefix = function ({ value, length, log }) {
-  const prefix = value(log);
+  const prefix = value(log)
   const prefixA = prefix
     .substr(0, length)
-    .padEnd(length);
-  const prefixB = `[${prefixA}]`;
-  return prefixB;
-};
+    .padEnd(length)
+  const prefixB = `[${prefixA}]`
+  return prefixB
+}
 
 const getMaxLength = function (enumVal) {
-  const lengths = enumVal.map(({ length }) => length);
-  return Math.max(...lengths);
-};
+  const lengths = enumVal.map(({ length }) => length)
+  return Math.max(...lengths)
+}
 
 const PREFIXES = [
   {
@@ -61,8 +61,8 @@ const PREFIXES = [
     value: ({ phase, requestid }) => requestid || phase.toUpperCase(),
     length: 8,
   },
-];
+]
 
 module.exports = {
   getPrefix,
-};
+}

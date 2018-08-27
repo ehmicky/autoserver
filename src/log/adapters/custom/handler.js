@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const { report } = require('./report');
-const opts = require('./opts');
+const { report } = require('./report')
+const opts = require('./opts')
 
 const handler = {
   name: 'custom',
@@ -10,6 +10,6 @@ const handler = {
   report,
   reportPerf: report,
   opts,
-};
+}
 
-module.exports = handler;
+module.exports = handler

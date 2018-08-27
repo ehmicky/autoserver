@@ -23,7 +23,6 @@ plugins:
 - unicorn
 
 # Differences from feross/standard:
-#  - end with semicolons
 #  - use trailing commas
 # There are also some extra restrictions:
 #  - enforcing a functional style:
@@ -38,9 +37,6 @@ plugins:
 #  - diverse stylistic rules
 rules:
   # Differences from feross/standard
-  semi:
-  - 2
-  - always
   comma-dangle:
   - 2
   - always-multiline

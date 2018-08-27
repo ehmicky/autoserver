@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // Extra:
 //  - path 'VARR'
@@ -7,8 +7,8 @@
 const CONFIG_VALIDATION = {
   status: 'SERVER_ERROR',
   title: 'Wrong configuration caught during server startup',
-};
+}
 
 module.exports = {
   CONFIG_VALIDATION,
-};
+}

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   ...require('./normalize_empty'),
@@ -15,4 +15,4 @@ module.exports = {
   ...require('./missing_ids'),
   // eslint-disable-next-line import/max-dependencies
   ...require('./create_ids'),
-};
+}

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // This calculates time intervals, in order to do performance monitoring
 // Concepts:
@@ -13,37 +13,37 @@
 // Notice that a new measure is returned after each call, the passed measure
 // is not modified.
 
-const { hrtime } = require('process');
+const { hrtime } = require('process')
 
 // Start a new measure
 const startPerf = function (label, category = 'default') {
   // `hrtime()` is more precise that `Date.now()`
-  const pending = hrtime.bigint();
-  return { pending, label, category };
-};
+  const pending = hrtime.bigint()
+  return { pending, label, category }
+}
 
 // Substracts the current time with the previous time
 const stopPerf = function ({ pending, label, category }) {
-  const ending = hrtime.bigint();
-  const duration = Number(ending - pending);
-  return { duration, label, category };
-};
+  const ending = hrtime.bigint()
+  const duration = Number(ending - pending)
+  return { duration, label, category }
+}
 
 const getDefaultDuration = function ({ measures }) {
-  const { duration } = measures.find(({ category }) => category === 'default');
-  const durationA = nanoSecsToMilliSecs({ duration });
-  return durationA;
-};
+  const { duration } = measures.find(({ category }) => category === 'default')
+  const durationA = nanoSecsToMilliSecs({ duration })
+  return durationA
+}
 
 const nanoSecsToMilliSecs = function ({ duration }) {
-  return Math.round(duration / NANOSECS_TO_MILLISECS);
-};
+  return Math.round(duration / NANOSECS_TO_MILLISECS)
+}
 
-const NANOSECS_TO_MILLISECS = 1e6;
+const NANOSECS_TO_MILLISECS = 1e6
 
 module.exports = {
   startPerf,
   stopPerf,
   getDefaultDuration,
   nanoSecsToMilliSecs,
-};
+}

@@ -1,28 +1,28 @@
-'use strict';
+'use strict'
 
-const { handleTransforms } = require('./common');
+const { handleTransforms } = require('./common')
 
 // Apply `attr.default` only on model creation (on `create` or `upsert`),
 // and the attribute is missing
 const shouldUseDefault = function ({ command }) {
-  return DEFAULT_COMMANDS.includes(command);
-};
+  return DEFAULT_COMMANDS.includes(command)
+}
 
-const DEFAULT_COMMANDS = ['create', 'upsert'];
+const DEFAULT_COMMANDS = ['create', 'upsert']
 
 const shouldSetDefault = function ({ value }) {
-  return value == null;
-};
+  return value == null
+}
 
 const setTransform = function ({ transform }) {
-  return transform;
-};
+  return transform
+}
 
 const setCurrentValIfTrue = function ({ transform, previousvalue, value }) {
-  if (!transform) { return value; }
+  if (!transform) { return value }
 
-  return previousvalue;
-};
+  return previousvalue
+}
 
 // `attr.value`
 const handleValue = function (mInput) {
@@ -30,8 +30,8 @@ const handleValue = function (mInput) {
     ...mInput,
     mapName: 'valuesMap',
     setAttr: setTransform,
-  });
-};
+  })
+}
 
 // `attr.default`
 const handleUserDefault = function (mInput) {
@@ -41,8 +41,8 @@ const handleUserDefault = function (mInput) {
     preCondition: shouldUseDefault,
     condition: shouldSetDefault,
     setAttr: setTransform,
-  });
-};
+  })
+}
 
 // `attr.readonly`
 // Sets attributes marked in config as `readonly` to their current value
@@ -56,11 +56,11 @@ const handleReadonly = function (mInput) {
     ...mInput,
     mapName: 'readonlyMap',
     setAttr: setCurrentValIfTrue,
-  });
-};
+  })
+}
 
 module.exports = {
   handleValue,
   handleReadonly,
   handleUserDefault,
-};
+}

@@ -1,75 +1,75 @@
-'use strict';
+'use strict'
 
-const { Buffer: { byteLength } } = require('buffer');
+const { Buffer: { byteLength } } = require('buffer')
 
-const pluralize = require('pluralize');
+const pluralize = require('pluralize')
 
-const { getWordsList } = require('../../utilities');
-const { isPatchOpName } = require('../parse');
-const { isRef } = require('../ref_parsing');
+const { getWordsList } = require('../../utilities')
+const { isPatchOpName } = require('../parse')
+const { isRef } = require('../ref_parsing')
 
-const { checkAttrType, checkOpValType } = require('./types');
-const { applyCheck } = require('./check');
+const { checkAttrType, checkOpValType } = require('./types')
+const { applyCheck } = require('./check')
 
 const attributeExists = function ({ attr }) {
-  if (attr !== undefined) { return; }
+  if (attr !== undefined) { return }
 
-  return 'attribute is unknown';
-};
+  return 'attribute is unknown'
+}
 
 const isPatchCommand = function ({ top: { command } }) {
-  if (command.type === 'patch') { return; }
+  if (command.type === 'patch') { return }
 
-  return 'only patch commands can use patch operators';
-};
+  return 'only patch commands can use patch operators'
+}
 
 // Patch operations cannot be mixed with nested patch actions
 const isNotMixed = function ({ patchOp }) {
-  const patchOps = Object.keys(patchOp).filter(isPatchOpName);
-  const attrNames = Object.keys(patchOp).filter(key => !isPatchOpName(key));
-  if (attrNames.length === 0) { return; }
+  const patchOps = Object.keys(patchOp).filter(isPatchOpName)
+  const attrNames = Object.keys(patchOp).filter(key => !isPatchOpName(key))
+  if (attrNames.length === 0) { return }
 
-  const patchOpsA = getWordsList(patchOps, { op: 'and', quotes: true });
-  const attrNamesA = getWordsList(attrNames, { op: 'and', quotes: true });
-  return `cannot mix patch ${pluralize('operators', patchOps.length)} ${patchOpsA} with regular ${pluralize('attribute', attrNames.length)} ${attrNamesA}`;
-};
+  const patchOpsA = getWordsList(patchOps, { op: 'and', quotes: true })
+  const attrNamesA = getWordsList(attrNames, { op: 'and', quotes: true })
+  return `cannot mix patch ${pluralize('operators', patchOps.length)} ${patchOpsA} with regular ${pluralize('attribute', attrNames.length)} ${attrNamesA}`
+}
 
 const isSingleOp = function ({ patchOp }) {
-  const isSingle = Object.keys(patchOp).length === 1;
-  if (isSingle) { return; }
+  const isSingle = Object.keys(patchOp).length === 1
+  if (isSingle) { return }
 
-  return 'can only specify one patch operator per attribute';
-};
+  return 'can only specify one patch operator per attribute'
+}
 
 // Check against `maxAttrValueSize` limit
 const isWithinLimits = function ({ opVal, maxAttrValueSize }) {
-  const size = getSize({ opVal });
-  if (size <= maxAttrValueSize) { return; }
+  const size = getSize({ opVal })
+  if (size <= maxAttrValueSize) { return }
 
-  return `the argument must be shorter than ${maxAttrValueSize} bytes`;
-};
+  return `the argument must be shorter than ${maxAttrValueSize} bytes`
+}
 
 const getSize = function ({ opVal }) {
-  const opValA = typeof opVal === 'string' ? opVal : JSON.stringify(opVal);
+  const opValA = typeof opVal === 'string' ? opVal : JSON.stringify(opVal)
 
-  const size = byteLength(opValA);
-  return size;
-};
+  const size = byteLength(opValA)
+  return size
+}
 
 const operatorExists = function ({ operator, type }) {
-  if (operator !== undefined) { return; }
+  if (operator !== undefined) { return }
 
-  return `operator '${type}' is unknown`;
-};
+  return `operator '${type}' is unknown`
+}
 
 const checkOpVal = function ({ opVal, ...rest }) {
   // `patchOp.check()` is not performed if value is `model.ATTR` reference
   // It will be performed later when reference's value is known
-  if (isRef(opVal)) { return; }
+  if (isRef(opVal)) { return }
 
-  const message = applyCheck({ opVal, ...rest });
-  return message;
-};
+  const message = applyCheck({ opVal, ...rest })
+  return message
+}
 
 // Validation applied during `args.data` parsing
 const PRE_VALIDATORS = [
@@ -82,8 +82,8 @@ const PRE_VALIDATORS = [
   checkAttrType,
   checkOpValType,
   checkOpVal,
-];
+]
 
 module.exports = {
   PRE_VALIDATORS,
-};
+}

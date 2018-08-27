@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const { mapValues } = require('../utilities');
-const { addErrorHandler, getStandardError, rethrowError } = require('../errors');
+const { mapValues } = require('../utilities')
+const { addErrorHandler, getStandardError, rethrowError } = require('../errors')
 
 // Every instruction should throw standard errors
 const addErrorHandlers = function ({ instructions }) {
@@ -11,18 +11,18 @@ const addErrorHandlers = function ({ instructions }) {
       instruction,
       instructionHandler.bind(null, instructionName),
     ),
-  );
-};
+  )
+}
 
 const instructionHandler = function (instructionName, error) {
   const {
     description = `Could not perform instruction '${instructionName}'.`,
     ...errorA
-  } = getStandardError({ error });
+  } = getStandardError({ error })
 
-  rethrowError({ ...errorA, description });
-};
+  rethrowError({ ...errorA, description })
+}
 
 module.exports = {
   addErrorHandlers,
-};
+}

@@ -1,35 +1,35 @@
-'use strict';
+'use strict'
 
-const { mapValues, flatten, uniq } = require('../../utilities');
-const { OPERATORS } = require('../../patch');
+const { mapValues, flatten, uniq } = require('../../utilities')
+const { OPERATORS } = require('../../patch')
 
 // Parse `operators.attribute|argument` `any`
 const normalizePatchOperators = function ({ config: { operators } }) {
-  if (operators === undefined) { return; }
+  if (operators === undefined) { return }
 
-  const operatorsA = mapValues(operators, normalizePatchOperator);
+  const operatorsA = mapValues(operators, normalizePatchOperator)
 
   // Merge system patch operators and config-defined ones
-  const operatorsB = { ...operatorsA, ...OPERATORS };
+  const operatorsB = { ...operatorsA, ...OPERATORS }
 
-  return { operators: operatorsB };
-};
+  return { operators: operatorsB }
+}
 
 const normalizePatchOperator = function (operator) {
-  const field = normalizeField({ operator, name: 'attribute' });
-  return { ...operator, ...field };
-};
+  const field = normalizeField({ operator, name: 'attribute' })
+  return { ...operator, ...field }
+}
 
 const normalizeField = function ({ operator, name }) {
-  const { [name]: field } = operator;
-  if (field === undefined) { return; }
+  const { [name]: field } = operator
+  if (field === undefined) { return }
 
-  const types = TYPES[name];
-  const fieldA = field.map(type => types[type] || type);
-  const fieldB = flatten(fieldA);
-  const fieldC = uniq(fieldB);
-  return { [name]: fieldC };
-};
+  const types = TYPES[name]
+  const fieldA = field.map(type => types[type] || type)
+  const fieldB = flatten(fieldA)
+  const fieldC = uniq(fieldB)
+  return { [name]: fieldC }
+}
 
 const TYPES = {
   attribute: {
@@ -47,8 +47,8 @@ const TYPES = {
       'object[]',
     ],
   },
-};
+}
 
 module.exports = {
   normalizePatchOperators,
-};
+}

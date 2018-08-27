@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { EXTENSIONS } = require('../formats');
+const { EXTENSIONS } = require('../formats')
 
 const runInstruction = {
   name: 'run',
@@ -25,12 +25,12 @@ For example: --protocols.http.port=5001`,
 By default, will use any file named autoserver.config${EXTENSIONS.join('|')}`,
     },
   },
-};
+}
 
 const availableInstructions = [
   runInstruction,
-];
+]
 
 module.exports = {
   availableInstructions,
-};
+}

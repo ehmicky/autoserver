@@ -1,16 +1,16 @@
-'use strict';
+'use strict'
 
-const json5 = require('json5');
+const json5 = require('json5')
 
 // Parses a JSON5 file
 const parse = function ({ content }) {
-  return json5.parse(content);
-};
+  return json5.parse(content)
+}
 
 // Serializes a JSON5 file
 const serialize = function ({ content }) {
-  return json5.stringify(content, null, 2);
-};
+  return json5.stringify(content, null, 2)
+}
 
 module.exports = {
   name: 'json5',
@@ -22,4 +22,4 @@ module.exports = {
   jsonCompat: ['superset'],
   parse,
   serialize,
-};
+}

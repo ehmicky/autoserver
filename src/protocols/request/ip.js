@@ -1,19 +1,19 @@
-'use strict';
+'use strict'
 
-const { validateString } = require('./validate');
+const { validateString } = require('./validate')
 
 const parseIp = function ({
   protocolAdapter,
   protocolAdapter: { getIp },
   specific,
 }) {
-  const ip = getIp({ specific });
+  const ip = getIp({ specific })
 
-  validateString(ip, 'ip', protocolAdapter);
+  validateString(ip, 'ip', protocolAdapter)
 
-  return { ip };
-};
+  return { ip }
+}
 
 module.exports = {
   parseIp,
-};
+}

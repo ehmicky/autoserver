@@ -1,11 +1,11 @@
-'use strict';
+'use strict'
 
-const features = require('./features');
-const { connect } = require('./connect');
-const { disconnect } = require('./disconnect');
-const { query } = require('./query');
-const defaults = require('./defaults');
-const opts = require('./opts');
+const features = require('./features')
+const { connect } = require('./connect')
+const { disconnect } = require('./disconnect')
+const { query } = require('./query')
+const defaults = require('./defaults')
+const opts = require('./opts')
 
 const adapter = {
   name: 'mongodb',
@@ -18,6 +18,6 @@ const adapter = {
   defaults,
   opts,
   idName: '_id',
-};
+}
 
-module.exports = adapter;
+module.exports = adapter

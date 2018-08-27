@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { resolve } = require('path');
+const { resolve } = require('path')
 
 // Retrieve error message of a standard error
 const getErrorMessage = function ({
@@ -8,32 +8,32 @@ const getErrorMessage = function ({
   message,
 }) {
   // Retrieve both the main message and the stack
-  const stack = getStack(description, details);
+  const stack = getStack(description, details)
 
   // Add error type to message
-  const errorMessage = stack ? `${type} - ${stack}` : type;
+  const errorMessage = stack ? `${type} - ${stack}` : type
 
   // Add original event's message
-  const errorMessageA = message ? `${message}\n${errorMessage}` : errorMessage;
+  const errorMessageA = message ? `${message}\n${errorMessage}` : errorMessage
 
-  return errorMessageA;
-};
+  return errorMessageA
+}
 
 const getStack = function (description, details = '') {
   // Only include description if it's not already in the stack trace
   const stack = !description || details.indexOf(description) !== -1
     ? details
-    : `${description}\n${details}`;
+    : `${description}\n${details}`
 
   // Shorten stack trace directory paths
-  const dirPrefixRegExp = new RegExp(ROOT_DIR, 'gu');
-  const trimmedStack = stack.replace(dirPrefixRegExp, '');
+  const dirPrefixRegExp = new RegExp(ROOT_DIR, 'gu')
+  const trimmedStack = stack.replace(dirPrefixRegExp, '')
 
-  return trimmedStack;
-};
+  return trimmedStack
+}
 
-const ROOT_DIR = resolve(__dirname, '../..');
+const ROOT_DIR = resolve(__dirname, '../..')
 
 module.exports = {
   getErrorMessage,
-};
+}

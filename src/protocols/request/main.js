@@ -1,19 +1,19 @@
-'use strict';
+'use strict'
 
-const { monitoredReduce } = require('../../perf');
+const { monitoredReduce } = require('../../perf')
 
-const { validateSpecific } = require('./validate');
-const { parseIp } = require('./ip');
-const { parseOrigin } = require('./origin');
-const { parseQueryvars } = require('./queryvars');
-const { parseHeaders } = require('./headers');
-const { parseMethod } = require('./method');
-const { parsePath } = require('./path');
-const { parseInput } = require('./input');
-const { handleContentNegotiation } = require('./content_negotiation');
-const { parsePayload } = require('./payload');
+const { validateSpecific } = require('./validate')
+const { parseIp } = require('./ip')
+const { parseOrigin } = require('./origin')
+const { parseQueryvars } = require('./queryvars')
+const { parseHeaders } = require('./headers')
+const { parseMethod } = require('./method')
+const { parsePath } = require('./path')
+const { parseInput } = require('./input')
+const { handleContentNegotiation } = require('./content_negotiation')
+const { parsePayload } = require('./payload')
 // eslint-disable-next-line import/max-dependencies
-const { protocolNormalization } = require('./normalize');
+const { protocolNormalization } = require('./normalize')
 
 // Retrieves protocol-specific request information
 const parseRequest = function (
@@ -28,8 +28,8 @@ const parseRequest = function (
     mapResponse: (requestInfo, newRequestInfo) =>
       ({ ...requestInfo, ...newRequestInfo }),
     category: 'protoparse',
-  });
-};
+  })
+}
 
 const METHODS = [
   validateSpecific,
@@ -43,8 +43,8 @@ const METHODS = [
   handleContentNegotiation,
   parsePayload,
   protocolNormalization,
-];
+]
 
 module.exports = {
   parseRequest,
-};
+}

@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
-const { getErrorResponse } = require('./error');
-const { getResponseParams } = require('./params');
-const { addMetadata } = require('./metadata');
-const { validateResponse } = require('./validate');
-const { send } = require('./send');
+const { getErrorResponse } = require('./error')
+const { getResponseParams } = require('./params')
+const { addMetadata } = require('./metadata')
+const { validateResponse } = require('./validate')
+const { send } = require('./send')
 
 // Sends the response at the end of the request
 const sendResponse = async function ({
@@ -20,28 +20,28 @@ const sendResponse = async function ({
   topargs,
   mInput,
 }) {
-  const responseA = getErrorResponse({ error, mInput, response });
+  const responseA = getErrorResponse({ error, mInput, response })
 
-  const responseParams = getResponseParams(responseA);
+  const responseParams = getResponseParams(responseA)
   // `responseParams` is not yet added to `mInput` so we do it now
-  const mInputA = { ...mInput, ...responseParams };
+  const mInputA = { ...mInput, ...responseParams }
 
   const responseB = addMetadata({
     response: responseA,
     metadata,
     mInput: mInputA,
-  });
+  })
 
-  validateResponse({ response: responseB });
+  validateResponse({ response: responseB })
 
   // Response before transformation
-  const { type, content: responseC } = responseB;
+  const { type, content: responseC } = responseB
 
   const content = transformResponse({
     response: responseB,
     mInput: mInputA,
     rpcAdapter,
-  });
+  })
 
   await send({
     protocolAdapter,
@@ -54,10 +54,10 @@ const sendResponse = async function ({
     rpc,
     topargs,
     error,
-  });
+  })
 
-  return responseParams;
-};
+  return responseParams
+}
 
 const transformResponse = function ({
   rpcAdapter,
@@ -65,11 +65,11 @@ const transformResponse = function ({
   response: { content },
   mInput,
 }) {
-  if (rpcAdapter === undefined) { return content; }
+  if (rpcAdapter === undefined) { return content }
 
-  return rpcAdapter.transformResponse({ response, mInput });
-};
+  return rpcAdapter.transformResponse({ response, mInput })
+}
 
 module.exports = {
   sendResponse,
-};
+}

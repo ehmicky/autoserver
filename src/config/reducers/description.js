@@ -1,34 +1,34 @@
-'use strict';
+'use strict'
 
-const { getWordsList } = require('../../utilities');
-const { mapAttrs } = require('../helpers');
+const { getWordsList } = require('../../utilities')
+const { mapAttrs } = require('../helpers')
 
 // Add related `attr.description`, for the following features:
 // `attr.readonly`, `attr.value`, `attr.examples`, `attr.alias`
 const mapAttr = function ({ attr, attr: { description } }) {
-  const descriptions = allDescriptions.filter(({ test: func }) => func(attr));
-  if (descriptions.length === 0) { return; }
+  const descriptions = allDescriptions.filter(({ test: func }) => func(attr))
+  if (descriptions.length === 0) { return }
 
-  const descriptionA = description ? [description] : [];
+  const descriptionA = description ? [description] : []
 
-  const descriptionsA = descriptions.map(({ message }) => message(attr));
-  const descriptionB = [...descriptionA, ...descriptionsA].join('\n');
+  const descriptionsA = descriptions.map(({ message }) => message(attr))
+  const descriptionB = [...descriptionA, ...descriptionsA].join('\n')
 
-  return { description: descriptionB };
-};
+  return { description: descriptionB }
+}
 
 const getExamples = function ({ examples }) {
   const examplesA = examples
     .map(example => `  - ${example}`)
-    .join('\n');
-  return `Examples:\n${examplesA}`;
-};
+    .join('\n')
+  return `Examples:\n${examplesA}`
+}
 
 const getAliasesDescription = function ({ alias }) {
-  const aliases = Array.isArray(alias) ? alias : [alias];
-  const aliasesA = getWordsList(aliases, { op: 'and', quotes: true });
-  return `Aliases: ${aliasesA}.`;
-};
+  const aliases = Array.isArray(alias) ? alias : [alias]
+  const aliasesA = getWordsList(aliases, { op: 'and', quotes: true })
+  return `Aliases: ${aliasesA}.`
+}
 
 const allDescriptions = [
   {
@@ -51,10 +51,10 @@ const allDescriptions = [
     test: ({ aliasOf }) => aliasOf !== undefined,
     message: ({ aliasOf }) => `Alias of '${aliasOf}'.`,
   },
-];
+]
 
-const addDescriptions = mapAttrs.bind(null, mapAttr);
+const addDescriptions = mapAttrs.bind(null, mapAttr)
 
 module.exports = {
   addDescriptions,
-};
+}

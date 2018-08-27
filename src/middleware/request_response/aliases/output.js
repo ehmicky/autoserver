@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { applyResponseAliases } = require('./response');
+const { applyResponseAliases } = require('./response')
 
 // Apply `alias` in server output
 const applyOutputAliases = function ({ response, modelAliases }) {
@@ -8,9 +8,9 @@ const applyOutputAliases = function ({ response, modelAliases }) {
     (responseA, [attrName, aliases]) =>
       applyOutputAlias({ response: responseA, attrName, aliases }),
     response,
-  );
-  return { response: responseB };
-};
+  )
+  return { response: responseB }
+}
 
 const applyOutputAlias = function ({
   response,
@@ -18,10 +18,10 @@ const applyOutputAlias = function ({
   attrName,
   aliases,
 }) {
-  const dataA = applyResponseAliases({ data, attrName, aliases });
-  return { ...response, data: dataA };
-};
+  const dataA = applyResponseAliases({ data, attrName, aliases })
+  return { ...response, data: dataA }
+}
 
 module.exports = {
   applyOutputAliases,
-};
+}

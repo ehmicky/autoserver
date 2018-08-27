@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-const { throwError } = require('../../errors');
+const { throwError } = require('../../errors')
 
-const { getColl } = require('./get_coll');
+const { getColl } = require('./get_coll')
 
 // Validate that attributes used in nested actions will not change
 // If a nested action is performed by the client, but the server changes its
@@ -33,30 +33,30 @@ const validateStableIds = function ({
   top: { command },
 }) {
   // Only for commands with `args.data`
-  if (!STABLE_IDS_COMMANDS.includes(command.type)) { return; }
+  if (!STABLE_IDS_COMMANDS.includes(command.type)) { return }
 
   actions
     // Only for nested actions
     .filter(({ commandpath }) => commandpath.length !== 0)
-    .forEach(action => validateAction({ action, config, top }));
-};
+    .forEach(action => validateAction({ action, config, top }))
+}
 
-const STABLE_IDS_COMMANDS = ['create', 'patch', 'upsert'];
+const STABLE_IDS_COMMANDS = ['create', 'patch', 'upsert']
 
 const validateAction = function ({ action: { commandpath }, config, top }) {
-  const serverSet = isServerSet({ commandpath, config, top });
-  if (!serverSet) { return; }
+  const serverSet = isServerSet({ commandpath, config, top })
+  if (!serverSet) { return }
 
-  const path = commandpath.join('.');
-  const message = `Cannot nest 'data' argument on '${path}'. That attribute's value might be modified by the server, so the nested collection's 'id' cannot be known by the client.`;
-  throwError(message, { reason: 'VALIDATION' });
-};
+  const path = commandpath.join('.')
+  const message = `Cannot nest 'data' argument on '${path}'. That attribute's value might be modified by the server, so the nested collection's 'id' cannot be known by the client.`
+  throwError(message, { reason: 'VALIDATION' })
+}
 
 const isServerSet = function ({ commandpath, config, top }) {
-  const attr = getAttr({ commandpath, config, top });
-  const serverSet = attr.readonly !== undefined || attr.value !== undefined;
-  return serverSet;
-};
+  const attr = getAttr({ commandpath, config, top })
+  const serverSet = attr.readonly !== undefined || attr.value !== undefined
+  return serverSet
+}
 
 const getAttr = function ({
   commandpath,
@@ -64,14 +64,14 @@ const getAttr = function ({
   config: { collections },
   top,
 }) {
-  const parentPath = commandpath.slice(0, -1);
-  const { collname } = getColl({ commandpath: parentPath, top, config });
-  const attrName = commandpath[commandpath.length - 1];
-  const { attributes } = collections[collname];
-  const attr = attributes[attrName];
-  return attr;
-};
+  const parentPath = commandpath.slice(0, -1)
+  const { collname } = getColl({ commandpath: parentPath, top, config })
+  const attrName = commandpath[commandpath.length - 1]
+  const { attributes } = collections[collname]
+  const attr = attributes[attrName]
+  return attr
+}
 
 module.exports = {
   validateStableIds,
-};
+}

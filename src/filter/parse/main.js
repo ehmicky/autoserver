@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
-const { getThrowErr } = require('../error');
+const { getThrowErr } = require('../error')
 
-const { parseOperation } = require('./attrs');
-const { optimizeFilter } = require('./optimize');
+const { parseOperation } = require('./attrs')
+const { optimizeFilter } = require('./optimize')
 
 // Parse `args.filter` and `coll.authorize` format
 // Syntax:
@@ -29,20 +29,20 @@ const parseFilter = function ({
   reason = 'VALIDATION',
   prefix = '',
 }) {
-  if (filter == null) { return; }
+  if (filter == null) { return }
 
   // Top-level array means `_or` alternatives
-  const type = Array.isArray(filter) ? '_or' : '_and';
+  const type = Array.isArray(filter) ? '_or' : '_and'
 
-  const throwErr = getThrowErr.bind(null, { reason, prefix });
+  const throwErr = getThrowErr.bind(null, { reason, prefix })
 
-  const filterA = parseOperation({ type, value: filter, throwErr });
+  const filterA = parseOperation({ type, value: filter, throwErr })
 
-  const filterB = optimizeFilter({ filter: filterA });
+  const filterB = optimizeFilter({ filter: filterA })
 
-  return filterB;
-};
+  return filterB
+}
 
 module.exports = {
   parseFilter,
-};
+}

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // Order matters, as first ones will have priority
 module.exports = [
@@ -10,4 +10,4 @@ module.exports = [
   require('./json5'),
   require('./ini'),
   require('./raw'),
-];
+]

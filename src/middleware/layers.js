@@ -1,14 +1,14 @@
 /* eslint-disable max-lines */
-'use strict';
+'use strict'
 
-const final = require('./final');
-const time = require('./time');
-const protocol = require('./protocol');
-const rpc = require('./rpc');
-const action = require('./action');
-const sequencer = require('./sequencer');
-const requestResponse = require('./request_response');
-const database = require('./database');
+const final = require('./final')
+const time = require('./time')
+const protocol = require('./protocol')
+const rpc = require('./rpc')
+const action = require('./action')
+const sequencer = require('./sequencer')
+const requestResponse = require('./request_response')
+const database = require('./database')
 
 const middlewareLayers = [
   // Final layer, always fired, whether the request fails or not
@@ -212,9 +212,9 @@ const middlewareLayers = [
       requestResponse.renameAliasesOutput,
     ],
   },
-];
+]
 
 module.exports = {
   middlewareLayers,
-};
+}
 /* eslint-enable max-lines */

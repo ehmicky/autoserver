@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { getModels } = require('./message');
+const { getModels } = require('./message')
 
 // Extra:
 //  - collection `{string}`
@@ -10,8 +10,8 @@ const AUTHORIZATION = {
   title: 'The request is not authorized, i.e. not allowed to be performed',
   getMessage: ({ top: { command: { participle } }, ...extra }) =>
     `${getModels(extra)} cannot be ${participle}`,
-};
+}
 
 module.exports = {
   AUTHORIZATION,
-};
+}

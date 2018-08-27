@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // Available types in `patchOp.attribute|argument`
 const TYPES = {
@@ -37,8 +37,8 @@ const TYPES = {
     name: 'an object',
     pluralname: 'objects',
   },
-};
+}
 
 module.exports = {
   TYPES,
-};
+}

@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const { getProtocol } = require('../../../protocols');
-const { getRpc } = require('../../../rpc');
+const { getProtocol } = require('../../../protocols')
+const { getRpc } = require('../../../rpc')
 
 // Build message of events `request` as:
 //  STATUS [ERROR] - PROTOCOL METHOD RPC /PATH COMMAND...
@@ -19,10 +19,10 @@ const getRequestMessage = function ({
     summary,
     commandpath,
     description,
-  });
+  })
 
-  const { title: protocolTitle } = getProtocol(protocol);
-  const rpcTitle = getRpcTitle({ rpc });
+  const { title: protocolTitle } = getProtocol(protocol)
+  const rpcTitle = getRpcTitle({ rpc })
 
   const message = [
     status,
@@ -33,25 +33,25 @@ const getRequestMessage = function ({
     path,
     suffixText,
   ].filter(val => val)
-    .join(' ');
-  return message;
-};
+    .join(' ')
+  return message
+}
 
 const getRpcTitle = function ({ rpc }) {
-  if (rpc === undefined) { return; }
+  if (rpc === undefined) { return }
 
-  const { title: rpcTitle } = getRpc(rpc);
-  return rpcTitle;
-};
+  const { title: rpcTitle } = getRpc(rpc)
+  return rpcTitle
+}
 
 const getSuffixText = function ({ status, summary, commandpath, description }) {
-  if (status === 'SUCCESS') { return summary; }
+  if (status === 'SUCCESS') { return summary }
 
-  if (!description) { return commandpath; }
+  if (!description) { return commandpath }
 
-  return `${commandpath} - ${description}`;
-};
+  return `${commandpath} - ${description}`
+}
 
 module.exports = {
   getRequestMessage,
-};
+}

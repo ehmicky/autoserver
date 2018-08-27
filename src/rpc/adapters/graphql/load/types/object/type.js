@@ -1,28 +1,28 @@
-'use strict';
+'use strict'
 
-const moize = require('moize').default;
-const { GraphQLObjectType, GraphQLInputObjectType } = require('graphql');
+const moize = require('moize').default
+const { GraphQLObjectType, GraphQLInputObjectType } = require('graphql')
 
-const { getTypeName } = require('../../name');
+const { getTypeName } = require('../../name')
 
-const { getObjectFields } = require('./fields');
+const { getObjectFields } = require('./fields')
 
 // Object field TGetter
 const graphqlObjectTGetter = function (def, opts) {
   const Type = opts.inputObjectType === 'type'
     ? GraphQLObjectType
-    : GraphQLInputObjectType;
+    : GraphQLInputObjectType
 
-  const name = getTypeName({ def, opts });
-  const { description } = def;
+  const name = getTypeName({ def, opts })
+  const { description } = def
 
   // This needs to be a function, otherwise we run in an infinite recursion,
   // if the children try to reference a parent type
-  const fields = getObjectFields.bind(null, { ...opts, parentDef: def });
+  const fields = getObjectFields.bind(null, { ...opts, parentDef: def })
 
-  const type = new Type({ name, description, fields });
-  return type;
-};
+  const type = new Type({ name, description, fields })
+  return type
+}
 
 // Memoize object type constructor in order to infinite recursion.
 // We use the type name, i.e.:
@@ -32,12 +32,12 @@ const graphqlObjectTGetter = function (def, opts) {
 // We also namespace with a UUID which is unique for each new call to
 // `getGraphqlSchema()`, to avoid leaking
 const transformArgs = function ([def, opts]) {
-  const typeName = getTypeName({ def, opts });
-  return `${opts.graphqlSchemaId}/${typeName}`;
-};
+  const typeName = getTypeName({ def, opts })
+  return `${opts.graphqlSchemaId}/${typeName}`
+}
 
-const mGraphqlObjectTGetter = moize(graphqlObjectTGetter, { transformArgs });
+const mGraphqlObjectTGetter = moize(graphqlObjectTGetter, { transformArgs })
 
 module.exports = {
   graphqlObjectTGetter: mGraphqlObjectTGetter,
-};
+}

@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { getModels } = require('./message');
+const { getModels } = require('./message')
 
 // Extra:
 //  - collection `{string}`
@@ -9,8 +9,8 @@ const CONFLICT = {
   status: 'CLIENT_ERROR',
   title: 'Another client updated the same model, resulting in a conflict',
   getMessage: extra => `${getModels(extra)} already ${extra.ids.length === 1 ? 'exist' : 'exists'}`,
-};
+}
 
 module.exports = {
   CONFLICT,
-};
+}

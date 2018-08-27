@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // List of error reasons.
 // Keys are the exception.reason of the exception thrown
@@ -32,4 +32,4 @@ module.exports = {
   ...require('./engine'),
   // eslint-disable-next-line import/max-dependencies
   ...require('./unknown'),
-};
+}

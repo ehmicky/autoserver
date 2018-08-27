@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-const { pick, omit } = require('../../../utilities');
-const { isType } = require('../../../content_types');
-const { getParams, reduceParams } = require('../../../functions');
+const { pick, omit } = require('../../../utilities')
+const { isType } = require('../../../content_types')
+const { getParams, reduceParams } = require('../../../functions')
 
 // Add response's metadata
 const addMetadata = function ({
@@ -12,15 +12,15 @@ const addMetadata = function ({
   mInput,
 }) {
   if (isType(type, 'error')) {
-    return getErrorMetadata({ response, metadata, mInput });
+    return getErrorMetadata({ response, metadata, mInput })
   }
 
   if (isType(type, 'model')) {
-    return { ...response, content: { data: content, metadata } };
+    return { ...response, content: { data: content, metadata } }
   }
 
-  return response;
-};
+  return response
+}
 
 const getErrorMetadata = function ({
   response,
@@ -28,24 +28,24 @@ const getErrorMetadata = function ({
   metadata,
   mInput,
 }) {
-  if (!isType(type, 'error')) { return metadata; }
+  if (!isType(type, 'error')) { return metadata }
 
-  const metadataA = pick(metadata, ERROR_METADATA);
+  const metadataA = pick(metadata, ERROR_METADATA)
 
-  const params = getParams(mInput, { client: true });
-  const paramsA = omit(params, HIDDEN_ERROR_INFO);
-  const paramsB = reduceParams({ params: paramsA });
+  const params = getParams(mInput, { client: true })
+  const paramsA = omit(params, HIDDEN_ERROR_INFO)
+  const paramsB = reduceParams({ params: paramsA })
 
-  const metadataB = { ...metadataA, info: paramsB };
+  const metadataB = { ...metadataA, info: paramsB }
 
-  return { ...response, content: { error: content, metadata: metadataB } };
-};
+  return { ...response, content: { error: content, metadata: metadataB } }
+}
 
 // Some metadata only make sense in success responses, e.g. pagination
 const ERROR_METADATA = [
   'requestid',
   'duration',
-];
+]
 
 // Parameters not allowed in error response
 const HIDDEN_ERROR_INFO = [
@@ -55,8 +55,8 @@ const HIDDEN_ERROR_INFO = [
 
   // For security reasons
   'serverinfo',
-];
+]
 
 module.exports = {
   addMetadata,
-};
+}

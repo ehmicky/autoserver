@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const { applyInputAliases } = require('./input');
-const { applyOutputAliases } = require('./output');
+const { applyInputAliases } = require('./input')
+const { applyOutputAliases } = require('./output')
 
 // Rename attributes using config property `alias`.
 // Aliases allow clients to use different possible names for the same attribute:
@@ -12,23 +12,23 @@ const { applyOutputAliases } = require('./output');
 //   - is stored in the database
 //   - should be used in config functions (with `model`)
 const renameAliasesInput = function ({ collname, config, args }) {
-  const modelAliases = getModelAliases({ collname, config });
-  return applyInputAliases({ args, modelAliases });
-};
+  const modelAliases = getModelAliases({ collname, config })
+  return applyInputAliases({ args, modelAliases })
+}
 
 const renameAliasesOutput = function ({ collname, config, response }) {
-  const modelAliases = getModelAliases({ collname, config });
-  return applyOutputAliases({ response, modelAliases });
-};
+  const modelAliases = getModelAliases({ collname, config })
+  return applyOutputAliases({ response, modelAliases })
+}
 
 const getModelAliases = function ({
   collname,
   config: { shortcuts: { aliasesMap } },
 }) {
-  return aliasesMap[collname];
-};
+  return aliasesMap[collname]
+}
 
 module.exports = {
   renameAliasesInput,
   renameAliasesOutput,
-};
+}

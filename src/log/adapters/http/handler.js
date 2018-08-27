@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-const { report } = require('./report');
-const opts = require('./opts');
-const { getOpts } = require('./get_opts');
+const { report } = require('./report')
+const opts = require('./opts')
+const { getOpts } = require('./get_opts')
 
 const handler = {
   name: 'http',
@@ -12,6 +12,6 @@ const handler = {
   reportPerf: report,
   opts,
   getOpts,
-};
+}
 
-module.exports = handler;
+module.exports = handler

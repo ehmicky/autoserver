@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
-const { isSiblingValue, validateForbiddenOps } = require('../siblings');
-const { DEEP_OPERATORS } = require('../operators');
+const { isSiblingValue, validateForbiddenOps } = require('../siblings')
+const { DEEP_OPERATORS } = require('../operators')
 
-const { getAttr } = require('./attr');
+const { getAttr } = require('./attr')
 
 // When using `model.ATTR` to target a sibling attribute
 // Replace sibling attribute's value by a dummy value, since it is not known
@@ -15,39 +15,39 @@ const getSiblingValue = function ({
   attrs,
   throwErr,
 }) {
-  const isSibling = hasSiblingValue({ node });
-  if (!isSibling) { return value; }
+  const isSibling = hasSiblingValue({ node })
+  if (!isSibling) { return value }
 
-  validateForbiddenOps({ type, throwErr });
+  validateForbiddenOps({ type, throwErr })
 
-  const { value: attrName } = value;
+  const { value: attrName } = value
 
   // In `model.authorize`, model is under `model`.
   // In `args.filter`, it is top-level
   const attrNameA = attrs.model === undefined
     ? attrName
-    : `model.${attrName}`;
+    : `model.${attrName}`
 
   // This also validates that sibling attribute exists
-  const attr = getAttr({ attrs, attrName: attrNameA, throwErr });
+  const attr = getAttr({ attrs, attrName: attrNameA, throwErr })
 
-  const valueA = getDummyValue({ attr });
-  return valueA;
-};
+  const valueA = getDummyValue({ attr })
+  return valueA
+}
 
 const hasSiblingValue = function ({ node: { type, value } }) {
   if (DEEP_OPERATORS.includes(type) && Array.isArray(value)) {
-    return value.some(nodeA => hasSiblingValue({ node: nodeA }));
+    return value.some(nodeA => hasSiblingValue({ node: nodeA }))
   }
 
-  return isSiblingValue({ value });
-};
+  return isSiblingValue({ value })
+}
 
 const getDummyValue = function ({ attr: { type, isArray } }) {
-  const valueA = DUMMY_VALUES[type];
-  const valueB = isArray ? [valueA] : valueA;
-  return valueB;
-};
+  const valueA = DUMMY_VALUES[type]
+  const valueB = isArray ? [valueA] : valueA
+  return valueB
+}
 
 const DUMMY_VALUES = {
   string: '',
@@ -55,8 +55,8 @@ const DUMMY_VALUES = {
   integer: 0,
   boolean: true,
   dynamic: '',
-};
+}
 
 module.exports = {
   getSiblingValue,
-};
+}

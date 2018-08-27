@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const { keyBy, mapValues, pick, pickBy } = require('../utilities');
-const { addCatchAllPbHandler } = require('../errors');
+const { keyBy, mapValues, pick, pickBy } = require('../utilities')
+const { addCatchAllPbHandler } = require('../errors')
 
 // Wrap adapters to:
 //  - add error handlers to catch adapter bugs
@@ -13,52 +13,52 @@ const wrapAdapters = function ({
   methods = {},
   reason = 'ADAPTER',
 }) {
-  const adaptersA = keyBy(adapters);
+  const adaptersA = keyBy(adapters)
 
   return mapValues(
     adaptersA,
     adapter => wrapAdapter({ adapter, members, methods, reason }),
-  );
-};
+  )
+}
 
 const wrapAdapter = function ({ adapter, members, methods, reason }) {
-  const adapterA = addErrorHandlers({ adapter, reason });
-  const wrapped = classify({ adapter: adapterA, members, methods });
+  const adapterA = addErrorHandlers({ adapter, reason })
+  const wrapped = classify({ adapter: adapterA, members, methods })
 
   // We directly mutate so that methods are bound with `wrapped` parameter
   // eslint-disable-next-line fp/no-mutating-assign
-  Object.assign(adapterA, { wrapped });
+  Object.assign(adapterA, { wrapped })
 
-  return { ...adapter, wrapped };
-};
+  return { ...adapter, wrapped }
+}
 
 // Adapter functions should never throw
 // If they do, it indicates an adapter bug, where we assign specific error
 // reasons
 // Except if they threw using throwError()
 const addErrorHandlers = function ({ adapter, reason }) {
-  const methods = pickBy(adapter, method => typeof method === 'function');
+  const methods = pickBy(adapter, method => typeof method === 'function')
   const methodsA = mapValues(
     methods,
     method => addCatchAllPbHandler(method, {
       reason,
       extra: { adapter: adapter.name },
     }),
-  );
-  const adapterA = { ...adapter, ...methodsA };
-  return adapterA;
-};
+  )
+  const adapterA = { ...adapter, ...methodsA }
+  return adapterA
+}
 
 // Similar to create a new class, but more functional programming-oriented
 const classify = function ({ adapter, members, methods }) {
-  const membersA = pick(adapter, members);
+  const membersA = pick(adapter, members)
   const methodsA = mapValues(
     methods,
     method => method.bind(null, adapter),
-  );
-  return { ...membersA, ...methodsA };
-};
+  )
+  return { ...membersA, ...methodsA }
+}
 
 module.exports = {
   wrapAdapters,
-};
+}

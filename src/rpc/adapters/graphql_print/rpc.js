@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-const routes = require('./routes');
-const { parse } = require('./parse');
-const methods = require('./methods');
+const routes = require('./routes')
+const { parse } = require('./parse')
+const methods = require('./methods')
 
 const rpc = {
   name: 'graphqlprint',
@@ -10,6 +10,6 @@ const rpc = {
   routes,
   methods,
   parse,
-};
+}
 
-module.exports = rpc;
+module.exports = rpc

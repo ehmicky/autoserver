@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-const { PROTOCOL_OPTS } = require('../../protocols');
+const { PROTOCOL_OPTS } = require('../../protocols')
 
-const { validateAdaptersOpts } = require('./adapter_opts');
+const { validateAdaptersOpts } = require('./adapter_opts')
 
 // Validates `protocols.PROTOCOL.*`
 const validateProtocols = function ({ config: { protocols } }) {
@@ -10,9 +10,9 @@ const validateProtocols = function ({ config: { protocols } }) {
     opts: protocols,
     adaptersOpts: PROTOCOL_OPTS,
     key: 'protocols',
-  });
-};
+  })
+}
 
 module.exports = {
   validateProtocols,
-};
+}

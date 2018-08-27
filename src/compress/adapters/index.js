@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // Order matters, as first ones will have priority
 module.exports = [
@@ -6,4 +6,4 @@ module.exports = [
   require('./deflate'),
   require('./gzip'),
   require('./identity'),
-];
+]

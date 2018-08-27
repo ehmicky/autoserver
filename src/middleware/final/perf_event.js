@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { logPerfEvent } = require('../../log');
+const { logPerfEvent } = require('../../log')
 
 // Event performance events related to the current request,
 // e.g. how long each middleware lasted.
@@ -9,15 +9,15 @@ const perfEvent = function (
   nextLayer,
   { measures },
 ) {
-  const measuresA = [...measures, respPerf];
+  const measuresA = [...measures, respPerf]
   return logPerfEvent({
     mInput,
     phase: 'request',
     measures: measuresA,
     config,
-  });
-};
+  })
+}
 
 module.exports = {
   perfEvent,
-};
+}

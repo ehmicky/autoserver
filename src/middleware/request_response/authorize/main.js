@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-const { evalAuthorize } = require('./eval');
-const { addAuthorizeFilter } = require('./filter');
-const { checkNewData } = require('./data');
+const { evalAuthorize } = require('./eval')
+const { addAuthorizeFilter } = require('./filter')
+const { checkNewData } = require('./data')
 
 // Handles `config.authorize` and `collection.authorize`
 const validateAuthorization = function ({
@@ -18,11 +18,11 @@ const validateAuthorization = function ({
   top: { command: { type: topCommand } },
 }) {
   // `create`'s currentData query
-  if (topCommand === 'create' && command === 'find') { return; }
+  if (topCommand === 'create' && command === 'find') { return }
 
-  validateConfigAuth({ clientCollname, config, serverParams, mInput, top });
+  validateConfigAuth({ clientCollname, config, serverParams, mInput, top })
 
-  const coll = collections[collname];
+  const coll = collections[collname]
   const argsA = validateCollAuth({
     args,
     coll,
@@ -33,10 +33,10 @@ const validateAuthorization = function ({
     mInput,
     command,
     top,
-  });
+  })
 
-  return { args: argsA };
-};
+  return { args: argsA }
+}
 
 // Handles `config.authorize`
 const validateConfigAuth = function ({
@@ -47,7 +47,7 @@ const validateConfigAuth = function ({
   mInput,
   top,
 }) {
-  if (authorize === undefined) { return; }
+  if (authorize === undefined) { return }
 
   evalAuthorize({
     clientCollname,
@@ -56,8 +56,8 @@ const validateConfigAuth = function ({
     serverParams,
     config,
     mInput,
-  });
-};
+  })
+}
 
 // Handles `collection.authorize`
 const validateCollAuth = function ({
@@ -71,7 +71,7 @@ const validateCollAuth = function ({
   command,
   top,
 }) {
-  if (authorize === undefined) { return args; }
+  if (authorize === undefined) { return args }
 
   const authorizeA = evalAuthorize({
     collname,
@@ -81,16 +81,16 @@ const validateCollAuth = function ({
     serverParams,
     config,
     mInput,
-  });
-  if (authorizeA === true) { return args; }
+  })
+  if (authorizeA === true) { return args }
 
-  const argsA = addAuthorizeFilter({ command, authorize: authorizeA, args });
+  const argsA = addAuthorizeFilter({ command, authorize: authorizeA, args })
 
-  checkNewData({ authorize: authorizeA, args, clientCollname, top });
+  checkNewData({ authorize: authorizeA, args, clientCollname, top })
 
-  return argsA;
-};
+  return argsA
+}
 
 module.exports = {
   validateAuthorization,
-};
+}

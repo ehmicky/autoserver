@@ -1,16 +1,16 @@
-'use strict';
+'use strict'
 
-const { GraphQLBoolean } = require('graphql');
+const { GraphQLBoolean } = require('graphql')
 
 // `dryrun` argument
 const getDryrunArgument = function ({ command }) {
-  const hasDryrun = DRYRUN_COMMANDS.includes(command);
-  if (!hasDryrun) { return {}; }
+  const hasDryrun = DRYRUN_COMMANDS.includes(command)
+  if (!hasDryrun) { return {} }
 
-  return DRYRUN_ARGS;
-};
+  return DRYRUN_ARGS
+}
 
-const DRYRUN_COMMANDS = ['create', 'upsert', 'patch', 'delete'];
+const DRYRUN_COMMANDS = ['create', 'upsert', 'patch', 'delete']
 
 const DRYRUN_ARGS = {
   dryrun: {
@@ -18,8 +18,8 @@ const DRYRUN_ARGS = {
     description: 'No modification will be applied to the database, but the response will be the same as if it did.',
     defaultValue: false,
   },
-};
+}
 
 module.exports = {
   getDryrunArgument,
-};
+}

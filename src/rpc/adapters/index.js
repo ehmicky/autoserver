@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = [
   require('./rest'),
@@ -6,4 +6,4 @@ module.exports = [
   require('./graphiql'),
   require('./graphql_print'),
   require('./jsonrpc'),
-];
+]

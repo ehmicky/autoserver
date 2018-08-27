@@ -23,9 +23,9 @@ The server can also be used from Node.js:
 node/no-extraneous-require, import/no-extraneous-dependencies,
 import/no-unresolved -->
 ```javascript
-const autoserver = require('autoserver');
+const autoserver = require('autoserver')
 
-autoserver.run({ protocols: { http: { port: 5001 } } });
+autoserver.run({ protocols: { http: { port: 5001 } } })
 ```
 
 Here we used the `INSTRUCTION` `run`, but any `INSTRUCTION` can be used.

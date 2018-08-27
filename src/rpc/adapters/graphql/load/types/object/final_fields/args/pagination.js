@@ -1,35 +1,35 @@
-'use strict';
+'use strict'
 
-const { GraphQLInt, GraphQLString } = require('graphql');
+const { GraphQLInt, GraphQLString } = require('graphql')
 
-const { pick, omit } = require('../../../../../../../../utilities');
+const { pick, omit } = require('../../../../../../../../utilities')
 
 // Pagination arguments
 const getPaginationArgument = function ({ command, features }) {
   // Only with commands that return an array and do not provide array of data,
   // i.e. only with findMany, deleteMany and patchMany
-  const hasPaginationArgs = PAGINATION_COMMANDS.includes(command);
+  const hasPaginationArgs = PAGINATION_COMMANDS.includes(command)
 
   if (!hasPaginationArgs) {
-    return {};
+    return {}
   }
 
   // Only with safe commands that return an array, i.e. only with findMany
-  const hasFullArgs = FULL_PAGINATION_COMMANDS.includes(command);
+  const hasFullArgs = FULL_PAGINATION_COMMANDS.includes(command)
 
   if (!hasFullArgs) {
-    return pick(PAGINATION_ARGS, 'pagesize');
+    return pick(PAGINATION_ARGS, 'pagesize')
   }
 
   if (!features.includes('offset')) {
-    return omit(PAGINATION_ARGS, 'page');
+    return omit(PAGINATION_ARGS, 'page')
   }
 
-  return PAGINATION_ARGS;
-};
+  return PAGINATION_ARGS
+}
 
-const PAGINATION_COMMANDS = ['find', 'patch', 'delete'];
-const FULL_PAGINATION_COMMANDS = ['find'];
+const PAGINATION_COMMANDS = ['find', 'patch', 'delete']
+const FULL_PAGINATION_COMMANDS = ['find']
 
 const PAGINATION_ARGS = {
   after: {
@@ -56,8 +56,8 @@ Using '' means 'from the end'`,
 Starts at 1.
 Cannot be used with 'before' or 'after'`,
   },
-};
+}
 
 module.exports = {
   getPaginationArgument,
-};
+}

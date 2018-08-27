@@ -1,17 +1,17 @@
-'use strict';
+'use strict'
 
 const {
   GraphQLInt,
   GraphQLFloat,
   GraphQLBoolean,
   GraphQLString,
-} = require('graphql');
+} = require('graphql')
 
-const { throwError } = require('../../../../../errors');
+const { throwError } = require('../../../../../errors')
 
-const { graphqlRequiredTest, graphqlRequiredTGetter } = require('./required');
-const { graphqlArrayTest, graphqlArrayTGetter } = require('./array');
-const { graphqlObjectTGetter } = require('./object');
+const { graphqlRequiredTest, graphqlRequiredTGetter } = require('./required')
+const { graphqlArrayTest, graphqlArrayTGetter } = require('./array')
+const { graphqlObjectTGetter } = require('./object')
 
 // Maps an config definition into a GraphQL type.
 // The first matching one will be used, i.e. order matters:
@@ -60,17 +60,17 @@ const graphqlTGetters = [
     value: () => GraphQLBoolean,
   },
 
-];
+]
 
 const getTypeGetter = function (def, opts) {
   const typeGetter = graphqlTGetters
-    .find(({ condition }) => condition(def, opts));
-  if (typeGetter !== undefined) { return typeGetter; }
+    .find(({ condition }) => condition(def, opts))
+  if (typeGetter !== undefined) { return typeGetter }
 
-  const message = `Could not parse attribute into a GraphQL type: ${JSON.stringify(def)}`;
-  throwError(message, { reason: 'CONFIG_VALIDATION' });
-};
+  const message = `Could not parse attribute into a GraphQL type: ${JSON.stringify(def)}`
+  throwError(message, { reason: 'CONFIG_VALIDATION' })
+}
 
 module.exports = {
   getTypeGetter,
-};
+}

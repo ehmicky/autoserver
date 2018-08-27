@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { extractSimpleIds } = require('../../filter');
+const { extractSimpleIds } = require('../../filter')
 
 // Delegates to database adapter
 const databaseExecute = async function ({
@@ -11,13 +11,13 @@ const databaseExecute = async function ({
   command,
 }) {
   // Make write commands not change data, if argument `dryrun` is used
-  if (dryrun && command !== 'find') { return; }
+  if (dryrun && command !== 'find') { return }
 
-  const commandInput = getCommandInput({ command, collname, args });
+  const commandInput = getCommandInput({ command, collname, args })
 
-  const dbData = await dbAdapter.query(commandInput);
-  return { dbData };
-};
+  const dbData = await dbAdapter.query(commandInput)
+  return { dbData }
+}
 
 // Database adapter input
 const getCommandInput = function ({
@@ -25,9 +25,9 @@ const getCommandInput = function ({
   collname,
   args: { filter = {}, order, limit, offset, newData, deletedIds },
 }) {
-  const filterIds = extractSimpleIds({ filter });
+  const filterIds = extractSimpleIds({ filter })
 
-  const commandA = commandMap[command];
+  const commandA = commandMap[command]
 
   return {
     command: commandA,
@@ -39,8 +39,8 @@ const getCommandInput = function ({
     order,
     limit,
     offset,
-  };
-};
+  }
+}
 
 // From API command to database adapter's command
 // `patch` behaves like a `find` followed by a `upsert`.
@@ -53,8 +53,8 @@ const commandMap = {
   patch: 'upsert',
   upsert: 'upsert',
   create: 'upsert',
-};
+}
 
 module.exports = {
   databaseExecute,
-};
+}

@@ -19,7 +19,7 @@ Most of the examples in this documentation use
 ```js
 // Comment
 
-const configuration = {
+module.exports = {
   limits: {
     pagesize: 10
   },
@@ -28,7 +28,5 @@ const configuration = {
       hostname: 'myhostname'
     }
   }
-};
-
-module.exports = configuration;
+}
 ```

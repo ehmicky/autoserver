@@ -1,15 +1,15 @@
-'use strict';
+'use strict'
 
-const { throwPb } = require('../../../errors');
+const { throwPb } = require('../../../errors')
 
 // Validate JSON-RPC payload is correct format
 const validatePayload = function ({ payload }) {
-  const payloadA = typeof payload === 'object' ? payload : {};
-  const { jsonrpc, method, id, params } = payloadA;
+  const payloadA = typeof payload === 'object' ? payload : {}
+  const { jsonrpc, method, id, params } = payloadA
 
   validators.forEach(validator =>
-    applyValidator({ validator, payload, jsonrpc, method, id, params }));
-};
+    applyValidator({ validator, payload, jsonrpc, method, id, params }))
+}
 
 const applyValidator = function ({
   validator: { check, message, reason = 'VALIDATION', extra },
@@ -19,12 +19,12 @@ const applyValidator = function ({
   id,
   params,
 }) {
-  const isValid = check({ payload, jsonrpc, method, id, params });
-  if (isValid) { return; }
+  const isValid = check({ payload, jsonrpc, method, id, params })
+  if (isValid) { return }
 
-  const messageA = `Invalid JSON-RPC payload: ${message}`;
-  throwPb({ reason, message: messageA, extra });
-};
+  const messageA = `Invalid JSON-RPC payload: ${message}`
+  throwPb({ reason, message: messageA, extra })
+}
 
 const validators = [
   {
@@ -65,8 +65,8 @@ const validators = [
     ),
     message: '\'params\' must only contain one object or none',
   },
-];
+]
 
 module.exports = {
   validatePayload,
-};
+}

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   ...require('./parse'),
@@ -9,4 +9,4 @@ module.exports = {
   ...require('./siblings'),
   ...require('./simple_id'),
   ...require('./features'),
-};
+}

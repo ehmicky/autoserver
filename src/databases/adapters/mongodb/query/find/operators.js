@@ -1,58 +1,58 @@
-'use strict';
+'use strict'
 
-const { getSiblingNode } = require('./siblings');
+const { getSiblingNode } = require('./siblings')
 
 // Transform `args.filter` into MongoDB query object
 // Applied recursively
 const getQueryFilter = function ({ type, value, attrName }) {
   // No filter
-  if (type === undefined) { return {}; }
+  if (type === undefined) { return {} }
 
-  return operators[type]({ type, value, attrName });
-};
+  return operators[type]({ type, value, attrName })
+}
 
 const orOperator = function ({ value }) {
-  const nodes = value.map(getQueryFilter);
-  return { $or: nodes };
-};
+  const nodes = value.map(getQueryFilter)
+  return { $or: nodes }
+}
 
 const andOperator = function ({ value }) {
-  const nodes = value.map(getQueryFilter);
-  return { $and: nodes };
-};
+  const nodes = value.map(getQueryFilter)
+  return { $and: nodes }
+}
 
 const someOperator = function ({ value, attrName }) {
   const elemMatch = value
-    .map(node => getGenericNode({ ...node, key: 'opName' }));
-  const elemMatchA = Object.assign({}, ...elemMatch);
-  return { [attrName]: { $elemMatch: elemMatchA } };
-};
+    .map(node => getGenericNode({ ...node, key: 'opName' }))
+  const elemMatchA = Object.assign({}, ...elemMatch)
+  return { [attrName]: { $elemMatch: elemMatchA } }
+}
 
 const allOperator = function ({ value, attrName }) {
   const elemMatch = value
-    .map(node => getGenericNode({ ...node, key: 'inverse' }));
-  const elemMatchA = Object.assign({}, ...elemMatch);
-  return { [attrName]: { $not: { $elemMatch: elemMatchA } } };
-};
+    .map(node => getGenericNode({ ...node, key: 'inverse' }))
+  const elemMatchA = Object.assign({}, ...elemMatch)
+  return { [attrName]: { $not: { $elemMatch: elemMatchA } } }
+}
 
 const genericOperator = function ({ type, value, attrName }) {
   const isSibling = value &&
     value.constructor === Object &&
-    value.type === 'sibling';
+    value.type === 'sibling'
 
   if (isSibling) {
-    return getSiblingNode({ type, value, attrName });
+    return getSiblingNode({ type, value, attrName })
   }
 
-  const valueA = getGenericNode({ type, value, key: 'opName' });
-  return { [attrName]: valueA };
-};
+  const valueA = getGenericNode({ type, value, key: 'opName' })
+  return { [attrName]: valueA }
+}
 
 const getGenericNode = function ({ type, value, key }) {
-  const { [key]: name, kind } = OPERATORS_MAP[type];
-  const valueA = kind === 'regexp' ? new RegExp(value, 'iu') : value;
-  return { [name]: valueA };
-};
+  const { [key]: name, kind } = OPERATORS_MAP[type]
+  const valueA = kind === 'regexp' ? new RegExp(value, 'iu') : value
+  return { [name]: valueA }
+}
 
 const OPERATORS_MAP = {
   _eq: { opName: '$eq', inverse: '$ne' },
@@ -65,7 +65,7 @@ const OPERATORS_MAP = {
   _nin: { opName: '$nin', inverse: '$in' },
   _like: { opName: '$regex', inverse: '$not', kind: 'regexp' },
   _nlike: { opName: '$not', inverse: '$regex', kind: 'regexp' },
-};
+}
 
 const operators = {
   _or: orOperator,
@@ -82,8 +82,8 @@ const operators = {
   _nin: genericOperator,
   _like: genericOperator,
   _nlike: genericOperator,
-};
+}
 
 module.exports = {
   getQueryFilter,
-};
+}

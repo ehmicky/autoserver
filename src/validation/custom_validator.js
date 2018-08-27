@@ -1,24 +1,24 @@
-'use strict';
+'use strict'
 
-const moize = require('moize').default;
+const moize = require('moize').default
 
-const { runConfigFunc, getModelParams } = require('../functions');
+const { runConfigFunc, getModelParams } = require('../functions')
 
-const { validator } = require('./validator');
+const { validator } = require('./validator')
 
 // Add custom validation keywords, from config.validation
 const getCustomValidator = function ({ config: { validation = {} } = {} }) {
-  return Object.entries(validation).reduce(addCustomKeyword, validator);
-};
+  return Object.entries(validation).reduce(addCustomKeyword, validator)
+}
 
 // We do want the re-run if config.validation changes.
 // Serializing the whole config as is too slow, so we just take keywords
 // list.
 const transformArgs = function ([{ config: { validation = {} } = {} }]) {
-  return Object.keys(validation).join(',');
-};
+  return Object.keys(validation).join(',')
+}
 
-const mGetCustomValidator = moize(getCustomValidator, { transformArgs });
+const mGetCustomValidator = moize(getCustomValidator, { transformArgs })
 
 const addCustomKeyword = function (
   validatorA,
@@ -28,27 +28,27 @@ const addCustomKeyword = function (
   ],
 ) {
   // We name `null` `empty` in config, as it is more YAML-friendly
-  const typeA = type === 'empty' ? 'null' : type;
+  const typeA = type === 'empty' ? 'null' : type
 
-  validateCustomKeyword({ type: typeA, keyword });
+  validateCustomKeyword({ type: typeA, keyword })
 
-  const validate = keywordFunc({ keyword, testFunc, message });
+  const validate = keywordFunc({ keyword, testFunc, message })
   const validatorB = validatorA
-    .addKeyword(keyword, { validate, type: typeA, $data: true });
+    .addKeyword(keyword, { validate, type: typeA, $data: true })
 
-  return validatorB;
-};
+  return validatorB
+}
 
 const validateCustomKeyword = function ({ type, keyword }) {
   const isRedundant = Array.isArray(type) &&
     type.includes('number') &&
-    type.includes('integer');
-  if (!isRedundant) { return; }
+    type.includes('integer')
+  if (!isRedundant) { return }
 
-  const message = `Custom validation keyword 'config.validation.${keyword}' must not have both types 'number' and 'integer', as 'number' includes 'integer'.`;
+  const message = `Custom validation keyword 'config.validation.${keyword}' must not have both types 'number' and 'integer', as 'number' includes 'integer'.`
   // eslint-disable-next-line fp/no-throw
-  throw new Error(message);
-};
+  throw new Error(message)
+}
 
 // eslint-disable-next-line max-params
 const keywordFunc = ({ keyword, testFunc, message }) => function validate (
@@ -60,20 +60,20 @@ const keywordFunc = ({ keyword, testFunc, message }) => function validate (
   attrName,
   { [Symbol.for('extra')]: { mInput, currentDatum: previousmodel } }
 ) {
-  const modelParams = getModelParams({ model, attrName, previousmodel });
-  const params = { arg, ...modelParams };
+  const modelParams = getModelParams({ model, attrName, previousmodel })
+  const params = { arg, ...modelParams }
 
-  const isValid = runConfigFunc({ configFunc: testFunc, mInput, params });
-  if (isValid === true) { return true; }
+  const isValid = runConfigFunc({ configFunc: testFunc, mInput, params })
+  if (isValid === true) { return true }
 
-  const messageA = runConfigFunc({ configFunc: message, mInput, params });
+  const messageA = runConfigFunc({ configFunc: message, mInput, params })
 
   // eslint-disable-next-line fp/no-mutation
-  validate.errors = [{ message: messageA, keyword, params: { arg } }];
+  validate.errors = [{ message: messageA, keyword, params: { arg } }]
 
-  return false;
-};
+  return false
+}
 
 module.exports = {
   getCustomValidator: mGetCustomValidator,
-};
+}

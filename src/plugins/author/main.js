@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-const { attributesPlugin } = require('../attributes');
+const { attributesPlugin } = require('../attributes')
 
-const optsSchema = require('./opts_schema');
+const optsSchema = require('./opts_schema')
 
 // Plugin that adds who modified last each model:
 //   created_by {User} - set on model creation
@@ -18,8 +18,8 @@ const authorPlugin = function ({ config, opts }) {
     optsSchema,
     config,
     opts,
-  });
-};
+  })
+}
 
 const getAttributes = ({ currentuser, collection }) => ({
   created_by: {
@@ -32,20 +32,20 @@ const getAttributes = ({ currentuser, collection }) => ({
     type: collection,
     value: getUpdatedBy.bind(null, currentuser),
   },
-});
+})
 
 const getCreatedBy = function (currentuser, params) {
-  const { previousmodel, previousvalue } = params;
+  const { previousmodel, previousvalue } = params
 
-  if (previousmodel !== undefined) { return previousvalue; }
+  if (previousmodel !== undefined) { return previousvalue }
 
-  return currentuser(params).id;
-};
+  return currentuser(params).id
+}
 
 const getUpdatedBy = function (currentuser, params) {
-  return currentuser(params).id;
-};
+  return currentuser(params).id
+}
 
 module.exports = {
   authorPlugin,
-};
+}

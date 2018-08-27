@@ -1,25 +1,25 @@
-'use strict';
+'use strict'
 
-const yargs = require('yargs');
+const yargs = require('yargs')
 
-const { monitor } = require('../perf');
+const { monitor } = require('../perf')
 
-const { addInstructions } = require('./instructions');
-const { processOpts } = require('./process');
+const { addInstructions } = require('./instructions')
+const { processOpts } = require('./process')
 
 // CLI input parsing
 const parseInput = function () {
-  const opts = parseOpts();
+  const opts = parseOpts()
 
-  const { instruction, opts: optsA } = processOpts({ opts });
-  return { instruction, opts: optsA };
-};
+  const { instruction, opts: optsA } = processOpts({ opts })
+  return { instruction, opts: optsA }
+}
 
-const mParseInput = monitor(parseInput, 'cli');
+const mParseInput = monitor(parseInput, 'cli')
 
 // CLI options parsing
 const parseOpts = function () {
-  const yargsA = addInstructions({ yargs });
+  const yargsA = addInstructions({ yargs })
   return yargsA
     // There should be a single instruction, or none (default one)
     .demandCommand(1, 1)
@@ -30,14 +30,14 @@ const parseOpts = function () {
     .version()
     // Auto-suggests correction on typos
     .recommendCommands()
-    .parse();
-};
+    .parse()
+}
 
 const USAGE = `$0 [INSTRUCTION] [OPTIONS]
 
 Engine generating an API from a simple config file.
-`;
+`
 
 module.exports = {
   parseInput: mParseInput,
-};
+}

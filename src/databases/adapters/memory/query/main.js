@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
-const { pSetTimeout } = require('../../../../utilities');
+const { pSetTimeout } = require('../../../../utilities')
 
-const { find } = require('./find');
-const { delete: deleteMany } = require('./delete');
-const { upsert } = require('./upsert');
+const { find } = require('./find')
+const { delete: deleteMany } = require('./delete')
+const { upsert } = require('./upsert')
 
 // CRUD commands
 const query = async function ({
@@ -19,9 +19,9 @@ const query = async function ({
   connection,
 }) {
   // Simulate asynchronousity
-  await pSetTimeout(0);
+  await pSetTimeout(0)
 
-  const collection = connection[collname];
+  const collection = connection[collname]
 
   return commands[command]({
     collection,
@@ -31,15 +31,15 @@ const query = async function ({
     order,
     limit,
     offset,
-  });
-};
+  })
+}
 
 const commands = {
   find,
   delete: deleteMany,
   upsert,
-};
+}
 
 module.exports = {
   query,
-};
+}

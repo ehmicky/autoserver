@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid')
 
-const { runConfigFunc, getModelParams } = require('../../../functions');
+const { runConfigFunc, getModelParams } = require('../../../functions')
 
 // Add default model.id for create commands, in order of priority:
 //  - nested `args.data` attribute (not handled here)
@@ -10,25 +10,25 @@ const { runConfigFunc, getModelParams } = require('../../../functions');
 //  - database adapter-specific function
 //  - UUIDv4
 const addDefaultIds = function ({ datum, top: { command }, ...rest }) {
-  const shouldAddDefaultId = command.type === 'create' && datum.id == null;
-  if (!shouldAddDefaultId) { return datum; }
+  const shouldAddDefaultId = command.type === 'create' && datum.id == null
+  if (!shouldAddDefaultId) { return datum }
 
   const id = handlers.reduce(
     getIdDefault.bind(null, { ...rest, datum, command }),
     null,
-  );
+  )
 
-  if (id == null) { return datum; }
+  if (id == null) { return datum }
 
-  return { ...datum, id };
-};
+  return { ...datum, id }
+}
 
 // Try each way to set default, in order
 const getIdDefault = function (input, id, handler) {
-  if (id != null) { return id; }
+  if (id != null) { return id }
 
-  return handler(input);
-};
+  return handler(input)
+}
 
 // Apply default current collection's 'id' attribute
 const applyConfigDefault = function ({
@@ -38,38 +38,38 @@ const applyConfigDefault = function ({
   userDefaultsMap,
   mInput,
 }) {
-  const configFunc = userDefaultsMap[collname].id;
-  if (configFunc == null) { return; }
+  const configFunc = userDefaultsMap[collname].id
+  if (configFunc == null) { return }
 
   const params = getModelParams({
     model: datum,
     previousmodel: undefined,
     attrName: 'id',
-  });
-  const mInputA = { ...mInput, collname, command: command.type };
-  return runConfigFunc({ configFunc, mInput: mInputA, params });
-};
+  })
+  const mInputA = { ...mInput, collname, command: command.type }
+  return runConfigFunc({ configFunc, mInput: mInputA, params })
+}
 
 // Apply database adapter-specific id default, i.e. adapter.getDefaultId()
 // Database adapters should prefer using UUID, to keep it consistent
 const applyDatabaseDefault = function ({ collname, dbAdapters }) {
-  const { getDefaultId } = dbAdapters[collname];
-  if (getDefaultId === undefined) { return; }
+  const { getDefaultId } = dbAdapters[collname]
+  if (getDefaultId === undefined) { return }
 
-  return getDefaultId();
-};
+  return getDefaultId()
+}
 
 // UUID default fallback
 const applyUuid = function () {
-  return uuidv4();
-};
+  return uuidv4()
+}
 
 const handlers = [
   applyConfigDefault,
   applyDatabaseDefault,
   applyUuid,
-];
+]
 
 module.exports = {
   addDefaultIds,
-};
+}

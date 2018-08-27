@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { throwError } = require('../../errors');
+const { throwError } = require('../../errors')
 
 // Parse `args.order` from a string to an array of objects
 // E.g. 'a,b+,c-' would become:
@@ -11,21 +11,21 @@ const { throwError } = require('../../errors');
 //     { attrName: 'id', dir: 'asc' },
 //   ]
 const parseOrder = function ({ actions }) {
-  const actionsA = actions.map(action => parseAction({ action }));
-  return { actions: actionsA };
-};
+  const actionsA = actions.map(action => parseAction({ action }))
+  return { actions: actionsA }
+}
 
 const parseAction = function ({
   action,
   action: { args: { order, ...args } },
 }) {
-  const orderA = parseOrderArg({ order });
+  const orderA = parseOrderArg({ order })
 
-  return { ...action, args: { ...args, order: orderA } };
-};
+  return { ...action, args: { ...args, order: orderA } }
+}
 
 const parseOrderArg = function ({ order }) {
-  if (order === undefined) { return ID_ORDER; }
+  if (order === undefined) { return ID_ORDER }
 
   const orderA = order
     // Remove whitespaces
@@ -33,27 +33,27 @@ const parseOrderArg = function ({ order }) {
     // Multiple attributes sorting
     .split(',')
     // Transform each attribute to an object
-    .map(getPart);
-  const orderB = addIdSorting({ order: orderA });
-  return orderB;
-};
+    .map(getPart)
+  const orderB = addIdSorting({ order: orderA })
+  return orderB
+}
 
 // Transform each part from a string to an object
 // { attrName 'attr', dir 'asc|desc' }
 const getPart = function (part) {
   if (part === '') {
-    const message = 'Argument \'order\' cannot have empty attributes';
-    throwError(message, { reason: 'VALIDATION' });
+    const message = 'Argument \'order\' cannot have empty attributes'
+    throwError(message, { reason: 'VALIDATION' })
   }
 
-  const [, attrName, dirPostfix] = PARTS_POSTFIX_REGEXP.exec(part);
-  const dir = dirPostfix === '-' ? 'desc' : 'asc';
+  const [, attrName, dirPostfix] = PARTS_POSTFIX_REGEXP.exec(part)
+  const dir = dirPostfix === '-' ? 'desc' : 'asc'
 
-  return { attrName, dir };
-};
+  return { attrName, dir }
+}
 
 // Matches attribute+ attribute- or attribute
-const PARTS_POSTFIX_REGEXP = /^([^+-]+)(\+|-)?$/u;
+const PARTS_POSTFIX_REGEXP = /^([^+-]+)(\+|-)?$/u
 
 // `order` always include an id sorting. The reasons:
 //   - it makes output predictable, the same request should always get
@@ -61,18 +61,18 @@ const PARTS_POSTFIX_REGEXP = /^([^+-]+)(\+|-)?$/u;
 //   - the pagination layer needs this predictability
 // If an `id` sorting is already specified, it does not add anything
 const addIdSorting = function ({ order }) {
-  const hasId = order.some(({ attrName }) => attrName === ID_ORDER[0].attrName);
-  if (hasId) { return order; }
+  const hasId = order.some(({ attrName }) => attrName === ID_ORDER[0].attrName)
+  if (hasId) { return order }
 
-  return [...order, ...ID_ORDER];
-};
+  return [...order, ...ID_ORDER]
+}
 
 // 'patch' is always sorted by 'id', i.e. user cannot specify it
 // The reason: it might otherwise iterate over the same models
 // For 'delete', sorting is an unnecessary feature, so we keep it similar to
 // 'patch' command.
-const ID_ORDER = [{ attrName: 'id', dir: 'asc' }];
+const ID_ORDER = [{ attrName: 'id', dir: 'asc' }]
 
 module.exports = {
   parseOrder,
-};
+}

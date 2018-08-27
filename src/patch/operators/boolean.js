@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // `_invert` patch operator
 const invertOperator = {
@@ -7,10 +7,10 @@ const invertOperator = {
   argument: ['empty'],
 
   apply ({ value: attrVal = false }) {
-    return !attrVal;
+    return !attrVal
   },
-};
+}
 
 module.exports = {
   _invert: invertOperator,
-};
+}

@@ -1,20 +1,20 @@
-'use strict';
+'use strict'
 
-const { throwError } = require('../../../../../errors');
-const { flatten } = require('../../../../../utilities');
+const { throwError } = require('../../../../../errors')
+const { flatten } = require('../../../../../utilities')
 
-const { applyDirectives } = require('./directive');
-const { mergeSelectRename } = require('./merge_select');
+const { applyDirectives } = require('./directive')
+const { mergeSelectRename } = require('./merge_select')
 
 // Retrieve `rpcDef.args.select` using GraphQL selection sets
 const parseSelects = function ({ args, ...input }) {
-  const selectRename = parseSelectionSet(input);
+  const selectRename = parseSelectionSet(input)
 
-  const selectA = mergeSelectRename({ selectRename, name: 'select' });
-  const renameA = mergeSelectRename({ selectRename, name: 'rename' });
+  const selectA = mergeSelectRename({ selectRename, name: 'select' })
+  const renameA = mergeSelectRename({ selectRename, name: 'rename' })
 
-  return { ...args, select: selectA, rename: renameA };
-};
+  return { ...args, select: selectA, rename: renameA }
+}
 
 const parseSelectionSet = function ({
   selectionSet,
@@ -22,14 +22,14 @@ const parseSelectionSet = function ({
   variables,
   fragments,
 }) {
-  if (selectionSet == null) { return []; }
+  if (selectionSet == null) { return [] }
 
   const select = selectionSet.selections
     .filter(selection => applyDirectives({ selection, variables }))
-    .map(parseSelection.bind(null, { parentPath, variables, fragments }));
-  const selectA = flatten(select);
-  return selectA;
-};
+    .map(parseSelection.bind(null, { parentPath, variables, fragments }))
+  const selectA = flatten(select)
+  return selectA
+}
 
 const parseSelection = function (
   { parentPath, variables, fragments },
@@ -42,8 +42,8 @@ const parseSelection = function (
     parentPath,
     variables,
     fragments,
-  });
-};
+  })
+}
 
 const parseField = function ({
   fieldName,
@@ -53,26 +53,26 @@ const parseField = function ({
   variables,
   fragments,
 }) {
-  const selectRename = getSelectRename({ parentPath, alias, fieldName });
+  const selectRename = getSelectRename({ parentPath, alias, fieldName })
 
   const childSelectRename = parseSelectionSet({
     selectionSet,
     parentPath: [...parentPath, fieldName],
     variables,
     fragments,
-  });
+  })
 
-  return [selectRename, ...childSelectRename];
-};
+  return [selectRename, ...childSelectRename]
+}
 
 const getSelectRename = function ({ parentPath, alias, fieldName }) {
-  const select = [...parentPath, fieldName].join('.');
-  const outputName = alias && alias.value;
+  const select = [...parentPath, fieldName].join('.')
+  const outputName = alias && alias.value
 
-  const rename = outputName == null ? undefined : `${select}:${outputName}`;
+  const rename = outputName == null ? undefined : `${select}:${outputName}`
 
-  return { select, rename };
-};
+  return { select, rename }
+}
 
 const parseFragmentSpread = function ({
   parentPath,
@@ -80,17 +80,17 @@ const parseFragmentSpread = function ({
   fragments,
   fieldName,
 }) {
-  const fragment = fragments.find(({ name }) => name.value === fieldName);
+  const fragment = fragments.find(({ name }) => name.value === fieldName)
 
   if (fragment === undefined) {
-    const message = `No fragment named '${fieldName}'`;
-    throwError(message, { reason: 'VALIDATION' });
+    const message = `No fragment named '${fieldName}'`
+    throwError(message, { reason: 'VALIDATION' })
   }
 
-  const { selectionSet } = fragment;
+  const { selectionSet } = fragment
 
-  return parseSelectionSet({ selectionSet, parentPath, variables, fragments });
-};
+  return parseSelectionSet({ selectionSet, parentPath, variables, fragments })
+}
 
 const parseInlineFragment = function ({
   selectionSet,
@@ -98,15 +98,15 @@ const parseInlineFragment = function ({
   variables,
   fragments,
 }) {
-  return parseSelectionSet({ selectionSet, parentPath, variables, fragments });
-};
+  return parseSelectionSet({ selectionSet, parentPath, variables, fragments })
+}
 
 const parsers = {
   Field: parseField,
   FragmentSpread: parseFragmentSpread,
   InlineFragment: parseInlineFragment,
-};
+}
 
 module.exports = {
   parseSelects,
-};
+}

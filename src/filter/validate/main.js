@@ -1,12 +1,12 @@
-'use strict';
+'use strict'
 
-const { crawlAttrs } = require('../crawl');
-const { getThrowErr } = require('../error');
-const { getOperator } = require('../operators');
+const { crawlAttrs } = require('../crawl')
+const { getThrowErr } = require('../error')
+const { getOperator } = require('../operators')
 
-const { getDeepAttr } = require('./attr');
-const { getSiblingValue } = require('./siblings');
-const { validators } = require('./validators');
+const { getDeepAttr } = require('./attr')
+const { getSiblingValue } = require('./siblings')
+const { validators } = require('./validators')
 
 // `attrs` must be `{ collname: { attrName:
 // { type: 'string|number|integer|boolean', isArray: true|false } } }`
@@ -17,19 +17,19 @@ const validateFilter = function ({
   prefix = '',
   skipConfigFuncs,
 }) {
-  if (filter == null) { return; }
+  if (filter == null) { return }
 
-  const throwErr = getThrowErr.bind(null, { reason, prefix });
+  const throwErr = getThrowErr.bind(null, { reason, prefix })
 
   crawlAttrs(
     filter,
     nodes => validateAttr({ nodes, attrs, skipConfigFuncs, throwErr }),
-  );
-};
+  )
+}
 
 const validateAttr = function ({ nodes, ...rest }) {
-  nodes.forEach(node => validateNode({ node, operations: nodes, ...rest }));
-};
+  nodes.forEach(node => validateNode({ node, operations: nodes, ...rest }))
+}
 
 const validateNode = function ({
   node,
@@ -39,13 +39,13 @@ const validateNode = function ({
   skipConfigFuncs,
   throwErr,
 }) {
-  const operator = getOperator({ node });
+  const operator = getOperator({ node })
 
-  const attr = getDeepAttr({ attrs, attrName, throwErr });
+  const attr = getDeepAttr({ attrs, attrName, throwErr })
 
-  const throwErrA = throwErr.bind(null, attrName);
+  const throwErrA = throwErr.bind(null, attrName)
 
-  const valueA = getSiblingValue({ node, attrs, throwErr: throwErrA });
+  const valueA = getSiblingValue({ node, attrs, throwErr: throwErrA })
 
   validateValue({
     type,
@@ -55,8 +55,8 @@ const validateNode = function ({
     operations,
     skipConfigFuncs,
     throwErr: throwErrA,
-  });
-};
+  })
+}
 
 const validateValue = function ({
   type,
@@ -68,10 +68,10 @@ const validateValue = function ({
   skipConfigFuncs,
   throwErr,
 }) {
-  if (isConfigFunc({ skipConfigFuncs, value })) { return; }
+  if (isConfigFunc({ skipConfigFuncs, value })) { return }
 
   if (opValidate !== undefined) {
-    opValidate({ type, value, attr, throwErr });
+    opValidate({ type, value, attr, throwErr })
   }
 
   if (attrValidate !== undefined) {
@@ -83,16 +83,16 @@ const validateValue = function ({
         validation: attrValidate,
         operations,
         throwErr,
-      }));
+      }))
   }
-};
+}
 
 // Skip config functions
 // If one wants to validate them, they need to be evaluated first
 const isConfigFunc = function ({ skipConfigFuncs, value }) {
-  return skipConfigFuncs && typeof value === 'function';
-};
+  return skipConfigFuncs && typeof value === 'function'
+}
 
 module.exports = {
   validateFilter,
-};
+}

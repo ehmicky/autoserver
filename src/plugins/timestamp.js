@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
-const { attributesPlugin } = require('./attributes');
+const { attributesPlugin } = require('./attributes')
 
 // Plugin that adds default timestamps to each model:
 //   created_time {string} - set on model creation
 //   updated_time {string} - set on model creation, modification or deletion
 // Are handled by the system, and cannot be overriden by users
 const timestampPlugin = function ({ config }) {
-  return attributesPlugin({ name: 'timestamp', getAttributes, config });
-};
+  return attributesPlugin({ name: 'timestamp', getAttributes, config })
+}
 
 const getAttributes = () => ({
   created_time: {
@@ -29,18 +29,18 @@ const getAttributes = () => ({
       format: 'date-time',
     },
   },
-});
+})
 
 const getCreatedTime = function ({ previousmodel, previousvalue, timestamp }) {
-  if (previousmodel !== undefined) { return previousvalue; }
+  if (previousmodel !== undefined) { return previousvalue }
 
-  return timestamp;
-};
+  return timestamp
+}
 
 const getUpdatedTime = function ({ timestamp }) {
-  return timestamp;
-};
+  return timestamp
+}
 
 module.exports = {
   timestampPlugin,
-};
+}

@@ -1,29 +1,29 @@
-'use strict';
+'use strict'
 
-const { getLimits } = require('../../../limits');
+const { getLimits } = require('../../../limits')
 
-const { getParentActions } = require('./parent_actions');
-const { getInput } = require('./input');
-const { addNestedFilter } = require('./parent_results');
-const { getConcurrentCommand, addPendingResults } = require('./concurrent');
-const { fireReadCommand } = require('./command');
-const { processResults } = require('./results');
-const { paginateResults } = require('./paginate');
+const { getParentActions } = require('./parent_actions')
+const { getInput } = require('./input')
+const { addNestedFilter } = require('./parent_results')
+const { getConcurrentCommand, addPendingResults } = require('./concurrent')
+const { fireReadCommand } = require('./command')
+const { processResults } = require('./results')
+const { paginateResults } = require('./paginate')
 
 // Fire all commands associated with a set of read actions
 const sequenceRead = async function ({ actions, config, mInput }, nextLayer) {
-  const { maxmodels } = getLimits({ config });
+  const { maxmodels } = getLimits({ config })
 
-  const actionsA = getParentActions({ actions });
+  const actionsA = getParentActions({ actions })
 
-  const results = [];
+  const results = []
   await fireReads(
     { ...mInput, maxmodels, actions: actionsA, results, isTopLevel: true },
     nextLayer,
-  );
+  )
 
-  return { results };
-};
+  return { results }
+}
 
 const fireReads = function (
   { actions, results, isTopLevel, ...mInput },
@@ -39,9 +39,9 @@ const fireReads = function (
       mInput,
       results,
       isTopLevel,
-    }));
-  return Promise.all(resultsPromises);
-};
+    }))
+  return Promise.all(resultsPromises)
+}
 
 const fireRead = async function ({
   action,
@@ -58,27 +58,27 @@ const fireRead = async function ({
     commandName,
     nestedParentIds,
     parentIds,
-  } = getInput({ action, results, maxmodels, top });
+  } = getInput({ action, results, maxmodels, top })
 
-  const argsA = addNestedFilter({ args, isTopLevel, parentIds });
+  const argsA = addNestedFilter({ args, isTopLevel, parentIds })
 
   const { concurrentPromises, args: argsB } = getConcurrentCommand({
     args: argsA,
     results,
     collname,
-  });
+  })
 
-  const promise = fireReadCommand({ action, mInput, nextLayer, args: argsB });
+  const promise = fireReadCommand({ action, mInput, nextLayer, args: argsB })
 
   const pendingResults = addPendingResults({
     args: argsB,
     collname,
     results,
     promise,
-  });
+  })
 
   // Parent actions must be run first, so we wait here for `promise`
-  const finishedResults = await Promise.all([promise, ...concurrentPromises]);
+  const finishedResults = await Promise.all([promise, ...concurrentPromises])
 
   processResults({
     results,
@@ -91,16 +91,16 @@ const fireRead = async function ({
     nestedParentIds,
     top,
     collname,
-  });
+  })
 
-  paginateResults({ results, maxmodels, top, isTopLevel, childActions });
+  paginateResults({ results, maxmodels, top, isTopLevel, childActions })
 
   // Recursive call
   // Child actions must start after their parent ends
-  const mInputA = { ...mInput, actions: childActions, results };
-  await fireReads(mInputA, nextLayer);
-};
+  const mInputA = { ...mInput, actions: childActions, results }
+  await fireReads(mInputA, nextLayer)
+}
 
 module.exports = {
   sequenceRead,
-};
+}

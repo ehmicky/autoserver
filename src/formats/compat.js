@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { transtype, recurseMap } = require('../utilities');
+const { transtype, recurseMap } = require('../utilities')
 
 // All formats must be JSON-compatible.
 // Depending on format.jsonCompat:
@@ -15,48 +15,48 @@ const applyCompatParse = function ({ jsonCompat, content }) {
   return jsonCompat.reduce(
     (contentA, compatType) => jsonCompatParse[compatType](contentA),
     content,
-  );
-};
+  )
+}
 
 const applyCompatSerialize = function ({ jsonCompat, content }) {
   return jsonCompat.reduce(
     (contentA, compatType) => jsonCompatSerialize[compatType](contentA),
     content,
-  );
-};
+  )
+}
 
 const subsetParse = function (value) {
-  return recurseMap(value, transtype);
-};
+  return recurseMap(value, transtype)
+}
 
 const subsetSerialize = function (value) {
-  return recurseMap(value, setToString);
-};
+  return recurseMap(value, setToString)
+}
 
 const setToString = function (val) {
   // Strings are kept as is, unless they would be parsed back to a number,
   // boolean or null
-  const noJsonNeeded = typeof val === 'string' && transtype(val) === val;
-  if (noJsonNeeded) { return val; }
+  const noJsonNeeded = typeof val === 'string' && transtype(val) === val
+  if (noJsonNeeded) { return val }
 
-  return JSON.stringify(val);
-};
+  return JSON.stringify(val)
+}
 
 const supersetParseStringify = function (value) {
-  return JSON.parse(JSON.stringify(value));
-};
+  return JSON.parse(JSON.stringify(value))
+}
 
 const jsonCompatParse = {
   subset: subsetParse,
   superset: supersetParseStringify,
-};
+}
 
 const jsonCompatSerialize = {
   subset: subsetSerialize,
   superset: supersetParseStringify,
-};
+}
 
 module.exports = {
   applyCompatParse,
   applyCompatSerialize,
-};
+}

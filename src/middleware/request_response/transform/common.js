@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const { mapValues, pickBy } = require('../../../utilities');
-const { runConfigFunc, getModelParams } = require('../../../functions');
+const { mapValues, pickBy } = require('../../../utilities')
+const { runConfigFunc, getModelParams } = require('../../../functions')
 
 // Handles `attr.value`, `attr.default` and `attr.readonly`
 const handleTransforms = function ({
@@ -15,11 +15,11 @@ const handleTransforms = function ({
   config: { shortcuts },
   mInput,
 }) {
-  if (newData === undefined) { return; }
+  if (newData === undefined) { return }
 
-  const transforms = shortcuts[mapName][collname];
+  const transforms = shortcuts[mapName][collname]
 
-  if (preCondition && !preCondition(mInput)) { return; }
+  if (preCondition && !preCondition(mInput)) { return }
 
   const newDataA = newData.map((newDatum, index) => transformDatum({
     condition,
@@ -28,34 +28,34 @@ const handleTransforms = function ({
     currentDatum: currentData[index],
     transforms,
     mInput,
-  }));
+  }))
 
-  return { args: { ...args, newData: newDataA } };
-};
+  return { args: { ...args, newData: newDataA } }
+}
 
 const transformDatum = function ({ newDatum, transforms, ...rest }) {
-  const transformsA = filterTransforms({ newDatum, transforms, ...rest });
+  const transformsA = filterTransforms({ newDatum, transforms, ...rest })
 
   const newDatumA = mapValues(
     transformsA,
     (transform, attrName) =>
       transformAttr({ newDatum, attrName, transform, ...rest }),
-  );
+  )
 
-  const newDatumB = { ...newDatum, ...newDatumA };
+  const newDatumB = { ...newDatum, ...newDatumA }
 
-  return newDatumB;
-};
+  return newDatumB
+}
 
 const filterTransforms = function ({ condition, transforms, ...rest }) {
-  if (condition === undefined) { return transforms; }
+  if (condition === undefined) { return transforms }
 
   const transformsA = pickBy(
     transforms,
     (transform, attrName) => filterTransform({ condition, attrName, ...rest }),
-  );
-  return transformsA;
-};
+  )
+  return transformsA
+}
 
 const filterTransform = function ({
   condition,
@@ -63,9 +63,9 @@ const filterTransform = function ({
   currentDatum: previousmodel,
   attrName,
 }) {
-  const params = getModelParams({ model, previousmodel, attrName });
-  return condition(params);
-};
+  const params = getModelParams({ model, previousmodel, attrName })
+  return condition(params)
+}
 
 const transformAttr = function ({
   setAttr,
@@ -75,18 +75,18 @@ const transformAttr = function ({
   transform,
   mInput,
 }) {
-  const params = getModelParams({ model, previousmodel, attrName });
+  const params = getModelParams({ model, previousmodel, attrName })
 
-  const transformA = runConfigFunc({ configFunc: transform, mInput, params });
+  const transformA = runConfigFunc({ configFunc: transform, mInput, params })
 
-  const newValA = setAttr({ transform: transformA, ...params });
+  const newValA = setAttr({ transform: transformA, ...params })
 
   // Normalize `null` to `undefined`
-  const newValB = newValA === null ? undefined : newValA;
+  const newValB = newValA === null ? undefined : newValA
 
-  return newValB;
-};
+  return newValB
+}
 
 module.exports = {
   handleTransforms,
-};
+}

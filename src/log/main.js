@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
-const { addErrorHandler, normalizeError, rethrowError } = require('../errors');
+const { addErrorHandler, normalizeError, rethrowError } = require('../errors')
 
-const { getLogParams } = require('./params');
-const { LEVELS, DEFAULT_LOGGER } = require('./constants');
-const { getLog } = require('./get');
+const { getLogParams } = require('./params')
+const { LEVELS, DEFAULT_LOGGER } = require('./constants')
+const { getLog } = require('./get')
 
 // Log some event, including printing to console
 // `config.log` might be `undefined` if the error happened at startup time.
@@ -13,14 +13,14 @@ const logEvent = async function ({
   config: { log: logConf = [DEFAULT_LOGGER] },
   ...rest
 }) {
-  const { log, configFuncInput } = getLogParams({ config, ...rest });
+  const { log, configFuncInput } = getLogParams({ config, ...rest })
 
   // Can fire several logAdapters at the same time
   const promises = logConf
-    .map(logConfA => fireLogger({ logConf: logConfA, log, configFuncInput }));
+    .map(logConfA => fireLogger({ logConf: logConfA, log, configFuncInput }))
   // We make sure this function returns `undefined`
-  await Promise.all(promises);
-};
+  await Promise.all(promises)
+}
 
 const fireLogger = function ({
   logConf: { provider, opts = {}, level },
@@ -28,56 +28,56 @@ const fireLogger = function ({
   log: { event },
   configFuncInput,
 }) {
-  const noLog = !shouldLog({ level, log });
-  if (noLog) { return; }
+  const noLog = !shouldLog({ level, log })
+  if (noLog) { return }
 
-  const reportFunc = getReportFunc({ event, provider });
-  if (reportFunc === undefined) { return; }
+  const reportFunc = getReportFunc({ event, provider })
+  if (reportFunc === undefined) { return }
 
-  return reportFunc({ log, opts, configFuncInput });
-};
+  return reportFunc({ log, opts, configFuncInput })
+}
 
 // Can filter verbosity with `config.log.level`
 // This won't work for very early startup errors since config is not
 // parsed yet.
 const shouldLog = function ({ level, log }) {
   return level !== 'silent' &&
-    LEVELS.indexOf(log.level) >= LEVELS.indexOf(level);
-};
+    LEVELS.indexOf(log.level) >= LEVELS.indexOf(level)
+}
 
 const getReportFunc = function ({ event, provider }) {
   // `perf` events are handled differently
-  const funcName = event === 'perf' ? 'reportPerf' : 'report';
-  const logProvider = getLog(provider);
-  const reportFunc = logProvider[funcName];
-  return reportFunc;
-};
+  const funcName = event === 'perf' ? 'reportPerf' : 'report'
+  const logProvider = getLog(provider)
+  const reportFunc = logProvider[funcName]
+  return reportFunc
+}
 
 const logEventHandler = function (error, { config, event }) {
-  const errorA = normalizeError({ error, reason: 'ENGINE' });
-  const params = { error: errorA };
+  const errorA = normalizeError({ error, reason: 'ENGINE' })
+  const params = { error: errorA }
   // Give up if error handler fails
   // I.e. we do not need to `await` this
-  silentLogEvent({ event: 'failure', phase: 'process', config, params });
+  silentLogEvent({ event: 'failure', phase: 'process', config, params })
 
   // Failure events are at the top of code stacks. They should not throw.
-  if (event === 'failure') { return; }
+  if (event === 'failure') { return }
 
-  rethrowError(error);
-};
+  rethrowError(error)
+}
 
-const eLogEvent = addErrorHandler(logEvent, logEventHandler);
+const eLogEvent = addErrorHandler(logEvent, logEventHandler)
 
 // This means there is a bug in the logging code itself
 const safetyHandler = function (error) {
-  const errorA = normalizeError({ error, reason: 'ENGINE' });
+  const errorA = normalizeError({ error, reason: 'ENGINE' })
   // eslint-disable-next-line no-console, no-restricted-globals
-  console.error(errorA.message, errorA);
-};
+  console.error(errorA.message, errorA)
+}
 
-const silentLogEvent = addErrorHandler(logEvent, safetyHandler);
+const silentLogEvent = addErrorHandler(logEvent, safetyHandler)
 
 module.exports = {
   logEvent: eLogEvent,
   safetyHandler,
-};
+}

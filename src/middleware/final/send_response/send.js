@@ -1,11 +1,11 @@
-'use strict';
+'use strict'
 
-const { getReason } = require('../../../errors');
-const { DEFAULT_FORMAT, DEFAULT_RAW_FORMAT } = require('../../../formats');
+const { getReason } = require('../../../errors')
+const { DEFAULT_FORMAT, DEFAULT_RAW_FORMAT } = require('../../../formats')
 
-const { getContentType } = require('./types');
-const { serializeContent } = require('./serialize');
-const { compressContent } = require('./compress');
+const { getContentType } = require('./types')
+const { serializeContent } = require('./serialize')
+const { compressContent } = require('./compress')
 
 // Set basic payload headers, then delegate to protocol handler
 const send = async function ({
@@ -19,9 +19,9 @@ const send = async function ({
   topargs,
   error,
 }) {
-  const formatA = normalizeFormat({ format });
+  const formatA = normalizeFormat({ format })
 
-  const contentType = getContentType({ format: formatA, type });
+  const contentType = getContentType({ format: formatA, type })
 
   const contentA = serializeContent({
     format: formatA,
@@ -29,7 +29,7 @@ const send = async function ({
     type,
     topargs,
     error,
-  });
+  })
 
   const {
     content: contentB,
@@ -39,9 +39,9 @@ const send = async function ({
     compressResponse,
     type,
     contentType,
-  });
+  })
 
-  const reason = getReason(error);
+  const reason = getReason(error)
 
   return protocolAdapter.send({
     content: contentB,
@@ -51,8 +51,8 @@ const send = async function ({
     compressResponse: compressResponseA,
     reason,
     rpc,
-  });
-};
+  })
+}
 
 // If `raw` format was used in input, JSON should be used in output
 // Also if a wrong format was parsed during protocolInput and added to mInput,
@@ -60,12 +60,12 @@ const send = async function ({
 const normalizeFormat = function ({ format }) {
   const isInvalidFormat = format === undefined ||
     typeof format === 'string' ||
-    format.name === DEFAULT_RAW_FORMAT.name;
-  if (!isInvalidFormat) { return format; }
+    format.name === DEFAULT_RAW_FORMAT.name
+  if (!isInvalidFormat) { return format }
 
-  return DEFAULT_FORMAT;
-};
+  return DEFAULT_FORMAT
+}
 
 module.exports = {
   send,
-};
+}

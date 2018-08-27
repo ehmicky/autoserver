@@ -1,13 +1,13 @@
-'use strict';
+'use strict'
 
-const { wrapAdapters } = require('../adapters');
+const { wrapAdapters } = require('../adapters')
 
-const adapters = require('./adapters');
-const { connectDatabase } = require('./connect');
+const adapters = require('./adapters')
+const { connectDatabase } = require('./connect')
 const {
   validateStartupFeatures,
   validateRuntimeFeatures,
-} = require('./features');
+} = require('./features')
 
 const members = [
   'name',
@@ -15,21 +15,21 @@ const members = [
   'idName',
   'features',
   'getDefaultId',
-];
+]
 
 const methods = {
   connect: connectDatabase,
   validateStartupFeatures,
   validateRuntimeFeatures,
-};
+}
 
 const databaseAdapters = wrapAdapters({
   adapters,
   members,
   methods,
   reason: 'DATABASE',
-});
+})
 
 module.exports = {
   databaseAdapters,
-};
+}

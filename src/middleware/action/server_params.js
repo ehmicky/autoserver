@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { getServerParams } = require('../../functions');
+const { getServerParams } = require('../../functions')
 
 // Bind server-specific parameters with their parameters
 // This middleware needs to be:
@@ -11,10 +11,10 @@ const { getServerParams } = require('../../functions');
 //    For example `collection` should not be available to server-specific
 //    parameters.
 const bindServerParams = function ({ config, mInput }) {
-  const serverParams = getServerParams({ config, mInput });
-  return { serverParams };
-};
+  const serverParams = getServerParams({ config, mInput })
+  return { serverParams }
+}
 
 module.exports = {
   bindServerParams,
-};
+}

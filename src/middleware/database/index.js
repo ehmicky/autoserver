@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   ...require('./pick_adapter'),
@@ -7,4 +7,4 @@ module.exports = {
   ...require('./execute'),
 
   ...require('./response'),
-};
+}

@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const { report } = require('./report');
-const { reportPerf } = require('./report_perf');
+const { report } = require('./report')
+const { reportPerf } = require('./report_perf')
 
 const handler = {
   name: 'debug',
@@ -9,6 +9,6 @@ const handler = {
   description: 'Log handler printing on the console, meant for debugging',
   report,
   reportPerf,
-};
+}
 
-module.exports = handler;
+module.exports = handler

@@ -1,18 +1,18 @@
-'use strict';
+'use strict'
 
-const { getRequestHandler } = require('../middleware');
-const { loadConfig } = require('../config');
+const { getRequestHandler } = require('../middleware')
+const { loadConfig } = require('../config')
 
 const {
   startStartupPerf,
   stopStartupPerf,
   reportStartupPerf,
-} = require('./perf');
-const { processErrorHandler } = require('./process');
-const { connectToDatabases } = require('./database');
-const { setupGracefulExit } = require('./exit');
-const { launchProtocols } = require('./launch');
-const { emitStartEvent } = require('./start_event');
+} = require('./perf')
+const { processErrorHandler } = require('./process')
+const { connectToDatabases } = require('./database')
+const { setupGracefulExit } = require('./exit')
+const { launchProtocols } = require('./launch')
+const { emitStartEvent } = require('./start_event')
 
 const startupSteps = [
   // Start monitoring main startup time
@@ -35,8 +35,8 @@ const startupSteps = [
   emitStartEvent,
   // Report startup performance monitoring
   reportStartupPerf,
-];
+]
 
 module.exports = {
   startupSteps,
-};
+}

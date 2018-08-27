@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
-const { throwPb } = require('../../errors');
-const { getLimits } = require('../../limits');
+const { throwPb } = require('../../errors')
+const { getLimits } = require('../../limits')
 
-const { validateString } = require('./validate');
+const { validateString } = require('./validate')
 
 const parseOrigin = function ({
   protocolAdapter,
@@ -12,28 +12,28 @@ const parseOrigin = function ({
   config,
 }) {
   // Only used to validate URL length
-  const url = getUrl({ specific });
+  const url = getUrl({ specific })
 
-  validateString(url, 'url', protocolAdapter);
-  validateUrl({ url, config });
+  validateString(url, 'url', protocolAdapter)
+  validateUrl({ url, config })
 
-  const origin = getOrigin({ specific });
+  const origin = getOrigin({ specific })
 
-  validateString(origin, 'origin', protocolAdapter);
+  validateString(origin, 'origin', protocolAdapter)
 
-  return { origin };
-};
+  return { origin }
+}
 
 const validateUrl = function ({ url, config }) {
-  const { maxUrlLength } = getLimits({ config });
-  if (url.length <= maxUrlLength) { return; }
+  const { maxUrlLength } = getLimits({ config })
+  if (url.length <= maxUrlLength) { return }
 
   throwPb({
     reason: 'URL_LIMIT',
     extra: { value: url.length, limit: maxUrlLength },
-  });
-};
+  })
+}
 
 module.exports = {
   parseOrigin,
-};
+}

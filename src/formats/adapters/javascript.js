@@ -1,22 +1,22 @@
-'use strict';
+'use strict'
 
-const requireFromString = require('require-from-string');
+const requireFromString = require('require-from-string')
 
 // Parses a JavaScript file
 const parse = function ({ content, path }) {
   if (path === undefined) {
-    return requireFromString(content);
+    return requireFromString(content)
   }
 
   // eslint-disable-next-line import/no-dynamic-require
-  return require(path);
-};
+  return require(path)
+}
 
 // Serializes a JavaScript file
 const serialize = function ({ content }) {
-  const json = JSON.stringify(content, null, 2);
-  return `module.exports = ${json}`;
-};
+  const json = JSON.stringify(content, null, 2)
+  return `module.exports = ${json}`
+}
 
 module.exports = {
   name: 'javascript',
@@ -35,4 +35,4 @@ module.exports = {
   jsonCompat: ['superset'],
   parse,
   serialize,
-};
+}

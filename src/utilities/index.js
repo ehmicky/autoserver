@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   ...require('./functional'),
@@ -8,4 +8,4 @@ module.exports = {
   ...require('./transtype'),
   ...require('./base64'),
   ...require('./sums'),
-};
+}

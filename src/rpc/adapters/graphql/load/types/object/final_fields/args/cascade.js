@@ -1,16 +1,16 @@
-'use strict';
+'use strict'
 
-const { GraphQLString } = require('graphql');
+const { GraphQLString } = require('graphql')
 
 // `cascade` argument
 const getCascadeArgument = function ({ command }) {
-  const hasCascade = CASCADE_COMMANDS.includes(command);
-  if (!hasCascade) { return {}; }
+  const hasCascade = CASCADE_COMMANDS.includes(command)
+  if (!hasCascade) { return {} }
 
-  return CASCADE_ARGS;
-};
+  return CASCADE_ARGS
+}
 
-const CASCADE_COMMANDS = ['delete'];
+const CASCADE_COMMANDS = ['delete']
 
 const CASCADE_ARGS = {
   cascade: {
@@ -19,8 +19,8 @@ const CASCADE_ARGS = {
 Each attribute can use dot-delimited notation to specify deeply nested collections.
 Several attributes can specified, by using a comma-separated list.`,
   },
-};
+}
 
 module.exports = {
   getCascadeArgument,
-};
+}

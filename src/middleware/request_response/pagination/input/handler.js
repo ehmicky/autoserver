@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
-const { willPaginate } = require('../condition');
+const { willPaginate } = require('../condition')
 
-const { getToken } = require('./token');
-const { validatePaginationInput } = require('./validation');
-const { getPaginationInput } = require('./input');
+const { getToken } = require('./token')
+const { validatePaginationInput } = require('./validation')
+const { getPaginationInput } = require('./input')
 
 // Pagination input middleware.
 // Supports several kinds of pagination:
@@ -36,17 +36,17 @@ const { getPaginationInput } = require('./input');
 //   order                       - same as `filter` but for `order`
 // Add pagination-related metadata in response at `metadata.pages`
 const handlePaginationInput = function ({ args, topargs, config, ...rest }) {
-  if (!willPaginate({ args, config, ...rest })) { return; }
+  if (!willPaginate({ args, config, ...rest })) { return }
 
-  const token = getToken({ args });
+  const token = getToken({ args })
 
-  validatePaginationInput({ args, topargs, token });
+  validatePaginationInput({ args, topargs, token })
 
-  const paginationInput = getPaginationInput({ args, token, config });
+  const paginationInput = getPaginationInput({ args, token, config })
 
-  return { args: { ...args, ...paginationInput } };
-};
+  return { args: { ...args, ...paginationInput } }
+}
 
 module.exports = {
   handlePaginationInput,
-};
+}

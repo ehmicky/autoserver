@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const identity = val => val;
+const identity = val => val
 
 module.exports = {
   identity,
-};
+}

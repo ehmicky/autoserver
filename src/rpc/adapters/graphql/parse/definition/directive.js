@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const { throwError, addGenErrorHandler } = require('../../../../../errors');
-const { validateDuplicates } = require('../duplicates');
+const { throwError, addGenErrorHandler } = require('../../../../../errors')
+const { validateDuplicates } = require('../duplicates')
 
 // Apply GraphQL directives @include and @skip
 const applyDirectives = function ({
@@ -9,11 +9,11 @@ const applyDirectives = function ({
   variables,
 }) {
   // GraphQL spec 5.6.3 'Directives Are Unique Per Location'
-  validateDuplicates({ nodes: directives, type: 'directives' });
+  validateDuplicates({ nodes: directives, type: 'directives' })
 
   return directives
-    .every(directive => applyDirective({ directive, variables }));
-};
+    .every(directive => applyDirective({ directive, variables }))
+}
 
 const applyDirective = function ({
   directive: {
@@ -23,35 +23,35 @@ const applyDirective = function ({
   variables,
 }) {
   if (directiveName === 'include') {
-    return eCheckDirective({ variables, args, directiveName });
+    return eCheckDirective({ variables, args, directiveName })
   }
 
   if (directiveName === 'skip') {
-    return !eCheckDirective({ variables, args, directiveName });
+    return !eCheckDirective({ variables, args, directiveName })
   }
 
-  const message = `Unknown directive: '${directiveName}'`;
-  throwError(message, { reason: 'VALIDATION' });
-};
+  const message = `Unknown directive: '${directiveName}'`
+  throwError(message, { reason: 'VALIDATION' })
+}
 
 const checkDirective = function ({ variables, args }) {
   if (args.length !== 1) {
-    const message = 'Incorrect number of arguments';
-    throwError(message, { reason: 'VALIDATION' });
+    const message = 'Incorrect number of arguments'
+    throwError(message, { reason: 'VALIDATION' })
   }
 
   const [{
     name: { value: ifArgName } = {},
     value: { kind: ifKind, value: ifValue, name: { value: ifValueName } = {} },
-  }] = args;
+  }] = args
 
   if (ifArgName !== 'if') {
-    const message = 'Invalid argument';
-    throwError(message, { reason: 'VALIDATION' });
+    const message = 'Invalid argument'
+    throwError(message, { reason: 'VALIDATION' })
   }
 
-  return checkSpecificDirective({ ifKind, ifValue, variables, ifValueName });
-};
+  return checkSpecificDirective({ ifKind, ifValue, variables, ifValueName })
+}
 
 const checkSpecificDirective = function ({
   ifKind,
@@ -59,41 +59,41 @@ const checkSpecificDirective = function ({
   variables,
   ifValueName,
 }) {
-  const directivesChecker = directivesCheckers[ifKind];
+  const directivesChecker = directivesCheckers[ifKind]
 
   if (!directivesChecker) {
-    const message = 'Argument must be a variable or a boolean value.';
-    throwError(message, { reason: 'VALIDATION' });
+    const message = 'Argument must be a variable or a boolean value.'
+    throwError(message, { reason: 'VALIDATION' })
   }
 
-  return directivesChecker({ ifValue, variables, ifValueName });
-};
+  return directivesChecker({ ifValue, variables, ifValueName })
+}
 
 const eCheckDirective = addGenErrorHandler(checkDirective, {
   message: ({ directiveName }) => `Error parsing directive '${directiveName}'`,
   reason: 'VALIDATION',
-});
+})
 
 const checkBooleanDirective = function ({ ifValue }) {
-  return ifValue;
-};
+  return ifValue
+}
 
 const checkVariableDirective = function ({ variables, ifValueName }) {
-  const evaledValue = variables[ifValueName];
+  const evaledValue = variables[ifValueName]
 
   if (typeof evaledValue !== 'boolean') {
-    const message = 'Invalid variable';
-    throwError(message, { reason: 'VALIDATION' });
+    const message = 'Invalid variable'
+    throwError(message, { reason: 'VALIDATION' })
   }
 
-  return evaledValue;
-};
+  return evaledValue
+}
 
 const directivesCheckers = {
   BooleanValue: checkBooleanDirective,
   Variable: checkVariableDirective,
-};
+}
 
 module.exports = {
   applyDirectives,
-};
+}

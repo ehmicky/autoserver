@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
 // Modify `args.order`
 const renameOrder = function ({ value, newIdName, oldIdName }) {
-  return value.map(part => renameOrderPart({ part, newIdName, oldIdName }));
-};
+  return value.map(part => renameOrderPart({ part, newIdName, oldIdName }))
+}
 
 const renameOrderPart = function ({
   part,
@@ -11,11 +11,11 @@ const renameOrderPart = function ({
   newIdName,
   oldIdName,
 }) {
-  if (attrName !== oldIdName) { return part; }
+  if (attrName !== oldIdName) { return part }
 
-  return { ...part, attrName: newIdName };
-};
+  return { ...part, attrName: newIdName }
+}
 
 module.exports = {
   renameOrder,
-};
+}

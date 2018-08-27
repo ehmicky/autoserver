@@ -1,11 +1,11 @@
-'use strict';
+'use strict'
 
-const { getLimits } = require('../../../limits');
-const { addActions } = require('../add_actions');
+const { getLimits } = require('../../../limits')
+const { addActions } = require('../add_actions')
 
-const { getDataPath } = require('./data_path');
-const { parseData } = require('./data');
-const { parseActions } = require('./actions');
+const { getDataPath } = require('./data_path')
+const { parseData } = require('./data')
+const { parseActions } = require('./actions')
 
 // Parse `args.data` into write `actions`
 const parseDataArg = function ({ actions, ...rest }) {
@@ -14,9 +14,9 @@ const parseDataArg = function ({ actions, ...rest }) {
     filter: ['data'],
     mapper: getDataAction,
     ...rest,
-  });
-  return { actions: actionsA };
-};
+  })
+  return { actions: actionsA }
+}
 
 const getDataAction = function ({
   top,
@@ -27,10 +27,10 @@ const getDataAction = function ({
   mInput,
   dbAdapters,
 }) {
-  const { maxAttrValueSize } = getLimits({ config });
+  const { maxAttrValueSize } = getLimits({ config })
 
   // Top-level `dataPaths`
-  const dataPaths = getDataPath({ data, commandpath });
+  const dataPaths = getDataPath({ data, commandpath })
 
   const dataA = parseData({
     data,
@@ -42,7 +42,7 @@ const getDataAction = function ({
     config,
     userDefaultsMap,
     dbAdapters,
-  });
+  })
 
   const newActions = parseActions({
     data: dataA,
@@ -50,11 +50,11 @@ const getDataAction = function ({
     dataPaths,
     top,
     config,
-  });
+  })
 
-  return newActions;
-};
+  return newActions
+}
 
 module.exports = {
   parseDataArg,
-};
+}

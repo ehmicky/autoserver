@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-const { difference } = require('../../utilities');
-const { throwPb } = require('../../errors');
-const { extractSimpleIds, getSimpleFilter } = require('../../filter');
+const { difference } = require('../../utilities')
+const { throwPb } = require('../../errors')
+const { extractSimpleIds, getSimpleFilter } = require('../../filter')
 
 // Check if any `id` was not found (404) or was unauthorized (403)
 const validateMissingIds = function (
@@ -17,11 +17,11 @@ const validateMissingIds = function (
   },
   nextLayer,
 ) {
-  const noValidate = doesNotValidate({ command, top, commandpath });
-  if (noValidate) { return; }
+  const noValidate = doesNotValidate({ command, top, commandpath })
+  if (noValidate) { return }
 
-  const ids = getMissingIds({ filter, preFilter, response });
-  if (ids.length === 0) { return; }
+  const ids = getMissingIds({ filter, preFilter, response })
+  if (ids.length === 0) { return }
 
   return reportProblem({
     top,
@@ -30,8 +30,8 @@ const validateMissingIds = function (
     ids,
     nextLayer,
     mInput,
-  });
-};
+  })
+}
 
 const doesNotValidate = function ({ command, top, commandpath }) {
   // Other commands trigger this middleware during their `currentData` actions
@@ -43,16 +43,16 @@ const doesNotValidate = function ({ command, top, commandpath }) {
     //    predictable for the client
     //  - it makes less sense from semantic point of view
     //  - pagination prevents guessing missing ids
-    (FILTER_MANY_COMMANDS.includes(top.command.name) && commandpath === '');
-};
+    (FILTER_MANY_COMMANDS.includes(top.command.name) && commandpath === '')
+}
 
 // Commands with a `filter` argument
-const FILTER_MANY_COMMANDS = ['findMany', 'patchMany', 'deleteMany'];
+const FILTER_MANY_COMMANDS = ['findMany', 'patchMany', 'deleteMany']
 
 // Retrieve missing models ids
 const getMissingIds = function ({ filter, preFilter, response: { data } }) {
-  const filterA = preFilter === undefined ? filter : preFilter;
-  const filterIds = extractSimpleIds({ filter: filterA });
+  const filterA = preFilter === undefined ? filter : preFilter
+  const filterIds = extractSimpleIds({ filter: filterA })
 
   // This middleware can be checked only when filtering only by `id`.
   // Checking complex `args.filter` is tricky. It is hard to know whether a
@@ -62,27 +62,27 @@ const getMissingIds = function ({ filter, preFilter, response: { data } }) {
   // This means that in general, findMany|deleteMany|updateMany top-level
   // actions won't use this middleware, unless they are using very simple
   // `args.filter` like `{ id: { _in: ['4', '5'] } }`
-  if (filterIds === undefined) { return []; }
+  if (filterIds === undefined) { return [] }
 
-  const responseIds = data.map(({ id }) => id);
-  const ids = filterIds.filter(id => !responseIds.includes(id));
+  const responseIds = data.map(({ id }) => id)
+  const ids = filterIds.filter(id => !responseIds.includes(id))
 
-  return ids;
-};
+  return ids
+}
 
 // Check whether this is because the model does not exist,
 // or because it is not authorized
 const reportProblem = async function ({ top, clientCollname, ...rest }) {
-  const idsA = await checkAuthorization({ top, clientCollname, ...rest });
+  const idsA = await checkAuthorization({ top, clientCollname, ...rest })
 
   // `upsert` commands might throw authorization errors, but not model not found
-  if (top.command.type === 'upsert') { return; }
+  if (top.command.type === 'upsert') { return }
 
   throwPb({
     reason: 'NOT_FOUND',
     extra: { collection: clientCollname, ids: idsA },
-  });
-};
+  })
+}
 
 // Try the same database query, but this time without the authorization filter,
 // and only on the missing models.
@@ -96,25 +96,25 @@ const checkAuthorization = async function ({
   mInput,
   mInput: { args },
 }) {
-  if (preFilter === undefined) { return ids; }
+  if (preFilter === undefined) { return ids }
 
-  const filterA = getSimpleFilter({ ids });
-  const mInputA = { ...mInput, args: { ...args, filter: filterA } };
+  const filterA = getSimpleFilter({ ids })
+  const mInputA = { ...mInput, args: { ...args, filter: filterA } }
 
-  const { dbData } = await nextLayer(mInputA, 'database');
+  const { dbData } = await nextLayer(mInputA, 'database')
 
-  const responseIds = dbData.map(({ id }) => id);
-  const missingIds = difference(ids, responseIds);
+  const responseIds = dbData.map(({ id }) => id)
+  const missingIds = difference(ids, responseIds)
 
-  if (missingIds.length !== 0) { return missingIds; }
+  if (missingIds.length !== 0) { return missingIds }
 
   throwPb({
     reason: 'AUTHORIZATION',
     extra: { collection: clientCollname, ids },
     messageInput: { top },
-  });
-};
+  })
+}
 
 module.exports = {
   validateMissingIds,
-};
+}

@@ -1,31 +1,31 @@
-'use strict';
+'use strict'
 
-const { throwPb } = require('../../errors');
-const { METHODS } = require('../constants');
+const { throwPb } = require('../../errors')
+const { METHODS } = require('../constants')
 
-const { validateString } = require('./validate');
+const { validateString } = require('./validate')
 
 const parseMethod = function ({
   protocolAdapter,
   protocolAdapter: { getMethod },
   specific,
 }) {
-  if (getMethod === undefined) { return; }
+  if (getMethod === undefined) { return }
 
-  const method = getMethod({ specific });
+  const method = getMethod({ specific })
 
-  validateString(method, 'method', protocolAdapter);
-  validateMethod({ method });
+  validateString(method, 'method', protocolAdapter)
+  validateMethod({ method })
 
-  return { method };
-};
+  return { method }
+}
 
 const validateMethod = function ({ method }) {
-  if (method === undefined || METHODS.includes(method)) { return; }
+  if (method === undefined || METHODS.includes(method)) { return }
 
-  throwPb({ reason: 'METHOD', extra: { value: method, suggestions: METHODS } });
-};
+  throwPb({ reason: 'METHOD', extra: { value: method, suggestions: METHODS } })
+}
 
 module.exports = {
   parseMethod,
-};
+}

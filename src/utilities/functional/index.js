@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   ...require('./type'),
@@ -25,4 +25,4 @@ module.exports = {
   ...require('./promise'),
   // eslint-disable-next-line import/max-dependencies
   ...require('./keep_props'),
-};
+}

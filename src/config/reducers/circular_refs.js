@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
-const { mapValues, isObjectType } = require('../../utilities');
-const { throwError } = require('../../errors');
+const { mapValues, isObjectType } = require('../../utilities')
+const { throwError } = require('../../errors')
 
 // There should be no circular references.
 // They may be introduced by e.g. dereferencing JSON references `$ref`
 // or YAML anchors `*var`
 const validateCircularRefs = function ({ config }) {
-  validateCircRefs(config);
-};
+  validateCircRefs(config)
+}
 
 const validateCircRefs = function (
   value,
@@ -18,31 +18,31 @@ const validateCircRefs = function (
   } = {},
 ) {
   if (pathSet.has(value)) {
-    const message = `The configuration cannot contain circular references: '${path}'`;
-    throwError(message, { reason: 'CONFIG_VALIDATION' });
+    const message = `The configuration cannot contain circular references: '${path}'`
+    throwError(message, { reason: 'CONFIG_VALIDATION' })
   }
 
-  if (!isObjectType(value)) { return; }
+  if (!isObjectType(value)) { return }
 
-  walkCircularRefs(value, { path, pathSet });
-};
+  walkCircularRefs(value, { path, pathSet })
+}
 
 const walkCircularRefs = function (value, { path, pathSet }) {
-  pathSet.add(value);
+  pathSet.add(value)
 
   const iterator = Array.isArray(value)
     ? value.map.bind(value)
-    : mapValues.bind(null, value);
+    : mapValues.bind(null, value)
   iterator((child, childKey) => {
     const childPath = Array.isArray(value)
       ? `${path}[${childKey}]`
-      : `${path}.${childKey}`;
-    validateCircRefs(child, { path: childPath, pathSet });
-  });
+      : `${path}.${childKey}`
+    validateCircRefs(child, { path: childPath, pathSet })
+  })
 
-  pathSet.delete(value);
-};
+  pathSet.delete(value)
+}
 
 module.exports = {
   validateCircularRefs,
-};
+}

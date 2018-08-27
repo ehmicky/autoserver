@@ -1,23 +1,23 @@
-'use strict';
+'use strict'
 
 const {
   rethrowError,
   normalizeError,
   addErrorHandler,
   getProps,
-} = require('../../errors');
-const { omit } = require('../../utilities');
-const { safetyHandler } = require('../../log');
+} = require('../../errors')
+const { omit } = require('../../utilities')
+const { safetyHandler } = require('../../log')
 
-const { errorHandler } = require('./error_handler');
+const { errorHandler } = require('./error_handler')
 
 // Middleware function error handler, which just rethrow the error,
 // and adds the current `mInput` as information by setting `error.mInput`
 const fireMiddlewareHandler = function (error, ...args) {
   // Skip `nextLayer` and `reqState` arguments
-  const errorA = error.mInput ? error : addMInput(error, args[2]);
-  rethrowError(errorA);
-};
+  const errorA = error.mInput ? error : addMInput(error, args[2])
+  rethrowError(errorA)
+}
 
 // Main layers error handler
 const fireMainLayersHandler = async function (
@@ -25,48 +25,48 @@ const fireMainLayersHandler = async function (
   error,
   { allLayers, reqState },
 ) {
-  const mInput = getErrorMInput({ error });
+  const mInput = getErrorMInput({ error })
 
   // Only fire main error handler on server-side errors
-  const { status } = getProps(error);
-  if (status && status !== 'SERVER_ERROR') { return mInput; }
+  const { status } = getProps(error)
+  if (status && status !== 'SERVER_ERROR') { return mInput }
 
   // Final layer are called before error handlers, except if the error
   // was raised by the final layer itself
-  const mInputA = await fireFinalLayer({ allLayers, mInput, reqState });
+  const mInputA = await fireFinalLayer({ allLayers, mInput, reqState })
 
-  const errorA = addMInput(error, mInputA);
-  rethrowError(errorA);
-};
+  const errorA = addMInput(error, mInputA)
+  rethrowError(errorA)
+}
 
 // Fire request error handlers
 const fireErrorHandler = function (errorA) {
-  const mInputA = getErrorMInput({ error: errorA });
-  return errorHandler(mInputA);
-};
+  const mInputA = getErrorMInput({ error: errorA })
+  return errorHandler(mInputA)
+}
 
 // If error handler itself fails, gives up
-const eFireErrorHandler = addErrorHandler(fireErrorHandler, safetyHandler);
+const eFireErrorHandler = addErrorHandler(fireErrorHandler, safetyHandler)
 
 // Add `error.mInput`, to keep track of current `mInput` during exception flow
 const addMInput = function (error, mInput) {
-  const mInputA = omit(mInput, 'error');
-  const errorA = normalizeError({ error });
+  const mInputA = omit(mInput, 'error')
+  const errorA = normalizeError({ error })
   // We need to directly mutate to keep Error constructor
   // eslint-disable-next-line fp/no-mutating-assign
-  Object.assign(errorA, { mInput: mInputA });
+  Object.assign(errorA, { mInput: mInputA })
 
-  return errorA;
-};
+  return errorA
+}
 
 // Builds `mInput` with a `mInput.error` property
 const getErrorMInput = function ({ error, error: { mInput = {} } }) {
-  const errorA = normalizeError({ error });
-  return { ...mInput, mInput, error: errorA };
-};
+  const errorA = normalizeError({ error })
+  return { ...mInput, mInput, error: errorA }
+}
 
 module.exports = {
   fireMiddlewareHandler,
   fireMainLayersHandler,
   fireErrorHandler: eFireErrorHandler,
-};
+}

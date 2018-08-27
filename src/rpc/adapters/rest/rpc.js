@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-const routes = require('./routes');
-const methods = require('./methods');
-const { parse } = require('./parse');
+const routes = require('./routes')
+const methods = require('./methods')
+const { parse } = require('./parse')
 
 const rpc = {
   name: 'rest',
@@ -10,6 +10,6 @@ const rpc = {
   routes,
   methods,
   parse,
-};
+}
 
-module.exports = rpc;
+module.exports = rpc

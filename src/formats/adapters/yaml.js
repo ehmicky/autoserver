@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const yaml = require('js-yaml');
+const yaml = require('js-yaml')
 
 // Parses a YAML file
 const parse = function ({ content, path }) {
@@ -11,18 +11,18 @@ const parse = function ({ content, path }) {
     filename: path,
     onWarning (error) {
       // eslint-disable-next-line fp/no-throw
-      throw error;
+      throw error
     },
-  });
-};
+  })
+}
 
 // Serializes a YAML file
 const serialize = function ({ content }) {
   return yaml.dump(content, {
     schema: yaml.JSON_SCHEMA,
     noRefs: true,
-  });
-};
+  })
+}
 
 module.exports = {
   name: 'yaml',
@@ -36,4 +36,4 @@ module.exports = {
   jsonCompat: ['superset'],
   parse,
   serialize,
-};
+}

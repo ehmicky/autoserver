@@ -1,11 +1,11 @@
-'use strict';
+'use strict'
 
-const vary = require('vary');
+const vary = require('vary')
 
-const { isType } = require('../../../../content_types');
-const { ALGOS, DEFAULT_ALGO } = require('../../../../compress');
+const { isType } = require('../../../../content_types')
+const { ALGOS, DEFAULT_ALGO } = require('../../../../compress')
 
-const { getLinks } = require('./link');
+const { getLinks } = require('./link')
 
 // Set HTTP-specific headers and status code
 const setHeaders = function ({
@@ -25,13 +25,13 @@ const setHeaders = function ({
   // to follow HTTP spec for HEAD method.
   // However, when used with other methods, this is incorrect and make some
   // clients crash
-  const contentLength = content.byteLength;
+  const contentLength = content.byteLength
 
-  const contentEncoding = getContentEncoding({ compressResponse });
+  const contentEncoding = getContentEncoding({ compressResponse })
 
-  const allow = getAllow({ data });
+  const allow = getAllow({ data })
 
-  const links = getLinks({ pages, specific, rpc });
+  const links = getLinks({ pages, specific, rpc })
 
   const headers = {
     'Content-Type': contentType,
@@ -41,51 +41,51 @@ const setHeaders = function ({
     Allow: allow,
     Link: links,
     'X-Response-Time': duration,
-  };
-  setAllHeaders(res, headers);
+  }
+  setAllHeaders(res, headers)
 
-  setVary({ res, type });
-};
+  setVary({ res, type })
+}
 
-const ACCEPT_ENCODING = ALGOS.join(', ');
+const ACCEPT_ENCODING = ALGOS.join(', ')
 
 const getContentEncoding = function ({ compressResponse: { name } = {} }) {
   // Means no compression was applied
-  if (name === DEFAULT_ALGO.name) { return; }
+  if (name === DEFAULT_ALGO.name) { return }
 
-  return name;
-};
+  return name
+}
 
 // On METHOD or COMMAND errors
 const getAllow = function ({ data: { allowed } }) {
-  if (allowed === undefined) { return; }
+  if (allowed === undefined) { return }
 
-  return allowed.join(', ');
-};
+  return allowed.join(', ')
+}
 
 const setAllHeaders = function (res, headers) {
   Object.entries(headers)
     .filter(([, value]) => value !== undefined)
-    .forEach(([name, value]) => res.setHeader(name, value));
-};
+    .forEach(([name, value]) => res.setHeader(name, value))
+}
 
 // `Vary` HTTP header
 const setVary = function ({ res, type }) {
-  const objectVary = isType(type, 'object') ? OBJECT_VARY_HEADERS : [];
-  vary(res, [...objectVary, ...VARY_HEADERS]);
-};
+  const objectVary = isType(type, 'object') ? OBJECT_VARY_HEADERS : []
+  vary(res, [...objectVary, ...VARY_HEADERS])
+}
 
 const VARY_HEADERS = [
   'Accept-Encoding',
   'X-HTTP-Method-Override',
   'X-Autoserver-Params',
-];
+]
 
 const OBJECT_VARY_HEADERS = [
   'Content-Type',
   'Accept',
-];
+]
 
 module.exports = {
   setHeaders,
-};
+}

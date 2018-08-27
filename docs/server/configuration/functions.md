@@ -24,10 +24,10 @@ Functions are regular JavaScript files exporting a function and required using a
 <!-- eslint-disable strict, filenames/match-exported -->
 ```js
 const getDefaultValue = function () {
-  return Math.random();
-};
+  return Math.random()
+}
 
-module.exports = getDefaultValue;
+module.exports = getDefaultValue
 ```
 
 and in the [configuration](configuration.md):
@@ -79,10 +79,10 @@ In the example below, the `timestamp` parameter is used.
 <!-- eslint-disable strict, filenames/match-exported -->
 ```js
 const getDefaultValue = function ({ timestamp }) {
-  return timestamp;
-};
+  return timestamp
+}
 
-module.exports = getDefaultValue;
+module.exports = getDefaultValue
 ```
 
 Parameters can be also be used when the function is inline.
@@ -221,10 +221,10 @@ params:
 <!-- eslint-disable strict, filenames/match-exported, camelcase -->
 ```js
 const getDefaultValue = function ({ $secret_password }) {
-  return $secret_password === 'admin' ? 1 : 0;
-};
+  return $secret_password === 'admin' ? 1 : 0
+}
 
-module.exports = getDefaultValue;
+module.exports = getDefaultValue
 ```
 
 Server-specific parameters can be functions themselves:

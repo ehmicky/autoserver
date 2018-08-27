@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // Use rpc-specific logic to parse the request into an rpc-agnostic `rpcDef`
 const parseRpc = function ({
@@ -21,9 +21,9 @@ const parseRpc = function ({
     path,
     pathvars,
     payload,
-  });
-};
+  })
+}
 
 module.exports = {
   parseRpc,
-};
+}

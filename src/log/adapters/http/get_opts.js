@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
 // Parse `opts.url`, also ensuring it is a valid URL
 const getOpts = function ({ opts: { url } }) {
-  if (url === undefined) { return; }
+  if (url === undefined) { return }
 
   const {
     hostname,
@@ -11,13 +11,13 @@ const getOpts = function ({ opts: { url } }) {
     pathname = '',
     search = '',
     hash = '',
-  } = new URL(url);
-  const portA = port ? Number(port) : undefined;
-  const path = `${pathname}${search}${hash}`;
+  } = new URL(url)
+  const portA = port ? Number(port) : undefined
+  const path = `${pathname}${search}${hash}`
 
-  return { hostname, port: portA, auth, path };
-};
+  return { hostname, port: portA, auth, path }
+}
 
 module.exports = {
   getOpts,
-};
+}

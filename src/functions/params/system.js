@@ -1,9 +1,9 @@
 /* eslint-disable max-lines */
-'use strict';
+'use strict'
 
-const { PROTOCOLS } = require('../../protocols');
-const { RPCS } = require('../../rpc');
-const { COMMAND_TYPES } = require('../../commands');
+const { PROTOCOLS } = require('../../protocols')
+const { RPCS } = require('../../rpc')
+const { COMMAND_TYPES } = require('../../commands')
 
 // System parameters that are always present
 // We need to specify their `type` and `isArray` for `coll.authorize`
@@ -52,7 +52,7 @@ const SYSTEM_PARAMS = {
     },
   },
   serverinfo: { type: 'dynamic' },
-};
+}
 
 // Those system parameters are set after the database response
 const LATER_SYSTEM_PARAMS = [
@@ -64,7 +64,7 @@ const LATER_SYSTEM_PARAMS = [
   'metadata',
   'modelscount',
   'uniquecount',
-];
+]
 
 const POSITIONAL_PARAMS = [
   'arg1',
@@ -76,7 +76,7 @@ const POSITIONAL_PARAMS = [
   'arg7',
   'arg8',
   'arg9',
-];
+]
 
 // System parameters that are not always present
 const TEMP_SYSTEM_PARAMS = [
@@ -102,13 +102,13 @@ const TEMP_SYSTEM_PARAMS = [
   'measures',
   'measuresmessage',
   'duration',
-];
+]
 
 module.exports = {
   SYSTEM_PARAMS,
   LATER_SYSTEM_PARAMS,
   POSITIONAL_PARAMS,
   TEMP_SYSTEM_PARAMS,
-};
+}
 
 /* eslint-enable max-lines */

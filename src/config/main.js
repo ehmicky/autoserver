@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-const { monitoredReduce } = require('../perf');
-const { createInlineFuncs } = require('../functions');
-const { applyPlugins } = require('../plugins');
+const { monitoredReduce } = require('../perf')
+const { createInlineFuncs } = require('../functions')
+const { applyPlugins } = require('../plugins')
 
 const {
   loadFile,
@@ -29,7 +29,7 @@ const {
   validateLimits,
   compileJsonSchema,
   loadRpc,
-} = require('./reducers');
+} = require('./reducers')
 
 // Loads config
 const loadConfig = function ({ measures, configPath, config }) {
@@ -39,8 +39,8 @@ const loadConfig = function ({ measures, configPath, config }) {
     mapResponse: ({ config: configA, ...rest }, newConfig) =>
       ({ config: { ...configA, ...newConfig }, ...rest }),
     category: 'config',
-  });
-};
+  })
+}
 
 const reducers = [
   // Load config file
@@ -102,8 +102,8 @@ const reducers = [
   compileJsonSchema,
   // Fire each `rpcAdapter.load({ config })` function
   loadRpc,
-];
+]
 
 module.exports = {
   loadConfig,
-};
+}

@@ -1,22 +1,22 @@
-'use strict';
+'use strict'
 
-const pluralize = require('pluralize');
+const pluralize = require('pluralize')
 
-const { getWordsList } = require('../utilities');
+const { getWordsList } = require('../utilities')
 
 // List of custom error messages getters
 const errorMessages = {
   // JSON schema keywords for any type
   type: ({ params: { type } }) => {
-    const types = type.split(',');
-    const typesA = getWordsList(types, { op: 'or' });
-    return ` must be ${typesA}`;
+    const types = type.split(',')
+    const typesA = getWordsList(types, { op: 'or' })
+    return ` must be ${typesA}`
   },
   format: ({ params: { format } }) =>
     ` must match format '${format}'`,
   enum: ({ params: { allowedValues } }) => {
-    const values = getWordsList(allowedValues, { quotes: true });
-    return ` must be ${values}`;
+    const values = getWordsList(allowedValues, { quotes: true })
+    return ` must be ${values}`
   },
   const: ({ params: { allowedValue } }) =>
     ` must be equal to '${allowedValue}'`,
@@ -25,12 +25,12 @@ const errorMessages = {
   multipleOf: ({ params: { multipleOf } }) =>
     ` must be multiple of ${multipleOf}`,
   maximum: ({ params: { limit, comparison } }) => {
-    const orEqualTo = comparison === '<=' ? 'or equal to ' : '';
-    return ` must be less than ${orEqualTo}${limit}`;
+    const orEqualTo = comparison === '<=' ? 'or equal to ' : ''
+    return ` must be less than ${orEqualTo}${limit}`
   },
   minimum: ({ params: { limit, comparison } }) => {
-    const orEqualTo = comparison === '>=' ? 'or equal to ' : '';
-    return ` must be greater than ${orEqualTo}${limit}`;
+    const orEqualTo = comparison === '>=' ? 'or equal to ' : ''
+    return ` must be greater than ${orEqualTo}${limit}`
   },
 
   // JSON schema keywords for `string` type
@@ -69,8 +69,8 @@ const errorMessages = {
   // e.g. `patternProperties: { pattern: false }`
   'false schema': () =>
     ' must not be defined',
-};
+}
 
 module.exports = {
   errorMessages,
-};
+}

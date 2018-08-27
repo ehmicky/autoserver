@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const owners = {
   description: 'A pet\'s owner',
@@ -8,6 +8,6 @@ const owners = {
       type: 'pets[]',
     },
   },
-};
+}
 
-module.exports = owners;
+module.exports = owners

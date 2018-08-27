@@ -1,11 +1,11 @@
-'use strict';
+'use strict'
 
-const { getWordsList } = require('../../utilities');
+const { getWordsList } = require('../../utilities')
 
 const getMessage = function ({ value, suggestions }) {
-  const protocols = getWordsList(suggestions, { op: 'or' });
-  return `Protocol ${value} is invalid: it should be ${protocols}`;
-};
+  const protocols = getWordsList(suggestions, { op: 'or' })
+  return `Protocol ${value} is invalid: it should be ${protocols}`
+}
 
 // Extra:
 //  - value STR
@@ -14,8 +14,8 @@ const METHOD = {
   status: 'CLIENT_ERROR',
   title: 'The protocol method is invalid',
   getMessage,
-};
+}
 
 module.exports = {
   METHOD,
-};
+}

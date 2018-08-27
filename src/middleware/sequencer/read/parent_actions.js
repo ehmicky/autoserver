@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // Create a structure indicating which actions are the parents of which action.
 // This is needed since parent actions must be fired before children.
@@ -7,24 +7,24 @@
 const getParentActions = function ({ actions }) {
   return actions
     .filter(action => isParentAction({ action, actions }))
-    .map(parentAction => getParentAction({ parentAction, actions }));
-};
+    .map(parentAction => getParentAction({ parentAction, actions }))
+}
 
 const getParentAction = function ({ parentAction, actions }) {
-  const childActions = getChildActions({ parentAction, actions });
-  const childActionsA = getParentActions({ actions: childActions });
-  return { parentAction, childActions: childActionsA };
-};
+  const childActions = getChildActions({ parentAction, actions })
+  const childActionsA = getParentActions({ actions: childActions })
+  return { parentAction, childActions: childActionsA }
+}
 
 const isParentAction = function ({ action: childAction, actions }) {
   return !actions
-    .some(parentAction => isChildAction({ childAction, parentAction }));
-};
+    .some(parentAction => isChildAction({ childAction, parentAction }))
+}
 
 const getChildActions = function ({ parentAction, actions }) {
   return actions
-    .filter(childAction => isChildAction({ childAction, parentAction }));
-};
+    .filter(childAction => isChildAction({ childAction, parentAction }))
+}
 
 const isChildAction = function ({
   parentAction,
@@ -34,9 +34,9 @@ const isChildAction = function ({
 }) {
   return childAction !== parentAction &&
     childPath.length > parentPath.length &&
-    childPath.join('.').startsWith(parentPath.join('.'));
-};
+    childPath.join('.').startsWith(parentPath.join('.'))
+}
 
 module.exports = {
   getParentActions,
-};
+}

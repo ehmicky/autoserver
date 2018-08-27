@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { getPagesize } = require('./info');
+const { getPagesize } = require('./info')
 
 // Whether request will be paginated
 const willPaginate = function ({
@@ -14,17 +14,17 @@ const willPaginate = function ({
   return commandpath === '' &&
     PAGINATION_TOP_COMMANDS.includes(top.command.name) &&
     PAGINATION_COMMANDS.includes(command) &&
-    !isPaginationDisabled({ config, args });
-};
+    !isPaginationDisabled({ config, args })
+}
 
-const PAGINATION_TOP_COMMANDS = ['findMany', 'patchMany'];
-const PAGINATION_COMMANDS = ['find'];
+const PAGINATION_TOP_COMMANDS = ['findMany', 'patchMany']
+const PAGINATION_COMMANDS = ['find']
 
 // Using args.pagesize 0 or pagesize 0 disables pagination
 const isPaginationDisabled = function ({ config, args }) {
-  const pagesize = getPagesize({ args, config });
-  return pagesize === 0;
-};
+  const pagesize = getPagesize({ args, config })
+  return pagesize === 0
+}
 
 // `patch` commands can only iterate forward, as pagination is here only
 // meant for database load controlling, not as a client feature.
@@ -32,12 +32,12 @@ const isPaginationDisabled = function ({ config, args }) {
 //  - offset pagination is not available
 //  - backward cursor pagination is not available
 const isOnlyForwardCursor = function ({ top }) {
-  return FORWARD_TOP_COMMANDS.includes(top.command.name);
-};
+  return FORWARD_TOP_COMMANDS.includes(top.command.name)
+}
 
-const FORWARD_TOP_COMMANDS = ['patchMany'];
+const FORWARD_TOP_COMMANDS = ['patchMany']
 
 module.exports = {
   willPaginate,
   isOnlyForwardCursor,
-};
+}

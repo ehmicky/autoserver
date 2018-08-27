@@ -1,21 +1,21 @@
-'use strict';
+'use strict'
 
-const { validateString } = require('./validate');
+const { validateString } = require('./validate')
 
 const parsePath = function ({
   protocolAdapter,
   protocolAdapter: { getPath },
   specific,
 }) {
-  if (getPath === undefined) { return; }
+  if (getPath === undefined) { return }
 
-  const path = getPath({ specific });
+  const path = getPath({ specific })
 
-  validateString(path, 'path', protocolAdapter);
+  validateString(path, 'path', protocolAdapter)
 
-  return { path };
-};
+  return { path }
+}
 
 module.exports = {
   parsePath,
-};
+}

@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
-const { willPaginate } = require('../condition');
-const { getBackwardResponse } = require('../backward');
+const { willPaginate } = require('../condition')
+const { getBackwardResponse } = require('../backward')
 
-const { getPaginationOutput } = require('./response');
+const { getPaginationOutput } = require('./response')
 
 // Add response metadata related to pagination
 const handlePaginationOutput = function ({
@@ -14,7 +14,7 @@ const handlePaginationOutput = function ({
   response,
   ...rest
 }) {
-  if (!willPaginate({ top, args, config, ...rest })) { return; }
+  if (!willPaginate({ top, args, config, ...rest })) { return }
 
   const responseA = getPaginationOutput({
     top,
@@ -22,13 +22,13 @@ const handlePaginationOutput = function ({
     topargs,
     config,
     response,
-  });
+  })
 
-  const responseB = getBackwardResponse({ args, response: responseA });
+  const responseB = getBackwardResponse({ args, response: responseA })
 
-  return { response: responseB };
-};
+  return { response: responseB }
+}
 
 module.exports = {
   handlePaginationOutput,
-};
+}

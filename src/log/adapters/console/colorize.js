@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { magenta, green, yellow, red, gray, reset, dim } = require('chalk');
+const { magenta, green, yellow, red, gray, reset, dim } = require('chalk')
 
 // Colorize a standard error message
 // Not performed if terminal does not support colors
@@ -15,26 +15,26 @@ const colorize = function ({ log: { event, level }, consoleMessage }) {
     fourth = '',
   ] = MESSAGE_REGEXP.test(consoleMessage)
     ? MESSAGE_REGEXP.exec(consoleMessage)
-    : SHORTMESSAGE_REXEXP.exec(consoleMessage);
+    : SHORTMESSAGE_REXEXP.exec(consoleMessage)
 
   const coloredFourth = event === 'failure'
     ? colorStack({ stack: fourth })
-    : dim(fourth);
+    : dim(fourth)
 
   const colorMessage = [
     colors[level].bold(first),
     colors[level](second),
     third,
     coloredFourth,
-  ].join(' ');
+  ].join(' ')
 
-  return colorMessage;
-};
+  return colorMessage
+}
 
 // Look for [...] [...] [...] [...] [...] ([...]) ... - ...
-const MESSAGE_REGEXP = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) ((.|\n)*) (- (.|\n)*)/u;
+const MESSAGE_REGEXP = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) ((.|\n)*) (- (.|\n)*)/u
 // Look for [...] [...] [...] [...] [...] ([...]) ...
-const SHORTMESSAGE_REXEXP = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) ((.|\n)*)/u;
+const SHORTMESSAGE_REXEXP = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) ((.|\n)*)/u
 
 // Make it easy to read stack trace with color hints
 const colorStack = function ({ stack }) {
@@ -49,16 +49,16 @@ const colorStack = function ({ stack }) {
     .replace(/(\/[^:]+)(:)(\d+)(:\d+)/gu, (full, path, colon, line, loc) =>
       reset.dim(path) + gray(colon) + gray.bold(line) + gray(loc))
     // Filepath slashes are less visible, so the filenames are easy to pick
-    .replace(/\//gu, slash => gray(slash));
-};
+    .replace(/\//gu, slash => gray(slash))
+}
 
 const colors = {
   info: magenta,
   log: green,
   warn: yellow,
   error: red,
-};
+}
 
 module.exports = {
   colorize,
-};
+}

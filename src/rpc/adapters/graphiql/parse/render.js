@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
-const { resolve } = require('path');
+const { resolve } = require('path')
 
-const { mapValues, renderTemplate } = require('../../../../utilities');
+const { mapValues, renderTemplate } = require('../../../../utilities')
 
-const TEMPLATE = resolve(__dirname, './graphiql.mustache');
+const TEMPLATE = resolve(__dirname, './graphiql.mustache')
 
 // Returns HTML document loading a GraphQL debugger
 // TODO: replace with graphiql-workspace
@@ -22,13 +22,13 @@ const TEMPLATE = resolve(__dirname, './graphiql.mustache');
 // @returns {string} document - HTML document
 const renderGraphiql = function (input) {
   // Those must be valid JavaScript, so must JSON-stringified
-  const dataToEscape = getDataToEscape(input);
+  const dataToEscape = getDataToEscape(input)
   // Those must be valid HTML
-  const dataNotToEscape = {};
-  const data = { ...escapeData(dataToEscape), ...dataNotToEscape };
+  const dataNotToEscape = {}
+  const data = { ...escapeData(dataToEscape), ...dataNotToEscape }
 
-  return renderTemplate({ template: TEMPLATE, data });
-};
+  return renderTemplate({ template: TEMPLATE, data })
+}
 
 const getDataToEscape = function ({
   endpointURL,
@@ -38,18 +38,18 @@ const getDataToEscape = function ({
 }) {
   const variablesA = typeof variables === 'object'
     ? JSON.stringify(variables)
-    : variables;
-  return { endpointURL, query, variables: variablesA, operationName };
-};
+    : variables
+  return { endpointURL, query, variables: variablesA, operationName }
+}
 
 const escapeData = function (dataToEscape) {
-  return mapValues(dataToEscape, data => escapeJSON(data));
-};
+  return mapValues(dataToEscape, data => escapeJSON(data))
+}
 
 const escapeJSON = function (string = null) {
-  return JSON.stringify(string, null, 2);
-};
+  return JSON.stringify(string, null, 2)
+}
 
 module.exports = {
   renderGraphiql,
-};
+}

@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
-const { inspect } = require('util');
-const { stdout: { columns } } = require('process');
+const { inspect } = require('util')
+const { stdout: { columns } } = require('process')
 
-const autoserver = require('..');
+const autoserver = require('..')
 
 // Set default console log printing
 const setDefaultDebug = function () {
@@ -12,21 +12,21 @@ const setDefaultDebug = function () {
     colors: true,
     depth: null,
     breakLength: columns || COLUMNS_WIDTH,
-  };
-};
+  }
+}
 
-const COLUMNS_WIDTH = 80;
+const COLUMNS_WIDTH = 80
 
 const startServer = async function () {
   try {
-    const { protocols, exit } = await autoserver.run();
-    return { protocols, exit };
+    const { protocols, exit } = await autoserver.run()
+    return { protocols, exit }
   } catch {
     // eslint-disable-next-line no-console, no-restricted-globals
-    console.log('Startup error');
+    console.log('Startup error')
   }
-};
+}
 
-setDefaultDebug();
+setDefaultDebug()
 
-startServer();
+startServer()

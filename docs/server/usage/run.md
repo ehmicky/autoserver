@@ -27,16 +27,16 @@ no-restricted-globals, unicorn/catch-error-name, promise/always-return,
 promise/prefer-await-to-then, node/no-extraneous-require,
 import/no-extraneous-dependencies, import/no-unresolved -->
 ```javascript
-const autoserver = require('autoserver');
+const autoserver = require('autoserver')
 
 autoserver.run()
   .then(({ protocols, serverinfo }) => {
-    console.log('Servers started at:', protocols);
-    console.log('Process id', serverinfo.process.id);
+    console.log('Servers started at:', protocols)
+    console.log('Process id', serverinfo.process.id)
   })
   .catch(error => {
-    console.log('Could not start servers:', error);
-  });
+    console.log('Could not start servers:', error)
+  })
 ```
 
 # Stopping the server

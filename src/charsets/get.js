@@ -1,57 +1,57 @@
-'use strict';
+'use strict'
 
 // eslint-disable-next-line import/no-internal-modules
-const encodings = require('iconv-lite/encodings');
+const encodings = require('iconv-lite/encodings')
 
-const { omitBy } = require('../utilities');
+const { omitBy } = require('../utilities')
 
-const { DEFAULT_INPUT_CHARSET } = require('./constants');
-const { validateCharset } = require('./validate');
-const { decodeCharset } = require('./transform');
+const { DEFAULT_INPUT_CHARSET } = require('./constants')
+const { validateCharset } = require('./validate')
+const { decodeCharset } = require('./transform')
 
 // Normalize charset, including adding defaults and validating
 const getCharset = function (charset, { format } = {}) {
-  const charsetA = addDefaultCharset({ charset, format });
+  const charsetA = addDefaultCharset({ charset, format })
 
-  const charsetB = charsetA.toLowerCase();
+  const charsetB = charsetA.toLowerCase()
 
-  validateCharset({ charset: charsetB, format });
+  validateCharset({ charset: charsetB, format })
 
-  const charsetC = createInstance({ charset: charsetB, title: charsetA });
+  const charsetC = createInstance({ charset: charsetB, title: charsetA })
 
-  return charsetC;
-};
+  return charsetC
+}
 
 // Add default charsets, including the format's default charset
 const addDefaultCharset = function ({ charset, format }) {
-  const formatCharset = findFormatCharset({ format });
+  const formatCharset = findFormatCharset({ format })
 
-  return charset || formatCharset || DEFAULT_INPUT_CHARSET;
-};
+  return charset || formatCharset || DEFAULT_INPUT_CHARSET
+}
 
 const findFormatCharset = function ({ format }) {
-  if (format === undefined) { return; }
+  if (format === undefined) { return }
 
-  return format.getCharset();
-};
+  return format.getCharset()
+}
 
 // Returns a charset adapter object
 const createInstance = function ({ charset, title }) {
-  const decode = decodeCharset.bind(null, charset);
+  const decode = decodeCharset.bind(null, charset)
 
-  return { name: charset, title, decode };
-};
+  return { name: charset, title, decode }
+}
 
 // Get list of supported charset
 const getCharsets = function () {
   // Remove charsets that are just aliases, to keep return value small
-  const charsets = omitBy(encodings, value => typeof value === 'string');
+  const charsets = omitBy(encodings, value => typeof value === 'string')
 
-  const charsetsA = Object.keys(charsets);
-  return charsetsA;
-};
+  const charsetsA = Object.keys(charsets)
+  return charsetsA
+}
 
 module.exports = {
   getCharset,
   getCharsets,
-};
+}

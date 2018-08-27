@@ -14,9 +14,9 @@ or from [Node.js](usage/README.md#node.js):
 node/no-extraneous-require, import/no-extraneous-dependencies,
 import/no-unresolved -->
 ```javascript
-const autoserver = require('autoserver');
+const autoserver = require('autoserver')
 
-autoserver.run();
+autoserver.run()
 ```
 
 ## Configuration

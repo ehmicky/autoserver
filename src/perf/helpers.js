@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const {
   reduceAsync,
@@ -6,9 +6,9 @@ const {
   promiseThen,
   keepProps,
   result,
-} = require('../utilities');
+} = require('../utilities')
 
-const { startPerf, stopPerf } = require('./measure');
+const { startPerf, stopPerf } = require('./measure')
 
 // Wraps a function, so it calculate how long the function takes.
 // eslint-disable-next-line max-params
@@ -19,25 +19,25 @@ const monitor = function (
   measuresIndex = 0,
 ) {
   return function monitoredFunc (...args) {
-    const labelA = result(label, ...args);
-    const categoryA = result(category, ...args);
-    const perf = startPerf(labelA, categoryA);
-    const response = func(...args);
-    const { measures } = args[measuresIndex];
-    return promiseThen(response, recordPerf.bind(null, measures, perf));
-  };
-};
+    const labelA = result(label, ...args)
+    const categoryA = result(category, ...args)
+    const perf = startPerf(labelA, categoryA)
+    const response = func(...args)
+    const { measures } = args[measuresIndex]
+    return promiseThen(response, recordPerf.bind(null, measures, perf))
+  }
+}
 
-const kMonitor = keepProps(monitor);
+const kMonitor = keepProps(monitor)
 
 const recordPerf = function (measures, perf, response) {
-  const perfA = stopPerf(perf);
+  const perfA = stopPerf(perf)
   // We directly mutate the passed argument, because it greatly simplifies
   // the code
   // eslint-disable-next-line fp/no-mutating-methods
-  measures.push(perfA);
-  return response;
-};
+  measures.push(perfA)
+  return response
+}
 
 // Combine monitor() and reduceAsync()
 const monitoredReduce = function ({
@@ -48,17 +48,17 @@ const monitoredReduce = function ({
   label,
   category,
 }) {
-  const funcsA = funcs.map(func => kMonitor(func, label, category));
-  const reduceFunc = monitoredReduceFunc.bind(null, mapInput);
-  return reduceAsync(funcsA, reduceFunc, initialInput, mapResponse);
-};
+  const funcsA = funcs.map(func => kMonitor(func, label, category))
+  const reduceFunc = monitoredReduceFunc.bind(null, mapInput)
+  return reduceAsync(funcsA, reduceFunc, initialInput, mapResponse)
+}
 
 const monitoredReduceFunc = function (mapInput, input, func) {
-  const inputA = mapInput(input);
-  return func(inputA);
-};
+  const inputA = mapInput(input)
+  return func(inputA)
+}
 
 module.exports = {
   monitor: kMonitor,
   monitoredReduce,
-};
+}

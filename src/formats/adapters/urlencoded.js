@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-const qs = require('qs');
+const qs = require('qs')
 
-const { getLimits } = require('../../limits');
+const { getLimits } = require('../../limits')
 
 // Parse x-www-form-urlencoded, e.g. used in query strings
 // Can use the following notations:
@@ -21,7 +21,7 @@ const { getLimits } = require('../../limits');
 //  - ? -> {}
 // Performs proper URI decoding, using decodeURIComponent()
 const parse = function ({ content }) {
-  const { maxQueryStringDepth, maxQueryStringLength } = getLimits();
+  const { maxQueryStringDepth, maxQueryStringLength } = getLimits()
 
   return qs.parse(content, {
     depth: maxQueryStringDepth,
@@ -29,17 +29,17 @@ const parse = function ({ content }) {
     allowDots: true,
     decoder,
     ignoreQueryPrefix: true,
-  });
-};
+  })
+}
 
 const decoder = function (str) {
-  return decodeURIComponent(str.replace(/\+/gu, ' '));
-};
+  return decodeURIComponent(str.replace(/\+/gu, ' '))
+}
 
 // Inverse of parse()
 const serialize = function ({ content }) {
-  return qs.stringify(content, { allowDots: true });
-};
+  return qs.stringify(content, { allowDots: true })
+}
 
 module.exports = {
   name: 'urlencoded',
@@ -48,4 +48,4 @@ module.exports = {
   jsonCompat: ['subset'],
   parse,
   serialize,
-};
+}

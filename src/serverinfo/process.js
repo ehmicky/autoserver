@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
-const { pid } = require('process');
+const { pid } = require('process')
 
 // Retrieve process-specific information
 const getProcessInfo = function ({ host, processName }) {
-  const name = processName || host.name;
+  const name = processName || host.name
 
-  return { id: pid, name };
-};
+  return { id: pid, name }
+}
 
 module.exports = {
   getProcessInfo,
-};
+}

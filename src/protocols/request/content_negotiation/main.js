@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
-const { omit } = require('../../../utilities');
+const { omit } = require('../../../utilities')
 
-const { getFormat } = require('./format');
-const { getCharset } = require('./charset');
-const { getCompress } = require('./compress');
+const { getFormat } = require('./format')
+const { getCharset } = require('./charset')
+const { getCompress } = require('./compress')
 
 // Retrieve format|charset|compress of the response payloads, and
 // charset of the request payload
@@ -15,15 +15,15 @@ const handleContentNegotiation = function ({
   compressResponse,
   compressRequest,
 }) {
-  const formatA = getFormat({ queryvars, format });
-  const charsetA = getCharset({ queryvars, charset, format: formatA });
+  const formatA = getFormat({ queryvars, format })
+  const charsetA = getCharset({ queryvars, charset, format: formatA })
   const {
     compressResponse: compressResponseA,
     compressRequest: compressRequestA,
     compress: compressA,
-  } = getCompress({ queryvars, compressResponse, compressRequest });
+  } = getCompress({ queryvars, compressResponse, compressRequest })
 
-  const queryvarsA = omit(queryvars, ['format', 'charset', 'compress']);
+  const queryvarsA = omit(queryvars, ['format', 'charset', 'compress'])
 
   return {
     queryvars: queryvarsA,
@@ -32,9 +32,9 @@ const handleContentNegotiation = function ({
     compressResponse: compressResponseA,
     compressRequest: compressRequestA,
     compress: compressA,
-  };
-};
+  }
+}
 
 module.exports = {
   handleContentNegotiation,
-};
+}
