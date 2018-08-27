@@ -71,7 +71,7 @@ const getCompressResponse = addGenPbHandler(getAlgo, {
 });
 
 const getCompressRequest = addGenPbHandler(getAlgo, {
-  reason: 'PAYLOAD_NEGOTIATION',
+  reason: 'REQUEST_NEGOTIATION',
   extra: getExtra,
 });
 

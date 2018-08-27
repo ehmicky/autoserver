@@ -26,7 +26,7 @@ const KINDS = {
 //  - kind 'type|compress|charset|format'
 //  - value STR_ARR
 //  - suggestions VAL_ARR
-const PAYLOAD_NEGOTIATION = {
+const REQUEST_NEGOTIATION = {
   status: 'CLIENT_ERROR',
   title: 'The request content negotiation failed',
   getMessage: getMessage.bind(null, 'request'),
@@ -43,6 +43,6 @@ const RESPONSE_NEGOTIATION = {
 };
 
 module.exports = {
-  PAYLOAD_NEGOTIATION,
+  REQUEST_NEGOTIATION,
   RESPONSE_NEGOTIATION,
 };

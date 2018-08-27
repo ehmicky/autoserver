@@ -104,7 +104,7 @@ error-specific [additional properties](#error-responses).
     [too big](../../server/quality/limits.md).
   - [`URL_LIMIT`](#url_limit): the URL is
     [too big](../../server/quality/limits.md).
-  - [`PAYLOAD_NEGOTIATION`](#payload_negotiation): the request payload could
+  - [`REQUEST_NEGOTIATION`](#payload_negotiation): the request payload could
     not be loaded, parsed or [content negotiation](../protocols/formats.md)
     failed.
 
@@ -431,7 +431,7 @@ The URL is [too big](../../server/quality/limits.md).
 }
 ```
 
-### `PAYLOAD_NEGOTIATION`
+### `REQUEST_NEGOTIATION`
 
 The request payload could not be loaded, parsed or
 [content negotiation](../protocols/formats.md) failed.
@@ -446,7 +446,7 @@ The request payload could not be loaded, parsed or
 
 ```json
 {
-  "type": "PAYLOAD_NEGOTIATION",
+  "type": "REQUEST_NEGOTIATION",
   "title": "The request payload could not be loaded, parsed or content negotiation failed",
   "description": "",
   "status": "CLIENT_ERROR",

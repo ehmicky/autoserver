@@ -36,7 +36,7 @@ const validatePayload = function ({ payload }) {
   if (payload && typeof payload === 'object') { return; }
 
   const message = 'Invalid request payload: it must be an object or an array';
-  throwPb({ reason: 'PAYLOAD_NEGOTIATION', message, extra: { kind: 'type' } });
+  throwPb({ reason: 'REQUEST_NEGOTIATION', message, extra: { kind: 'type' } });
 };
 
 // Use ID in URL /rest/COLLECTION/ID for `args.id`

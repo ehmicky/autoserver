@@ -63,7 +63,7 @@ const decompressPayload = function ({ compressRequest, payload }) {
 };
 
 const eDecompressPayload = addGenPbHandler(decompressPayload, {
-  reason: 'PAYLOAD_NEGOTIATION',
+  reason: 'REQUEST_NEGOTIATION',
   message: ({ compressRequest: { title } }) =>
     `The request payload could not be decompressed using ${title}`,
   extra: { kind: 'compress' },
@@ -74,7 +74,7 @@ const decodeCharset = function ({ content, charset }) {
 };
 
 const eDecodeCharset = addGenPbHandler(decodeCharset, {
-  reason: 'PAYLOAD_NEGOTIATION',
+  reason: 'REQUEST_NEGOTIATION',
   message: ({ charset }) => `The request payload could not be decoded using the charset '${charset.name}'`,
   extra: { kind: 'charset' },
 });
@@ -88,7 +88,7 @@ const parseContentHandler = function (error, { payload, format }) {
   const { message, kind } = getContentErrorProps({ payload, format });
 
   throwPb({
-    reason: 'PAYLOAD_NEGOTIATION',
+    reason: 'REQUEST_NEGOTIATION',
     message,
     extra: { kind },
     innererror: error,

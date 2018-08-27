@@ -32,7 +32,7 @@ const parsePayload = function ({ payload }) {
   }
 
   const message = 'Invalid request payload: it must be an object or a GraphQL query string';
-  throwPb({ reason: 'PAYLOAD_NEGOTIATION', message, extra: { kind: 'type' } });
+  throwPb({ reason: 'REQUEST_NEGOTIATION', message, extra: { kind: 'type' } });
 };
 
 // Transform GraphQL query string into AST
