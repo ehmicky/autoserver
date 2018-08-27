@@ -1,11 +1,10 @@
 'use strict';
 
-const { getSumParams } = require('../../../utilities');
-const { addGenErrorHandler } = require('../../../errors');
-const { getLimits } = require('../../../limits');
-const { validateBoolean } = require('../validate');
+const { getSumParams } = require('../../utilities');
+const { addGenErrorHandler } = require('../../errors');
+const { getLimits } = require('../../limits');
 
-const { getRawPayload } = require('./raw');
+const { validateBoolean } = require('./validate');
 
 // Fill in `mInput.payload` using protocol-specific request payload.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
@@ -36,18 +35,15 @@ const parsePayload = function ({
 
 const parseRawPayload = async function ({
   specific,
-  protocolAdapter,
+  protocolAdapter: { getPayload },
   config,
   format,
   charset,
   compressRequest,
 }) {
   const { maxpayload } = getLimits({ config });
-  const payload = await getRawPayload({
-    protocolAdapter,
-    specific,
-    maxpayload,
-  });
+  // Use protocol-specific way to parse payload, using a known type
+  const payload = await getPayload({ specific, maxpayload });
 
   const payloadA = await eDecompressPayload({ compressRequest, payload });
 
