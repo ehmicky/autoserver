@@ -19,15 +19,34 @@ const getReason = function ({ reason = 'UNKNOWN' } = { reason: 'SUCCESS' }) {
   return reason
 }
 
+const normalizeReason = function ({
+  error,
+  message = error.message,
+  messageInput,
+  ...opts
+}) {
+  const messageA = getPropsMessage({ message, messageInput, ...opts })
+
+  // eslint-disable-next-line fp/no-mutating-assign
+  Object.assign(error, { ...opts, message: messageA })
+
+  return error
+}
+
 // Throw exception for a specific error reason
 const throwPb = function ({ message, messageInput, ...opts }) {
-  const prefix = getPrefix(messageInput, opts)
-  const messageA = addPrefix({ message, prefix })
+  const messageA = getPropsMessage({ message, messageInput, ...opts })
   throwError(messageA, opts)
 }
 
+const getPropsMessage = function ({ message, messageInput, ...opts }) {
+  const prefix = getPrefix({ messageInput, ...opts })
+  const messageA = addPrefix({ message, prefix })
+  return messageA
+}
+
 // Each error reason can have its own message prefix and additional props
-const getPrefix = function (messageInput, { reason, extra = {} }) {
+const getPrefix = function ({ messageInput, reason, extra = {} }) {
   const { getMessage } = getProps({ reason })
   if (getMessage === undefined) { return }
 
@@ -39,11 +58,12 @@ const addPrefix = function ({ message, prefix }) {
   if (message === undefined) { return prefix }
   if (prefix === undefined) { return message }
 
-  return `${prefix}, ${decapitalize(message)}`
+  return `${prefix}: ${decapitalize(message)}`
 }
 
 module.exports = {
   getProps,
+  normalizeReason,
   getReason,
   throwPb,
 }

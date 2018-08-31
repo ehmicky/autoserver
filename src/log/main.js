@@ -1,6 +1,11 @@
 'use strict'
 
-const { addErrorHandler, normalizeError, rethrowError } = require('../errors')
+const {
+  addErrorHandler,
+  normalizeError,
+  normalizeReason,
+  rethrowError,
+} = require('../errors')
 
 const { getLogParams } = require('./params')
 const { LEVELS, DEFAULT_LOGGER } = require('./constants')
@@ -54,8 +59,10 @@ const getReportFunc = function ({ event, provider }) {
 }
 
 const logEventHandler = function (error, { config, event }) {
-  const errorA = normalizeError({ error, reason: 'ENGINE' })
-  const params = { error: errorA }
+  const errorA = normalizeError({ error })
+  const errorB = normalizeReason({ error: errorA, reason: 'ENGINE' })
+  const params = { error: errorB }
+
   // Give up if error handler fails
   // I.e. we do not need to `await` this
   silentLogEvent({ event: 'failure', phase: 'process', config, params })
@@ -70,9 +77,10 @@ const eLogEvent = addErrorHandler(logEvent, logEventHandler)
 
 // This means there is a bug in the logging code itself
 const safetyHandler = function (error) {
-  const errorA = normalizeError({ error, reason: 'ENGINE' })
+  const errorA = normalizeError({ error })
+  const errorB = normalizeReason({ error: errorA, reason: 'ENGINE' })
   // eslint-disable-next-line no-console, no-restricted-globals
-  console.error(errorA.message, errorA)
+  console.error(errorA.message, errorB)
 }
 
 const silentLogEvent = addErrorHandler(logEvent, safetyHandler)

@@ -3,7 +3,7 @@
 const process = require('process')
 
 const { logEvent } = require('../log')
-const { normalizeError } = require('../errors')
+const { normalizeError, normalizeReason } = require('../errors')
 
 // Error handling for all failures that are process-related
 // If a single process might start two instances of the server, each instance
@@ -47,12 +47,13 @@ const setupWarning = function ({ config }) {
 
 // Report process problems as events with event 'failure'
 const emitProcessEvent = async function ({ error, message, config }) {
-  const errorA = normalizeError({ error, message, reason: 'ENGINE' })
+  const errorA = normalizeError({ error, message })
+  const errorB = normalizeReason({ error: errorA, reason: 'ENGINE' })
 
   await logEvent({
     event: 'failure',
     phase: 'process',
-    params: { error: errorA },
+    params: { error: errorB },
     config,
   })
 }
