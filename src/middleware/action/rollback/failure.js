@@ -1,25 +1,27 @@
 'use strict'
 
-const { isError, throwError } = require('../../../errors')
+const { isError, rethrowError } = require('../../../errors')
 
 // Rethrow original error
-const rethrowFailure = function ({ failedActions, results }) {
-  const [innererror] = failedActions
-  const { message } = innererror
-  const extra = getExtra({ results })
-  throwError(message, { innererror, extra })
+const rethrowFailure = function ({ failedActions: [error], results }) {
+  const errorA = addRollbackFailures({ error, results })
+
+  rethrowError(errorA)
 }
 
 // If rollback itself fails, give up and add rollback error to error response,
 // as `error.rollback_failures`
-const getExtra = function ({ results }) {
+const addRollbackFailures = function ({ error, results }) {
   const rollbackFailures = results.filter(result => isError({ error: result }))
-  if (rollbackFailures.length === 0) { return }
+  if (rollbackFailures.length === 0) { return error }
 
   const rollbackFailuresA = rollbackFailures
     .map(({ message }) => message)
     .join('\n')
-  return { rollback_failures: rollbackFailuresA }
+
+  // eslint-disable-next-line no-param-reassign, fp/no-mutation
+  error.extra.rollback_failures = rollbackFailuresA
+  return error
 }
 
 module.exports = {
