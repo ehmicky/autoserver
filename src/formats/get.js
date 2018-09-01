@@ -23,7 +23,7 @@ const getByMime = function ({ mime, safe }) {
     .find(({ mimeExtensions: mimes }) => mimeMatches({ mime, mimes }))
   if (formatA !== undefined) { return formatA.wrapped }
 
-  throwUnsupportedFormat({ format })
+  throwUnsupportedFormat({ format: mime })
 }
 
 // Only the right side of `isType` allow complex types like
@@ -43,7 +43,7 @@ const getByExt = function ({ path, safe }) {
     .find(({ extensions = [] }) => extensions.includes(fileExt))
   if (format !== undefined) { return format.wrapped }
 
-  throwUnsupportedFormat({ format })
+  throwUnsupportedFormat({ format: `.${fileExt}` })
 }
 
 // Setting `safe` to `true` removes formats that execute code.
@@ -65,7 +65,7 @@ const getFormat = function (key, { safe = false } = {}) {
   const isSafe = !safe || !format.unsafe
   if (isSafe) { return format }
 
-  throwUnsupportedFormat({ format })
+  throwUnsupportedFormat({ format: format.title })
 }
 
 const throwUnsupportedFormat = function ({ format }) {
