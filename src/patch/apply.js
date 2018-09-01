@@ -2,12 +2,12 @@
 
 const { mapValues } = require('../utilities')
 const { runConfigFunc } = require('../functions')
-const { addGenErrorHandler } = require('../errors')
+const { addGenPbHandler } = require('../errors')
 
 const { parsePatchOp } = require('./parse')
 const { parseRef } = require('./ref_parsing')
 const { replaceSimpleRef, replaceRef } = require('./ref')
-const { getReason } = require('./error')
+const { getPatchErrorProps } = require('./error')
 
 // Apply patch operation to a single datum
 const applyPatchOps = function ({
@@ -111,7 +111,12 @@ const fireApply = function ({
   return attrValA
 }
 
-const eRunConfigFunc = addGenErrorHandler(runConfigFunc, { reason: getReason })
+const eRunConfigFunc = addGenPbHandler(runConfigFunc, {
+  message: ({ type }) =>
+    `patch operator '${type}' apply() function threw an exception`,
+  reason: ({ type }) => getPatchErrorProps({ type }).reason,
+  extra: ({ type }) => getPatchErrorProps({ type }).extra,
+})
 
 module.exports = {
   applyPatchOps,

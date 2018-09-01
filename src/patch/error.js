@@ -2,13 +2,17 @@
 
 const { OPERATORS } = require('./operators')
 
+// Properties of errors during `patch`
 // We want to differentiate between errors due to engine bug or wrong config
-const getReason = function ({ type }) {
-  if (OPERATORS[type] !== undefined) { return 'ENGINE' }
+const getPatchErrorProps = function ({ type, extra }) {
+  if (OPERATORS[type] !== undefined) {
+    return { reason: 'ENGINE' }
+  }
 
-  return 'CONFIG_RUNTIME'
+  const path = `config.operators.${type}`
+  return { reason: 'CONFIG_RUNTIME', extra: { ...extra, path } }
 }
 
 module.exports = {
-  getReason,
+  getPatchErrorProps,
 }

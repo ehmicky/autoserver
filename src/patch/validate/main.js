@@ -1,6 +1,6 @@
 'use strict'
 
-const { throwError } = require('../../errors')
+const { throwPb, rethrowError } = require('../../errors')
 const { parsePatchOp } = require('../parse')
 
 const { PRE_VALIDATORS } = require('./pre_validators')
@@ -65,13 +65,20 @@ const validatePatchOp = function (input) {
 }
 
 const checkError = function ({ error, commandpath, attrName, patchOp }) {
-  const { message, reason } = typeof error === 'string'
-    ? { message: error, reason: 'VALIDATION' }
-    : error
-
   const commandpathA = [...commandpath, attrName].join('.')
-  const messageA = `At '${commandpathA}', wrong operation '${JSON.stringify(patchOp)}': ${message}`
-  throwError(messageA, { reason })
+  const prefix = `At '${commandpathA}', wrong operation '${JSON.stringify(patchOp)}': `
+
+  if (error instanceof Error) {
+    // eslint-disable-next-line fp/no-mutation, no-param-reassign
+    error.message = `${prefix}${error.message}`
+    rethrowError(error)
+  }
+
+  throwPb({
+    reason: 'VALIDATION',
+    message: `${prefix}${error}`,
+    extra: { value: patchOp, path: commandpathA },
+  })
 }
 
 module.exports = {

@@ -3,8 +3,8 @@
 const { decapitalize } = require('underscore.string')
 
 const { runConfigFunc } = require('../../functions')
-const { addGenErrorHandler } = require('../../errors')
-const { getReason } = require('../error')
+const { addErrorHandler, createPb } = require('../../errors')
+const { getPatchErrorProps } = require('../error')
 
 // Uses `patchOp.check()`
 const applyCheck = function ({
@@ -26,7 +26,11 @@ const applyCheck = function ({
   return messageA
 }
 
-const eRunConfigFunc = addGenErrorHandler(runConfigFunc, { reason: getReason })
+const applyCheckHandler = function (error) {
+  return error
+}
+
+const eRunConfigFunc = addErrorHandler(runConfigFunc, applyCheckHandler)
 
 const getCheckMessage = function ({ type, message }) {
   if (message === undefined) { return }
@@ -35,9 +39,17 @@ const getCheckMessage = function ({ type, message }) {
     return decapitalize(message)
   }
 
-  const messageA = `patch operator '${type}' check() function must return either a string or undefined, not ${typeof message}`
-  const reason = getReason({ operator: type })
-  return { message: messageA, reason }
+  if (message instanceof Error) {
+    return createPb(
+      `patch operator '${type}' check() function must return either a string or undefined. Instead it threw or returned an error.`,
+      { ...getPatchErrorProps({ type }), innererror: message },
+    )
+  }
+
+  return createPb(
+    `patch operator '${type}' check() function must return either a string or undefined, not '${message}'`,
+    getPatchErrorProps({ type, extra: { value: message } }),
+  )
 }
 
 module.exports = {
