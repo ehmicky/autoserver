@@ -15,7 +15,7 @@ const createError = function (message, opts = {}) {
   const error = new Error(message)
   // This is the only way to keep it an instanceof Error
   // eslint-disable-next-line fp/no-mutating-assign
-  Object.assign(error, { ...opts, innererror, type: ERROR_TYPE })
+  Object.assign(error, { extra: {}, ...opts, innererror, type: ERROR_TYPE })
 
   return error
 }
