@@ -1,9 +1,10 @@
 'use strict'
 
 const process = require('process')
+const { inspect } = require('util')
 
 const { logEvent } = require('../log')
-const { normalizeError, normalizeReason } = require('../errors')
+const { createError } = require('../errors')
 
 // Error handling for all failures that are process-related
 // If a single process might start two instances of the server, each instance
@@ -17,43 +18,45 @@ const processErrorHandler = function ({ config }) {
 }
 
 const setupUnhandledRejection = function ({ config }) {
-  process.on('unhandledRejection', async error => {
-    const message = getMessage({ error })
-    const messageA = `A promise was rejected and not handled right away\n${message}`
-    await emitProcessEvent({ message: messageA, config })
+  process.on('unhandledRejection', async value => {
+    const { message, innererror } = getUnhandledProps(value)
+    await emitProcessEvent({ message, innererror, config })
   })
 }
 
-const getMessage = function ({ error }) {
-  if (typeof error === 'string') { return error }
+const getUnhandledProps = function (value) {
+  if (value instanceof Error) {
+    return { message: UNHANDLED_MESSAGE, innererror: value }
+  }
 
-  const nameA = ['details', 'stack', 'message', 'description']
-    .find(name => error[name])
-  return error[nameA] || ''
+  return { message: `${UNHANDLED_MESSAGE} with value: ${value}` }
 }
 
+const UNHANDLED_MESSAGE = 'A promise was rejected and not handled right away'
+
 const setupRejectionHandled = function ({ config }) {
-  process.on('rejectionHandled', async () => {
-    const message = 'A promise was rejected but handled too late'
+  process.on('rejectionHandled', async promise => {
+    const message = `A promise was rejected but handled too late: ${inspect(promise)}`
     await emitProcessEvent({ message, config })
   })
 }
 
 const setupWarning = function ({ config }) {
   process.on('warning', async error => {
-    await emitProcessEvent({ error, config })
+    const { message, code, detail } = error
+    const messageA = `${message}\n${code}: ${detail}`
+    await emitProcessEvent({ message: messageA, innererror: error, config })
   })
 }
 
 // Report process problems as events with event 'failure'
-const emitProcessEvent = async function ({ error, message, config }) {
-  const errorA = normalizeError({ error, message })
-  const errorB = normalizeReason({ error: errorA, reason: 'ENGINE' })
+const emitProcessEvent = async function ({ message, innererror, config }) {
+  const error = createError(message, { reason: 'ENGINE', innererror })
 
   await logEvent({
     event: 'failure',
     phase: 'process',
-    params: { error: errorB },
+    params: { error },
     config,
   })
 }

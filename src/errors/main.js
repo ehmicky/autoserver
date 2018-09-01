@@ -7,15 +7,15 @@ const { getInnerError } = require('./inner')
 
 // Note that any exception thrown in the `error` module might not create an
 // event (since this is the error), so we must be precautious.
-const createError = function (message, stack, opts = {}) {
+const createError = function (message, opts = {}) {
   validateError(opts)
 
-  const innererror = getInnerError({ opts, stack })
+  const innererror = getInnerError(opts)
 
   const error = new Error(message)
   // This is the only way to keep it an instanceof Error
   // eslint-disable-next-line fp/no-mutating-assign
-  Object.assign(error, { ...opts, stack, innererror, type: ERROR_TYPE })
+  Object.assign(error, { ...opts, innererror, type: ERROR_TYPE })
 
   return error
 }
@@ -38,7 +38,7 @@ const isError = function ({ error }) {
 
 const throwError = function (message = MISSING_MESSAGE, opts) {
   const stack = message.stack || getStack({ caller: throwError })
-  const error = createError(message, stack, opts)
+  const error = createError(message, { ...opts, stack })
   // eslint-disable-next-line fp/no-throw
   throw error
 }
@@ -50,16 +50,15 @@ const rethrowError = function (error) {
 
 // External dependencies might throw errors that are not instances of
 // our types of error, so we want to fix those.
-const normalizeError = function ({ error, message }) {
+const normalizeError = function ({ error }) {
   if (isError({ error })) { return error }
 
-  const errorMessage = getErrorMessage({ error, message })
+  const errorMessage = getErrorMessage({ error })
   const stack = (error && error.stack) || getStack({ caller: normalizeError })
-  return createError(errorMessage, stack)
+  return createError(errorMessage, { stack })
 }
 
-const getErrorMessage = function ({ error, message }) {
-  if (message) { return message }
+const getErrorMessage = function ({ error }) {
   if (typeof error === 'string') { return error }
   if (error.message) { return error.message }
   return ''
@@ -72,6 +71,7 @@ const getStack = function ({ caller } = {}) {
 }
 
 module.exports = {
+  createError,
   throwError,
   rethrowError,
   normalizeError,
