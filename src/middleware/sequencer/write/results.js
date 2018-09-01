@@ -1,7 +1,7 @@
 'use strict'
 
 const { flatten } = require('../../../utilities')
-const { throwError } = require('../../../errors')
+const { throwPb } = require('../../../errors')
 
 const { handlers } = require('./args')
 
@@ -47,7 +47,7 @@ const validateData = function ({ ids, data }) {
   if (sameLength) { return }
 
   const message = `'ids' and 'results' do not have the same length`
-  throwError(message, { reason: 'ENGINE' })
+  throwPb({ message, reason: 'ENGINE' })
 }
 
 module.exports = {
