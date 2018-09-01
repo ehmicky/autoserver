@@ -4,7 +4,7 @@ const process = require('process')
 const { inspect } = require('util')
 
 const { logEvent } = require('../log')
-const { createError } = require('../errors')
+const { createPb } = require('../errors')
 
 // Error handling for all failures that are process-related
 // If a single process might start two instances of the server, each instance
@@ -12,16 +12,15 @@ const { createError } = require('../errors')
 // Note that process events fired that do not belong to autoserver might be
 // caught as well.
 const processErrorHandler = function ({ config }) {
-  setupUnhandledRejection({ config })
-  setupRejectionHandled({ config })
-  setupWarning({ config })
+  process.on('unhandledRejection', unhandledHandler.bind(null, config))
+  process.on('rejectionHandled', rejectionHandledHandler.bind(null, config))
+  process.on('warning', warningHandler.bind(null, config))
 }
 
-const setupUnhandledRejection = function ({ config }) {
-  process.on('unhandledRejection', async value => {
-    const { message, innererror } = getUnhandledProps(value)
-    await emitProcessEvent({ message, innererror, config })
-  })
+const unhandledHandler = async function (config, value) {
+  const { message, innererror } = getUnhandledProps(value)
+
+  await emitProcessEvent({ message, innererror, config })
 }
 
 const getUnhandledProps = function (value) {
@@ -34,24 +33,25 @@ const getUnhandledProps = function (value) {
 
 const UNHANDLED_MESSAGE = 'A promise was rejected and not handled right away'
 
-const setupRejectionHandled = function ({ config }) {
-  process.on('rejectionHandled', async promise => {
-    const message = `A promise was rejected but handled too late: ${inspect(promise)}`
-    await emitProcessEvent({ message, config })
-  })
+const rejectionHandledHandler = async function (config, promise) {
+  const message = `A promise was rejected but handled too late: ${inspect(promise)}`
+
+  await emitProcessEvent({ message, config })
 }
 
-const setupWarning = function ({ config }) {
-  process.on('warning', async error => {
-    const { message, code, detail } = error
-    const messageA = `${message}\n${code}: ${detail}`
-    await emitProcessEvent({ message: messageA, innererror: error, config })
-  })
+const warningHandler = async function (config, error) {
+  const { message, code, detail } = error
+  const nextLine = [code, detail]
+    .filter(string => string !== undefined)
+    .join(':')
+  const messageA = `${message}\n${nextLine}`
+
+  await emitProcessEvent({ message: messageA, innererror: error, config })
 }
 
 // Report process problems as events with event 'failure'
 const emitProcessEvent = async function ({ message, innererror, config }) {
-  const error = createError(message, { reason: 'ENGINE', innererror })
+  const error = createPb(message, { reason: 'ENGINE', innererror })
 
   await logEvent({
     event: 'failure',
