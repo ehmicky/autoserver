@@ -1,10 +1,6 @@
 'use strict'
 
-const {
-  addErrorHandler,
-  normalizeError,
-  normalizeReason,
-} = require('../../errors')
+const { addErrorHandler, createPb, normalizeError } = require('../../errors')
 const { logEvent } = require('../../log')
 
 // Shutdown failures events
@@ -17,21 +13,22 @@ const funcHandler = async function (
   { config, type, adapter: { title, name } },
 ) {
   const message = FAILURE_MESSAGES[type]
-  const messageA = `${title} - ${message}`
-
   const reason = REASONS[type]
-  const errorA = normalizeError({ error })
-  const errorB = normalizeReason({
-    error: errorA,
+
+  const innererror = normalizeError({ error })
+  const errorA = createPb(message, {
     reason,
     extra: { adapter: name },
+    innererror,
   })
+
+  const eventMessage = `${title} - ${message}`
 
   await logEvent({
     event: 'failure',
     phase: 'shutdown',
-    message: messageA,
-    params: { error: errorB },
+    message: eventMessage,
+    params: { error: errorA },
     config,
   })
 

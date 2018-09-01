@@ -2,7 +2,7 @@
 
 const { decapitalize } = require('underscore.string')
 
-const { throwError } = require('./main')
+const { createError, throwError } = require('./main')
 const REASONS = require('./reasons')
 
 // Get generic standard error properties, according to error reason
@@ -17,6 +17,13 @@ const getReason = function ({ reason = 'UNKNOWN' } = { reason: 'SUCCESS' }) {
   if (REASONS[reason] === undefined) { return 'UNKNOWN' }
 
   return reason
+}
+
+const createPb = function (message, { messageInput, ...opts } = {}) {
+  const messageA = getPropsMessage({ message, messageInput, ...opts })
+
+  const error = createError(messageA, opts)
+  return error
 }
 
 const normalizeReason = function ({
@@ -63,6 +70,7 @@ const addPrefix = function ({ message, prefix }) {
 
 module.exports = {
   getProps,
+  createPb,
   normalizeReason,
   getReason,
   throwPb,
