@@ -26,20 +26,6 @@ const createPb = function (message, { messageInput, ...opts } = {}) {
   return error
 }
 
-const normalizeReason = function ({
-  error,
-  message = error.message,
-  messageInput,
-  ...opts
-}) {
-  const messageA = getPropsMessage({ message, messageInput, ...opts })
-
-  // eslint-disable-next-line fp/no-mutating-assign
-  Object.assign(error, { ...opts, message: messageA })
-
-  return error
-}
-
 // Throw exception for a specific error reason
 const throwPb = function ({ message, messageInput, ...opts }) {
   const messageA = getPropsMessage({ message, messageInput, ...opts })
@@ -71,7 +57,6 @@ const addPrefix = function ({ message, prefix }) {
 module.exports = {
   getProps,
   createPb,
-  normalizeReason,
   getReason,
   throwPb,
 }

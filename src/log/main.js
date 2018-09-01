@@ -3,8 +3,8 @@
 const {
   addErrorHandler,
   normalizeError,
-  normalizeReason,
   rethrowError,
+  createPb,
 } = require('../errors')
 
 const { getLogParams } = require('./params')
@@ -60,7 +60,10 @@ const getReportFunc = function ({ event, provider }) {
 
 const logEventHandler = function (error, { config, event }) {
   const errorA = normalizeError({ error })
-  const errorB = normalizeReason({ error: errorA, reason: 'ENGINE' })
+  const errorB = createPb('An error occurred during logging', {
+    reason: 'ENGINE',
+    innererror: errorA,
+  })
   const params = { error: errorB }
 
   // Give up if error handler fails
@@ -70,7 +73,7 @@ const logEventHandler = function (error, { config, event }) {
   // Failure events are at the top of code stacks. They should not throw.
   if (event === 'failure') { return }
 
-  rethrowError(error)
+  rethrowError(errorB)
 }
 
 const eLogEvent = addErrorHandler(logEvent, logEventHandler)
@@ -78,7 +81,10 @@ const eLogEvent = addErrorHandler(logEvent, logEventHandler)
 // This means there is a bug in the logging code itself
 const safetyHandler = function (error) {
   const errorA = normalizeError({ error })
-  const errorB = normalizeReason({ error: errorA, reason: 'ENGINE' })
+  const errorB = createPb('An error occurred during logging error handling', {
+    reason: 'ENGINE',
+    innererror: errorA,
+  })
   // eslint-disable-next-line no-console, no-restricted-globals
   console.error(errorA.message, errorB)
 }
