@@ -1,6 +1,6 @@
 'use strict'
 
-const { addGenErrorHandler } = require('../errors')
+const { addGenPbHandler } = require('../errors')
 
 const { getParams } = require('./params')
 const { stringifyConfigFunc } = require('./tokenize')
@@ -20,10 +20,11 @@ const runConfigFunc = function ({
   return configFunc(paramsA)
 }
 
-const eRunConfigFunc = addGenErrorHandler(runConfigFunc, {
+const eRunConfigFunc = addGenPbHandler(runConfigFunc, {
   message: ({ configFunc }) =>
     `Function failed: '${stringifyConfigFunc({ configFunc })}'`,
   reason: 'CONFIG_RUNTIME',
+  extra: ({ configFunc }) => ({ value: stringifyConfigFunc({ configFunc }) }),
 })
 
 module.exports = {
