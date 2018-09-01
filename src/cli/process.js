@@ -1,13 +1,7 @@
 'use strict'
 
-const {
-  omit,
-  recurseMap,
-  fullRecurseMap,
-  transtype,
-  getWordsList,
-} = require('../utilities')
-const { throwError } = require('../errors')
+const { omit, recurseMap, fullRecurseMap, transtype } = require('../utilities')
+const { throwPb } = require('../errors')
 
 const { availableInstructions } = require('./available')
 
@@ -51,9 +45,8 @@ const getInstruction = function ({
 const validatePosArgs = function ({ posArgs }) {
   if (posArgs.length === 0) { return }
 
-  const posArgsA = getWordsList(posArgs, { quote: true })
-  const message = `Unknown positional options: '${posArgsA}'`
-  throwError(message, { reason: 'CONFIG_VALIDATION' })
+  const message = `Unknown positional options: '${posArgs.join(' ')}'`
+  throwPb({ message, reason: 'CONFIG_VALIDATION', extra: { value: posArgs } })
 }
 
 // Allow JSON values for options
