@@ -21,15 +21,17 @@ const getErrorMessage = function ({
 
 const getStack = function (description, details = '') {
   // Only include description if it's not already in the stack trace
-  const stack = !description || details.indexOf(description) !== -1
+  const stack = !description || details.includes(description)
     ? details
     : `${description}\n${details}`
 
+  // Remove `Error:` as it gets prepended to `error.stack` (i.e. `details`)
+  const stackA = stack.replace(/^[\w]*Error: /u, '')
+
   // Shorten stack trace directory paths
   const dirPrefixRegExp = new RegExp(ROOT_DIR, 'gu')
-  const trimmedStack = stack.replace(dirPrefixRegExp, '')
-
-  return trimmedStack
+  const stackB = stackA.replace(dirPrefixRegExp, '')
+  return stackB
 }
 
 const ROOT_DIR = resolve(__dirname, '../..')
