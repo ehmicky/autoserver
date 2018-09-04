@@ -1,6 +1,6 @@
 'use strict'
 
-const { throwError, addGenErrorHandler } = require('../../errors')
+const { throwPb, addGenPbHandler } = require('../../errors')
 const { compile, validate } = require('../../validation')
 
 // Validates `database.DATABASE.*`, `protocols.PROTOCOL.*` and `log.LOG.*`
@@ -10,24 +10,30 @@ const validateAdaptersOpts = function ({ opts, adaptersOpts, key }) {
 }
 
 const validateAdapterOpts = function ({ name, opts, adaptersOpts, key }) {
-  const jsonSchema = getAdapterOpts({ name, adaptersOpts, key })
+  const jsonSchema = getAdapterOpts({ name, opts, adaptersOpts, key })
   const compiledJsonSchema = compile({ jsonSchema })
 
-  eValidate({ compiledJsonSchema, data: opts, key, name })
+  eValidate({ compiledJsonSchema, jsonSchema, data: opts, key, name })
 }
 
-const getAdapterOpts = function ({ name, adaptersOpts, key }) {
+const getAdapterOpts = function ({ name, opts, adaptersOpts, key }) {
   const adapterOpts = adaptersOpts[name]
   if (adapterOpts !== undefined) { return adapterOpts }
 
-  const message = `'${key}.${name}' is unknown`
-  throwError(message, { reason: 'CONFIG_VALIDATION' })
+  throwPb({
+    message: 'Unknown property',
+    reason: 'CONFIG_VALIDATION',
+    extra: { value: opts, path: `${key}.${name}` },
+  })
 }
 
-const eValidate = addGenErrorHandler(validate, {
-  message: ({ key, name }, { message }) =>
-    `Wrong configuration: in '${key}.${name}', ${message}`,
+const eValidate = addGenPbHandler(validate, {
   reason: 'CONFIG_VALIDATION',
+  extra: ({ key, name, data, jsonSchema }) => ({
+    value: data,
+    jsonSchema,
+    path: `${key}.${name}`,
+  }),
 })
 
 module.exports = {
