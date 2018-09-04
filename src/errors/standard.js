@@ -19,7 +19,6 @@ const getStandardError = function ({ error, mInput }) {
   return errorC
 }
 
-// Order matters, as this will be kept in final output
 const fillError = function ({
   error,
   mInput: {
@@ -37,9 +36,8 @@ const fillError = function ({
     extra = {},
   } = error
 
-  const errorA = { type, title, description, status, instance }
-
-  return { ...errorA, ...extra, details }
+  // Order matters, as this will be kept in final output
+  return { type, title, description, status, instance, ...extra, details }
 }
 
 module.exports = {
