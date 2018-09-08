@@ -4,7 +4,7 @@ const { Buffer: { byteLength } } = require('buffer')
 
 const pluralize = require('pluralize')
 
-const { getWordsList } = require('../../utilities')
+const { getWordsList } = require('../../utils')
 const { isPatchOpName } = require('../parse')
 const { isRef } = require('../ref_parsing')
 

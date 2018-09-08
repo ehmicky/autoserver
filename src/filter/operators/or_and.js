@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten } = require('../../utilities')
+const { flatten } = require('../../utils')
 
 const parseOr = function ({ value, parseOperations, throwErr }) {
   const node = value

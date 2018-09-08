@@ -1,6 +1,6 @@
 'use strict'
 
-const { isEqual } = require('../../utilities')
+const { isEqual } = require('../../utils')
 
 // Retrieves `summary`
 // This is all `actions`, included nested ones as a nice formatted string,

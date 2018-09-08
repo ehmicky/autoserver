@@ -1,6 +1,6 @@
 'use strict'
 
-const { get } = require('../../utilities')
+const { get } = require('../../utils')
 const { DEEP_OPERATORS } = require('../operators')
 
 // In `{ attribute: { _some: { _eq: value } } }`, `_eq` is considered deep

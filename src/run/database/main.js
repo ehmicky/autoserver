@@ -1,6 +1,6 @@
 'use strict'
 
-const { mapValues, uniq } = require('../../utilities')
+const { mapValues, uniq } = require('../../utils')
 const { getDatabase } = require('../../databases')
 
 const { startConnections } = require('./connect')

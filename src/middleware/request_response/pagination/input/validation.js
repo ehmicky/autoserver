@@ -1,6 +1,6 @@
 'use strict'
 
-const { isEqual } = require('../../../../utilities')
+const { isEqual } = require('../../../../utils')
 const { throwError } = require('../../../../errors')
 const { SAME_ARGS } = require('../info')
 

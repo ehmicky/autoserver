@@ -1,6 +1,6 @@
 'use strict'
 
-const { mapValues, pickBy } = require('../../../utilities')
+const { mapValues, pickBy } = require('../../../utils')
 const { runConfigFunc, getModelParams } = require('../../../functions')
 
 // Handles `attr.value`, `attr.default` and `attr.readonly`

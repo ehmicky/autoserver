@@ -1,6 +1,6 @@
 'use strict'
 
-const { pStat } = require('../utilities')
+const { pStat } = require('../utils')
 const { addGenErrorHandler, addErrorHandler } = require('../errors')
 const { getByExt, DEFAULT_RAW_FORMAT } = require('../formats')
 

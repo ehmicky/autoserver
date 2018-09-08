@@ -1,6 +1,6 @@
 'use strict'
 
-const { deepMerge } = require('../../../utilities')
+const { deepMerge } = require('../../../utils')
 const { dereferenceRefs } = require('../../../json_refs')
 
 const { getEnvVars } = require('./env')

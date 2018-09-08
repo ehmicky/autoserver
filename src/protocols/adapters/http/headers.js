@@ -1,6 +1,6 @@
 'use strict'
 
-const { pickBy, mapKeys, mapValues, transtype } = require('../../../utilities')
+const { pickBy, mapKeys, mapValues, transtype } = require('../../../utils')
 
 // Returns a request's application-specific HTTP headers, normalized lowercase.
 // At the moment, only keeps X-Autoserver-Params header

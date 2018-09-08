@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten } = require('../../../utilities')
+const { flatten } = require('../../../utils')
 
 const getValues = function ({ actions, filter, mapper, ...rest }) {
   const values = actions

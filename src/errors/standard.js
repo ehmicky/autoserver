@@ -1,6 +1,6 @@
 'use strict'
 
-const { omitBy } = require('../utilities')
+const { omitBy } = require('../utils')
 
 const { getReason, getProps } = require('./props')
 const { normalizeError } = require('./main')

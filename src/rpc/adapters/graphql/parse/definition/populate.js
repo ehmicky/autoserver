@@ -1,6 +1,6 @@
 'use strict'
 
-const { uniq } = require('../../../../../utilities')
+const { uniq } = require('../../../../../utils')
 
 // Retrieve `rpcDef.args.populate` using GraphQL selection sets
 const addPopulate = function ({ args, args: { select }, commandName }) {

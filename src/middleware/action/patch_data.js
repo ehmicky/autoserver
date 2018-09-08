@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten, groupBy, mapValues } = require('../../utilities')
+const { flatten, groupBy, mapValues } = require('../../utils')
 const { applyPatchOps } = require('../../patch')
 
 // Merge `currentData` with the `args.data` in `patch` commands,

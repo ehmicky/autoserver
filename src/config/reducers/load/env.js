@@ -2,7 +2,7 @@
 
 const { env } = require('process')
 
-const { transtype, set } = require('../../../utilities')
+const { transtype, set } = require('../../../utils')
 
 // Retrieve environment variables related to this project,
 // as a normalized object, ready to be used as options

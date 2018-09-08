@@ -3,7 +3,7 @@
 // eslint-disable-next-line import/no-internal-modules
 const encodings = require('iconv-lite/encodings')
 
-const { omitBy } = require('../utilities')
+const { omitBy } = require('../utils')
 
 const { DEFAULT_INPUT_CHARSET } = require('./constants')
 const { validateCharset } = require('./validate')

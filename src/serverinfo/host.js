@@ -14,7 +14,7 @@ const {
 // eslint-disable-next-line import/no-internal-modules
 const uuidv5 = require('uuid/v5')
 
-const { flatten } = require('../utilities')
+const { flatten } = require('../utils')
 
 // Retrieve host-specific information
 const getHostInfo = function () {

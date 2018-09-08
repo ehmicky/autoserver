@@ -1,6 +1,6 @@
 'use strict'
 
-const { reduceAsync } = require('../utilities')
+const { reduceAsync } = require('../utils')
 const { monitor } = require('../perf')
 const { addErrorHandler } = require('../errors')
 

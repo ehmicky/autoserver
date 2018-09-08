@@ -1,6 +1,6 @@
 'use strict'
 
-const { mapValues, omitBy } = require('../../../utilities')
+const { mapValues, omitBy } = require('../../../utils')
 const { getColl } = require('../get_coll')
 
 const { isModelsType } = require('./validate')

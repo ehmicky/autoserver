@@ -1,6 +1,6 @@
 'use strict'
 
-const { omit, recurseMap, fullRecurseMap, transtype } = require('../utilities')
+const { omit, recurseMap, fullRecurseMap, transtype } = require('../utils')
 const { throwPb } = require('../errors')
 
 const { availableInstructions } = require('./available')

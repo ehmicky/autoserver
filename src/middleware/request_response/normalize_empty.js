@@ -1,6 +1,6 @@
 'use strict'
 
-const { omitBy } = require('../../utilities')
+const { omitBy } = require('../../utils')
 
 // Normalize empty values (undefined, null) by removing their key
 const normalizeEmpty = function ({ args, args: { newData } }) {

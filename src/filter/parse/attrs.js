@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten } = require('../../utilities')
+const { flatten } = require('../../utils')
 const { getOperator, DEEP_OPERATORS } = require('../operators')
 const { parseSiblingNode } = require('../siblings')
 

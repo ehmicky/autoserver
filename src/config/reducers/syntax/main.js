@@ -1,6 +1,6 @@
 'use strict'
 
-const { omitBy, fullRecurseMap } = require('../../../utilities')
+const { omitBy, fullRecurseMap } = require('../../../utils')
 const { addGenErrorHandler } = require('../../../errors')
 const { compile, validate } = require('../../../validation')
 

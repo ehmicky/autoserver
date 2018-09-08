@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten } = require('../../../../utilities')
+const { flatten } = require('../../../../utils')
 
 // Retrieve `nestedPagesize`, which is the pagesize applied to nested actions
 // We try to maximize it, while still be under the `maxmodels` limit

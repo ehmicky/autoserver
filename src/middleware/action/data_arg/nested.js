@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten, uniq } = require('../../../utilities')
+const { flatten, uniq } = require('../../../utils')
 const { getColl } = require('../get_coll')
 
 const { getDataPath } = require('./data_path')

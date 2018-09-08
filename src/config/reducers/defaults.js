@@ -1,6 +1,6 @@
 'use strict'
 
-const { deepMerge } = require('../../utilities')
+const { deepMerge } = require('../../utils')
 const { PROTOCOL_DEFAULTS } = require('../../protocols')
 const { DEFAULT_DATABASE, DATABASE_DEFAULTS } = require('../../databases')
 const { mapColls, mapAttrs } = require('../helpers')

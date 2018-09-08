@@ -1,6 +1,6 @@
 'use strict'
 
-const { difference } = require('../../utilities')
+const { difference } = require('../../utils')
 const { getFeatures } = require('../../filter')
 const { FEATURES } = require('../constants')
 

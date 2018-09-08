@@ -1,6 +1,6 @@
 'use strict'
 
-const { pickBy, mapValues } = require('../../../utilities')
+const { pickBy, mapValues } = require('../../../utils')
 
 const { renameData } = require('./data')
 const { renameFilter } = require('./filter')

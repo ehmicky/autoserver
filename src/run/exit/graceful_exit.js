@@ -1,7 +1,7 @@
 'use strict'
 
 const { monitor } = require('../../perf')
-const { onlyOnce } = require('../../utilities')
+const { onlyOnce } = require('../../utils')
 const { addErrorHandler } = require('../../errors')
 const { logEvent, logPerfEvent } = require('../../log')
 

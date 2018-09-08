@@ -1,6 +1,6 @@
 'use strict'
 
-const { mapValues, flatten, uniq } = require('../../utilities')
+const { mapValues, flatten, uniq } = require('../../utils')
 const { OPERATORS } = require('../../patch')
 
 // Parse `operators.attribute|argument` `any`

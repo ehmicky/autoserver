@@ -1,6 +1,6 @@
 'use strict'
 
-const { omit, isEqual } = require('../../../utilities')
+const { omit, isEqual } = require('../../../utils')
 const { throwError } = require('../../../errors')
 
 // Apply `alias` in `args.data`

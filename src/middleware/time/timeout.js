@@ -1,7 +1,7 @@
 'use strict'
 
 const { throwPb } = require('../../errors')
-const { pSetTimeout } = require('../../utilities')
+const { pSetTimeout } = require('../../utils')
 const { getLimits } = require('../../limits')
 
 // Make request fail after some timeout

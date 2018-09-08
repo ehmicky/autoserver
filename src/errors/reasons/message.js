@@ -2,7 +2,7 @@
 
 const pluralize = require('pluralize')
 
-const { getWordsList } = require('../../utilities')
+const { getWordsList } = require('../../utils')
 
 // Try to make error messages start the same way when referring to models
 const getModels = function ({ ids, op = 'and', collection } = {}) {

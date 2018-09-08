@@ -1,6 +1,6 @@
 'use strict'
 
-const { uniq } = require('../../utilities')
+const { uniq } = require('../../utils')
 
 // Add `modelscount` and `uniquecount`, using `results`.
 // `modelscount` is the number of models in the response

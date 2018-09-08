@@ -2,7 +2,7 @@
 
 const { resolve } = require('path')
 
-const { mapValues, renderTemplate } = require('../../../../utilities')
+const { mapValues, renderTemplate } = require('../../../../utils')
 
 const TEMPLATE = resolve(__dirname, './graphiql.mustache')
 

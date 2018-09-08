@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten } = require('../../../utilities')
+const { flatten } = require('../../../utils')
 
 // When using `select=parent.child`, `select=parent` is implicity added,
 // unless it was already selected, including by `select=all` or by specifying

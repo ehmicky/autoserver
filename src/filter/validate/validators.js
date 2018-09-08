@@ -1,6 +1,6 @@
 'use strict'
 
-const { getWordsList, difference, intersection } = require('../../utilities')
+const { getWordsList, difference, intersection } = require('../../utils')
 const { ENUM_OPERATORS } = require('../operators')
 
 // Validate value is among set of values

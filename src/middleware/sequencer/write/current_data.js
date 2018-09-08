@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten } = require('../../../utilities')
+const { flatten } = require('../../../utils')
 
 // Retrieve `currentData`, so it is passed to command middleware
 const getCurrentData = function ({ actions, ids }) {

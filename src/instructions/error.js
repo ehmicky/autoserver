@@ -1,6 +1,6 @@
 'use strict'
 
-const { mapValues } = require('../utilities')
+const { mapValues } = require('../utils')
 const { addErrorHandler, getStandardError, rethrowError } = require('../errors')
 
 // Every instruction should throw standard errors

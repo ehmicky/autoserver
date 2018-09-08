@@ -1,7 +1,7 @@
 'use strict'
 
 const { throwError } = require('../../../../../errors')
-const { flatten } = require('../../../../../utilities')
+const { flatten } = require('../../../../../utils')
 
 const { applyDirectives } = require('./directive')
 const { mergeSelectRename } = require('./merge_select')

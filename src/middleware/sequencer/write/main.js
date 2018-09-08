@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten, groupValuesBy } = require('../../../utilities')
+const { flatten, groupValuesBy } = require('../../../utils')
 const { addErrorHandler, normalizeError } = require('../../../errors')
 const { mergeCommandpaths } = require('../../../commands')
 

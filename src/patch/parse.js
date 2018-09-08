@@ -1,6 +1,6 @@
 'use strict'
 
-const { isObject } = require('../utilities')
+const { isObject } = require('../utils')
 
 // Check if this is a patch operation, e.g. `{ _add: 10 }`
 const isPatchOp = function (patchOp) {

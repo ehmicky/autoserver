@@ -4,7 +4,7 @@ const { cwd } = require('process')
 const { resolve, isAbsolute } = require('path')
 
 const { throwError, addGenErrorHandler } = require('../../../errors')
-const { pReaddir } = require('../../../utilities')
+const { pReaddir } = require('../../../utils')
 const { getByExt } = require('../../../formats')
 
 // Retrieves final config path to use

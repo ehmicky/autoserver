@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten, uniq } = require('../utilities')
+const { flatten, uniq } = require('../utils')
 
 const { crawlNodes } = require('./crawl')
 const { isSiblingValue } = require('./siblings')

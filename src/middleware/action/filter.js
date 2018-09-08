@@ -1,6 +1,6 @@
 'use strict'
 
-const { omit } = require('../../utilities')
+const { omit } = require('../../utils')
 const { parseFilter, validateFilter } = require('../../filter')
 
 // Parse `args.filter` and `args.id` into AST

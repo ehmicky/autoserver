@@ -2,7 +2,7 @@
 
 const parsePreferHeaderLib = require('parse-prefer-header')
 
-const { mapValues, omitBy } = require('../../../utilities')
+const { mapValues, omitBy } = require('../../../utils')
 const { throwError, addGenErrorHandler } = require('../../../errors')
 
 const {

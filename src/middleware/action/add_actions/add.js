@@ -6,7 +6,7 @@ const {
   flatten,
   omit,
   uniq,
-} = require('../../../utilities')
+} = require('../../../utils')
 const { throwError } = require('../../../errors')
 
 const { getValues } = require('./values')

@@ -1,6 +1,6 @@
 'use strict'
 
-const { omit } = require('../../../utilities')
+const { omit } = require('../../../utils')
 
 // Retrieve a database input that reverts the write action, if it was
 // successful, or is a noop, if it was not performed.

@@ -1,6 +1,6 @@
 'use strict'
 
-const { pSetTimeout } = require('../../../../utilities')
+const { pSetTimeout } = require('../../../../utils')
 
 const { find } = require('./find')
 const { delete: deleteMany } = require('./delete')

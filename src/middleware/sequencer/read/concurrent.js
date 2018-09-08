@@ -1,6 +1,6 @@
 'use strict'
 
-const { difference } = require('../../../utilities')
+const { difference } = require('../../../utils')
 const { extractSimpleIds, getSimpleFilter } = require('../../../filter')
 
 // If another `find` command searching for the same models is currently running,

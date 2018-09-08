@@ -105,7 +105,7 @@ that allows injecting custom logic.
 
 ## Utilities
 
-Set of generic code under `src/utilities/`
+Set of generic code under `src/utils/`
 
 ## Request
 

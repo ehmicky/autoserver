@@ -1,6 +1,6 @@
 'use strict'
 
-const { mapValues, omit, pSetTimeout } = require('../utilities')
+const { mapValues, omit, pSetTimeout } = require('../utils')
 const { logEvent } = require('../log')
 const { getDefaultDuration } = require('../perf')
 const { getServerinfo } = require('../serverinfo')

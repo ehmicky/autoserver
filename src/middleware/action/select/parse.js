@@ -1,7 +1,7 @@
 'use strict'
 
 const { throwError } = require('../../../errors')
-const { uniq } = require('../../../utilities')
+const { uniq } = require('../../../utils')
 const { addToActions } = require('../add_actions')
 
 const { addParentSelects } = require('./parent')

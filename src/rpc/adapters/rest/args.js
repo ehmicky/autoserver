@@ -1,6 +1,6 @@
 'use strict'
 
-const { mapValues } = require('../../../utilities')
+const { mapValues } = require('../../../utils')
 const { throwError, throwPb } = require('../../../errors')
 
 // Use query variables, request payload and URL /ID to retrieve `args`

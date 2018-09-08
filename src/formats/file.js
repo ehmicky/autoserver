@@ -1,6 +1,6 @@
 'use strict'
 
-const { pReadFile, pWriteFile } = require('../utilities')
+const { pReadFile, pWriteFile } = require('../utils')
 
 const { parseContent, serializeContent } = require('./content')
 

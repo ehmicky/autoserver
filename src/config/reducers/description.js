@@ -1,6 +1,6 @@
 'use strict'
 
-const { getWordsList } = require('../../utilities')
+const { getWordsList } = require('../../utils')
 const { mapAttrs } = require('../helpers')
 
 // Add related `attr.description`, for the following features:

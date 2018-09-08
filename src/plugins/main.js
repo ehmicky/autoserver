@@ -1,6 +1,6 @@
 'use strict'
 
-const { omit, reduceAsync } = require('../utilities')
+const { omit, reduceAsync } = require('../utils')
 const { throwError, addGenPbHandler } = require('../errors')
 
 const { timestampPlugin } = require('./timestamp')

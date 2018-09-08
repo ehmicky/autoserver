@@ -1,6 +1,6 @@
 'use strict'
 
-const { getWordsList, uniq, flatten } = require('../../../utilities')
+const { getWordsList, uniq, flatten } = require('../../../utils')
 
 const { TYPES } = require('./available')
 

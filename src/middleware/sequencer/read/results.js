@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten } = require('../../../utilities')
+const { flatten } = require('../../../utils')
 
 // Normalize results to an object with `path`, `model`, `collname`, `select`
 // Then push to shared `results` variable

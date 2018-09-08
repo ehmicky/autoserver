@@ -1,6 +1,6 @@
 'use strict'
 
-const { sortArray, compareArrays } = require('../../utilities')
+const { sortArray, compareArrays } = require('../../utils')
 
 const sorter = function (obj, key, pathKey) {
   const val = sortArray(obj[key], sortTwo.bind(null, pathKey))

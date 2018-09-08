@@ -6,7 +6,7 @@ const {
   addErrorHandler,
   getProps,
 } = require('../../errors')
-const { omit } = require('../../utilities')
+const { omit } = require('../../utils')
 const { safetyHandler } = require('../../log')
 
 const { errorHandler } = require('./error_handler')

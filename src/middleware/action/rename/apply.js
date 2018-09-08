@@ -1,6 +1,6 @@
 'use strict'
 
-const { get, set } = require('../../../utilities')
+const { get, set } = require('../../../utils')
 
 // Rename fields if the output key is different from the database one,
 // using `arg.rename`, including with GraphQL aliases.

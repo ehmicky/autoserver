@@ -1,7 +1,7 @@
 'use strict'
 
 const { throwError } = require('../../../../../errors')
-const { mapValues } = require('../../../../../utilities')
+const { mapValues } = require('../../../../../utils')
 const { validateDuplicates } = require('../duplicates')
 
 // Parse GraphQL arguments, for each possible argument type

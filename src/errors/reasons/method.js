@@ -1,6 +1,6 @@
 'use strict'
 
-const { getWordsList } = require('../../utilities')
+const { getWordsList } = require('../../utils')
 
 const getMessage = function ({ value, suggestions }) {
   const protocols = getWordsList(suggestions, { op: 'or' })

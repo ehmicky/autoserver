@@ -1,6 +1,6 @@
 'use strict'
 
-const { difference } = require('../utilities')
+const { difference } = require('../utils')
 
 const { ERROR_TYPE, ALLOWED_OPTS, MISSING_MESSAGE } = require('./constants')
 const { getInnerError } = require('./inner')

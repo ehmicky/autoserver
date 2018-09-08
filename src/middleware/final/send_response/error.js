@@ -1,6 +1,6 @@
 'use strict'
 
-const { omit } = require('../../../utilities')
+const { omit } = require('../../../utils')
 const { getStandardError } = require('../../../errors')
 
 // Use protocol-specific way to send back the response to the client

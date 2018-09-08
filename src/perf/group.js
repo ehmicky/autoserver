@@ -1,6 +1,6 @@
 'use strict'
 
-const { groupBy } = require('../utilities')
+const { groupBy } = require('../utils')
 
 // Normalize and group measures, returning an array of objects
 const groupMeasures = function ({ measures }) {

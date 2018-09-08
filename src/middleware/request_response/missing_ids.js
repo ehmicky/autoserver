@@ -1,6 +1,6 @@
 'use strict'
 
-const { difference } = require('../../utilities')
+const { difference } = require('../../utils')
 const { throwPb } = require('../../errors')
 const { extractSimpleIds, getSimpleFilter } = require('../../filter')
 

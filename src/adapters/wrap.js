@@ -1,6 +1,6 @@
 'use strict'
 
-const { keyBy, mapValues, pick, pickBy } = require('../utilities')
+const { keyBy, mapValues, pick, pickBy } = require('../utils')
 const { addCatchAllPbHandler } = require('../errors')
 
 // Wrap adapters to:

@@ -1,6 +1,6 @@
 'use strict'
 
-const { omit } = require('../../utilities')
+const { omit } = require('../../utils')
 const { throwPb } = require('../../errors')
 const { mapColls } = require('../helpers')
 

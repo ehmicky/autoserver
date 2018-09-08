@@ -6,7 +6,7 @@ const {
   promiseThen,
   keepProps,
   result,
-} = require('../utilities')
+} = require('../utils')
 
 const { startPerf, stopPerf } = require('./measure')
 

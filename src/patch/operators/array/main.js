@@ -1,6 +1,6 @@
 'use strict'
 
-const { difference, sortArray, reverseArray } = require('../../../utilities')
+const { difference, sortArray, reverseArray } = require('../../../utils')
 
 const { ANY_ARRAY } = require('./constants')
 

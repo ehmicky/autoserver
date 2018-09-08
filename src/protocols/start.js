@@ -1,6 +1,6 @@
 'use strict'
 
-const { identity, pick, omit, mapValues } = require('../utilities')
+const { identity, pick, omit, mapValues } = require('../utils')
 
 const { parseRequest } = require('./request')
 

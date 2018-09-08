@@ -1,6 +1,6 @@
 'use strict'
 
-const { pick } = require('../../../utilities')
+const { pick } = require('../../../utils')
 
 const { getCurrentData } = require('./current_data')
 const { removeDuplicates } = require('./duplicate')

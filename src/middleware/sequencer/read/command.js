@@ -1,6 +1,6 @@
 'use strict'
 
-const { omit } = require('../../../utilities')
+const { omit } = require('../../../utils')
 const { extractSimpleIds } = require('../../../filter')
 
 // Fire the actual command

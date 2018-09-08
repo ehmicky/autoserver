@@ -1,6 +1,6 @@
 'use strict'
 
-const { pick, pickBy, mapValues } = require('../../../../utilities')
+const { pick, pickBy, mapValues } = require('../../../../utils')
 const { addGenErrorHandler, throwError } = require('../../../../errors')
 const { decode } = require('../encoding')
 const { getRightToken, TOKEN_NAMES, BOUNDARY_TOKEN } = require('../info')

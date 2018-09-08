@@ -1,7 +1,7 @@
 'use strict'
 
 const { addGenErrorHandler } = require('../errors')
-const { set, getValues } = require('../utilities')
+const { set, getValues } = require('../utils')
 
 const { getParamsKeys } = require('./params')
 const { isInlineFunc, isEscapedInlineFunc } = require('./test')

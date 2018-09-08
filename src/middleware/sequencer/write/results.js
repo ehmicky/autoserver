@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten } = require('../../../utilities')
+const { flatten } = require('../../../utils')
 const { throwPb } = require('../../../errors')
 
 const { handlers } = require('./args')

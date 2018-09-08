@@ -5,7 +5,7 @@ const {
   groupBy,
   groupValuesBy,
   mapValues,
-} = require('../../../utilities')
+} = require('../../../utils')
 const { mergeCommandpaths } = require('../../../commands')
 const { getSimpleFilter } = require('../../../filter')
 

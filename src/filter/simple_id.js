@@ -1,6 +1,6 @@
 'use strict'
 
-const { uniq, intersection } = require('../utilities')
+const { uniq, intersection } = require('../utils')
 
 // Try to guess the model `id`s by looking at `args.filter`
 // This won't work on top-level filter of findMany command using a complex one,

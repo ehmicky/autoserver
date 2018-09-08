@@ -1,6 +1,6 @@
 'use strict'
 
-const { uniq, pick, mapValues, intersection } = require('../../../utilities')
+const { uniq, pick, mapValues, intersection } = require('../../../utils')
 const { runConfigFunc } = require('../../../functions')
 const { crawlNodes } = require('../../../filter')
 

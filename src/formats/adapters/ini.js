@@ -2,7 +2,7 @@
 
 const ini = require('ini')
 
-const { fullRecurseMap } = require('../../utilities')
+const { fullRecurseMap } = require('../../utils')
 
 // Parses an INI file
 const parse = function ({ content }) {

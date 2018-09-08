@@ -1,6 +1,6 @@
 'use strict'
 
-const { getWordsList, flatten, difference } = require('../../utilities')
+const { getWordsList, flatten, difference } = require('../../utils')
 const { getFeatures } = require('../../filter')
 
 // Startup time adapter features validation

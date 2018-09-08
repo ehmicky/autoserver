@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten, isEqual, uniq } = require('../../../utilities')
+const { flatten, isEqual, uniq } = require('../../../utils')
 const { getSimpleFilter } = require('../../../filter')
 
 // Retrieve the results of all direct parent commands

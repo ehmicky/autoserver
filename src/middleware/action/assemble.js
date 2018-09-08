@@ -1,6 +1,6 @@
 'use strict'
 
-const { set } = require('../../utilities')
+const { set } = require('../../utils')
 
 // Merge all `results` into a single nested response, using `result.path`
 const assembleResults = function ({ results, top: { command } }) {

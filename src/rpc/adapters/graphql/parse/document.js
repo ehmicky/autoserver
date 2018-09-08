@@ -2,7 +2,7 @@
 
 const { parse } = require('graphql')
 
-const { isObject } = require('../../../../utilities')
+const { isObject } = require('../../../../utils')
 const { throwPb, addCatchAllHandler } = require('../../../../errors')
 
 // Generic/raw GraphQL parsing

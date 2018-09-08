@@ -1,6 +1,6 @@
 'use strict'
 
-const { mapValues } = require('../../../utilities')
+const { mapValues } = require('../../../utils')
 const { preValidate } = require('../../../patch')
 const { getColl } = require('../get_coll')
 

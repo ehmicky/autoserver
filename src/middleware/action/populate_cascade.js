@@ -1,6 +1,6 @@
 'use strict'
 
-const { uniq, includes } = require('../../utilities')
+const { uniq, includes } = require('../../utils')
 const { throwError } = require('../../errors')
 
 const { getColl } = require('./get_coll')

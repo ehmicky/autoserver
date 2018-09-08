@@ -1,6 +1,6 @@
 'use strict'
 
-const { omitBy } = require('../../../utilities')
+const { omitBy } = require('../../../utils')
 
 // Apply GraphQL-specific error response transformation
 const transformSuccess = function ({

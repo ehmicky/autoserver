@@ -1,6 +1,6 @@
 'use strict'
 
-const { pick, omit } = require('../../../utilities')
+const { pick, omit } = require('../../../utils')
 const { isType } = require('../../../content_types')
 const { getParams, reduceParams } = require('../../../functions')
 

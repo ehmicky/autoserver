@@ -1,6 +1,6 @@
 'use strict'
 
-const { isEqual } = require('../../utilities')
+const { isEqual } = require('../../utils')
 
 const { validateSameType, parseAsIs } = require('./common')
 

@@ -2,7 +2,7 @@
 'use strict'
 
 const { getStandardError } = require('../../errors')
-const { makeImmutable } = require('../../utilities')
+const { makeImmutable } = require('../../utils')
 const { getServerinfo } = require('../../serverinfo')
 
 // Retrieve all parameters

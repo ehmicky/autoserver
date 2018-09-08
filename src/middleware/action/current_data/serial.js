@@ -1,6 +1,6 @@
 'use strict'
 
-const { isEqual } = require('../../../utilities')
+const { isEqual } = require('../../../utils')
 
 // Retrieve `currentData` for `delete` and `patch` by running `find` commands,
 // reusing `arg.filter`.

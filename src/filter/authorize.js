@@ -1,6 +1,6 @@
 'use strict'
 
-const { pick, mapValues } = require('../utilities')
+const { pick, mapValues } = require('../utils')
 const { SYSTEM_PARAMS } = require('../functions')
 
 // Retrieve type and names of all possible `coll.authorize.*`

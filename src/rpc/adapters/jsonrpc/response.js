@@ -1,6 +1,6 @@
 'use strict'
 
-const { omit } = require('../../../utilities')
+const { omit } = require('../../../utils')
 
 // All error reasons and their related JSON-RPC error codes
 // We use the code `1` for any error related to database/request runtime issues

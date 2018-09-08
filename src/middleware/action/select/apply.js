@@ -1,6 +1,6 @@
 'use strict'
 
-const { get, set } = require('../../../utilities')
+const { get, set } = require('../../../utils')
 
 // Applies `args.select`.
 // Only output the fields that were picked by the client.

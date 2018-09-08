@@ -1,6 +1,6 @@
 'use strict'
 
-const { has, get } = require('../utilities')
+const { has, get } = require('../utils')
 
 const { getOperator } = require('./operators')
 const { getSiblingValue } = require('./siblings')

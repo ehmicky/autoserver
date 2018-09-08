@@ -1,6 +1,6 @@
 'use strict'
 
-const { omit } = require('../../../utilities')
+const { omit } = require('../../../utils')
 
 // Normalize protocol handlers
 // Some protocols are stateful (e.g. WebSocket) and reuse the same URL for the

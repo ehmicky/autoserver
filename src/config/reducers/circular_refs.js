@@ -1,6 +1,6 @@
 'use strict'
 
-const { mapValues, isObjectType } = require('../../utilities')
+const { mapValues, isObjectType } = require('../../utils')
 const { throwError } = require('../../errors')
 
 // There should be no circular references.

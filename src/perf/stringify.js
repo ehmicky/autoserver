@@ -1,6 +1,6 @@
 'use strict'
 
-const { sortArray } = require('../utilities')
+const { sortArray } = require('../utils')
 
 // Order matters, as console printing uses it for sorting
 const CATEGORIES = require('./categories')

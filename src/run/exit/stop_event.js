@@ -1,6 +1,6 @@
 'use strict'
 
-const { pickBy, getWordsList } = require('../../utilities')
+const { pickBy, getWordsList } = require('../../utils')
 const { logEvent } = require('../../log')
 const { getDefaultDuration } = require('../../perf')
 

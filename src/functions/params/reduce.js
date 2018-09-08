@@ -1,6 +1,6 @@
 'use strict'
 
-const { get, set, has, pick, omitBy } = require('../../utilities')
+const { get, set, has, pick, omitBy } = require('../../utils')
 
 // Reduce the size of parameters that might be too big
 const reduceParams = function ({ params }) {

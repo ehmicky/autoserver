@@ -1,6 +1,6 @@
 'use strict'
 
-const { groupBy, flatten } = require('../utilities')
+const { groupBy, flatten } = require('../utils')
 
 const {
   PARENT_OPERATORS,

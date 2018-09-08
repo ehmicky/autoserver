@@ -1,6 +1,6 @@
 'use strict'
 
-const { getValues } = require('../utilities')
+const { getValues } = require('../utils')
 
 // Recursively find all the JSON references
 const findRefs = function ({ content }) {

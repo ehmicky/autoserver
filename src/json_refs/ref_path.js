@@ -1,6 +1,6 @@
 'use strict'
 
-const { isObjectType } = require('../utilities')
+const { isObjectType } = require('../utils')
 
 const REF_SYM = Symbol('ref')
 

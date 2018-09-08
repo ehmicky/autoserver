@@ -1,6 +1,6 @@
 'use strict'
 
-const { getWordsList } = require('../../../../utilities')
+const { getWordsList } = require('../../../../utils')
 const { throwError } = require('../../../../errors')
 
 // Validate GraphQL main definition

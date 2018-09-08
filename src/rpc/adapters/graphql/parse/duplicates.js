@@ -1,6 +1,6 @@
 'use strict'
 
-const { findDuplicate } = require('../../../../utilities')
+const { findDuplicate } = require('../../../../utils')
 const { throwError } = require('../../../../errors')
 
 // GraphQL spec includes many requirements of checking for duplicates

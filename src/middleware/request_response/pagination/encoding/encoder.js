@@ -1,6 +1,6 @@
 'use strict'
 
-const { base64UrlEncode, base64UrlDecode } = require('../../../../utilities')
+const { base64UrlEncode, base64UrlDecode } = require('../../../../utils')
 
 const { addNameShortcuts, removeNameShortcuts } = require('./minify_names')
 const { convertUndefined } = require('./convert_undefined')

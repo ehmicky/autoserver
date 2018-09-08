@@ -1,6 +1,6 @@
 'use strict'
 
-const { mapValues } = require('../utilities')
+const { mapValues } = require('../utils')
 const { runConfigFunc } = require('../functions')
 const { addGenPbHandler } = require('../errors')
 

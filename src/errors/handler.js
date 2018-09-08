@@ -1,6 +1,6 @@
 'use strict'
 
-const { keepProps, result } = require('../utilities')
+const { keepProps, result } = require('../utils')
 
 const { throwError, normalizeError, isError, rethrowError } = require('./main')
 const { throwPb } = require('./props')

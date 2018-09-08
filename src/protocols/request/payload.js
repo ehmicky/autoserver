@@ -1,6 +1,6 @@
 'use strict'
 
-const { getSumParams } = require('../../utilities')
+const { getSumParams } = require('../../utils')
 const { addGenPbHandler, addErrorHandler, throwPb } = require('../../errors')
 const { getLimits } = require('../../limits')
 

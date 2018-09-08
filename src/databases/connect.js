@@ -1,6 +1,6 @@
 'use strict'
 
-const { mapValues, omit } = require('../utilities')
+const { mapValues, omit } = require('../utils')
 
 // Start database connection
 // Returns a copy of the database adapter, but with fewer members and some other

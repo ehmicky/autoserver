@@ -1,6 +1,6 @@
 'use strict'
 
-const { getWordsList, difference } = require('../../utilities')
+const { getWordsList, difference } = require('../../utils')
 
 // Adapter feature 'filter:_OPERATOR' allows for
 // `args.filter: { attrName: { _OPERATOR: value } }`

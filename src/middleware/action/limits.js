@@ -2,7 +2,7 @@
 
 const pluralize = require('pluralize')
 
-const { getWordsList, flatten } = require('../../utilities')
+const { getWordsList, flatten } = require('../../utils')
 const { throwPb } = require('../../errors')
 const { getLimits } = require('../../limits')
 

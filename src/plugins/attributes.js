@@ -2,7 +2,7 @@
 
 const pluralize = require('pluralize')
 
-const { getWordsList, intersection, mapValues } = require('../utilities')
+const { getWordsList, intersection, mapValues } = require('../utils')
 const { throwError, addGenErrorHandler } = require('../errors')
 const { compile, validate } = require('../validation')
 

@@ -1,6 +1,6 @@
 'use strict'
 
-const { pick } = require('../../../../utilities')
+const { pick } = require('../../../../utils')
 const { isOffset, SAME_ARGS, BOUNDARY_TOKEN } = require('../info')
 const { encode } = require('../encoding')
 const { isOnlyForwardCursor } = require('../condition')
