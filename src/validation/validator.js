@@ -33,8 +33,6 @@ const AJV_OPTIONS = {
   extendRefs: true,
 }
 
-const validator = getValidator()
-
 module.exports = {
-  validator,
+  getValidator,
 }

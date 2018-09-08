@@ -4,16 +4,15 @@ const moize = require('moize').default
 
 const { runConfigFunc, getModelParams } = require('../functions')
 
-const { validator } = require('./validator')
+const { getValidator } = require('./validator')
 
 // Add custom validation keywords, from config.validation
 const getCustomValidator = function ({ config: { validation = {} } = {} }) {
+  const validator = getValidator()
   return Object.entries(validation).reduce(addCustomKeyword, validator)
 }
 
-// We do want the re-run if config.validation changes.
-// Serializing the whole config as is too slow, so we just take keywords
-// list.
+// Serializing the whole config as is too slow, so we just take keywords list.
 const transformArgs = function ([{ config: { validation = {} } = {} }]) {
   return Object.keys(validation).join(',')
 }

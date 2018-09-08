@@ -10,14 +10,14 @@ const validate = function ({ compiledJsonSchema, data, extra = {} }) {
   const isValid = compiledJsonSchema(dataA)
 
   const { errors } = compiledJsonSchema
-  const hasErrors = Array.isArray(errors) && errors.length > 0
+  const hasErrors = Array.isArray(errors) && errors.length !== 0
 
   if (isValid || !hasErrors) { return }
 
   reportErrors({ errors })
 }
 
-// Report validation errors by throwing an exception, e.g. firing a HTTP 400
+// Report validation errors by throwing an exception
 const reportErrors = function ({ errors }) {
   // Retrieve error message as string, from error objects
   const message = errors
