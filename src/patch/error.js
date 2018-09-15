@@ -4,7 +4,7 @@ const { OPERATORS } = require('./operators')
 
 // Properties of errors during `patch`
 // We want to differentiate between errors due to engine bug or wrong config
-const getPatchErrorProps = function ({ type, extra }) {
+const getPatchErrorProps = function({ type, extra }) {
   if (OPERATORS[type] !== undefined) {
     return { reason: 'ENGINE' }
   }

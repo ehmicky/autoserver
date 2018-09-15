@@ -4,7 +4,7 @@ const http = require('http')
 const { promisify } = require('util')
 
 // Start HTTP server
-const startServer = function ({
+const startServer = function({
   opts: { hostname, port },
   config: { env },
   handleRequest,
@@ -29,7 +29,7 @@ const startServer = function ({
   return promise
 }
 
-const waitForConnection = function ({ server }) {
+const waitForConnection = function({ server }) {
   const serverOn = promisify(server.on.bind(server))
 
   const successPromise = successListener({ server, serverOn })
@@ -38,7 +38,7 @@ const waitForConnection = function ({ server }) {
 }
 
 // Connection success
-const successListener = async function ({ server, serverOn }) {
+const successListener = async function({ server, serverOn }) {
   await serverOn('listening')
 
   const { address, port } = server.address()
@@ -46,14 +46,14 @@ const successListener = async function ({ server, serverOn }) {
 }
 
 // Connection failure
-const errorListener = async function ({ serverOn }) {
+const errorListener = async function({ serverOn }) {
   const error = await serverOn('error')
   // eslint-disable-next-line fp/no-throw
   throw error
 }
 
-const handleClientRequest = function ({ server, handleRequest }) {
-  server.on('request', function requestHandler (req, res) {
+const handleClientRequest = function({ server, handleRequest }) {
+  server.on('request', function requestHandler(req, res) {
     handleRequest({ req, res })
   })
 }

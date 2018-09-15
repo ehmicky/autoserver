@@ -7,7 +7,7 @@ const { offsetResponse } = require('./offset')
 const { limitResponse } = require('./limit')
 
 // Retrieve models
-const find = function ({ collection, filter, order, offset, limit }) {
+const find = function({ collection, filter, order, offset, limit }) {
   const data = collection.filter(model => evalFilter({ attrs: model, filter }))
 
   const dataA = sortResponse({ data, order })

@@ -3,7 +3,7 @@
 const { isError, rethrowError } = require('../../../errors')
 
 // Rethrow original error
-const rethrowFailure = function ({ failedActions: [error], results }) {
+const rethrowFailure = function({ failedActions: [error], results }) {
   const errorA = addRollbackFailures({ error, results })
 
   rethrowError(errorA)
@@ -11,9 +11,12 @@ const rethrowFailure = function ({ failedActions: [error], results }) {
 
 // If rollback itself fails, give up and add rollback error to error response,
 // as `error.rollback_failures`
-const addRollbackFailures = function ({ error, results }) {
+const addRollbackFailures = function({ error, results }) {
   const rollbackFailures = results.filter(result => isError({ error: result }))
-  if (rollbackFailures.length === 0) { return error }
+
+  if (rollbackFailures.length === 0) {
+    return error
+  }
 
   const rollbackFailuresA = rollbackFailures
     .map(({ message }) => message)

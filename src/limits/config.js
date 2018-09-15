@@ -5,8 +5,10 @@ const bytes = require('bytes')
 const { maxUrlLength } = require('./system')
 
 // Limits that can be changed in `config.limits`
-const getConfigLimits = function ({ config }) {
-  if (config === undefined) { return }
+const getConfigLimits = function({ config }) {
+  if (config === undefined) {
+    return
+  }
 
   const { limits } = config
 
@@ -32,24 +34,28 @@ const getConfigLimits = function ({ config }) {
   }
 }
 
-const getPagesize = function ({ limits: { pagesize } }) {
+const getPagesize = function({ limits: { pagesize } }) {
   // `pagesize` `0` disables pagination
-  if (pagesize === 0) { return Infinity }
+  if (pagesize === 0) {
+    return Infinity
+  }
 
   return pagesize
 }
 
-const getMaxpayload = function ({ limits: { maxpayload } }) {
+const getMaxpayload = function({ limits: { maxpayload } }) {
   return bytes.parse(maxpayload)
 }
 
-const getMaxmodels = function ({ limits: { maxmodels }, pagesize }) {
+const getMaxmodels = function({ limits: { maxmodels }, pagesize }) {
   if (maxmodels === undefined && pagesize !== undefined) {
     return pagesize * MAX_MODELS_FACTOR
   }
 
   // `maxmodels` `0` disables it
-  if (maxmodels === 0) { return Infinity }
+  if (maxmodels === 0) {
+    return Infinity
+  }
 
   return maxmodels
 }

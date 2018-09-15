@@ -12,13 +12,21 @@ const isEscapedInlineFunc = ({ inlineFunc }) =>
   testInlineFunc({ inlineFunc }) === 'Escaped'
 
 const testInlineFunc = ({ inlineFunc }) => {
-  if (typeof inlineFunc !== 'string') { return 'NotAString' }
+  if (typeof inlineFunc !== 'string') {
+    return 'NotAString'
+  }
 
   const parsedInlineFunc = tokenizeInlineFunc({ inlineFunc })
-  if (!parsedInlineFunc) { return 'NoParenthesis' }
+
+  if (!parsedInlineFunc) {
+    return 'NoParenthesis'
+  }
 
   const isEscaped = parsedInlineFunc[2] === '\\'
-  if (isEscaped) { return 'Escaped' }
+
+  if (isEscaped) {
+    return 'Escaped'
+  }
 
   return 'InlineFunc'
 }

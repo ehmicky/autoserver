@@ -3,11 +3,11 @@
 const { mapValues } = require('../../utils')
 const { throwAttrValError, throwAttrTypeError } = require('../error')
 
-const parseAsIs = function ({ value }) {
+const parseAsIs = function({ value }) {
   return value
 }
 
-const validateSameType = function ({
+const validateSameType = function({
   type,
   value,
   attr,
@@ -15,7 +15,10 @@ const validateSameType = function ({
   throwErr,
 }) {
   const valid = isValid({ value, attr })
-  if (valid) { return }
+
+  if (valid) {
+    return
+  }
 
   const message = isArray
     ? `an array of type '${attrType}'`
@@ -23,8 +26,10 @@ const validateSameType = function ({
   throwAttrValError({ type, throwErr }, message)
 }
 
-const isValid = function ({ value, attr: { type: attrType, isArray } }) {
-  if (value === undefined) { return true }
+const isValid = function({ value, attr: { type: attrType, isArray } }) {
+  if (value === undefined) {
+    return true
+  }
 
   const typeValidatorsA = typeValidators[isArray ? 'many' : 'one']
   const typeValidator = typeValidatorsA[attrType]
@@ -39,10 +44,9 @@ const oneTypeValidators = {
   dynamic: () => true,
 }
 
-const getManyTypeValidators = function () {
-  return mapValues(
-    oneTypeValidators,
-    validator => value => Array.isArray(value) && value.every(validator),
+const getManyTypeValidators = function() {
+  return mapValues(oneTypeValidators, validator => value =>
+    Array.isArray(value) && value.every(validator),
   )
 }
 
@@ -51,14 +55,18 @@ const typeValidators = {
   many: getManyTypeValidators(),
 }
 
-const validateNotArray = function ({ type, attr, throwErr }) {
-  if (!attr.isArray) { return }
+const validateNotArray = function({ type, attr, throwErr }) {
+  if (!attr.isArray) {
+    return
+  }
 
   throwAttrTypeError({ attr, type, throwErr }, 'an array')
 }
 
-const validateArray = function ({ type, attr, throwErr }) {
-  if (attr.isArray) { return }
+const validateArray = function({ type, attr, throwErr }) {
+  if (attr.isArray) {
+    return
+  }
 
   throwAttrTypeError({ attr, type, throwErr }, 'not an array')
 }

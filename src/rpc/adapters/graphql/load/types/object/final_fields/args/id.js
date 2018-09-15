@@ -5,9 +5,12 @@ const { GraphQLString } = require('graphql')
 const { getArgTypeDescription } = require('../../../../description')
 
 // `id` argument
-const getIdArgument = function (def) {
+const getIdArgument = function(def) {
   const hasId = ID_COMMAND_TYPES.includes(def.command)
-  if (!hasId) { return {} }
+
+  if (!hasId) {
+    return {}
+  }
 
   const description = getArgTypeDescription(def, 'argId')
 

@@ -3,13 +3,13 @@
 const yaml = require('js-yaml')
 
 // Parses a YAML file
-const parse = function ({ content, path }) {
+const parse = function({ content, path }) {
   return yaml.load(content, {
     schema: yaml.JSON_SCHEMA,
     json: true,
     // Error handling
     filename: path,
-    onWarning (error) {
+    onWarning(error) {
       // eslint-disable-next-line fp/no-throw
       throw error
     },
@@ -17,7 +17,7 @@ const parse = function ({ content, path }) {
 }
 
 // Serializes a YAML file
-const serialize = function ({ content }) {
+const serialize = function({ content }) {
   return yaml.dump(content, {
     schema: yaml.JSON_SCHEMA,
     noRefs: true,

@@ -4,14 +4,16 @@ const { omit } = require('../../../utils')
 
 // Retrieve a database input that reverts the write action, if it was
 // successful, or is a noop, if it was not performed.
-const getRollbackInput = function ({ command, args, ...input }) {
+const getRollbackInput = function({ command, args, ...input }) {
   const inputs = handlers[command](args)
   return inputs.map(inputA => ({ ...input, ...inputA }))
 }
 
 // Rollback `create` with a `delete`
-const deleteRollback = function ({ newData, ...args }) {
-  if (newData.length === 0) { return [] }
+const deleteRollback = function({ newData, ...args }) {
+  if (newData.length === 0) {
+    return []
+  }
 
   const deletedIds = newData.map(({ id }) => id)
   const argsA = { ...args, deletedIds }
@@ -20,8 +22,10 @@ const deleteRollback = function ({ newData, ...args }) {
 }
 
 // Rollback `patch|delete` by upserting the original models
-const upsertRollback = function ({ currentData, ...args }) {
-  if (currentData.length === 0) { return [] }
+const upsertRollback = function({ currentData, ...args }) {
+  if (currentData.length === 0) {
+    return []
+  }
 
   const argsA = { ...args, currentData, newData: currentData }
   const argsB = omit(argsA, ['deletedIds'])
@@ -30,15 +34,17 @@ const upsertRollback = function ({ currentData, ...args }) {
 
 // Rollback `upsert` by either deleting the model (if it did not exist before),
 // or upserting the original model (it it existed before)
-const deleteOrUpsertRollback = function (args) {
+const deleteOrUpsertRollback = function(args) {
   return [...getDeleteRollback(args), ...getUpsertRollback(args)]
 }
 
-const getDeleteRollback = function ({ currentData, newData, ...args }) {
-  const deletedData = newData
-    .filter((datum, index) => currentData[index] === undefined)
-  const currentDataA = currentData
-    .filter(currentDatum => currentDatum === undefined)
+const getDeleteRollback = function({ currentData, newData, ...args }) {
+  const deletedData = newData.filter(
+    (datum, index) => currentData[index] === undefined,
+  )
+  const currentDataA = currentData.filter(
+    currentDatum => currentDatum === undefined,
+  )
   const deletedArgs = {
     ...args,
     currentData: currentDataA,
@@ -48,9 +54,10 @@ const getDeleteRollback = function ({ currentData, newData, ...args }) {
   return deleteInput
 }
 
-const getUpsertRollback = function ({ currentData, ...args }) {
-  const upsertData = currentData
-    .filter(currentDatum => currentDatum !== undefined)
+const getUpsertRollback = function({ currentData, ...args }) {
+  const upsertData = currentData.filter(
+    currentDatum => currentDatum !== undefined,
+  )
   const upsertArgs = { ...args, currentData: upsertData }
   const upsertInput = upsertRollback(upsertArgs)
   return upsertInput

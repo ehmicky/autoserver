@@ -4,12 +4,7 @@ const { wrapAdapters } = require('../adapters')
 
 const adapters = require('./adapters')
 
-const members = [
-  'name',
-  'title',
-  'decompress',
-  'compress',
-]
+const members = ['name', 'title', 'decompress', 'compress']
 
 const compressAdapters = wrapAdapters({
   adapters,

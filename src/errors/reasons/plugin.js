@@ -1,7 +1,9 @@
 'use strict'
 
-const getMessage = function ({ plugin }) {
-  if (plugin === undefined) { return }
+const getMessage = function({ plugin }) {
+  if (plugin === undefined) {
+    return
+  }
 
   return `In the plugin '${plugin}'`
 }

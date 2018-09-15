@@ -11,38 +11,41 @@ const { transtype, recurseMap } = require('../utils')
 //    Those extra types are removed by being JSON serialized.
 // Formats that do not support arrays, objects or strings cannot be specified.
 
-const applyCompatParse = function ({ jsonCompat, content }) {
+const applyCompatParse = function({ jsonCompat, content }) {
   return jsonCompat.reduce(
     (contentA, compatType) => jsonCompatParse[compatType](contentA),
     content,
   )
 }
 
-const applyCompatSerialize = function ({ jsonCompat, content }) {
+const applyCompatSerialize = function({ jsonCompat, content }) {
   return jsonCompat.reduce(
     (contentA, compatType) => jsonCompatSerialize[compatType](contentA),
     content,
   )
 }
 
-const subsetParse = function (value) {
+const subsetParse = function(value) {
   return recurseMap(value, transtype)
 }
 
-const subsetSerialize = function (value) {
+const subsetSerialize = function(value) {
   return recurseMap(value, setToString)
 }
 
-const setToString = function (val) {
+const setToString = function(val) {
   // Strings are kept as is, unless they would be parsed back to a number,
   // boolean or null
   const noJsonNeeded = typeof val === 'string' && transtype(val) === val
-  if (noJsonNeeded) { return val }
+
+  if (noJsonNeeded) {
+    return val
+  }
 
   return JSON.stringify(val)
 }
 
-const supersetParseStringify = function (value) {
+const supersetParseStringify = function(value) {
   return JSON.parse(JSON.stringify(value))
 }
 

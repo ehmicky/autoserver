@@ -1,16 +1,24 @@
 'use strict'
 
 // Retrieves HTTP method, but protocol-agnostic
-const getMethod = function ({ specific: { req: { method } } }) {
+const getMethod = function({
+  specific: {
+    req: { method },
+  },
+}) {
   return getAgnosticMethod({ method })
 }
 
-const getAgnosticMethod = function ({ method }) {
-  if (typeof method !== 'string') { return method }
+const getAgnosticMethod = function({ method }) {
+  if (typeof method !== 'string') {
+    return method
+  }
 
   const methodA = METHODS_MAP[method.toUpperCase()]
 
-  if (methodA === undefined) { return method }
+  if (methodA === undefined) {
+    return method
+  }
 
   return methodA
 }

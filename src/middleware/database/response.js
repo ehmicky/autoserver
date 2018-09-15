@@ -5,7 +5,7 @@
 // `create`, `patch` and `upsert` assumes database does not modify input,
 // i.e. reuse `args.newData`
 // `delete` reuse data before deletion, i.e. use `args.currentData`
-const getDbResponse = function ({
+const getDbResponse = function({
   dbData,
   args: { currentData, newData },
   command,

@@ -7,19 +7,22 @@ const { stringifyUrl, getStandardUrl } = require('../origin')
 
 // `Link` HTTP header, using pagination metadata,
 // with `rel` `first|last|next|prev`
-const getLinks = function ({ pages = {}, specific, rpc }) {
+const getLinks = function({ pages = {}, specific, rpc }) {
   // Only with REST
-  if (rpc !== 'rest') { return }
+  if (rpc !== 'rest') {
+    return
+  }
 
   const url = getStandardUrl({ specific })
 
-  const links = mapValues(
-    LINKS_NAMES,
-    ({ name, cursorName }) => getLinkUrl({ pages, name, cursorName, url }),
+  const links = mapValues(LINKS_NAMES, ({ name, cursorName }) =>
+    getLinkUrl({ pages, name, cursorName, url }),
   )
   const linksA = omitBy(links, link => link === undefined)
 
-  if (Object.keys(linksA).length === 0) { return }
+  if (Object.keys(linksA).length === 0) {
+    return
+  }
 
   const linksB = stringifyLinks(linksA)
   return linksB
@@ -32,9 +35,12 @@ const LINKS_NAMES = {
   last: { name: 'last_token', cursorName: 'before' },
 }
 
-const getLinkUrl = function ({ pages, name, cursorName, url }) {
+const getLinkUrl = function({ pages, name, cursorName, url }) {
   const token = pages[name]
-  if (token === undefined) { return }
+
+  if (token === undefined) {
+    return
+  }
 
   CURSOR_NAMES.forEach(cursorNameA => url.searchParams.delete(cursorNameA))
 

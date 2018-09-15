@@ -3,7 +3,7 @@
 const { addGenErrorHandler } = require('../../errors')
 
 // Validate database supports command features
-const validateRuntimeFeatures = function ({
+const validateRuntimeFeatures = function({
   args,
   collname,
   clientCollname,

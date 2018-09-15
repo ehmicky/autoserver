@@ -2,12 +2,7 @@
 
 const { logEvent } = require('../../log')
 
-const emitMessageEvent = function ({
-  step,
-  type,
-  adapter: { title },
-  config,
-}) {
+const emitMessageEvent = function({ step, type, adapter: { title }, config }) {
   const message = SUCCESS_MESSAGES[type][step]
   const messageA = `${title} - ${message}`
 

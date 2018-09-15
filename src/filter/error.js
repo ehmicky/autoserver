@@ -4,13 +4,13 @@ const { decapitalize, capitalize } = require('underscore.string')
 
 const { throwError } = require('../errors')
 
-const getThrowErr = function ({ reason, prefix }, attrName, message) {
+const getThrowErr = function({ reason, prefix }, attrName, message) {
   const messageA = getMessage({ attrName, message })
   const messageB = capitalize(`${prefix}${messageA}`)
   throwError(messageB, { reason })
 }
 
-const getMessage = function ({ attrName, message }) {
+const getMessage = function({ attrName, message }) {
   if (message === undefined) {
     return decapitalize(attrName)
   }
@@ -18,16 +18,18 @@ const getMessage = function ({ attrName, message }) {
   return `in '${attrName}' attribute, ${decapitalize(message)}`
 }
 
-const throwAttrValError = function ({ type, throwErr }, message) {
+const throwAttrValError = function({ type, throwErr }, message) {
   const msg = `The value of operator '${type}' should be ${message}`
   throwErr(msg)
 }
 
-const throwAttrTypeError = function (
+const throwAttrTypeError = function(
   { attr: { type: attrType }, type, throwErr },
   message,
 ) {
-  if (attrType === 'dynamic') { return }
+  if (attrType === 'dynamic') {
+    return
+  }
 
   const msg = `The operator '${type}' must not be used because the attribute is ${message}`
   throwErr(msg)

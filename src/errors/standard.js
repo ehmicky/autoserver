@@ -6,8 +6,10 @@ const { getReason, getProps } = require('./props')
 const { normalizeError } = require('./main')
 
 // Gets normalized error information
-const getStandardError = function ({ error, mInput }) {
-  if (!error) { return }
+const getStandardError = function({ error, mInput }) {
+  if (!error) {
+    return
+  }
 
   const errorA = normalizeError({ error })
 
@@ -19,12 +21,9 @@ const getStandardError = function ({ error, mInput }) {
   return errorC
 }
 
-const fillError = function ({
+const fillError = function({
   error,
-  mInput: {
-    path: instance,
-    status = 'SERVER_ERROR',
-  } = {},
+  mInput: { path: instance, status = 'SERVER_ERROR' } = {},
 }) {
   const type = getReason(error)
   const { title } = getProps(error)

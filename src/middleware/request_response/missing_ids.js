@@ -5,7 +5,7 @@ const { throwPb } = require('../../errors')
 const { extractSimpleIds, getSimpleFilter } = require('../../filter')
 
 // Check if any `id` was not found (404) or was unauthorized (403)
-const validateMissingIds = function (
+const validateMissingIds = function(
   {
     command,
     clientCollname,
@@ -18,10 +18,16 @@ const validateMissingIds = function (
   nextLayer,
 ) {
   const noValidate = doesNotValidate({ command, top, commandpath })
-  if (noValidate) { return }
+
+  if (noValidate) {
+    return
+  }
 
   const ids = getMissingIds({ filter, preFilter, response })
-  if (ids.length === 0) { return }
+
+  if (ids.length === 0) {
+    return
+  }
 
   return reportProblem({
     top,
@@ -33,9 +39,10 @@ const validateMissingIds = function (
   })
 }
 
-const doesNotValidate = function ({ command, top, commandpath }) {
+const doesNotValidate = function({ command, top, commandpath }) {
   // Other commands trigger this middleware during their `currentData` actions
-  return command !== 'find' ||
+  return (
+    command !== 'find' ||
     // `create`'s currentData query is skipped.
     top.command.type === 'create' ||
     // Top-level `findMany|patchMany|deleteMany` are not checked because:
@@ -44,13 +51,14 @@ const doesNotValidate = function ({ command, top, commandpath }) {
     //  - it makes less sense from semantic point of view
     //  - pagination prevents guessing missing ids
     (FILTER_MANY_COMMANDS.includes(top.command.name) && commandpath === '')
+  )
 }
 
 // Commands with a `filter` argument
 const FILTER_MANY_COMMANDS = ['findMany', 'patchMany', 'deleteMany']
 
 // Retrieve missing models ids
-const getMissingIds = function ({ filter, preFilter, response: { data } }) {
+const getMissingIds = function({ filter, preFilter, response: { data } }) {
   const filterA = preFilter === undefined ? filter : preFilter
   const filterIds = extractSimpleIds({ filter: filterA })
 
@@ -62,7 +70,9 @@ const getMissingIds = function ({ filter, preFilter, response: { data } }) {
   // This means that in general, findMany|deleteMany|updateMany top-level
   // actions won't use this middleware, unless they are using very simple
   // `args.filter` like `{ id: { _in: ['4', '5'] } }`
-  if (filterIds === undefined) { return [] }
+  if (filterIds === undefined) {
+    return []
+  }
 
   const responseIds = data.map(({ id }) => id)
   const ids = filterIds.filter(id => !responseIds.includes(id))
@@ -72,11 +82,13 @@ const getMissingIds = function ({ filter, preFilter, response: { data } }) {
 
 // Check whether this is because the model does not exist,
 // or because it is not authorized
-const reportProblem = async function ({ top, clientCollname, ...rest }) {
+const reportProblem = async function({ top, clientCollname, ...rest }) {
   const idsA = await checkAuthorization({ top, clientCollname, ...rest })
 
   // `upsert` commands might throw authorization errors, but not model not found
-  if (top.command.type === 'upsert') { return }
+  if (top.command.type === 'upsert') {
+    return
+  }
 
   throwPb({
     reason: 'NOT_FOUND',
@@ -87,7 +99,7 @@ const reportProblem = async function ({ top, clientCollname, ...rest }) {
 // Try the same database query, but this time without the authorization filter,
 // and only on the missing models.
 // If no missing model is missing anymore, flag it as an authorization error.
-const checkAuthorization = async function ({
+const checkAuthorization = async function({
   top,
   clientCollname,
   preFilter,
@@ -96,7 +108,9 @@ const checkAuthorization = async function ({
   mInput,
   mInput: { args },
 }) {
-  if (preFilter === undefined) { return ids }
+  if (preFilter === undefined) {
+    return ids
+  }
 
   const filterA = getSimpleFilter({ ids })
   const mInputA = { ...mInput, args: { ...args, filter: filterA } }
@@ -106,7 +120,9 @@ const checkAuthorization = async function ({
   const responseIds = dbData.map(({ id }) => id)
   const missingIds = difference(ids, responseIds)
 
-  if (missingIds.length !== 0) { return missingIds }
+  if (missingIds.length !== 0) {
+    return missingIds
+  }
 
   throwPb({
     reason: 'AUTHORIZATION',

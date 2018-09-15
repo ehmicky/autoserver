@@ -2,7 +2,7 @@
 
 const { getThrowErr } = require('../error')
 
-const { parseOperation } = require('./attrs')
+const { parseOperation } = require('./operations')
 const { optimizeFilter } = require('./optimize')
 
 // Parse `args.filter` and `coll.authorize` format
@@ -24,12 +24,10 @@ const { optimizeFilter } = require('./optimize')
 //      }
 //    }
 //  ]
-const parseFilter = function ({
-  filter,
-  reason = 'VALIDATION',
-  prefix = '',
-}) {
-  if (filter == null) { return }
+const parseFilter = function({ filter, reason = 'VALIDATION', prefix = '' }) {
+  if (filter == null) {
+    return
+  }
 
   // Top-level array means `_or` alternatives
   const type = Array.isArray(filter) ? '_or' : '_and'

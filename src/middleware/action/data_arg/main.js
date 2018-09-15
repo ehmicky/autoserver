@@ -8,7 +8,7 @@ const { parseData } = require('./data')
 const { parseActions } = require('./actions')
 
 // Parse `args.data` into write `actions`
-const parseDataArg = function ({ actions, ...rest }) {
+const parseDataArg = function({ actions, ...rest }) {
   const actionsA = addActions({
     actions,
     filter: ['data'],
@@ -18,12 +18,17 @@ const parseDataArg = function ({ actions, ...rest }) {
   return { actions: actionsA }
 }
 
-const getDataAction = function ({
+const getDataAction = function({
   top,
   top: { command },
-  action: { args: { data }, commandpath },
+  action: {
+    args: { data },
+    commandpath,
+  },
   config,
-  config: { shortcuts: { userDefaultsMap } },
+  config: {
+    shortcuts: { userDefaultsMap },
+  },
   mInput,
   dbAdapters,
 }) {

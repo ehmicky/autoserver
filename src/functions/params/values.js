@@ -6,7 +6,7 @@ const { makeImmutable } = require('../../utils')
 const { getServerinfo } = require('../../serverinfo')
 
 // Retrieve all parameters
-const getParams = function (
+const getParams = function(
   mInput,
   {
     params: { error, ...params } = {},
@@ -17,7 +17,7 @@ const getParams = function (
 ) {
   const {
     requestid,
-    timestamp = (new Date()).toISOString(),
+    timestamp = new Date().toISOString(),
     duration,
     protocol,
     ip,
@@ -124,19 +124,20 @@ const getParams = function (
 }
 
 // Normalize `params.error` so the caller does not have to
-const getError = function ({ error, mInput }) {
-  if (error === undefined) { return }
+const getError = function({ error, mInput }) {
+  if (error === undefined) {
+    return
+  }
 
   const errorA = getStandardError({ error, mInput })
   return { error: errorA }
 }
 
 // Retrieve model-related system parameters
-const getModelParams = function ({ model, previousmodel, attrName }) {
+const getModelParams = function({ model, previousmodel, attrName }) {
   const value = model[attrName]
-  const previousvalue = previousmodel == null
-    ? undefined
-    : previousmodel[attrName]
+  const previousvalue =
+    previousmodel == null ? undefined : previousmodel[attrName]
 
   return { model, value, previousmodel, previousvalue }
 }

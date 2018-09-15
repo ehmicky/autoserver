@@ -16,11 +16,13 @@ const operators = {
   ...likeNlike,
 }
 
-const getOperator = function ({ node }) {
-  const hasOperator = node &&
-    node.constructor === Object &&
-    operators[node.type] !== undefined
-  if (!hasOperator) { return }
+const getOperator = function({ node }) {
+  const hasOperator =
+    node && node.constructor === Object && operators[node.type] !== undefined
+
+  if (!hasOperator) {
+    return
+  }
 
   const operator = operators[node.type]
   return operator

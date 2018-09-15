@@ -9,14 +9,16 @@ const { getLimits } = require('../../limits')
 const { getColl } = require('./get_coll')
 
 // Validate request limits
-const validateRequestLimits = function ({ config, mInput }) {
+const validateRequestLimits = function({ config, mInput }) {
   const limits = getLimits({ config })
 
   validators.forEach(validator => validator({ ...mInput, limits }))
 }
 
-const validateMaxActions = function ({ limits: { maxActions }, actions }) {
-  if (actions.length <= maxActions) { return }
+const validateMaxActions = function({ limits: { maxActions }, actions }) {
+  if (actions.length <= maxActions) {
+    return
+  }
 
   const value = actions.length - 1
   const limit = maxActions - 1
@@ -27,36 +29,49 @@ const validateMaxActions = function ({ limits: { maxActions }, actions }) {
 // Nested patch|create|upsert commands use `maxmodels` instead
 // Nested delete commands are not limited, as they are meant not to be performed
 // several times
-const validateNestedFind = function ({ limits, actions, top, config }) {
-  if (top.command.type !== 'find') { return }
+const validateNestedFind = function({ limits, actions, top, config }) {
+  if (top.command.type !== 'find') {
+    return
+  }
 
-  const tooNestedActions = actions
-    .filter(action => isTooNestedFind({ action, config, top, limits }))
-  if (tooNestedActions.length === 0) { return }
+  const tooNestedActions = actions.filter(action =>
+    isTooNestedFind({ action, config, top, limits }),
+  )
 
-  const paths = tooNestedActions
-    .map(({ commandpath }) => commandpath.join('.'))
+  if (tooNestedActions.length === 0) {
+    return
+  }
+
+  const paths = tooNestedActions.map(({ commandpath }) => commandpath.join('.'))
   const pathsA = getWordsList(paths, { op: 'and', quotes: true })
 
   const extra = getNestedFindExtra({ tooNestedActions, limits })
 
-  const message = `The following ${pluralize('command', paths.length)} ${pluralize('is', paths.length)} nested too deeply: ${pathsA}. 'find' commands can only target collections at the top level or the second level.`
+  const message = `The following ${pluralize(
+    'command',
+    paths.length,
+  )} ${pluralize(
+    'is',
+    paths.length,
+  )} nested too deeply: ${pathsA}. 'find' commands can only target collections at the top level or the second level.`
   throwPb({ reason: 'PAYLOAD_LIMIT', message, extra })
 }
 
-const isTooNestedFind = function ({
+const isTooNestedFind = function({
   action: { commandpath },
   config,
   top,
   limits: { maxFindManyDepth },
 }) {
-  if (commandpath.length < maxFindManyDepth) { return false }
+  if (commandpath.length < maxFindManyDepth) {
+    return false
+  }
 
   const { multiple } = getColl({ commandpath, top, config })
   return multiple
 }
 
-const getNestedFindExtra = function ({
+const getNestedFindExtra = function({
   tooNestedActions,
   limits: { maxFindManyDepth },
 }) {
@@ -68,7 +83,7 @@ const getNestedFindExtra = function ({
 }
 
 // Validate `args.data` against `maxmodels` limit
-const validateMaxData = function ({
+const validateMaxData = function({
   actions,
   limits: { maxmodels },
   top: { command },
@@ -76,12 +91,16 @@ const validateMaxData = function ({
   // Not applied to:
   //  - find|patch commands: applied later since response size is not known yet
   //  - delete commands: they are never limited
-  if (!MAX_DATA_COMMANDS.includes(command.type)) { return }
+  if (!MAX_DATA_COMMANDS.includes(command.type)) {
+    return
+  }
 
   const dataA = actions.map(({ args: { data } }) => data)
   const dataB = flatten(dataA)
 
-  if (dataB.length <= maxmodels) { return }
+  if (dataB.length <= maxmodels) {
+    return
+  }
 
   const value = dataB.length
   const limit = maxmodels
@@ -92,11 +111,7 @@ const validateMaxData = function ({
 
 const MAX_DATA_COMMANDS = ['create', 'upsert']
 
-const validators = [
-  validateMaxActions,
-  validateNestedFind,
-  validateMaxData,
-]
+const validators = [validateMaxActions, validateNestedFind, validateMaxData]
 
 module.exports = {
   validateRequestLimits,

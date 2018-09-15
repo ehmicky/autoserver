@@ -10,7 +10,7 @@ const TOP_DESCRIPTIONS = {
 }
 
 // Top-level action descriptions
-const getCommandDescription = function ({ command, typeName }) {
+const getCommandDescription = function({ command, typeName }) {
   const title = getTitle({ command })
   const description = `${title} ${typeName} models`
   const descriptionA = capitalize(description)
@@ -19,21 +19,22 @@ const getCommandDescription = function ({ command, typeName }) {
 
 // Retrieve the description of a `args.data|filter` type, and of
 // `args.data|filter|id` arguments
-const getArgTypeDescription = function ({ command }, type) {
+const getArgTypeDescription = function({ command }, type) {
   const title = getTitle({ command })
   const description = `${ARG_TYPES_DESCRIPTIONS[type]} models to ${title}`
   return description
 }
 
-const getTitle = function ({ command }) {
-  const { title } = COMMANDS
-    .find(({ type, multiple }) => type === command && multiple)
+const getTitle = function({ command }) {
+  const { title } = COMMANDS.find(
+    ({ type, multiple }) => type === command && multiple,
+  )
   return title
 }
 
 const ARG_TYPES_DESCRIPTIONS = {
-  data: '\'data\' argument with the new',
-  filter: '\'filter\' argument specifying which',
+  data: "'data' argument with the new",
+  filter: "'filter' argument specifying which",
   argId: 'Specifies which',
   argFilter: 'Specifies which',
   argData: 'New',

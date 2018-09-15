@@ -1,7 +1,7 @@
 'use strict'
 
 // Merge `coll.authorize` `model.*` to `args.filter`
-const addAuthorizeFilter = function ({
+const addAuthorizeFilter = function({
   command,
   authorize,
   args,
@@ -12,7 +12,9 @@ const addAuthorizeFilter = function ({
   // However, all write commands first fire `currentData` `find` actions,
   // which means `model.*` authorization is checked for write actions then
   // as well.
-  if (!FILTER_COMMANDS.includes(command)) { return args }
+  if (!FILTER_COMMANDS.includes(command)) {
+    return args
+  }
 
   const filterA = getFilter({ authorize, filter })
   // If `filter` is undefined, we need a way to know `preFilter` was
@@ -27,9 +29,11 @@ const addAuthorizeFilter = function ({
 const FILTER_COMMANDS = ['find']
 
 // Merge `authorizeFilter` to `args.filter`
-const getFilter = function ({ authorize, filter }) {
+const getFilter = function({ authorize, filter }) {
   // If no `args.filter`, no need to merge
-  if (filter === undefined) { return authorize }
+  if (filter === undefined) {
+    return authorize
+  }
 
   return { type: '_and', value: [authorize, filter] }
 }

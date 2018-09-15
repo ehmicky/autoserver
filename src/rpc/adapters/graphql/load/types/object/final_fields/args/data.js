@@ -5,10 +5,13 @@ const { GraphQLNonNull, GraphQLList } = require('graphql')
 const { getArgTypeDescription } = require('../../../../description')
 
 // `data` argument
-const getDataArgument = function (def, opts) {
+const getDataArgument = function(def, opts) {
   // Only for mutation commands, but not delete
   const hasData = DATA_COMMAND_TYPES.includes(def.command)
-  if (!hasData) { return {} }
+
+  if (!hasData) {
+    return {}
+  }
 
   const type = getDataObjectType(def, opts)
   const description = getArgTypeDescription(def, 'argData')
@@ -16,7 +19,7 @@ const getDataArgument = function (def, opts) {
   return { data: { type, description } }
 }
 
-const getDataObjectType = function ({ command }, { dataObjectType }) {
+const getDataObjectType = function({ command }, { dataObjectType }) {
   // Only multiple with createMany or upsertMany
   const isMultiple = MANY_DATA_COMMAND_TYPES.includes(command)
 

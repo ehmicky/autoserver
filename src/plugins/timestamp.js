@@ -6,7 +6,7 @@ const { attributesPlugin } = require('./attributes')
 //   created_time {string} - set on model creation
 //   updated_time {string} - set on model creation, modification or deletion
 // Are handled by the system, and cannot be overriden by users
-const timestampPlugin = function ({ config }) {
+const timestampPlugin = function({ config }) {
   return attributesPlugin({ name: 'timestamp', getAttributes, config })
 }
 
@@ -31,13 +31,15 @@ const getAttributes = () => ({
   },
 })
 
-const getCreatedTime = function ({ previousmodel, previousvalue, timestamp }) {
-  if (previousmodel !== undefined) { return previousvalue }
+const getCreatedTime = function({ previousmodel, previousvalue, timestamp }) {
+  if (previousmodel !== undefined) {
+    return previousvalue
+  }
 
   return timestamp
 }
 
-const getUpdatedTime = function ({ timestamp }) {
+const getUpdatedTime = function({ timestamp }) {
   return timestamp
 }
 

@@ -5,7 +5,7 @@ const { isObject } = require('../../../utils')
 const { normalizePartialProtocol } = require('./partial')
 
 // Normalize parameters created during protocol layer
-const protocolNormalization = function ({
+const protocolNormalization = function({
   protocolAdapter,
   topargs,
   queryvars,
@@ -29,10 +29,10 @@ const protocolNormalization = function ({
     payload,
   })
 
-  const {
-    headers: headersB,
-    topargs: topargsA,
-  } = normalizeProtocol({ headers: headersA, topargs })
+  const { headers: headersB, topargs: topargsA } = normalizeProtocol({
+    headers: headersA,
+    topargs,
+  })
 
   return {
     payload: payloadA,
@@ -45,7 +45,7 @@ const protocolNormalization = function ({
 }
 
 // Normalization for any protocol, even non-partial ones
-const normalizeProtocol = function ({ headers, topargs }) {
+const normalizeProtocol = function({ headers, topargs }) {
   const headersA = isObject(headers) ? headers : {}
 
   const topargsA = getTopargs({ topargs, headers: headersA })
@@ -54,8 +54,10 @@ const normalizeProtocol = function ({ headers, topargs }) {
 }
 
 // Client-specific parameters can be specified in protocol headers
-const getTopargs = function ({ topargs = {}, headers: { params } }) {
-  if (params === undefined) { return topargs }
+const getTopargs = function({ topargs = {}, headers: { params } }) {
+  if (params === undefined) {
+    return topargs
+  }
 
   return { ...topargs, params }
 }

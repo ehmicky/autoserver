@@ -10,22 +10,26 @@ const { throwError } = require('../../errors')
 //     { attrName: 'c', dir: 'desc' },
 //     { attrName: 'id', dir: 'asc' },
 //   ]
-const parseOrder = function ({ actions }) {
+const parseOrder = function({ actions }) {
   const actionsA = actions.map(action => parseAction({ action }))
   return { actions: actionsA }
 }
 
-const parseAction = function ({
+const parseAction = function({
   action,
-  action: { args: { order, ...args } },
+  action: {
+    args: { order, ...args },
+  },
 }) {
   const orderA = parseOrderArg({ order })
 
   return { ...action, args: { ...args, order: orderA } }
 }
 
-const parseOrderArg = function ({ order }) {
-  if (order === undefined) { return ID_ORDER }
+const parseOrderArg = function({ order }) {
+  if (order === undefined) {
+    return ID_ORDER
+  }
 
   const orderA = order
     // Remove whitespaces
@@ -40,9 +44,9 @@ const parseOrderArg = function ({ order }) {
 
 // Transform each part from a string to an object
 // { attrName 'attr', dir 'asc|desc' }
-const getPart = function (part) {
+const getPart = function(part) {
   if (part === '') {
-    const message = 'Argument \'order\' cannot have empty attributes'
+    const message = "Argument 'order' cannot have empty attributes"
     throwError(message, { reason: 'VALIDATION' })
   }
 
@@ -60,9 +64,12 @@ const PARTS_POSTFIX_REGEXP = /^([^+-]+)(\+|-)?$/u
 //     the same response
 //   - the pagination layer needs this predictability
 // If an `id` sorting is already specified, it does not add anything
-const addIdSorting = function ({ order }) {
+const addIdSorting = function({ order }) {
   const hasId = order.some(({ attrName }) => attrName === ID_ORDER[0].attrName)
-  if (hasId) { return order }
+
+  if (hasId) {
+    return order
+  }
 
   return [...order, ...ID_ORDER]
 }

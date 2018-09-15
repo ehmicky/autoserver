@@ -6,12 +6,7 @@ const adapters = require('./adapters')
 const { checkMethod } = require('./method_check')
 const { transformResponse } = require('./transform')
 
-const members = [
-  'name',
-  'title',
-  'load',
-  'parse',
-]
+const members = ['name', 'title', 'load', 'parse']
 
 const methods = {
   checkMethod,

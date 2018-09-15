@@ -3,18 +3,18 @@
 const { getValues } = require('../utils')
 
 // Recursively find all the JSON references
-const findRefs = function ({ content }) {
+const findRefs = function({ content }) {
   return getValues(content)
     .filter(isRef)
     .map(removeLastPath)
 }
 
-const isRef = function ({ value, keys }) {
+const isRef = function({ value, keys }) {
   return typeof value === 'string' && keys[keys.length - 1] === '$ref'
 }
 
 // Remove `$ref` from keys
-const removeLastPath = function ({ value, keys }) {
+const removeLastPath = function({ value, keys }) {
   const keysA = keys.slice(0, -1)
   return { value, keys: keysA }
 }

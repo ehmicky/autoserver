@@ -3,7 +3,7 @@
 const { getSumParams } = require('../../../utils')
 
 // Add `response`-related parameters
-const getResponseParams = function ({ type, content }) {
+const getResponseParams = function({ type, content }) {
   // `responsedatasize` and `responsedatacount` parameters
   const sumParams = getSumParams({ attrName: 'responsedata', value: content })
 

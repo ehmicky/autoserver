@@ -12,8 +12,7 @@ const errorMessages = {
     const typesA = getWordsList(types, { op: 'or' })
     return ` must be ${typesA}`
   },
-  format: ({ params: { format } }) =>
-    ` must match format '${format}'`,
+  format: ({ params: { format } }) => ` must match format '${format}'`,
   enum: ({ params: { allowedValues } }) => {
     const values = getWordsList(allowedValues, { quotes: true })
     return ` must be ${values}`
@@ -38,18 +37,18 @@ const errorMessages = {
     ` must be at least ${pluralize('character', limit, true)} long`,
   maxLength: ({ params: { limit } }) =>
     ` must be at most ${pluralize('character', limit, true)} long`,
-  pattern: ({ params: { pattern } }) =>
-    ` must match pattern '${pattern}'`,
+  pattern: ({ params: { pattern } }) => ` must match pattern '${pattern}'`,
 
   // JSON schema keywords for `array` type
-  contains: () =>
-    ' must contain at least one valid item',
+  contains: () => ' must contain at least one valid item',
   minItems: ({ params: { limit } }) =>
     ` must contains at least ${pluralize('item', limit, true)}`,
   maxItems: ({ params: { limit } }) =>
     ` must contains at most ${pluralize('item', limit, true)}`,
   uniqueItems: ({ params }) =>
-    ` must not contain any duplicated item, but items number ${params.j} and ${params.i} are identical`,
+    ` must not contain any duplicated item, but items number ${params.j} and ${
+      params.i
+    } are identical`,
 
   // JSON schema keywords for `object` type
   minProperties: ({ params: { limit } }) =>
@@ -67,8 +66,7 @@ const errorMessages = {
 
   // Special keyword for schema that are `false`,
   // e.g. `patternProperties: { pattern: false }`
-  'false schema': () =>
-    ' must not be defined',
+  'false schema': () => ' must not be defined',
 }
 
 module.exports = {

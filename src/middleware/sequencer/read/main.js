@@ -11,7 +11,7 @@ const { processResults } = require('./results')
 const { paginateResults } = require('./paginate')
 
 // Fire all commands associated with a set of read actions
-const sequenceRead = async function ({ actions, config, mInput }, nextLayer) {
+const sequenceRead = async function({ actions, config, mInput }, nextLayer) {
   const { maxmodels } = getLimits({ config })
 
   const actionsA = getParentActions({ actions })
@@ -25,7 +25,7 @@ const sequenceRead = async function ({ actions, config, mInput }, nextLayer) {
   return { results }
 }
 
-const fireReads = function (
+const fireReads = function(
   { actions, results, isTopLevel, ...mInput },
   nextLayer,
 ) {
@@ -39,11 +39,12 @@ const fireReads = function (
       mInput,
       results,
       isTopLevel,
-    }))
+    }),
+  )
   return Promise.all(resultsPromises)
 }
 
-const fireRead = async function ({
+const fireRead = async function({
   action,
   action: { args, collname },
   childActions,
@@ -53,12 +54,12 @@ const fireRead = async function ({
   results,
   isTopLevel,
 }) {
-  const {
-    parentResults,
-    commandName,
-    nestedParentIds,
-    parentIds,
-  } = getInput({ action, results, maxmodels, top })
+  const { parentResults, commandName, nestedParentIds, parentIds } = getInput({
+    action,
+    results,
+    maxmodels,
+    top,
+  })
 
   const argsA = addNestedFilter({ args, isTopLevel, parentIds })
 

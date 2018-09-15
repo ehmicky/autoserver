@@ -5,7 +5,7 @@ const { mapValues, omit } = require('../utils')
 // Start database connection
 // Returns a copy of the database adapter, but with fewer members and some other
 // members bound
-const connectDatabase = async function (
+const connectDatabase = async function(
   { connect, check, ...rest },
   { options, config },
 ) {
@@ -21,7 +21,7 @@ const connectDatabase = async function (
 }
 
 // Pass database state (e.g. connection) to some database adapter's methods
-const getDbAdapter = function ({
+const getDbAdapter = function({
   options,
   connection,
   config,
@@ -29,9 +29,8 @@ const getDbAdapter = function ({
   query,
   wrapped,
 }) {
-  const methods = mapValues(
-    { disconnect, query },
-    method => wrapMethod.bind(null, { method, options, connection, config }),
+  const methods = mapValues({ disconnect, query }, method =>
+    wrapMethod.bind(null, { method, options, connection, config }),
   )
 
   // Do not connect twice
@@ -41,7 +40,7 @@ const getDbAdapter = function ({
   return dbAdapterA
 }
 
-const wrapMethod = function ({ method, ...rest }, input, ...args) {
+const wrapMethod = function({ method, ...rest }, input, ...args) {
   return method({ ...rest, ...input }, ...args)
 }
 

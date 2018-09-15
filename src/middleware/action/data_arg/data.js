@@ -9,18 +9,19 @@ const { addDefaultIds } = require('./default_id')
 const { isModel } = require('./nested')
 
 // Validates `args.data` and adds default ids.
-const parseData = function ({ data, ...rest }) {
+const parseData = function({ data, ...rest }) {
   const { collname } = getColl(rest)
 
   if (!Array.isArray(data)) {
     return parseDatum({ datum: data, collname, ...rest })
   }
 
-  return data
-    .map((datum, index) => parseDatum({ datum, index, collname, ...rest }))
+  return data.map((datum, index) =>
+    parseDatum({ datum, index, collname, ...rest }),
+  )
 }
 
-const parseDatum = function ({
+const parseDatum = function({
   datum,
   attrName,
   index,
@@ -36,18 +37,20 @@ const parseDatum = function ({
 
   const datumA = addDefaultIds({ datum, top, ...rest })
 
-  return mapValues(datumA, (obj, attrNameA) => parseAttr({
-    obj,
-    attrName: attrNameA,
-    commandpath: commandpathA,
-    top,
-    maxAttrValueSize,
-    ...rest,
-  }))
+  return mapValues(datumA, (obj, attrNameA) =>
+    parseAttr({
+      obj,
+      attrName: attrNameA,
+      commandpath: commandpathA,
+      top,
+      maxAttrValueSize,
+      ...rest,
+    }),
+  )
 }
 
 // Recursion over nested collections
-const parseAttr = function ({
+const parseAttr = function({
   obj,
   commandpath,
   attrName,
@@ -70,9 +73,12 @@ const parseAttr = function ({
     config,
   })
 
-  const isNested = isModelsType(obj) &&
-    isModel({ attrName, commandpath, top, config })
-  if (!isNested) { return obj }
+  const isNested =
+    isModelsType(obj) && isModel({ attrName, commandpath, top, config })
+
+  if (!isNested) {
+    return obj
+  }
 
   return parseData({
     data: obj,

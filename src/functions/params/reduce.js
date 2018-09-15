@@ -3,7 +3,7 @@
 const { get, set, has, pick, omitBy } = require('../../utils')
 
 // Reduce the size of parameters that might be too big
-const reduceParams = function ({ params }) {
+const reduceParams = function({ params }) {
   const paramsB = attributes.reduce(
     (paramsA, { path, filter }) =>
       reduceInfo({ params: paramsA, path, filter }),
@@ -20,8 +20,10 @@ const attributes = [
   { path: ['responsedata'], filter: ['id'] },
 ]
 
-const reduceInfo = function ({ params, path, filter }) {
-  if (!has(params, path)) { return params }
+const reduceInfo = function({ params, path, filter }) {
+  if (!has(params, path)) {
+    return params
+  }
 
   const value = get(params, path)
   const valueA = reduceValue({ value, filter })
@@ -30,11 +32,9 @@ const reduceInfo = function ({ params, path, filter }) {
   return paramsA
 }
 
-const reduceValue = function ({ value, filter }) {
+const reduceValue = function({ value, filter }) {
   if (Array.isArray(value)) {
-    return value
-      .filter(isObject)
-      .map(obj => pick(obj, filter))
+    return value.filter(isObject).map(obj => pick(obj, filter))
   }
 
   if (isObject(value)) {

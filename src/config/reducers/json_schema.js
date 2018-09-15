@@ -7,22 +7,22 @@ const { compile } = require('../../validation')
 // Compile JSON schema defined in the config
 // Returns compiled JSON schema of:
 //   { coll: { type: 'object', required: [...], properties: { ... } }
-const compileJsonSchema = function ({
+const compileJsonSchema = function({
   config,
   config: { collections, shortcuts },
 }) {
-  const validateMap = mapValues(
-    collections,
-    ({ attributes }, collname) =>
-      compileCollection({ attributes, config, collname }),
+  const validateMap = mapValues(collections, ({ attributes }, collname) =>
+    compileCollection({ attributes, config, collname }),
   )
 
   return { shortcuts: { ...shortcuts, validateMap } }
 }
 
-const compileCollection = function ({ attributes, config, collname }) {
-  const jsonSchemaA = mappers
-    .reduce((jsonSchema, mapper) => mapper({ jsonSchema }), attributes)
+const compileCollection = function({ attributes, config, collname }) {
+  const jsonSchemaA = mappers.reduce(
+    (jsonSchema, mapper) => mapper({ jsonSchema }),
+    attributes,
+  )
   const jsonSchemaB = eCompileSchema({
     config,
     jsonSchema: jsonSchemaA,
@@ -32,7 +32,7 @@ const compileCollection = function ({ attributes, config, collname }) {
 }
 
 // From `attr.validate` to `{ type: 'object', properties }`
-const attrsToJsonSchema = function ({ jsonSchema }) {
+const attrsToJsonSchema = function({ jsonSchema }) {
   const properties = mapValues(jsonSchema, ({ validate }) => validate)
 
   return { type: 'object', properties }
@@ -41,7 +41,7 @@ const attrsToJsonSchema = function ({ jsonSchema }) {
 // Fix `required` attribute according to the current command
 // JSON schema `require` attribute is a collection-level array,
 // not an attribute-level boolean
-const addJsonSchemaRequire = function ({
+const addJsonSchemaRequire = function({
   jsonSchema,
   jsonSchema: { properties },
 }) {
@@ -53,10 +53,7 @@ const addJsonSchemaRequire = function ({
 }
 
 // JSON schema `dependencies` attribute is collection-level, not attribute-level
-const addJsonSchemaDeps = function ({
-  jsonSchema,
-  jsonSchema: { properties },
-}) {
+const addJsonSchemaDeps = function({ jsonSchema, jsonSchema: { properties } }) {
   const dependenciesA = mapValues(
     properties,
     ({ dependencies }) => dependencies,
@@ -66,18 +63,12 @@ const addJsonSchemaDeps = function ({
 }
 
 // Remove syntax that is not JSON schema
-const removeAltSyntax = function ({ jsonSchema, jsonSchema: { properties } }) {
-  const propertiesA = mapValues(
-    properties,
-    attr => omit(attr, NON_JSON_SCHEMA),
-  )
+const removeAltSyntax = function({ jsonSchema, jsonSchema: { properties } }) {
+  const propertiesA = mapValues(properties, attr => omit(attr, NON_JSON_SCHEMA))
   return { ...jsonSchema, properties: propertiesA }
 }
 
-const NON_JSON_SCHEMA = [
-  'required',
-  'dependencies',
-]
+const NON_JSON_SCHEMA = ['required', 'dependencies']
 
 const mappers = [
   attrsToJsonSchema,
@@ -86,7 +77,7 @@ const mappers = [
   removeAltSyntax,
 ]
 
-const compileSchema = function ({ config, jsonSchema }) {
+const compileSchema = function({ config, jsonSchema }) {
   return compile({ config, jsonSchema })
 }
 

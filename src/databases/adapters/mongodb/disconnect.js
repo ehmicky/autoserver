@@ -1,7 +1,7 @@
 'use strict'
 
 // Stops connection
-const disconnect = function ({ connection: db }) {
+const disconnect = function({ connection: db }) {
   return db.close()
 }
 

@@ -4,7 +4,7 @@ const { getParentResults, getParentIds } = require('./parent_results')
 const { validateMaxmodels } = require('./limits')
 
 // Retrieve the main information we need to perform the commands
-const getInput = function ({
+const getInput = function({
   action: { commandpath },
   results,
   maxmodels,

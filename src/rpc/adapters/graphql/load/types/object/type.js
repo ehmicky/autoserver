@@ -8,10 +8,9 @@ const { getTypeName } = require('../../name')
 const { getObjectFields } = require('./fields')
 
 // Object field TGetter
-const graphqlObjectTGetter = function (def, opts) {
-  const Type = opts.inputObjectType === 'type'
-    ? GraphQLObjectType
-    : GraphQLInputObjectType
+const graphqlObjectTGetter = function(def, opts) {
+  const Type =
+    opts.inputObjectType === 'type' ? GraphQLObjectType : GraphQLInputObjectType
 
   const name = getTypeName({ def, opts })
   const { description } = def
@@ -31,7 +30,7 @@ const graphqlObjectTGetter = function (def, opts) {
 //    or command changes
 // We also namespace with a UUID which is unique for each new call to
 // `getGraphqlSchema()`, to avoid leaking
-const transformArgs = function ([def, opts]) {
+const transformArgs = function([def, opts]) {
   const typeName = getTypeName({ def, opts })
   return `${opts.graphqlSchemaId}/${typeName}`
 }

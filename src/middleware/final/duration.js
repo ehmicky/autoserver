@@ -4,7 +4,7 @@ const { stopPerf } = require('../../perf')
 
 // Request response time, from request handling start to response sending
 // Note that other functions might happen after response sending, e.g. events
-const setDuration = function ({ reqPerf, metadata }) {
+const setDuration = function({ reqPerf, metadata }) {
   const respPerf = stopPerf(reqPerf)
 
   const duration = Math.round(respPerf.duration / MICROSECS_TO_SECS)

@@ -4,7 +4,7 @@ const { getShortcut } = require('../../../helpers')
 
 // Gets a map of collections' attributes' aliases
 // e.g. { collname: { attrName: ['alias', ...], ... }, ... }
-const aliasesMap = function ({ config }) {
+const aliasesMap = function({ config }) {
   return getShortcut({ config, filter: 'alias', mapper })
 }
 

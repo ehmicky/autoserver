@@ -3,7 +3,7 @@
 const { logEvent } = require('../../log')
 
 // Error handler, which sends final response, if server-side errors
-const errorHandler = async function ({
+const errorHandler = async function({
   error,
   protocolAdapter,
   config,

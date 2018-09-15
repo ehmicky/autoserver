@@ -13,14 +13,14 @@ const { errorHandler } = require('./error_handler')
 
 // Middleware function error handler, which just rethrow the error,
 // and adds the current `mInput` as information by setting `error.mInput`
-const fireMiddlewareHandler = function (error, ...args) {
+const fireMiddlewareHandler = function(error, ...args) {
   // Skip `nextLayer` and `reqState` arguments
   const errorA = error.mInput ? error : addMInput(error, args[2])
   rethrowError(errorA)
 }
 
 // Main layers error handler
-const fireMainLayersHandler = async function (
+const fireMainLayersHandler = async function(
   fireFinalLayer,
   error,
   { allLayers, reqState },
@@ -29,7 +29,10 @@ const fireMainLayersHandler = async function (
 
   // Only fire main error handler on server-side errors
   const { status } = getProps(error)
-  if (status && status !== 'SERVER_ERROR') { return mInput }
+
+  if (status && status !== 'SERVER_ERROR') {
+    return mInput
+  }
 
   // Final layer are called before error handlers, except if the error
   // was raised by the final layer itself
@@ -40,7 +43,7 @@ const fireMainLayersHandler = async function (
 }
 
 // Fire request error handlers
-const fireErrorHandler = function (errorA) {
+const fireErrorHandler = function(errorA) {
   const mInputA = getErrorMInput({ error: errorA })
   return errorHandler(mInputA)
 }
@@ -49,7 +52,7 @@ const fireErrorHandler = function (errorA) {
 const eFireErrorHandler = addErrorHandler(fireErrorHandler, safetyHandler)
 
 // Add `error.mInput`, to keep track of current `mInput` during exception flow
-const addMInput = function (error, mInput) {
+const addMInput = function(error, mInput) {
   const mInputA = omit(mInput, 'error')
   const errorA = normalizeError({ error })
   // We need to directly mutate to keep Error constructor
@@ -60,7 +63,7 @@ const addMInput = function (error, mInput) {
 }
 
 // Builds `mInput` with a `mInput.error` property
-const getErrorMInput = function ({ error, error: { mInput = {} } }) {
+const getErrorMInput = function({ error, error: { mInput = {} } }) {
   const errorA = normalizeError({ error })
   return { ...mInput, mInput, error: errorA }
 }

@@ -10,18 +10,24 @@ const { formatAdapters } = require('./wrap')
 
 // Retrieve correct format, using MIME type
 // Returns undefined if nothing is found
-const getByMime = function ({ mime, safe }) {
+const getByMime = function({ mime, safe }) {
   const formats = getFormats({ safe })
 
   // We try the extensions MIME (e.g. `+json`) after the other MIME types
   // (e.g. `application/jose+json`)
-  const format = formats
-    .find(({ mimes }) => mimeMatches({ mime, mimes }))
-  if (format !== undefined) { return format.wrapped }
+  const format = formats.find(({ mimes }) => mimeMatches({ mime, mimes }))
 
-  const formatA = formats
-    .find(({ mimeExtensions: mimes }) => mimeMatches({ mime, mimes }))
-  if (formatA !== undefined) { return formatA.wrapped }
+  if (format !== undefined) {
+    return format.wrapped
+  }
+
+  const formatA = formats.find(({ mimeExtensions: mimes }) =>
+    mimeMatches({ mime, mimes }),
+  )
+
+  if (formatA !== undefined) {
+    return formatA.wrapped
+  }
 
   throwUnsupportedFormat({ format: mime })
 }
@@ -30,18 +36,22 @@ const getByMime = function ({ mime, safe }) {
 // `application/*` or `+json`. However, we might use them both in
 // `mime` (e.g. with Content-Type HTTP header `application/*`) or in
 // `formats` (e.g. with JSON format `+json`), so we check both sides
-const mimeMatches = function ({ mime, mimes = [] }) {
+const mimeMatches = function({ mime, mimes = [] }) {
   return mimes.some(mimeA => isType(mime, mimeA) || isType(mimeA, mime))
 }
 
 // Retrieve correct format, using file extension
-const getByExt = function ({ path, safe }) {
+const getByExt = function({ path, safe }) {
   const formats = getFormats({ safe })
 
   const fileExt = extname(path).slice(1)
-  const format = formats
-    .find(({ extensions = [] }) => extensions.includes(fileExt))
-  if (format !== undefined) { return format.wrapped }
+  const format = formats.find(({ extensions = [] }) =>
+    extensions.includes(fileExt),
+  )
+
+  if (format !== undefined) {
+    return format.wrapped
+  }
 
   throwUnsupportedFormat({ format: `.${fileExt}` })
 }
@@ -49,36 +59,43 @@ const getByExt = function ({ path, safe }) {
 // Setting `safe` to `true` removes formats that execute code.
 // For example, JavaScript can be allowed in config files, but should
 // not be allowed in client payloads.
-const getFormats = function ({ safe = false }) {
+const getFormats = function({ safe = false }) {
   const formats = Object.values(formatAdapters)
 
-  if (!safe) { return formats }
+  if (!safe) {
+    return formats
+  }
 
   const formatsA = formats.filter(({ unsafe }) => !unsafe)
   return formatsA
 }
 
 // Retrieve format adapter
-const getFormat = function (key, { safe = false } = {}) {
+const getFormat = function(key, { safe = false } = {}) {
   const format = getAdapter({ adapters: formatAdapters, key, name: 'format' })
 
   const isSafe = !safe || !format.unsafe
-  if (isSafe) { return format }
+
+  if (isSafe) {
+    return format
+  }
 
   throwUnsupportedFormat({ format: format.title })
 }
 
-const throwUnsupportedFormat = function ({ format }) {
+const throwUnsupportedFormat = function({ format }) {
   const message = `Unsupported format: '${format}'`
   // eslint-disable-next-line fp/no-throw
   throw new Error(message)
 }
 
 // Returns list of allowed MIME types
-const getMimes = function ({ safe } = {}) {
+const getMimes = function({ safe } = {}) {
   const formats = getFormats({ safe })
-  const mimesA = formats.map(({ mimes = [], mimeExtensions = [] }) =>
-    [...mimes, ...mimeExtensions])
+  const mimesA = formats.map(({ mimes = [], mimeExtensions = [] }) => [
+    ...mimes,
+    ...mimeExtensions,
+  ])
   const mimesB = [].concat(...mimesA)
   return mimesB
 }

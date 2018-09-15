@@ -8,12 +8,15 @@ const { genericValidators } = require('./generic')
 const { filterValidator } = require('./filter')
 
 // Validate database supports command features
-const validateRuntimeFeatures = function (
+const validateRuntimeFeatures = function(
   { features },
   { args, clientCollname },
 ) {
   const message = getErrorMessage({ args, features })
-  if (message === undefined) { return }
+
+  if (message === undefined) {
+    return
+  }
 
   const messageA = `${message} because the collection '${clientCollname}' does not support it`
   // eslint-disable-next-line fp/no-throw
@@ -22,7 +25,7 @@ const validateRuntimeFeatures = function (
 
 // Fire the validator of each feature that is not supported by the
 // database adapters
-const getErrorMessage = function ({ args, args: { filter }, features }) {
+const getErrorMessage = function({ args, args: { filter }, features }) {
   const filterFeatures = getFeatures({ filter })
 
   const [messageA] = difference(FEATURES, features)
@@ -31,7 +34,7 @@ const getErrorMessage = function ({ args, args: { filter }, features }) {
   return messageA
 }
 
-const checkFeature = function ({ feature, features, args, filterFeatures }) {
+const checkFeature = function({ feature, features, args, filterFeatures }) {
   // Features can be namespaced, e.g. `filter:*` all fire the same validator
   const validatorName = feature.replace(/:.*/u, '')
 

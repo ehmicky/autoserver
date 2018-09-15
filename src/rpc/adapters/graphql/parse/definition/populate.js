@@ -3,8 +3,10 @@
 const { uniq } = require('../../../../../utils')
 
 // Retrieve `rpcDef.args.populate` using GraphQL selection sets
-const addPopulate = function ({ args, args: { select }, commandName }) {
-  if (!commandName.startsWith('find_')) { return args }
+const addPopulate = function({ args, args: { select }, commandName }) {
+  if (!commandName.startsWith('find_')) {
+    return args
+  }
 
   const selects = select
     .split(',')
@@ -12,7 +14,9 @@ const addPopulate = function ({ args, args: { select }, commandName }) {
     .filter(selectA => selectA !== '')
   const selectsA = uniq(selects)
 
-  if (selectsA.length === 0) { return args }
+  if (selectsA.length === 0) {
+    return args
+  }
 
   const populate = selectsA.join(',')
 

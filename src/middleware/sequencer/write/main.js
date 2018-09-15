@@ -8,7 +8,7 @@ const { getArgs } = require('./args')
 const { getResults } = require('./results')
 
 // Fire all commands associated with a set of write actions
-const sequenceWrite = async function ({ actions, top, mInput }, nextLayer) {
+const sequenceWrite = async function({ actions, top, mInput }, nextLayer) {
   // Run write commands in parallel, for each `collname`
   const actionsGroups = groupValuesBy(actions, 'collname')
   const allInputs = actionsGroups
@@ -20,8 +20,9 @@ const sequenceWrite = async function ({ actions, top, mInput }, nextLayer) {
   // Used by rollback middleware to revert each action
   const inputs = allInputs.map(({ input }) => input)
 
-  const resultsPromises = allInputs
-    .map(allInput => eFireResponseLayer({ ...allInput, top, nextLayer }))
+  const resultsPromises = allInputs.map(allInput =>
+    eFireResponseLayer({ ...allInput, top, nextLayer }),
+  )
   const results = await Promise.all(resultsPromises)
 
   const resultsA = flatten(results)
@@ -29,22 +30,24 @@ const sequenceWrite = async function ({ actions, top, mInput }, nextLayer) {
 }
 
 // Add next layers's `args` and `ids`
-const getCommandArgs = function ({ actions, top }) {
+const getCommandArgs = function({ actions, top }) {
   const { args, ids } = getArgs({ actions, top })
   return { actions, args, ids }
 }
 
 // If no model to modify, can return empty array right away
-const isNotEmpty = function ({ ids }) {
+const isNotEmpty = function({ ids }) {
   return ids.length !== 0
 }
 
 // Add next layers's whole input
-const getInput = function ({
+const getInput = function({
   actions,
   actions: [{ collname, clientCollname }],
   args,
-  top: { command: { type: command } },
+  top: {
+    command: { type: command },
+  },
   mInput,
   ...rest
 }) {
@@ -64,12 +67,12 @@ const getInput = function ({
 // We make sure all commands went through the `request` layer before firing
 // the `response` layer because we want to avoid unnecessary
 // rollbacks if `request` layer throws
-const fireRequestLayer = function ({ input, nextLayer, ...rest }) {
+const fireRequestLayer = function({ input, nextLayer, ...rest }) {
   const inputA = nextLayer(input, 'request')
   return { ...rest, input: inputA }
 }
 
-const fireResponseLayer = async function ({
+const fireResponseLayer = async function({
   actions,
   ids,
   top,
@@ -81,7 +84,9 @@ const fireResponseLayer = async function ({
   const { response } = await nextLayer(input, 'database')
   const inputA = { ...input, response }
 
-  const { response: { data, metadata } } = await nextLayer(inputA, 'response')
+  const {
+    response: { data, metadata },
+  } = await nextLayer(inputA, 'response')
 
   const results = getResults({ actions, data, metadata, ids, top })
   return results
@@ -89,7 +94,7 @@ const fireResponseLayer = async function ({
 
 // If write action fails, we wait for the other write actions to end,
 // then perform a rollback later. We return the error with success.
-const responseHandler = function (error) {
+const responseHandler = function(error) {
   const errorA = normalizeError({ error })
   return [errorA]
 }

@@ -4,22 +4,20 @@ const { EVENTS, LEVELS } = require('../../constants')
 
 // Retrieves `[EVENT] [LEVEL] [HOSTID] [PROCESSNAME] [PROCESSID] [TIMESTAMP]
 // [PHASE]`
-const getPrefix = function ({ log }) {
-  return PREFIXES
-    .map(({ value, length }) => getEachPrefix({ value, length, log }))
-    .join(' ')
+const getPrefix = function({ log }) {
+  return PREFIXES.map(({ value, length }) =>
+    getEachPrefix({ value, length, log }),
+  ).join(' ')
 }
 
-const getEachPrefix = function ({ value, length, log }) {
+const getEachPrefix = function({ value, length, log }) {
   const prefix = value(log)
-  const prefixA = prefix
-    .substr(0, length)
-    .padEnd(length)
+  const prefixA = prefix.substr(0, length).padEnd(length)
   const prefixB = `[${prefixA}]`
   return prefixB
 }
 
-const getMaxLength = function (enumVal) {
+const getMaxLength = function(enumVal) {
   const lengths = enumVal.map(({ length }) => length)
   return Math.max(...lengths)
 }
@@ -36,18 +34,29 @@ const PREFIXES = [
   },
 
   {
-    value: ({ serverinfo: { host: { id: hostId } } }) => hostId,
+    value: ({
+      serverinfo: {
+        host: { id: hostId },
+      },
+    }) => hostId,
     length: 8,
   },
 
   {
-    value: ({ serverinfo: { process: { name: processName } } }) => processName,
+    value: ({
+      serverinfo: {
+        process: { name: processName },
+      },
+    }) => processName,
     length: 12,
   },
 
   {
-    value: ({ serverinfo: { process: { id: processId } } }) =>
-      String(processId),
+    value: ({
+      serverinfo: {
+        process: { id: processId },
+      },
+    }) => String(processId),
     length: 5,
   },
 

@@ -32,27 +32,31 @@ const CONTENT_TYPES = {
   },
 }
 
-const isObject = function (value) {
-  return value &&
-    [Object, undefined].includes(value.constructor) &&
-    isJSON(value)
+const isObject = function(value) {
+  return (
+    value && [Object, undefined].includes(value.constructor) && isJSON(value)
+  )
 }
 
-const isArray = function (value) {
+const isArray = function(value) {
   return value && Array.isArray(value) && isJSON(value)
 }
 
-const isJSON = function (val) {
+const isJSON = function(val) {
   try {
     JSON.stringify(val)
-  } catch { return false }
+  } catch {
+    return false
+  }
 
   return true
 }
 
-const isType = function (contentType, type) {
-  return CONTENT_TYPES[contentType] !== undefined &&
+const isType = function(contentType, type) {
+  return (
+    CONTENT_TYPES[contentType] !== undefined &&
     CONTENT_TYPES[contentType].types.includes(type)
+  )
 }
 
 module.exports = {

@@ -6,7 +6,7 @@ const replaceOperator = {
 
   argument: ['string[]'],
 
-  check ({ arg: opVal }) {
+  check({ arg: opVal }) {
     // eslint-disable-next-line no-magic-numbers
     const isValid = opVal.length <= 3 && opVal.length >= 2
 
@@ -17,13 +17,13 @@ const replaceOperator = {
     return validateRegExp({ opVal })
   },
 
-  apply ({ value: attrVal = '', arg: [regExp, str, flags] }) {
+  apply({ value: attrVal = '', arg: [regExp, str, flags] }) {
     const regExpA = getRegExp({ regExp, flags })
     return attrVal.replace(regExpA, str)
   },
 }
 
-const validateRegExp = function ({ opVal }) {
+const validateRegExp = function({ opVal }) {
   const [regExp, , flags] = opVal
 
   try {
@@ -35,13 +35,13 @@ const validateRegExp = function ({ opVal }) {
   try {
     getRegExp({ regExp })
 
-    return 'the regular expression\'s flags are invalid'
+    return "the regular expression's flags are invalid"
   } catch {
     return 'the regular expression is invalid'
   }
 }
 
-const getRegExp = function ({ regExp, flags = 'gi' }) {
+const getRegExp = function({ regExp, flags = 'gi' }) {
   return new RegExp(regExp, flags)
 }
 

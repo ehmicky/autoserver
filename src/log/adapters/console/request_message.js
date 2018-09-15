@@ -5,7 +5,7 @@ const { getRpc } = require('../../../rpc')
 
 // Build message of events `request` as:
 //  STATUS [ERROR] - PROTOCOL METHOD RPC /PATH COMMAND...
-const getRequestMessage = function ({
+const getRequestMessage = function({
   protocol,
   rpc,
   method,
@@ -32,22 +32,29 @@ const getRequestMessage = function ({
     rpcTitle,
     path,
     suffixText,
-  ].filter(val => val)
+  ]
+    .filter(val => val)
     .join(' ')
   return message
 }
 
-const getRpcTitle = function ({ rpc }) {
-  if (rpc === undefined) { return }
+const getRpcTitle = function({ rpc }) {
+  if (rpc === undefined) {
+    return
+  }
 
   const { title: rpcTitle } = getRpc(rpc)
   return rpcTitle
 }
 
-const getSuffixText = function ({ status, summary, commandpath, description }) {
-  if (status === 'SUCCESS') { return summary }
+const getSuffixText = function({ status, summary, commandpath, description }) {
+  if (status === 'SUCCESS') {
+    return summary
+  }
 
-  if (!description) { return commandpath }
+  if (!description) {
+    return commandpath
+  }
 
   return `${commandpath} - ${description}`
 }

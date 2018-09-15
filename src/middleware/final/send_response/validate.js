@@ -4,7 +4,7 @@ const { throwPb } = require('../../../errors')
 
 const { TYPES } = require('./types')
 
-const validateResponse = function ({ response: { type, content } }) {
+const validateResponse = function({ response: { type, content } }) {
   if (!type) {
     const message = 'Server sent an response with no content type'
     throwPb({ message, reason: 'ENGINE' })

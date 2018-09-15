@@ -1,13 +1,15 @@
 'use strict'
 
-const { Buffer: { byteLength } } = require('buffer')
+const {
+  Buffer: { byteLength },
+} = require('buffer')
 const { request } = require('http')
 
 const rawBody = require('raw-body')
 
 // Report log with a HTTP request
 // TODO: use a proper HTTP request library
-const report = function ({ log, opts: { method = 'POST', ...opts } }) {
+const report = function({ log, opts: { method = 'POST', ...opts } }) {
   const methodA = method.toUpperCase()
 
   const body = JSON.stringify(log)
@@ -16,14 +18,15 @@ const report = function ({ log, opts: { method = 'POST', ...opts } }) {
 
   // eslint-disable-next-line promise/avoid-new
   const promise = new Promise((resolve, reject) =>
-    reqToPromise({ req, resolve, reject }))
+    reqToPromise({ req, resolve, reject }),
+  )
 
   req.end(body)
 
   return promise
 }
 
-const getRequest = function ({ method, body, hostname, port, auth, path }) {
+const getRequest = function({ method, body, hostname, port, auth, path }) {
   const headers = getHeaders({ body })
 
   const req = request({
@@ -40,22 +43,25 @@ const getRequest = function ({ method, body, hostname, port, auth, path }) {
 
 const TIMEOUT = 5e3
 
-const getHeaders = function ({ body }) {
+const getHeaders = function({ body }) {
   return {
     'Content-Type': 'application/json',
     'Content-Length': byteLength(body),
   }
 }
 
-const reqToPromise = function ({ req, resolve, reject }) {
+const reqToPromise = function({ req, resolve, reject }) {
   req.on('response', res => responseHandler({ res, resolve, reject }))
 
   req.on('error', reject)
 }
 
-const responseHandler = async function ({ res, resolve, reject }) {
+const responseHandler = async function({ res, resolve, reject }) {
   const isSuccess = String(res.statusCode).startsWith('2')
-  if (isSuccess) { resolve() }
+
+  if (isSuccess) {
+    resolve()
+  }
 
   const response = await rawBody(res, 'utf-8')
   const responseA = JSON.stringify(response)

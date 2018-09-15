@@ -9,29 +9,36 @@ const { runConfigFunc, getModelParams } = require('../../../functions')
 //  - current collection's 'id' attribute's config 'default'
 //  - database adapter-specific function
 //  - UUIDv4
-const addDefaultIds = function ({ datum, top: { command }, ...rest }) {
+const addDefaultIds = function({ datum, top: { command }, ...rest }) {
   const shouldAddDefaultId = command.type === 'create' && datum.id == null
-  if (!shouldAddDefaultId) { return datum }
+
+  if (!shouldAddDefaultId) {
+    return datum
+  }
 
   const id = handlers.reduce(
     getIdDefault.bind(null, { ...rest, datum, command }),
     null,
   )
 
-  if (id == null) { return datum }
+  if (id == null) {
+    return datum
+  }
 
   return { ...datum, id }
 }
 
 // Try each way to set default, in order
-const getIdDefault = function (input, id, handler) {
-  if (id != null) { return id }
+const getIdDefault = function(input, id, handler) {
+  if (id != null) {
+    return id
+  }
 
   return handler(input)
 }
 
 // Apply default current collection's 'id' attribute
-const applyConfigDefault = function ({
+const applyConfigDefault = function({
   collname,
   command,
   datum,
@@ -39,7 +46,10 @@ const applyConfigDefault = function ({
   mInput,
 }) {
   const configFunc = userDefaultsMap[collname].id
-  if (configFunc == null) { return }
+
+  if (configFunc == null) {
+    return
+  }
 
   const params = getModelParams({
     model: datum,
@@ -52,23 +62,22 @@ const applyConfigDefault = function ({
 
 // Apply database adapter-specific id default, i.e. adapter.getDefaultId()
 // Database adapters should prefer using UUID, to keep it consistent
-const applyDatabaseDefault = function ({ collname, dbAdapters }) {
+const applyDatabaseDefault = function({ collname, dbAdapters }) {
   const { getDefaultId } = dbAdapters[collname]
-  if (getDefaultId === undefined) { return }
+
+  if (getDefaultId === undefined) {
+    return
+  }
 
   return getDefaultId()
 }
 
 // UUID default fallback
-const applyUuid = function () {
+const applyUuid = function() {
   return uuidv4()
 }
 
-const handlers = [
-  applyConfigDefault,
-  applyDatabaseDefault,
-  applyUuid,
-]
+const handlers = [applyConfigDefault, applyDatabaseDefault, applyUuid]
 
 module.exports = {
   addDefaultIds,

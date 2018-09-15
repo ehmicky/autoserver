@@ -7,7 +7,7 @@ const { getColl } = require('./get_coll')
 const { addActions } = require('./add_actions')
 
 // Parse `args.populate|cascade` into a set of nested `actions`
-const parsePopulateCascade = function ({ actions, ...rest }) {
+const parsePopulateCascade = function({ actions, ...rest }) {
   const actionsA = addActions({
     actions,
     filter: ['populate', 'cascade'],
@@ -17,7 +17,7 @@ const parsePopulateCascade = function ({ actions, ...rest }) {
   return { actions: actionsA }
 }
 
-const getActions = function ({
+const getActions = function({
   top,
   top: { command },
   action: { args },
@@ -30,7 +30,8 @@ const getActions = function ({
   const attrsA = uniq(attrs)
   const attrsB = attrsA.map(attrName => attrName.split('.'))
   const actions = attrsB.map(attrName =>
-    getAction({ attrName, attrs: attrsB, top, config, argName }))
+    getAction({ attrName, attrs: attrsB, top, config, argName }),
+  )
   return actions
 }
 
@@ -44,7 +45,7 @@ const ARG_NAMES = {
 //   commandpath: ['commandName', 'attr', 'child_attr']
 //   collname
 //   args: {}
-const getAction = function ({ attrName, attrs, top, config, argName }) {
+const getAction = function({ attrName, attrs, top, config, argName }) {
   validateMiddleAction({ attrName, attrs, argName })
 
   const commandpath = [...top.commandpath, ...attrName]
@@ -59,25 +60,35 @@ const getAction = function ({ attrName, attrs, top, config, argName }) {
 
 // Cannot specify `args.populate|cascade` `parent.child` but not `parent`.
 // Otherwise, this would require create an intermediate `find` action.
-const validateMiddleAction = function ({ attrName, attrs, argName }) {
+const validateMiddleAction = function({ attrName, attrs, argName }) {
   // Not for top-level attributes
-  if (attrName.length <= 1) { return }
+  if (attrName.length <= 1) {
+    return
+  }
 
   const parentAttr = attrName.slice(0, -1)
   const hasParentAttr = includes(attrs, parentAttr)
-  if (hasParentAttr) { return }
 
-  const message = `In '${argName}' argument, must not specify '${attrName.join('.')}' unless '${parentAttr.join('.')}' is also specified`
+  if (hasParentAttr) {
+    return
+  }
+
+  const message = `In '${argName}' argument, must not specify '${attrName.join(
+    '.',
+  )}' unless '${parentAttr.join('.')}' is also specified`
   throwError(message, { reason: 'VALIDATION' })
 }
 
-const validateModel = function ({ coll, commandpath, argName }) {
-  if (coll !== undefined) { return }
+const validateModel = function({ coll, commandpath, argName }) {
+  if (coll !== undefined) {
+    return
+  }
 
   const attrName = commandpath.join('.')
-  const message = attrName === ''
-    ? `'${argName}' argument cannot contain empty attributes`
-    : `In '${argName}' argument, attribute '${attrName}' is unknown`
+  const message =
+    attrName === ''
+      ? `'${argName}' argument cannot contain empty attributes`
+      : `In '${argName}' argument, attribute '${attrName}' is unknown`
   throwError(message, { reason: 'VALIDATION' })
 }
 

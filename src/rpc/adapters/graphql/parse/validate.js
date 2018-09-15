@@ -4,15 +4,17 @@ const { getWordsList } = require('../../../../utils')
 const { throwError } = require('../../../../errors')
 
 // Validate GraphQL main definition
-const validateMainDef = function ({ mainDef, operationName, method }) {
+const validateMainDef = function({ mainDef, operationName, method }) {
   validateDef({ mainDef, operationName })
   validateMainSelection({ mainDef })
   validateQuery({ mainDef })
   validateMutation({ mainDef, method })
 }
 
-const validateDef = function ({ mainDef, operationName }) {
-  if (mainDef) { return }
+const validateDef = function({ mainDef, operationName }) {
+  if (mainDef) {
+    return
+  }
 
   if (operationName) {
     const message = `Could not find GraphQL operation '${operationName}'`
@@ -23,8 +25,10 @@ const validateDef = function ({ mainDef, operationName }) {
   throwError(msg, { reason: 'VALIDATION' })
 }
 
-const validateMainSelection = function ({
-  mainDef: { selectionSet: { selections } },
+const validateMainSelection = function({
+  mainDef: {
+    selectionSet: { selections },
+  },
 }) {
   if (selections.length > 1) {
     const names = getOperationNames({ selections })
@@ -40,48 +44,57 @@ const validateMainSelection = function ({
   }
 }
 
-const getOperationNames = function ({ selections }) {
+const getOperationNames = function({ selections }) {
   const operationNames = selections.map(({ name: { value } = {} }) => value)
   return getWordsList(operationNames, { op: 'and', quotes: true })
 }
 
 // GraphQL queries must use (e.g. in HTTP) GET, but mutations have no
 // restrictions
-const validateQuery = function ({
+const validateQuery = function({
   mainDef: {
-    selectionSet: { selections: [{ name }] },
+    selectionSet: {
+      selections: [{ name }],
+    },
     operation,
   },
 }) {
-  if (operation !== 'query') { return }
+  if (operation !== 'query') {
+    return
+  }
 
   if (!isFindQuery({ name })) {
-    const message = 'Can only perform \'find\' commands with a GraphQL \'query\''
+    const message = "Can only perform 'find' commands with a GraphQL 'query'"
     throwError(message, { reason: 'VALIDATION' })
   }
 }
 
-const validateMutation = function ({
+const validateMutation = function({
   mainDef: {
-    selectionSet: { selections: [{ name }] },
+    selectionSet: {
+      selections: [{ name }],
+    },
     operation,
   },
   method,
 }) {
-  if (operation !== 'mutation') { return }
+  if (operation !== 'mutation') {
+    return
+  }
 
   if (method === 'GET') {
-    const message = 'Can only perform GraphQL queries, not mutations, with the protocol method \'GET\''
+    const message =
+      "Can only perform GraphQL queries, not mutations, with the protocol method 'GET'"
     throwError(message, { reason: 'VALIDATION' })
   }
 
   if (isFindQuery({ name })) {
-    const message = 'Cannot perform \'find\' commands with a GraphQL \'mutation\''
+    const message = "Cannot perform 'find' commands with a GraphQL 'mutation'"
     throwError(message, { reason: 'VALIDATION' })
   }
 }
 
-const isFindQuery = function ({ name }) {
+const isFindQuery = function({ name }) {
   return name.value.startsWith('find') || name.value === '__schema'
 }
 

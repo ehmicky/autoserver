@@ -5,7 +5,7 @@ const { throwError } = require('../../../errors')
 const { addToActions } = require('../add_actions')
 
 // Parse `args.rename` for each action
-const parseRename = function ({ actions, top }) {
+const parseRename = function({ actions, top }) {
   const actionsA = addToActions({
     actions,
     name: 'rename',
@@ -17,17 +17,23 @@ const parseRename = function ({ actions, top }) {
   return { actions: actionsA }
 }
 
-const getRenameArg = function ({ action: { args: { rename }, commandpath } }) {
+const getRenameArg = function({
+  action: {
+    args: { rename },
+    commandpath,
+  },
+}) {
   const renamesA = rename.split(',')
   const renamesB = uniq(renamesA)
-  const renamesC = renamesB
-    .map(renameA => getRenamePart({ rename: renameA, commandpath }))
+  const renamesC = renamesB.map(renameA =>
+    getRenamePart({ rename: renameA, commandpath }),
+  )
   return renamesC
 }
 
 // Turns `args.rename` 'aaa.bbb.ccc:ddd' into:
 // `commandpath` 'aaa.bbb', `key` 'ccc', `outputName` 'ddd']
-const getRenamePart = function ({ rename, commandpath }) {
+const getRenamePart = function({ rename, commandpath }) {
   const renameA = [...commandpath, rename].join('.')
   const [, commandpathA, outputName] = RENAME_REGEXP.exec(renameA) || []
 

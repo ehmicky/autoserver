@@ -8,25 +8,30 @@ const { parseSelects } = require('./select')
 const { addPopulate } = require('./populate')
 
 // Transform GraphQL AST into rpc-agnostic `rpcDef`
-const parseRpcDef = function ({ mainDef, variables, fragments }) {
+const parseRpcDef = function({ mainDef, variables, fragments }) {
   const mainSelection = getMainSelection({ mainDef, variables })
 
-  const { name: { value: commandName } } = mainSelection
+  const {
+    name: { value: commandName },
+  } = mainSelection
   const argsA = getArgs({ mainSelection, variables, fragments, commandName })
 
   return { commandName, args: argsA }
 }
 
-const getMainSelection = function ({
-  mainDef: { selectionSet: { selections } },
+const getMainSelection = function({
+  mainDef: {
+    selectionSet: { selections },
+  },
   variables,
 }) {
-  const [mainSelection] = selections
-    .filter(selection => applyDirectives({ selection, variables }))
+  const [mainSelection] = selections.filter(selection =>
+    applyDirectives({ selection, variables }),
+  )
   return mainSelection
 }
 
-const getArgs = function ({
+const getArgs = function({
   mainSelection,
   mainSelection: { selectionSet },
   variables,
@@ -45,8 +50,10 @@ const getArgs = function ({
 
 const FORBIDDEN_ARGS = ['select', 'populate']
 
-const validateForbiddenArg = function ({ args, argName }) {
-  if (args[argName] === undefined) { return }
+const validateForbiddenArg = function({ args, argName }) {
+  if (args[argName] === undefined) {
+    return
+  }
 
   const message = `Cannot specify '${argName}' argument with GraphQL`
   throwError(message, { reason: 'VALIDATION' })

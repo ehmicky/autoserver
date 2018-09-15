@@ -3,15 +3,13 @@
 const { toSentence } = require('underscore.string')
 
 // Turn ['a', 'b', 'c'] into 'a, b or c'
-const getWordsList = function (
+const getWordsList = function(
   words,
-  {
-    op = 'or',
-    quotes = false,
-    json = false,
-  } = {},
+  { op = 'or', quotes = false, json = false } = {},
 ) {
-  if (words.length === 0) { return '' }
+  if (words.length === 0) {
+    return ''
+  }
 
   const wordsA = jsonStringify(words, { json })
   const wordsB = quoteWords(wordsA, { quotes })
@@ -19,14 +17,18 @@ const getWordsList = function (
   return wordsC
 }
 
-const jsonStringify = function (words, { json }) {
-  if (!json) { return words }
+const jsonStringify = function(words, { json }) {
+  if (!json) {
+    return words
+  }
 
   return words.map(JSON.stringify)
 }
 
-const quoteWords = function (words, { quotes }) {
-  if (!quotes) { return words }
+const quoteWords = function(words, { quotes }) {
+  if (!quotes) {
+    return words
+  }
 
   return words.map(word => `'${word}'`)
 }

@@ -1,17 +1,23 @@
 'use strict'
 
-const { Buffer: { isBuffer } } = require('buffer')
+const {
+  Buffer: { isBuffer },
+} = require('buffer')
 
 // Parses a raw value
-const parse = function ({ content }) {
+const parse = function({ content }) {
   return content
 }
 
 // Serializes any value to a string
-const serialize = function ({ content }) {
-  if (typeof content === 'string') { return content }
+const serialize = function({ content }) {
+  if (typeof content === 'string') {
+    return content
+  }
 
-  if (isBuffer(content)) { return content.toString() }
+  if (isBuffer(content)) {
+    return content.toString()
+  }
 
   return JSON.stringify(content, null, 2)
 }

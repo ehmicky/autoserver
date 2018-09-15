@@ -4,7 +4,7 @@ const { rethrowError } = require('../errors')
 const { logEvent } = require('../log')
 
 // Handle exceptions thrown at server startup
-const handleStartupError = async function (
+const handleStartupError = async function(
   error,
   { exitFunc, protocolAdapters, dbAdapters, config },
 ) {

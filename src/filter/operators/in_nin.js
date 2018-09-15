@@ -4,7 +4,7 @@ const { throwAttrValError } = require('../error')
 
 const { parseAsIs, validateNotArray, validateSameType } = require('./common')
 
-const validateInNin = function ({ value, type, attr, throwErr }) {
+const validateInNin = function({ value, type, attr, throwErr }) {
   validateNotArray({ type, attr, throwErr })
 
   if (!Array.isArray(value)) {
@@ -15,12 +15,12 @@ const validateInNin = function ({ value, type, attr, throwErr }) {
 }
 
 // `{ attribute: { _in: [...] } }`
-const evalIn = function ({ attr, value }) {
+const evalIn = function({ attr, value }) {
   return value.includes(attr)
 }
 
 // `{ attribute: { _nin: [...] } }`
-const evalNin = function ({ attr, value }) {
+const evalNin = function({ attr, value }) {
   return !value.includes(attr)
 }
 

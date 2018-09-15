@@ -1,6 +1,7 @@
 extends:
-- standard
-- plugin:you-dont-need-lodash-underscore/all
+  - standard
+  - plugin:you-dont-need-lodash-underscore/all
+  - plugin:prettier/recommended
 
 root: true
 
@@ -15,12 +16,12 @@ env:
 
 # feross/standard implies "import", "node", "promise" and "standard"
 plugins:
-- eslint-comments
-- filenames
-- fp
-- html
-- markdown
-- unicorn
+  - eslint-comments
+  - filenames
+  - fp
+  - html
+  - markdown
+  - unicorn
 
 # Differences from feross/standard:
 #  - use trailing commas
@@ -38,12 +39,12 @@ plugins:
 rules:
   # Differences from feross/standard
   comma-dangle:
-  - 2
-  - always-multiline
-  # feross/standard does not check arguments for unused-vars
+    - 2
+    - always-multiline
+    # feross/standard does not check arguments for unused-vars
   no-unused-vars:
-  - 2
-  - {}
+    - 2
+    - {}
 
   # Globals
   node/prefer-global/console: 2
@@ -51,23 +52,23 @@ rules:
   node/prefer-global/url-search-params: 2
   # We only use globals for globals also defined in the browser
   node/prefer-global/buffer:
-  - 2
-  - never
+    - 2
+    - never
   node/prefer-global/process:
-  - 2
-  - never
+    - 2
+    - never
 
   # Comments
   no-inline-comments: 2
   multiline-comment-style:
-  - 2
-  - separate-lines
+    - 2
+    - separate-lines
   line-comment-position: 2
   lines-around-comment: 2
   capitalized-comments:
-  - 2
-  - always
-  - ignoreConsecutiveComments: true
+    - 2
+    - always
+    - ignoreConsecutiveComments: true
 
   # ESLint comments
   eslint-comments/disable-enable-pair: 2
@@ -77,21 +78,21 @@ rules:
   eslint-comments/no-unlimited-disable: 2
   eslint-comments/no-aggregating-enable: 2
   eslint-comments/no-use:
-  - 2
-  - allow:
-    - 'eslint-disable-next-line'
-    - 'eslint-disable'
-    - 'eslint-enable'
+    - 2
+    - allow:
+        - 'eslint-disable-next-line'
+        - 'eslint-disable'
+        - 'eslint-enable'
   unicorn/no-abusive-eslint-disable: 2
 
   # JSDoc
-#  valid-jsdoc: 2
-#  require-jsdoc:
-#  - 2
-#  - require:
-#      FunctionDeclaration: true
-#      MethodDefinition: true
-#      ClassDeclaration: true
+  #  valid-jsdoc: 2
+  #  require-jsdoc:
+  #  - 2
+  #  - require:
+  #      FunctionDeclaration: true
+  #      MethodDefinition: true
+  #      ClassDeclaration: true
   strict: 2
 
   # Long statements
@@ -99,13 +100,13 @@ rules:
 
   # Blank lines
   padding-line-between-statements:
-  - 2
-  - blankLine: always
-    prev: [multiline-block-like, directive]
-    next: '*'
-  - blankLine: always
-    prev: '*'
-    next: multiline-block-like
+    - 2
+    - blankLine: always
+      prev: [multiline-block-like, directive]
+      next: '*'
+    - blankLine: always
+      prev: '*'
+      next: multiline-block-like
   lines-between-class-members: 2
 
   # Whitespaces
@@ -116,8 +117,8 @@ rules:
 
   # Spaces
   object-curly-spacing:
-  - 2
-  - always
+    - 2
+    - always
   array-bracket-spacing: 2
   computed-property-spacing: 2
   switch-colon-spacing: 2
@@ -128,57 +129,57 @@ rules:
 
   # Statements
   no-empty:
-  - 2
-  - allowEmptyCatch: true
+    - 2
+    - allowEmptyCatch: true
 
   # Complexity
   max-len:
-  - 2
-  - code: 80
-    tabWidth: 2
-    ignoreUrls: true
-    ignoreStrings: true
-    ignoreTemplateLiterals: true
-    ignoreRegExpLiterals: true
+    - 2
+    - code: 80
+      tabWidth: 2
+      ignoreUrls: true
+      ignoreStrings: true
+      ignoreTemplateLiterals: true
+      ignoreRegExpLiterals: true
   max-lines:
-  - 2
-  - max: 90
-    skipBlankLines: true
-    skipComments: true
+    - 2
+    - max: 90
+      skipBlankLines: true
+      skipComments: true
   max-lines-per-function:
-  - 2
-  - max: 50
-    skipBlankLines: true
-    skipComments: true
-    IIFEs: true
+    - 2
+    - max: 50
+      skipBlankLines: true
+      skipComments: true
+      IIFEs: true
   max-statements:
-  - 2
-  - 10
+    - 2
+    - 10
   max-statements-per-line:
-  - 2
-  - max: 2
+    - 2
+    - max: 2
   import/max-dependencies: 2
   complexity:
-  - 2
-  - 4
+    - 2
+    - 4
   max-depth:
-  - 2
-  - 1
+    - 2
+    - 1
   max-nested-callbacks:
-  - 2
-  - 1
+    - 2
+    - 1
 
   # Referencing
   no-undef:
-  - 2
-  - typeof: true
+    - 2
+    - typeof: true
   no-shadow:
-  - 2
-  - builtinGlobals: true
-    hoist: all
-    allow:
-    - process
-    - Buffer
+    - 2
+    - builtinGlobals: true
+      hoist: all
+      allow:
+        - process
+        - Buffer
 
   # Declarations
   block-scoped-var: 2
@@ -188,15 +189,15 @@ rules:
   prefer-const: 2
   no-implicit-globals: 2
   one-var:
-  - 2
-  - separateRequires: true
+    - 2
+    - separateRequires: true
   one-var-declaration-per-line: 2
   vars-on-top: 2
   sort-vars: 2
   no-magic-numbers:
-  - 2
-  - ignore: [-2, -1, 0, 1, 2]
-    enforceConst: true
+    - 2
+    - ignore: [-2, -1, 0, 1, 2]
+      enforceConst: true
 
   # Assignments
   init-declarations: 2
@@ -205,11 +206,11 @@ rules:
   no-multi-assign: 2
   prefer-object-spread: 2
   no-param-reassign:
-  - 2
-  - props: true
+    - 2
+    - props: true
   fp/no-mutation:
-  - 2
-  - commonjs: true
+    - 2
+    - commonjs: true
   fp/no-delete: 2
   import/no-unassigned-import: 2
   fp/no-mutating-assign: 2
@@ -217,21 +218,21 @@ rules:
 
   # Naming
   id-length:
-  - 2
-  - max: 24
+    - 2
+    - max: 24
   id-match:
-  - 2
-  - '^[A-Za-z0-9_]+$'
-  - onlyDeclarations: true
+    - 2
+    - '^[A-Za-z0-9_]+$'
+    - onlyDeclarations: true
   no-underscore-dangle:
-  - 2
-  - enforceInMethodNames: true
+    - 2
+    - enforceInMethodNames: true
 
   # Typecasting
   no-implicit-coercion: 2
   unicorn/explicit-length-check:
-  - 2
-  - non-zero: not-equal
+    - 2
+    - non-zero: not-equal
   unicorn/new-for-builtins: 2
   fp/no-valueof-field: 2
 
@@ -243,16 +244,16 @@ rules:
   # Structures
   no-lonely-if: 2
   no-else-return:
-  - 2
-  - allowElseIf: false
+    - 2
+    - allowElseIf: false
   for-direction: 2
   guard-for-in: 2
   fp/no-loops: 2
 
   # Switch
   no-restricted-syntax:
-  - 2
-  - SwitchStatement
+    - 2
+    - SwitchStatement
   default-case: 2
   no-case-declarations: 2
 
@@ -272,22 +273,21 @@ rules:
   func-style: 2
   no-loop-func: 2
   func-names:
-  - 2
-  - as-needed
+    - 2
+    - as-needed
   func-name-matching:
-  - 2
-  - considerPropertyDescriptor: true
-  function-paren-newline: 2
+    - 2
+    - considerPropertyDescriptor: true
   prefer-arrow-callback:
-  - 2
-  - allowNamedFunctions: true
+    - 2
+    - allowNamedFunctions: true
   arrow-body-style: 2
   arrow-parens:
-  - 2
-  - as-needed
+    - 2
+    - as-needed
   no-confusing-arrow:
-  -  2
-  - allowParens: true
+    - 2
+    - allowParens: true
   max-params: 2
   prefer-spread: 2
   unicorn/prefer-spread: 2
@@ -301,12 +301,12 @@ rules:
 
   # Objects
   object-property-newline:
-  - 2
-  - allowAllPropertiesOnSameLine: true
+    - 2
+    - allowAllPropertiesOnSameLine: true
   dot-notation: 2
   quote-props:
-  - 2
-  - as-needed
+    - 2
+    - as-needed
   object-shorthand: 2
   prefer-destructuring: 2
 
@@ -321,8 +321,8 @@ rules:
 
   # Arrays
   array-bracket-newline:
-  - 2
-  - consistent
+    - 2
+    - consistent
   array-callback-return: 2
 
   # String
@@ -337,13 +337,12 @@ rules:
   unicorn/regex-shorthand: 2
   no-misleading-character-class: 2
   require-unicode-regexp: 2
-  wrap-regex: 2
 
   # Number
   prefer-numeric-literals: 2
   radix:
-  - 2
-  - as-needed
+    - 2
+    - as-needed
   unicorn/prefer-exponentiation-operator: 2
   no-bitwise: 2
 
@@ -370,19 +369,19 @@ rules:
 
   # Modules
   import/no-unresolved:
-  - 2
-  - commonjs: true
+    - 2
+    - commonjs: true
   node/no-missing-require:
-  - 2
-  - allowModules:
-    - autoserver
+    - 2
+    - allowModules:
+        - autoserver
   node/no-unpublished-require:
-  - 2
-  - allowModules:
-    - gulp
-    - gulp-eslint
-    - gulp-jscpd
-    - gulp-plumber
+    - 2
+    - allowModules:
+        - gulp
+        - gulp-eslint
+        - gulp-jscpd
+        - gulp-plumber
   node/no-missing-import: 2
   node/no-unpublished-import: 2
   import/named: 2
@@ -395,48 +394,48 @@ rules:
   import/no-anonymous-default-export: 2
   import/no-default-export: 2
   node/exports-style:
-  - 2
-  - module.exports
+    - 2
+    - module.exports
   import/extensions: 2
   import/no-absolute-path: 2
   import/no-internal-modules: 2
   import/no-useless-path-segments: 2
   no-duplicate-imports:
-  - 2
-  - includeExports: true
+    - 2
+    - includeExports: true
   import/no-self-import: 2
   import/no-cycle:
-  - 2
-  - commonjs: true
+    - 2
+    - commonjs: true
   import/group-exports: 2
   import/no-extraneous-dependencies: 2
   node/no-extraneous-require: 2
   node/no-extraneous-import: 2
   sort-imports:
-  - 2
-  - ignoreMemberSort: true
+    - 2
+    - ignoreMemberSort: true
   no-mixed-requires: 2
   import/order:
-  - 2
-  - newlines-between: always
+    - 2
+    - newlines-between: always
   import/newline-after-import: 2
   import/unambiguous: 2
   import/no-dynamic-require: 2
-#  import/no-commonjs: 2
+  #  import/no-commonjs: 2
   import/no-amd: 2
   import/no-deprecated: 2
   unicorn/import-index: 2
 
   # Filenames
   filenames/match-regex:
-  - 2
-  - '^[a-zA-Z_][a-zA-Z0-9_]+$'
+    - 2
+    - '^[a-zA-Z_][a-zA-Z0-9_]+$'
   filenames/match-exported:
-  - 2
-  - snake
+    - 2
+    - snake
   unicorn/filename-case:
-  - 2
-  - case: snakeCase
+    - 2
+    - case: snakeCase
 
   # Binary
   node/no-unpublished-bin: 2
@@ -450,17 +449,17 @@ rules:
   # Blacklist
   # Avoid Node.js-specific global variables
   no-restricted-globals:
-  - 2
-  # No global variables
-  - global
-  - GLOBAL
-  # Use console wrapper instead
-  - console
-  # Use module.exports instead
-  - exports
-  # Use require('process|buffer') instead
-  - process
-  - Buffer
+    - 2
+    # No global variables
+    - global
+    - GLOBAL
+    # Use console wrapper instead
+    - console
+    # Use module.exports instead
+    - exports
+    # Use require('process|buffer') instead
+    - process
+    - Buffer
 
   # To avoid
   no-void: 2
@@ -476,65 +475,69 @@ rules:
   no-process-exit: 2
   unicorn/no-process-exit: 2
 
-  # Those rules should be picked for a fully functional codebase.
-  # However, we want to allow throwing exceptions, because monads would
-  # be too verbose.
+# Does not work well with prettier
+# function-paren-newline: 2
+# wrap-regex: 2
+
+# Those rules should be picked for a fully functional codebase.
+# However, we want to allow throwing exceptions, because monads would
+# be too verbose.
 #  fp/no-nil: 2
 #  fp/no-unused-expression:
 #  - 2
 #  - allowUseStrict: true
 #  consistent-return: 2
 
-  # Our newlines rules for arrays, objects and ternaries take into
-  # account line width, which is not possible with those ESLint rules
+# Our newlines rules for arrays, objects and ternaries take into
+# account line width, which is not possible with those ESLint rules
 #  array-element-newline: 2
 #  object-curly-newline: 2
 #  multiline-ternary: 2
 #  implicit-arrow-linebreak: 2
 
-  # This is too restrictive
+# This is too restrictive
 #  unicorn/no-unsafe-regex: 2
-  # This is in conflict with no-useless-escape rule with RegExps like /=/
+# This is in conflict with no-useless-escape rule with RegExps like /=/
 #  no-div-regex: 2
 
-  # Those rules go against the codebase convention of using index.js files
-  # that require siblings, and exporting|requiring named objects.
+# Those rules go against the codebase convention of using index.js files
+# that require siblings, and exporting|requiring named objects.
 #  filenames/no-index: 2
 #  global-require: 2
 #  import/prefer-default-export: 2
 
-  # This rule goes against how the files hierarchy is structured
+# This rule goes against how the files hierarchy is structured
 #  import/no-relative-parent-imports: 2
 
-  # We sort object keys by type, but by name
+# We sort object keys by type, but by name
 #  sort-keys: 2
 
-  # We want rest parameters to allow passing around arguments unchanged
+# We want rest parameters to allow passing around arguments unchanged
 #  fp/no-rest-parameters: 2
 
-  # We allow ternaries, they can make code look cleaner
+# We allow ternaries, they can make code look cleaner
 #  no-ternary: 2
 
-  # undefined is a valid value in our codebase, distinct from null
+# undefined is a valid value in our codebase, distinct from null
 #  no-undefined: 2
 
-  # We allow TODO comments
+# We allow TODO comments
 #  no-warning-comments: 2
 
-  # We want to allow Promise.all() and Promise.race()
+# We want to allow Promise.all() and Promise.race()
 #  promise/no-native: 2
 
-  # This rule encourages creating functions where it is not needed
+# This rule encourages creating functions where it is not needed
 #  unicorn/no-fn-reference-in-iterator: 2
 
-  # Rules for client-side code only
+# Rules for client-side code only
 #  import/no-nodejs-modules: 2
 
-  # React
+# React
 #  react/*: 2
 #  jsx-quotes: 2
 
-  # No use for those rules
+# No use for those rules
 #  id-blacklist: 2
 #  no-restricted-imports: 2
 #  no-restricted-modules: 2

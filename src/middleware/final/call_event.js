@@ -5,7 +5,7 @@ const { nanoSecsToMilliSecs } = require('../../perf')
 
 // Main "call" event middleware.
 // Each request creates exactly one "call" event, whether successful or not
-const callEvent = function ({
+const callEvent = function({
   config,
   level,
   mInput,

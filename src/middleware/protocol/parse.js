@@ -2,7 +2,7 @@
 
 // Retrieves protocol request's input
 // TODO: remove specific
-const parseProtocol = function (
+const parseProtocol = function(
   { protocolAdapter: { parseRequest }, config },
   nextLayer,
   { measures },

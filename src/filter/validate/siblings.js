@@ -9,14 +9,17 @@ const { getAttr } = require('./attr')
 // Replace sibling attribute's value by a dummy value, since it is not known
 // yet, but we still want to validate for example that sibling attribute is of
 // the right attribute
-const getSiblingValue = function ({
+const getSiblingValue = function({
   node,
   node: { value, type },
   attrs,
   throwErr,
 }) {
   const isSibling = hasSiblingValue({ node })
-  if (!isSibling) { return value }
+
+  if (!isSibling) {
+    return value
+  }
 
   validateForbiddenOps({ type, throwErr })
 
@@ -24,9 +27,7 @@ const getSiblingValue = function ({
 
   // In `model.authorize`, model is under `model`.
   // In `args.filter`, it is top-level
-  const attrNameA = attrs.model === undefined
-    ? attrName
-    : `model.${attrName}`
+  const attrNameA = attrs.model === undefined ? attrName : `model.${attrName}`
 
   // This also validates that sibling attribute exists
   const attr = getAttr({ attrs, attrName: attrNameA, throwErr })
@@ -35,7 +36,7 @@ const getSiblingValue = function ({
   return valueA
 }
 
-const hasSiblingValue = function ({ node: { type, value } }) {
+const hasSiblingValue = function({ node: { type, value } }) {
   if (DEEP_OPERATORS.includes(type) && Array.isArray(value)) {
     return value.some(nodeA => hasSiblingValue({ node: nodeA }))
   }
@@ -43,7 +44,7 @@ const hasSiblingValue = function ({ node: { type, value } }) {
   return isSiblingValue({ value })
 }
 
-const getDummyValue = function ({ attr: { type, isArray } }) {
+const getDummyValue = function({ attr: { type, isArray } }) {
   const valueA = DUMMY_VALUES[type]
   const valueB = isArray ? [valueA] : valueA
   return valueB

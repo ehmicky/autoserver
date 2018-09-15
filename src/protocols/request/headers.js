@@ -2,12 +2,14 @@
 
 const { validateObject } = require('./validate')
 
-const parseHeaders = function ({
+const parseHeaders = function({
   protocolAdapter,
   protocolAdapter: { getHeaders },
   specific,
 }) {
-  if (getHeaders === undefined) { return }
+  if (getHeaders === undefined) {
+    return
+  }
 
   const headers = getHeaders({ specific })
 

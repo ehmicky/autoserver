@@ -14,16 +14,24 @@ const {
 const { getAgnosticMethod } = require('./method')
 
 // HTTP-specific ways to set input
-const mapInput = function (methods, ...args) {
+const mapInput = function(methods, ...args) {
   const input = mapValues(methods, func => func(...args))
   const inputA = omitBy(input, value => value === undefined)
   return inputA
 }
 
 // Using `X-HTTP-Method-Override` changes the method
-const getMethod = function ({ specific: { req: { headers } }, method }) {
+const getMethod = function({
+  specific: {
+    req: { headers },
+  },
+  method,
+}) {
   const methodOverride = headers['x-http-method-override']
-  if (!methodOverride) { return }
+
+  if (!methodOverride) {
+    return
+  }
 
   if (method === 'POST') {
     return getAgnosticMethod({ method: methodOverride })
@@ -35,20 +43,30 @@ const getMethod = function ({ specific: { req: { headers } }, method }) {
 
 // Using `Prefer: return=minimal` request header results in `args.silent` true.
 // Same thing for `HEAD` method
-const getSilent = function ({ specific, method }) {
-  if (method === 'HEAD') { return true }
+const getSilent = function({ specific, method }) {
+  if (method === 'HEAD') {
+    return true
+  }
 
   const preferHeader = eParsePreferHeader({ specific })
   const hasMinimalPreference = preferHeader.return === 'minimal'
 
-  if (hasMinimalPreference) { return true }
+  if (hasMinimalPreference) {
+    return true
+  }
 }
 
 // Parses Prefer HTTP header
-const parsePreferHeader = function ({
-  specific: { req: { headers: { prefer } } },
+const parsePreferHeader = function({
+  specific: {
+    req: {
+      headers: { prefer },
+    },
+  },
 }) {
-  if (!prefer) { return {} }
+  if (!prefer) {
+    return {}
+  }
 
   return parsePreferHeaderLib(prefer)
 }

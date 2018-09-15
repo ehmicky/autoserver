@@ -32,12 +32,14 @@ const {
 } = require('./reducers')
 
 // Loads config
-const loadConfig = function ({ measures, configPath, config }) {
+const loadConfig = function({ measures, configPath, config }) {
   return monitoredReduce({
     funcs: reducers,
     initialInput: { measures, configPath, config },
-    mapResponse: ({ config: configA, ...rest }, newConfig) =>
-      ({ config: { ...configA, ...newConfig }, ...rest }),
+    mapResponse: ({ config: configA, ...rest }, newConfig) => ({
+      config: { ...configA, ...newConfig },
+      ...rest,
+    }),
     category: 'config',
   })
 }

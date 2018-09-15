@@ -6,7 +6,7 @@ const { truncateAttrs } = require('./truncate')
 
 // Paginates nested find commands, to ensure response does not hit `maxmodels`
 // limit
-const paginateResults = function ({
+const paginateResults = function({
   results,
   maxmodels,
   top,
@@ -19,12 +19,17 @@ const paginateResults = function ({
     top,
     isTopLevel,
   })
-  if (!shouldPaginate) { return }
+
+  if (!shouldPaginate) {
+    return
+  }
 
   const nestedAttrs = getNestedAttrs({ childActions })
   const nestedPagesize = getNestedPagesize({ results, nestedAttrs, maxmodels })
 
-  if (nestedPagesize === Infinity) { return }
+  if (nestedPagesize === Infinity) {
+    return
+  }
 
   const resultsA = truncateAttrs({ results, nestedAttrs, nestedPagesize })
 
@@ -32,12 +37,14 @@ const paginateResults = function ({
   results.splice(0, results.length, ...resultsA)
 }
 
-const shouldPaginateResults = function ({ maxmodels, top, isTopLevel }) {
+const shouldPaginateResults = function({ maxmodels, top, isTopLevel }) {
   // Only depth level 2 is paginated, since deeper levels cannot use findMany
   // commands
-  return isTopLevel &&
+  return (
+    isTopLevel &&
     maxmodels !== Infinity &&
     COMMAND_TYPES.includes(top.command.type)
+  )
 }
 
 const COMMAND_TYPES = ['find']

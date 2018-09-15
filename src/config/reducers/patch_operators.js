@@ -4,8 +4,10 @@ const { mapValues, flatten, uniq } = require('../../utils')
 const { OPERATORS } = require('../../patch')
 
 // Parse `operators.attribute|argument` `any`
-const normalizePatchOperators = function ({ config: { operators } }) {
-  if (operators === undefined) { return }
+const normalizePatchOperators = function({ config: { operators } }) {
+  if (operators === undefined) {
+    return
+  }
 
   const operatorsA = mapValues(operators, normalizePatchOperator)
 
@@ -15,14 +17,17 @@ const normalizePatchOperators = function ({ config: { operators } }) {
   return { operators: operatorsB }
 }
 
-const normalizePatchOperator = function (operator) {
+const normalizePatchOperator = function(operator) {
   const field = normalizeField({ operator, name: 'attribute' })
   return { ...operator, ...field }
 }
 
-const normalizeField = function ({ operator, name }) {
+const normalizeField = function({ operator, name }) {
   const { [name]: field } = operator
-  if (field === undefined) { return }
+
+  if (field === undefined) {
+    return
+  }
 
   const types = TYPES[name]
   const fieldA = field.map(type => types[type] || type)

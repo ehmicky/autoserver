@@ -8,7 +8,7 @@ const instructions = require('../instructions')
 const { parseInput } = require('./input')
 
 // Run a server instruction, from the CLI
-const startCli = async function () {
+const startCli = async function() {
   const measures = []
   const { instruction, opts } = parseInput({ measures })
 
@@ -17,7 +17,7 @@ const startCli = async function () {
 
 // If an error is thrown, print error's description,
 // then exit with exit code 1
-const cliErrorHandler = function ({ message, description = message }) {
+const cliErrorHandler = function({ message, description = message }) {
   // eslint-disable-next-line no-console, no-restricted-globals
   console.error(`Error: ${description}`)
 

@@ -6,9 +6,7 @@ const runInstruction = {
   name: 'run',
   aliases: '*',
   describe: 'Start the server.',
-  examples: [
-    ['Start the server', '--protocols.http.port=5001'],
-  ],
+  examples: [['Start the server', '--protocols.http.port=5001']],
   args: [
     // This is actually not a positional argument, but meant only
     // for --help output
@@ -27,9 +25,7 @@ By default, will use any file named autoserver.config${EXTENSIONS.join('|')}`,
   },
 }
 
-const availableInstructions = [
-  runInstruction,
-]
+const availableInstructions = [runInstruction]
 
 module.exports = {
   availableInstructions,

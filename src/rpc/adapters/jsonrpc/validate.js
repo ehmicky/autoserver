@@ -3,15 +3,16 @@
 const { throwPb } = require('../../../errors')
 
 // Validate JSON-RPC payload is correct format
-const validatePayload = function ({ payload }) {
+const validatePayload = function({ payload }) {
   const payloadA = typeof payload === 'object' ? payload : {}
   const { jsonrpc, method, id, params } = payloadA
 
   validators.forEach(validator =>
-    applyValidator({ validator, payload, jsonrpc, method, id, params }))
+    applyValidator({ validator, payload, jsonrpc, method, id, params }),
+  )
 }
 
-const applyValidator = function ({
+const applyValidator = function({
   validator: { check, message, reason = 'VALIDATION', extra },
   payload,
   jsonrpc,
@@ -20,7 +21,10 @@ const applyValidator = function ({
   params,
 }) {
   const isValid = check({ payload, jsonrpc, method, id, params })
-  if (isValid) { return }
+
+  if (isValid) {
+    return
+  }
 
   const messageA = `Invalid JSON-RPC payload: ${message}`
   throwPb({ reason, message: messageA, extra })
@@ -35,35 +39,36 @@ const validators = [
   },
   {
     check: ({ payload }) => !Array.isArray(payload),
-    message: 'batch requests are not supported, so the payload must not be an array',
+    message:
+      'batch requests are not supported, so the payload must not be an array',
   },
   {
-    check: ({ jsonrpc }) => jsonrpc === undefined ||
-      typeof jsonrpc === 'string',
-    message: '\'jsonrpc\' must be a string or undefined',
+    check: ({ jsonrpc }) =>
+      jsonrpc === undefined || typeof jsonrpc === 'string',
+    message: "'jsonrpc' must be a string or undefined",
   },
   {
     check: ({ method }) => typeof method === 'string',
-    message: '\'method\' must be a string',
+    message: "'method' must be a string",
   },
   {
-    check: ({ id }) => id == null ||
-      typeof id === 'string' ||
-      Number.isInteger(id),
-    message: '\'id\' must be a string, an integer, null or undefined',
+    check: ({ id }) =>
+      id == null || typeof id === 'string' || Number.isInteger(id),
+    message: "'id' must be a string, an integer, null or undefined",
   },
   {
-    check: ({ params }) => params === undefined ||
+    check: ({ params }) =>
+      params === undefined ||
       params.constructor === Object ||
       Array.isArray(params),
-    message: '\'params\' type is invalid',
+    message: "'params' type is invalid",
   },
   {
-    check: ({ params }) => !Array.isArray(params) || (
-      params.length <= 1 &&
-      params.every(param => param && param.constructor === Object)
-    ),
-    message: '\'params\' must only contain one object or none',
+    check: ({ params }) =>
+      !Array.isArray(params) ||
+      (params.length <= 1 &&
+        params.every(param => param && param.constructor === Object)),
+    message: "'params' must only contain one object or none",
   },
 ]
 

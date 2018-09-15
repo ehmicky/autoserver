@@ -1,7 +1,7 @@
 'use strict'
 
 const owners = {
-  description: 'A pet\'s owner',
+  description: "A pet's owner",
   attributes: {
     name: {},
     pets: {

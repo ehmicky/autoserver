@@ -7,13 +7,15 @@ const { getSimpleFilter } = require('../../../filter')
 // E.g. when firing `find_collection { child { id } }`,
 // the nested `child` action needs to know `model.child` first before being
 // fired.
-const getParentResults = function ({ commandpath, results }) {
+const getParentResults = function({ commandpath, results }) {
   const parentPath = commandpath.slice(0, -1)
   return results.filter(result => isParentResults({ result, parentPath }))
 }
 
-const isParentResults = function ({ result: { path, promise }, parentPath }) {
-  if (promise !== undefined) { return false }
+const isParentResults = function({ result: { path, promise }, parentPath }) {
+  if (promise !== undefined) {
+    return false
+  }
 
   const pathA = path.filter(index => typeof index !== 'number')
   return isEqual(pathA, parentPath)
@@ -27,7 +29,7 @@ const isParentResults = function ({ result: { path, promise }, parentPath }) {
 // useful to build `args.filter`.
 // `allIds` is like `parentIds`, but with duplicate models. It is used to
 // check against `maxmodels` limit
-const getParentIds = function ({ commandName, parentResults }) {
+const getParentIds = function({ commandName, parentResults }) {
   const nestedParentIds = parentResults.map(({ model }) => model[commandName])
   const allIds = flatten(nestedParentIds)
   const allIdsA = allIds.filter(ids => ids !== undefined)
@@ -42,8 +44,10 @@ const getParentIds = function ({ commandName, parentResults }) {
 // then a nested query find_child() will be filtered by `id: 1`
 // If the parent returns nothing|null, the nested query won't be performed
 // and null will be returned
-const addNestedFilter = function ({ args, isTopLevel, parentIds }) {
-  if (isTopLevel) { return args }
+const addNestedFilter = function({ args, isTopLevel, parentIds }) {
+  if (isTopLevel) {
+    return args
+  }
 
   const filter = getSimpleFilter({ ids: parentIds })
   return { ...args, filter }

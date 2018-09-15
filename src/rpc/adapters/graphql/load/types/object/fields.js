@@ -9,7 +9,7 @@ const { getFinalField } = require('./final_fields')
 const { addNoAttributes } = require('./no_attributes')
 
 // Retrieve the fields of an object, using config definition
-const getObjectFields = function (opts) {
+const getObjectFields = function(opts) {
   const fields = mappers.reduce(
     reduceFields.bind(null, opts),
     opts.parentDef.attributes,
@@ -18,22 +18,14 @@ const getObjectFields = function (opts) {
   return fieldsA
 }
 
-const mappers = [
-  addCommand,
-  getNestedColl,
-  filterField,
-  getFinalField,
-]
+const mappers = [addCommand, getNestedColl, filterField, getFinalField]
 
-const reduceFields = function (opts, fields, mapper) {
-  const fieldsA = mapValues(
-    fields,
-    mapField.bind(null, { opts, mapper }),
-  )
+const reduceFields = function(opts, fields, mapper) {
+  const fieldsA = mapValues(fields, mapField.bind(null, { opts, mapper }))
   return omitBy(fieldsA, def => def == null)
 }
 
-const mapField = function ({ opts, mapper }, def, defName) {
+const mapField = function({ opts, mapper }, def, defName) {
   return mapper(def, { ...opts, defName })
 }
 

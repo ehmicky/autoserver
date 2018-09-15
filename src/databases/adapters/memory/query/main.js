@@ -7,7 +7,7 @@ const { delete: deleteMany } = require('./delete')
 const { upsert } = require('./upsert')
 
 // CRUD commands
-const query = async function ({
+const query = async function({
   collname,
   command,
   filter,

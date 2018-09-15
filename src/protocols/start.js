@@ -5,7 +5,7 @@ const { identity, pick, omit, mapValues } = require('../utils')
 const { parseRequest } = require('./request')
 
 // Start the server
-const start = async function (
+const start = async function(
   protocolAdapter,
   { requestHandler, getRequestInput = identity, opts = {}, config = {} },
 ) {
@@ -34,7 +34,7 @@ const start = async function (
 }
 
 // Once the server is started, we add some methods and remove others
-const getRequestAdapter = function ({
+const getRequestAdapter = function({
   protocolAdapter,
   protocolAdapter: { wrapped, send },
 }) {
@@ -45,7 +45,7 @@ const getRequestAdapter = function ({
 }
 
 // Request handler fired on each request
-const processRequest = function (
+const processRequest = function(
   { requestHandler, getRequestInput, protocolAdapter, protocol },
   specific,
 ) {
@@ -63,23 +63,19 @@ const processRequest = function (
 }
 
 // Pass protocol-specific input to some adapter's methods
-const bindMethods = function ({ protocolAdapter, specific }) {
+const bindMethods = function({ protocolAdapter, specific }) {
   const methods = pick(protocolAdapter, BOUND_METHODS)
-  const methodsA = mapValues(
-    methods,
-    method => wrapMethod.bind(null, { method, specific }),
+  const methodsA = mapValues(methods, method =>
+    wrapMethod.bind(null, { method, specific }),
   )
 
   const protocolAdapterA = { ...protocolAdapter, ...methodsA }
   return protocolAdapterA
 }
 
-const BOUND_METHODS = [
-  'send',
-  'parseRequest',
-]
+const BOUND_METHODS = ['send', 'parseRequest']
 
-const wrapMethod = function ({ method, specific }, arg, ...args) {
+const wrapMethod = function({ method, specific }, arg, ...args) {
   return method({ ...arg, specific }, ...args)
 }
 

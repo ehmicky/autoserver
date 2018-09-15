@@ -12,7 +12,7 @@ const { throwError } = require('../../../errors')
 const { getValues } = require('./values')
 
 // Add values to current actions
-const addToActions = function ({ actions, name, filter, mapper, top }) {
+const addToActions = function({ actions, name, filter, mapper, top }) {
   const values = getValues({ actions, filter, mapper })
 
   const actionsA = actions.map(action => addValue({ action, values, name }))
@@ -22,7 +22,7 @@ const addToActions = function ({ actions, name, filter, mapper, top }) {
   return actionsA
 }
 
-const addValue = function ({
+const addValue = function({
   action,
   action: { args, commandpath },
   values,
@@ -32,17 +32,19 @@ const addValue = function ({
   const valueA = values
     .map(value => value[commandpathA])
     .filter(value => value !== undefined)
-  const argsA = valueA.length === 0
-    ? omit(args, name)
-    : { ...args, [name]: valueA }
+  const argsA =
+    valueA.length === 0 ? omit(args, name) : { ...args, [name]: valueA }
 
   return { ...action, args: argsA }
 }
 
 // Validate we are adding attributes in actions that are present|populated
-const validateAll = function ({ name, actions, values, top }) {
+const validateAll = function({ name, actions, values, top }) {
   const wrongPaths = getWrongPaths({ actions, values })
-  if (wrongPaths.length === 0) { return }
+
+  if (wrongPaths.length === 0) {
+    return
+  }
 
   const wrongPathsA = getWordsList(wrongPaths, { op: 'and', quotes: true })
   const relatedArg = RELATED_ARG[top.command.type]
@@ -50,7 +52,7 @@ const validateAll = function ({ name, actions, values, top }) {
   throwError(message, { reason: 'VALIDATION' })
 }
 
-const getWrongPaths = function ({ actions, values }) {
+const getWrongPaths = function({ actions, values }) {
   const actionPaths = actions.map(({ commandpath }) => commandpath.join('.'))
 
   const valuePaths = values.map(Object.keys)

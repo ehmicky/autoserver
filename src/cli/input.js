@@ -8,7 +8,7 @@ const { addInstructions } = require('./instructions')
 const { processOpts } = require('./process')
 
 // CLI input parsing
-const parseInput = function () {
+const parseInput = function() {
   const opts = parseOpts()
 
   const { instruction, opts: optsA } = processOpts({ opts })
@@ -18,19 +18,21 @@ const parseInput = function () {
 const mParseInput = monitor(parseInput, 'cli')
 
 // CLI options parsing
-const parseOpts = function () {
+const parseOpts = function() {
   const yargsA = addInstructions({ yargs })
-  return yargsA
-    // There should be a single instruction, or none (default one)
-    .demandCommand(1, 1)
-    // --help option
-    .usage(USAGE)
-    .help()
-    // --version option
-    .version()
-    // Auto-suggests correction on typos
-    .recommendCommands()
-    .parse()
+  return (
+    yargsA
+      // There should be a single instruction, or none (default one)
+      .demandCommand(1, 1)
+      // --help option
+      .usage(USAGE)
+      .help()
+      // --version option
+      .version()
+      // Auto-suggests correction on typos
+      .recommendCommands()
+      .parse()
+  )
 }
 
 const USAGE = `$0 [INSTRUCTION] [OPTIONS]

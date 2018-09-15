@@ -10,7 +10,7 @@ const { validateBoolean } = require('./validate')
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
 // Meant to be used by rpc layer, e.g. to populate `mInput.args`
-const parsePayload = function ({
+const parsePayload = function({
   protocolAdapter,
   specific,
   config,
@@ -21,7 +21,9 @@ const parsePayload = function ({
   const hasPayload = protocolAdapter.hasPayload({ specific })
   validateBoolean(hasPayload, 'hasPayload', protocolAdapter)
 
-  if (!hasPayload) { return }
+  if (!hasPayload) {
+    return
+  }
 
   return parseRawPayload({
     specific,
@@ -33,7 +35,7 @@ const parsePayload = function ({
   })
 }
 
-const parseRawPayload = async function ({
+const parseRawPayload = async function({
   specific,
   protocolAdapter: { getPayload },
   config,
@@ -58,7 +60,7 @@ const parseRawPayload = async function ({
 }
 
 // Request body decompression
-const decompressPayload = function ({ compressRequest, payload }) {
+const decompressPayload = function({ compressRequest, payload }) {
   return compressRequest.decompress(payload)
 }
 
@@ -69,22 +71,25 @@ const eDecompressPayload = addGenPbHandler(decompressPayload, {
   extra: { kind: 'compress' },
 })
 
-const decodeCharset = function ({ content, charset }) {
+const decodeCharset = function({ content, charset }) {
   return charset.decode(content)
 }
 
 const eDecodeCharset = addGenPbHandler(decodeCharset, {
   reason: 'REQUEST_NEGOTIATION',
-  message: ({ charset }) => `The request payload could not be decoded using the charset '${charset.name}'`,
+  message: ({ charset }) =>
+    `The request payload could not be decoded using the charset '${
+      charset.name
+    }'`,
   extra: { kind: 'charset' },
 })
 
 // Parse content, e.g. JSON/YAML parsing
-const parseContent = function ({ format, payload }) {
+const parseContent = function({ format, payload }) {
   return format.parseContent(payload)
 }
 
-const parseContentHandler = function (error, { payload, format }) {
+const parseContentHandler = function(error, { payload, format }) {
   const { message, kind } = getContentErrorProps({ payload, format })
 
   throwPb({
@@ -95,7 +100,7 @@ const parseContentHandler = function (error, { payload, format }) {
   })
 }
 
-const getContentErrorProps = function ({ payload, format: { title } }) {
+const getContentErrorProps = function({ payload, format: { title } }) {
   if (!payload) {
     return { message: 'The request payload is empty', kind: 'type' }
   }

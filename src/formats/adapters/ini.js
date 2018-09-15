@@ -5,20 +5,23 @@ const ini = require('ini')
 const { fullRecurseMap } = require('../../utils')
 
 // Parses an INI file
-const parse = function ({ content }) {
+const parse = function({ content }) {
   return ini.parse(content)
 }
 
 // Serializes an INI file
-const serialize = function ({ content }) {
+const serialize = function({ content }) {
   const contentA = fullRecurseMap(content, escapeEmptyArrays)
   return ini.stringify(contentA)
 }
 
 // Empty arrays are ignored by `node-ini`, so we need to escape them
-const escapeEmptyArrays = function (val) {
+const escapeEmptyArrays = function(val) {
   const isEmptyArray = Array.isArray(val) && val.length === 0
-  if (!isEmptyArray) { return val }
+
+  if (!isEmptyArray) {
+    return val
+  }
 
   return '[]'
 }

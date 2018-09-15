@@ -5,7 +5,7 @@ const { getWriteAction } = require('./write_action')
 
 // Parse an object (including its children) inside `args.data`
 // as a set of write actions
-const parseActions = function ({ data, ...rest }) {
+const parseActions = function({ data, ...rest }) {
   const dataA = normalizeData({ data })
 
   const nestedKeys = getNestedKeys({ data: dataA, ...rest })
@@ -23,14 +23,22 @@ const parseActions = function ({ data, ...rest }) {
 
 // Commands are normalized to being only multiple
 // So we also normalize `args.data` to always be an array
-const normalizeData = function ({ data }) {
+const normalizeData = function({ data }) {
   return Array.isArray(data) ? data : [data]
 }
 
 // Do not create actions with empty `args.data`
-const filterAction = function ({ action, action: { args: { data } } }) {
+const filterAction = function({
+  action,
+  action: {
+    args: { data },
+  },
+}) {
   const isEmptyAction = data.length === 0
-  if (isEmptyAction) { return [] }
+
+  if (isEmptyAction) {
+    return []
+  }
 
   return [action]
 }

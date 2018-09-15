@@ -7,16 +7,18 @@
 // in request method names and in documentation.
 // Note that `commandpath`, `commandpaths` and `summary` are always using
 // the client-facing names.
-const setClientNames = function ({ config, actions, collnames, top }) {
-  const actionsA = actions
-    .map(action => setClientNamesActions({ config, action, top }))
-  const clientCollnames = collnames
-    .map(collname => getClientCollname({ config, collname, top }))
+const setClientNames = function({ config, actions, collnames, top }) {
+  const actionsA = actions.map(action =>
+    setClientNamesActions({ config, action, top }),
+  )
+  const clientCollnames = collnames.map(collname =>
+    getClientCollname({ config, collname, top }),
+  )
 
   return { actions: actionsA, clientCollnames }
 }
 
-const setClientNamesActions = function ({
+const setClientNamesActions = function({
   config,
   action,
   action: { collname },
@@ -26,13 +28,11 @@ const setClientNamesActions = function ({
   return { ...action, clientCollname }
 }
 
-const getClientCollname = function ({
-  config: { collections },
-  collname,
-  top,
-}) {
+const getClientCollname = function({ config: { collections }, collname, top }) {
   // Reuse client-supplied collection name.
-  if (top.collname === collname) { return top.clientCollname }
+  if (top.collname === collname) {
+    return top.clientCollname
+  }
 
   // Otherwise, use first available
   const [clientCollname] = collections[collname].name

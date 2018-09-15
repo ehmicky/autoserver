@@ -26,14 +26,11 @@ const { getColl } = require('./get_coll')
 //     - no way for client to know response does not match current data state
 //  - replace nested actions by find actions:
 //     - request might not be authorized to fetch those models
-const validateStableIds = function ({
-  actions,
-  config,
-  top,
-  top: { command },
-}) {
+const validateStableIds = function({ actions, config, top, top: { command } }) {
   // Only for commands with `args.data`
-  if (!STABLE_IDS_COMMANDS.includes(command.type)) { return }
+  if (!STABLE_IDS_COMMANDS.includes(command.type)) {
+    return
+  }
 
   actions
     // Only for nested actions
@@ -43,22 +40,25 @@ const validateStableIds = function ({
 
 const STABLE_IDS_COMMANDS = ['create', 'patch', 'upsert']
 
-const validateAction = function ({ action: { commandpath }, config, top }) {
+const validateAction = function({ action: { commandpath }, config, top }) {
   const serverSet = isServerSet({ commandpath, config, top })
-  if (!serverSet) { return }
+
+  if (!serverSet) {
+    return
+  }
 
   const path = commandpath.join('.')
   const message = `Cannot nest 'data' argument on '${path}'. That attribute's value might be modified by the server, so the nested collection's 'id' cannot be known by the client.`
   throwError(message, { reason: 'VALIDATION' })
 }
 
-const isServerSet = function ({ commandpath, config, top }) {
+const isServerSet = function({ commandpath, config, top }) {
   const attr = getAttr({ commandpath, config, top })
   const serverSet = attr.readonly !== undefined || attr.value !== undefined
   return serverSet
 }
 
-const getAttr = function ({
+const getAttr = function({
   commandpath,
   config,
   config: { collections },

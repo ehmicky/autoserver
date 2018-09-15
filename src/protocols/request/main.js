@@ -16,17 +16,20 @@ const { parsePayload } = require('./payload')
 const { protocolNormalization } = require('./normalize')
 
 // Retrieves protocol-specific request information
-const parseRequest = function (
-  protocolAdapter,
-  { specific, config, measures },
-) {
+const parseRequest = function(protocolAdapter, { specific, config, measures }) {
   return monitoredReduce({
     funcs: METHODS,
-    mapInput: requestInfo =>
-      ({ protocolAdapter, specific, config, ...requestInfo }),
+    mapInput: requestInfo => ({
+      protocolAdapter,
+      specific,
+      config,
+      ...requestInfo,
+    }),
     initialInput: { measures },
-    mapResponse: (requestInfo, newRequestInfo) =>
-      ({ ...requestInfo, ...newRequestInfo }),
+    mapResponse: (requestInfo, newRequestInfo) => ({
+      ...requestInfo,
+      ...newRequestInfo,
+    }),
     category: 'protoparse',
   })
 }

@@ -14,36 +14,40 @@ const { getBackwardFilter } = require('../backward')
 //      { a: 1, b: 2, c: 3, d: { _gt: 4 } },
 //   ]
 // Using backward pagination would replace _gt to _lt and vice-versa.
-const getTokenFilter = function ({ args, token }) {
-  if (token === undefined) { return }
+const getTokenFilter = function({ args, token }) {
+  if (token === undefined) {
+    return
+  }
 
   const filter = getPaginatedFilter({ args, token })
   return { filter }
 }
 
-const getPaginatedFilter = function ({
+const getPaginatedFilter = function({
   args,
   args: { filter, order },
   token: { parts },
 }) {
-  const partsObj = parts
-    .map((part, index) => ({ [order[index].attrName]: part }))
+  const partsObj = parts.map((part, index) => ({
+    [order[index].attrName]: part,
+  }))
   const partsObjA = Object.assign({}, ...partsObj)
 
-  const extraFilters = order
-    .map(({ attrName, dir }, index) => getExtraFilters({
+  const extraFilters = order.map(({ attrName, dir }, index) =>
+    getExtraFilters({
       args,
       order,
       partsObj: partsObjA,
       attrName,
       dir,
       index,
-    }))
+    }),
+  )
   const filterA = mergeExtraFilters({ extraFilters, filter })
   return filterA
 }
 
-const getExtraFilters = function ({
+const getExtraFilters = function({
   args,
   order,
   partsObj,
@@ -67,14 +71,15 @@ const getExtraFilters = function ({
   return { type: '_and', value: [...eqOrders, orderValA] }
 }
 
-const getEqOrder = function ({ partsObj, sOrder: { attrName } }) {
+const getEqOrder = function({ partsObj, sOrder: { attrName } }) {
   return { type: '_eq', attrName, value: partsObj[attrName] }
 }
 
-const mergeExtraFilters = function ({ extraFilters, filter }) {
-  const extraFiltersA = extraFilters.length === 1
-    ? extraFilters[0]
-    : { type: '_or', value: extraFilters }
+const mergeExtraFilters = function({ extraFilters, filter }) {
+  const extraFiltersA =
+    extraFilters.length === 1
+      ? extraFilters[0]
+      : { type: '_or', value: extraFilters }
 
   if (filter === undefined) {
     return extraFiltersA

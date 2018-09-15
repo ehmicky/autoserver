@@ -3,7 +3,7 @@
 const { transtype } = require('../../utils')
 
 // Retrieves path variables, e.g. /path/:id
-const getPathvars = function ({ path, route: { regexp, variables } }) {
+const getPathvars = function({ path, route: { regexp, variables } }) {
   const pathvars = regexp
     .exec(path)
     // Removes first value, which is the full path
@@ -15,7 +15,7 @@ const getPathvars = function ({ path, route: { regexp, variables } }) {
 
 // Adds the name of the variable to the value
 // Will be an incrementing index e.g. for /path/* or /path/(maybe)?/
-const getPathvar = function ({ value, index, variables }) {
+const getPathvar = function({ value, index, variables }) {
   const key = variables[index]
   const valueA = transtype(value)
   return { [key]: valueA }

@@ -5,9 +5,9 @@ const { throwPb } = require('../../errors')
 // Check output, for the errors that should not happen,
 // i.e. server-side (e.g. 500)
 // In short: response should be an array of objects
-const responseValidation = function ({ response: { data, metadata } }) {
+const responseValidation = function({ response: { data, metadata } }) {
   if (!data) {
-    const message = '\'response.data\' should be defined'
+    const message = "'response.data' should be defined"
     throwPb({ message, reason: 'ENGINE' })
   }
 
@@ -17,7 +17,7 @@ const responseValidation = function ({ response: { data, metadata } }) {
   }
 
   if (!metadata) {
-    const message = '\'response.metadata\' should be defined'
+    const message = "'response.metadata' should be defined"
     throwPb({ message, reason: 'ENGINE' })
   }
 }

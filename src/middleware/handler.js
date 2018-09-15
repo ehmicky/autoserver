@@ -12,7 +12,7 @@ const {
 } = require('./error')
 
 // Called once per server startup
-const getRequestHandler = function () {
+const getRequestHandler = function() {
   // Add performance monitoring
   const allLayersA = middlewareLayers.map(monitorLayers)
   const requestHandler = eFireLayers.bind(null, allLayersA)
@@ -22,14 +22,14 @@ const getRequestHandler = function () {
 // Add performance monitoring to every request.
 // Calculate how much time each middleware takes,
 // and push measurement to `reqState.measures` array.
-const monitorLayers = function ({ layers, name, ...rest }) {
+const monitorLayers = function({ layers, name, ...rest }) {
   const layersA = layers.map(mFunc => monitor(mFunc, mFunc.name, name, 2))
   return { layers: layersA, name, ...rest }
 }
 
 // Main request handler, i.e. called once per request
 // Transforms a series of functions into a middleware pipeline.
-const fireLayers = async function (allLayers, mInput) {
+const fireLayers = async function(allLayers, mInput) {
   // Request state object
   // Since we try to avoid mutations, this is only used where purely functional
   // code would be verbose.
@@ -41,19 +41,19 @@ const fireLayers = async function (allLayers, mInput) {
 }
 
 // Fires allLayers[1], i.e. skip `final`
-const fireMainLayers = function ({ allLayers, mInput, reqState }) {
+const fireMainLayers = function({ allLayers, mInput, reqState }) {
   return fireLayer({ allLayers, reqState }, mInput, 'time')
 }
 
 // Fires allLayers[0], i.e. `final`, a special layer that it is always
 // fired, whether the request is successful or not.
 // It does not call `nextLayer()`, so allLayers[1] won't be called
-const fireFinalLayer = function ({ allLayers, mInput, reqState }) {
+const fireFinalLayer = function({ allLayers, mInput, reqState }) {
   return fireLayer({ allLayers, reqState }, mInput, 'final')
 }
 
 // Fire all the middleware functions of a given layer
-const fireLayer = function ({ allLayers, reqState }, mInput, name) {
+const fireLayer = function({ allLayers, reqState }, mInput, name) {
   const { layers } = getLayer({ allLayers, name })
 
   // Each layer can fire the next layer middleware functions by calling this
@@ -64,13 +64,13 @@ const fireLayer = function ({ allLayers, reqState }, mInput, name) {
   return reduceAsync(layers, fireMiddlewareA, mInput, mergeInput)
 }
 
-const getLayer = function ({ allLayers, name }) {
+const getLayer = function({ allLayers, name }) {
   return allLayers.find(({ name: nameA }) => name === nameA)
 }
 
 // Fire a specific middleware function
 // eslint-disable-next-line max-params
-const fireMiddleware = function (nextLayer, reqState, mInput, mFunc) {
+const fireMiddleware = function(nextLayer, reqState, mInput, mFunc) {
   // `mInput.mInput` is a helper for destructuring arguments
   const mInputA = { ...mInput, mInput }
   return mFunc(mInputA, nextLayer, reqState)
@@ -78,7 +78,7 @@ const fireMiddleware = function (nextLayer, reqState, mInput, mFunc) {
 
 // We merge the return value of each middleware (`mInput`)
 // with the current mInput (`mInputA`)
-const mergeInput = function (mInput, mInputA) {
+const mergeInput = function(mInput, mInputA) {
   return { ...mInput, ...mInputA }
 }
 

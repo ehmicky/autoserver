@@ -5,7 +5,7 @@ const { decode } = require('iconv-lite')
 const { addGenPbHandler } = require('../errors')
 
 // Charset decoding
-const decodeCharset = function (charset, content) {
+const decodeCharset = function(charset, content) {
   return decode(content, charset)
 }
 

@@ -5,12 +5,12 @@ const { isEqual } = require('../../utils')
 const { validateSameType, parseAsIs } = require('./common')
 
 // `{ attribute: { _eq: value } }` or `{ attribute: value }`
-const evalEq = function ({ attr, value }) {
+const evalEq = function({ attr, value }) {
   return isEqual(attr, value)
 }
 
 // `{ attribute: { _neq: value } }`
-const evalNeq = function ({ attr, value }) {
+const evalNeq = function({ attr, value }) {
   return !isEqual(attr, value)
 }
 

@@ -1,6 +1,6 @@
 'use strict'
 
-const parseInput = function ({
+const parseInput = function({
   protocolAdapter: { getInput },
   specific,
   method,

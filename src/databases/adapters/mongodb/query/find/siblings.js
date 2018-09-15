@@ -1,7 +1,7 @@
 'use strict'
 
 // When using model.ATTR
-const getSiblingNode = function ({
+const getSiblingNode = function({
   type,
   value: { value: otherAttr },
   attrName,
@@ -17,8 +17,10 @@ const WHERE_TEXTS = {
   _gte: ({ attrName, otherAttr }) => `this.${attrName} >= this.${otherAttr}`,
   _lt: ({ attrName, otherAttr }) => `this.${attrName} < this.${otherAttr}`,
   _lte: ({ attrName, otherAttr }) => `this.${attrName} <= this.${otherAttr}`,
-  _in: ({ attrName, otherAttr }) => `Array.isArray(this.${otherAttr}) && this.${otherAttr}.includes(this.${attrName})`,
-  _nin: ({ attrName, otherAttr }) => `!Array.isArray(this.${otherAttr}) || !this.${otherAttr}.includes(this.${attrName})`,
+  _in: ({ attrName, otherAttr }) =>
+    `Array.isArray(this.${otherAttr}) && this.${otherAttr}.includes(this.${attrName})`,
+  _nin: ({ attrName, otherAttr }) =>
+    `!Array.isArray(this.${otherAttr}) || !this.${otherAttr}.includes(this.${attrName})`,
 }
 
 module.exports = {

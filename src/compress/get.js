@@ -5,7 +5,7 @@ const { getAdapter } = require('../adapters')
 const { compressAdapters } = require('./wrap')
 
 // Retrieves compression adapter
-const getAlgo = function (algo = 'identity') {
+const getAlgo = function(algo = 'identity') {
   const algoA = algo.trim().toLowerCase()
 
   const compressAdapter = getAdapter({
@@ -18,11 +18,11 @@ const getAlgo = function (algo = 'identity') {
 
 // Find compression algorithm is among the adapters.
 // Follows key orders, i.e. priority set by this module.
-const findAlgo = function (algos) {
+const findAlgo = function(algos) {
   return Object.keys(compressAdapters).find(algo => algos.includes(algo))
 }
 
-const getAlgos = function () {
+const getAlgos = function() {
   return Object.keys(compressAdapters)
 }
 

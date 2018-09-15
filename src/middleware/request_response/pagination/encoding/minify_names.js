@@ -3,14 +3,11 @@
 const { invert, mapKeys } = require('../../../../utils')
 
 // Name shortcuts, e.g. { filter: value } -> { f: value }
-const addNameShortcuts = function (token) {
-  return mapKeys(
-    token,
-    (value, attrName) => SHORTCUTS[attrName] || attrName,
-  )
+const addNameShortcuts = function(token) {
+  return mapKeys(token, (value, attrName) => SHORTCUTS[attrName] || attrName)
 }
 
-const removeNameShortcuts = function (token) {
+const removeNameShortcuts = function(token) {
   return mapKeys(
     token,
     (value, attrName) => REVERSE_SHORTCUTS[attrName] || attrName,

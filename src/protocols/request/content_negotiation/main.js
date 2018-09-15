@@ -8,7 +8,7 @@ const { getCompress } = require('./compress')
 
 // Retrieve format|charset|compress of the response payloads, and
 // charset of the request payload
-const handleContentNegotiation = function ({
+const handleContentNegotiation = function({
   queryvars,
   format,
   charset,

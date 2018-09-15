@@ -3,19 +3,19 @@
 const { availableInstructions } = require('./available')
 
 // Iterate over `availableOptions` to add all instructions
-const addInstructions = function ({ yargs }) {
+const addInstructions = function({ yargs }) {
   return availableInstructions.reduce(
     (yargsA, instruction) => addInstruction({ yargs: yargsA, instruction }),
     yargs,
   )
 }
 
-const addInstruction = function ({ yargs, instruction }) {
+const addInstruction = function({ yargs, instruction }) {
   const cliInstruction = getCliInstruction({ instruction })
   return yargs.command(cliInstruction)
 }
 
-const getCliInstruction = function ({
+const getCliInstruction = function({
   instruction,
   instruction: { name, aliases, describe: desc },
 }) {
@@ -28,7 +28,7 @@ const getCliInstruction = function ({
 }
 
 // Iterate over instruction options
-const getBuilder = function ({
+const getBuilder = function({
   instruction,
   instruction: { describe: desc, options = {} },
   yargs,
@@ -51,18 +51,17 @@ const INSTRUCTION_OPT = {
 }
 
 // Add examples in instruction-level --help
-const addInstructionExamples = function ({
+const addInstructionExamples = function({
   instruction: { name, examples = [] },
   yargs,
 }) {
   return examples.reduce(
-    (yargsA, [desc, usageA]) =>
-      yargsA.example(`$0 ${name} ${usageA}`, desc),
+    (yargsA, [desc, usageA]) => yargsA.example(`$0 ${name} ${usageA}`, desc),
     yargs,
   )
 }
 
-const addPositionalArgs = function ({ instruction: { args = [] }, yargs }) {
+const addPositionalArgs = function({ instruction: { args = [] }, yargs }) {
   return args.reduce(
     (yargsA, { name, ...arg }) => yargsA.positional(name, arg),
     yargs,

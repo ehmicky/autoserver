@@ -4,7 +4,7 @@ const { getFormat } = require('../../formats')
 
 const { validateString } = require('./validate')
 
-const parseQueryvars = function ({
+const parseQueryvars = function({
   protocolAdapter,
   protocolAdapter: { getQueryString },
   specific,

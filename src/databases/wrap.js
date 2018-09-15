@@ -9,13 +9,7 @@ const {
   validateRuntimeFeatures,
 } = require('./features')
 
-const members = [
-  'name',
-  'title',
-  'idName',
-  'features',
-  'getDefaultId',
-]
+const members = ['name', 'title', 'idName', 'features', 'getDefaultId']
 
 const methods = {
   connect: connectDatabase,

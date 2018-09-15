@@ -18,7 +18,7 @@ const defaults = require('./defaults')
 const protocol = {
   name: 'http',
   title: 'HTTP',
-  description: 'HTTP server\'s options',
+  description: "HTTP server's options",
   startServer,
   stopServer,
   getUrl,

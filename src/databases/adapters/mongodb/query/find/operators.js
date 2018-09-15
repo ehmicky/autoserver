@@ -4,41 +4,44 @@ const { getSiblingNode } = require('./siblings')
 
 // Transform `args.filter` into MongoDB query object
 // Applied recursively
-const getQueryFilter = function ({ type, value, attrName }) {
+const getQueryFilter = function({ type, value, attrName }) {
   // No filter
-  if (type === undefined) { return {} }
+  if (type === undefined) {
+    return {}
+  }
 
   return operators[type]({ type, value, attrName })
 }
 
-const orOperator = function ({ value }) {
+const orOperator = function({ value }) {
   const nodes = value.map(getQueryFilter)
   return { $or: nodes }
 }
 
-const andOperator = function ({ value }) {
+const andOperator = function({ value }) {
   const nodes = value.map(getQueryFilter)
   return { $and: nodes }
 }
 
-const someOperator = function ({ value, attrName }) {
-  const elemMatch = value
-    .map(node => getGenericNode({ ...node, key: 'opName' }))
+const someOperator = function({ value, attrName }) {
+  const elemMatch = value.map(node =>
+    getGenericNode({ ...node, key: 'opName' }),
+  )
   const elemMatchA = Object.assign({}, ...elemMatch)
   return { [attrName]: { $elemMatch: elemMatchA } }
 }
 
-const allOperator = function ({ value, attrName }) {
-  const elemMatch = value
-    .map(node => getGenericNode({ ...node, key: 'inverse' }))
+const allOperator = function({ value, attrName }) {
+  const elemMatch = value.map(node =>
+    getGenericNode({ ...node, key: 'inverse' }),
+  )
   const elemMatchA = Object.assign({}, ...elemMatch)
   return { [attrName]: { $not: { $elemMatch: elemMatchA } } }
 }
 
-const genericOperator = function ({ type, value, attrName }) {
-  const isSibling = value &&
-    value.constructor === Object &&
-    value.type === 'sibling'
+const genericOperator = function({ type, value, attrName }) {
+  const isSibling =
+    value && value.constructor === Object && value.type === 'sibling'
 
   if (isSibling) {
     return getSiblingNode({ type, value, attrName })
@@ -48,7 +51,7 @@ const genericOperator = function ({ type, value, attrName }) {
   return { [attrName]: valueA }
 }
 
-const getGenericNode = function ({ type, value, key }) {
+const getGenericNode = function({ type, value, key }) {
   const { [key]: name, kind } = OPERATORS_MAP[type]
   const valueA = kind === 'regexp' ? new RegExp(value, 'iu') : value
   return { [name]: valueA }

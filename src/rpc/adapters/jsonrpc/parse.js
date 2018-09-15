@@ -4,7 +4,7 @@ const { validatePayload } = require('./validate')
 
 // Use JSON-RPC-specific logic to parse the request into an
 // rpc-agnostic `rpcDef`
-const parse = function ({ payload }) {
+const parse = function({ payload }) {
   validatePayload({ payload })
 
   const { method, params, id } = payload
@@ -17,18 +17,24 @@ const parse = function ({ payload }) {
 }
 
 // Can either be [{ ... }], [], {...} or nothing
-const getArgs = function ({ params = {} }) {
-  if (!Array.isArray(params)) { return params }
+const getArgs = function({ params = {} }) {
+  if (!Array.isArray(params)) {
+    return params
+  }
 
-  if (params.length === 0) { return {} }
+  if (params.length === 0) {
+    return {}
+  }
 
   return params[0]
 }
 
 // If request `id` is absent, there should be no response according to
 // JSON-RPC spec. We achieve this by settings `args.silent` `true`
-const addSilent = function ({ args, id }) {
-  if (id != null) { return args }
+const addSilent = function({ args, id }) {
+  if (id != null) {
+    return args
+  }
 
   return { ...args, silent: true }
 }

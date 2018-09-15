@@ -8,11 +8,7 @@ const { parseContent, serializeContent } = require('./content')
 const { parseFile, serializeFile } = require('./file')
 const { getExtension } = require('./extensions')
 
-const members = [
-  'name',
-  'title',
-  'unsafe',
-]
+const members = ['name', 'title', 'unsafe']
 
 const methods = {
   getCharset,

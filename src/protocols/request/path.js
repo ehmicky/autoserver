@@ -2,12 +2,14 @@
 
 const { validateString } = require('./validate')
 
-const parsePath = function ({
+const parsePath = function({
   protocolAdapter,
   protocolAdapter: { getPath },
   specific,
 }) {
-  if (getPath === undefined) { return }
+  if (getPath === undefined) {
+    return
+  }
 
   const path = getPath({ specific })
 

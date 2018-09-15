@@ -4,11 +4,11 @@ const { addErrorHandler, createPb, normalizeError } = require('../../errors')
 const { logEvent } = require('../../log')
 
 // Shutdown failures events
-const addExitHandler = function (func) {
+const addExitHandler = function(func) {
   return addErrorHandler(func, funcHandler)
 }
 
-const funcHandler = async function (
+const funcHandler = async function(
   error,
   { config, type, adapter: { title, name } },
 ) {

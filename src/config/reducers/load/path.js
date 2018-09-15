@@ -8,7 +8,7 @@ const { pReaddir } = require('../../../utils')
 const { getByExt } = require('../../../formats')
 
 // Retrieves final config path to use
-const getConfPath = async function ({ envConfigPath, configPath }) {
+const getConfPath = async function({ envConfigPath, configPath }) {
   const path = envConfigPath || configPath
 
   const pathA = await getPath({ path })
@@ -18,7 +18,7 @@ const getConfPath = async function ({ envConfigPath, configPath }) {
   return pathA
 }
 
-const getPath = function ({ path }) {
+const getPath = function({ path }) {
   const baseDir = cwd()
 
   if (path === undefined) {
@@ -29,7 +29,7 @@ const getPath = function ({ path }) {
 }
 
 // Try to find autoserver.config.EXT in current directory, or any parent
-const findConfPath = async function (dir) {
+const findConfPath = async function(dir) {
   const paths = await pReaddir(dir)
   const pathA = paths.find(path => CONFIG_REGEXP.test(path))
 
@@ -41,7 +41,9 @@ const findConfPath = async function (dir) {
   const parentDir = resolve(dir, '..')
 
   // Reached root directory
-  if (parentDir === dir) { return }
+  if (parentDir === dir) {
+    return
+  }
 
   return findConfPath(parentDir)
 }
@@ -49,23 +51,27 @@ const findConfPath = async function (dir) {
 const CONFIG_REGEXP = /^autoserver.config.[a-z]+$/u
 
 // When `config` option or environment variable is used
-const resolvePath = function ({ path, baseDir }) {
+const resolvePath = function({ path, baseDir }) {
   validateConfig({ path })
 
-  if (isAbsolute(path)) { return path }
+  if (isAbsolute(path)) {
+    return path
+  }
 
   const pathA = resolve(baseDir, path)
   return pathA
 }
 
-const validateConfig = function ({ path }) {
-  if (typeof path === 'string') { return }
+const validateConfig = function({ path }) {
+  if (typeof path === 'string') {
+    return
+  }
 
   const message = `'config' option must be a string, not '${path}'`
   throwError(message, { reason: 'CONFIG_VALIDATION' })
 }
 
-const validatePath = function ({ path }) {
+const validatePath = function({ path }) {
   if (path === undefined) {
     const message = 'No config file was found'
     throwError(message, { reason: 'CONFIG_VALIDATION' })

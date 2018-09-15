@@ -8,7 +8,7 @@ const nodemonDevConfig = require('../../nodemon')
 const nodemonDebugConfig = require('../../nodemon.debug')
 const { execCommand } = require('../utils')
 
-const start = function () {
+const start = function() {
   // We use this instead of requiring the application to test the CLI
   return execCommand('../bin/autoserver', { cwd: './examples' })
 }
@@ -16,21 +16,21 @@ const start = function () {
 // eslint-disable-next-line fp/no-mutation
 start.description = 'Start an example production server'
 
-const dev = function () {
+const dev = function() {
   return startNodemon(nodemonDevConfig)
 }
 
 // eslint-disable-next-line fp/no-mutation
 dev.description = 'Start an example dev server in watch mode'
 
-const debug = function () {
+const debug = function() {
   return startNodemon(nodemonDebugConfig)
 }
 
 // eslint-disable-next-line fp/no-mutation
 debug.description = 'Start an example dev server in debug mode'
 
-const startNodemon = async function (config) {
+const startNodemon = async function(config) {
   const nodemon = new Nodemon(config)
 
   // Otherwise Nodemon's log does not appear

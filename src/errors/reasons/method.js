@@ -2,7 +2,7 @@
 
 const { getWordsList } = require('../../utils')
 
-const getMessage = function ({ value, suggestions }) {
+const getMessage = function({ value, suggestions }) {
   const protocols = getWordsList(suggestions, { op: 'or' })
   return `Protocol ${value} is invalid: it should be ${protocols}`
 }

@@ -7,14 +7,16 @@ const { addErrorHandler, createPb } = require('../../errors')
 const { getPatchErrorProps } = require('../error')
 
 // Uses `patchOp.check()`
-const applyCheck = function ({
+const applyCheck = function({
   opVal,
   type,
   operator: { check },
   attr: { type: attrType },
   mInput,
 }) {
-  if (check === undefined) { return }
+  if (check === undefined) {
+    return
+  }
 
   // Normalize `null` to `undefined`
   const opValA = opVal === null ? undefined : opVal
@@ -26,14 +28,16 @@ const applyCheck = function ({
   return messageA
 }
 
-const applyCheckHandler = function (error) {
+const applyCheckHandler = function(error) {
   return error
 }
 
 const eRunConfigFunc = addErrorHandler(runConfigFunc, applyCheckHandler)
 
-const getCheckMessage = function ({ type, message }) {
-  if (message === undefined) { return }
+const getCheckMessage = function({ type, message }) {
+  if (message === undefined) {
+    return
+  }
 
   if (typeof message === 'string') {
     return decapitalize(message)

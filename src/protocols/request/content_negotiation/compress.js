@@ -4,15 +4,15 @@ const { addGenPbHandler } = require('../../../errors')
 const { getAlgo, getAlgos } = require('../../../compress')
 
 // Retrieve compression asked by client for the response and request payloads
-const getCompress = function ({
-  queryvars,
-  compressResponse,
-  compressRequest,
-}) {
+const getCompress = function({ queryvars, compressResponse, compressRequest }) {
   const {
     compressResponse: compressResponseA,
     compressRequest: compressRequestA,
-  } = parseCompress({ queryvars, compressResponse, compressRequest })
+  } = parseCompress({
+    queryvars,
+    compressResponse,
+    compressRequest,
+  })
 
   const compressResponseB = getCompressResponse(compressResponseA)
   const compressRequestB = getCompressRequest(compressRequestA)
@@ -30,7 +30,7 @@ const getCompress = function ({
 }
 
 // ?compress query variable, Content-Encoding or Accept-Encoding HTTP header
-const parseCompress = function ({
+const parseCompress = function({
   queryvars: { compress },
   compressResponse,
   compressRequest,
@@ -47,20 +47,22 @@ const parseCompress = function ({
 }
 
 // Using query variable ?compress=REQUEST_COMPRESSION[,RESPONSE_COMPRESSION]
-const splitCompress = function ({ compress }) {
-  if (compress === undefined) { return {} }
+const splitCompress = function({ compress }) {
+  if (compress === undefined) {
+    return {}
+  }
 
   const [compressResponse, compressRequest] = compress.split(',')
   return { compressResponse, compressRequest }
 }
 
 // Inverse
-const joinCompress = function ({ compressResponse, compressRequest }) {
+const joinCompress = function({ compressResponse, compressRequest }) {
   return [compressResponse.name, compressRequest.name].join(',')
 }
 
 // Validates and adds default values
-const getExtra = function (algo) {
+const getExtra = function(algo) {
   const suggestions = getAlgos()
   return { kind: 'compress', value: [algo], suggestions }
 }

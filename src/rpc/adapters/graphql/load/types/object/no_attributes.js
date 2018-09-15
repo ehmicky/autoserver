@@ -8,8 +8,10 @@ const { GraphQLString } = require('graphql')
 // is 'id'.
 // So we add this patch this problem by adding this fake attribute
 // when the problem arises.
-const addNoAttributes = function ({ fields }) {
-  if (Object.keys(fields).length !== 0) { return fields }
+const addNoAttributes = function({ fields }) {
+  if (Object.keys(fields).length !== 0) {
+    return fields
+  }
 
   return NO_ATTRIBUTES
 }

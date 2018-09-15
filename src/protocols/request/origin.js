@@ -5,7 +5,7 @@ const { getLimits } = require('../../limits')
 
 const { validateString } = require('./validate')
 
-const parseOrigin = function ({
+const parseOrigin = function({
   protocolAdapter,
   protocolAdapter: { getUrl, getOrigin },
   specific,
@@ -24,9 +24,12 @@ const parseOrigin = function ({
   return { origin }
 }
 
-const validateUrl = function ({ url, config }) {
+const validateUrl = function({ url, config }) {
   const { maxUrlLength } = getLimits({ config })
-  if (url.length <= maxUrlLength) { return }
+
+  if (url.length <= maxUrlLength) {
+    return
+  }
 
   throwPb({
     reason: 'URL_LIMIT',

@@ -3,12 +3,12 @@
 const json5 = require('json5')
 
 // Parses a JSON5 file
-const parse = function ({ content }) {
+const parse = function({ content }) {
   return json5.parse(content)
 }
 
 // Serializes a JSON5 file
-const serialize = function ({ content }) {
+const serialize = function({ content }) {
   return json5.stringify(content, null, 2)
 }
 

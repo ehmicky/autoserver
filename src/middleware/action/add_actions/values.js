@@ -2,7 +2,7 @@
 
 const { flatten } = require('../../../utils')
 
-const getValues = function ({ actions, filter, mapper, ...rest }) {
+const getValues = function({ actions, filter, mapper, ...rest }) {
   const values = actions
     .filter(({ args }) => filterArgs({ args, filter }))
     .map(action => mapper({ action, ...rest }))
@@ -10,7 +10,7 @@ const getValues = function ({ actions, filter, mapper, ...rest }) {
   return valuesA
 }
 
-const filterArgs = function ({ args, filter }) {
+const filterArgs = function({ args, filter }) {
   return filter.some(key => args[key] !== undefined)
 }
 

@@ -3,7 +3,7 @@
 const { MongoClient } = require('mongodb')
 
 // Starts connection
-const connect = async function ({
+const connect = async function({
   options: { hostname, port, username, password, dbname, opts },
 }) {
   const host = getHost({ hostname, port })
@@ -11,13 +11,16 @@ const connect = async function ({
   const url = `mongodb://${auth}${host}/${dbname}`
 
   const mongoClient = new MongoClient()
-  const db = await mongoClient.connect(url, opts)
+  const db = await mongoClient.connect(
+    url,
+    opts,
+  )
   return db
 }
 
 // MongoDB can connect to several replicas or mongos at once
 // which looks like: `HOST:PORT,HOST2:PORT2,...`
-const getHost = function ({ hostname, port }) {
+const getHost = function({ hostname, port }) {
   const hostnameA = Array.isArray(hostname) ? hostname : [hostname]
   const portA = Array.isArray(port) ? port : [port]
 
@@ -31,7 +34,7 @@ const getHost = function ({ hostname, port }) {
     .join(',')
 }
 
-const fixHostLength = function ({ hostname, port }) {
+const fixHostLength = function({ hostname, port }) {
   if (hostname.length === port.length) {
     return { hostname, port }
   }
@@ -50,29 +53,34 @@ const fixHostLength = function ({ hostname, port }) {
     }
   }
 
-  const message = 'Invalid options: \'databases.mongodb.hostname\' and \'databases.mongodb.port\' must have the same number of items'
+  const message =
+    "Invalid options: 'databases.mongodb.hostname' and 'databases.mongodb.port' must have the same number of items"
   // eslint-disable-next-line fp/no-throw
   throw new Error(message)
 }
 
 // Retrieve `username:password@`
-const getAuth = function ({ username, password }) {
-  if (!username && !password) { return '' }
+const getAuth = function({ username, password }) {
+  if (!username && !password) {
+    return ''
+  }
 
   validateAuth({ username, password })
 
   return `${username}:${password}@`
 }
 
-const validateAuth = function ({ username, password }) {
+const validateAuth = function({ username, password }) {
   if (!username) {
-    const message = 'Invalid option \'databases.mongodb.password\': \'databases.mongodb.username\' must also be defined'
+    const message =
+      "Invalid option 'databases.mongodb.password': 'databases.mongodb.username' must also be defined"
     // eslint-disable-next-line fp/no-throw
     throw new Error(message)
   }
 
   if (!password) {
-    const message = 'Invalid option \'databases.mongodb.username\': \'databases.mongodb.password\' must also be defined'
+    const message =
+      "Invalid option 'databases.mongodb.username': 'databases.mongodb.password' must also be defined"
     // eslint-disable-next-line fp/no-throw
     throw new Error(message)
   }

@@ -8,7 +8,7 @@ const { ALGOS, DEFAULT_ALGO } = require('../../../../compress')
 const { getLinks } = require('./link')
 
 // Set HTTP-specific headers and status code
-const setHeaders = function ({
+const setHeaders = function({
   specific,
   specific: { res },
   contentType,
@@ -16,10 +16,7 @@ const setHeaders = function ({
   content,
   type,
   rpc,
-  response: {
-    data = {},
-    metadata: { duration, pages } = {},
-  } = {},
+  response: { data = {}, metadata: { duration, pages } = {} } = {},
 }) {
   // Should theoritically be calculated before `args.silent` is applied,
   // to follow HTTP spec for HEAD method.
@@ -49,28 +46,32 @@ const setHeaders = function ({
 
 const ACCEPT_ENCODING = ALGOS.join(', ')
 
-const getContentEncoding = function ({ compressResponse: { name } = {} }) {
+const getContentEncoding = function({ compressResponse: { name } = {} }) {
   // Means no compression was applied
-  if (name === DEFAULT_ALGO.name) { return }
+  if (name === DEFAULT_ALGO.name) {
+    return
+  }
 
   return name
 }
 
 // On METHOD or COMMAND errors
-const getAllow = function ({ data: { allowed } }) {
-  if (allowed === undefined) { return }
+const getAllow = function({ data: { allowed } }) {
+  if (allowed === undefined) {
+    return
+  }
 
   return allowed.join(', ')
 }
 
-const setAllHeaders = function (res, headers) {
+const setAllHeaders = function(res, headers) {
   Object.entries(headers)
     .filter(([, value]) => value !== undefined)
     .forEach(([name, value]) => res.setHeader(name, value))
 }
 
 // `Vary` HTTP header
-const setVary = function ({ res, type }) {
+const setVary = function({ res, type }) {
   const objectVary = isType(type, 'object') ? OBJECT_VARY_HEADERS : []
   vary(res, [...objectVary, ...VARY_HEADERS])
 }
@@ -81,10 +82,7 @@ const VARY_HEADERS = [
   'X-Autoserver-Params',
 ]
 
-const OBJECT_VARY_HEADERS = [
-  'Content-Type',
-  'Accept',
-]
+const OBJECT_VARY_HEADERS = ['Content-Type', 'Accept']
 
 module.exports = {
   setHeaders,

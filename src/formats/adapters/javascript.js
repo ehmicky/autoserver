@@ -3,7 +3,7 @@
 const requireFromString = require('require-from-string')
 
 // Parses a JavaScript file
-const parse = function ({ content, path }) {
+const parse = function({ content, path }) {
   if (path === undefined) {
     return requireFromString(content)
   }
@@ -13,7 +13,7 @@ const parse = function ({ content, path }) {
 }
 
 // Serializes a JavaScript file
-const serialize = function ({ content }) {
+const serialize = function({ content }) {
   const json = JSON.stringify(content, null, 2)
   return `module.exports = ${json}`
 }

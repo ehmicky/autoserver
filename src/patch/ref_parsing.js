@@ -1,11 +1,11 @@
 'use strict'
 
 // Model references, e.g. model.ATTR
-const isRef = function (opVal) {
+const isRef = function(opVal) {
   return REFERENCE_REGEXP.test(opVal)
 }
 
-const parseRef = function (opVal) {
+const parseRef = function(opVal) {
   const [, ref] = REFERENCE_REGEXP.exec(opVal) || []
   return ref
 }

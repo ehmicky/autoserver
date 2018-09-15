@@ -9,42 +9,50 @@ const { execCommand, getWatchTask } = require('../../utils')
 const { linksCheck } = require('./linkcheck')
 
 // We do not use `gulp-eslint` because it does not support --cache
-const lint = function () {
-  return execCommand(`eslint ${FILES.SOURCE.join(' ')} --max-warnings 0 --ignore-path .gitignore --fix --cache --format codeframe`)
+const lint = function() {
+  const files = FILES.SOURCE.join(' ')
+  return execCommand(
+    `eslint ${files} --max-warnings 0 --ignore-path .gitignore --fix --cache --format codeframe`,
+  )
 }
 
 // eslint-disable-next-line fp/no-mutation
 lint.description = 'Lint source files'
 
-const dup = function () {
-  return src(FILES.SOURCE)
-    .pipe(jscpd({
+const dup = function() {
+  return src(FILES.SOURCE).pipe(
+    jscpd({
       verbose: true,
       blame: true,
       'min-lines': 0,
       'min-tokens': 30,
       'skip-comments': true,
-    }))
+    }),
+  )
 }
 
 // eslint-disable-next-line fp/no-mutation
 dup.description = 'Check for code duplication'
 
-const links = function () {
-  return src(FILES.DOCS, { since: lastRun(links) })
-    .pipe(linksCheck({ full: false }))
+const links = function() {
+  return src(FILES.DOCS, { since: lastRun(links) }).pipe(
+    linksCheck({ full: false }),
+  )
 }
 
 // eslint-disable-next-line fp/no-mutation
-links.description = 'Check for dead links in documentation Markdown files, for local files only'
+links.description =
+  'Check for dead links in documentation Markdown files, for local files only'
 
-const linksfull = function () {
-  return src(FILES.DOCS, { since: lastRun(links) })
-    .pipe(linksCheck({ full: true }))
+const linksfull = function() {
+  return src(FILES.DOCS, { since: lastRun(links) }).pipe(
+    linksCheck({ full: true }),
+  )
 }
 
 // eslint-disable-next-line fp/no-mutation
-linksfull.description = 'Check for dead links in documentation Markdown files, including HTTP[S] links'
+linksfull.description =
+  'Check for dead links in documentation Markdown files, including HTTP[S] links'
 
 const testTask = parallel(lint, dup, links)
 

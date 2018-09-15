@@ -4,7 +4,7 @@ const { flatten } = require('../../../utils')
 
 // Normalize results to an object with `path`, `model`, `collname`, `select`
 // Then push to shared `results` variable
-const processResults = function ({
+const processResults = function({
   results,
   finishedResults,
   pendingResults,
@@ -25,7 +25,7 @@ const processResults = function ({
   results.push(...finishedResultsB)
 }
 
-const getResults = function ({
+const getResults = function({
   isTopLevel,
   parentResults,
   nestedParentIds,
@@ -34,7 +34,8 @@ const getResults = function ({
 }) {
   if (isTopLevel) {
     return results.map(({ model, metadata }, index) =>
-      getResult({ model, metadata, index, ...rest }))
+      getResult({ model, metadata, index, ...rest }),
+    )
   }
 
   // Nested results reuse `nestedParentIds` to assign proper `path` index.
@@ -47,15 +48,16 @@ const getResults = function ({
   return finishedResultsA
 }
 
-const getEachResults = function ({ ids, results, ...rest }) {
+const getEachResults = function({ ids, results, ...rest }) {
   const multiple = Array.isArray(ids)
   return results
     .filter(({ model: { id } }) => (multiple ? ids.includes(id) : ids === id))
     .map(({ model, metadata }, index) =>
-      getResult({ model, metadata, index, multiple, ...rest }))
+      getResult({ model, metadata, index, multiple, ...rest }),
+    )
 }
 
-const getResult = function ({
+const getResult = function({
   action,
   model,
   metadata,

@@ -3,12 +3,12 @@
 const hjson = require('hjson')
 
 // Parses a HJSON file
-const parse = function ({ content }) {
+const parse = function({ content }) {
   return hjson.parse(content)
 }
 
 // Serializes a HJSON file
-const serialize = function ({ content }) {
+const serialize = function({ content }) {
   return hjson.stringify(content, { bracesSameLine: true })
 }
 

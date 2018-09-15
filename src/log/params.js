@@ -3,7 +3,7 @@
 const { getParams, reduceParams } = require('../functions')
 
 // Get log-specific config parameters
-const getLogParams = function ({
+const getLogParams = function({
   params,
   config,
   mInput = { config },
@@ -25,10 +25,14 @@ const getLogParams = function ({
 }
 
 // Level defaults to `error` for event `failure`, and to `log` for other events
-const getLevel = function ({ level, event }) {
-  if (level) { return level }
+const getLevel = function({ level, event }) {
+  if (level) {
+    return level
+  }
 
-  if (event === 'failure') { return 'error' }
+  if (event === 'failure') {
+    return 'error'
+  }
 
   return 'log'
 }

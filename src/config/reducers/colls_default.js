@@ -3,26 +3,28 @@
 const { omit, mapValues, deepMerge } = require('../../utils')
 
 // Applies `config.collections.default` to each collection
-const applyCollsDefault = function ({
+const applyCollsDefault = function({
   config: { collections = {}, collections: { default: collDefault } = {} },
 }) {
   const collectionsA = omit(collections, ['default'])
-  const collectionsB = mapValues(
-    collectionsA,
-    coll => applyCollDefault({ coll, collDefault }),
+  const collectionsB = mapValues(collectionsA, coll =>
+    applyCollDefault({ coll, collDefault }),
   )
 
   return { collections: collectionsB }
 }
 
-const applyCollDefault = function ({ coll, collDefault }) {
+const applyCollDefault = function({ coll, collDefault }) {
   const shouldApply = isProperColl(collDefault) && isProperColl(coll)
-  if (!shouldApply) { return coll }
+
+  if (!shouldApply) {
+    return coll
+  }
 
   return deepMerge(collDefault, coll)
 }
 
-const isProperColl = function (coll) {
+const isProperColl = function(coll) {
   return coll != null && typeof coll === 'object'
 }
 

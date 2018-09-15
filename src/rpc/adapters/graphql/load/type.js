@@ -7,7 +7,7 @@ const { mapValues } = require('../../../../utils')
 const { getTypeGetter } = require('./types')
 
 // Builds query|mutation type
-const getTopTypes = function ({ topDefs }) {
+const getTopTypes = function({ topDefs }) {
   const graphqlSchemaId = uuidv4()
   // `getType`: recursion, while avoiding files circular dependencies
   const opts = {
@@ -16,14 +16,11 @@ const getTopTypes = function ({ topDefs }) {
     graphqlSchemaId,
   }
 
-  return mapValues(
-    topDefs,
-    topDef => getType(topDef, { ...opts, topDef }),
-  )
+  return mapValues(topDefs, topDef => getType(topDef, { ...opts, topDef }))
 }
 
 // Retrieves the GraphQL type for a given config definition
-const getType = function (def, opts) {
+const getType = function(def, opts) {
   const typeGetter = getTypeGetter(def, opts)
   const type = typeGetter.value(def, opts)
   return type

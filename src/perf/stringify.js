@@ -6,40 +6,54 @@ const { sortArray } = require('../utils')
 const CATEGORIES = require('./categories')
 
 // Returns measures but as a single string, for console debugging
-const stringifyMeasures = function ({ phase = '', measuresGroups }) {
+const stringifyMeasures = function({ phase = '', measuresGroups }) {
   const sortedMeasures = sortArray(measuresGroups, sortMeasures)
-  return sortedMeasures
-    .map(stringifyMeasure.bind(null, phase))
-    .join('\n')
+  return sortedMeasures.map(stringifyMeasure.bind(null, phase)).join('\n')
 }
 
 // Sort by category (asc) then by duration (desc)
-const sortMeasures = function (
+const sortMeasures = function(
   { category: catA, average: timeA },
   { category: catB, average: timeB },
 ) {
   const compNum = sortByCategory({ catA, catB })
-  if (compNum !== 0) { return compNum }
+
+  if (compNum !== 0) {
+    return compNum
+  }
 
   return sortByTime({ timeA, timeB })
 }
 
-const sortByCategory = function ({ catA, catB }) {
+const sortByCategory = function({ catA, catB }) {
   const indexCatA = CATEGORIES.indexOf(catA)
   const indexCatB = CATEGORIES.indexOf(catB)
-  if (indexCatA < indexCatB) { return -1 }
-  if (indexCatA > indexCatB) { return 1 }
+
+  if (indexCatA < indexCatB) {
+    return -1
+  }
+
+  if (indexCatA > indexCatB) {
+    return 1
+  }
+
   return 0
 }
 
-const sortByTime = function ({ timeA, timeB }) {
-  if (timeA < timeB) { return 1 }
-  if (timeA > timeB) { return -1 }
+const sortByTime = function({ timeA, timeB }) {
+  if (timeA < timeB) {
+    return 1
+  }
+
+  if (timeA > timeB) {
+    return -1
+  }
+
   return 0
 }
 
 // Prints as a table
-const stringifyMeasure = function (
+const stringifyMeasure = function(
   phase,
   { category, label, average, count, duration },
 ) {
@@ -54,7 +68,7 @@ const stringifyMeasure = function (
   return `${phaseS} ${categoryS} ${labelS} ${durationS} = ${averageS} * ${countS}`
 }
 
-const formatDuration = function (duration) {
+const formatDuration = function(duration) {
   const durationA = Math.round(duration * DECIMALS_EXP) / DECIMALS_EXP
 
   const durationB = String(durationA)

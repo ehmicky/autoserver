@@ -1,11 +1,11 @@
 'use strict'
 
 // Upsert models
-const upsert = function ({ collection, newData }) {
+const upsert = function({ collection, newData }) {
   newData.forEach(datum => upsertOne({ collection, datum }))
 }
 
-const upsertOne = function ({ collection, datum }) {
+const upsertOne = function({ collection, datum }) {
   const index = collection.findIndex(({ id }) => id === datum.id)
 
   if (index === -1) {

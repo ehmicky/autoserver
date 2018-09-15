@@ -3,10 +3,12 @@
 const { NO_SIBLINGS_OPERATORS } = require('./operators')
 
 // Values starting with `model.` target sibling attributes
-const parseSiblingNode = function ({ type, value, throwErr }) {
+const parseSiblingNode = function({ type, value, throwErr }) {
   const attrName = parseSibling({ value })
 
-  if (attrName === undefined) { return }
+  if (attrName === undefined) {
+    return
+  }
 
   validateForbiddenOps({ type, throwErr })
 
@@ -20,14 +22,16 @@ const parseSiblingNode = function ({ type, value, throwErr }) {
   throwErr(message)
 }
 
-const validateForbiddenOps = function ({ type, throwErr }) {
-  if (!NO_SIBLINGS_OPERATORS.includes(type)) { return }
+const validateForbiddenOps = function({ type, throwErr }) {
+  if (!NO_SIBLINGS_OPERATORS.includes(type)) {
+    return
+  }
 
   const message = `Cannot prefix the value with 'model.' when using the '${type}' operator`
   throwErr(message)
 }
 
-const parseSibling = function ({ value }) {
+const parseSibling = function({ value }) {
   const [, attrName] = SIBLING_REGEXP.exec(value) || []
   return attrName
 }
@@ -35,15 +39,16 @@ const parseSibling = function ({ value }) {
 // 'model.ATTR' -> 'ATTR'
 const SIBLING_REGEXP = /^model\.(.+)/u
 
-const isSiblingValue = function ({ value }) {
-  return value &&
-    value.constructor === Object &&
-    value.type === 'sibling'
+const isSiblingValue = function({ value }) {
+  return value && value.constructor === Object && value.type === 'sibling'
 }
 
-const getSiblingValue = function ({ value, attrs }) {
+const getSiblingValue = function({ value, attrs }) {
   const isSibling = isSiblingValue({ value })
-  if (!isSibling) { return value }
+
+  if (!isSibling) {
+    return value
+  }
 
   const { value: attrNameA } = value
 

@@ -4,7 +4,7 @@ const formatAdapters = require('./adapters')
 const { getExtension } = require('./extensions')
 
 // All possible extensions, for documentation
-const getExtensions = function () {
+const getExtensions = function() {
   return formatAdapters
     .map(formatAdapter => getExtension(formatAdapter))
     .filter(extension => extension !== undefined)

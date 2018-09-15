@@ -2,9 +2,11 @@
 
 const { GraphQLList } = require('graphql')
 
-const graphqlArrayTest = function ({ arrayWrapped, command, isArray }) {
+const graphqlArrayTest = function({ arrayWrapped, command, isArray }) {
   // Already wrapped in Array type
-  if (arrayWrapped) { return false }
+  if (arrayWrapped) {
+    return false
+  }
 
   // Nested collections' attributes
   if (isArray !== undefined) {
@@ -21,7 +23,7 @@ const graphqlArrayTest = function ({ arrayWrapped, command, isArray }) {
 }
 
 // Array field TGetter
-const graphqlArrayTGetter = function (def, opts) {
+const graphqlArrayTGetter = function(def, opts) {
   const defA = { ...def, arrayWrapped: true }
   const subType = opts.getType(defA, opts)
   const type = new GraphQLList(subType)

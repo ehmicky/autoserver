@@ -6,18 +6,19 @@ const { throwPb } = require('../../../errors')
 const { handlers } = require('./args')
 
 // Transform `data` to normalized `results`
-const getResults = function ({ actions, data, metadata, ids, top }) {
+const getResults = function({ actions, data, metadata, ids, top }) {
   validateData({ ids, data })
 
-  const results = actions
-    .map(action => setModels({ action, data, metadata, top }))
+  const results = actions.map(action =>
+    setModels({ action, data, metadata, top }),
+  )
   const resultsA = flatten(results)
   return resultsA
 }
 
 // `results` should be in same order as `args.data` or
 // (for `delete`) as `currentData`, and reuse their `dataPaths`
-const setModels = function ({
+const setModels = function({
   data,
   metadata,
   action,
@@ -31,7 +32,7 @@ const setModels = function ({
     .filter(({ path }) => path !== undefined)
 }
 
-const findModel = function (
+const findModel = function(
   { data, metadata, dataPaths, action },
   { id },
   index,
@@ -42,9 +43,12 @@ const findModel = function (
 }
 
 // Safety check to make sure there is no server-side bugs
-const validateData = function ({ ids, data }) {
+const validateData = function({ ids, data }) {
   const sameLength = data.length === ids.length
-  if (sameLength) { return }
+
+  if (sameLength) {
+    return
+  }
 
   const message = `'ids' and 'results' do not have the same length`
   throwPb({ message, reason: 'ENGINE' })

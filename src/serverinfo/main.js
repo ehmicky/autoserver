@@ -9,7 +9,7 @@ const { getVersionsInfo } = require('./versions')
 const { getProcessInfo } = require('./process')
 
 // Retrieve process-specific and host-specific information
-const getServerinfo = function ({ config: { name: processName } = {} }) {
+const getServerinfo = function({ config: { name: processName } = {} }) {
   const host = getHostInfo()
   const versions = getVersionsInfo()
   const processInfo = getProcessInfo({ host, processName })

@@ -8,7 +8,8 @@ const { buildwatch } = require('./build')
 const defaultTask = series(buildwatch, dev)
 
 // eslint-disable-next-line fp/no-mutation
-defaultTask.description = 'Build the application and start an example server in watch mode'
+defaultTask.description =
+  'Build the application and start an example server in watch mode'
 
 module.exports = {
   default: defaultTask,

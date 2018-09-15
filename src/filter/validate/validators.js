@@ -4,7 +4,7 @@ const { getWordsList, difference, intersection } = require('../../utils')
 const { ENUM_OPERATORS } = require('../operators')
 
 // Validate value is among set of values
-const validateEnum = function ({ type, value, ruleVal, throwErr }) {
+const validateEnum = function({ type, value, ruleVal, throwErr }) {
   if (!ENUM_OPERATORS.includes(type)) {
     const operators = getWordsList(ENUM_OPERATORS, { quotes: true })
     const message = `must use operator ${operators}`
@@ -12,14 +12,15 @@ const validateEnum = function ({ type, value, ruleVal, throwErr }) {
   }
 
   if (Array.isArray(value)) {
-    return value
-      .forEach(val => validateEnumVal({ ruleVal, value: val, throwErr }))
+    return value.forEach(val =>
+      validateEnumVal({ ruleVal, value: val, throwErr }),
+    )
   }
 
   validateEnumVal({ ruleVal, value, throwErr })
 }
 
-const validateEnumVal = function ({ ruleVal, value, throwErr }) {
+const validateEnumVal = function({ ruleVal, value, throwErr }) {
   if (!ruleVal.includes(value)) {
     const message = `must be ${getWordsList(ruleVal, { json: true })}`
     throwErr(message)
@@ -31,7 +32,7 @@ const validateEnumVal = function ({ ruleVal, value, throwErr }) {
 // E.g. it does not make sense to forbid command `patch` while allowing `find`
 // and `upsert`, so they must be specified together. I.e. we specify the
 // `ruleVal` `[['patch'], ['find', 'upsert']]`
-const validateRequires = function ({
+const validateRequires = function({
   ruleVal,
   validation: { enum: possVals },
   operations,
@@ -40,14 +41,16 @@ const validateRequires = function ({
   const enumVals = getEnum({ operations, possVals })
 
   ruleVal.forEach(([ifVal, thenVal]) =>
-    validateRequirePair({ ifVal, thenVal, enumVals, throwErr }))
+    validateRequirePair({ ifVal, thenVal, enumVals, throwErr }),
+  )
 }
 
 // For operations allowing only `_eq`, `_in`, `_nin`, `_neq`, normalize to `_in`
 // values, using the set of possible values.
-const getEnum = function ({ operations, possVals }) {
-  const values = operations
-    .map(({ type, value }) => enumOperations[type]({ value, possVals }))
+const getEnum = function({ operations, possVals }) {
+  const values = operations.map(({ type, value }) =>
+    enumOperations[type]({ value, possVals }),
+  )
   const valuesA = intersection(possVals, ...values)
   return valuesA
 }
@@ -59,12 +62,18 @@ const enumOperations = {
   _neq: ({ value, possVals }) => difference(possVals, [value]),
 }
 
-const validateRequirePair = function ({ ifVal, thenVal, enumVals, throwErr }) {
+const validateRequirePair = function({ ifVal, thenVal, enumVals, throwErr }) {
   const missingIfVals = difference(ifVal, enumVals)
-  if (missingIfVals.length !== 0) { return }
+
+  if (missingIfVals.length !== 0) {
+    return
+  }
 
   const missingThenVals = difference(thenVal, enumVals)
-  if (missingThenVals.length === 0) { return }
+
+  if (missingThenVals.length === 0) {
+    return
+  }
 
   const ifStr = getWordsList(ifVal, { op: 'and', quotes: true })
   const missingStr = getWordsList(missingThenVals, { op: 'and', quotes: true })

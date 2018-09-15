@@ -3,12 +3,14 @@
 const { throwError } = require('../errors')
 
 // Enforces that a function is only called once
-const onlyOnce = function (func, { error = false } = {}) {
+const onlyOnce = function(func, { error = false } = {}) {
   // eslint-disable-next-line fp/no-let
   let called = false
 
   return (...args) => {
-    if (called) { return alreadyCalled({ error }) }
+    if (called) {
+      return alreadyCalled({ error })
+    }
 
     // eslint-disable-next-line fp/no-mutation
     called = true
@@ -16,7 +18,7 @@ const onlyOnce = function (func, { error = false } = {}) {
   }
 }
 
-const alreadyCalled = function ({ error }) {
+const alreadyCalled = function({ error }) {
   if (error) {
     throwError('This function can only be called once')
   }

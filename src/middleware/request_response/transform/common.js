@@ -4,7 +4,7 @@ const { mapValues, pickBy } = require('../../../utils')
 const { runConfigFunc, getModelParams } = require('../../../functions')
 
 // Handles `attr.value`, `attr.default` and `attr.readonly`
-const handleTransforms = function ({
+const handleTransforms = function({
   mapName,
   preCondition,
   condition,
@@ -15,31 +15,35 @@ const handleTransforms = function ({
   config: { shortcuts },
   mInput,
 }) {
-  if (newData === undefined) { return }
+  if (newData === undefined) {
+    return
+  }
 
   const transforms = shortcuts[mapName][collname]
 
-  if (preCondition && !preCondition(mInput)) { return }
+  if (preCondition && !preCondition(mInput)) {
+    return
+  }
 
-  const newDataA = newData.map((newDatum, index) => transformDatum({
-    condition,
-    setAttr,
-    newDatum,
-    currentDatum: currentData[index],
-    transforms,
-    mInput,
-  }))
+  const newDataA = newData.map((newDatum, index) =>
+    transformDatum({
+      condition,
+      setAttr,
+      newDatum,
+      currentDatum: currentData[index],
+      transforms,
+      mInput,
+    }),
+  )
 
   return { args: { ...args, newData: newDataA } }
 }
 
-const transformDatum = function ({ newDatum, transforms, ...rest }) {
+const transformDatum = function({ newDatum, transforms, ...rest }) {
   const transformsA = filterTransforms({ newDatum, transforms, ...rest })
 
-  const newDatumA = mapValues(
-    transformsA,
-    (transform, attrName) =>
-      transformAttr({ newDatum, attrName, transform, ...rest }),
+  const newDatumA = mapValues(transformsA, (transform, attrName) =>
+    transformAttr({ newDatum, attrName, transform, ...rest }),
   )
 
   const newDatumB = { ...newDatum, ...newDatumA }
@@ -47,17 +51,18 @@ const transformDatum = function ({ newDatum, transforms, ...rest }) {
   return newDatumB
 }
 
-const filterTransforms = function ({ condition, transforms, ...rest }) {
-  if (condition === undefined) { return transforms }
+const filterTransforms = function({ condition, transforms, ...rest }) {
+  if (condition === undefined) {
+    return transforms
+  }
 
-  const transformsA = pickBy(
-    transforms,
-    (transform, attrName) => filterTransform({ condition, attrName, ...rest }),
+  const transformsA = pickBy(transforms, (transform, attrName) =>
+    filterTransform({ condition, attrName, ...rest }),
   )
   return transformsA
 }
 
-const filterTransform = function ({
+const filterTransform = function({
   condition,
   newDatum: model,
   currentDatum: previousmodel,
@@ -67,7 +72,7 @@ const filterTransform = function ({
   return condition(params)
 }
 
-const transformAttr = function ({
+const transformAttr = function({
   setAttr,
   newDatum: model,
   currentDatum: previousmodel,

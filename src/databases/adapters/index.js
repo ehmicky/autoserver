@@ -1,6 +1,3 @@
 'use strict'
 
-module.exports = [
-  require('./memory'),
-  require('./mongodb'),
-]
+module.exports = [require('./memory'), require('./mongodb')]

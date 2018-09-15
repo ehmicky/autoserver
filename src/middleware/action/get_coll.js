@@ -1,10 +1,13 @@
 'use strict'
 
 // Turn a `commandpath` into a `collname`, using config
-const getColl = function ({
+const getColl = function({
   commandpath,
   config,
-  top: { collname, command: { multiple } },
+  top: {
+    collname,
+    command: { multiple },
+  },
 }) {
   // Ignore array indices
   const commandpathA = commandpath.filter(key => typeof key !== 'number')
@@ -18,7 +21,7 @@ const getColl = function ({
 }
 
 // Recurse over `config.collections`, using `commandpath`
-const findColl = function ({
+const findColl = function({
   config,
   config: { collections },
   collname,
@@ -28,7 +31,9 @@ const findColl = function ({
   const attr = collections[collname].attributes[attrName]
 
   // Erronous `commandpath`
-  if (attr === undefined) { return }
+  if (attr === undefined) {
+    return
+  }
 
   const { target: childCollname, isArray } = attr
 

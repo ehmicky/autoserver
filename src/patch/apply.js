@@ -10,7 +10,7 @@ const { replaceSimpleRef, replaceRef } = require('./ref')
 const { getPatchErrorProps } = require('./error')
 
 // Apply patch operation to a single datum
-const applyPatchOps = function ({
+const applyPatchOps = function({
   datum,
   patchOps,
   config: { collections, operators },
@@ -19,19 +19,14 @@ const applyPatchOps = function ({
 }) {
   const { attributes } = collections[collname]
 
-  const patchOpsA = mapValues(patchOps, (patchOp, attrName) => applyPatchOp({
-    datum,
-    patchOp,
-    attrName,
-    attributes,
-    operators,
-    ...rest,
-  }))
+  const patchOpsA = mapValues(patchOps, (patchOp, attrName) =>
+    applyPatchOp({ datum, patchOp, attrName, attributes, operators, ...rest }),
+  )
 
   return { ...datum, ...patchOpsA }
 }
 
-const applyPatchOp = function ({ patchOp, ...rest }) {
+const applyPatchOp = function({ patchOp, ...rest }) {
   const { type, opVal } = parsePatchOp(patchOp)
 
   if (type === undefined) {
@@ -42,15 +37,18 @@ const applyPatchOp = function ({ patchOp, ...rest }) {
 }
 
 // If no patch operator was used, do a simple shallow merge
-const getSimplePatch = function ({ patchOp, attributes, datum, commandpath }) {
+const getSimplePatch = function({ patchOp, attributes, datum, commandpath }) {
   const ref = parseRef(patchOp)
-  if (ref === undefined) { return patchOp }
+
+  if (ref === undefined) {
+    return patchOp
+  }
 
   return replaceSimpleRef({ ref, attributes, datum, commandpath })
 }
 
 // When a patch operator was used
-const getAdvancedPatch = function ({ datum, attrName, attributes, ...rest }) {
+const getAdvancedPatch = function({ datum, attrName, attributes, ...rest }) {
   const attrVal = datum[attrName]
   // Normalize `null` to `undefined`
   const attrValA = attrVal === null ? undefined : attrVal
@@ -67,7 +65,7 @@ const getAdvancedPatch = function ({ datum, attrName, attributes, ...rest }) {
   return attrValB
 }
 
-const transformPatchOp = function ({ type, attrVal, operators, ...rest }) {
+const transformPatchOp = function({ type, attrVal, operators, ...rest }) {
   // Uses `patchOp.apply()`, i.e. transform patch operations
   // into normal values to merge
   const operator = operators[type]
@@ -79,19 +77,22 @@ const transformPatchOp = function ({ type, attrVal, operators, ...rest }) {
   }
 
   return attrVal.map(attrValA =>
-    fireApply({ operator, attrVal: attrValA, type, ...rest }))
+    fireApply({ operator, attrVal: attrValA, type, ...rest }),
+  )
 }
 
 // When the patch operator is not specific to array attributes, but the
 // attribute is an array, the patch operator is being iterator
-const shouldIterateOp = function ({ attrVal, operator: { attribute } }) {
-  return Array.isArray(attrVal) &&
+const shouldIterateOp = function({ attrVal, operator: { attribute } }) {
+  return (
+    Array.isArray(attrVal) &&
     attribute !== undefined &&
     attribute.every(attr => !attr.endsWith('[]'))
+  )
 }
 
 // Do the actual merging operation
-const fireApply = function ({
+const fireApply = function({
   operator,
   operator: { apply },
   attr,

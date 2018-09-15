@@ -4,14 +4,17 @@ const { omit } = require('../../../utils')
 const { extractSimpleIds } = require('../../../filter')
 
 // Fire the actual command
-const fireReadCommand = async function ({
+const fireReadCommand = async function({
   action: { commandpath, collname, clientCollname },
   mInput,
   nextLayer,
   args,
 }) {
   const emptyCommand = isEmptyCommand({ args })
-  if (emptyCommand) { return [] }
+
+  if (emptyCommand) {
+    return []
+  }
 
   const argsA = omit(args, 'data')
 
@@ -31,13 +34,13 @@ const fireReadCommand = async function ({
 }
 
 // When parent value is not defined, directly returns empty value
-const isEmptyCommand = function ({ args }) {
+const isEmptyCommand = function({ args }) {
   const ids = extractSimpleIds(args)
   return Array.isArray(ids) && ids.length === 0
 }
 
 // Fire `request`, `database` and `response` layers serially
-const getResponse = async function ({ nextLayer, mInput }) {
+const getResponse = async function({ nextLayer, mInput }) {
   const mInputA = nextLayer(mInput, 'request')
 
   const { response } = await nextLayer(mInputA, 'database')

@@ -6,13 +6,12 @@ const { getParams } = require('./values')
 
 // Retrieve all server-specific parameters.
 // Functions are bound with parameters.
-const getServerParams = function ({ config, mInput }) {
+const getServerParams = function({ config, mInput }) {
   const params = getParams(mInput)
 
   // Only pass parameters to config.params.* not config.params.*.*
-  const serverParams = mapValues(
-    config.params,
-    serverParam => bindServerParam({ serverParam, params }),
+  const serverParams = mapValues(config.params, serverParam =>
+    bindServerParam({ serverParam, params }),
   )
 
   // Allow server-specific parameters to call each other
@@ -24,9 +23,11 @@ const getServerParams = function ({ config, mInput }) {
 
 // Add parameters to every server-specific parameter that is a
 // function, as a first bound parameter
-const bindServerParam = function ({ serverParam, params }) {
+const bindServerParam = function({ serverParam, params }) {
   // Constants are left as is, including object containing functions
-  if (typeof serverParam !== 'function') { return serverParam }
+  if (typeof serverParam !== 'function') {
+    return serverParam
+  }
 
   // Same as `serverParam.bind(null, params)`, except works when `serverParam`
   // is both a function and an object with a `bind` member, e.g. Lodash

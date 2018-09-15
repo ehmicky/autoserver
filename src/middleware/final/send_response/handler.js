@@ -7,7 +7,7 @@ const { validateResponse } = require('./validate')
 const { send } = require('./send')
 
 // Sends the response at the end of the request
-const sendResponse = async function ({
+const sendResponse = async function({
   error,
   response,
   metadata,
@@ -59,13 +59,15 @@ const sendResponse = async function ({
   return responseParams
 }
 
-const transformResponse = function ({
+const transformResponse = function({
   rpcAdapter,
   response,
   response: { content },
   mInput,
 }) {
-  if (rpcAdapter === undefined) { return content }
+  if (rpcAdapter === undefined) {
+    return content
+  }
 
   return rpcAdapter.transformResponse({ response, mInput })
 }

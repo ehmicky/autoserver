@@ -6,14 +6,16 @@ const { getParams } = require('./params')
 const { stringifyConfigFunc } = require('./tokenize')
 
 // Process config function, i.e. fires it and returns its value
-const runConfigFunc = function ({
+const runConfigFunc = function({
   configFunc,
   mInput,
   mInput: { serverParams },
   params,
 }) {
   // If this is not config function, returns as is
-  if (typeof configFunc !== 'function') { return configFunc }
+  if (typeof configFunc !== 'function') {
+    return configFunc
+  }
 
   const paramsA = getParams(mInput, { params, serverParams, mutable: false })
 

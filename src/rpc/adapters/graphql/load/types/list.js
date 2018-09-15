@@ -17,7 +17,6 @@ const { graphqlObjectTGetter } = require('./object')
 // The first matching one will be used, i.e. order matters:
 // required modifier, then array modifier come first
 const graphqlTGetters = [
-
   // "Required" modifier type
   {
     condition: graphqlRequiredTest,
@@ -59,15 +58,20 @@ const graphqlTGetters = [
     condition: def => def.type === 'boolean',
     value: () => GraphQLBoolean,
   },
-
 ]
 
-const getTypeGetter = function (def, opts) {
-  const typeGetter = graphqlTGetters
-    .find(({ condition }) => condition(def, opts))
-  if (typeGetter !== undefined) { return typeGetter }
+const getTypeGetter = function(def, opts) {
+  const typeGetter = graphqlTGetters.find(({ condition }) =>
+    condition(def, opts),
+  )
 
-  const message = `Could not parse attribute into a GraphQL type: ${JSON.stringify(def)}`
+  if (typeGetter !== undefined) {
+    return typeGetter
+  }
+
+  const message = `Could not parse attribute into a GraphQL type: ${JSON.stringify(
+    def,
+  )}`
   throwError(message, { reason: 'CONFIG_VALIDATION' })
 }
 

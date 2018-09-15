@@ -5,16 +5,20 @@ const { flatten } = require('../../../utils')
 // When using `select=parent.child`, `select=parent` is implicity added,
 // unless it was already selected, including by `select=all` or by specifying
 // no `select` at that level
-const addParentSelects = function ({ selects }) {
-  const parentSelects = selects
-    .map(select => getParentSelect({ select, selects }))
+const addParentSelects = function({ selects }) {
+  const parentSelects = selects.map(select =>
+    getParentSelect({ select, selects }),
+  )
   const parentSelectsA = flatten(parentSelects)
   return [...selects, ...parentSelectsA]
 }
 
-const getParentSelect = function ({ select, selects }) {
+const getParentSelect = function({ select, selects }) {
   const parentSelect = select.replace(PARENT_SELECT_REGEXP, '')
-  if (parentSelect === '') { return [] }
+
+  if (parentSelect === '') {
+    return []
+  }
 
   const parentSelectA = parentSelect.split('.')
   const siblingsSelects = getSiblingsSelects({
@@ -22,20 +26,23 @@ const getParentSelect = function ({ select, selects }) {
     parentSelect: parentSelectA,
   })
 
-  const doesNotNeedParent = siblingsSelects.length === 0 ||
-    hasAllParent({ selects: siblingsSelects })
-  if (doesNotNeedParent) { return [] }
+  const doesNotNeedParent =
+    siblingsSelects.length === 0 || hasAllParent({ selects: siblingsSelects })
+
+  if (doesNotNeedParent) {
+    return []
+  }
 
   return [parentSelectA.join('.')]
 }
 
-const getSiblingsSelects = function ({ selects, parentSelect }) {
+const getSiblingsSelects = function({ selects, parentSelect }) {
   return selects
     .map(selectA => selectA.split('.'))
     .filter(selectA => selectA.length === parentSelect.length)
 }
 
-const hasAllParent = function ({ selects }) {
+const hasAllParent = function({ selects }) {
   return selects.some(selectA => selectA[selectA.length - 1] === 'all')
 }
 

@@ -5,7 +5,7 @@ const { isType } = require('../../../content_types')
 const { getParams, reduceParams } = require('../../../functions')
 
 // Add response's metadata
-const addMetadata = function ({
+const addMetadata = function({
   response,
   response: { type, content },
   metadata,
@@ -22,13 +22,15 @@ const addMetadata = function ({
   return response
 }
 
-const getErrorMetadata = function ({
+const getErrorMetadata = function({
   response,
   response: { type, content },
   metadata,
   mInput,
 }) {
-  if (!isType(type, 'error')) { return metadata }
+  if (!isType(type, 'error')) {
+    return metadata
+  }
 
   const metadataA = pick(metadata, ERROR_METADATA)
 
@@ -42,10 +44,7 @@ const getErrorMetadata = function ({
 }
 
 // Some metadata only make sense in success responses, e.g. pagination
-const ERROR_METADATA = [
-  'requestid',
-  'duration',
-]
+const ERROR_METADATA = ['requestid', 'duration']
 
 // Parameters not allowed in error response
 const HIDDEN_ERROR_INFO = [

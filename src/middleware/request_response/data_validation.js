@@ -7,21 +7,27 @@ const { validate } = require('../../validation')
 // Check that newData passes config validation
 // E.g. if a model is marked as `required` or `minimum: 10` in the
 // config, this will be validated here
-const dataValidation = function ({
+const dataValidation = function({
   args: { newData, currentData },
   collname,
-  config: { shortcuts: { validateMap } },
+  config: {
+    shortcuts: { validateMap },
+  },
   mInput,
 }) {
-  if (newData === undefined) { return }
+  if (newData === undefined) {
+    return
+  }
 
   const compiledJsonSchema = validateMap[collname]
 
-  newData.forEach((data, index) => eValidate({
-    compiledJsonSchema,
-    data,
-    extra: { mInput, currentDatum: currentData[index] },
-  }))
+  newData.forEach((data, index) =>
+    eValidate({
+      compiledJsonSchema,
+      data,
+      extra: { mInput, currentDatum: currentData[index] },
+    }),
+  )
 }
 
 const eValidate = addGenErrorHandler(validate, {

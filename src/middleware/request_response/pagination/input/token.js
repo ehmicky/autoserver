@@ -6,7 +6,7 @@ const { decode } = require('../encoding')
 const { getRightToken, TOKEN_NAMES, BOUNDARY_TOKEN } = require('../info')
 
 // Parse cursor tokens
-const getToken = function ({ args }) {
+const getToken = function({ args }) {
   const tokens = pick(args, TOKEN_NAMES)
   const tokensA = pickBy(
     tokens,
@@ -23,11 +23,16 @@ const eDecode = addGenErrorHandler(decode, {
 })
 
 // Validate cursor tokens syntax
-const validateToken = function ({ token }) {
-  if (token === undefined) { return }
+const validateToken = function({ token }) {
+  if (token === undefined) {
+    return
+  }
 
   const isValid = TOKEN_TESTS.every(testFunc => testFunc(token))
-  if (isValid) { return }
+
+  if (isValid) {
+    return
+  }
 
   const message = `Wrong arguments: 'after' or 'before' contains an invalid token`
   throwError(message, { reason: 'VALIDATION' })

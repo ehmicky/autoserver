@@ -6,12 +6,12 @@ const {
 } = require('iltorb')
 
 // Compress to Brotli
-const compress = function (content) {
+const compress = function(content) {
   return brotliCompress(content)
 }
 
 // Decompress from Brotli
-const decompress = function (content) {
+const decompress = function(content) {
   return brotliDecompress(content)
 }
 

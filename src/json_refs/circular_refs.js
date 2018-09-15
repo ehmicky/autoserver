@@ -5,8 +5,10 @@ const { throwError } = require('../errors')
 // When encountering the same JSON reference twice, do not resolve the second
 // one. This is done to fix recursion problems. Those JSON references are
 // resolve later.
-const fireCachedFunc = function (func, { path, cache, stack }) {
-  if (cache[path] !== undefined) { return cache[path] }
+const fireCachedFunc = function(func, { path, cache, stack }) {
+  if (cache[path] !== undefined) {
+    return cache[path]
+  }
 
   const stackA = validateRecursion({ path, stack })
 
@@ -21,7 +23,7 @@ const fireCachedFunc = function (func, { path, cache, stack }) {
   return content
 }
 
-const validateRecursion = function ({ path, stack }) {
+const validateRecursion = function({ path, stack }) {
   if (!stack.includes(path)) {
     return [...stack, path]
   }

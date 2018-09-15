@@ -11,7 +11,7 @@ const optsSchema = require('./opts_schema')
 // User is specified by opts:
 //   [currentuser] {function} - current user
 //   [collection] {string} - user's collection name
-const authorPlugin = function ({ config, opts }) {
+const authorPlugin = function({ config, opts }) {
   return attributesPlugin({
     name: 'author',
     getAttributes,
@@ -34,15 +34,17 @@ const getAttributes = ({ currentuser, collection }) => ({
   },
 })
 
-const getCreatedBy = function (currentuser, params) {
+const getCreatedBy = function(currentuser, params) {
   const { previousmodel, previousvalue } = params
 
-  if (previousmodel !== undefined) { return previousvalue }
+  if (previousmodel !== undefined) {
+    return previousvalue
+  }
 
   return currentuser(params).id
 }
 
-const getUpdatedBy = function (currentuser, params) {
+const getUpdatedBy = function(currentuser, params) {
   return currentuser(params).id
 }
 

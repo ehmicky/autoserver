@@ -7,7 +7,7 @@ const { getEnvVars } = require('./env')
 const { getConfPath } = require('./path')
 
 // Load config file
-const loadFile = async function ({ configPath, config: configOpts }) {
+const loadFile = async function({ configPath, config: configOpts }) {
   const { config: envConfigPath, ...envVars } = getEnvVars()
 
   const path = await getConfPath({ envConfigPath, configPath })

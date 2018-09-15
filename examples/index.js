@@ -1,12 +1,14 @@
 'use strict'
 
 const { inspect } = require('util')
-const { stdout: { columns } } = require('process')
+const {
+  stdout: { columns },
+} = require('process')
 
 const autoserver = require('..')
 
 // Set default console log printing
-const setDefaultDebug = function () {
+const setDefaultDebug = function() {
   // eslint-disable-next-line fp/no-mutation
   inspect.defaultOptions = {
     colors: true,
@@ -17,7 +19,7 @@ const setDefaultDebug = function () {
 
 const COLUMNS_WIDTH = 80
 
-const startServer = async function () {
+const startServer = async function() {
   try {
     const { protocols, exit } = await autoserver.run()
     return { protocols, exit }

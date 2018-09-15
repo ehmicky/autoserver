@@ -10,7 +10,7 @@ const { closeDbAdapters } = require('./db_close')
 const { emitStopEvent } = require('./stop_event')
 
 // Close servers and database connections
-const mmGracefulExit = async function ({
+const mmGracefulExit = async function({
   protocolAdapters,
   dbAdapters,
   config,
@@ -30,7 +30,7 @@ const mmGracefulExit = async function ({
 
 const oGracefulExit = onlyOnce(mmGracefulExit)
 
-const gracefulExitHandler = async function (error, { config }) {
+const gracefulExitHandler = async function(error, { config }) {
   const message = 'Shutdown failure'
   await logEvent({
     event: 'failure',
@@ -43,7 +43,7 @@ const gracefulExitHandler = async function (error, { config }) {
 
 const eGracefulExit = addErrorHandler(oGracefulExit, gracefulExitHandler)
 
-const gracefulExit = async function ({
+const gracefulExit = async function({
   protocolAdapters,
   dbAdapters,
   config,
@@ -56,10 +56,7 @@ const gracefulExit = async function ({
   })
   const dbPromises = closeDbAdapters({ dbAdapters, config, measures })
 
-  const exitArray = await Promise.all([
-    ...protocolPromises,
-    ...dbPromises,
-  ])
+  const exitArray = await Promise.all([...protocolPromises, ...dbPromises])
   const exit = Object.assign({}, ...exitArray)
 
   return { exit }

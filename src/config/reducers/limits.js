@@ -6,7 +6,7 @@ const { throwError } = require('../../errors')
 const { getLimits } = require('../../limits')
 
 // Validates `limits`
-const validateLimits = function ({ config }) {
+const validateLimits = function({ config }) {
   const {
     maxpayload,
     minMaxpayload,
@@ -20,21 +20,23 @@ const validateLimits = function ({ config }) {
   validateMaxmodels({ maxmodels, pagesize, maxActions })
 }
 
-const validateMaxpayload = function ({ maxpayload, minMaxpayload }) {
+const validateMaxpayload = function({ maxpayload, minMaxpayload }) {
   const maxpayloadA = parseBytes(maxpayload)
 
   if (maxpayloadA === null || Number.isNaN(maxpayloadA)) {
-    const message = '\'config.limits.maxpayload\' must be a size in bytes, which can include "B", "KB", "MB", "GB" or "TB"'
+    const message =
+      '\'config.limits.maxpayload\' must be a size in bytes, which can include "B", "KB", "MB", "GB" or "TB"'
     throwError(message, { reason: 'CONFIG_VALIDATION' })
   }
 
   if (maxpayloadA < minMaxpayload) {
-    const message = `'config.limits.maxpayload' must be at least ${formatBytes(minMaxpayload)}`
+    const minMaxpayloadA = formatBytes(minMaxpayload)
+    const message = `'config.limits.maxpayload' must be at least ${minMaxpayloadA}`
     throwError(message, { reason: 'CONFIG_VALIDATION' })
   }
 }
 
-const validateMaxmodels = function ({ maxmodels, pagesize, maxActions }) {
+const validateMaxmodels = function({ maxmodels, pagesize, maxActions }) {
   const isDisabled = pagesize === 0 || maxmodels === 0
 
   // Second depth level actions must be allowed to have at least one item,
@@ -42,7 +44,9 @@ const validateMaxmodels = function ({ maxmodels, pagesize, maxActions }) {
   const minMaxmodels = (maxActions - 1) * pagesize
   const isValid = maxmodels >= minMaxmodels
 
-  if (isDisabled || isValid) { return }
+  if (isDisabled || isValid) {
+    return
+  }
 
   const message = `'config.limits.maxmodels' must be at least ${minMaxmodels}`
   throwError(message, { reason: 'CONFIG_VALIDATION' })

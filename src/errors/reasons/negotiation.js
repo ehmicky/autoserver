@@ -4,8 +4,10 @@ const pluralize = require('pluralize')
 
 const { getWordsList } = require('../../utils')
 
-const getMessage = function (type, { kind, value }) {
-  if (value === undefined) { return }
+const getMessage = function(type, { kind, value }) {
+  if (value === undefined) {
+    return
+  }
 
   const kindName = KINDS[kind]
   const kindNameA = pluralize(kindName, value.length)

@@ -9,13 +9,11 @@ const { getRequestMessage } = require('./request_message')
 // MESSAGE - SUBMESSAGE
 //   STACK_TRACE
 // `PHASE` is requestid if phase is `request`
-const getConsoleMessage = function ({ log }) {
-  return parts
-    .map(getPart => getPart({ log }))
-    .join(' ')
+const getConsoleMessage = function({ log }) {
+  return parts.map(getPart => getPart({ log })).join(' ')
 }
 
-const getMessage = function ({
+const getMessage = function({
   log,
   log: { event, phase, error, message = '' },
 }) {
@@ -31,7 +29,7 @@ const getMessage = function ({
 }
 
 // Adds how long startup, shutdown or request took
-const getDuration = function ({ log: { duration } }) {
+const getDuration = function({ log: { duration } }) {
   if (duration === undefined) {
     return ' '.repeat(DURATION_LENGTH)
   }
@@ -42,11 +40,7 @@ const getDuration = function ({ log: { duration } }) {
 
 const DURATION_LENGTH = 8
 
-const parts = [
-  getPrefix,
-  getDuration,
-  getMessage,
-]
+const parts = [getPrefix, getDuration, getMessage]
 
 module.exports = {
   getConsoleMessage,

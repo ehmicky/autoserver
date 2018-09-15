@@ -6,12 +6,9 @@ const yamlToJson = require('gulp-yaml')
 const FILES = require('../files')
 const { getWatchTask } = require('../utils')
 
-const format = function () {
+const format = function() {
   return src(FILES.FORMAT)
-    .pipe(yamlToJson({
-      schema: 'JSON_SCHEMA',
-      space: 2,
-    }))
+    .pipe(yamlToJson({ schema: 'JSON_SCHEMA', space: 2 }))
     .pipe(dest(({ base }) => base))
 }
 

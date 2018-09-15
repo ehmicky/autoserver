@@ -3,7 +3,7 @@
 const GraphQLJSON = require('graphql-type-json')
 
 // `params` argument
-const getParamsArgument = function () {
+const getParamsArgument = function() {
   return PARAMS_ARGS
 }
 

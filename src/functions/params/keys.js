@@ -8,7 +8,7 @@ const {
 } = require('./system')
 
 // Retrieve parameters names
-const getParamsKeys = function ({ config: { params = {} } }) {
+const getParamsKeys = function({ config: { params = {} } }) {
   const namedKeys = [
     ...Object.keys(SYSTEM_PARAMS),
     ...LATER_SYSTEM_PARAMS,

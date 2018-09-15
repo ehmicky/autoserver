@@ -6,7 +6,7 @@ const { throwPb, rethrowError } = require('../../../../errors')
 
 // `raw-body` throws some errors that we want to convert to the correct error
 // reason
-const getRawBodyHandler = function (error, { maxpayload }) {
+const getRawBodyHandler = function(error, { maxpayload }) {
   // Indicates a bug in `raw-body` library
   if (!(error instanceof Error)) {
     rethrowError(error)
@@ -24,8 +24,10 @@ const getRawBodyHandler = function (error, { maxpayload }) {
   throwPb({ ...props, innererror: error })
 }
 
-const entityTooLargeHandler = function ({ error: { length }, maxpayload }) {
-  const message = `The request payload must not be larger than ${formatBytes(maxpayload)}`
+const entityTooLargeHandler = function({ error: { length }, maxpayload }) {
+  const message = `The request payload must not be larger than ${formatBytes(
+    maxpayload,
+  )}`
 
   return {
     reason: 'PAYLOAD_LIMIT',
@@ -35,7 +37,7 @@ const entityTooLargeHandler = function ({ error: { length }, maxpayload }) {
   }
 }
 
-const requestSizeHandler = function ({ error: { expected, received } }) {
+const requestSizeHandler = function({ error: { expected, received } }) {
   const message = `The HTTP request header 'Content-Length' does not match the request payload length. It should be ${expected} instead of ${received}.`
 
   return {
@@ -50,8 +52,9 @@ const requestSizeHandler = function ({ error: { expected, received } }) {
   }
 }
 
-const requestAbortedHandler = function () {
-  const message = 'The HTTP request was aborted by the client while the server was reading its payload'
+const requestAbortedHandler = function() {
+  const message =
+    'The HTTP request was aborted by the client while the server was reading its payload'
 
   return { reason: 'ABORTED', message }
 }

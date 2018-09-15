@@ -5,12 +5,14 @@ const { METHODS } = require('../constants')
 
 const { validateString } = require('./validate')
 
-const parseMethod = function ({
+const parseMethod = function({
   protocolAdapter,
   protocolAdapter: { getMethod },
   specific,
 }) {
-  if (getMethod === undefined) { return }
+  if (getMethod === undefined) {
+    return
+  }
 
   const method = getMethod({ specific })
 
@@ -20,8 +22,10 @@ const parseMethod = function ({
   return { method }
 }
 
-const validateMethod = function ({ method }) {
-  if (method === undefined || METHODS.includes(method)) { return }
+const validateMethod = function({ method }) {
+  if (method === undefined || METHODS.includes(method)) {
+    return
+  }
 
   throwPb({ reason: 'METHOD', extra: { value: method, suggestions: METHODS } })
 }

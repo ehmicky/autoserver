@@ -3,14 +3,16 @@
 const { omitBy } = require('../../utils')
 
 // Normalize empty values (undefined, null) by removing their key
-const normalizeEmpty = function ({ args, args: { newData } }) {
-  if (newData === undefined) { return }
+const normalizeEmpty = function({ args, args: { newData } }) {
+  if (newData === undefined) {
+    return
+  }
 
   const newDataA = newData.map(removeEmpty)
   return { args: { ...args, newData: newDataA } }
 }
 
-const removeEmpty = function (newData) {
+const removeEmpty = function(newData) {
   return omitBy(newData, value => value == null)
 }
 

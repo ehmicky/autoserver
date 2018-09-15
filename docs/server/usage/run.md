@@ -16,8 +16,9 @@ autoserver run --config=autoserver.config.yml --protocols.http.port=5001
 
 When fired from Node.js, `autoserver.run()` returns a promise, which resolves
 with:
-  - the [`protocols` parameter](../quality/logging.md#functions-parameters)
-  - the [`serverinfo` parameter](../configuration/functions.md#parameters)
+
+- the [`protocols` parameter](../quality/logging.md#functions-parameters)
+- the [`serverinfo` parameter](../configuration/functions.md#parameters)
 
 If an error occurred, the promise will be rejected with an
 [exception object](error.md#exceptions).
@@ -26,10 +27,12 @@ If an error occurred, the promise will be rejected with an
 no-restricted-globals, unicorn/catch-error-name, promise/always-return,
 promise/prefer-await-to-then, node/no-extraneous-require,
 import/no-extraneous-dependencies, import/no-unresolved -->
+
 ```javascript
 const autoserver = require('autoserver')
 
-autoserver.run()
+autoserver
+  .run()
   .then(({ protocols, serverinfo }) => {
     console.log('Servers started at:', protocols)
     console.log('Process id', serverinfo.process.id)
@@ -42,15 +45,17 @@ autoserver.run()
 # Stopping the server
 
 To stop the server, you can:
-  - using the `PID`, fire `process.kill(pid)` from Node.js
-  - using the `PID`, fire `kill $pid` from the console
-  - type `CTRL-C` if the server is running in the console foreground.
-    Type this only once, not twice, or the server will not properly shut down.
+
+- using the `PID`, fire `process.kill(pid)` from Node.js
+- using the `PID`, fire `kill $pid` from the console
+- type `CTRL-C` if the server is running in the console foreground.
+  Type this only once, not twice, or the server will not properly shut down.
 
 The `PID` (process ID) is available:
-  - using the
-    [`serverinfo.process.id`](../configuration/functions.md#parameters)
-    parameter. This parameter is also available in the resolved value of the
-    promise returned by [`autoserver.run()`](#node.js).
-  - printed on the console by the
-    [`console log provider`](../quality/logging.md#console-log-provider)
+
+- using the
+  [`serverinfo.process.id`](../configuration/functions.md#parameters)
+  parameter. This parameter is also available in the resolved value of the
+  promise returned by [`autoserver.run()`](#node.js).
+- printed on the console by the
+  [`console log provider`](../quality/logging.md#console-log-provider)

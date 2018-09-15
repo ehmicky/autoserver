@@ -3,7 +3,7 @@
 const { getRpcByPath } = require('../../rpc')
 
 // Add route and URL parameters to mInput
-const router = function ({ path }) {
+const router = function({ path }) {
   const {
     rpcAdapter,
     rpcAdapter: { name: rpc },

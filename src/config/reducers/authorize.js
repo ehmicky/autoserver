@@ -8,10 +8,12 @@ const {
 const { mapColls } = require('../helpers')
 
 // Parse `config.authorize` and `coll.authorize` into AST
-const normalizeAuthorize = function ({ config, config: { authorize } }) {
-  if (authorize === undefined) { return }
+const normalizeAuthorize = function({ config, config: { authorize } }) {
+  if (authorize === undefined) {
+    return
+  }
 
-  const prefix = 'In \'config.authorize\', '
+  const prefix = "In 'config.authorize', "
   const authorizeA = parseAuthorize({ authorize, config, prefix })
 
   const configA = mapColls(mapColl, { config })
@@ -19,8 +21,10 @@ const normalizeAuthorize = function ({ config, config: { authorize } }) {
   return { ...configA, authorize: authorizeA }
 }
 
-const mapColl = function ({ coll: { authorize }, collname, config }) {
-  if (authorize === undefined) { return }
+const mapColl = function({ coll: { authorize }, collname, config }) {
+  if (authorize === undefined) {
+    return
+  }
 
   const prefix = `In 'collection.${collname}.authorize', `
   const authorizeA = parseAuthorize({ authorize, collname, config, prefix })
@@ -28,7 +32,7 @@ const mapColl = function ({ coll: { authorize }, collname, config }) {
   return { authorize: authorizeA }
 }
 
-const parseAuthorize = function ({ authorize, collname, config, prefix }) {
+const parseAuthorize = function({ authorize, collname, config, prefix }) {
   const reason = 'CONFIG_VALIDATION'
   const authorizeA = parseFilter({ filter: authorize, prefix, reason })
 

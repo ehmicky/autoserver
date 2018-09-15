@@ -11,12 +11,13 @@ const { authorPlugin } = require('./author')
 // They can also take an `opts` parameter
 // Use cases can be: adding a attribute to each collection,
 // extending core functionalities, etc.
-const applyPlugins = async function ({ config }) {
-  if (!config.collections) { return }
+const applyPlugins = async function({ config }) {
+  if (!config.collections) {
+    return
+  }
 
-  const plugins = config.plugins && Array.isArray(config.plugins)
-    ? config.plugins
-    : []
+  const plugins =
+    config.plugins && Array.isArray(config.plugins) ? config.plugins : []
 
   const pluginsA = addDefaultBuiltinPlugins({ plugins })
 
@@ -24,28 +25,34 @@ const applyPlugins = async function ({ config }) {
     pluginsA,
     applyPlugin,
     config,
-    (configA, newConfig) => ({ ...configA, ...newConfig })
+    (configA, newConfig) => ({
+      ...configA,
+      ...newConfig,
+    }),
   )
   return configB
 }
 
 // Add builtinPlugins, except the ones that have been overriden
-const addDefaultBuiltinPlugins = function ({ plugins }) {
+const addDefaultBuiltinPlugins = function({ plugins }) {
   const pluginNames = plugins.map(({ plugin }) => plugin)
-  const defaultBuiltinPlugins = builtinPlugins
-    .filter(({ name }) => !pluginNames.includes(name))
+  const defaultBuiltinPlugins = builtinPlugins.filter(
+    ({ name }) => !pluginNames.includes(name),
+  )
 
   return [...plugins, ...defaultBuiltinPlugins]
 }
 
 // Apply each config.plugins as FUNC({ config }) returning config
-const applyPlugin = function (config, pluginConf, index) {
+const applyPlugin = function(config, pluginConf, index) {
   const { plugin, enabled = true, opts = {} } = getPluginConf({ pluginConf })
 
   // Plugins are only enabled if specified in `config.plugins`.
   // But builtin plugins, or plugins added by other plugins,
   // need to be manually disabled if desired.
-  if (!enabled) { return }
+  if (!enabled) {
+    return
+  }
 
   if (typeof plugin !== 'function') {
     const message = `The plugin at 'plugins[${index}]' is not a function`
@@ -57,16 +64,20 @@ const applyPlugin = function (config, pluginConf, index) {
 }
 
 // Used if an exception is thrown
-const getPluginName = function ({ plugin, pluginConf, index }) {
-  if (typeof pluginConf.plugin === 'string') { return pluginConf.plugin }
+const getPluginName = function({ plugin, pluginConf, index }) {
+  if (typeof pluginConf.plugin === 'string') {
+    return pluginConf.plugin
+  }
 
-  if (plugin.name) { return plugin.name }
+  if (plugin.name) {
+    return plugin.name
+  }
 
   const pluginName = `plugins[${index}]`
   return pluginName
 }
 
-const firePlugin = function ({ plugin, config, opts }) {
+const firePlugin = function({ plugin, config, opts }) {
   return plugin({ config, opts })
 }
 
@@ -75,9 +86,11 @@ const eFirePlugin = addGenPbHandler(firePlugin, {
   extra: ({ pluginName }) => ({ plugin: pluginName }),
 })
 
-const getPluginConf = function ({ pluginConf, pluginConf: { plugin } }) {
+const getPluginConf = function({ pluginConf, pluginConf: { plugin } }) {
   // Plugin is either a function, or a string (for builtin plugins)
-  if (typeof plugin !== 'string') { return pluginConf }
+  if (typeof plugin !== 'string') {
+    return pluginConf
+  }
 
   const builtinPlugin = builtinPlugins.find(({ name }) => name === plugin)
 

@@ -5,7 +5,7 @@ const { groupMeasures, stringifyMeasures } = require('../perf')
 const { logEvent } = require('./main')
 
 // Emit 'perf' event
-const logPerfEvent = function ({ phase, measures, ...rest }) {
+const logPerfEvent = function({ phase, measures, ...rest }) {
   const measuresGroups = groupMeasures({ measures })
   const measuresmessage = stringifyMeasures({ phase, measuresGroups })
   const params = { measures: measuresGroups, measuresmessage }

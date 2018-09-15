@@ -6,7 +6,7 @@ const { findRoute } = require('./routes')
 const { getPathvars } = require('./pathvars')
 
 // Retrieves RPC using URL's path
-const getRpcByPath = function ({ path }) {
+const getRpcByPath = function({ path }) {
   const route = findRoute({ path })
   const { rpc } = route
   const rpcAdapter = getRpc(rpc)

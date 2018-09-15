@@ -4,7 +4,7 @@ const { flatten } = require('../../../../utils')
 
 // Retrieve `nestedPagesize`, which is the pagesize applied to nested actions
 // We try to maximize it, while still be under the `maxmodels` limit
-const getNestedPagesize = function ({ results, nestedAttrs, maxmodels }) {
+const getNestedPagesize = function({ results, nestedAttrs, maxmodels }) {
   const count = results.length
   const nestedLengths = getNestedLengths({ results, nestedAttrs })
   const nestedPagesize = findNestedPagesize({
@@ -19,20 +19,21 @@ const getNestedPagesize = function ({ results, nestedAttrs, maxmodels }) {
 // `{ length, weight }` object with `length` being the length of the nested
 // attribute (1 if it is not an array) and `weight` the number of nested
 // actions implied
-const getNestedLengths = function ({ results, nestedAttrs }) {
-  const nestedLengths = results
-    .map(({ model }) => getNestedLength({ model, nestedAttrs }))
+const getNestedLengths = function({ results, nestedAttrs }) {
+  const nestedLengths = results.map(({ model }) =>
+    getNestedLength({ model, nestedAttrs }),
+  )
   const nestedLengthsA = flatten(nestedLengths)
   return nestedLengthsA
 }
 
-const getNestedLength = function ({ model, nestedAttrs }) {
+const getNestedLength = function({ model, nestedAttrs }) {
   return nestedAttrs
-    .map(({ attrName, weight }) => getLength(({ model, attrName, weight })))
+    .map(({ attrName, weight }) => getLength({ model, attrName, weight }))
     .filter(({ length }) => length > 0)
 }
 
-const getLength = function ({ model, attrName, weight }) {
+const getLength = function({ model, attrName, weight }) {
   const attrVal = model[attrName]
 
   if (attrVal == null) {
@@ -44,20 +45,25 @@ const getLength = function ({ model, attrName, weight }) {
 }
 
 // Recursively try incrementing `nestedPagesize` until we hit `maxmodels` limit
-const findNestedPagesize = function ({
+const findNestedPagesize = function({
   nestedLengths,
   count,
   maxmodels,
   nestedPagesize = 0,
 }) {
   // No nested pagination needed to be under `maxmodels` limit
-  if (nestedLengths.length === 0) { return Infinity }
+  if (nestedLengths.length === 0) {
+    return Infinity
+  }
 
   // Guess how many models would be added by incrementing `nestedPagesize`
-  const nestedLengthsA = nestedLengths
-    .filter(({ length }) => length > nestedPagesize)
-  const weightsA = nestedLengthsA
-    .reduce((weights, { weight }) => weights + weight, 0)
+  const nestedLengthsA = nestedLengths.filter(
+    ({ length }) => length > nestedPagesize,
+  )
+  const weightsA = nestedLengthsA.reduce(
+    (weights, { weight }) => weights + weight,
+    0,
+  )
   const countA = count + weightsA
 
   // `maxmodels` limit has been hit

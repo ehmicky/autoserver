@@ -3,7 +3,7 @@
 const { GraphQLBoolean } = require('graphql')
 
 // `silent` argument
-const getSilentArgument = function () {
+const getSilentArgument = function() {
   return SILENT_ARGS
 }
 

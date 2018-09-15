@@ -6,11 +6,12 @@ const { gracefulExit } = require('./graceful_exit')
 
 // Make sure the server stops when graceful exits are possible
 // Also send related events
-const setupGracefulExit = function ({ protocolAdapters, dbAdapters, config }) {
-  const exitFunc = gracefulExit.bind(
-    null,
-    { protocolAdapters, dbAdapters, config },
-  )
+const setupGracefulExit = function({ protocolAdapters, dbAdapters, config }) {
+  const exitFunc = gracefulExit.bind(null, {
+    protocolAdapters,
+    dbAdapters,
+    config,
+  })
 
   process.on('SIGINT', exitFunc)
   process.on('SIGTERM', exitFunc)
