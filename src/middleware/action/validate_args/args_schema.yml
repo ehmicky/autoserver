@@ -68,19 +68,19 @@ properties:
 # Some arguments, like `data` are different depending on whether the command
 # is multiple
 allOf:
-- if:
-    properties:
-      dynamicVars:
-        properties:
-          multiple:
-            const: true
-  then:
-    properties:
-      data:
-        type: array
-        items:
+  - if:
+      properties:
+        dynamicVars:
+          properties:
+            multiple:
+              const: true
+    then:
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+    else:
+      properties:
+        data:
           type: object
-  else:
-    properties:
-      data:
-        type: object

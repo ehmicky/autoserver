@@ -111,10 +111,10 @@ definitions:
               const: false
     # `COLL.id` cannot use value|readonly
     allOf:
-    - not:
-        required: [value]
-    - not:
-        required: [readonly]
+      - not:
+          required: [value]
+      - not:
+          required: [readonly]
   # COLL.attributes
   attribute:
     type: object
@@ -125,12 +125,12 @@ definitions:
     properties:
       alias:
         oneOf:
-        - type: string
-          $ref: '#/definitions/validAttributeName'
-        - type: array
-          items:
-            type: string
+          - type: string
             $ref: '#/definitions/validAttributeName'
+          - type: array
+            items:
+              type: string
+              $ref: '#/definitions/validAttributeName'
       readonly:
         $ref: '#/definitions/configFuncBoolean'
       value:
@@ -163,10 +163,10 @@ definitions:
   # It is validated in more details when parsed
   authorize:
     oneOf:
-    - type: array
-      items:
-        type: object
-    - type: object
+      - type: array
+        items:
+          type: object
+      - type: object
   # collection.database
   database:
     type: string
@@ -206,10 +206,10 @@ definitions:
             type: string
           then:
             anyOf:
-            - pattern: ^must\s
-            - pattern: ^\("must\s.*"\)$
-            - pattern: ^\('must\s.*'\)$
-            - pattern: ^\(`must\s.*`\)$
+              - pattern: ^must\s
+              - pattern: ^\("must\s.*"\)$
+              - pattern: ^\('must\s.*'\)$
+              - pattern: ^\(`must\s.*`\)$
         type:
           $ref: '#/definitions/jsonSchemaType'
       additionalProperties: false
@@ -231,23 +231,23 @@ definitions:
           minLength: 1
           uniqueItems: true
           oneOf:
-          # Cannot mix non-array types and array types
-          # Reason: using non-array types is enough to support both, since
-          # patch operations on arrays are being iterated
-          - items:
-              enum:
-              - boolean
-              - integer
-              - number
-              - string
-              - any
-          - items:
-              enum:
-              - boolean[]
-              - integer[]
-              - number[]
-              - string[]
-              - any[]
+            # Cannot mix non-array types and array types
+            # Reason: using non-array types is enough to support both, since
+            # patch operations on arrays are being iterated
+            - items:
+                enum:
+                  - boolean
+                  - integer
+                  - number
+                  - string
+                  - any
+            - items:
+                enum:
+                  - boolean[]
+                  - integer[]
+                  - number[]
+                  - string[]
+                  - any[]
         argument:
           type: array
           minLength: 1
@@ -255,30 +255,30 @@ definitions:
           # `patchOp.argument` also support `empty` and `object`
           items:
             enum:
-            - boolean
-            - integer
-            - number
-            - string
-            - any
-            - object
-            - empty
-            - boolean[]
-            - integer[]
-            - number[]
-            - string[]
-            - any[]
-            - object[]
-            - empty[]
+              - boolean
+              - integer
+              - number
+              - string
+              - any
+              - object
+              - empty
+              - boolean[]
+              - integer[]
+              - number[]
+              - string[]
+              - any[]
+              - object[]
+              - empty[]
       additionalProperties: false
     propertyNames:
       $ref: '#/definitions/validUserOpName'
   # config.log
   log:
     oneOf:
-    - $ref: '#/definitions/logAdapter'
-    - type: array
-      items:
-        $ref: '#/definitions/logAdapter'
+      - $ref: '#/definitions/logAdapter'
+      - type: array
+        items:
+          $ref: '#/definitions/logAdapter'
   logAdapter:
     type: object
     properties:
@@ -301,51 +301,51 @@ definitions:
         type: integer
       maxpayload:
         oneOf:
-        - type: string
-        - type: integer
+          - type: string
+          - type: integer
     additionalProperties: false
   # attr.type
   type:
     oneOf:
-    - $ref: '#/definitions/singleType'
-    # Cannot specify collections when using an array of types
-    - type: array
-      # Must choose between multiple and non-multiple types, when using an array
-      oneOf:
-      - items:
-          $ref: '#/definitions/nonCollSimpleType'
-      - items:
-          $ref: '#/definitions/nonCollMultipleType'
-      minItems: 1
-      uniqueItems: true
+      - $ref: '#/definitions/singleType'
+      # Cannot specify collections when using an array of types
+      - type: array
+        # Must choose between multiple and non-multiple types, when using an array
+        oneOf:
+          - items:
+              $ref: '#/definitions/nonCollSimpleType'
+          - items:
+              $ref: '#/definitions/nonCollMultipleType'
+        minItems: 1
+        uniqueItems: true
   singleType:
     type: string
     oneOf:
-    - $ref: '#/definitions/collType'
-    - $ref: '#/definitions/nonCollType'
+      - $ref: '#/definitions/collType'
+      - $ref: '#/definitions/nonCollType'
   collType:
     enum:
       $data: '/collTypes'
   nonCollType:
     oneOf:
-    - $ref: '#/definitions/nonCollSimpleType'
-    - $ref: '#/definitions/nonCollMultipleType'
+      - $ref: '#/definitions/nonCollSimpleType'
+      - $ref: '#/definitions/nonCollMultipleType'
   nonCollSimpleType:
     enum:
-    - string
-    - number
-    - integer
-    - boolean
-    # Not allowed: should use collections instead
-    # - object
-    # Not allowed: should use [] notation instead
-    # - array
+      - string
+      - number
+      - integer
+      - boolean
+      # Not allowed: should use collections instead
+      # - object
+      # Not allowed: should use [] notation instead
+      # - array
   nonCollMultipleType:
     enum:
-    - string[]
-    - number[]
-    - integer[]
-    - boolean[]
+      - string[]
+      - number[]
+      - integer[]
+      - boolean[]
   # attr.value
   transformValue:
     $ref: '#/definitions/configFuncOrValue'
@@ -356,26 +356,26 @@ definitions:
   # same type as the attribute.type
   configFuncOrValue:
     anyOf:
-    - $ref: '#/definitions/configFunc'
-    - not:
-        $ref: '#/definitions/configFunc'
+      - $ref: '#/definitions/configFunc'
+      - not:
+          $ref: '#/definitions/configFunc'
   configFuncString:
     anyOf:
-    - $ref: '#/definitions/configFunc'
-    - not:
-        $ref: '#/definitions/configFunc'
-      type: string
+      - $ref: '#/definitions/configFunc'
+      - not:
+          $ref: '#/definitions/configFunc'
+        type: string
   configFuncBoolean:
     anyOf:
-    - $ref: '#/definitions/configFunc'
-    - type: boolean
+      - $ref: '#/definitions/configFunc'
+      - type: boolean
   # Config functions can either be external (function) or
   # inline (a string '(...)')
   configFunc:
     anyOf:
-    - typeof: function
-    - type: string
-      pattern: '^\s*\(.*\)\s*$'
+      - typeof: function
+      - type: string
+        pattern: '^\s*\(.*\)\s*$'
   # Any user-defined identifier should match this
   validName:
     type: string
@@ -399,24 +399,24 @@ definitions:
   # Keys of config.collections.*, and collection.name
   validClientCollnames:
     oneOf:
-    - type: array
-      items:
-        $ref: '#/definitions/validClientCollname'
-    - $ref: '#/definitions/validClientCollname'
+      - type: array
+        items:
+          $ref: '#/definitions/validClientCollname'
+      - $ref: '#/definitions/validClientCollname'
   validClientCollname:
     allOf:
-    - $ref: '#/definitions/validName'
-    # This is too avoid big responses, or hitting database limits
-    - maxLength: 100
+      - $ref: '#/definitions/validName'
+      # This is too avoid big responses, or hitting database limits
+      - maxLength: 100
   # Keys of COLL.attributes.*
   validAttributeName:
     allOf:
-    - $ref: '#/definitions/validName'
-    # This is too avoid big responses, or hitting database limits
-    - maxLength: 100
-    # 'all' is a special attribute name, used to query all attributes
-    - not:
-        const: all
+      - $ref: '#/definitions/validName'
+      # This is too avoid big responses, or hitting database limits
+      - maxLength: 100
+      # 'all' is a special attribute name, used to query all attributes
+      - not:
+          const: all
   # attr.validate
   validate:
     type: object
@@ -424,11 +424,11 @@ definitions:
   # Value of jsonSchema.type
   jsonSchemaType:
     oneOf:
-    - type: string
-      enum: [string, number, integer, boolean, empty, object, array]
-    - type: array
-      items:
-        $ref: '#/definitions/jsonSchemaType'
+      - type: string
+        enum: [string, number, integer, boolean, empty, object, array]
+      - type: array
+        items:
+          $ref: '#/definitions/jsonSchemaType'
   # Reuse standard JSON schema as a base, with some modifications
   # This is JSON schema v7, as YAML
   jsonSchema:
@@ -452,8 +452,8 @@ definitions:
         uniqueItems: true
         default: []
     type:
-    - object
-    - boolean
+      - object
+      - boolean
     properties:
       # The following properties are not available, because a property on
       # attributes should be used instead:
@@ -547,61 +547,61 @@ definitions:
       # Same as JSON schema, but directly on the attribute
       dependencies:
         anyOf:
-        - $ref: '#/definitions/jsonSchema'
-        - $ref: '#/definitions/jsonSchema/definitions/stringArray'
+          - $ref: '#/definitions/jsonSchema'
+          - $ref: '#/definitions/jsonSchema/definitions/stringArray'
       format:
         type: string
         # All spec-defined formats are allowed. We are stricter than the spec,
         # as custom formats are forbidden.
         enum:
-        - regex
-        - date-time
-        - date
-        - time
-        - email
-        - hostname
-        - ipv4
-        - ipv6
-        - uri
-        - uri-reference
-        - uri-template
-        - json-pointer
-        - relative-json-pointer
+          - regex
+          - date-time
+          - date
+          - time
+          - email
+          - hostname
+          - ipv4
+          - ipv6
+          - uri
+          - uri-reference
+          - uri-template
+          - json-pointer
+          - relative-json-pointer
     default: true
     # Do not allow custom properties, except the ones from config.validation
     propertyNames:
       oneOf:
-      - enum:
-          $data: '/customValidationNames'
-      - enum:
-        # Numbers validation
-        - multipleOf
-        - maximum
-        - exclusiveMaximum
-        - minimum
-        - exclusiveMinimum
-        # String validation
-        - maxLength
-        - minLength
-        - pattern
-        - format
-        # Array validation
-        - additionalItems
-        - items
-        - maxItems
-        - minItems
-        - uniqueItems
-        - contains
-        # Any type validation
-        - const
-        - enum
-        - required
-        - dependencies
-        # Combinators
-        - if
-        - then
-        - else
-        - allOf
-        - anyOf
-        - oneOf
-        - not
+        - enum:
+            $data: '/customValidationNames'
+        - enum:
+            # Numbers validation
+            - multipleOf
+            - maximum
+            - exclusiveMaximum
+            - minimum
+            - exclusiveMinimum
+            # String validation
+            - maxLength
+            - minLength
+            - pattern
+            - format
+            # Array validation
+            - additionalItems
+            - items
+            - maxItems
+            - minItems
+            - uniqueItems
+            - contains
+            # Any type validation
+            - const
+            - enum
+            - required
+            - dependencies
+            # Combinators
+            - if
+            - then
+            - else
+            - allOf
+            - anyOf
+            - oneOf
+            - not

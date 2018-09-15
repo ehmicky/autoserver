@@ -7,13 +7,13 @@ properties:
   method:
     type: string
     enum:
-    - GET
-    - HEAD
-    - OPTIONS
-    - PATCH
-    - POST
-    - PUT
-    - DELETE
+      - GET
+      - HEAD
+      - OPTIONS
+      - PATCH
+      - POST
+      - PUT
+      - DELETE
   hostname:
     type: string
   port:

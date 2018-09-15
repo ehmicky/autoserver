@@ -3,17 +3,17 @@ additionalProperties: false
 properties:
   hostname:
     oneOf:
-    - type: string
-    - type: array
-      items:
-        type: string
+      - type: string
+      - type: array
+        items:
+          type: string
     minItems: 1
   port:
     oneOf:
-    - type: integer
-    - type: array
-      items:
-        type: integer
+      - type: integer
+      - type: array
+        items:
+          type: integer
     minimum: 0
     maximum: 65535
     minItems: 1
