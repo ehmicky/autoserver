@@ -7,7 +7,12 @@ const FILES = require('../files')
 const { execCommand, getWatchTask } = require('../utils')
 
 const format = function() {
-  const files = [...FILES.JAVASCRIPT, ...FILES.MARKDOWN, ...FILES.JSON, ...FILES.YAML].join(' ')
+  const files = [
+    ...FILES.JAVASCRIPT,
+    ...FILES.MARKDOWN,
+    ...FILES.JSON,
+    ...FILES.YAML,
+  ].join(' ')
   return execCommand(`prettier --write --loglevel warn ${files}`)
 }
 
