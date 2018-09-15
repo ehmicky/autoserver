@@ -1,4 +1,3 @@
-parser: babylon
 semi: false
 singleQuote: true
 trailingComma: all
