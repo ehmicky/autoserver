@@ -3,14 +3,15 @@
 Error responses contain an `error` property which is a standard
 [RFC 7807](https://tools.ietf.org/rfc/rfc7807.txt) object with the following
 properties:
-  - `type` `{string}`: [error type](#error-types)
-  - `title` `{string}`: short description
-  - `description` `{string}`: detailed description
-  - `status` `{string}`: `CLIENT_ERROR` or `SERVER_ERROR`
-  - `instance` `{string}`: URL path that was called
-  - additional properties might be present, depending on the
-    [error type](#error-types). See below for the list of additional properties
-    for each [error type](#error-types).
+
+- `type` `{string}`: [error type](#error-types)
+- `title` `{string}`: short description
+- `description` `{string}`: detailed description
+- `status` `{string}`: `CLIENT_ERROR` or `SERVER_ERROR`
+- `instance` `{string}`: URL path that was called
+- additional properties might be present, depending on the
+  [error type](#error-types). See below for the list of additional properties
+  for each [error type](#error-types).
 
 `metadata.info` includes the same information as the
 [`log` parameter](../../server/configuration/functions.md#parameters), providing
@@ -41,10 +42,7 @@ debugging information about the request.
       "format": "json",
       "charset": "utf-8",
       "compress": "identity,identity",
-      "payload": [
-        { "id": "20" },
-        { "id": "21" }
-      ],
+      "payload": [{ "id": "20" }, { "id": "21" }],
       "payloadsize": 105,
       "payloadcount": 2,
       "rpc": "rest",
@@ -80,58 +78,60 @@ Each error response has an associated type. Each error type has a specific
 error-specific [additional properties](#error-responses).
 
 [Client-side errors](#client-side-errors):
-  - [`VALIDATION`](#validation): the request syntax or semantics is invalid.
-  - [`ABORTED`](#aborted): the request was aborted.
-  - [`AUTHORIZATION`](#authorization): the request is not
-    [authorized](../../server/data_model/authorization.md), i.e. not allowed to
-    be performed.
-  - [`ROUTE`](#route): the URL or route is invalid.
-  - [`NOT_FOUND`](#not_found): some database models could not be found,
-    e.g. the `id`s were invalid.
-  - [`METHOD`](#method): the [protocol](../protocols/README.md) method is
-    unknown or invalid.
-  - [`COMMAND`](#command): the [command](../arguments/README.md#rpc) name is
-    unknown or invalid.
-  - [`RESPONSE_NEGOTIATION`](#response_negotiation): the response could not be
-    serialized or [content negotiation](../protocols/formats.md) failed.
-  - [`TIMEOUT`](#timeout): the request took
-    [too much time](../../server/quality/limits.md#system-limits) to process.
-  - [`CONFLICT`](#conflict): another client updated the same model, resulting
-    in a conflict.
-  - [`NO_CONTENT_LENGTH`](#no_content_length): the request payload's length
-    must be specified.
-  - [`PAYLOAD_LIMIT`](#payload_limit): the request payload is
-    [too big](../../server/quality/limits.md).
-  - [`URL_LIMIT`](#url_limit): the URL is
-    [too big](../../server/quality/limits.md).
-  - [`REQUEST_NEGOTIATION`](#payload_negotiation): the request payload could
-    not be loaded, parsed or [content negotiation](../protocols/formats.md)
-    failed.
+
+- [`VALIDATION`](#validation): the request syntax or semantics is invalid.
+- [`ABORTED`](#aborted): the request was aborted.
+- [`AUTHORIZATION`](#authorization): the request is not
+  [authorized](../../server/data_model/authorization.md), i.e. not allowed to
+  be performed.
+- [`ROUTE`](#route): the URL or route is invalid.
+- [`NOT_FOUND`](#not_found): some database models could not be found,
+  e.g. the `id`s were invalid.
+- [`METHOD`](#method): the [protocol](../protocols/README.md) method is
+  unknown or invalid.
+- [`COMMAND`](#command): the [command](../arguments/README.md#rpc) name is
+  unknown or invalid.
+- [`RESPONSE_NEGOTIATION`](#response_negotiation): the response could not be
+  serialized or [content negotiation](../protocols/formats.md) failed.
+- [`TIMEOUT`](#timeout): the request took
+  [too much time](../../server/quality/limits.md#system-limits) to process.
+- [`CONFLICT`](#conflict): another client updated the same model, resulting
+  in a conflict.
+- [`NO_CONTENT_LENGTH`](#no_content_length): the request payload's length
+  must be specified.
+- [`PAYLOAD_LIMIT`](#payload_limit): the request payload is
+  [too big](../../server/quality/limits.md).
+- [`URL_LIMIT`](#url_limit): the URL is
+  [too big](../../server/quality/limits.md).
+- [`REQUEST_NEGOTIATION`](#payload_negotiation): the request payload could
+  not be loaded, parsed or [content negotiation](../protocols/formats.md)
+  failed.
 
 [Server-side errors](#server-side-errors):
-  - [`CONFIG_VALIDATION`](#config_validation): wrong
-    [configuration](../../server/configuration/README.md) caught during
-    server startup.
-  - [`CONFIG_RUNTIME`](#config_runtime): wrong
-    [configuration](../../server/configuration/README.md) caught runtime.
-  - [`FORMAT`](#format): internal error related to a specific
-    [format](../protocols/formats.md) adapter.
-  - [`CHARSET`](#charset): internal error related to a specific
-    [charset](../protocols/formats.md#charsets) adapter.
-  - [`PROTOCOL`](#protocol): internal error related to a specific
-    [protocol](../protocols/README.md) adapter.
-  - [`RPC`](#rpc): internal error related to a specific [rpc](../rpc/README.md)
-    adapter.
-  - [`DATABASE`](#database): internal error related to a specific
-    [database](../../server/databases/README.md) adapter.
-  - [`LOG`](#log): internal error related to a specific
-    [log provider](../../server/quality/logging.md#providers).
-  - [`COMPRESS`](#compress): internal error related to a specific
-    [compress](../arguments/compression.md) adapter.
-  - [`PLUGIN`](#plugin): internal error related to a specific
-    [plugin](../../server/plugins/README.md).
-  - [`ENGINE`](#engine): internal engine error.
-  - [`UNKNOWN`](#unknown): internal uncaught error.
+
+- [`CONFIG_VALIDATION`](#config_validation): wrong
+  [configuration](../../server/configuration/README.md) caught during
+  server startup.
+- [`CONFIG_RUNTIME`](#config_runtime): wrong
+  [configuration](../../server/configuration/README.md) caught runtime.
+- [`FORMAT`](#format): internal error related to a specific
+  [format](../protocols/formats.md) adapter.
+- [`CHARSET`](#charset): internal error related to a specific
+  [charset](../protocols/formats.md#charsets) adapter.
+- [`PROTOCOL`](#protocol): internal error related to a specific
+  [protocol](../protocols/README.md) adapter.
+- [`RPC`](#rpc): internal error related to a specific [rpc](../rpc/README.md)
+  adapter.
+- [`DATABASE`](#database): internal error related to a specific
+  [database](../../server/databases/README.md) adapter.
+- [`LOG`](#log): internal error related to a specific
+  [log provider](../../server/quality/logging.md#providers).
+- [`COMPRESS`](#compress): internal error related to a specific
+  [compress](../arguments/compression.md) adapter.
+- [`PLUGIN`](#plugin): internal error related to a specific
+  [plugin](../../server/plugins/README.md).
+- [`ENGINE`](#engine): internal engine error.
+- [`UNKNOWN`](#unknown): internal uncaught error.
 
 ## Client-side errors
 
@@ -144,20 +144,21 @@ The request syntax or semantics is invalid.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32602`
 
 [_Additional properties_](#error-responses):
-  - kind `{string}`: kind of validation errors. Can be:
-    - `feature`: the collection does not support a specific feature used in the
-      request
-    - `protocol`: syntax error related to the [protocol](../protocols/README.md)
-    - `rpc`: syntax error related to the [RPC system](../rpc/README.md)
-    - `argument`: syntax error related to one [argument](../arguments/README.md)
-    - `data`: syntax error related to the
-      [`data` argument](../request/crud.md#create-command)
-    - `constraint`: the `data` argument does not validate against
-      [some constraint](../../server/data_model/validation.md)
-  - path 'VARR'
-  - value VAL
-  - model OBJ
-  - suggestions VAL_ARR
+
+- kind `{string}`: kind of validation errors. Can be:
+  - `feature`: the collection does not support a specific feature used in the
+    request
+  - `protocol`: syntax error related to the [protocol](../protocols/README.md)
+  - `rpc`: syntax error related to the [RPC system](../rpc/README.md)
+  - `argument`: syntax error related to one [argument](../arguments/README.md)
+  - `data`: syntax error related to the
+    [`data` argument](../request/crud.md#create-command)
+  - `constraint`: the `data` argument does not validate against
+    [some constraint](../../server/data_model/validation.md)
+- path 'VARR'
+- value VAL
+- model OBJ
+- suggestions VAL_ARR
 
 ```json
 {
@@ -197,8 +198,9 @@ not allowed to be performed.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `1`
 
 [_Additional properties_](#error-responses):
-  - collection `{string}`
-  - ids `{string[]}`: models `id`s
+
+- collection `{string}`
+- ids `{string[]}`: models `id`s
 
 ```json
 {
@@ -221,7 +223,8 @@ The URL or route is invalid.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32601`
 
 [_Additional properties_](#error-responses):
-  - suggestions VAL_ARR
+
+- suggestions VAL_ARR
 
 ```json
 {
@@ -242,8 +245,9 @@ Some database models could not be found, e.g. the `id`s were invalid.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `1`
 
 [_Additional properties_](#error-responses):
-  - collection `{string}`
-  - ids `{string[]}`: models `id`s
+
+- collection `{string}`
+- ids `{string[]}`: models `id`s
 
 ```json
 {
@@ -266,7 +270,8 @@ The [protocol](../protocols/README.md) method is unknown or invalid.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32601`
 
 [_Additional properties_](#error-responses):
-  - suggestions STR_ARR
+
+- suggestions STR_ARR
 
 ```json
 {
@@ -287,7 +292,8 @@ The [command](../arguments/README.md#rpc) name is unknown or invalid.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32601`
 
 [_Additional properties_](#error-responses):
-  - suggestions STR_ARR
+
+- suggestions STR_ARR
 
 ```json
 {
@@ -309,8 +315,9 @@ The response could not be serialized or
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32600`
 
 [_Additional properties_](#error-responses):
-  - kind 'compress|charset|format'
-  - suggestions VAL_ARR
+
+- kind 'compress|charset|format'
+- suggestions VAL_ARR
 
 ```json
 {
@@ -332,7 +339,8 @@ to process.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `1`
 
 [_Additional properties_](#error-responses):
-  - limit NUM
+
+- limit NUM
 
 ```json
 {
@@ -353,8 +361,9 @@ Another client updated the same model, resulting in a conflict.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `1`
 
 [_Additional properties_](#error-responses):
-  - collection `{string}`
-  - ids `{string[]}`: models `id`s
+
+- collection `{string}`
+- ids `{string[]}`: models `id`s
 
 ```json
 {
@@ -395,9 +404,10 @@ The request payload is [too big](../../server/quality/limits.md).
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32600`
 
 [_Additional properties_](#error-responses):
-  - kind 'size|models|commands|depth'
-  - value NUM
-  - limit NUM
+
+- kind 'size|models|commands|depth'
+- value NUM
+- limit NUM
 
 ```json
 {
@@ -418,8 +428,9 @@ The URL is [too big](../../server/quality/limits.md).
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32600`
 
 [_Additional properties_](#error-responses):
-  - value NUM
-  - limit NUM
+
+- value NUM
+- limit NUM
 
 ```json
 {
@@ -441,8 +452,9 @@ The request payload could not be loaded, parsed or
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32700`
 
 [_Additional properties_](#error-responses):
-  - kind 'parse|compress|charset|format'
-  - suggestions VAL_ARR
+
+- kind 'parse|compress|charset|format'
+- suggestions VAL_ARR
 
 ```json
 {
@@ -467,13 +479,14 @@ during server startup.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - path `{string}`: path to the invalid configuration key.
-    Example: `protocols.http.port`.
-  - value `{any}`: value of the invalid configuration key.
-    Example: `-80`.
-  - suggestions `{any[]}`: suggestions of possible valid values for the
-    configuration key.
-    Example: `[80]`.
+
+- path `{string}`: path to the invalid configuration key.
+  Example: `protocols.http.port`.
+- value `{any}`: value of the invalid configuration key.
+  Example: `-80`.
+- suggestions `{any[]}`: suggestions of possible valid values for the
+  configuration key.
+  Example: `[80]`.
 
 ```json
 {
@@ -493,9 +506,10 @@ Wrong [configuration](../../server/configuration/README.md) caught runtime.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - path 'VARR'
-  - value VAL
-  - suggestions VAL_ARR
+
+- path 'VARR'
+- value VAL
+- suggestions VAL_ARR
 
 ```json
 {
@@ -516,7 +530,8 @@ Internal error related to a specific [format](../protocols/formats.md) adapter.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - adapter `{string}`: [format](../protocols/formats.md)
+
+- adapter `{string}`: [format](../protocols/formats.md)
 
 ```json
 {
@@ -539,7 +554,8 @@ Internal error related to a specific
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - adapter `{string}`: [charset](../protocols/formats.md#charsets)
+
+- adapter `{string}`: [charset](../protocols/formats.md#charsets)
 
 ```json
 {
@@ -561,7 +577,8 @@ Internal error related to a specific [protocol](../protocols/README.md) adapter.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - adapter `{string}`: [protocol](../protocols/README.md) name
+
+- adapter `{string}`: [protocol](../protocols/README.md) name
 
 ```json
 {
@@ -583,7 +600,8 @@ Internal error related to a specific [rpc](../rpc/README.md) adapter.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - adapter `{string}`: [rpc](../rpc/README.md) name.
+
+- adapter `{string}`: [rpc](../rpc/README.md) name.
 
 ```json
 {
@@ -606,7 +624,8 @@ Internal error related to a specific
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - adapter `{string}`: [database](../../server/databases/README.md) name
+
+- adapter `{string}`: [database](../../server/databases/README.md) name
 
 ```json
 {
@@ -629,8 +648,9 @@ Internal error related to a specific
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - adapter `{string}`:
-    [log provider](../../server/quality/logging.md#providers) name
+
+- adapter `{string}`:
+  [log provider](../../server/quality/logging.md#providers) name
 
 ```json
 {
@@ -653,7 +673,8 @@ adapter.
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - adapter `{string}`: [compression algorithm](../arguments/compression.md)
+
+- adapter `{string}`: [compression algorithm](../arguments/compression.md)
 
 ```json
 {
@@ -675,7 +696,8 @@ Internal error related to a specific [plugin](../../server/plugins/README.md).
 [_JSON-RPC error code_](../rpc/jsonrpc.md#error-responses): `-32603`
 
 [_Additional properties_](#error-responses):
-  - plugin `{string}`: [plugin](../../server/plugins/README.md) name
+
+- plugin `{string}`: [plugin](../../server/plugins/README.md) name
 
 ```json
 {

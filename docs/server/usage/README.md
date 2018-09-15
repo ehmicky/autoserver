@@ -7,7 +7,8 @@ autoserver [INSTRUCTION] [OPTIONS]
 ```
 
 The following instructions are available:
-  - [run](run.md) (default): start the server
+
+- [run](run.md) (default): start the server
 
 `OPTIONS` are dot-separated flags specific to each instruction.
 
@@ -22,6 +23,7 @@ The server can also be used from Node.js:
 <!-- eslint-disable strict, no-undef, unicorn/filename-case,
 node/no-extraneous-require, import/no-extraneous-dependencies,
 import/no-unresolved -->
+
 ```javascript
 const autoserver = require('autoserver')
 

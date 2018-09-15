@@ -28,12 +28,12 @@ permissions to the `manager` group, and full permissions to the `admin` group.
 
 ```yml
 authorize:
-- command: find
-  user_group: reader
-- command:
-    _in: [find, patch]
-  user_group: manager
-- user_group: admin
+  - command: find
+    user_group: reader
+  - command:
+      _in: [find, patch]
+    user_group: manager
+  - user_group: admin
 ```
 
 It is also possible to directly use [functions](../configuration/functions.md).
@@ -59,11 +59,11 @@ In the example below, requests on `example_collection` will be rejected unless
 collections:
   example_collection:
     authorize:
-    - model:
-        age:
-          _gte: 30
-    - model:
-        public: true
+      - model:
+          age:
+            _gte: 30
+      - model:
+          public: true
 ```
 
 If the model is being modified, attributes are checked both before and after

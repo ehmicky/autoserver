@@ -167,10 +167,11 @@ PATCH /rest/users/1
 The `_replace` operator replaces a string by another string inside a `string`
 attribute, like `variable.replace(regExp, value)` in JavaScript. The argument
 must be an array with the following elements:
-  - a regular expression, as a string: the pattern to replace
-  - the new value, as a string. It can contain the `$1`, `$&`, etc. like
-    the `replace()` JavaScript function.
-  - the regular expression flags. This is optional and defaults to `gi`
+
+- a regular expression, as a string: the pattern to replace
+- the new value, as a string. It can contain the `$1`, `$&`, etc. like
+  the `replace()` JavaScript function.
+- the regular expression flags. This is optional and defaults to `gi`
 
 ```HTTP
 PATCH /rest/article/1
@@ -182,10 +183,11 @@ PATCH /rest/article/1
 
 The `_insertstr` operator inserts a string inside a `string` attribute at a
 given position. The argument must be an array with the following elements:
-  - the position where to insert inside the string, as an integer.
-    It can be a positive integer (position from the beginning), a negative
-    integer (position from the end) or `null` (i.e. the end).
-  - the new value, as a string.
+
+- the position where to insert inside the string, as an integer.
+  It can be a positive integer (position from the beginning), a negative
+  integer (position from the end) or `null` (i.e. the end).
+- the new value, as a string.
 
 ```HTTP
 PATCH /rest/article/1
@@ -198,11 +200,12 @@ PATCH /rest/article/1
 The `_slicestr` operator extracts part of a `string` attribute at a given
 start and end position. The argument must be an array with the following
 elements:
-  - the position where the slice starts inside the string, as an integer.
-    It can be a positive integer (position from the beginning), a negative
-    integer (position from the end) or `null` (i.e. the end).
-  - the position where the slice ends, using the same kind of integer.
-    It defaults to the end of the string.
+
+- the position where the slice starts inside the string, as an integer.
+  It can be a positive integer (position from the beginning), a negative
+  integer (position from the end) or `null` (i.e. the end).
+- the position where the slice ends, using the same kind of integer.
+  It defaults to the end of the string.
 
 ```HTTP
 PATCH /rest/article/1
@@ -214,10 +217,11 @@ PATCH /rest/article/1
 
 The `_insert` operator inserts some values inside an `array` attribute at a
 given position. The argument must be an array with the following elements:
-  - the position where to insert inside the array, as an integer.
-    It can be a positive integer (position from the beginning), a negative
-    integer (position from the end) or `null` (i.e. the end).
-  - the new values, as several arguments.
+
+- the position where to insert inside the array, as an integer.
+  It can be a positive integer (position from the beginning), a negative
+  integer (position from the end) or `null` (i.e. the end).
+- the new values, as several arguments.
 
 ```HTTP
 PATCH /rest/user/1
@@ -230,11 +234,12 @@ PATCH /rest/user/1
 The `_slice` operator extracts part of an array attribute at a given
 start and end position. The argument must be an array with the following
 elements:
-  - the position where the slice starts inside the array, as an integer.
-    It can be a positive integer (position from the beginning), a negative
-    integer (position from the end) or `null` (i.e. the end).
-  - the position where the slice ends, using the same kind of integer.
-    It defaults to the end of the array.
+
+- the position where the slice starts inside the array, as an integer.
+  It can be a positive integer (position from the beginning), a negative
+  integer (position from the end) or `null` (i.e. the end).
+- the position where the slice ends, using the same kind of integer.
+  It defaults to the end of the array.
 
 ```HTTP
 PATCH /rest/user/1

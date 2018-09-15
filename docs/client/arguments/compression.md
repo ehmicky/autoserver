@@ -4,10 +4,11 @@ If the query variable `?compress=RESPONSE_COMPRESSION` is present in the
 request URL, the server's response will be compressed.
 
 `RESPONSE_COMPRESSION` can be:
-  - `identity`: no compression is performed
-  - `deflate` or `gzip`: common compression algorithms supported by most
-    browsers
-  - `brotli`: best compression algorithms supported by modern browsers only
+
+- `identity`: no compression is performed
+- `deflate` or `gzip`: common compression algorithms supported by most
+  browsers
+- `brotli`: best compression algorithms supported by modern browsers only
 
 By default, no compression is performed.
 

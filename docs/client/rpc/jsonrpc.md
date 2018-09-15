@@ -52,11 +52,12 @@ Fetching `users` with `id` `1`:
 JSON-RPC error responses follow the usual error
 [response format](../request/error.md#error-responses), with some changes
 to accomodate the JSON-RPC spec:
-  - the main response's envelope conforms to JSON-RPC, e.g. it has an
-    [error code](../request/error.md#error-types). See the previous link for a
-    list of the error codes used.
-  - the main error information is available under `error.data`
-  - `error.data.description` is available under `error.message`
+
+- the main response's envelope conforms to JSON-RPC, e.g. it has an
+  [error code](../request/error.md#error-types). See the previous link for a
+  list of the error codes used.
+- the main error information is available under `error.data`
+- `error.data.description` is available under `error.message`
 
 ```json
 {

@@ -36,10 +36,10 @@ can be an array of objects instead of a single object.
 
 ```yml
 log:
-- provider: http
-  opts:
-    url: http://logging-provider.org/
-- provider: debug
+  - provider: http
+    opts:
+      url: http://logging-provider.org/
+  - provider: debug
 ```
 
 ## HTTP log provider
@@ -47,8 +47,9 @@ log:
 The `http` [log provider](#providers) sends logs via HTTP.
 
 Provider options:
-  - `url` `{string}` - URL to send the logs to
-  - `method` `{string}` (default: `POST`) - HTTP method
+
+- `url` `{string}` - URL to send the logs to
+- `method` `{string}` (default: `POST`) - HTTP method
 
 ```yml
 log:
@@ -100,13 +101,15 @@ log:
 
 When using the `custom` [log provider](#providers), logs will be passed as
 parameters to a custom `report` [function](../configuration/functions.md):
-  - it receives the usual [parameters](../configuration/functions.md#parameters)
-    including [`log`, `measures` and `measuresmessage`](#functions-parameters)
-  - it can be async or return a promise
-  - it can be used to simply handle [events](#events) instead of logging them
+
+- it receives the usual [parameters](../configuration/functions.md#parameters)
+  including [`log`, `measures` and `measuresmessage`](#functions-parameters)
+- it can be async or return a promise
+- it can be used to simply handle [events](#events) instead of logging them
 
 Provider options:
-  - `report` `{function}` - function fired with the log information
+
+- `report` `{function}` - function fired with the log information
 
 ```yml
 log:
@@ -118,19 +121,21 @@ log:
 # Events
 
 Logs are triggered on the following events:
-  - `start`: the server is ready
-  - `stop`: the server has exited
-  - `failure`: a server-side error occurred
-  - `call`: a request has completed, i.e. a response was sent back to the
-    client (whether successful or not)
-  - `message`: generic message
-  - `perf`: [performance monitoring](#performance-monitoring)
+
+- `start`: the server is ready
+- `stop`: the server has exited
+- `failure`: a server-side error occurred
+- `call`: a request has completed, i.e. a response was sent back to the
+  client (whether successful or not)
+- `message`: generic message
+- `perf`: [performance monitoring](#performance-monitoring)
 
 Those events can be triggered during the following phases of the server:
-  - `startup`
-  - `shutdown`
-  - `request`: each client request
-  - `process`: anywhere else, e.g. unhandled exceptions or rejected promises
+
+- `startup`
+- `shutdown`
+- `request`: each client request
+- `process`: anywhere else, e.g. unhandled exceptions or rejected promises
 
 # Log information
 
@@ -145,45 +150,46 @@ Values that might be too big, such as `payload`, `responsedata`, `data` and
 
 Besides the usual [parameters](../configuration/functions.md#parameters), the
 following additional parameters are available during logging:
-  - `log` `{object}`: object containing all the other
-    [parameters](../configuration/functions.md#parameters).
-    Values that might be too big are trimmed. It can be safely serialized.
-  - [`event`](#events) `{string}`: which event was triggered among `start`,
-    `stop`, `failure`, `call`, `message` and `perf`
-  - [`phase`](#events) `{string}`: when was the event triggered among `startup`,
-    `shutdown`, `request` and `process`
-  - [`level`](#verbosity) `{string}`: event importance among `info`, `log`,
-    `warn` and `error`
-  - `message` `{string}`: generic message summarizing the event or providing
-    extra information
-  - `protocols` `{object}` - list of protocols being served. Only for `start`
-    events. Also available as the resolved value of the promise returned by
-    [`apiServer.run()`](../usage/run.md#running-the-server).
-    - `http` `{object}`: HTTP server information
-      - `hostname` `{string}`
-      - `port` `{string}`
-  - `exit` `{object}` - list of servers and databases successfully exited or
-    not. For example, `{ http: true, mongodb: true, ... }`.
-    Only for `stop` events.
-  - `error` `{object}`:
-    [exception object](../usage/error.md#exceptions). Only for
-    events `failure` or `request` when a client-side or server-side error
-    occurs.
-  - `measures` `{object[]}` - list of performance measurements. Only for
-    [`perf` events](#performance-monitoring):
-    - `category` `{string}`
-    - `label` `{string}`: name
-    - `duration` `{number}` - sum of all measures durations, in milliseconds
-    - `measures` `{number[]}` - each measure duration, in milliseconds
-    - `count` `{number}` - number of measures
-    - `average` `{number}` - average measure duration, in milliseconds
-  - `measuresmessage` `{string}`: console-friendly table with the same
-    information as `measures`
-  - `duration` `{number}` - time it took for the server to startup, shutdown
-    or handle the client request (depending on the event), in milliseconds.
-    Also available in response's `metadata.duration` property.
-    Only for
-    [`perf`, `start`, `stop` and `call` events](#performance-monitoring).
+
+- `log` `{object}`: object containing all the other
+  [parameters](../configuration/functions.md#parameters).
+  Values that might be too big are trimmed. It can be safely serialized.
+- [`event`](#events) `{string}`: which event was triggered among `start`,
+  `stop`, `failure`, `call`, `message` and `perf`
+- [`phase`](#events) `{string}`: when was the event triggered among `startup`,
+  `shutdown`, `request` and `process`
+- [`level`](#verbosity) `{string}`: event importance among `info`, `log`,
+  `warn` and `error`
+- `message` `{string}`: generic message summarizing the event or providing
+  extra information
+- `protocols` `{object}` - list of protocols being served. Only for `start`
+  events. Also available as the resolved value of the promise returned by
+  [`apiServer.run()`](../usage/run.md#running-the-server).
+  - `http` `{object}`: HTTP server information
+    - `hostname` `{string}`
+    - `port` `{string}`
+- `exit` `{object}` - list of servers and databases successfully exited or
+  not. For example, `{ http: true, mongodb: true, ... }`.
+  Only for `stop` events.
+- `error` `{object}`:
+  [exception object](../usage/error.md#exceptions). Only for
+  events `failure` or `request` when a client-side or server-side error
+  occurs.
+- `measures` `{object[]}` - list of performance measurements. Only for
+  [`perf` events](#performance-monitoring):
+  - `category` `{string}`
+  - `label` `{string}`: name
+  - `duration` `{number}` - sum of all measures durations, in milliseconds
+  - `measures` `{number[]}` - each measure duration, in milliseconds
+  - `count` `{number}` - number of measures
+  - `average` `{number}` - average measure duration, in milliseconds
+- `measuresmessage` `{string}`: console-friendly table with the same
+  information as `measures`
+- `duration` `{number}` - time it took for the server to startup, shutdown
+  or handle the client request (depending on the event), in milliseconds.
+  Also available in response's `metadata.duration` property.
+  Only for
+  [`perf`, `start`, `stop` and `call` events](#performance-monitoring).
 
 # Performance monitoring
 

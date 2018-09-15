@@ -10,8 +10,7 @@ For example, a paginated response will look like this.
 {
   "data": [
     { "id": "1", "name": "Anthony" },
-    ...
-    { "id": "100", "name": "Mary" },
+    ...{ "id": "100", "name": "Mary" }
   ],
   "metadata": {
     "pages": {
@@ -50,8 +49,7 @@ GET /rest/users/?before=
 {
   "data": [
     { "id": "1000", "name": "Anthony" },
-    ...
-    { "id": "901", "name": "Mary" },
+    ...{ "id": "901", "name": "Mary" }
   ],
   "metadata": {
     "pages": {
@@ -95,11 +93,7 @@ GET /rest/users/?pagesize=20&page=5
 
 ```json
 {
-  "data": [
-    { "id": "1", "name": "Anthony" },
-    ...
-    { "id": "20", "name": "Mary" },
-  ],
+  "data": [{ "id": "1", "name": "Anthony" }, ...{ "id": "20", "name": "Mary" }],
   "metadata": {
     "pages": {
       "pagesize": 20,

@@ -24,9 +24,10 @@ transformation.
 It must return the new value after the transformation has been applied.
 Besides the regular [parameters](../configuration/functions.md#parameters), the
 following parameters can be used:
-  - `value`: the current value of the attribute, i.e. before transformation
-  - `arg`: the argument passed to the patch operator
-  - `type`: the attribute's type, e.g. `string` or `integer`
+
+- `value`: the current value of the attribute, i.e. before transformation
+- `arg`: the argument passed to the patch operator
+- `type`: the attribute's type, e.g. `string` or `integer`
 
 ## `attribute` property
 
@@ -74,9 +75,10 @@ Use the `attribute`, `argument` and `check` properties for validation instead.
 ## Empty values
 
 When defining the `apply` and `check` properties, remember that:
-  - the `value` [parameter](../configuration/functions.md#parameters) might be
-    `undefined`, unless the attribute is a required attribute.
-  - the operator's argument can only be `null` if the `argument` property is
-    omitted or if it specifies `empty`. When the argument is `empty`, the
-    `arg` [parameter](../configuration/functions.md#parameters) will be
-    `undefined`.
+
+- the `value` [parameter](../configuration/functions.md#parameters) might be
+  `undefined`, unless the attribute is a required attribute.
+- the operator's argument can only be `null` if the `argument` property is
+  omitted or if it specifies `empty`. When the argument is `empty`, the
+  `arg` [parameter](../configuration/functions.md#parameters) will be
+  `undefined`.

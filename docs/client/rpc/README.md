@@ -1,14 +1,16 @@
 # RPC
 
 Client requests can use any of the following RPC systems:
-  - [REST](rest.md)
-  - [GraphQL](graphql.md)
-  - [JSON-RPC](jsonrpc.md)
+
+- [REST](rest.md)
+- [GraphQL](graphql.md)
+- [JSON-RPC](jsonrpc.md)
 
 Each RPC system has its own way of specifying:
-  - the command, e.g. `find` or `delete`
-  - the collection, e.g. `users`
-  - the arguments, e.g. the `data` argument or the model's `id`
+
+- the command, e.g. `find` or `delete`
+- the collection, e.g. `users`
+- the arguments, e.g. the `data` argument or the model's `id`
 
 RPC systems use the request's URL, headers, payload and method as parsed by the
 [protocol](../protocols/README.md).
@@ -61,7 +63,7 @@ PATCH /rest/users/?filter.0.name=David
     "select": "id,manager,manager.name",
     "rename": "manager.name:aliasname",
     "populate": "manager",
-    "dryrun": true,
+    "dryrun": true
   }
 }
 ```

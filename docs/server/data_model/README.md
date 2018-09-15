@@ -30,13 +30,14 @@ collections:
 
 Logic related to the data model can be specified for each collection and
 attribute, including:
-  - who is [authorized](authorization.md) to read or write each model
-  - [readonly](authorization.md#readonly-attributes) attributes
-  - [data validation](validation.md)
-  - [default values](default.md)
-  - [computing and transforming](transformation.md) attributes
-  - [aliasing](compatibility.md) attibute names
-  - custom [patch operators](patch.md) to handle model updates
+
+- who is [authorized](authorization.md) to read or write each model
+- [readonly](authorization.md#readonly-attributes) attributes
+- [data validation](validation.md)
+- [default values](default.md)
+- [computing and transforming](transformation.md) attributes
+- [aliasing](compatibility.md) attibute names
+- custom [patch operators](patch.md) to handle model updates
 
 ```yml
 collections:

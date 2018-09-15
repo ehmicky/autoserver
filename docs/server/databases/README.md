@@ -26,8 +26,9 @@ databases:
 # Available databases
 
 The available databases are:
-  - [`memory`](memorydb.md): an in-memory database, for development purpose.
-  - [`mongodb`](mongodb.md)
+
+- [`memory`](memorydb.md): an in-memory database, for development purpose.
+- [`mongodb`](mongodb.md)
 
 The default database is `memory`. To change it, use a
 [`default` collection](../data_model/collections.md#default-collection).

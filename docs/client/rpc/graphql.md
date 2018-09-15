@@ -67,8 +67,9 @@ GraphQL error responses follow the usual error
 [response format](../request/error.md#error-responses), with some changes
 to accomodate the
 [GraphQL spec](https://facebook.github.io/graphql/#sec-Errors):
-  - `error` is called `errors`, and is an array containing a single object.
-  - `description` is named `message`
+
+- `error` is called `errors`, and is an array containing a single object.
+- `description` is named `message`
 
 ```json
 {

@@ -70,7 +70,7 @@ POST /rest/users/
 {
   "data": [
     { "id": "9b6c5433-4f6a-42f3-9082-32c2eae66a7e", "name": "David" },
-    { "id": "5", "name": "Alex" },
+    { "id": "5", "name": "Alex" }
   ]
 }
 ```
@@ -124,10 +124,7 @@ PUT /rest/users/
 
 ```json
 {
-  "data": [
-    { "id": "4", "name": "David" },
-    { "id": "5", "name": "Alex" },
-  ]
+  "data": [{ "id": "4", "name": "David" }, { "id": "5", "name": "Alex" }]
 }
 ```
 
@@ -164,7 +161,7 @@ PATCH /rest/users/
 {
   "data": [
     { "id": "4", "name": "David", "city": "Copenhagen" },
-    { "id": "5", "name": "Alex", "city": "Copenhagen" },
+    { "id": "5", "name": "Alex", "city": "Copenhagen" }
   ]
 }
 ```
@@ -203,7 +200,7 @@ DELETE /rest/users/
 {
   "data": [
     { "id": "4", "name": "David", "city": "Copenhagen" },
-    { "id": "5", "name": "Alex", "city": "Copenhagen" },
+    { "id": "5", "name": "Alex", "city": "Copenhagen" }
   ]
 }
 ```

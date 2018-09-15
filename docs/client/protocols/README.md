@@ -16,4 +16,4 @@ used.
 
 # Available protocols
 
-  - [`http`](http.md): HTTP/1.1
+- [`http`](http.md): HTTP/1.1

@@ -13,10 +13,11 @@ GET /rest/users/?filter.country=Denmark
 
 The `id` [argument](../rpc/README.md#rpc) is similar to `filter: { id: "ID" }`,
 except:
-  - the response will be a model instead of an array of models
-  - [pagination](pagination.md) and [sorting](sorting.md) cannot
-    be used, i.e. the following [arguments](../rpc/README.md#rpc) are not
-    available: `pagesize`, `page`, `before`, `after`, `order`
+
+- the response will be a model instead of an array of models
+- [pagination](pagination.md) and [sorting](sorting.md) cannot
+  be used, i.e. the following [arguments](../rpc/README.md#rpc) are not
+  available: `pagesize`, `page`, `before`, `after`, `order`
 
 ```HTTP
 GET /rest/users/1
@@ -54,18 +55,19 @@ GET /rest/users/?filter=%5B%7B%22country%22%3A%22Denmark%22%7D%2C%7B%22country%2
 # Advanced filtering
 
 The following operators can be used for advanced filtering:
-  - `_eq`: equals to
-  - `_neq`: does not equal to
-  - `_lt`: less than
-  - `_lte`: less than, or equals to
-  - `_gt`: greater than
-  - `_gte`: greater than, or equals to
-  - `_in`: is among
-  - `_nin`: is not among
-  - `_like`: matches regular expression (case insensitive)
-  - `_nlike`: does not match regular expression (case insensitive)
-  - `_all`: all elements match the filter
-  - `_some`: at least some elements match the filter
+
+- `_eq`: equals to
+- `_neq`: does not equal to
+- `_lt`: less than
+- `_lte`: less than, or equals to
+- `_gt`: greater than
+- `_gte`: greater than, or equals to
+- `_in`: is among
+- `_nin`: is not among
+- `_like`: matches regular expression (case insensitive)
+- `_nlike`: does not match regular expression (case insensitive)
+- `_all`: all elements match the filter
+- `_some`: at least some elements match the filter
 
 `_like` and `_nlike` use regular expressions and are only available for
 string attributes.

@@ -21,12 +21,11 @@ startup. It defaults to an empty database. For example:
 
 ```yml
 users:
-- id: '1'
-  name: Anthony
-- id: '2'
-  name: David
-managers:
-...
+  - id: '1'
+    name: Anthony
+  - id: '2'
+    name: David
+? managers
 ```
 
 If the `save` option is `true`, the data will be saved back to the file when

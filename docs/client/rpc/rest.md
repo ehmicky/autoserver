@@ -14,11 +14,12 @@ If an `ID` is present in the URL, it will be used as the
 # Command
 
 The [command](../request/crud.md) is specified using the HTTP method:
-  - `GET` and `HEAD` uses the [`find`](../request/crud.md#find-command) command
-  - `POST` uses the [`create`](../request/crud.md#create-command) command
-  - `PUT` uses the [`upsert`](../request/crud.md#upsert-command) command
-  - `PATCH` uses the [`patch`](../request/crud.md#patch-command) command
-  - `DELETE` uses the [`delete`](../request/crud.md#delete-command) command
+
+- `GET` and `HEAD` uses the [`find`](../request/crud.md#find-command) command
+- `POST` uses the [`create`](../request/crud.md#create-command) command
+- `PUT` uses the [`upsert`](../request/crud.md#upsert-command) command
+- `PATCH` uses the [`patch`](../request/crud.md#patch-command) command
+- `DELETE` uses the [`delete`](../request/crud.md#delete-command) command
 
 # Arguments
 
@@ -34,9 +35,10 @@ between a number (e.g. `filter.weight=5`) and a string (e.g. `filter.id="5"`),
 surround the number with double quotes.
 
 Objects and arrays can be specified using either:
-  - a dot notation, e.g. `filter.0.name=David`
-  - a JSON value, e.g. `filter=[{ "name": "David" }]`, which after URL encoding
-    is `filter=%5B%7B%22name%22%3A%22David%22%7D%5D`
+
+- a dot notation, e.g. `filter.0.name=David`
+- a JSON value, e.g. `filter=[{ "name": "David" }]`, which after URL encoding
+  is `filter=%5B%7B%22name%22%3A%22David%22%7D%5D`
 
 Like for any URL, the query variables must be
 [URL encoded](https://en.wikipedia.org/wiki/Percent-encoding) if they contain
@@ -64,9 +66,7 @@ GET /rest/users/?filter.name=Anthony
 
 ```json
 {
-  "data": [
-    { "id": "1", "name": "Anthony", "manager": "3" }
-  ]
+  "data": [{ "id": "1", "name": "Anthony", "manager": "3" }]
 }
 ```
 

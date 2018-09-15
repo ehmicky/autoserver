@@ -6,13 +6,14 @@ the [`run`](../usage/run.md) instruction.
 There are several ways to define [configuration properties](#properties).
 If several are used, they are merged together (from the highest priority to
 the lowest):
-  - setting an [environment variable](#environment-variables):
-    `AUTOSERVER__LIMITS__PAGESIZE=10`
-  - using a [command line option](../usage/README.md#usage):
-    `autoserver run --limits.pagesize=10`
-  - passing the option via [Node.js](../usage/README.md#node.js):
-    `autoserver.run({ limits: { pagesize: 10 } })`
-  - using a [configuration file](#configuration-file)
+
+- setting an [environment variable](#environment-variables):
+  `AUTOSERVER__LIMITS__PAGESIZE=10`
+- using a [command line option](../usage/README.md#usage):
+  `autoserver run --limits.pagesize=10`
+- passing the option via [Node.js](../usage/README.md#node.js):
+  `autoserver.run({ limits: { pagesize: 10 } })`
+- using a [configuration file](#configuration-file)
 
 ```yml
 limits:
@@ -22,32 +23,33 @@ limits:
 # Properties
 
 The following configuration properties are available:
-  - `engine` `{integer}` (required) -
-    [configuration format version](#configuration-format-version)
-  - `name` `{string}` - sets the [parameter](functions.md#parameters)
-    `serverinfo.process.name`
-  - `env` (defaults to `dev`): can be `dev` or `production`.
-    Running in `dev` mode will add some developer-friendly features, e.g.
-    disable request timeouts during breakpoint debugging.
-  - `collections` `{object}` (required) - list of
-    [collections](../data_model/collections.md#collections)
-    - `COLLECTION` `{object}` - `COLLECTION` is the name
-      - `attributes` `{object}` - list of the collection's
-        [attributes](../data_model/collections.md#attributes)
-        - `ATTRIBUTE` `{object}` - `ATTRIBUTE` is the name
-  - `params` `{object}` -
-    [server-specific parameters](functions.md#server-specific-parameters)
-  - `plugins` `{object}` - [plugins](../plugins/README.md)
-  - `authorize` `{object}` - [authorization](../data_model/authorization.md)
-  - `validation` `{object}` -
-    [custom validation keywords](../data_model/validation.md#custom-validation)
-  - `operators` `{object}` -
-    [custom patch operators](../data_model/patch.md#custom-operators)
-  - `log` `{object}` - [logging configuration](../quality/logging.md)
-  - `protocols` `{object}`:
-    [protocols options](../protocols/README.md#options)
-  - `databases` `{object}`: [databases options](../databases/README.md)
-  - `limits` `{object}`: [limits](../quality/limits.md)
+
+- `engine` `{integer}` (required) -
+  [configuration format version](#configuration-format-version)
+- `name` `{string}` - sets the [parameter](functions.md#parameters)
+  `serverinfo.process.name`
+- `env` (defaults to `dev`): can be `dev` or `production`.
+  Running in `dev` mode will add some developer-friendly features, e.g.
+  disable request timeouts during breakpoint debugging.
+- `collections` `{object}` (required) - list of
+  [collections](../data_model/collections.md#collections)
+  - `COLLECTION` `{object}` - `COLLECTION` is the name
+    - `attributes` `{object}` - list of the collection's
+      [attributes](../data_model/collections.md#attributes)
+      - `ATTRIBUTE` `{object}` - `ATTRIBUTE` is the name
+- `params` `{object}` -
+  [server-specific parameters](functions.md#server-specific-parameters)
+- `plugins` `{object}` - [plugins](../plugins/README.md)
+- `authorize` `{object}` - [authorization](../data_model/authorization.md)
+- `validation` `{object}` -
+  [custom validation keywords](../data_model/validation.md#custom-validation)
+- `operators` `{object}` -
+  [custom patch operators](../data_model/patch.md#custom-operators)
+- `log` `{object}` - [logging configuration](../quality/logging.md)
+- `protocols` `{object}`:
+  [protocols options](../protocols/README.md#options)
+- `databases` `{object}`: [databases options](../databases/README.md)
+- `limits` `{object}`: [limits](../quality/limits.md)
 
 # Configuration file
 
@@ -66,12 +68,13 @@ modules by using [references](references.md).
 # Example
 
 The configuration file below:
-  - describes two collections:
-    - a `users` collection with attributes `id`, `age`, `score` and `reports`
-      (pointing to the `reports` collection)
-    - a `reports` collection with attributes `id` and `content`
-  - sets up the [MongoDB](../databases/mongodb.md) connection options
-  - sets the [HTTP](../protocols/http.md) port to `5001`
+
+- describes two collections:
+  - a `users` collection with attributes `id`, `age`, `score` and `reports`
+    (pointing to the `reports` collection)
+  - a `reports` collection with attributes `id` and `content`
+- sets up the [MongoDB](../databases/mongodb.md) connection options
+- sets the [HTTP](../protocols/http.md) port to `5001`
 
 ```yml
 engine: 0
@@ -139,9 +142,10 @@ arrays.
 
 Some well-known environment variables can also be used as alternative names,
 namely:
-  - `NODE_ENV`: same as `AUTOSERVER__ENV`
-  - `HOST`: same as `AUTOSERVER__PROTOCOLS__HTTP__HOSTNAME`
-  - `PORT`: same as `AUTOSERVER__PROTOCOLS__HTTP__PORT`
+
+- `NODE_ENV`: same as `AUTOSERVER__ENV`
+- `HOST`: same as `AUTOSERVER__PROTOCOLS__HTTP__HOSTNAME`
+- `PORT`: same as `AUTOSERVER__PROTOCOLS__HTTP__PORT`
 
 # Configuration format version
 
