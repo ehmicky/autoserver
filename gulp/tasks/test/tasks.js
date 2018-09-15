@@ -1,12 +1,25 @@
 'use strict'
 
-const { src, parallel, lastRun } = require('gulp')
+const { src, series, parallel, lastRun } = require('gulp')
 const jscpd = require('gulp-jscpd')
 
 const FILES = require('../../files')
 const { execCommand, getWatchTask } = require('../../utils')
 
 const { linksCheck } = require('./linkcheck')
+
+const format = function() {
+  const files = [
+    ...FILES.JAVASCRIPT,
+    ...FILES.MARKDOWN,
+    ...FILES.JSON,
+    ...FILES.YAML,
+  ].join(' ')
+  return execCommand(`prettier --write --loglevel warn ${files}`)
+}
+
+// eslint-disable-next-line fp/no-mutation
+format.description = 'Format files using prettier'
 
 // We do not use `gulp-eslint` because it does not support --cache
 const lint = function() {
@@ -54,7 +67,9 @@ const linksfull = function() {
 linksfull.description =
   'Check for dead links in documentation Markdown files, including HTTP[S] links'
 
-const testTask = parallel(lint, dup, links)
+const check = series(format, lint)
+
+const testTask = parallel(check, dup, links)
 
 // eslint-disable-next-line fp/no-mutation
 testTask.description = 'Lint and test the application'
@@ -70,6 +85,8 @@ testwatch.description = 'Lint and test the application in watch mode'
 module.exports = {
   test: testTask,
   testwatch,
+  check,
+  format,
   lint,
   dup,
   links,
