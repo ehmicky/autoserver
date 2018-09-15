@@ -10,7 +10,7 @@ const { linksCheck } = require('./linkcheck')
 
 // We do not use `gulp-eslint` because it does not support --cache
 const lint = function() {
-  const files = FILES.SOURCE.join(' ')
+  const files = [...FILES.JAVASCRIPT, ...FILES.MARKDOWN].join(' ')
   return execCommand(
     `eslint ${files} --max-warnings 0 --ignore-path .gitignore --fix --cache --format codeframe`,
   )
@@ -20,7 +20,7 @@ const lint = function() {
 lint.description = 'Lint source files'
 
 const dup = function() {
-  return src(FILES.SOURCE).pipe(
+  return src([...FILES.JAVASCRIPT, ...FILES.MARKDOWN]).pipe(
     jscpd({
       verbose: true,
       blame: true,
@@ -35,7 +35,7 @@ const dup = function() {
 dup.description = 'Check for code duplication'
 
 const links = function() {
-  return src(FILES.DOCS, { since: lastRun(links) }).pipe(
+  return src(FILES.MARKDOWN, { since: lastRun(links) }).pipe(
     linksCheck({ full: false }),
   )
 }
@@ -45,7 +45,7 @@ links.description =
   'Check for dead links in documentation Markdown files, for local files only'
 
 const linksfull = function() {
-  return src(FILES.DOCS, { since: lastRun(links) }).pipe(
+  return src(FILES.MARKDOWN, { since: lastRun(links) }).pipe(
     linksCheck({ full: true }),
   )
 }
@@ -59,7 +59,10 @@ const testTask = parallel(lint, dup, links)
 // eslint-disable-next-line fp/no-mutation
 testTask.description = 'Lint and test the application'
 
-const testwatch = getWatchTask({ SOURCE: [lint, dup], DOCS: links }, testTask)
+const testwatch = getWatchTask(
+  { JAVASCRIPT: [lint, dup], MARKDOWN: [lint, dup, links] },
+  testTask,
+)
 
 // eslint-disable-next-line fp/no-mutation
 testwatch.description = 'Lint and test the application in watch mode'

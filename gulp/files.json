@@ -1,18 +1,13 @@
 {
-  "SOURCE": [
+  "JAVASCRIPT": [
     "*.js",
-    "*.md",
-    "bin/*",
     "src/**/*.js",
+    "bin/**/*.js",
     "gulp/**/*.js",
-    "examples/**/*.js",
-    "docs/**/*.md"
+    "examples/**/*.js"
   ],
-  "FORMAT": [
-    "src/**/*.yml"
-  ],
-  "DOCS": [
-    "*.md",
-    "docs/**/*.md"
-  ]
+  "JSON": ["*.json", "gulp/**/*.json"],
+  "YAML": ["*.yml", "examples/*.yml"],
+  "YAML_TO_JSON": ["src/**/*.yml"],
+  "MARKDOWN": ["*.md", "docs/**/*.md"]
 }

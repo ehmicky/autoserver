@@ -7,7 +7,7 @@ const FILES = require('../files')
 const { getWatchTask } = require('../utils')
 
 const format = function() {
-  return src(FILES.FORMAT)
+  return src(FILES.YAML_TO_JSON)
     .pipe(yamlToJson({ schema: 'JSON_SCHEMA', space: 2 }))
     .pipe(dest(({ base }) => base))
 }
@@ -20,7 +20,7 @@ const build = parallel(format)
 // eslint-disable-next-line fp/no-mutation
 build.description = 'Build the application'
 
-const buildwatch = getWatchTask({ FORMAT: format }, build)
+const buildwatch = getWatchTask({ YAML_TO_JSON: format }, build)
 
 // eslint-disable-next-line fp/no-mutation
 buildwatch.description = 'Build the application in watch mode'
