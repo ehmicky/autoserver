@@ -25,17 +25,17 @@ collections:
         validate:
           required: true
           oneOf:
-          - pattern: '^[a-zA-Z]+$'
-          - pattern: '[0-9]+$'
+            - pattern: '^[a-zA-Z]+$'
+            - pattern: '[0-9]+$'
           allOf:
-          - not:
-              pattern: '^__'
-          - not:
-              pattern: '^[0-9]'
+            - not:
+                pattern: '^__'
+            - not:
+                pattern: '^[0-9]'
           anyOf:
-          - pattern: '[a-z]'
-          - pattern: '[A-Z]'
-          - pattern: '[0-9]'
+            - pattern: '[a-z]'
+            - pattern: '[A-Z]'
+            - pattern: '[0-9]'
           if:
             pattern: '^super'
           then:
@@ -66,8 +66,8 @@ collections:
         type: string[]
         description: Sweet pictures of a pet
         examples:
-        - http://www.photos.org/1.jpg
-        - http://www.photos.org/3.jpg
+          - http://www.photos.org/1.jpg
+          - http://www.photos.org/3.jpg
         validate:
           required: true
       skills:
@@ -118,10 +118,10 @@ collections:
   $ref: other_collections.yml
   default: {}
 authorize:
-- command:
-    _in: [find, delete]
-- command:
-    _in: [find, create, upsert, patch]
+  - command:
+      _in: [find, delete]
+  - command:
+      _in: [find, create, upsert, patch]
 params:
   $my_math_func: ((arg1 * arg2) + (arg3 * arg4))
   $example_function: '($my_math_func(1, 10, 100, 2) +
@@ -139,15 +139,15 @@ params:
   $lodash:
     $ref: lodash.node
 plugins:
-- plugin:
-    $ref: test_plugin.js
-  opts:
-    example_option: true
-  enabled: true
-- plugin: author
-  opts:
-    currentuser: '(({ id: "10" }))'
-    collection: owners
+  - plugin:
+      $ref: test_plugin.js
+    opts:
+      example_option: true
+    enabled: true
+  - plugin: author
+    opts:
+      currentuser: '(({ id: "10" }))'
+      collection: owners
 validation:
   $is_not_equal:
     test: (value !== arg)
