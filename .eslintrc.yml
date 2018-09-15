@@ -440,7 +440,6 @@ rules:
 
   # Binary
   node/no-unpublished-bin: 2
-  node/shebang: 2
 
   # Compatibility
   node/no-unsupported-features/es-syntax: 2
@@ -524,6 +523,9 @@ rules:
 
 # We allow TODO comments
 #  no-warning-comments: 2
+
+# We are symlinking shebang files so that they have the correct file extension
+# node/shebang: 2
 
 # We want to allow Promise.all() and Promise.race()
 #  promise/no-native: 2
