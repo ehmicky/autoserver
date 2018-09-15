@@ -20,7 +20,7 @@
   "scripts": {
     "start": "gulp",
     "test": "gulp test",
-    "prepush": "gulp build"
+    "precommit": "gulp build"
   },
   "license": "Apache-2.0",
   "dependencies": {
