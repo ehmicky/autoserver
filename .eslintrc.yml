@@ -397,7 +397,9 @@ rules:
     - module.exports
   import/extensions: 2
   import/no-absolute-path: 2
-  import/no-internal-modules: 2
+  import/no-internal-modules:
+    - 2
+    - allow: [lodash/fp]
   import/no-useless-path-segments: 2
   no-duplicate-imports:
     - 2
