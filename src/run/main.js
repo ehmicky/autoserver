@@ -8,7 +8,7 @@ const { startupSteps } = require('./steps')
 const { handleStartupError } = require('./error')
 
 // Start server for each protocol
-const runServer = async function({
+const run = async function({
   measures = [],
   config: configPath,
   ...config
@@ -33,5 +33,5 @@ const eStartupSteps = startupSteps.map(startupStep =>
 )
 
 module.exports = {
-  runServer,
+  run,
 }

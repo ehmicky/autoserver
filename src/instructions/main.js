@@ -1,12 +1,10 @@
 'use strict'
 
-const { runServer } = require('../run')
+const { run } = require('../run')
 
 const { addErrorHandlers } = require('./error')
 
-const instructions = {
-  run: runServer,
-}
+const instructions = { run }
 
 const main = addErrorHandlers({ instructions })
 

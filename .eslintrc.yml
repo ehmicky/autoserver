@@ -12,8 +12,7 @@ parserOptions:
   sourceType: script
 
 # standard/standard implies "node" and "es6"
-env:
-  mocha: true
+env: {}
 
 # feross/standard implies "import", "node", "promise" and "standard"
 plugins:
