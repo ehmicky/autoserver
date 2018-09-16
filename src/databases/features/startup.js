@@ -16,9 +16,9 @@ const validateStartupFeatures = function({ name, features }, { coll }) {
     op: 'and',
     quotes: true,
   })
-  const message = `'${name}' cannot be used because that collection requires the features ${missingFeaturesA}, but that database does not support those features`
-  // eslint-disable-next-line fp/no-throw
-  throw new Error(message)
+  throw new Error(
+    `'${name}' cannot be used because that collection requires the features ${missingFeaturesA}, but that database does not support those features`,
+  )
 }
 
 // Retrieves features that the collection requires, which can determined by

@@ -8,9 +8,7 @@ const getAdapter = function({ adapters, key, name }) {
     return adapter.wrapped
   }
 
-  const message = `Unsupported ${name}: '${key}'`
-  // eslint-disable-next-line fp/no-throw
-  throw new Error(message)
+  throw new Error(`Unsupported ${name}: '${key}'`)
 }
 
 // Retrieve all adapters' names

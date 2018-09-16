@@ -16,7 +16,6 @@ const getValidator = function() {
 // Intercepts when ajv uses console.* and throw exceptions instead
 const loggerError = function(...args) {
   const message = args.join(' ')
-  // eslint-disable-next-line fp/no-throw
   throw new Error(message)
 }
 

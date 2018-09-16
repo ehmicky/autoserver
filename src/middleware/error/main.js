@@ -1,11 +1,6 @@
 'use strict'
 
-const {
-  rethrowError,
-  normalizeError,
-  addErrorHandler,
-  getProps,
-} = require('../../errors')
+const { normalizeError, addErrorHandler, getProps } = require('../../errors')
 const { omit } = require('../../utils')
 const { safetyHandler } = require('../../log')
 
@@ -16,7 +11,7 @@ const { errorHandler } = require('./error_handler')
 const fireMiddlewareHandler = function(error, ...args) {
   // Skip `nextLayer` and `reqState` arguments
   const errorA = error.mInput ? error : addMInput(error, args[2])
-  rethrowError(errorA)
+  throw errorA
 }
 
 // Main layers error handler
@@ -39,7 +34,7 @@ const fireMainLayersHandler = async function(
   const mInputA = await fireFinalLayer({ allLayers, mInput, reqState })
 
   const errorA = addMInput(error, mInputA)
-  rethrowError(errorA)
+  throw errorA
 }
 
 // Fire request error handlers

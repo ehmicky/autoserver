@@ -53,10 +53,9 @@ const fixHostLength = function({ hostname, port }) {
     }
   }
 
-  const message =
-    "Invalid options: 'databases.mongodb.hostname' and 'databases.mongodb.port' must have the same number of items"
-  // eslint-disable-next-line fp/no-throw
-  throw new Error(message)
+  throw new Error(
+    "Invalid options: 'databases.mongodb.hostname' and 'databases.mongodb.port' must have the same number of items",
+  )
 }
 
 // Retrieve `username:password@`
@@ -72,17 +71,15 @@ const getAuth = function({ username, password }) {
 
 const validateAuth = function({ username, password }) {
   if (!username) {
-    const message =
-      "Invalid option 'databases.mongodb.password': 'databases.mongodb.username' must also be defined"
-    // eslint-disable-next-line fp/no-throw
-    throw new Error(message)
+    throw new Error(
+      "Invalid option 'databases.mongodb.password': 'databases.mongodb.username' must also be defined",
+    )
   }
 
   if (!password) {
-    const message =
-      "Invalid option 'databases.mongodb.username': 'databases.mongodb.password' must also be defined"
-    // eslint-disable-next-line fp/no-throw
-    throw new Error(message)
+    throw new Error(
+      "Invalid option 'databases.mongodb.username': 'databases.mongodb.password' must also be defined",
+    )
   }
 }
 

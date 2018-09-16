@@ -1,11 +1,6 @@
 'use strict'
 
-const {
-  addErrorHandler,
-  normalizeError,
-  rethrowError,
-  createPb,
-} = require('../errors')
+const { addErrorHandler, normalizeError, createPb } = require('../errors')
 
 const { getLogParams } = require('./params')
 const { LEVELS, DEFAULT_LOGGER } = require('./constants')
@@ -83,7 +78,7 @@ const logEventHandler = function(error, { config, event }) {
     return
   }
 
-  rethrowError(errorB)
+  throw errorB
 }
 
 const eLogEvent = addErrorHandler(logEvent, logEventHandler)

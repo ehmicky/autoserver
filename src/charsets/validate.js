@@ -13,9 +13,7 @@ const validateExisting = function({ charset }) {
     return
   }
 
-  const message = `Unsupported charset: '${charset}'`
-  // eslint-disable-next-line fp/no-throw
-  throw new Error(message)
+  throw new Error(`Unsupported charset: '${charset}'`)
 }
 
 const validateWithFormat = function({ charset, format, format: { title } }) {
@@ -25,9 +23,9 @@ const validateWithFormat = function({ charset, format, format: { title } }) {
     return
   }
 
-  const message = `Unsupported charset with a ${title} content type: '${charset}'`
-  // eslint-disable-next-line fp/no-throw
-  throw new Error(message)
+  throw new Error(
+    `Unsupported charset with a ${title} content type: '${charset}'`,
+  )
 }
 
 module.exports = {

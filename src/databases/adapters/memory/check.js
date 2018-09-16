@@ -18,9 +18,7 @@ const checkConnection = function({ connection }) {
     return
   }
 
-  const message = "'config.databases.memory.data' must be an object"
-  // eslint-disable-next-line fp/no-throw
-  throw new Error(message)
+  throw new Error("'config.databases.memory.data' must be an object")
 }
 
 const checkSave = function({ options: { save, data } }) {
@@ -30,10 +28,9 @@ const checkSave = function({ options: { save, data } }) {
     return
   }
 
-  const message =
-    "'config.databases.memory.data' must be a JSON reference to an object when 'config.databases.memory.save' is true"
-  // eslint-disable-next-line fp/no-throw
-  throw new Error(message)
+  throw new Error(
+    "'config.databases.memory.data' must be a JSON reference to an object when 'config.databases.memory.save' is true",
+  )
 }
 
 const checkCollection = function({ collname, connection }) {
@@ -43,9 +40,9 @@ const checkCollection = function({ collname, connection }) {
 
   if (connection[collname] !== undefined) {
     const typeofColl = typeof connection[collname]
-    const message = `Collection '${collname}' must be either an array of undefined, not ${typeofColl}`
-    // eslint-disable-next-line fp/no-throw
-    throw new Error(message)
+    throw new Error(
+      `Collection '${collname}' must be either an array of undefined, not ${typeofColl}`,
+    )
   }
 
   // Add empty collection if missing

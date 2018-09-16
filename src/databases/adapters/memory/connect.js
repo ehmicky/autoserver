@@ -12,10 +12,9 @@ const validateEnv = function({ config: { env } }) {
     return
   }
 
-  const message =
-    "Memory database must not be used in production, i.e. 'config.env' must be equal to 'dev'"
-  // eslint-disable-next-line fp/no-throw
-  throw new Error(message)
+  throw new Error(
+    "Memory database must not be used in production, i.e. 'config.env' must be equal to 'dev'",
+  )
 }
 
 module.exports = {

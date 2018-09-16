@@ -10,7 +10,6 @@ const parse = function({ content, path }) {
     // Error handling
     filename: path,
     onWarning(error) {
-      // eslint-disable-next-line fp/no-throw
       throw error
     },
   })

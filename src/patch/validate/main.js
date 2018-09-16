@@ -1,6 +1,6 @@
 'use strict'
 
-const { throwPb, rethrowError } = require('../../errors')
+const { throwPb } = require('../../errors')
 const { parsePatchOp } = require('../parse')
 
 const { PRE_VALIDATORS } = require('./pre_validators')
@@ -79,7 +79,7 @@ const checkError = function({ error, commandpath, attrName, patchOp }) {
   if (error instanceof Error) {
     // eslint-disable-next-line fp/no-mutation, no-param-reassign
     error.message = `${prefix}${error.message}`
-    rethrowError(error)
+    throw error
   }
 
   throwPb({

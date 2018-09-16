@@ -48,7 +48,6 @@ const successListener = async function({ server, serverOn }) {
 // Connection failure
 const errorListener = async function({ serverOn }) {
   const error = await serverOn('error')
-  // eslint-disable-next-line fp/no-throw
   throw error
 }
 

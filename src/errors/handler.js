@@ -2,7 +2,7 @@
 
 const { keepProps, result } = require('../utils')
 
-const { throwError, normalizeError, isError, rethrowError } = require('./main')
+const { throwError, normalizeError, isError } = require('./main')
 const { throwPb } = require('./props')
 
 // Wrap a function with a error handler
@@ -61,7 +61,7 @@ const addCatchAllHandler = function(func, errorHandler) {
 
 const catchAllHandler = function(errorHandler, error, ...args) {
   if (isError({ error })) {
-    rethrowError(error)
+    throw error
   }
 
   return errorHandler(error, ...args)

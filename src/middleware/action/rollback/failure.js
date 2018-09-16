@@ -1,12 +1,12 @@
 'use strict'
 
-const { isError, rethrowError } = require('../../../errors')
+const { isError } = require('../../../errors')
 
 // Rethrow original error
 const rethrowFailure = function({ failedActions: [error], results }) {
   const errorA = addRollbackFailures({ error, results })
 
-  rethrowError(errorA)
+  throw errorA
 }
 
 // If rollback itself fails, give up and add rollback error to error response,

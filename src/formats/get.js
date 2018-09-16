@@ -84,9 +84,7 @@ const getFormat = function(key, { safe = false } = {}) {
 }
 
 const throwUnsupportedFormat = function({ format }) {
-  const message = `Unsupported format: '${format}'`
-  // eslint-disable-next-line fp/no-throw
-  throw new Error(message)
+  throw new Error(`Unsupported format: '${format}'`)
 }
 
 // Returns list of allowed MIME types

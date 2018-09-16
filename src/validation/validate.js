@@ -24,7 +24,6 @@ const reportErrors = function({ errors }) {
   // Retrieve error message as string, from error objects
   const message = errors.map(error => getErrorMessage({ error })).join('\n')
 
-  // eslint-disable-next-line fp/no-throw
   throw new Error(message)
 }
 

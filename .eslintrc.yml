@@ -266,7 +266,6 @@ rules:
   unicorn/throw-new-error: 2
   unicorn/error-message: 2
   unicorn/catch-error-name: 2
-  fp/no-throw: 2
   unicorn/prefer-type-error: 2
   unicorn/custom-error-definition: 2
 
@@ -524,8 +523,12 @@ rules:
 # We allow TODO comments
 #  no-warning-comments: 2
 
+# The only difference from pure functional programming is that we
+# allow exceptions to avoid cumbersome code
+#  fp/no-throw: 2
+
 # We are symlinking shebang files so that they have the correct file extension
-# node/shebang: 2
+#  node/shebang: 2
 
 # We want to allow Promise.all() and Promise.race()
 #  promise/no-native: 2

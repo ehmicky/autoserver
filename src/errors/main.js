@@ -41,12 +41,6 @@ const isError = function({ error }) {
 const throwError = function(message = MISSING_MESSAGE, opts) {
   const stack = message.stack || getStack({ caller: throwError })
   const error = createError(message, { ...opts, stack })
-  // eslint-disable-next-line fp/no-throw
-  throw error
-}
-
-const rethrowError = function(error) {
-  // eslint-disable-next-line fp/no-throw
   throw error
 }
 
@@ -83,7 +77,6 @@ const getStack = function({ caller } = {}) {
 module.exports = {
   createError,
   throwError,
-  rethrowError,
   normalizeError,
   isError,
 }

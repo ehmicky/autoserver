@@ -28,7 +28,6 @@ const handleIntrospection = async function({
   //  - throwing an exception
   //  - returning errors in response
   if (innererror) {
-    // eslint-disable-next-line fp/no-throw
     throw innererror
   }
 

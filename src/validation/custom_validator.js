@@ -47,7 +47,6 @@ const validateCustomKeyword = function({ type, keyword }) {
   }
 
   const message = `Custom validation keyword 'config.validation.${keyword}' must not have both types 'number' and 'integer', as 'number' includes 'integer'.`
-  // eslint-disable-next-line fp/no-throw
   throw new Error(message)
 }
 

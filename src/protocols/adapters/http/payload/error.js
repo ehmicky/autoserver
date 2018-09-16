@@ -2,14 +2,14 @@
 
 const { format: formatBytes } = require('bytes')
 
-const { throwPb, rethrowError } = require('../../../../errors')
+const { throwPb } = require('../../../../errors')
 
 // `raw-body` throws some errors that we want to convert to the correct error
 // reason
 const getRawBodyHandler = function(error, { maxpayload }) {
   // Indicates a bug in `raw-body` library
   if (!(error instanceof Error)) {
-    rethrowError(error)
+    throw error
   }
 
   const errorHandler = ERROR_HANDLERS[error.type]
@@ -17,7 +17,7 @@ const getRawBodyHandler = function(error, { maxpayload }) {
   // Since we tried to cover all error types from `raw-body` library,
   // this indicates a bug in either our code or the library
   if (errorHandler === undefined) {
-    rethrowError(error)
+    throw error
   }
 
   const props = errorHandler({ error, maxpayload })

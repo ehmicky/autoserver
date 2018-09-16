@@ -18,9 +18,9 @@ const validateRuntimeFeatures = function(
     return
   }
 
-  const messageA = `${message} because the collection '${clientCollname}' does not support it`
-  // eslint-disable-next-line fp/no-throw
-  throw new Error(messageA)
+  throw new Error(
+    `${message} because the collection '${clientCollname}' does not support it`,
+  )
 }
 
 // Fire the validator of each feature that is not supported by the

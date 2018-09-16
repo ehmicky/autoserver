@@ -38,9 +38,7 @@ const validateWrongResult = function({
   }
 
   const codeA = code === undefined ? '' : ` (code ${code})`
-  const message = `${errmsg}${codeA}`
-  // eslint-disable-next-line fp/no-throw
-  throw new Error(message)
+  throw new Error(`${errmsg}${codeA}`)
 }
 
 module.exports = {

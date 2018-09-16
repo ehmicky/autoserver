@@ -1,7 +1,7 @@
 'use strict'
 
 const { mapValues } = require('../utils')
-const { addErrorHandler, getStandardError, rethrowError } = require('../errors')
+const { addErrorHandler, getStandardError } = require('../errors')
 
 // Every instruction should throw standard errors
 const addErrorHandlers = function({ instructions }) {
@@ -19,7 +19,8 @@ const instructionHandler = function(instructionName, error) {
     ...errorA
   } = getStandardError({ error })
 
-  rethrowError({ ...errorA, description })
+  const errorB = { ...errorA, description }
+  throw errorB
 }
 
 module.exports = {

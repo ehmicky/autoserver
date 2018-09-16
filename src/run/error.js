@@ -1,6 +1,5 @@
 'use strict'
 
-const { rethrowError } = require('../errors')
 const { logEvent } = require('../log')
 
 // Handle exceptions thrown at server startup
@@ -21,7 +20,7 @@ const handleStartupError = async function(
     config,
   })
 
-  rethrowError(error)
+  throw error
 }
 
 module.exports = {

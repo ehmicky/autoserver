@@ -9,7 +9,6 @@ const { MISSING_MESSAGE } = require('./constants')
 // Throw exception for a specific error reason
 const throwPb = function({ message, messageInput, ...opts } = {}) {
   const error = createPb(message, { messageInput, ...opts })
-  // eslint-disable-next-line fp/no-throw
   throw error
 }
 

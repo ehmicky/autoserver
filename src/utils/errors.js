@@ -7,11 +7,9 @@
 // ESLint rule fp/no-throw helps enforcing this utility is used
 const throwError = function(message) {
   if (message instanceof Error) {
-    // eslint-disable-next-line fp/no-throw
     throw message
   }
 
-  // eslint-disable-next-line fp/no-throw
   throw new Error(message)
 }
 
