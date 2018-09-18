@@ -27,7 +27,7 @@
     "ajv-keywords": "^3.2.0",
     "bytes": "^3.0.0",
     "chalk": "^2.4.1",
-    "compressible": "^2.0.14",
+    "compressible": "^2.0.15",
     "content-type": "^1.0.4",
     "graphql": "^0.9.1",
     "graphql-type-json": "^0.2.1",
