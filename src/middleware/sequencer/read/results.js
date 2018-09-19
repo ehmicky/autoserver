@@ -51,10 +51,14 @@ const getResults = function({
 const getEachResults = function({ ids, results, ...rest }) {
   const multiple = Array.isArray(ids)
   return results
-    .filter(({ model: { id } }) => (multiple ? ids.includes(id) : ids === id))
+    .filter(({ model }) => filterResult({ model, ids, multiple }))
     .map(({ model, metadata }, index) =>
       getResult({ model, metadata, index, multiple, ...rest }),
     )
+}
+
+const filterResult = function({ model: { id }, ids, multiple }) {
+  return multiple ? ids.includes(id) : ids === id
 }
 
 const getResult = function({
