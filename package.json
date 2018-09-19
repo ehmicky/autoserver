@@ -19,7 +19,8 @@
   "bin": "./bin/autoserver",
   "scripts": {
     "start": "gulp",
-    "test": "gulp test"
+    "test": "gulp test",
+    "release": "release-it"
   },
   "license": "Apache-2.0",
   "dependencies": {
@@ -80,6 +81,7 @@
     "nodemon": "^1.18.4",
     "plugin-error": "^1.0.1",
     "prettier": "^1.14.2",
+    "release-it": "^7.6.1",
     "through2": "^2.0.3"
   },
   "engines": {
