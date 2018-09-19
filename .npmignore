@@ -17,3 +17,4 @@ nodemon.debug.json
 examples
 .editorconfig
 .eslintrc.yml
+.prettierrc.yml
