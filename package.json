@@ -80,7 +80,7 @@
     "markdown-link-extractor": "^1.2.0",
     "nodemon": "^1.18.4",
     "plugin-error": "^1.0.1",
-    "prettier": "^1.14.2",
+    "prettier": "^1.14.3",
     "release-it": "^7.6.1",
     "through2": "^2.0.3"
   },
