@@ -18,4 +18,4 @@ For more information on the available tasks, run `gulp --tasks`.
 
 # Troubleshooting
 
-- Please use Node.js v10.10.0
+- Please use Node.js v10.11.0
