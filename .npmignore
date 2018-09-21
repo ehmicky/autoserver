@@ -18,3 +18,4 @@ examples
 .editorconfig
 .eslintrc.yml
 .prettierrc.yml
+.release-it.json
