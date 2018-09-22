@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/autoserver-org/design/master/autoserver/autoserver.png" width="550"/>
+
 [![downloads](https://img.shields.io/npm/dt/autoserver.svg?logo=npm)](https://www.npmjs.com/package/autoserver) [![last commit](https://img.shields.io/github/last-commit/autoserver-org/autoserver.svg?logo=github)](https://github.com/autoserver-org/autoserver/graphs/contributors) [![license](https://img.shields.io/github/license/autoserver-org/autoserver.svg?logo=github)](https://www.apache.org/licenses/LICENSE-2.0) [![npm](https://img.shields.io/npm/v/autoserver.svg?logo=npm)](https://www.npmjs.com/package/autoserver) [![node](https://img.shields.io/node/v/autoserver.svg?logo=node.js)](#) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![eslint-config-fp](https://img.shields.io/badge/eslint-config--fp-green.svg?logo=eslint)](https://github.com/autoserver-org/eslint-config-fp)
 
 Create a full-featured REST/GraphQL API from a configuration file.
