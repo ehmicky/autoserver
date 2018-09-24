@@ -50,7 +50,7 @@ const validateData = function({ ids, data }) {
     return
   }
 
-  const message = `'ids' and 'results' do not have the same length`
+  const message = '\'ids\' and \'results\' do not have the same length'
   throwPb({ message, reason: 'ENGINE' })
 }
 

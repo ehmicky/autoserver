@@ -24,7 +24,7 @@ const validateAnonymousNames = function(defs) {
   const hasAnonymousOperation = defs.some(({ name }) => name === null)
 
   if (hasAnonymousOperation && defs.length > 1) {
-    const message = `All operations must have names, if there are several of them`
+    const message = 'All operations must have names, if there are several of them'
     throwError(message, { reason: 'VALIDATION' })
   }
 }

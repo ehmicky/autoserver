@@ -12,7 +12,7 @@ or from [Node.js](usage/README.md#node.js):
 
 <!-- eslint-disable strict, no-undef, unicorn/filename-case,
 node/no-extraneous-require, import/no-extraneous-dependencies,
-import/no-unresolved -->
+import/no-unresolved, node/no-missing-require -->
 
 ```javascript
 const autoserver = require('autoserver')
