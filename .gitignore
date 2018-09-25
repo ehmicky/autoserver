@@ -4,6 +4,7 @@ npm-debug.log
 node_modules
 core
 .eslintcache
-.yarn-error.log
-src/**/*.json
 .npmrc
+.yarn-error.log
+
+src/**/*.json

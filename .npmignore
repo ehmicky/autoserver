@@ -4,18 +4,19 @@ npm-debug.log
 node_modules
 core
 .eslintcache
-.yarn-error.log
 .npmrc
-
-src/**/*.yml
+.yarn-error.log
 
 gulp
 gulpfile.js
-.gulp.json
 nodemon.json
 nodemon.debug.json
-examples
-.editorconfig
-.eslintrc.yml
-.prettierrc.yml
 .release-it.json
+examples
+docs/**/*.png
+.nvmrc
+.eslintrc.yml
+.editorconfig
+.prettierrc.yml
+
+src/**/*.yml
