@@ -1,6 +1,6 @@
 {
   "name": "autoserver",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Create a full-featured REST/GraphQL API from a configuration file",
   "keywords": [
     "graphql",
