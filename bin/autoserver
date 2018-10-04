@@ -1,1 +1,7 @@
-autoserver.js
+#!/usr/bin/env node
+
+'use strict'
+
+const { startCli } = require('../src')
+
+startCli()
