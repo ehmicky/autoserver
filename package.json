@@ -31,6 +31,11 @@
     "url": "https://github.com/autoserver-org/autoserver/issues"
   },
   "author": "autoserver founder <founder@autoserver.io> (http://autoserver.io)",
+  "directories": {
+    "doc": "docs",
+    "example": "examples",
+    "lib": "src"
+  },
   "dependencies": {
     "ajv": "^6.5.4",
     "ajv-keywords": "^3.2.0",
