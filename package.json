@@ -26,10 +26,7 @@
   ],
   "license": "Apache-2.0",
   "homepage": "http://autoserver.io",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/autoserver-org/autoserver"
-  },
+  "repository": "autoserver-org/autoserver",
   "bugs": {
     "url": "https://github.com/autoserver-org/autoserver/issues"
   },
