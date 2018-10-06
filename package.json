@@ -2,6 +2,12 @@
   "name": "autoserver",
   "version": "0.3.3",
   "main": "index.js",
+  "files": [
+    "bin",
+    "src",
+    "!src/**/*.yml",
+    "!*~"
+  ],
   "bin": {
     "autoserver": "bin/autoserver.js"
   },
