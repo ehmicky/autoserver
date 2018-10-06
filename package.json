@@ -1,20 +1,6 @@
 {
   "name": "autoserver",
   "version": "0.3.3",
-  "description": "Create a full-featured REST/GraphQL API from a configuration file",
-  "keywords": [
-    "graphql",
-    "rest",
-    "baas",
-    "api",
-    "server"
-  ],
-  "homepage": "http://autoserver.io",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/autoserver-org/autoserver"
-  },
-  "author": "autoserver founder <founder@autoserver.io> (http://autoserver.io)",
   "main": "index.js",
   "bin": {
     "autoserver": "bin/autoserver.js"
@@ -24,7 +10,24 @@
     "test": "gulp test",
     "release": "release-it"
   },
+  "description": "Create a full-featured REST/GraphQL API from a configuration file",
+  "keywords": [
+    "graphql",
+    "rest",
+    "baas",
+    "api",
+    "server"
+  ],
   "license": "Apache-2.0",
+  "homepage": "http://autoserver.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/autoserver-org/autoserver"
+  },
+  "bugs": {
+    "url": "https://github.com/autoserver-org/autoserver/issues"
+  },
+  "author": "autoserver founder <founder@autoserver.io> (http://autoserver.io)",
   "dependencies": {
     "ajv": "^6.5.4",
     "ajv-keywords": "^3.2.0",
