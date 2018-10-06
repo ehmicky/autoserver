@@ -2,6 +2,7 @@
   "JAVASCRIPT": [
     "*.js",
     "src/**/*.js",
+    "bin/**/*.js",
     "gulp/**/*.js",
     "examples/**/*.js"
   ],

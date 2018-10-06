@@ -16,7 +16,9 @@
   },
   "author": "autoserver founder <founder@autoserver.io> (http://autoserver.io)",
   "main": "index.js",
-  "bin": "./bin/autoserver",
+  "bin": {
+    "autoserver": "bin/autoserver.js"
+  },
   "scripts": {
     "start": "gulp",
     "test": "gulp test",
