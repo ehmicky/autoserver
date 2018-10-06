@@ -30,7 +30,6 @@
     "chalk": "^2.4.1",
     "compressible": "^2.0.15",
     "content-type": "^1.0.4",
-    "eslint-plugin-prettier": "^3.0.0",
     "graphql": "^0.9.1",
     "graphql-type-json": "^0.2.1",
     "hjson": "^3.1.1",
