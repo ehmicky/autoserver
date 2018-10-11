@@ -13,25 +13,33 @@ const { createPb } = require('../errors')
 // caught as well.
 const processErrorHandler = function({ config }) {
   process.on('unhandledRejection', unhandledHandler.bind(null, config))
+  process.on('multipleResolves', multipleResolvesHandler.bind(null, config))
   process.on('rejectionHandled', rejectionHandledHandler.bind(null, config))
   process.on('warning', warningHandler.bind(null, config))
 }
 
 const unhandledHandler = async function(config, value) {
-  const { message, innererror } = getUnhandledProps(value)
+  const { suffix, innererror } = getPromiseValue(value)
+  const message = `A promise was rejected${suffix} and not handled right away`
 
   await emitProcessEvent({ message, innererror, config })
 }
 
-const getUnhandledProps = function(value) {
-  if (value instanceof Error) {
-    return { message: UNHANDLED_MESSAGE, innererror: value }
-  }
+// eslint-disable-next-line max-params
+const multipleResolvesHandler = async function(config, type, promise, value) {
+  const { suffix, innererror } = getPromiseValue(value)
+  const message = `A promise was ${type}d${suffix} after being already settled`
 
-  return { message: `${UNHANDLED_MESSAGE} with value: ${value}` }
+  await emitProcessEvent({ message, innererror, config })
 }
 
-const UNHANDLED_MESSAGE = 'A promise was rejected and not handled right away'
+const getPromiseValue = function(value) {
+  if (value instanceof Error) {
+    return { suffix: '', innererror: value }
+  }
+
+  return { suffix: ` with value '${value}'` }
+}
 
 const rejectionHandledHandler = async function(config, promise) {
   const message = `A promise was rejected but handled too late: ${inspect(
