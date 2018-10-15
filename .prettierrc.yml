@@ -1,1 +1,3 @@
-node_modules/eslint-config-fp/.prettierrc.yml
+semi: false
+singleQuote: true
+trailingComma: all
