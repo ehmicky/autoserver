@@ -57,10 +57,10 @@ protocols:
     port: 5001
 ```
 
-Then start a full-featured web API by typing in the console:
+Then start a full-featured web API.
 
 ```bash
-autoserver
+$ autoserver
 ```
 
 Clients will now be able to perform [GraphQL](docs/client/rpc/graphql.md)

@@ -1,9 +1,15 @@
+# Installation
+
+```shell
+$ npm install autoserver
+```
+
 # Usage
 
 From the command line:
 
-```bash
-autoserver [INSTRUCTION] [OPTIONS]
+```shell
+$ autoserver [INSTRUCTION] [OPTIONS]
 ```
 
 The following instructions are available:
@@ -12,8 +18,8 @@ The following instructions are available:
 
 `OPTIONS` are dot-separated flags specific to each instruction.
 
-```bash
-autoserver run --protocols.http.port=5001
+```shell
+$ autoserver run --protocols.http.port=5001
 ```
 
 # Node.js

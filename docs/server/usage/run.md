@@ -8,8 +8,8 @@ is specified using the `config` option.
 Any other option will be merged as a
 [configuration property](../configuration/configuration.md#properties).
 
-```bash
-autoserver run --config=autoserver.config.yml --protocols.http.port=5001
+```shell
+$ autoserver run --config=autoserver.config.yml --protocols.http.port=5001
 ```
 
 # Node.js

@@ -1,11 +1,17 @@
 # Server
 
+## Installation
+
+```shell
+$ npm install autoserver
+```
+
 ## Usage
 
 To run the server from the [command line](usage/README.md#usage):
 
-```bash
-autoserver run
+```shell
+$ autoserver run
 ```
 
 or from [Node.js](usage/README.md#node.js):
