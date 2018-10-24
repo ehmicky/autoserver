@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten, groupBy, mapValues } = require('../../utils')
+const { groupBy, mapValues } = require('../../utils')
 const { applyPatchOps } = require('../../patch')
 
 // Merge `currentData` with the `args.data` in `patch` commands,
@@ -18,7 +18,7 @@ const patchData = function({ actions, top: { command }, config, mInput }) {
 
 // Merge `currentData` with `args.data`
 const mergePartialData = function({ actions, config, mInput }) {
-  const actionsA = flattenActions({ actions })
+  const actionsA = actions.flatMap(flattenAction)
   const dataMap = groupBy(actionsA, getActionKey)
   const dataMapA = mapValues(dataMap, actionsB =>
     mergeDatum({ actions: actionsB, config, mInput }),
@@ -27,12 +27,6 @@ const mergePartialData = function({ actions, config, mInput }) {
 }
 
 // Flatten `action.data` and `action.currentData` together
-const flattenActions = function({ actions }) {
-  const actionsA = actions.map(flattenAction)
-  const actionsB = flatten(actionsA)
-  return actionsB
-}
-
 const flattenAction = function({
   currentData,
   args: {

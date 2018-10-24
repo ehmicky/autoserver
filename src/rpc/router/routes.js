@@ -3,14 +3,11 @@
 const { parse, tokensToRegExp } = require('path-to-regexp')
 
 const { rpcAdapters } = require('../wrap')
-const { flatten } = require('../../utils')
 const { throwPb } = require('../../errors')
 
 // Retrieve all routes regexps, rpc and variable names
 const getAllRoutes = function() {
-  const routes = Object.values(rpcAdapters).map(getRoutes)
-  const routesA = flatten(routes)
-  return routesA
+  return Object.values(rpcAdapters).flatMap(getRoutes)
 }
 
 const getRoutes = function({ routes, name: rpc }) {

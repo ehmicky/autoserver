@@ -1,6 +1,5 @@
 'use strict'
 
-const { flatten } = require('../../utils')
 const { DEEP_OPERATORS } = require('../operators')
 
 const { parseOperations } = require('./operations')
@@ -11,24 +10,20 @@ const parseAttrs = function({ attrs, throwErr }) {
     throwErr(message)
   }
 
-  const nodes = Object.entries(attrs).map(([attrName, attrVal]) =>
+  return Object.entries(attrs).flatMap(([attrName, attrVal]) =>
     parseNestedAttr({ attrName, attrVal, throwErr }),
   )
-  const nodesA = flatten(nodes)
-  return nodesA
 }
 
 // Prepend `attrName.`, then recurse
 const parseNestedAttrs = function({ attrName, attrVal, throwErr }) {
-  const nodes = Object.entries(attrVal).map(([nestedName, nestedAttrVal]) =>
+  return Object.entries(attrVal).flatMap(([nestedName, nestedAttrVal]) =>
     parseNestedAttr({
       attrName: `${attrName}.${nestedName}`,
       attrVal: nestedAttrVal,
       throwErr,
     }),
   )
-  const nodesA = flatten(nodes)
-  return nodesA
 }
 
 // `{ attribute: { child: value } }` is parsed as `{ attribute.child: value }`

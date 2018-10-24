@@ -1,6 +1,5 @@
 'use strict'
 
-const { flatten } = require('../../../utils')
 const { isError, normalizeError, addErrorHandler } = require('../../../errors')
 
 const { getRollbackInput } = require('./input')
@@ -18,11 +17,9 @@ const rollback = function({ results, inputs }, nextLayer) {
 }
 
 const rollbackActions = async function({ failedActions, inputs, nextLayer }) {
-  const inputsA = inputs.map(getRollbackInput)
-  const inputsB = flatten(inputsA)
-  const promises = inputsB.map(input =>
-    eFireResponseLayer({ input, nextLayer }),
-  )
+  const promises = inputs
+    .flatMap(getRollbackInput)
+    .map(input => eFireResponseLayer({ input, nextLayer }))
   // Wait for all rollbacks to end
   const results = await Promise.all(promises)
 

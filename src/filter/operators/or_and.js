@@ -1,13 +1,9 @@
 'use strict'
 
-const { flatten } = require('../../utils')
-
 const parseOr = function({ value, parseOperations, throwErr }) {
-  const node = value.map(_and =>
+  return value.flatMap(_and =>
     parseOperations({ operations: { _and }, throwErr }),
   )
-  const nodeA = flatten(node)
-  return nodeA
 }
 
 const parseAnd = function({ value, parseAttrs, throwErr }) {

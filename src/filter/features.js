@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten, uniq } = require('../utils')
+const { uniq } = require('../utils')
 
 const { crawlNodes } = require('./crawl')
 const { isSiblingValue } = require('./siblings')
@@ -12,7 +12,7 @@ const getFeatures = function({ filter }) {
   }
 
   const features = crawlNodes(filter, getFeature)
-  const featuresA = flatten(features)
+  const featuresA = features.flat()
   const featuresB = uniq(featuresA)
   return featuresB
 }

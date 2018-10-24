@@ -14,8 +14,6 @@ const {
 // eslint-disable-next-line import/no-internal-modules
 const uuidv5 = require('uuid/v5')
 
-const { flatten } = require('../utils')
-
 // Retrieve host-specific information
 const getHostInfo = function() {
   const id = getHostId()
@@ -40,10 +38,10 @@ const getHostId = function() {
 
 const getMacAddress = function() {
   const ifaces = getNetworkInterfaces()
-  const ifacesA = Object.values(ifaces)
-  const ifacesB = flatten(ifacesA)
   const { mac: macA } =
-    ifacesB.find(({ internal, mac }) => !internal && mac) || {}
+    Object.values(ifaces)
+      .flat()
+      .find(({ internal, mac }) => !internal && mac) || {}
 
   if (macA === undefined) {
     return DEFAULT_MAC_ADDRESS

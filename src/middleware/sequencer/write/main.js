@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten, groupValuesBy } = require('../../../utils')
+const { groupValuesBy } = require('../../../utils')
 const { addErrorHandler, normalizeError } = require('../../../errors')
 const { mergeCommandpaths } = require('../../../commands')
 
@@ -25,7 +25,7 @@ const sequenceWrite = async function({ actions, top, mInput }, nextLayer) {
   )
   const results = await Promise.all(resultsPromises)
 
-  const resultsA = flatten(results)
+  const resultsA = results.flat()
   return { results: resultsA, inputs }
 }
 

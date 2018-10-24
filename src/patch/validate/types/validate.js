@@ -1,6 +1,6 @@
 'use strict'
 
-const { getWordsList, uniq, flatten } = require('../../../utils')
+const { getWordsList, uniq } = require('../../../utils')
 
 const { TYPES } = require('./available')
 
@@ -91,12 +91,12 @@ const getValidTypes = function({ possTypes, strict }) {
 }
 
 const stringifyTypes = function({ validTypes, name }) {
-  const validTypesA = validTypes.map(validType => validType[name])
-  const validTypesB = flatten(validTypesA)
-  const validTypesC = validTypesB.filter(validType => validType !== undefined)
-  const validTypesD = uniq(validTypesC)
-  const validTypesE = getWordsList(validTypesD)
-  return validTypesE
+  const validTypesA = validTypes
+    .flatMap(validType => validType[name])
+    .filter(validType => validType !== undefined)
+  const validTypesB = uniq(validTypesA)
+  const validTypesC = getWordsList(validTypesB)
+  return validTypesC
 }
 
 const getValidType = function({ type, strict }) {

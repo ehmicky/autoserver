@@ -1,6 +1,6 @@
 'use strict'
 
-const { getWordsList, flatten, difference } = require('../../utils')
+const { getWordsList, difference } = require('../../utils')
 const { getFeatures } = require('../../filter')
 
 // Startup time adapter features validation
@@ -26,9 +26,7 @@ const validateStartupFeatures = function({ name, features }, { coll }) {
 // Some database features might only possible to be guessed runtime,
 // e.g. the 'filter' feature.
 const getRequiredFeatures = function({ coll }) {
-  const requiredFeatures = featuresCheckers.map(checker => checker({ coll }))
-  const requiredFeaturesA = flatten(requiredFeatures)
-  return requiredFeaturesA
+  return featuresCheckers.flatMap(checker => checker({ coll }))
 }
 
 // `collection.authorize` adds authorization filter, i.e. requires 'filter'

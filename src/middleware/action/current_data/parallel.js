@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten, groupBy, groupValuesBy, mapValues } = require('../../../utils')
+const { groupBy, groupValuesBy, mapValues } = require('../../../utils')
 const { mergeCommandpaths } = require('../../../commands')
 const { getSimpleFilter } = require('../../../filter')
 
@@ -50,10 +50,7 @@ const getArgs = function({ actions }) {
 }
 
 const getIds = function({ actions }) {
-  const dataA = actions.map(({ args: { data } }) => data)
-  const dataB = flatten(dataA)
-  const ids = dataB.map(({ id }) => id)
-  return ids
+  return actions.flatMap(({ args: { data } }) => data).map(({ id }) => id)
 }
 
 const getModels = function(results) {

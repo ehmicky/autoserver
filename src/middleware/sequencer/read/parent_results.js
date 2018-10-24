@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten, isEqual, uniq } = require('../../../utils')
+const { isEqual, uniq } = require('../../../utils')
 const { getSimpleFilter } = require('../../../filter')
 
 // Retrieve the results of all direct parent commands
@@ -31,12 +31,11 @@ const isParentResults = function({ result: { path, promise }, parentPath }) {
 // check against `maxmodels` limit
 const getParentIds = function({ commandName, parentResults }) {
   const nestedParentIds = parentResults.map(({ model }) => model[commandName])
-  const allIds = flatten(nestedParentIds)
-  const allIdsA = allIds.filter(ids => ids !== undefined)
+  const allIds = nestedParentIds.flat().filter(ids => ids !== undefined)
   // We remove duplicate `id`, for efficiency reasons
-  const parentIds = uniq(allIdsA)
+  const parentIds = uniq(allIds)
 
-  return { nestedParentIds, parentIds, allIds: allIdsA }
+  return { nestedParentIds, parentIds, allIds }
 }
 
 // Make nested collections filtered by their parent model

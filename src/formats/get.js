@@ -90,12 +90,11 @@ const throwUnsupportedFormat = function({ format }) {
 // Returns list of allowed MIME types
 const getMimes = function({ safe } = {}) {
   const formats = getFormats({ safe })
-  const mimesA = formats.map(({ mimes = [], mimeExtensions = [] }) => [
+  const mimesA = formats.flatMap(({ mimes = [], mimeExtensions = [] }) => [
     ...mimes,
     ...mimeExtensions,
   ])
-  const mimesB = [].concat(...mimesA)
-  return mimesB
+  return mimesA
 }
 
 // Default format for structured types, and unstructure types

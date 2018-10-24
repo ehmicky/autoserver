@@ -2,7 +2,7 @@
 
 const { capitalize } = require('underscore.string')
 
-const { mapValues, mapKeys, flatten } = require('../../../../utils')
+const { mapValues, mapKeys } = require('../../../../utils')
 const { COMMANDS } = require('../../../../commands')
 
 const { getCommandName, getTypeName } = require('./name')
@@ -62,10 +62,9 @@ const getCommandDef = function({ collections, command }) {
 
 // Create one copy of a collection for each of its `clientCollname`
 const getCollectionsNames = function({ collections }) {
-  const collectionsA = Object.entries(collections).map(getCollectionNames)
-  const collectionsB = flatten(collectionsA)
-  const collectionsC = Object.assign({}, ...collectionsB)
-  return collectionsC
+  const collectionsA = Object.entries(collections).flatMap(getCollectionNames)
+  const collectionsB = Object.assign({}, ...collectionsA)
+  return collectionsB
 }
 
 const getCollectionNames = function([collname, coll]) {

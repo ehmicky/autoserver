@@ -1,6 +1,6 @@
 'use strict'
 
-const { groupBy, flatten } = require('../utils')
+const { groupBy } = require('../utils')
 
 const {
   PARENT_OPERATORS,
@@ -12,16 +12,15 @@ const {
 // Returns array of func() return values
 const crawlNodes = function(node, func) {
   const children = getNodeChildren(node)
-  const childrenA = children.map(child => crawlNodes(child, func))
-  const childrenB = flatten(childrenA)
+  const childrenA = children.flatMap(child => crawlNodes(child, func))
 
   const returnValue = func(node)
 
   if (returnValue === undefined) {
-    return childrenB
+    return childrenA
   }
 
-  return [returnValue, ...childrenB]
+  return [returnValue, ...childrenA]
 }
 
 const getNodeChildren = function({ type, value }) {
@@ -42,9 +41,8 @@ const crawlAttrs = function(node, func) {
     return [...returnValue, value]
   }
 
-  const children = value.map(child => crawlAttrs(child, func))
-  const childrenA = flatten(children)
-  return childrenA
+  const children = value.flatMap(child => crawlAttrs(child, func))
+  return children
 }
 
 const getAttrs = function(node, func) {

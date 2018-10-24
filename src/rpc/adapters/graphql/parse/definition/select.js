@@ -1,7 +1,6 @@
 'use strict'
 
 const { throwError } = require('../../../../../errors')
-const { flatten } = require('../../../../../utils')
 
 const { applyDirectives } = require('./directive')
 const { mergeSelectRename } = require('./merge_select')
@@ -28,8 +27,8 @@ const parseSelectionSet = function({
 
   const select = selectionSet.selections
     .filter(selection => applyDirectives({ selection, variables }))
-    .map(parseSelection.bind(null, { parentPath, variables, fragments }))
-  return flatten(select)
+    .flatMap(parseSelection.bind(null, { parentPath, variables, fragments }))
+  return select
 }
 
 const parseSelection = function(

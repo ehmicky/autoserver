@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten, uniq } = require('../../../utils')
+const { uniq } = require('../../../utils')
 const { getColl } = require('../get_coll')
 
 const { getDataPath } = require('./data_path')
@@ -8,14 +8,13 @@ const { isModelType } = require('./validate')
 
 // Retrieve the keys of an `args.data` object which are nested collections
 const getNestedKeys = function({ data, commandpath, top, config }) {
-  const nestedKeys = data.map(Object.keys)
-  const nestedKeysA = flatten(nestedKeys)
-  const nestedKeysB = uniq(nestedKeysA)
+  const nestedKeys = data.flatMap(Object.keys)
+  const nestedKeysA = uniq(nestedKeys)
   // Keep only the keys which are nested collections
-  const nestedKeysC = nestedKeysB.filter(attrName =>
+  const nestedKeysB = nestedKeysA.filter(attrName =>
     isModel({ attrName, commandpath, top, config }),
   )
-  return nestedKeysC
+  return nestedKeysB
 }
 
 const isModel = function({ attrName, commandpath, top, config }) {
@@ -26,11 +25,9 @@ const isModel = function({ attrName, commandpath, top, config }) {
 
 // Retrieve children actions of an `args.data` object by iterating over them
 const getNestedActions = function({ nestedKeys, ...rest }) {
-  const nestedActions = nestedKeys.map(nestedKey =>
+  return nestedKeys.flatMap(nestedKey =>
     getNestedAction({ ...rest, nestedKey }),
   )
-  const nestedActionsA = flatten(nestedActions)
-  return nestedActionsA
 }
 
 const getNestedAction = function({
@@ -57,23 +54,18 @@ const getNestedAction = function({
 
 // Retrieve nested data
 const getData = function({ data, nestedKey }) {
-  const nestedData = data.map(datum => datum[nestedKey])
-  const nestedDataA = flatten(nestedData)
-  const nestedDataB = nestedDataA.filter(isModelType)
-  return nestedDataB
+  return data.flatMap(datum => datum[nestedKey]).filter(isModelType)
 }
 
 // Add the `dataPaths` to the nested data, by adding `nestedKey` to each parent
 // `dataPaths`
 const getDataPaths = function({ dataPaths, data, nestedKey }) {
-  const dataPathsA = dataPaths.map((dataPath, index) =>
+  return dataPaths.flatMap((dataPath, index) =>
     getDataPath({
       data: data[index][nestedKey],
       commandpath: [...dataPath, nestedKey],
     }),
   )
-  const dataPathsB = flatten(dataPathsA)
-  return dataPathsB
 }
 
 module.exports = {

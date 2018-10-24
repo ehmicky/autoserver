@@ -2,7 +2,7 @@
 
 const pluralize = require('pluralize')
 
-const { getWordsList, flatten } = require('../../utils')
+const { getWordsList } = require('../../utils')
 const { throwPb } = require('../../errors')
 const { getLimits } = require('../../limits')
 
@@ -95,15 +95,13 @@ const validateMaxData = function({
     return
   }
 
-  const dataA = actions.map(({ args: { data } }) => data)
-  const dataB = flatten(dataA)
+  const dataA = actions.flatMap(({ args: { data } }) => data)
+  const value = dataA.length
+  const limit = maxmodels
 
-  if (dataB.length <= maxmodels) {
+  if (value <= limit) {
     return
   }
-
-  const value = dataB.length
-  const limit = maxmodels
 
   const message = `The 'data' argument must not contain more than ${limit} models, but it contains ${value} models, including nested models`
   throwPb({ reason: 'PAYLOAD_LIMIT', message, extra: { value, limit } })

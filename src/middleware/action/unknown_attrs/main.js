@@ -1,6 +1,6 @@
 'use strict'
 
-const { flatten, uniq } = require('../../../utils')
+const { uniq } = require('../../../utils')
 const { throwError } = require('../../../errors')
 
 const { validateAllAttr } = require('./all')
@@ -48,10 +48,9 @@ const getDataKeys = function({
     args: { data = [] },
   },
 }) {
-  const keys = data.map(Object.keys)
-  const keysA = flatten(keys)
-  const keysB = uniq(keysA)
-  return keysB
+  const keys = data.flatMap(Object.keys)
+  const keysA = uniq(keys)
+  return keysA
 }
 
 const getOrderKeys = function({

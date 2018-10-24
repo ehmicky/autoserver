@@ -1,16 +1,11 @@
 'use strict'
 
-const { flatten } = require('../../../utils')
-
 // Retrieve `currentData`, so it is passed to command middleware
 const getCurrentData = function({ actions, ids }) {
-  const currentData = actions.map(action => action.currentData)
-  const currentDataA = flatten(currentData)
+  const currentData = actions.flatMap(action => action.currentData)
   // Keep the same order as `newData` or `args.filter.id`
-  const currentDataB = ids.map(id =>
-    findCurrentData({ id, currentData: currentDataA }),
-  )
-  return currentDataB
+  const currentDataA = ids.map(id => findCurrentData({ id, currentData }))
+  return currentDataA
 }
 
 const findCurrentData = function({ id, currentData }) {

@@ -1,6 +1,6 @@
 'use strict'
 
-const { deepMerge, uniq, flatten, getSumParams } = require('../../utils')
+const { deepMerge, uniq, getSumParams } = require('../../utils')
 const { throwPb } = require('../../errors')
 const { COMMANDS } = require('../../commands')
 
@@ -81,11 +81,10 @@ const getAllowed = function({ collsNames }) {
   const clientCollnames = Object.keys(collsNames)
   const commands = COMMANDS.map(({ type }) => type)
   const commandsA = uniq(commands)
-  const allowed = commandsA.map(command =>
+  const allowed = commandsA.flatMap(command =>
     getAllowedCommand({ command, clientCollnames }),
   )
-  const allowedA = flatten(allowed)
-  return allowedA
+  return allowed
 }
 
 const getAllowedCommand = function({ command, clientCollnames }) {

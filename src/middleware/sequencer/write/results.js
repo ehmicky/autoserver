@@ -1,6 +1,5 @@
 'use strict'
 
-const { flatten } = require('../../../utils')
 const { throwPb } = require('../../../errors')
 
 const { handlers } = require('./args')
@@ -9,11 +8,7 @@ const { handlers } = require('./args')
 const getResults = function({ actions, data, metadata, ids, top }) {
   validateData({ ids, data })
 
-  const results = actions.map(action =>
-    setModels({ action, data, metadata, top }),
-  )
-  const resultsA = flatten(results)
-  return resultsA
+  return actions.flatMap(action => setModels({ action, data, metadata, top }))
 }
 
 // `results` should be in same order as `args.data` or
@@ -50,7 +45,7 @@ const validateData = function({ ids, data }) {
     return
   }
 
-  const message = '\'ids\' and \'results\' do not have the same length'
+  const message = "'ids' and 'results' do not have the same length"
   throwPb({ message, reason: 'ENGINE' })
 }
 

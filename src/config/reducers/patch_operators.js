@@ -1,6 +1,6 @@
 'use strict'
 
-const { mapValues, flatten, uniq } = require('../../utils')
+const { mapValues, uniq } = require('../../utils')
 const { OPERATORS } = require('../../patch')
 
 // Parse `operators.attribute|argument` `any`
@@ -30,10 +30,9 @@ const normalizeField = function({ operator, name }) {
   }
 
   const types = TYPES[name]
-  const fieldA = field.map(type => types[type] || type)
-  const fieldB = flatten(fieldA)
-  const fieldC = uniq(fieldB)
-  return { [name]: fieldC }
+  const fieldA = field.flatMap(type => types[type] || type)
+  const fieldB = uniq(fieldA)
+  return { [name]: fieldB }
 }
 
 const TYPES = {

@@ -1,13 +1,9 @@
 'use strict'
 
-const { flatten } = require('../../../utils')
-
 const getValues = function({ actions, filter, mapper, ...rest }) {
-  const values = actions
+  return actions
     .filter(({ args }) => filterArgs({ args, filter }))
-    .map(action => mapper({ action, ...rest }))
-  const valuesA = flatten(values)
-  return valuesA
+    .flatMap(action => mapper({ action, ...rest }))
 }
 
 const filterArgs = function({ args, filter }) {

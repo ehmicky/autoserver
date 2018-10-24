@@ -1,12 +1,6 @@
 'use strict'
 
-const {
-  difference,
-  getWordsList,
-  flatten,
-  omit,
-  uniq,
-} = require('../../../utils')
+const { difference, getWordsList, omit, uniq } = require('../../../utils')
 const { throwError } = require('../../../errors')
 
 const { getValues } = require('./values')
@@ -55,11 +49,10 @@ const validateAll = function({ name, actions, values, top }) {
 const getWrongPaths = function({ actions, values }) {
   const actionPaths = actions.map(({ commandpath }) => commandpath.join('.'))
 
-  const valuePaths = values.map(Object.keys)
-  const valuePathsA = flatten(valuePaths)
-  const valuePathsC = uniq(valuePathsA)
+  const valuePaths = values.flatMap(Object.keys)
+  const valuePathsA = uniq(valuePaths)
 
-  const wrongPaths = difference(valuePathsC, actionPaths)
+  const wrongPaths = difference(valuePathsA, actionPaths)
   return wrongPaths
 }
 

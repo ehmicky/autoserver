@@ -1,7 +1,5 @@
 'use strict'
 
-const { flatten } = require('../../../../utils')
-
 // Retrieve `nestedPagesize`, which is the pagesize applied to nested actions
 // We try to maximize it, while still be under the `maxmodels` limit
 const getNestedPagesize = function({ results, nestedAttrs, maxmodels }) {
@@ -20,11 +18,7 @@ const getNestedPagesize = function({ results, nestedAttrs, maxmodels }) {
 // attribute (1 if it is not an array) and `weight` the number of nested
 // actions implied
 const getNestedLengths = function({ results, nestedAttrs }) {
-  const nestedLengths = results.map(({ model }) =>
-    getNestedLength({ model, nestedAttrs }),
-  )
-  const nestedLengthsA = flatten(nestedLengths)
-  return nestedLengthsA
+  return results.flatMap(({ model }) => getNestedLength({ model, nestedAttrs }))
 }
 
 const getNestedLength = function({ model, nestedAttrs }) {

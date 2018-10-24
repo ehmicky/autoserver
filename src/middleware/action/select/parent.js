@@ -1,16 +1,13 @@
 'use strict'
 
-const { flatten } = require('../../../utils')
-
 // When using `select=parent.child`, `select=parent` is implicity added,
 // unless it was already selected, including by `select=all` or by specifying
 // no `select` at that level
 const addParentSelects = function({ selects }) {
-  const parentSelects = selects.map(select =>
+  const parentSelects = selects.flatMap(select =>
     getParentSelect({ select, selects }),
   )
-  const parentSelectsA = flatten(parentSelects)
-  return [...selects, ...parentSelectsA]
+  return [...selects, ...parentSelects]
 }
 
 const getParentSelect = function({ select, selects }) {
