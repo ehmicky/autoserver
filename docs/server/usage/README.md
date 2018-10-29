@@ -26,10 +26,6 @@ $ autoserver run --protocols.http.port=5001
 
 The server can also be used from Node.js:
 
-<!-- eslint-disable strict, no-undef, unicorn/filename-case,
-node/no-extraneous-require, import/no-extraneous-dependencies,
-import/no-unresolved, node/no-missing-require -->
-
 ```javascript
 const autoserver = require('autoserver')
 

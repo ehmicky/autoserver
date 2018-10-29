@@ -22,8 +22,6 @@ created. Their parameters are read-only.
 Functions are regular JavaScript files exporting a function and required using a
 [reference](references.md).
 
-<!-- eslint-disable strict, filenames/match-exported -->
-
 ```js
 const getDefaultValue = function() {
   return Math.random()
@@ -77,8 +75,6 @@ Every function receives as its first argument an object containing parameters
 with information about the current context.
 
 In the example below, the `timestamp` parameter is used.
-
-<!-- eslint-disable strict, filenames/match-exported -->
 
 ```js
 const getDefaultValue = function({ timestamp }) {
@@ -225,8 +221,6 @@ available to any function.
 params:
   $secret_password: admin
 ```
-
-<!-- eslint-disable strict, filenames/match-exported, camelcase -->
 
 ```js
 const getDefaultValue = function({ $secret_password }) {

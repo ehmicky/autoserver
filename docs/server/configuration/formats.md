@@ -16,8 +16,6 @@ Most of the examples in this documentation use
 
 # JavaScript
 
-<!-- eslint-disable strict, filenames/match-exported, comma-dangle -->
-
 ```js
 // Comment
 

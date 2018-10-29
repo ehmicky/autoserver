@@ -23,11 +23,7 @@ with:
 If an error occurred, the promise will be rejected with an
 [exception object](error.md#exceptions).
 
-<!-- eslint-disable no-unused-vars, no-undef, strict, no-console,
-no-restricted-globals, unicorn/catch-error-name, promise/always-return,
-promise/prefer-await-to-then, node/no-extraneous-require,
-import/no-extraneous-dependencies, import/no-unresolved,
-node/no-missing-require -->
+<!-- eslint-disable promise/always-return -->
 
 ```javascript
 const autoserver = require('autoserver')
