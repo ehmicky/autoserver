@@ -15,7 +15,3 @@ You can run the following tasks on the command line:
   in watch mode
 
 For more information on the available tasks, run `gulp --tasks`.
-
-# Troubleshooting
-
-- Please use Node.js v11.0.0
