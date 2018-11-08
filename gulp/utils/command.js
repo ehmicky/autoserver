@@ -1,39 +1,28 @@
 'use strict'
 
 const { env } = require('process')
-const { spawn } = require('child_process')
+const { promisify } = require('util')
 
+const spawn = require('cross-spawn')
+const { get: getPath, PATH } = require('npm-path')
 const PluginError = require('plugin-error')
 
 // Execute a shell command
-const execCommand = function(command, { quiet = false, cwd } = {}) {
+const execCommand = async function(command, { quiet = false, cwd } = {}) {
   const [commandA, ...args] = command.trim().split(/ +/u)
-  const envA = getEnv()
   const stdio = getStdio({ quiet })
+  const envA = await getEnv()
   const child = spawn(commandA, args, { env: envA, stdio, cwd })
 
   // eslint-disable-next-line promise/avoid-new
   return new Promise(execCommandPromise.bind(null, { child, command }))
 }
 
-// Adds local Node modules binary to `$PATH`
-const getEnv = function() {
-  const PATH = getPath({ env })
-  const envA = { ...env, PATH }
-  return envA
+// Allow executing binaries installed in `node_modules/.bin`
+const getEnv = async function() {
+  const path = await promisify(getPath)()
+  return { ...env, [PATH]: path }
 }
-
-const getPath = function({ env: { PATH = '' } }) {
-  const hasLocalDir = PATH.split(':').includes(LOCAL_NODE_BIN_DIR)
-
-  if (hasLocalDir) {
-    return PATH
-  }
-
-  return `${PATH}:${LOCAL_NODE_BIN_DIR}`
-}
-
-const LOCAL_NODE_BIN_DIR = './node_modules/.bin/'
 
 // If `opts.quiet` `true`, does not print stdout (but still prints stderr)
 const getStdio = function({ quiet }) {
