@@ -1,4 +1,5 @@
 {
+  "non-interactive": true,
   "pkgFiles": ["package.json", "package-lock.json"],
   "github": {
     "release": true
