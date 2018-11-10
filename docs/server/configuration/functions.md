@@ -222,6 +222,8 @@ params:
   $secret_password: admin
 ```
 
+<!-- eslint-disable id-match -->
+
 ```js
 const getDefaultValue = function({ $secret_password }) {
   return $secret_password === 'admin' ? 1 : 0
