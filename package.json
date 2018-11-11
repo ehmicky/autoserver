@@ -121,7 +121,7 @@
     "markdown-link-extractor": "^1.2.0",
     "nodemon": "^1.18.6",
     "plugin-error": "^1.0.1",
-    "prettier": "^1.15.1",
+    "prettier": "^1.15.2",
     "release-it": "^7.6.3",
     "through2": "^2.0.3"
   },
