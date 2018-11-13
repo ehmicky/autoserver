@@ -9,7 +9,7 @@ const nodemonDebugConfig = require('../../nodemon.debug')
 const gulpExeca = require('../exec')
 
 // We use this instead of requiring the application to test the CLI
-const start = gulpExeca.bind(null, '../bin/autoserver.js', { cwd: 'examples' })
+const start = () => gulpExeca('../bin/autoserver.js', { cwd: 'examples' })
 
 // eslint-disable-next-line fp/no-mutation
 start.description = 'Start an example production server'
