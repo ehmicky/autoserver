@@ -1,13 +1,17 @@
 {
   "JAVASCRIPT": [
     "{index,gulpfile}.js",
+    "src/*.js",
     "src/**/*.js",
+    "bin/*.js",
     "bin/**/*.js",
+    "gulp/*.js",
     "gulp/**/*.js",
+    "examples/*.js",
     "examples/**/*.js"
   ],
-  "JSON": ["*.json", "gulp/**/*.json"],
+  "JSON": ["*.json", "gulp/*.json", "gulp/**/*.json"],
   "YAML": ["*.yml", "examples/*.yml"],
-  "YAML_TO_JSON": ["src/**/*.yml"],
-  "MARKDOWN": ["*.md", "docs/**/*.md"]
+  "YAML_TO_JSON": ["src/*.yml", "src/**/*.yml"],
+  "MARKDOWN": ["*.md", "docs/*.md", "docs/**/*.md"]
 }
