@@ -1,6 +1,6 @@
 {
   "JAVASCRIPT": [
-    "*.js",
+    "{index,gulpfile}.js",
     "src/**/*.js",
     "bin/**/*.js",
     "gulp/**/*.js",
