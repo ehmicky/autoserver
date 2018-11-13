@@ -2,7 +2,9 @@
 
 const process = require('process')
 
-const { signals } = require('signal-exit')
+// Avoid requiring `signal-exit` directly as it adds a global EventEmitter
+// eslint-disable-next-line import/no-internal-modules
+const EXIT_SIGNALS = require('signal-exit/signals')
 
 const { gracefulExit } = require('./graceful_exit')
 
@@ -22,13 +24,11 @@ const setupGracefulExit = function({ protocolAdapters, dbAdapters, config }) {
   return { exitFunc }
 }
 
+// Add `SIGUSR2` for Nodemon
 const getExitSignals = function() {
-  const exitSignals = signals()
-  // For Nodemon
-  const exitSignalsA = exitSignals.includes('SIGUSR2')
-    ? exitSignals
-    : [...exitSignals, 'SIGUSR2']
-  return exitSignalsA
+  return EXIT_SIGNALS.includes('SIGUSR2')
+    ? EXIT_SIGNALS
+    : [...EXIT_SIGNALS, 'SIGUSR2']
 }
 
 module.exports = {
