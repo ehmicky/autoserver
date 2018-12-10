@@ -24,7 +24,9 @@ format.description = 'Format files using prettier'
 
 // We do not use `gulp-eslint` because it does not support --cache
 const lint = function() {
-  const files = [...FILES.JAVASCRIPT, ...FILES.MARKDOWN].join(' ')
+  const files = [...FILES.JAVASCRIPT, ...FILES.MARKDOWN]
+    .map(pattern => `'${pattern}'`)
+    .join(' ')
   return gulpExeca(
     `eslint ${files} --ignore-path .gitignore --fix --cache --format codeframe --max-warnings 0 --report-unused-disable-directives`,
   )
