@@ -1,18 +1,19 @@
 'use strict'
 
-const {
-  compress: brotliCompress,
-  decompress: brotliDecompress,
-} = require('iltorb')
+const { promisify } = require('util')
+const { brotliCompress, brotliDecompress } = require('zlib')
+
+const pBrotliCompress = promisify(brotliCompress)
+const pBrotliDecompress = promisify(brotliDecompress)
 
 // Compress to Brotli
 const compress = function(content) {
-  return brotliCompress(content)
+  return pBrotliCompress(content)
 }
 
 // Decompress from Brotli
 const decompress = function(content) {
-  return brotliDecompress(content)
+  return pBrotliDecompress(content)
 }
 
 module.exports = {
