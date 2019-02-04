@@ -115,7 +115,7 @@
     "execa": "^1.0.0",
     "gulp": "^4.0.0",
     "gulp-jscpd": "0.0.8",
-    "gulp-yaml": "^2.0.2",
+    "gulp-yaml": "^2.0.3",
     "link-check": "^4.4.4",
     "markdown-link-extractor": "^1.2.0",
     "nodemon": "^1.18.9",
