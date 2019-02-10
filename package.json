@@ -118,7 +118,7 @@
     "gulp-yaml": "^2.0.3",
     "link-check": "^4.4.4",
     "markdown-link-extractor": "^1.2.0",
-    "nodemon": "^1.18.9",
+    "nodemon": "^1.18.10",
     "plugin-error": "^1.0.1",
     "prettier": "^1.16.4",
     "release-it": "^10.1.0",
