@@ -50,6 +50,11 @@ const dup = function() {
 // eslint-disable-next-line fp/no-mutation
 dup.description = 'Check for code duplication'
 
+const audit = () => gulpExeca('npm audit')
+
+// eslint-disable-next-line fp/no-mutation
+audit.description = 'Check for security vulnerabilities'
+
 const links = function() {
   return src(FILES.MARKDOWN, { since: lastRun(links) }).pipe(
     linksCheck({ full: false }),
@@ -72,7 +77,7 @@ linksfull.description =
 
 const check = series(format, lint)
 
-const testTask = parallel(check, dup, links)
+const testTask = parallel(check, dup, audit, links)
 
 // eslint-disable-next-line fp/no-mutation
 testTask.description = 'Lint and test the application'
@@ -92,6 +97,7 @@ module.exports = {
   format,
   lint,
   dup,
+  audit,
   links,
   linksfull,
 }
