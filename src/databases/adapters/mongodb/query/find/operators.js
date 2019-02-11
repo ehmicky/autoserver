@@ -57,6 +57,7 @@ const getGenericNode = function({ type, value, key }) {
   return { [name]: valueA }
 }
 
+/* eslint-disable unicorn/no-unused-properties */
 const OPERATORS_MAP = {
   _eq: { opName: '$eq', inverse: '$ne' },
   _neq: { opName: '$ne', inverse: '$eq' },
@@ -69,6 +70,7 @@ const OPERATORS_MAP = {
   _like: { opName: '$regex', inverse: '$not', kind: 'regexp' },
   _nlike: { opName: '$not', inverse: '$regex', kind: 'regexp' },
 }
+/* eslint-enable unicorn/no-unused-properties */
 
 const operators = {
   _or: orOperator,
