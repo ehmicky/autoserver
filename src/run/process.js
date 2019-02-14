@@ -1,7 +1,6 @@
 'use strict'
 
-const process = require('process')
-const { inspect } = require('util')
+const logProcessErrors = require('log-process-errors')
 
 const { logEvent } = require('../log')
 const { createPb } = require('../errors')
@@ -12,60 +11,30 @@ const { createPb } = require('../errors')
 // Note that process events fired that do not belong to autoserver might be
 // caught as well.
 const processErrorHandler = function({ config }) {
-  process.on('unhandledRejection', unhandledHandler.bind(null, config))
-  process.on('multipleResolves', multipleResolvesHandler.bind(null, config))
-  process.on('rejectionHandled', rejectionHandledHandler.bind(null, config))
-  process.on('warning', warningHandler.bind(null, config))
+  const stopProcessErrors = logProcessErrors({
+    ...LOG_PROCESS_ERRORS_OPTS,
+    log: emitProcessEvent.bind(null, { config }),
+  })
+  return { stopProcessErrors }
 }
 
-const unhandledHandler = async function(config, value) {
-  const { suffix, innererror } = getPromiseValue(value)
-  const message = `A promise was rejected${suffix} and not handled right away`
-
-  await emitProcessEvent({ message, innererror, config })
-}
-
-// eslint-disable-next-line max-params
-const multipleResolvesHandler = async function(config, type, promise, value) {
-  const { suffix, innererror } = getPromiseValue(value)
-  const message = `A promise was ${type}d${suffix} after being already settled`
-
-  await emitProcessEvent({ message, innererror, config })
-}
-
-const getPromiseValue = function(value) {
-  if (value instanceof Error) {
-    return { suffix: '', innererror: value }
-  }
-
-  return { suffix: ` with value '${value}'` }
-}
-
-const rejectionHandledHandler = async function(config, promise) {
-  const message = `A promise was rejected but handled too late: ${inspect(
-    promise,
-  )}`
-
-  await emitProcessEvent({ message, config })
-}
-
-const warningHandler = async function(config, error) {
-  const { message, code, detail } = error
-  const nextLine = [code, detail]
-    .filter(string => string !== undefined)
-    .join(':')
-  const messageA = `${message}\n${nextLine}`
-
-  await emitProcessEvent({ message: messageA, innererror: error, config })
+const LOG_PROCESS_ERRORS_OPTS = {
+  colors: false,
+  exitOn: [],
+  // See https://github.com/nodejs/node/issues/24321
+  // We could log it as a `message` instead but it would lack the stack trace,
+  // making it less useful.
+  level: { multipleResolves: 'silent' },
 }
 
 // Report process problems as events with event 'failure'
-const emitProcessEvent = async function({ message, innererror, config }) {
-  const error = createPb(message, { reason: 'ENGINE', innererror })
+const emitProcessEvent = function({ config }, message, level) {
+  const error = createPb(message, { reason: 'ENGINE' })
 
-  await logEvent({
+  return logEvent({
     event: 'failure',
     phase: 'process',
+    level,
     params: { error },
     config,
   })

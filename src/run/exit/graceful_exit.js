@@ -13,12 +13,14 @@ const { emitStopEvent } = require('./stop_event')
 const mmGracefulExit = async function({
   protocolAdapters,
   dbAdapters,
+  stopProcessErrors,
   config,
 }) {
   const measures = []
   const { exit } = await mGracefulExit({
     protocolAdapters,
     dbAdapters,
+    stopProcessErrors,
     config,
     measures,
   })
@@ -46,9 +48,12 @@ const eGracefulExit = addErrorHandler(oGracefulExit, gracefulExitHandler)
 const gracefulExit = async function({
   protocolAdapters,
   dbAdapters,
+  stopProcessErrors,
   config,
   measures,
 }) {
+  stopProcessErrors()
+
   const protocolPromises = closeProtocols({
     protocolAdapters,
     config,

@@ -11,10 +11,16 @@ const { gracefulExit } = require('./graceful_exit')
 // Make sure the server stops when graceful exits are possible
 // Also send related events
 // We cannot handle `process.exit()` since graceful exit is async
-const setupGracefulExit = function({ protocolAdapters, dbAdapters, config }) {
+const setupGracefulExit = function({
+  protocolAdapters,
+  dbAdapters,
+  stopProcessErrors,
+  config,
+}) {
   const exitFunc = gracefulExit.bind(null, {
     protocolAdapters,
     dbAdapters,
+    stopProcessErrors,
     config,
   })
 
