@@ -67,7 +67,8 @@
   "directories": {
     "doc": "docs",
     "example": "examples",
-    "lib": "src"
+    "lib": "src",
+    "test": "test"
   },
   "dependencies": {
     "ajv": "^6.9.1",
