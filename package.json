@@ -13,8 +13,15 @@
   },
   "scripts": {
     "start": "gulp",
-    "test": "gulp test",
-    "release": "release-it"
+    "build": "gulp build",
+    "test": "npm run build && gulp test",
+    "release": "npm test && release-it",
+    "check-coverage": "gulp checkCoverage"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "gulp check"
+    }
   },
   "description": "Create a full-featured REST/GraphQL API from a configuration file",
   "keywords": [
