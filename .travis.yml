@@ -1,0 +1,51 @@
+language: node_js
+node_js:
+  - 6.5.0
+  - 8
+  - 10
+  - 11
+os:
+  - windows
+  - osx
+  - linux
+dist: xenial
+script: npm test
+# When pushing a tagged commit, Travis adds two builds: one with the tag, one
+# without. We only want to build the one with the tag, because it's the one
+# that runs the deployment stage
+if: '!(commit_message =~ /^Release/ && tag is blank)'
+jobs:
+  include:
+    # Test coverage check must happen after tests for the whole matrix have
+    # been performed, so we get the merged coverage map
+    - stage: Coverage check
+      os: linux
+      node_js: 11
+      script: npm run check-coverage
+      # If CI fails, codecov does not post a bot comment on PR, so we skip it
+      if: type != pull_request && (branch == master || tag is not blank)
+    # Deployment must happen after tests for the whole matrix have been
+    # performed, so we use `jobs.include` with a different `stage`
+    - stage: Deploy
+      os: linux
+      node_js: 11
+      # We have already run tests
+      script: npm run build
+      if: tag is not blank
+      # We run `release-it` locally (which tagged the commit and create a
+      # GitHub release) but we publish to npm only after CI success.
+      deploy:
+        provider: npm
+        email:
+          secure: V28VGR59Ug5AmYfEZwup2CfTiQbDW1VfAt+TGwTt+wHDQrju/KmX4yRQVYM3A6fQpuqZW78OR1r5eKNgiW1yoS95JjI8cArb/OKuHVQ9e7I+AIsgVyRvc3DR0YldAlyUHraxZnwaB1poFFr5cFFcyVk1T/8KAuM1/Mnp2lkVZPp0PIKiChOx88hNFlQZ6At7h/w69d9iRwI1lfEOGO7nCuuJgDgSff22LStu6f1+VkFFeqaM4+XCqp4JaLvx4Szb9kuBVoV04tQyI/QQeaJu+NyxZDo2j0wlYEIDGQj7R0M0WGZ3Hiuz59rDlWpIn+Tj/6AqwJGhgWvxVHquXT2Vnm/dbMV6GiqiDLE8+caO/4yoJ49i9d6ryTGU5TwWLsOagjZ1hP3zW6m2HIXY1t/o2al0lFpMdDfLmFD9ia6BvQv0xIvqsVo2bZ+77jmgqSZJ8oW2tU6hjneawa2afrcfZz9quKQr0vFWIqn/dTmDVPymKx59JfHvYh7j939pZlrZUro+LNukpnhi1EIOIX1YDZig9z85r86UHes8XfDPuCdGXNadRmal6g0qKyTvvmAMp7D/0KP2B9fmRlt94rwSqdSUFOu7NgbJ0ucpre/J3EopK09LKVAMvtBz/91TSRNdwEim1kZonyFNdb0Iu37hTGuiZyHocAke9LQBQRV4ItE=
+        api_key:
+          secure: W8H0umaA0ZMzz9jk9CG9/FE+tzE5EDR8YiflteffNjJLmAJP2QvqL7HIKWy2NgvajKnRwu00gn/KgVmVds119dBcMEq54u4jZO+om6/5d2/epyCUpALFsIREBkAYB1LMHA6EjVdZa8BllNfS1bcrigej4LCy9tI/NOQCIAsklVpn/tWMfX+zdbc9kQMirPnkRJkx4joAKSN2Q0BV9Kw7/ANIu6id8Vs4VyWdTDejMY262yFG8Jyof2qG08Rl56fj/ij1poZWQd+DUr/JCNX7huxdKX6PBAYutBlmm68bo/tQcuNJJBzlsbHM9xMLY/4ShPLdgWnKk2gPVlZq7z953w1GucX8SCHVYwe2X27WRyTdvF7HWmww5tLTTiP02DjQdFGzyB6tlFwhHYg39nrmEUGcEbU7gEjdQAEK1yYpIHhwQvrdFaJof8dcbs6mdAAo2Du2BabmS/v8v0/ieChMT8EMk/Wp9tRKLOTvFYnzpJ0KanM9fe5eOfNN4H5/bAMeeJLTnvbno92JouC8nzJtE452qrTn2RJ4TRXOfJx+g1pbHYNoM8ro/PCOZD8zDBD8qnv0/tytn+h8dzXDAG/hTnRVqpFM7GR6h+uOFqFV75wF1yIsZ8yCjMUEI0jbOecT13E9b6u23IUZHWB7mZjcY1XlmI2mz+LdoQHaeDX+FsQ=
+        on:
+          tags: true
+        # We want to run install step and keep built files for release
+        skip_cleanup: true
+cache: npm
+notifications:
+  webhooks:
+    - https://www.travisbuddy.com?only=failed,errored&insertMode=update
+  email: false
