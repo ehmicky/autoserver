@@ -94,7 +94,7 @@
     "underscore.string": "^3.3.5",
     "uuid": "^3.3.2",
     "vary": "^1.1.2",
-    "yargs": "^13.1.0"
+    "yargs": "^13.2.0"
   },
   "devDependencies": {
     "eslint": "^5.13.0",
