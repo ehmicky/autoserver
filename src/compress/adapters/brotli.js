@@ -1,7 +1,8 @@
 'use strict'
 
-const { promisify } = require('util')
 const { brotliCompress, brotliDecompress } = require('zlib')
+
+const promisify = require('util.promisify')
 
 const pBrotliCompress = promisify(brotliCompress)
 const pBrotliDecompress = promisify(brotliDecompress)

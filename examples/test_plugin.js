@@ -1,7 +1,8 @@
 'use strict'
 
-const { promisify } = require('util')
 const { nextTick } = require('process')
+
+const promisify = require('util.promisify')
 
 const testPlugin = async function({ config, opts: { example_option: opt } }) {
   await promisify(nextTick)()

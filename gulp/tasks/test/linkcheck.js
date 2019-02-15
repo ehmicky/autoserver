@@ -1,8 +1,8 @@
 'use strict'
 
 const { dirname } = require('path')
-const { promisify } = require('util')
 
+const promisify = require('util.promisify')
 const through = require('through2')
 const linkCheck = require('link-check')
 const markdownLinkExtractor = require('markdown-link-extractor')

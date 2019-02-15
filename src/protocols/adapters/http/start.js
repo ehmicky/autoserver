@@ -1,7 +1,8 @@
 'use strict'
 
 const http = require('http')
-const { promisify } = require('util')
+
+const promisify = require('util.promisify')
 
 // Start HTTP server
 const startServer = function({

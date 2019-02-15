@@ -1,7 +1,6 @@
 'use strict'
 
-const { promisify } = require('util')
-
+const promisify = require('util.promisify')
 const Nodemon = require('nodemon')
 
 const nodemonDevConfig = require('../../nodemon')
