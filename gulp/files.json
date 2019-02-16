@@ -1,4 +1,6 @@
 {
+  "BUILD": "src",
+  "BUILD_DIST": "dist",
   "JAVASCRIPT": [
     "{index,gulpfile}.js",
     "src/*.js",
@@ -12,6 +14,5 @@
   ],
   "JSON": ["*.json", "gulp/*.json", "gulp/**/*.json"],
   "YAML": ["*.yml", "examples/*.yml"],
-  "YAML_TO_JSON": ["src/*.yml", "src/**/*.yml"],
   "MARKDOWN": ["*.md", "docs/*.md", "docs/**/*.md"]
 }
