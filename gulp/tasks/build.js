@@ -12,8 +12,9 @@ const gulpExeca = require('../exec')
 const clean = () => del(BUILD_DIST)
 
 const copy = () =>
-  src([`${BUILD}/**`, `!${BUILD}/**/*.{y{,a}ml,js,ts,jsx,tsx}`], { dot: true })
-    .pipe(dest(BUILD_DIST))
+  src([`${BUILD}/**`, `!${BUILD}/**/*.{y{,a}ml,js,ts,jsx,tsx}`], {
+    dot: true,
+  }).pipe(dest(BUILD_DIST))
 
 const babel = () =>
   gulpExeca(
@@ -22,7 +23,7 @@ const babel = () =>
 
 const yaml = () =>
   src(`${BUILD}/**`, { dot: true })
-    .pipe(include(/\.ya?ml$/))
+    .pipe(include(/\.ya?ml$/u))
     .pipe(yamlToJson({ schema: 'JSON_SCHEMA', space: 2 }))
     .pipe(dest(BUILD_DIST))
 
