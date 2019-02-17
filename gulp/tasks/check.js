@@ -7,34 +7,24 @@ const FILES = require('../files')
 const { getWatchTask } = require('../utils')
 const gulpExeca = require('../exec')
 
-const format = function() {
-  const files = [
-    ...FILES.JAVASCRIPT,
-    ...FILES.MARKDOWN,
-    ...FILES.JSON,
-    ...FILES.YAML,
-  ].join(' ')
-  return gulpExeca(`prettier --write --loglevel warn ${files}`)
-}
-
-// eslint-disable-next-line fp/no-mutation
-format.description = 'Format files using prettier'
+const format = () =>
+  gulpExeca(`prettier --write --loglevel warn ${FILES.CHECK.join(' ')}`)
 
 // We do not use `gulp-eslint` because it does not support --cache
-const lint = function() {
-  const files = [...FILES.JAVASCRIPT, ...FILES.MARKDOWN]
-    .map(pattern => `"${pattern}"`)
-    .join(' ')
+const eslint = function() {
+  const files = FILES.CHECK.map(pattern => `"${pattern}"`).join(' ')
   return gulpExeca(
     `eslint ${files} --ignore-path .gitignore --fix --cache --format codeframe --max-warnings 0 --report-unused-disable-directives`,
   )
 }
 
+const lint = series(format, eslint)
+
 // eslint-disable-next-line fp/no-mutation
 lint.description = 'Lint source files'
 
-const dup = function() {
-  return src([...FILES.JAVASCRIPT, ...FILES.MARKDOWN]).pipe(
+const dup = () =>
+  src(FILES.CHECK).pipe(
     jscpd({
       verbose: true,
       blame: true,
@@ -43,7 +33,6 @@ const dup = function() {
       'skip-comments': true,
     }),
   )
-}
 
 // eslint-disable-next-line fp/no-mutation
 dup.description = 'Check for code duplication'
@@ -67,26 +56,19 @@ const outdated = () => gulpExeca('npm outdated')
 // eslint-disable-next-line fp/no-mutation
 outdated.description = 'Report outdated dependencies'
 
-const check = series(format, lint)
-
-const testTask = parallel(check, dup, audit, outdated)
+const check = parallel(lint, dup, audit, outdated)
 
 // eslint-disable-next-line fp/no-mutation
-testTask.description = 'Lint and test the application'
+check.description = 'Lint and check for code duplication'
 
-const testwatch = getWatchTask(
-  { JAVASCRIPT: [lint, dup], MARKDOWN: [lint, dup] },
-  testTask,
-)
+const checkwatch = getWatchTask({ CHECK: check }, check)
 
 // eslint-disable-next-line fp/no-mutation
-testwatch.description = 'Lint and test the application in watch mode'
+checkwatch.description = 'Lint and test the application in watch mode'
 
 module.exports = {
-  test: testTask,
-  testwatch,
   check,
-  format,
+  checkwatch,
   lint,
   dup,
   audit,

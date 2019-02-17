@@ -1,18 +1,5 @@
 {
+  "CHECK": ["*.{js,md}", "{src,gulp,test}/**/*.{js,md}"],
   "BUILD": "src",
-  "BUILD_DIST": "dist",
-  "JAVASCRIPT": [
-    "{index,gulpfile}.js",
-    "src/*.js",
-    "src/**/*.js",
-    "bin/*.js",
-    "bin/**/*.js",
-    "gulp/*.js",
-    "gulp/**/*.js",
-    "examples/*.js",
-    "examples/**/*.js"
-  ],
-  "JSON": ["*.json", "gulp/*.json", "gulp/**/*.json"],
-  "YAML": ["*.yml", "examples/*.yml"],
-  "MARKDOWN": ["*.md", "docs/*.md", "docs/**/*.md"]
+  "BUILD_DIST": "dist"
 }
