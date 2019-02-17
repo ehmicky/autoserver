@@ -5,4 +5,5 @@ module.exports = {
   ...require('./start'),
   ...require('./build'),
   ...require('./check'),
+  ...require('./unit'),
 }
