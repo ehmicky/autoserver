@@ -2,6 +2,6 @@
 
 'use strict'
 
-const { startCli } = require('../src')
+const { startCli } = require('../dist')
 
 startCli()
