@@ -2,10 +2,10 @@
 
 const { series } = require('gulp')
 
-const { dev } = require('./start')
+// Const { dev } = require('./start')
 const { buildwatch } = require('./build')
 
-const defaultTask = series(buildwatch, dev)
+const defaultTask = series(buildwatch)
 
 // eslint-disable-next-line fp/no-mutation
 defaultTask.description =
