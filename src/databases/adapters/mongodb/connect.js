@@ -11,10 +11,7 @@ const connect = async function({
   const url = `mongodb://${auth}${host}/${dbname}`
 
   const mongoClient = new MongoClient()
-  const db = await mongoClient.connect(
-    url,
-    opts,
-  )
+  const db = await mongoClient.connect(url, opts)
   return db
 }
 

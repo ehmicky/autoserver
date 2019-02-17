@@ -34,7 +34,8 @@ const validateToken = function({ token }) {
     return
   }
 
-  const message = 'Wrong arguments: \'after\' or \'before\' contains an invalid token'
+  const message =
+    "Wrong arguments: 'after' or 'before' contains an invalid token"
   throwError(message, { reason: 'VALIDATION' })
 }
 
