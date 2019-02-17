@@ -11,15 +11,24 @@ const gulpExeca = require('../exec')
 
 const clean = () => del(BUILD_DIST)
 
+// eslint-disable-next-line fp/no-mutation
+clean.description = 'Remove build directory'
+
 const copy = () =>
   src([`${BUILD}/**`, `!${BUILD}/**/*.{y{,a}ml,js,ts,jsx,tsx}`], {
     dot: true,
   }).pipe(dest(BUILD_DIST))
 
+// eslint-disable-next-line fp/no-mutation
+copy.description = 'Copy all sources files to build directories'
+
 const babel = () =>
   gulpExeca(
     `babel ${BUILD} --out-dir ${BUILD_DIST} --source-maps --no-comments --minified --retain-lines`,
   )
+
+// eslint-disable-next-line fp/no-mutation
+babel.description = 'Transpile JavaScript files with Babel'
 
 const yaml = () =>
   src(`${BUILD}/**`, { dot: true })
@@ -43,4 +52,8 @@ buildwatch.description = 'Build the application in watch mode'
 module.exports = {
   build,
   buildwatch,
+  clean,
+  copy,
+  babel,
+  yaml,
 }
