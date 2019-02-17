@@ -16,7 +16,7 @@ start.description = 'Start an example production server'
 const dev = () => startNodemon(nodemonDevConfig)
 
 // eslint-disable-next-line fp/no-mutation
-dev.description = 'Start an example dev server in watch mode'
+dev.description = 'Start an example dev server'
 
 const debug = () => startNodemon(nodemonDebugConfig)
 
