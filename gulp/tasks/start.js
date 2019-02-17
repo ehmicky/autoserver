@@ -13,16 +13,12 @@ const start = () => gulpExeca('../bin/autoserver.js', { cwd: 'examples' })
 // eslint-disable-next-line fp/no-mutation
 start.description = 'Start an example production server'
 
-const dev = function() {
-  return startNodemon(nodemonDevConfig)
-}
+const dev = () => startNodemon(nodemonDevConfig)
 
 // eslint-disable-next-line fp/no-mutation
 dev.description = 'Start an example dev server in watch mode'
 
-const debug = function() {
-  return startNodemon(nodemonDebugConfig)
-}
+const debug = () => startNodemon(nodemonDebugConfig)
 
 // eslint-disable-next-line fp/no-mutation
 debug.description = 'Start an example dev server in debug mode'
