@@ -2,15 +2,19 @@
 
 const { series } = require('gulp')
 
-// Const { dev } = require('./start')
-const { buildwatch } = require('./build')
+const { getWatchTask } = require('../utils')
 
-const defaultTask = series(buildwatch)
+// START?
+const { test } = require('./test')
+const { build } = require('./build')
+
+const devTask = series(build, test)
+
+const dev = getWatchTask({ DEV: devTask }, devTask)
 
 // eslint-disable-next-line fp/no-mutation
-defaultTask.description =
-  'Build the application and start an example server in watch mode'
+dev.description = 'Lint, test and build source files'
 
 module.exports = {
-  default: defaultTask,
+  dev,
 }
