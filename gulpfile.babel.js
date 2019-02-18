@@ -3,10 +3,10 @@
 
 const promisify = require('util.promisify')
 const Nodemon = require('nodemon')
-
-const gulpTasks = require('./gulp')
+const gulpTasks = require('gulp-shared-tasks')
 // eslint-disable-next-line import/no-internal-modules
-const gulpExeca = require('./gulp/exec')
+const gulpExeca = require('gulp-shared-tasks/dist/exec')
+
 const nodemonDevConfig = require('./nodemon')
 const nodemonDebugConfig = require('./nodemon.debug')
 
