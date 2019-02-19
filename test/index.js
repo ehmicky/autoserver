@@ -1,10 +1,10 @@
 'use strict'
 
 const { chdir } = require('process')
+const { promisify } = require('util')
 
 const test = require('ava')
 const execa = require('execa')
-const promisify = require('util.promisify')
 
 const pSetTimeout = promisify(setTimeout)
 

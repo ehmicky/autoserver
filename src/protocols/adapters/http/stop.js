@@ -1,6 +1,6 @@
 'use strict'
 
-const promisify = require('util.promisify')
+const { promisify } = require('util')
 
 // Try a graceful server exit
 const stopServer = function({ server }) {

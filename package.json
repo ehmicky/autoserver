@@ -97,7 +97,6 @@
     "signal-exit": "^3.0.2",
     "type-is": "^1.6.16",
     "underscore.string": "^3.3.5",
-    "util.promisify": "^1.0.0",
     "uuid": "^3.3.2",
     "vary": "^1.1.2",
     "yargs": "^13.2.1"

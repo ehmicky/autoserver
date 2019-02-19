@@ -1,6 +1,6 @@
 'use strict'
 
-const promisify = require('util.promisify')
+const { promisify } = require('util')
 
 const { setStatusCode } = require('./status')
 const { setHeaders } = require('./headers')

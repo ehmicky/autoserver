@@ -1,8 +1,7 @@
 'use strict'
 
 const { deflate, inflate } = require('zlib')
-
-const promisify = require('util.promisify')
+const { promisify } = require('util')
 
 const pDeflate = promisify(deflate)
 const pInflate = promisify(inflate)

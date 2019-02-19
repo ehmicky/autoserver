@@ -1,6 +1,7 @@
 'use strict'
 
-const promisify = require('util.promisify')
+const { promisify } = require('util')
+
 const Nodemon = require('nodemon')
 // eslint-disable-next-line import/no-internal-modules
 const gulpExeca = require('gulp-shared-tasks/dist/exec')

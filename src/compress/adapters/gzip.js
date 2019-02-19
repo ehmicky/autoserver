@@ -1,8 +1,7 @@
 'use strict'
 
 const { gzip, gunzip } = require('zlib')
-
-const promisify = require('util.promisify')
+const { promisify } = require('util')
 
 const pGzip = promisify(gzip)
 const pGunzip = promisify(gunzip)

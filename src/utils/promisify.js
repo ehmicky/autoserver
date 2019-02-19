@@ -1,8 +1,8 @@
 'use strict'
 
 const { stat, readdir, readFile, writeFile } = require('fs')
+const { promisify } = require('util')
 
-const promisify = require('util.promisify')
 const { capitalize } = require('underscore.string')
 
 const { mapValues, mapKeys } = require('./functional')
