@@ -2,18 +2,12 @@
   "name": "autoserver",
   "version": "0.4.1",
   "main": "index.js",
-  "files": [
-    "bin",
-    "dist",
-    "!*~"
-  ],
+  "files": ["bin", "dist", "!*~"],
   "bin": {
     "autoserver": "bin/autoserver.js"
   },
   "scripts": {
-    "start": "gulp",
-    "build": "gulp build",
-    "test": "npm run build && gulp test"
+    "test": "gulp test"
   },
   "husky": {
     "hooks": {
