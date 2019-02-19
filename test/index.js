@@ -39,4 +39,4 @@ const normalizeLine = function(line) {
 const START_LINE_REGEXP = /^.{98}/u
 const PORT_REGEXP = /(Listening on).*/u
 
-const TEST_TIMEOUT = 3e4
+const TEST_TIMEOUT = 60e3
