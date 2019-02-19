@@ -2,7 +2,11 @@
   "name": "autoserver",
   "version": "0.4.1",
   "main": "index.js",
-  "files": ["bin", "dist", "!*~"],
+  "files": [
+    "bin",
+    "dist",
+    "!*~"
+  ],
   "bin": {
     "autoserver": "bin/autoserver.js"
   },
@@ -124,7 +128,7 @@
     "eslint-plugin-you-dont-need-lodash-underscore": "^6.4.0",
     "execa": "^1.0.0",
     "gulp": "^4.0.0",
-    "gulp-shared-tasks": "^0.2.5",
+    "gulp-shared-tasks": "^0.2.6",
     "husky": "^1.3.1",
     "nodemon": "^1.18.10",
     "prettier": "^1.16.4"
