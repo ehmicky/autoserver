@@ -75,7 +75,7 @@
     "ajv-keywords": "^3.4.0",
     "bytes": "^3.1.0",
     "chalk": "^2.4.2",
-    "compressible": "^2.0.15",
+    "compressible": "^2.0.16",
     "content-type": "^1.0.4",
     "core-js": "^2.6.5",
     "graphql": "^0.9.1",
