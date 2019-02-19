@@ -34,14 +34,14 @@ const addGenErrorHandler = function(func, { message, reason, extra }) {
 
 const genErrorHandler = function({ message, reason, extra }, error, ...args) {
   const innererror = normalizeError({ error })
-  const messageA = result(message, ...args, innererror) || innererror.message
   const reasonA = result(reason, ...args, innererror) || innererror.reason
+  const messageA = result(message, ...args, innererror) || innererror.message
   const extraA = result(extra, ...args, innererror) || innererror.extra
   throwError(messageA, { reason: reasonA, innererror, extra: extraA })
 }
 
 const addGenPbHandler = function(func, { message, reason, extra }) {
-  const errorHandler = genPbHandler.bind(null, { message, reason, extra })
+  const errorHandler = genPbHandler.bind(null, { reason, message, extra })
   return kAddErrorHandler(func, errorHandler)
 }
 
