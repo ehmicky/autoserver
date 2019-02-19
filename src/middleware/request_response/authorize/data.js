@@ -24,8 +24,8 @@ const checkNewData = function({
 
   throwPb({
     reason: 'AUTHORIZATION',
-    extra: { collection: clientCollname, ids },
     messageInput: { top },
+    extra: { collection: clientCollname, ids },
   })
 }
 
