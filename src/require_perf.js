@@ -10,8 +10,9 @@ let stoppedRequirePerf
 // As such, it should be triggered at the very beginning of the loading process
 // and not require any dependency itself.
 const startRequirePerf = function() {
-  // eslint-disable-next-line fp/no-mutation
-  requirePerf.pending = hrtime.bigint()
+  const [secs, nSecs] = hrtime()
+  // eslint-disable-next-line fp/no-mutation, no-magic-numbers
+  requirePerf.pending = secs * 1e9 + nSecs
 }
 
 const stopRequirePerf = function() {

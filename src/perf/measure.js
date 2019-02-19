@@ -18,13 +18,13 @@ const { hrtime } = require('process')
 // Start a new measure
 const startPerf = function(label, category = 'default') {
   // `hrtime()` is more precise that `Date.now()`
-  const pending = hrtime.bigint()
+  const pending = getTimestamp()
   return { pending, label, category }
 }
 
 // Substracts the current time with the previous time
 const stopPerf = function({ pending, label, category }) {
-  const ending = hrtime.bigint()
+  const ending = getTimestamp()
   const duration = Number(ending - pending)
   return { duration, label, category }
 }
@@ -39,11 +39,19 @@ const nanoSecsToMilliSecs = function({ duration }) {
   return Math.round(duration / NANOSECS_TO_MILLISECS)
 }
 
+// TODO: use hrtime.bigint() when dropping support for Node <10.7.0
+const getTimestamp = function() {
+  const [secs, nSecs] = hrtime()
+  return secs * NANOSECS_TO_SECS + nSecs
+}
+
 const NANOSECS_TO_MILLISECS = 1e6
+const NANOSECS_TO_SECS = 1e9
 
 module.exports = {
   startPerf,
   stopPerf,
   getDefaultDuration,
   nanoSecsToMilliSecs,
+  getTimestamp,
 }
