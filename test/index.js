@@ -16,11 +16,21 @@ chdir(EXAMPLE_DIR)
 test('Smoke test', async t => {
   const childProcess = execa(BINARY_PATH, { env: { NODE_ENV: 'dev' } })
   await pSetTimeout(TEST_TIMEOUT)
-  childProcess.kill()
-  const { code, stdout, stderr } = await childProcess
+  const { stdout, stderr } = await killProcess({ childProcess })
   const message = normalizeStdout({ stdout })
-  t.snapshot({ code, message, stderr })
+  t.snapshot({ message, stderr })
 })
+
+// On Windows, sending SIGINT make process throw
+const killProcess = async function({ childProcess }) {
+  childProcess.kill()
+
+  try {
+    return await childProcess
+  } catch (error) {
+    return error
+  }
+}
 
 const normalizeStdout = function({ stdout }) {
   // eslint-disable-next-line fp/no-mutating-methods
