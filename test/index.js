@@ -20,7 +20,6 @@ test('Smoke test', async t => {
   const { code, stdout, stderr } = await childProcess
   const message = normalizeStdout({ stdout })
   t.snapshot({ code, message, stderr })
-  t.pass()
 })
 
 const normalizeStdout = function({ stdout }) {
