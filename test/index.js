@@ -5,6 +5,7 @@ const { promisify } = require('util')
 
 const test = require('ava')
 const execa = require('execa')
+const fkill = require('fkill')
 
 const pSetTimeout = promisify(setTimeout)
 
@@ -16,7 +17,7 @@ chdir(EXAMPLE_DIR)
 test('Smoke test', async t => {
   const childProcess = execa(BINARY_PATH, { env: { NODE_ENV: 'dev' } })
   await pSetTimeout(TEST_TIMEOUT)
-  childProcess.kill('SIGINT')
+  fkill(childProcess.pid)
   const { code, stdout, stderr } = await childProcess
   const message = normalizeStdout({ stdout })
   t.snapshot({ code, message, stderr })
@@ -38,4 +39,4 @@ const normalizeLine = function(line) {
 const START_LINE_REGEXP = /^.{98}/u
 const PORT_REGEXP = /(Listening on).*/u
 
-const TEST_TIMEOUT = 60e3
+const TEST_TIMEOUT = 5e3
