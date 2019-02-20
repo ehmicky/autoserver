@@ -21,12 +21,11 @@ test('Smoke test', async t => {
   t.snapshot({ message, stderr })
 })
 
-// On Windows, sending SIGINT make process throw
 const killProcess = async function({ childProcess }) {
-  childProcess.kill()
+  childProcess.kill('SIGKILL')
 
   try {
-    return await childProcess
+    await childProcess
   } catch (error) {
     return error
   }
