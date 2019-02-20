@@ -7,6 +7,8 @@ const {
 
 const autoserver = require('..')
 
+const CONFIG = `${__dirname}/autoserver.config.yml`
+
 // Set default console log printing
 const setDefaultDebug = function() {
   // eslint-disable-next-line fp/no-mutation
@@ -21,9 +23,9 @@ const COLUMNS_WIDTH = 80
 
 const startServer = async function() {
   try {
-    const { protocols, exit } = await autoserver.run()
+    const { protocols, exit } = await autoserver.run({ config: CONFIG })
     return { protocols, exit }
-  } catch {
+  } catch (error) {
     // eslint-disable-next-line no-console, no-restricted-globals
     console.log('Startup error')
   }
