@@ -1,16 +1,8 @@
 'use strict'
 
-const { isDeepStrictEqual } = require('util')
-
-// Like Lodash isEqual(), but faster
-const isEqual = function(valA, valB) {
-  if (typeof valA !== 'object' || typeof valB !== 'object') {
-    return valA === valB
-  }
-
-  return isDeepStrictEqual(valA, valB)
-}
+// TODO: use util.isDeepStrictEqual() after dropping support for Node 8
+const deepEqual = require('fast-deep-equal')
 
 module.exports = {
-  isEqual,
+  isEqual: deepEqual,
 }
