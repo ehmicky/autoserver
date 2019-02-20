@@ -16,8 +16,9 @@ chdir(EXAMPLE_DIR)
 
 test('Smoke test', async t => {
   const childProcess = execa(BINARY_PATH, { env: { NODE_ENV: 'dev' } })
-  await pSetTimeout(TEST_TIMEOUT)
+  await pSetTimeout(STARTUP_TIMEOUT)
   await fetch('http://localhost:5001/rest/pets/2')
+  await pSetTimeout(FETCH_TIMEOUT)
   const { stdout, stderr } = await killProcess({ childProcess })
   const message = normalizeStdout({ stdout })
   t.snapshot({ message, stderr })
@@ -46,7 +47,8 @@ const normalizeLine = function(line) {
   return line.replace(START_LINE_REGEXP, '').replace(PORT_REGEXP, '$1')
 }
 
+const STARTUP_TIMEOUT = 60e3
+const FETCH_TIMEOUT = 10e3
+
 const START_LINE_REGEXP = /^.{98}/u
 const PORT_REGEXP = /(Listening on).*/u
-
-const TEST_TIMEOUT = 60e3
