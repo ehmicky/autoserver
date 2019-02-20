@@ -30,8 +30,7 @@ const getStack = function(description, details = '') {
   const stackA = stack.replace(/^[\w]*Error: /u, '')
 
   // Shorten stack trace directory paths
-  const dirPrefixRegExp = new RegExp(ROOT_DIR, 'gu')
-  const stackB = stackA.replace(dirPrefixRegExp, '')
+  const stackB = stackA.split(ROOT_DIR).join('')
   return stackB
 }
 
