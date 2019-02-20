@@ -15,9 +15,12 @@ const decompress = function(content) {
   return pBrotliDecompress(content)
 }
 
+const supported = brotliCompress !== undefined
+
 module.exports = {
   name: 'br',
   title: 'Brotli',
   compress,
   decompress,
+  supported,
 }
