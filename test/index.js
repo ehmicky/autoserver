@@ -5,6 +5,7 @@ const { promisify } = require('util')
 
 const test = require('ava')
 const execa = require('execa')
+const fetch = require('cross-fetch')
 
 const pSetTimeout = promisify(setTimeout)
 
@@ -16,6 +17,7 @@ chdir(EXAMPLE_DIR)
 test('Smoke test', async t => {
   const childProcess = execa(BINARY_PATH, { env: { NODE_ENV: 'dev' } })
   await pSetTimeout(TEST_TIMEOUT)
+  await fetch('http://localhost:5001/rest/pets/2')
   const { stdout, stderr } = await killProcess({ childProcess })
   const message = normalizeStdout({ stdout })
   t.snapshot({ message, stderr })
