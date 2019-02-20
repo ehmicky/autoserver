@@ -34,7 +34,7 @@ const getStack = function(description, details = '') {
   return stackB
 }
 
-const ROOT_DIR = resolve(__dirname, '../..')
+const ROOT_DIR = resolve(__dirname, '../../..')
 
 module.exports = {
   getErrorMessage,
