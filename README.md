@@ -12,9 +12,6 @@ This project is still in active development, and is not ready for production.
 If you want to follow our progress in the meantime, you are welcome to star
 this repository.
 
-We are also actively looking for early contributors, so please contact us if this
-project looks like fun to you.
-
 # Overview
 
 Create a simple
