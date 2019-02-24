@@ -4,14 +4,14 @@ const { promisify } = require('util')
 
 const Nodemon = require('nodemon')
 // eslint-disable-next-line import/no-internal-modules
-const execa = require('gulp-shared-tasks/dist/exec')
+const { exec } = require('gulp-shared-tasks/dist/exec')
 
 const EXAMPLE_PATH = `${__dirname}/../examples/index.js`
 const DIST_PATH = `${__dirname}/../dist`
 
 // We use this instead of requiring the application to test the CLI
 const runProd = () =>
-  execa('node', ['../bin/autoserver.js'], { cwd: 'examples' })
+  exec('node', ['../bin/autoserver.js'], { cwd: 'examples' })
 
 // eslint-disable-next-line fp/no-mutation
 runProd.description = 'Run an example production server'
