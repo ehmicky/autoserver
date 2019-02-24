@@ -25,7 +25,7 @@ users:
     name: Anthony
   - id: '2'
     name: David
-? managers
+managers: []
 ```
 
 If the `save` option is `true`, the data will be saved back to the file when
