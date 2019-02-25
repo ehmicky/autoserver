@@ -42,7 +42,6 @@ const NODEMON_CONFIG = {
   env: { NODE_ENV: 'dev' },
   watch: DIST_PATH,
   delay: 100,
-  quiet: true,
 }
 
 const DEBUG_NODEMON_CONFIG = {
