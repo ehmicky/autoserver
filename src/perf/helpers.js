@@ -1,12 +1,8 @@
 'use strict'
 
-const {
-  reduceAsync,
-  identity,
-  promiseThen,
-  keepProps,
-  result,
-} = require('../utils')
+const keepFuncProps = require('keep-func-props')
+
+const { reduceAsync, identity, promiseThen, result } = require('../utils')
 
 const { startPerf, stopPerf } = require('./measure')
 
@@ -23,7 +19,7 @@ const monitor = function(func, label = func.name, category, measuresIndex = 0) {
   }
 }
 
-const kMonitor = keepProps(monitor)
+const kMonitor = keepFuncProps(monitor)
 
 const recordPerf = function(measures, perf, response) {
   const perfA = stopPerf(perf)

@@ -1,6 +1,8 @@
 'use strict'
 
-const { keepProps, result } = require('../utils')
+const keepFuncProps = require('keep-func-props')
+
+const { result } = require('../utils')
 
 const { throwError, normalizeError, isError } = require('./main')
 const { throwPb } = require('./props')
@@ -11,7 +13,7 @@ const addErrorHandler = function(func, errorHandler = () => undefined) {
   return errorHandledFunc.bind(null, func, errorHandler)
 }
 
-const kAddErrorHandler = keepProps(addErrorHandler)
+const kAddErrorHandler = keepFuncProps(addErrorHandler)
 
 const errorHandledFunc = function(func, errorHandler, ...args) {
   try {

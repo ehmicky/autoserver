@@ -82,6 +82,7 @@
     "ini": "^1.3.5",
     "js-yaml": "^3.12.2",
     "json5": "^2.1.0",
+    "keep-func-props": "^1.0.0",
     "li": "^1.3.0",
     "log-process-errors": "^2.1.1",
     "mimic-fn": "^1.2.0",
