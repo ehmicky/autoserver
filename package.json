@@ -1,7 +1,7 @@
 {
   "name": "autoserver",
   "version": "0.4.1",
-  "main": "index.js",
+  "main": "dist/index.js",
   "files": [
     "bin",
     "dist",
