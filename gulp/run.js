@@ -10,8 +10,7 @@ const EXAMPLE_PATH = `${__dirname}/../examples/index.js`
 const DIST_PATH = `${__dirname}/../dist`
 
 // We use this instead of requiring the application to test the CLI
-const runProd = () =>
-  exec('node', ['../bin/autoserver.js'], { cwd: 'examples' })
+const runProd = () => exec('node ../dist/bin/index.js', { cwd: 'examples' })
 
 // eslint-disable-next-line fp/no-mutation
 runProd.description = 'Run an example production server'

@@ -3,12 +3,10 @@
   "version": "0.4.1",
   "main": "dist/index.js",
   "files": [
-    "bin",
-    "dist",
-    "!*~"
+    "dist"
   ],
   "bin": {
-    "autoserver": "bin/autoserver.js"
+    "autoserver": "dist/bin/index.js"
   },
   "scripts": {
     "test": "gulp test"

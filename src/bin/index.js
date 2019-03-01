@@ -1,9 +1,11 @@
+#!/usr/bin/env node
 'use strict'
 
 const { exit } = require('process')
 
+const instructions = require('..')
+
 const { addErrorHandler } = require('../errors')
-const instructions = require('../instructions')
 
 const { parseInput } = require('./input')
 
@@ -26,6 +28,4 @@ const cliErrorHandler = function({ message, description = message }) {
 
 const eStartCli = addErrorHandler(startCli, cliErrorHandler)
 
-module.exports = {
-  startCli: eStartCli,
-}
+eStartCli()

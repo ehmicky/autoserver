@@ -4,9 +4,6 @@ const { startRequirePerf, stopRequirePerf } = require('./require_perf')
 
 startRequirePerf()
 
-module.exports = {
-  ...require('./instructions'),
-  ...require('./cli'),
-}
+module.exports = require('./instructions')
 
 stopRequirePerf()
