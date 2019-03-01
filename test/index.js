@@ -9,7 +9,7 @@ const fetch = require('cross-fetch')
 
 const pSetTimeout = promisify(setTimeout)
 
-const BINARY_PATH = `${__dirname}/../dist/bin/index.js`
+const BINARY_PATH = `${__dirname}/../dist/src/bin/index.js`
 const EXAMPLE_DIR = `${__dirname}/../examples`
 
 chdir(EXAMPLE_DIR)

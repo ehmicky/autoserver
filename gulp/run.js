@@ -4,13 +4,13 @@ const { promisify } = require('util')
 
 const Nodemon = require('nodemon')
 // eslint-disable-next-line import/no-internal-modules
-const { exec } = require('gulp-shared-tasks/dist/exec')
+const { exec } = require('gulp-shared-tasks/dist/src/exec')
 
 const EXAMPLE_PATH = `${__dirname}/../examples/index.js`
-const DIST_PATH = `${__dirname}/../dist`
+const SRC_PATH = `${__dirname}/../dist/src`
 
 // We use this instead of requiring the application to test the CLI
-const runProd = () => exec('node ../dist/bin/index.js', { cwd: 'examples' })
+const runProd = () => exec('node ../dist/src/bin/index.js', { cwd: 'examples' })
 
 // eslint-disable-next-line fp/no-mutation
 runProd.description = 'Run an example production server'
@@ -39,7 +39,7 @@ const NODEMON_CONFIG = {
   script: EXAMPLE_PATH,
   nodeArgs: ['--inspect', '--stack-trace-limit=20'],
   env: { NODE_ENV: 'dev' },
-  watch: DIST_PATH,
+  watch: SRC_PATH,
   delay: 100,
 }
 
