@@ -8,10 +8,10 @@ const { exec } = require('gulp-shared-tasks/build/src/exec')
 
 const EXAMPLE_PATH = `${__dirname}/../examples/index.js`
 const SRC_PATH = `${__dirname}/../build/src`
+const BINARY_PATH = `${__dirname}/../build/src/bin/index.js`
 
 // We use this instead of requiring the application to test the CLI
-const runProd = () =>
-  exec('node ../build/src/bin/index.js', { cwd: 'examples' })
+const runProd = () => exec(`node ${BINARY_PATH}`, { cwd: 'examples' })
 
 // eslint-disable-next-line fp/no-mutation
 runProd.description = 'Run an example production server'
