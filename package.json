@@ -1,12 +1,12 @@
 {
   "name": "autoserver",
   "version": "0.5.0",
-  "main": "dist/src/index.js",
+  "main": "build/src/index.js",
   "files": [
-    "dist/src"
+    "build/src"
   ],
   "bin": {
-    "autoserver": "dist/src/bin/index.js"
+    "autoserver": "build/src/bin/index.js"
   },
   "scripts": {
     "test": "gulp test"
