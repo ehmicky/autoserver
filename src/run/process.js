@@ -28,10 +28,10 @@ const LOG_PROCESS_ERRORS_OPTS = {
 }
 
 // Report process problems as events with event 'failure'
-const emitProcessEvent = function({ config }, message, level) {
+const emitProcessEvent = async function({ config }, message, level) {
   const error = createPb(message, { reason: 'ENGINE' })
 
-  return logEvent({
+  await logEvent({
     event: 'failure',
     phase: 'process',
     level,
