@@ -30,6 +30,8 @@ const AJV_OPTIONS = {
   logger,
   multipleOfPrecision: 9,
   extendRefs: true,
+  strictDefaults: true,
+  strictKeywords: true,
 }
 
 module.exports = {
