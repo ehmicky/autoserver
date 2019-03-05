@@ -15,15 +15,6 @@ jobs:
     - node_js: '8.10.0'
     - node_js: '10'
     - node_js: '11'
-    # Test coverage check must happen after tests for the whole matrix have
-    # been performed, so we get the merged coverage map
-    - stage: Coverage check
-      # If this fails during a PR, CI will fail. However when CI fails, codecov
-      # does not post any comment. Since codecov comments are nicer than
-      # Travis Buddy comments for this, we skip it during PRs. Also this makes
-      # PRs checks faster.
-      if: type != pull_request
-      script: gulp coverage
     # Deployment must happen after tests for the whole matrix have been
     # performed, so we use `jobs.include` with a different `stage`.
     - stage: Deploy
