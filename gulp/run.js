@@ -3,8 +3,7 @@
 const { promisify } = require('util')
 
 const Nodemon = require('nodemon')
-// eslint-disable-next-line import/no-internal-modules
-const { exec } = require('gulp-shared-tasks/build/src/exec')
+const { exec } = require('gulp-execa')
 
 const EXAMPLE_PATH = `${__dirname}/../examples/index.js`
 const SRC_PATH = `${__dirname}/../build/src`
