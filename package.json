@@ -13,7 +13,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "gulp check"
+      "pre-push": "gulp check --full"
     }
   },
   "description": "Create a full-featured REST/GraphQL API from a configuration file",
