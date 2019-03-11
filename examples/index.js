@@ -5,6 +5,7 @@ const {
   stdout: { columns },
 } = require('process')
 
+// eslint-disable-next-line import/no-unresolved, node/no-missing-require
 const autoserver = require('..')
 
 const CONFIG = `${__dirname}/autoserver.config.yml`
