@@ -5,8 +5,11 @@ const {
   stdout: { columns },
 } = require('process')
 
-// eslint-disable-next-line import/no-unresolved, node/no-missing-require
-const autoserver = require('..')
+// We need to use this syntax to avoid linting issues: different ESLint
+// rules are reported whether `build` is present or not.
+const pkgDir = '.'
+// eslint-disable-next-line import/no-dynamic-require
+const autoserver = require(pkgDir)
 
 const CONFIG = `${__dirname}/autoserver.config.yml`
 
