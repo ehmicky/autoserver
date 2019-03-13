@@ -1,6 +1,5 @@
 'use strict'
 
-// eslint-disable-next-line import/no-internal-modules
 const encodings = require('iconv-lite/encodings')
 
 const { omitBy } = require('../utils')

@@ -11,7 +11,6 @@ const {
   networkInterfaces: getNetworkInterfaces,
 } = require('os')
 
-// eslint-disable-next-line import/no-internal-modules
 const uuidv5 = require('uuid/v5')
 
 // Retrieve host-specific information

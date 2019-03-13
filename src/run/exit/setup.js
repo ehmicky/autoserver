@@ -3,7 +3,6 @@
 const process = require('process')
 
 // Avoid requiring `signal-exit` directly as it adds a global EventEmitter
-// eslint-disable-next-line import/no-internal-modules
 const EXIT_SIGNALS = require('signal-exit/signals')
 
 const { gracefulExit } = require('./graceful_exit')
