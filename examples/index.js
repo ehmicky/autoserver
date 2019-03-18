@@ -30,7 +30,6 @@ const startServer = async function() {
     const { protocols, exit } = await autoserver.run({ config: CONFIG })
     return { protocols, exit }
   } catch (error) {
-    // eslint-disable-next-line no-console, no-restricted-globals
     console.log('Startup error')
   }
 }
