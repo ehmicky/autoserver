@@ -3,7 +3,8 @@
   "version": "0.5.0",
   "main": "build/src/index.js",
   "files": [
-    "build/src"
+    "build/src",
+    "!~"
   ],
   "bin": {
     "autoserver": "build/src/bin/index.js"
