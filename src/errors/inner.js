@@ -44,7 +44,7 @@ const getInnerErrorStack = function({
 
   // We only keep innererror's stack, so if it does not include the
   // error message, which might be valuable information, prepends it
-  if (message && stack.indexOf(message) === -1) {
+  if (message && !stack.includes(message)) {
     return `${message}\n${stack}`
   }
 
