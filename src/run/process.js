@@ -19,7 +19,6 @@ const processErrorHandler = function({ config }) {
 }
 
 const LOG_PROCESS_ERRORS_OPTS = {
-  colors: false,
   exitOn: [],
   // See https://github.com/nodejs/node/issues/24321
   // We could log it as a `message` instead but it would lack the stack trace,
@@ -28,8 +27,8 @@ const LOG_PROCESS_ERRORS_OPTS = {
 }
 
 // Report process problems as events with event 'failure'
-const emitProcessEvent = async function({ config }, message, level) {
-  const error = createPb(message, { reason: 'ENGINE' })
+const emitProcessEvent = async function({ config }, { stack }, level) {
+  const error = createPb(stack, { reason: 'ENGINE' })
 
   await logEvent({
     event: 'failure',
