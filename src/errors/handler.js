@@ -1,6 +1,6 @@
 'use strict'
 
-const keepFuncProps = require('keep-func-props')
+const { keepFuncProps } = require('keep-func-props')
 
 const { result } = require('../utils')
 
