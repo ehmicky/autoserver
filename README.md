@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/ehmicky/design/master/autoserver/autoserver.svg?sanitize=true" width="550"/>
+<img src="https://raw.githubusercontent.com/ehmicky/design/master/autoserver/autoserver.svg?sanitize=true" width="500"/>
 
 [![Travis](https://img.shields.io/badge/cross-platform-4cc61e.svg?logo=travis)](https://travis-ci.org/ehmicky/autoserver)
 [![Node](https://img.shields.io/node/v/autoserver.svg?logo=node.js)](https://www.npmjs.com/package/autoserver)
