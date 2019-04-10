@@ -2,8 +2,13 @@
 
 const { version: nodeVersion } = require('process')
 
-// eslint-disable-next-line node/no-missing-require, import/no-unresolved
-const { version: autoserverVersion } = require('../../../package.json')
+const readPkgUp = require('read-pkg-up')
+
+// Caches it.
+// TODO: use async instead
+const {
+  pkg: { version: autoserverVersion },
+} = readPkgUp.sync()
 
 // Retrieve environment-specific versions
 const getVersionsInfo = function() {
