@@ -2,5 +2,4 @@
 
 module.exports = {
   ...require('./get'),
-  ...require('./constants'),
 }
