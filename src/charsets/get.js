@@ -4,7 +4,6 @@ const encodings = require('iconv-lite/encodings')
 
 const { omitBy } = require('../utils')
 
-const { DEFAULT_INPUT_CHARSET } = require('./constants')
 const { validateCharset } = require('./validate')
 const { decodeCharset } = require('./transform')
 
@@ -27,6 +26,8 @@ const addDefaultCharset = function({ charset, format }) {
 
   return charset || formatCharset || DEFAULT_INPUT_CHARSET
 }
+
+const DEFAULT_INPUT_CHARSET = 'binary'
 
 const findFormatCharset = function({ format }) {
   if (format === undefined) {

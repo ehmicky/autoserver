@@ -4,8 +4,8 @@ const { addGenErrorHandler } = require('../../../errors')
 const { compile, validate } = require('../../../validation')
 const { getLimits } = require('../../../limits')
 
-const SCHEMA = require('./args_schema')
-const COMMANDS = require('./commands')
+const { SCHEMA } = require('./args_schema')
+const { COMMANDS } = require('./commands')
 
 // Check arguments for client-side syntax errors.
 const validateArgs = function({ top: { args, command }, config }) {

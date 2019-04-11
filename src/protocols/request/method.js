@@ -1,7 +1,6 @@
 'use strict'
 
 const { throwPb } = require('../../errors')
-const { METHODS } = require('../constants')
 
 const { validateString } = require('./validate')
 
@@ -29,6 +28,8 @@ const validateMethod = function({ method }) {
 
   throwPb({ reason: 'METHOD', extra: { value: method, suggestions: METHODS } })
 }
+
+const METHODS = ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE']
 
 module.exports = {
   parseMethod,

@@ -1,6 +1,6 @@
 'use strict'
 
-const { EVENTS, LEVELS } = require('../../constants')
+const { LEVELS } = require('../../constants')
 
 // Retrieves `[EVENT] [LEVEL] [HOSTID] [PROCESSNAME] [PROCESSID] [TIMESTAMP]
 // [PHASE]`
@@ -21,6 +21,8 @@ const getMaxLength = function(enumVal) {
   const lengths = enumVal.map(({ length }) => length)
   return Math.max(...lengths)
 }
+
+const EVENTS = ['message', 'start', 'call', 'failure', 'stop', 'perf']
 
 const PREFIXES = [
   {

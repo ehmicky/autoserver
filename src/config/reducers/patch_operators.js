@@ -1,7 +1,7 @@
 'use strict'
 
 const { mapValues, uniq } = require('../../utils')
-const { OPERATORS } = require('../../patch')
+const { OPERATORS } = require('../../patch/operators/main.js')
 
 // Parse `operators.attribute|argument` `any`
 const normalizePatchOperators = function({ config: { operators } }) {

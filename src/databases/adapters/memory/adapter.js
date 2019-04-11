@@ -1,12 +1,12 @@
 'use strict'
 
-const features = require('./features')
+const { features } = require('./features')
 const { disconnect } = require('./disconnect')
 const { connect } = require('./connect')
 const { query } = require('./query')
 const { check } = require('./check')
-const defaults = require('./defaults')
-const opts = require('./opts')
+const { defaults } = require('./defaults')
+const { opts } = require('./opts')
 
 // Memory database adapter, i.e. keeps database in-memory
 const adapter = {

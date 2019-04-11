@@ -1,14 +1,12 @@
 'use strict'
 
-const routes = require('./routes')
-const methods = require('./methods')
 const { parse } = require('./parse')
 
 const rpc = {
   name: 'rest',
   title: 'REST',
-  routes,
-  methods,
+  routes: ['/rest/:clientCollname/:id?'],
+  methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE'],
   parse,
 }
 

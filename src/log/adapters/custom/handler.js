@@ -1,7 +1,7 @@
 'use strict'
 
 const { report } = require('./report')
-const opts = require('./opts')
+const { opts } = require('./opts')
 
 const handler = {
   name: 'custom',

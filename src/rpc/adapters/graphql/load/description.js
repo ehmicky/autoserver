@@ -2,7 +2,7 @@
 
 const { capitalize } = require('underscore.string')
 
-const { COMMANDS } = require('../../../../commands')
+const { COMMANDS } = require('../../../../commands/constants.js')
 
 const TOP_DESCRIPTIONS = {
   query: 'Fetch models',

@@ -1,8 +1,15 @@
 'use strict'
 
-const { difference, sortArray, reverseArray } = require('../../../utils')
+const { difference, sortArray, reverseArray } = require('../../utils')
 
-const { ANY_ARRAY } = require('./constants')
+const ANY_ARRAY = [
+  'boolean[]',
+  'integer[]',
+  'number[]',
+  'string[]',
+  'object[]',
+  'empty[]',
+]
 
 const commonAttrs = {
   attribute: ANY_ARRAY,
@@ -88,4 +95,5 @@ module.exports = {
   _shift: shiftOperator,
   _remove: removeOperator,
   _sort: sortOperator,
+  ANY_ARRAY,
 }

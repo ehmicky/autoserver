@@ -2,10 +2,6 @@
 
 const { omit } = require('../../../utils')
 
-// All error reasons and their related JSON-RPC error codes
-// We use the code `1` for any error related to database/request runtime issues
-const { ERROR_CODES_MAP, DEFAULT_ERROR_CODE } = require('./error_codes')
-
 // Apply JSON-RPC-specific error response transformation
 const transformSuccess = function({ response: { content }, payload }) {
   const { jsonrpc, id, other } = getResponse({ payload })
@@ -69,6 +65,40 @@ const getId = function({ payload: { jsonrpc, id } }) {
   // JSON-RPC 2.0 uses `undefined`, 1.0 uses `null`
   return jsonrpc === '2.0' ? undefined : null
 }
+
+// All error reasons and their related JSON-RPC error codes
+const ERROR_CODES_MAP = {
+  SUCCESS: 0,
+  VALIDATION: -32602,
+  ABORTED: -32600,
+  AUTHORIZATION: 1,
+  ROUTE: -32601,
+  NOT_FOUND: 1,
+  METHOD: -32601,
+  COMMAND: -32601,
+  RESPONSE_NEGOTIATION: -32600,
+  TIMEOUT: 1,
+  CONFLICT: 1,
+  NO_CONTENT_LENGTH: -32600,
+  PAYLOAD_LIMIT: -32600,
+  URL_LIMIT: -32600,
+  REQUEST_NEGOTIATION: -32700,
+  CONFIG_VALIDATION: -32603,
+  CONFIG_RUNTIME: -32603,
+  FORMAT: -32603,
+  CHARSET: -32603,
+  PROTOCOL: -32603,
+  RPC: -32603,
+  DATABASE: -32603,
+  LOG: -32603,
+  COMPRESS: -32603,
+  PLUGIN: -32603,
+  ENGINE: -32603,
+  UNKNOWN: -32603,
+}
+
+// We use the code `1` for any error related to database/request runtime issues
+const DEFAULT_ERROR_CODE = 1
 
 module.exports = {
   transformSuccess,

@@ -4,7 +4,7 @@ const { omitBy, fullRecurseMap } = require('../../../utils')
 const { addGenErrorHandler } = require('../../../errors')
 const { compile, validate } = require('../../../validation')
 
-const SCHEMA = require('./config_schema')
+const { SCHEMA } = require('./config_schema')
 
 // General config syntax validation
 const validateConfigSyntax = function({ config }) {

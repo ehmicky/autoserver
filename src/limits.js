@@ -2,7 +2,24 @@
 
 const bytes = require('bytes')
 
-const { maxUrlLength } = require('./system')
+// Returns the main numerical limits of the engine.
+// Some of those limits cannot be changed by the user.
+const getLimits = function({ config } = {}) {
+  const configLimits = getConfigLimits({ config })
+
+  return { ...SYSTEM_LIMITS, ...configLimits }
+}
+
+const SYSTEM_LIMITS = {
+  maxActions: 51,
+  maxFindManyDepth: 2,
+  maxAttrValueSize: 2000,
+  maxUrlLength: 2000,
+  minMaxpayload: 100,
+  maxQueryStringDepth: 10,
+  maxQueryStringLength: 100,
+  requestTimeout: 5000,
+}
 
 // Limits that can be changed in `config.limits`
 const getConfigLimits = function({ config }) {
@@ -30,7 +47,7 @@ const getConfigLimits = function({ config }) {
     // Max URL length
     // Since URL can contain GraphQL query, it should not be less than
     // `maxpayload`
-    maxUrlLength: Math.max(maxUrlLength, maxpayload),
+    maxUrlLength: Math.max(SYSTEM_LIMITS.maxUrlLength, maxpayload),
   }
 }
 
@@ -63,5 +80,5 @@ const getMaxmodels = function({ limits: { maxmodels }, pagesize }) {
 const MAX_MODELS_FACTOR = 1e2
 
 module.exports = {
-  getConfigLimits,
+  getLimits,
 }

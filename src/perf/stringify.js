@@ -2,54 +2,12 @@
 
 const { sortArray } = require('../utils')
 
-// Order matters, as console printing uses it for sorting
-const CATEGORIES = require('./categories')
+const { sortMeasures } = require('./sort')
 
 // Returns measures but as a single string, for console debugging
 const stringifyMeasures = function({ phase = '', measuresGroups }) {
   const sortedMeasures = sortArray(measuresGroups, sortMeasures)
   return sortedMeasures.map(stringifyMeasure.bind(null, phase)).join('\n')
-}
-
-// Sort by category (asc) then by duration (desc)
-const sortMeasures = function(
-  { category: catA, average: timeA },
-  { category: catB, average: timeB },
-) {
-  const compNum = sortByCategory({ catA, catB })
-
-  if (compNum !== 0) {
-    return compNum
-  }
-
-  return sortByTime({ timeA, timeB })
-}
-
-const sortByCategory = function({ catA, catB }) {
-  const indexCatA = CATEGORIES.indexOf(catA)
-  const indexCatB = CATEGORIES.indexOf(catB)
-
-  if (indexCatA < indexCatB) {
-    return -1
-  }
-
-  if (indexCatA > indexCatB) {
-    return 1
-  }
-
-  return 0
-}
-
-const sortByTime = function({ timeA, timeB }) {
-  if (timeA < timeB) {
-    return 1
-  }
-
-  if (timeA > timeB) {
-    return -1
-  }
-
-  return 0
 }
 
 // Prints as a table

@@ -2,7 +2,7 @@
 
 const { deepMerge, uniq, getSumParams } = require('../../utils')
 const { throwPb } = require('../../errors')
-const { COMMANDS } = require('../../commands')
+const { COMMANDS } = require('../../commands/constants.js')
 
 // Parse a `rpcDef` into a top-level action, i.e.:
 // `collname`, `clientCollname`, `commandpath`, `args`

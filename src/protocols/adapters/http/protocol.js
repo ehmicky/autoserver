@@ -11,9 +11,9 @@ const { getPayload, hasPayload } = require('./payload')
 const { send } = require('./send')
 const { getIp } = require('./ip')
 const { getInput } = require('./input')
-const opts = require('./opts')
+const { opts } = require('./opts')
 // eslint-disable-next-line import/max-dependencies
-const defaults = require('./defaults')
+const { defaults } = require('./defaults')
 
 const protocol = {
   name: 'http',

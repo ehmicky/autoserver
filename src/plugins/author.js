@@ -1,8 +1,6 @@
 'use strict'
 
-const { attributesPlugin } = require('../attributes')
-
-const optsSchema = require('./opts_schema')
+const { attributesPlugin } = require('./attributes')
 
 // Plugin that adds who modified last each model:
 //   created_by {User} - set on model creation
@@ -15,10 +13,26 @@ const authorPlugin = function({ config, opts }) {
   return attributesPlugin({
     name: 'author',
     getAttributes,
-    optsSchema,
+    optsSchema: OPTS_SCHEMA,
     config,
     opts,
   })
+}
+
+const OPTS_SCHEMA = {
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    currentuser: {
+      typeof: 'function',
+    },
+    collection: {
+      type: 'string',
+      enum: {
+        $data: '/dynamicVars/collTypes',
+      },
+    },
+  },
 }
 
 const getAttributes = ({ currentuser, collection }) => ({

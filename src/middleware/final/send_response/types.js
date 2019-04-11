@@ -1,6 +1,5 @@
 'use strict'
 
-const { DEFAULT_OUTPUT_CHARSET } = require('../../../charsets')
 const { serializeContentType } = require('../../../formats')
 
 // Each content type is sent differently
@@ -43,6 +42,8 @@ const getContentType = function({ format, type }) {
   const contentType = serializeContentType({ mime, charset, format })
   return contentType
 }
+
+const DEFAULT_OUTPUT_CHARSET = 'utf-8'
 
 module.exports = {
   getContentType,

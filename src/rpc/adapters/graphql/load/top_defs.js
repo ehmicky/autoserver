@@ -3,7 +3,7 @@
 const { capitalize } = require('underscore.string')
 
 const { mapValues, mapKeys } = require('../../../../utils')
-const { COMMANDS } = require('../../../../commands')
+const { COMMANDS } = require('../../../../commands/constants.js')
 
 const { getCommandName, getTypeName } = require('./name')
 const { TOP_DESCRIPTIONS, getCommandDescription } = require('./description')

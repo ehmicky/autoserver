@@ -3,7 +3,7 @@
 
 const { PROTOCOLS } = require('../../protocols')
 const { RPCS } = require('../../rpc')
-const { COMMAND_TYPES } = require('../../commands')
+const { COMMAND_TYPES } = require('../../commands/constants.js')
 
 // System parameters that are always present
 // We need to specify their `type` and `isArray` for `coll.authorize`

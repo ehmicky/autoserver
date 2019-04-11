@@ -2,7 +2,6 @@
 
 const { difference } = require('../../utils')
 const { getFeatures } = require('../../filter')
-const { FEATURES } = require('../constants')
 
 const { genericValidators } = require('./generic')
 const { filterValidator } = require('./filter')
@@ -33,6 +32,26 @@ const getErrorMessage = function({ args, args: { filter }, features }) {
     .filter(message => message !== undefined)
   return messageA
 }
+
+const FEATURES = [
+  'filter:_eq',
+  'filter:_neq',
+  'filter:_gt',
+  'filter:_lt',
+  'filter:_gte',
+  'filter:_lte',
+  'filter:_in',
+  'filter:_nin',
+  'filter:_like',
+  'filter:_nlike',
+  'filter:_or',
+  'filter:_and',
+  'filter:_some',
+  'filter:_all',
+  'filter:sibling',
+  'order',
+  'offset',
+]
 
 const checkFeature = function({ feature, features, args, filterFeatures }) {
   // Features can be namespaced, e.g. `filter:*` all fire the same validator
