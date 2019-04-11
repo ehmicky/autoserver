@@ -1,10 +1,10 @@
 'use strict'
 
 const { addGenErrorHandler } = require('../../errors')
-const {
-  getLog,
-  DEFAULT_LOGGER: { provider: defaultProvider },
-} = require('../../log')
+const { getLog } = require('../../log')
+const { DEFAULT_LOGGER } = require('../../log/constants.js')
+
+const { provider: defaultProvider } = DEFAULT_LOGGER
 
 // Normalize `log`
 const normalizeLog = function({ config: { log } }) {
