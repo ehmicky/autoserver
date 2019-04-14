@@ -1,8 +1,9 @@
 'use strict'
 
-const { pickBy, mapValues, omit } = require('../../utils')
-const { addGenErrorHandler } = require('../../errors')
-const { compile } = require('../../validation')
+const { pickBy, omit } = require('../../utils/functional/filter.js')
+const { mapValues } = require('../../utils/functional/map.js')
+const { addGenErrorHandler } = require('../../errors/handler.js')
+const { compile } = require('../../validation/compile.js')
 
 // Compile JSON schema defined in the config
 // Returns compiled JSON schema of:

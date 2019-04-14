@@ -1,13 +1,13 @@
 'use strict'
 
-const { wrapAdapters } = require('../adapters')
+const { wrapAdapters } = require('../adapters/wrap.js')
 
-const adapters = require('./adapters')
+const { COMPRESS_ADAPTERS } = require('./adapters/main.js')
 
 const members = ['name', 'title', 'decompress', 'compress']
 
 const compressAdapters = wrapAdapters({
-  adapters,
+  adapters: COMPRESS_ADAPTERS,
   members,
   reason: 'COMPRESS',
 })

@@ -1,6 +1,6 @@
 'use strict'
 
-const { isObject } = require('../../../utils')
+const { isObject } = require('../../../utils/functional/type.js')
 
 const { normalizePartialProtocol } = require('./partial')
 

@@ -1,6 +1,7 @@
 'use strict'
 
-const { getParams, reduceParams } = require('../functions')
+const { getParams } = require('../functions/params/values.js')
+const { reduceParams } = require('../functions/params/reduce.js')
 
 // Get log-specific config parameters
 const getLogParams = function({

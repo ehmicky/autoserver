@@ -2,7 +2,7 @@
 
 const keepFuncProps = require('keep-func-props')
 
-const { result } = require('../utils')
+const { result } = require('../utils/functional/result.js')
 
 const { throwError, normalizeError, isError } = require('./main')
 const { throwPb } = require('./props')

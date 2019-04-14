@@ -1,6 +1,7 @@
 'use strict'
 
-const { throwPb } = require('../../../errors')
+const { isObject } = require('../../../utils/functional/type.js')
+const { throwPb } = require('../../../errors/props.js')
 
 // Validate JSON-RPC payload is correct format
 const validatePayload = function({ payload }) {
@@ -58,16 +59,12 @@ const validators = [
   },
   {
     check: ({ params }) =>
-      params === undefined ||
-      params.constructor === Object ||
-      Array.isArray(params),
+      params === undefined || isObject(params) || Array.isArray(params),
     message: "'params' type is invalid",
   },
   {
     check: ({ params }) =>
-      !Array.isArray(params) ||
-      (params.length <= 1 &&
-        params.every(param => param && param.constructor === Object)),
+      !Array.isArray(params) || (params.length <= 1 && params.every(isObject)),
     message: "'params' must only contain one object or none",
   },
 ]

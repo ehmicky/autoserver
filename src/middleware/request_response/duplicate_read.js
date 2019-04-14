@@ -1,6 +1,6 @@
 'use strict'
 
-const { uniq } = require('../../utils')
+const { uniq } = require('../../utils/functional/uniq.js')
 
 // Remove duplicate read models
 // Those can happen with some database. E.g. MongoDB sometimes release read

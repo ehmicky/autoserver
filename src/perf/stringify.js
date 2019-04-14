@@ -1,6 +1,6 @@
 'use strict'
 
-const { sortArray } = require('../utils')
+const { sortArray } = require('../utils/functional/sort.js')
 
 const { sortMeasures } = require('./sort')
 

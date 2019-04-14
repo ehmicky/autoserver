@@ -1,6 +1,6 @@
 'use strict'
 
-const { EXTENSIONS } = require('../formats')
+const { EXTENSIONS } = require('../formats/info.js')
 
 const runInstruction = {
   name: 'run',

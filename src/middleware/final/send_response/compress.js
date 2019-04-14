@@ -1,6 +1,7 @@
 'use strict'
 
-const { shouldCompress, DEFAULT_ALGO } = require('../../../compress')
+const { shouldCompress } = require('../../../compress/info.js')
+const { DEFAULT_ALGO } = require('../../../compress/get.js')
 
 const { TYPES } = require('./types')
 

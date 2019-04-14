@@ -1,7 +1,7 @@
 'use strict'
 
-const { addGenErrorHandler } = require('../../errors')
-const { validate } = require('../../validation')
+const { addGenErrorHandler } = require('../../errors/handler.js')
+const { validate } = require('../../validation/validate.js')
 
 // Custom data validation middleware
 // Check that newData passes config validation

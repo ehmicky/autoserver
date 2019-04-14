@@ -1,11 +1,10 @@
 'use strict'
 
-const { runConfigFunc, getParams } = require('../../../functions')
-const {
-  validateFilter,
-  getAuthorizeAttrs,
-  mapNodes,
-} = require('../../../filter')
+const { runConfigFunc } = require('../../../functions/run.js')
+const { getParams } = require('../../../functions/params/values.js')
+const { validateFilter } = require('../../../filter/validate/main.js')
+const { getAuthorizeAttrs } = require('../../../filter/authorize.js')
+const { mapNodes } = require('../../../filter/crawl.js')
 
 const { getServerParams } = require('./server_params')
 

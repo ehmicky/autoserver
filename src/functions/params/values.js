@@ -1,9 +1,9 @@
 /* eslint-disable max-lines, max-lines-per-function */
 'use strict'
 
-const { getStandardError } = require('../../errors')
-const { makeImmutable } = require('../../utils')
-const { getServerinfo } = require('../../serverinfo')
+const { getStandardError } = require('../../errors/standard.js')
+const { makeImmutable } = require('../../utils/functional/immutable.js')
+const { getServerinfo } = require('../../serverinfo/main.js')
 
 // Retrieve all parameters
 const getParams = function(

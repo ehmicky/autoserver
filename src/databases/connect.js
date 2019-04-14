@@ -1,6 +1,7 @@
 'use strict'
 
-const { mapValues, omit } = require('../utils')
+const { omit } = require('../utils/functional/filter.js')
+const { mapValues } = require('../utils/functional/map.js')
 
 // Start database connection
 // Returns a copy of the database adapter, but with fewer members and some other

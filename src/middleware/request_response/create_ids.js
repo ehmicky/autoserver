@@ -1,6 +1,6 @@
 'use strict'
 
-const { throwPb } = require('../../errors')
+const { throwPb } = require('../../errors/props.js')
 
 // Check if any model already exists, for create actions
 const validateCreateIds = function({

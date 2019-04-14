@@ -1,14 +1,16 @@
 'use strict'
 
-const { mapValues, omit, pSetTimeout } = require('../utils')
-const { logEvent } = require('../log')
-const { getDefaultDuration } = require('../perf')
-const { getServerinfo } = require('../serverinfo')
+const { omit } = require('../utils/functional/filter.js')
+const { mapValues } = require('../utils/functional/map.js')
+const { pSetTimeout } = require('../utils/timeout.js')
+const { logEvent } = require('../log/main.js')
+const { getDefaultDuration } = require('../perf/measure.js')
+const { getServerinfo } = require('../serverinfo/main.js')
 
 // Create event when all protocol-specific servers have started
 const emitStartEvent = async function({ protocolAdapters, config, measures }) {
   // Let other events finish first
-  await pSetTimeout(0, { unref: false })
+  await pSetTimeout(0)
 
   const message = 'Server is ready'
   const params = getEventParams({ protocolAdapters, config, measures })

@@ -1,9 +1,9 @@
 'use strict'
 
-const { addGenErrorHandler } = require('../../errors')
+const { addGenErrorHandler } = require('../../errors/handler.js')
 
 // Validate database supports command features
-const validateRuntimeFeatures = function({
+const eValidateRuntimeFeatures = function({
   args,
   collname,
   clientCollname,
@@ -13,10 +13,10 @@ const validateRuntimeFeatures = function({
   return dbAdapter.validateRuntimeFeatures({ args, clientCollname })
 }
 
-const eValidateRuntimeFeatures = addGenErrorHandler(validateRuntimeFeatures, {
+const validateRuntimeFeatures = addGenErrorHandler(eValidateRuntimeFeatures, {
   reason: 'VALIDATION',
 })
 
 module.exports = {
-  validateRuntimeFeatures: eValidateRuntimeFeatures,
+  validateRuntimeFeatures,
 }

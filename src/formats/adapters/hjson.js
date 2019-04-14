@@ -1,18 +1,18 @@
 'use strict'
 
-const hjson = require('hjson')
+const { parse: hjsonParse, stringify: hjsonStringify } = require('hjson')
 
 // Parses a HJSON file
 const parse = function({ content }) {
-  return hjson.parse(content)
+  return hjsonParse(content)
 }
 
 // Serializes a HJSON file
 const serialize = function({ content }) {
-  return hjson.stringify(content, { bracesSameLine: true })
+  return hjsonStringify(content, { bracesSameLine: true })
 }
 
-module.exports = {
+const hjson = {
   name: 'hjson',
   title: 'Hjson',
   extensions: ['hjson'],
@@ -22,4 +22,8 @@ module.exports = {
   jsonCompat: [],
   parse,
   serialize,
+}
+
+module.exports = {
+  hjson,
 }

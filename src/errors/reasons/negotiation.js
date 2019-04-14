@@ -2,7 +2,7 @@
 
 const pluralize = require('pluralize')
 
-const { getWordsList } = require('../../utils')
+const { getWordsList } = require('../../utils/string.js')
 
 const getMessage = function(type, { kind, value }) {
   if (value === undefined) {

@@ -2,11 +2,12 @@
 
 const { plural } = require('pluralize')
 
-const { throwError } = require('../../errors')
+const { throwError } = require('../../errors/main.js')
+const { isObject } = require('../../utils/functional/type.js')
 
 // Validate collections are properly named
 const validateClientCollnames = function({ config: { collections } }) {
-  if (!(collections && collections.constructor === Object)) {
+  if (!isObject(collections)) {
     return
   }
 

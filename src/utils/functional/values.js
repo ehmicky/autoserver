@@ -1,5 +1,7 @@
 'use strict'
 
+const { isObject } = require('./type.js')
+
 // Returns all leaves values (i.e. not objects|arrays) as a list of
 // `{ value, key [...] }` pairs
 const getValues = function(value, keys = []) {
@@ -7,7 +9,7 @@ const getValues = function(value, keys = []) {
     return value.flatMap((valueA, key) => getValues(valueA, [...keys, key]))
   }
 
-  if (value != null && value.constructor === Object) {
+  if (isObject(value)) {
     return Object.entries(value).flatMap(([key, valueA]) =>
       getValues(valueA, [...keys, key]),
     )

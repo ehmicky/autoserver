@@ -1,6 +1,7 @@
 'use strict'
 
-const { mapNodes, isSiblingValue } = require('../../../filter')
+const { mapNodes } = require('../../../filter/crawl.js')
+const { isSiblingValue } = require('../../../filter/siblings.js')
 
 // Modify `args.filter`
 const renameFilter = function({ value, newIdName, oldIdName }) {

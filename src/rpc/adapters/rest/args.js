@@ -1,7 +1,8 @@
 'use strict'
 
-const { mapValues } = require('../../../utils')
-const { throwError, throwPb } = require('../../../errors')
+const { mapValues } = require('../../../utils/functional/map.js')
+const { throwPb } = require('../../../errors/props.js')
+const { throwError } = require('../../../errors/main.js')
 
 // Use query variables, request payload and URL /ID to retrieve `args`
 const getArgs = function({ method, payload, queryvars, id }) {

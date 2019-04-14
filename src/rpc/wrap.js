@@ -1,8 +1,8 @@
 'use strict'
 
-const { wrapAdapters } = require('../adapters')
+const { wrapAdapters } = require('../adapters/wrap.js')
 
-const adapters = require('./adapters')
+const { RPC_ADAPTERS } = require('./adapters/main.js')
 const { checkMethod } = require('./method_check')
 const { transformResponse } = require('./transform')
 
@@ -14,7 +14,7 @@ const methods = {
 }
 
 const rpcAdapters = wrapAdapters({
-  adapters,
+  adapters: RPC_ADAPTERS,
   members,
   methods,
   reason: 'RPC',

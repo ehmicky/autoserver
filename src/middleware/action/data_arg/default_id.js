@@ -2,7 +2,8 @@
 
 const { v4: uuidv4 } = require('uuid')
 
-const { runConfigFunc, getModelParams } = require('../../../functions')
+const { runConfigFunc } = require('../../../functions/run.js')
+const { getModelParams } = require('../../../functions/params/values.js')
 
 // Add default model.id for create commands, in order of priority:
 //  - nested `args.data` attribute (not handled here)

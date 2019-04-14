@@ -1,6 +1,8 @@
 'use strict'
 
-const { difference, sortArray, reverseArray } = require('../../utils')
+const { difference } = require('../../utils/functional/difference.js')
+const { reverseArray } = require('../../utils/functional/reverse.js')
+const { sortArray } = require('../../utils/functional/sort.js')
 
 const ANY_ARRAY = [
   'boolean[]',

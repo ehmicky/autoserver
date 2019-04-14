@@ -1,7 +1,7 @@
 'use strict'
 
-const { getWordsList } = require('../../../../utils')
-const { throwError } = require('../../../../errors')
+const { getWordsList } = require('../../../../utils/string.js')
+const { throwError } = require('../../../../errors/main.js')
 
 // Validate GraphQL main definition
 const validateMainDef = function({ mainDef, operationName, method }) {

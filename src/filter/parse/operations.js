@@ -1,6 +1,7 @@
 'use strict'
 
-const { getOperator } = require('../operators')
+const { isObject } = require('../../utils/functional/type.js')
+const { getOperator } = require('../operators/main.js')
 const { parseSiblingNode } = require('../siblings')
 
 const parseOperations = function({ operations, throwErr }) {
@@ -13,7 +14,7 @@ const parseOperations = function({ operations, throwErr }) {
 
 // `{ attribute: value }` is a shortcut for `{ attribute: { _eq: value } }`
 const getShortcut = function({ operations }) {
-  if (operations && operations.constructor === Object) {
+  if (isObject(operations)) {
     return operations
   }
 

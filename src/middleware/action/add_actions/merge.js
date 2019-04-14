@@ -1,6 +1,6 @@
 'use strict'
 
-const { isEqual } = require('../../../utils')
+const { isEqual } = require('../../../utils/functional/equal.js')
 
 const { getValues } = require('./values')
 

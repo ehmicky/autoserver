@@ -1,7 +1,7 @@
 'use strict'
 
-const { omit } = require('../../../utils')
-const { extractSimpleIds } = require('../../../filter')
+const { omit } = require('../../../utils/functional/filter.js')
+const { extractSimpleIds } = require('../../../filter/simple_id.js')
 
 // Fire the actual command
 const fireReadCommand = async function({

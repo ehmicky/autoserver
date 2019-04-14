@@ -1,7 +1,9 @@
 'use strict'
 
-const { deepMerge, uniq, getSumParams } = require('../../utils')
-const { throwPb } = require('../../errors')
+const { deepMerge } = require('../../utils/functional/merge.js')
+const { uniq } = require('../../utils/functional/uniq.js')
+const { getSumParams } = require('../../utils/sums.js')
+const { throwPb } = require('../../errors/props.js')
 const { COMMANDS } = require('../../commands/constants.js')
 
 // Parse a `rpcDef` into a top-level action, i.e.:

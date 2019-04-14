@@ -1,12 +1,12 @@
 'use strict'
 
-const { groupBy } = require('../utils')
+const { groupBy } = require('../utils/functional/group.js')
 
 const {
   PARENT_OPERATORS,
   ATTR_PARENT_OPERATORS,
   ATTR_ANCESTOR_OPERATORS,
-} = require('./operators')
+} = require('./operators/main.js')
 
 // Call `func(node)` recursively over each node of `args.filter`
 // Returns array of func() return values

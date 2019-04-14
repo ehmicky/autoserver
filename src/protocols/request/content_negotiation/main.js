@@ -1,6 +1,6 @@
 'use strict'
 
-const { omit } = require('../../../utils')
+const { omit } = require('../../../utils/functional/filter.js')
 
 const { getFormat } = require('./format')
 const { getCharset } = require('./charset')

@@ -1,6 +1,6 @@
 'use strict'
 
-const { throwError } = require('../../errors')
+const { throwError } = require('../../errors/main.js')
 
 const { getColl } = require('./get_coll')
 

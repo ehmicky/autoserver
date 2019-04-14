@@ -1,6 +1,6 @@
 'use strict'
 
-const { monitoredReduce } = require('../../perf')
+const { monitoredReduce } = require('../../perf/helpers.js')
 
 const { validateSpecific } = require('./validate')
 const { parseIp } = require('./ip')
@@ -10,10 +10,10 @@ const { parseHeaders } = require('./headers')
 const { parseMethod } = require('./method')
 const { parsePath } = require('./path')
 const { parseInput } = require('./input')
-const { handleContentNegotiation } = require('./content_negotiation')
+const { handleContentNegotiation } = require('./content_negotiation/main.js')
 const { parsePayload } = require('./payload')
 // eslint-disable-next-line import/max-dependencies
-const { protocolNormalization } = require('./normalize')
+const { protocolNormalization } = require('./normalize/main.js')
 
 // Retrieves protocol-specific request information
 const parseRequest = function(protocolAdapter, { specific, config, measures }) {

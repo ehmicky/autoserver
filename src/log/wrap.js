@@ -1,13 +1,13 @@
 'use strict'
 
-const { wrapAdapters } = require('../adapters')
+const { wrapAdapters } = require('../adapters/wrap.js')
 
-const adapters = require('./adapters')
+const { LOG_ADAPTERS } = require('./adapters/main.js')
 
 const members = ['name', 'title', 'report', 'reportPerf', 'getOpts']
 
 const logAdapters = wrapAdapters({
-  adapters,
+  adapters: LOG_ADAPTERS,
   members,
   reason: 'LOG',
 })

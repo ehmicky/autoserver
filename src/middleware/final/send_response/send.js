@@ -1,7 +1,10 @@
 'use strict'
 
-const { getReason } = require('../../../errors')
-const { DEFAULT_FORMAT, DEFAULT_RAW_FORMAT } = require('../../../formats')
+const { getReason } = require('../../../errors/props.js')
+const {
+  DEFAULT_FORMAT,
+  DEFAULT_RAW_FORMAT,
+} = require('../../../formats/get.js')
 
 const { getContentType } = require('./types')
 const { serializeContent } = require('./serialize')

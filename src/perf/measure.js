@@ -53,5 +53,4 @@ module.exports = {
   stopPerf,
   getDefaultDuration,
   nanoSecsToMilliSecs,
-  getTimestamp,
 }

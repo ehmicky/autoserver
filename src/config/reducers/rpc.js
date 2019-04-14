@@ -1,6 +1,7 @@
 'use strict'
 
-const { RPCS, getRpc } = require('../../rpc')
+const { getRpc } = require('../../rpc/get.js')
+const { RPCS } = require('../../rpc/info.js')
 
 // Fire each `rpcAdapter.load({ config })` function
 const loadRpc = function({ config }) {

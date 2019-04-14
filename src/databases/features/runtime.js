@@ -1,7 +1,7 @@
 'use strict'
 
-const { difference } = require('../../utils')
-const { getFeatures } = require('../../filter')
+const { difference } = require('../../utils/functional/difference.js')
+const { getFeatures } = require('../../filter/features.js')
 
 const { genericValidators } = require('./generic')
 const { filterValidator } = require('./filter')

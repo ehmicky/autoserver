@@ -1,7 +1,9 @@
 'use strict'
 
-const { addErrorHandler, createPb, normalizeError } = require('../../errors')
-const { logEvent } = require('../../log')
+const { addErrorHandler } = require('../../errors/handler.js')
+const { createPb } = require('../../errors/props.js')
+const { normalizeError } = require('../../errors/main.js')
+const { logEvent } = require('../../log/main.js')
 
 // Shutdown failures events
 const addExitHandler = function(func) {

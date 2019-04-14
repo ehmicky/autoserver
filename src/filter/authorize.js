@@ -1,7 +1,8 @@
 'use strict'
 
-const { pick, mapValues } = require('../utils')
-const { SYSTEM_PARAMS } = require('../functions')
+const { pick } = require('../utils/functional/filter.js')
+const { mapValues } = require('../utils/functional/map.js')
+const { SYSTEM_PARAMS } = require('../functions/params/system.js')
 
 // Retrieve type and names of all possible `coll.authorize.*`
 const getAuthorizeAttrs = function({ config, collname }) {

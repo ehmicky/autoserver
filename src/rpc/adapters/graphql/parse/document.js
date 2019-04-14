@@ -2,8 +2,9 @@
 
 const { parse } = require('graphql')
 
-const { isObject } = require('../../../../utils')
-const { throwPb, addCatchAllHandler } = require('../../../../errors')
+const { isObject } = require('../../../../utils/functional/type.js')
+const { addCatchAllHandler } = require('../../../../errors/handler.js')
+const { throwPb } = require('../../../../errors/props.js')
 
 // Generic/raw GraphQL parsing
 const getGraphqlDocument = function({ queryvars, payload }) {

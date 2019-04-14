@@ -1,6 +1,6 @@
 'use strict'
 
-const { throwPb } = require('../../errors')
+const { throwPb } = require('../../errors/props.js')
 
 // Check output, for the errors that should not happen,
 // i.e. server-side (e.g. 500)

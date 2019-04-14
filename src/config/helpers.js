@@ -1,6 +1,7 @@
 'use strict'
 
-const { mapValues, pickBy } = require('../utils')
+const { pickBy } = require('../utils/functional/filter.js')
+const { mapValues } = require('../utils/functional/map.js')
 
 // Apply a mapping function on each collection
 const mapColls = function(func, { config, config: { collections } }) {

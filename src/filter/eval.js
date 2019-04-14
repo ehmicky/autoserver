@@ -1,8 +1,8 @@
 'use strict'
 
-const { has, get } = require('../utils')
+const { has, get } = require('../utils/functional/get_set.js')
 
-const { getOperator } = require('./operators')
+const { getOperator } = require('./operators/main.js')
 const { getSiblingValue } = require('./siblings')
 
 // Check if a set of `attrs` matches a filter such as `args.filter` or

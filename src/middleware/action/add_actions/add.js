@@ -1,7 +1,10 @@
 'use strict'
 
-const { difference, getWordsList, omit, uniq } = require('../../../utils')
-const { throwError } = require('../../../errors')
+const { difference } = require('../../../utils/functional/difference.js')
+const { omit } = require('../../../utils/functional/filter.js')
+const { uniq } = require('../../../utils/functional/uniq.js')
+const { getWordsList } = require('../../../utils/string.js')
+const { throwError } = require('../../../errors/main.js')
 
 const { getValues } = require('./values')
 

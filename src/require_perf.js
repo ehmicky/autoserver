@@ -16,7 +16,7 @@ const startRequirePerf = function() {
 }
 
 const stopRequirePerf = function() {
-  const { stopPerf } = require('./perf')
+  const { stopPerf } = require('./perf/measure.js')
   // eslint-disable-next-line fp/no-mutation
   stoppedRequirePerf = stopPerf(requirePerf)
 }

@@ -2,8 +2,8 @@
 
 const pluralize = require('pluralize')
 
-const { getWordsList } = require('../../utils')
-const { throwPb } = require('../../errors')
+const { getWordsList } = require('../../utils/string.js')
+const { throwPb } = require('../../errors/props.js')
 const { getLimits } = require('../../limits')
 
 const { getColl } = require('./get_coll')

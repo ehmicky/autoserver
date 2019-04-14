@@ -1,6 +1,6 @@
 'use strict'
 
-const { serializeContentType } = require('../../../formats')
+const { serializeContentType } = require('../../../formats/content_type.js')
 
 // Each content type is sent differently
 const TYPES = {

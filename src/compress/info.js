@@ -2,11 +2,11 @@
 
 const compressible = require('compressible')
 
-const { getNames } = require('../adapters')
+const { getNames } = require('../adapters/get.js')
 
-const compressAdapters = require('./adapters')
+const { COMPRESS_ADAPTERS } = require('./adapters/main.js')
 
-const ALGOS = getNames(compressAdapters)
+const ALGOS = getNames(COMPRESS_ADAPTERS)
 
 // Do not try to compress binary content types
 const shouldCompress = function({ contentType }) {

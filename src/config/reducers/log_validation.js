@@ -1,6 +1,6 @@
 'use strict'
 
-const { LOG_OPTS } = require('../../log')
+const { LOG_OPTS } = require('../../log/info.js')
 
 const { validateAdaptersOpts } = require('./adapter_opts')
 

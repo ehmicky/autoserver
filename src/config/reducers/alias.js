@@ -1,7 +1,7 @@
 'use strict'
 
-const { omit } = require('../../utils')
-const { throwPb } = require('../../errors')
+const { omit } = require('../../utils/functional/filter.js')
+const { throwPb } = require('../../errors/props.js')
 const { mapColls } = require('../helpers')
 
 // Transforms can copy each `alias` as a real attribute,

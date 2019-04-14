@@ -1,6 +1,7 @@
 'use strict'
 
 const { checkObject } = require('./validate')
+const { isObject } = require('./type.js')
 
 // Similar to Lodash mapValues(), but with vanilla JavaScript
 const mapValues = function(obj, mapperFunc) {
@@ -33,28 +34,6 @@ const generalMap = function({ obj, mapperFunc, iterationFunc }) {
   }, {})
 }
 
-// Same but async
-const mapValuesAsync = async function(obj, mapperFunc) {
-  checkObject(obj)
-
-  const promises = Object.entries(obj).map(([key, value]) =>
-    mapValueAsync({ key, value, obj, mapperFunc }),
-  )
-
-  // Run in parallel
-  const valuesArray = await Promise.all(promises)
-  const valuesObj = Object.assign({}, ...valuesArray)
-
-  return valuesObj
-}
-
-const mapValueAsync = function({ key, value, obj, mapperFunc }) {
-  const mappedVal = mapperFunc(value, key, obj)
-  const promise = Promise.resolve(mappedVal)
-  // eslint-disable-next-line promise/prefer-await-to-then
-  return promise.then(val => ({ [key]: val }))
-}
-
 // Apply map() recursively
 const recurseMap = function(
   value,
@@ -76,7 +55,7 @@ const recurseMap = function(
 }
 
 const getRecurseFunc = function(value) {
-  if (value && value.constructor === Object) {
+  if (isObject(value)) {
     return mapValues.bind(null, value)
   }
 
@@ -92,7 +71,6 @@ const fullRecurseMap = function(value, mapperFunc, opts = {}) {
 
 module.exports = {
   mapValues,
-  mapValuesAsync,
   mapKeys,
   recurseMap,
   fullRecurseMap,

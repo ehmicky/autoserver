@@ -1,7 +1,8 @@
 'use strict'
 
-const { groupBy, mapValues } = require('../../utils')
-const { applyPatchOps } = require('../../patch')
+const { groupBy } = require('../../utils/functional/group.js')
+const { mapValues } = require('../../utils/functional/map.js')
+const { applyPatchOps } = require('../../patch/apply.js')
 
 // Merge `currentData` with the `args.data` in `patch` commands,
 // to obtain the final models we want to use as replacement

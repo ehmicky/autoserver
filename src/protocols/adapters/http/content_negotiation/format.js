@@ -2,12 +2,13 @@
 
 const { Negotiator } = require('negotiator')
 
-const { throwPb, addErrorHandler } = require('../../../../errors')
+const { addErrorHandler } = require('../../../../errors/handler.js')
+const { throwPb } = require('../../../../errors/props.js')
 const {
   getByMime,
   getMimes,
   DEFAULT_RAW_FORMAT,
-} = require('../../../../formats')
+} = require('../../../../formats/get.js')
 
 const { getContentType } = require('./content_type')
 

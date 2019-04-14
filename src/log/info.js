@@ -1,10 +1,10 @@
 'use strict'
 
-const { getMember } = require('../adapters')
+const { getMember } = require('../adapters/get.js')
 
-const logAdapters = require('./adapters')
+const { LOG_ADAPTERS } = require('./adapters/main.js')
 
-const LOG_OPTS = getMember(logAdapters, 'opts', {})
+const LOG_OPTS = getMember(LOG_ADAPTERS, 'opts', {})
 
 module.exports = {
   LOG_OPTS,

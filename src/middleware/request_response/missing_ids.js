@@ -1,8 +1,12 @@
+/* eslint-disable max-lines */
 'use strict'
 
-const { difference } = require('../../utils')
-const { throwPb } = require('../../errors')
-const { extractSimpleIds, getSimpleFilter } = require('../../filter')
+const { difference } = require('../../utils/functional/difference.js')
+const { throwPb } = require('../../errors/props.js')
+const {
+  extractSimpleIds,
+  getSimpleFilter,
+} = require('../../filter/simple_id.js')
 
 // Check if any `id` was not found (404) or was unauthorized (403)
 const validateMissingIds = function(
@@ -134,3 +138,4 @@ const checkAuthorization = async function({
 module.exports = {
   validateMissingIds,
 }
+/* eslint-enable max-lines */

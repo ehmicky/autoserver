@@ -2,7 +2,7 @@
 
 const pluralize = require('pluralize')
 
-const { getWordsList } = require('../utils')
+const { getWordsList } = require('../utils/string.js')
 
 // List of custom error messages getters
 const errorMessages = {

@@ -1,6 +1,7 @@
 'use strict'
 
-const { transtype, recurseMap } = require('../utils')
+const { recurseMap } = require('../utils/functional/map.js')
+const { transtype } = require('../utils/transtype.js')
 
 // All formats must be JSON-compatible.
 // Depending on format.jsonCompat:

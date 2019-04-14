@@ -9,9 +9,13 @@ const decompress = function(content) {
   return content
 }
 
-module.exports = {
+const identity = {
   name: 'identity',
   title: 'None',
   compress,
   decompress,
+}
+
+module.exports = {
+  identity,
 }

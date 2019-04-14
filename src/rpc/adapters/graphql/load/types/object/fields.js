@@ -1,11 +1,12 @@
 'use strict'
 
-const { mapValues, omitBy } = require('../../../../../../utils')
+const { omitBy } = require('../../../../../../utils/functional/filter.js')
+const { mapValues } = require('../../../../../../utils/functional/map.js')
 
 const { addCommand } = require('./command')
 const { getNestedColl } = require('./nested_colls')
 const { filterField } = require('./filter')
-const { getFinalField } = require('./final_fields')
+const { getFinalField } = require('./final_fields/main.js')
 const { addNoAttributes } = require('./no_attributes')
 
 // Retrieve the fields of an object, using config definition

@@ -1,7 +1,8 @@
 'use strict'
 
-const { throwPb } = require('../../../errors')
-const { evalFilter, mapNodes } = require('../../../filter')
+const { throwPb } = require('../../../errors/props.js')
+const { evalFilter } = require('../../../filter/eval.js')
+const { mapNodes } = require('../../../filter/crawl.js')
 
 const { handleConfigFuncs } = require('./functions')
 

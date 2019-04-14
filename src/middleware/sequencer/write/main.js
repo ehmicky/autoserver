@@ -1,8 +1,9 @@
 'use strict'
 
-const { groupValuesBy } = require('../../../utils')
-const { addErrorHandler, normalizeError } = require('../../../errors')
-const { mergeCommandpaths } = require('../../../commands')
+const { groupValuesBy } = require('../../../utils/functional/group.js')
+const { addErrorHandler } = require('../../../errors/handler.js')
+const { normalizeError } = require('../../../errors/main.js')
+const { mergeCommandpaths } = require('../../../commands/helpers.js')
 
 const { getArgs } = require('./args')
 const { getResults } = require('./results')

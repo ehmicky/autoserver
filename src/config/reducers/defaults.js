@@ -1,8 +1,9 @@
 'use strict'
 
-const { deepMerge } = require('../../utils')
-const { PROTOCOL_DEFAULTS } = require('../../protocols')
-const { DEFAULT_DATABASE, DATABASE_DEFAULTS } = require('../../databases')
+const { deepMerge } = require('../../utils/functional/merge.js')
+const { PROTOCOL_DEFAULTS } = require('../../protocols/info.js')
+const { DEFAULT_DATABASE } = require('../../databases/get.js')
+const { DATABASE_DEFAULTS } = require('../../databases/info.js')
 const { mapColls, mapAttrs } = require('../helpers')
 
 // Add config default values

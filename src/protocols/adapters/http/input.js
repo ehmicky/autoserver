@@ -2,15 +2,17 @@
 
 const parsePreferHeaderLib = require('parse-prefer-header')
 
-const { mapValues, omitBy } = require('../../../utils')
-const { throwError, addGenErrorHandler } = require('../../../errors')
+const { omitBy } = require('../../../utils/functional/filter.js')
+const { mapValues } = require('../../../utils/functional/map.js')
+const { addGenErrorHandler } = require('../../../errors/handler.js')
+const { throwError } = require('../../../errors/main.js')
 
+const { getFormat } = require('./content_negotiation/format.js')
+const { getCharset } = require('./content_negotiation/charset.js')
 const {
-  getFormat,
-  getCharset,
   getCompressResponse,
   getCompressRequest,
-} = require('./content_negotiation')
+} = require('./content_negotiation/compress.js')
 const { getAgnosticMethod } = require('./method')
 
 // HTTP-specific ways to set input

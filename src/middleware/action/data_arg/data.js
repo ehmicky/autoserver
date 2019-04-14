@@ -1,7 +1,7 @@
 'use strict'
 
-const { mapValues } = require('../../../utils')
-const { preValidate } = require('../../../patch')
+const { mapValues } = require('../../../utils/functional/map.js')
+const { preValidate } = require('../../../patch/validate/main.js')
 const { getColl } = require('../get_coll')
 
 const { validateData, isModelsType } = require('./validate')

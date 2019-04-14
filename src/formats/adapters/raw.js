@@ -1,8 +1,8 @@
 'use strict'
 
-const {
-  Buffer: { isBuffer },
-} = require('buffer')
+const { Buffer } = require('buffer')
+
+const { isBuffer } = Buffer
 
 // Parses a raw value
 const parse = function({ content }) {
@@ -25,7 +25,7 @@ const serialize = function({ content }) {
 // Means this is not a structured type, like media types,
 // and unlike JSON or YAML
 // This won't be parsed (i.e. returned as is), and will use 'binary' charset
-module.exports = {
+const raw = {
   name: 'raw',
   title: 'raw',
   extensions: [],
@@ -33,4 +33,8 @@ module.exports = {
   jsonCompat: [],
   parse,
   serialize,
+}
+
+module.exports = {
+  raw,
 }

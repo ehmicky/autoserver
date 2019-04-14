@@ -1,7 +1,8 @@
 'use strict'
 
-const { mapValues, isObjectType } = require('../../utils')
-const { throwError } = require('../../errors')
+const { mapValues } = require('../../utils/functional/map.js')
+const { isObjectType } = require('../../utils/functional/type.js')
+const { throwError } = require('../../errors/main.js')
 
 // There should be no circular references.
 // They may be introduced by e.g. dereferencing JSON references `$ref`

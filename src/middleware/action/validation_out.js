@@ -1,6 +1,6 @@
 'use strict'
 
-const { throwPb } = require('../../errors')
+const { throwPb } = require('../../errors/props.js')
 const { CONTENT_TYPES } = require('../../content_types')
 
 // Action layer output validation

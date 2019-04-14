@@ -1,7 +1,7 @@
 'use strict'
 
-const { throwPb } = require('../../errors')
-const { pSetTimeout } = require('../../utils')
+const { throwPb } = require('../../errors/props.js')
+const { setWeakTimeout } = require('../../utils/timeout.js')
 const { getLimits } = require('../../limits')
 
 // Make request fail after some timeout
@@ -19,7 +19,7 @@ const startRequestTimeout = async function({ config, config: { env } }) {
 
   // Note that the timeout is a minimum, since it will only be fired at the
   // beginning of a new macrotask
-  await pSetTimeout(timeout)
+  await setWeakTimeout(timeout)
 
   throwPb({
     reason: 'TIMEOUT',

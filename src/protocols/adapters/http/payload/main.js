@@ -3,7 +3,8 @@
 const { hasBody } = require('type-is')
 const getBody = require('raw-body')
 
-const { throwPb, addErrorHandler } = require('../../../../errors')
+const { addErrorHandler } = require('../../../../errors/handler.js')
+const { throwPb } = require('../../../../errors/props.js')
 
 const { getRawBodyHandler } = require('./error')
 

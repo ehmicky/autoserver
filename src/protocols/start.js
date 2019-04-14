@@ -1,8 +1,10 @@
 'use strict'
 
-const { identity, pick, omit, mapValues } = require('../utils')
+const { pick, omit } = require('../utils/functional/filter.js')
+const { identity } = require('../utils/functional/identity.js')
+const { mapValues } = require('../utils/functional/map.js')
 
-const { parseRequest } = require('./request')
+const { parseRequest } = require('./request/main.js')
 
 // Start the server
 const start = async function(

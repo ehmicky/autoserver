@@ -1,8 +1,9 @@
 'use strict'
 
-const { groupBy, groupValuesBy, mapValues } = require('../../../utils')
-const { mergeCommandpaths } = require('../../../commands')
-const { getSimpleFilter } = require('../../../filter')
+const { groupBy, groupValuesBy } = require('../../../utils/functional/group.js')
+const { mapValues } = require('../../../utils/functional/map.js')
+const { mergeCommandpaths } = require('../../../commands/helpers.js')
+const { getSimpleFilter } = require('../../../filter/simple_id.js')
 
 // Add `action.currentData` for `create` and `upsert` commands
 const parallelResolve = async function({ actions, mInput }, nextLayer) {

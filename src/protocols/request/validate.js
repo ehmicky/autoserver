@@ -1,7 +1,7 @@
 'use strict'
 
-const { isObject } = require('../../utils')
-const { throwPb } = require('../../errors')
+const { isObject } = require('../../utils/functional/type.js')
+const { throwPb } = require('../../errors/props.js')
 
 const validateSpecific = function({
   specific,

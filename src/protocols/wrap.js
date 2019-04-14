@@ -1,8 +1,8 @@
 'use strict'
 
-const { wrapAdapters } = require('../adapters')
+const { wrapAdapters } = require('../adapters/wrap.js')
 
-const adapters = require('./adapters')
+const { PROTOCOL_ADAPTERS } = require('./adapters/main.js')
 const { start } = require('./start')
 
 const members = ['name', 'title']
@@ -12,7 +12,7 @@ const methods = {
 }
 
 const protocolAdapters = wrapAdapters({
-  adapters,
+  adapters: PROTOCOL_ADAPTERS,
   members,
   methods,
   reason: 'PROTOCOL',

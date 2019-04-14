@@ -4,7 +4,7 @@ const { extname } = require('path')
 
 const { is: isType } = require('type-is')
 
-const { getAdapter } = require('../adapters')
+const { getAdapter } = require('../adapters/get.js')
 
 const { formatAdapters } = require('./wrap')
 

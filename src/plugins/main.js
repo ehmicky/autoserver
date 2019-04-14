@@ -1,7 +1,9 @@
 'use strict'
 
-const { omit, reduceAsync } = require('../utils')
-const { throwError, addGenPbHandler } = require('../errors')
+const { omit } = require('../utils/functional/filter.js')
+const { reduceAsync } = require('../utils/functional/reduce.js')
+const { addGenPbHandler } = require('../errors/handler.js')
+const { throwError } = require('../errors/main.js')
 
 const { timestampPlugin } = require('./timestamp')
 const { authorPlugin } = require('./author')

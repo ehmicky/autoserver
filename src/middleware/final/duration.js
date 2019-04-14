@@ -1,6 +1,6 @@
 'use strict'
 
-const { stopPerf } = require('../../perf')
+const { stopPerf } = require('../../perf/measure.js')
 
 // Request response time, from request handling start to response sending
 // Note that other functions might happen after response sending, e.g. events

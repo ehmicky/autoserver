@@ -1,10 +1,8 @@
 'use strict'
 
-const {
-  parseFilter,
-  validateFilter,
-  getAuthorizeAttrs,
-} = require('../../filter')
+const { parseFilter } = require('../../filter/parse/main.js')
+const { validateFilter } = require('../../filter/validate/main.js')
+const { getAuthorizeAttrs } = require('../../filter/authorize.js')
 const { mapColls } = require('../helpers')
 
 // Parse `config.authorize` and `coll.authorize` into AST

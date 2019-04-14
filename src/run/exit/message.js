@@ -1,6 +1,6 @@
 'use strict'
 
-const { logEvent } = require('../../log')
+const { logEvent } = require('../../log/main.js')
 
 const emitMessageEvent = function({ step, type, adapter: { title }, config }) {
   const message = SUCCESS_MESSAGES[type][step]

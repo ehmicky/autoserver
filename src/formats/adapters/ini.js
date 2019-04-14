@@ -1,18 +1,18 @@
 'use strict'
 
-const ini = require('ini')
+const { parse: iniParse, stringify: iniStringify } = require('ini')
 
-const { fullRecurseMap } = require('../../utils')
+const { fullRecurseMap } = require('../../utils/functional/map.js')
 
 // Parses an INI file
 const parse = function({ content }) {
-  return ini.parse(content)
+  return iniParse(content)
 }
 
 // Serializes an INI file
 const serialize = function({ content }) {
   const contentA = fullRecurseMap(content, escapeEmptyArrays)
-  return ini.stringify(contentA)
+  return iniStringify(contentA)
 }
 
 // Empty arrays are ignored by `node-ini`, so we need to escape them
@@ -26,7 +26,7 @@ const escapeEmptyArrays = function(val) {
   return '[]'
 }
 
-module.exports = {
+const ini = {
   name: 'ini',
   title: 'INI',
   extensions: ['ini', 'in', 'cfg', 'conf'],
@@ -36,4 +36,8 @@ module.exports = {
   jsonCompat: ['subset'],
   parse,
   serialize,
+}
+
+module.exports = {
+  ini,
 }

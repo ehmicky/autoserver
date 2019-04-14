@@ -1,6 +1,6 @@
 'use strict'
 
-const { throwPb } = require('../../errors')
+const { throwPb } = require('../../errors/props.js')
 const { getLimits } = require('../../limits')
 
 const { validateString } = require('./validate')

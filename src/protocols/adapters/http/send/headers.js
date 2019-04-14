@@ -3,7 +3,8 @@
 const vary = require('vary')
 
 const { isType } = require('../../../../content_types')
-const { ALGOS, DEFAULT_ALGO } = require('../../../../compress')
+const { ALGOS } = require('../../../../compress/info.js')
+const { DEFAULT_ALGO } = require('../../../../compress/get.js')
 
 const { getLinks } = require('./link')
 

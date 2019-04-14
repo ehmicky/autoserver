@@ -1,17 +1,17 @@
 'use strict'
 
-const {
-  Buffer: { byteLength },
-} = require('buffer')
+const { Buffer } = require('buffer')
 
 const pluralize = require('pluralize')
 
-const { getWordsList } = require('../../utils')
+const { getWordsList } = require('../../utils/string.js')
 const { isPatchOpName } = require('../parse')
 const { isRef } = require('../ref_parsing')
 
-const { checkAttrType, checkOpValType } = require('./types')
+const { checkAttrType, checkOpValType } = require('./types/main.js')
 const { applyCheck } = require('./check')
+
+const { byteLength } = Buffer
 
 const attributeExists = function({ attr }) {
   if (attr !== undefined) {

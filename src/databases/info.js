@@ -1,11 +1,11 @@
 'use strict'
 
-const { getMember } = require('../adapters')
+const { getMember } = require('../adapters/get.js')
 
-const databaseAdapters = require('./adapters')
+const { DATABASE_ADAPTERS } = require('./adapters/main.js')
 
-const DATABASE_OPTS = getMember(databaseAdapters, 'opts', {})
-const DATABASE_DEFAULTS = getMember(databaseAdapters, 'defaults', {})
+const DATABASE_OPTS = getMember(DATABASE_ADAPTERS, 'opts', {})
+const DATABASE_DEFAULTS = getMember(DATABASE_ADAPTERS, 'defaults', {})
 
 module.exports = {
   DATABASE_OPTS,

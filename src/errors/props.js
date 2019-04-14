@@ -3,8 +3,7 @@
 const { decapitalize } = require('underscore.string')
 
 const { createError } = require('./main')
-const REASONS = require('./reasons')
-const { MISSING_MESSAGE } = require('./constants')
+const { REASONS } = require('./reasons/main.js')
 
 // Throw exception for a specific error reason
 const throwPb = function({ message, messageInput, ...opts } = {}) {
@@ -36,6 +35,8 @@ const getPrefix = function({ messageInput, reason, extra = {} }) {
   const message = getMessage({ ...extra, ...messageInput })
   return message
 }
+
+const MISSING_MESSAGE = 'Missing error message'
 
 const addPrefix = function({ message, prefix }) {
   if (message === undefined) {

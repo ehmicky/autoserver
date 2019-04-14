@@ -1,9 +1,9 @@
 'use strict'
 
-const { throwError } = require('../errors')
+const { throwError } = require('../errors/main.js')
 
 const { parseRef, isRef } = require('./ref_parsing')
-const { postValidate } = require('./validate')
+const { postValidate } = require('./validate/main.js')
 
 // Get the config's attribute from a model.ATTR reference
 const getOpValRef = function({ opVal, coll: { attributes } }) {

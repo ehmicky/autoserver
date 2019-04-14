@@ -1,8 +1,8 @@
 'use strict'
 
 const { getRequirePerf } = require('../require_perf')
-const { monitoredReduce } = require('../perf')
-const { addErrorHandler } = require('../errors')
+const { monitoredReduce } = require('../perf/helpers.js')
+const { addErrorHandler } = require('../errors/handler.js')
 
 const { startupSteps } = require('./steps')
 const { handleStartupError } = require('./error')

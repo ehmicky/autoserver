@@ -1,35 +1,34 @@
 'use strict'
 
-const { monitoredReduce } = require('../perf')
-const { createInlineFuncs } = require('../functions')
-const { applyPlugins } = require('../plugins')
+const { monitoredReduce } = require('../perf/helpers.js')
+const { createInlineFuncs } = require('../functions/inline.js')
+const { applyPlugins } = require('../plugins/main.js')
 
-const {
-  loadFile,
-  applyCollsDefault,
-  validateCircularRefs,
-  validateJsonSchemaData,
-  validateConfigSyntax,
-  addDefaults,
-  normalizeClientCollname,
-  addRequiredId,
-  normalizeType,
-  mergeNestedColl,
-  addTypeValidation,
-  normalizeAliases,
-  addDescriptions,
-  normalizeAuthorize,
-  normalizePatchOperators,
-  normalizeLog,
-  normalizeShortcuts,
-  validateClientCollnames,
-  validateProtocols,
-  validateDatabases,
-  validateLogs,
-  validateLimits,
-  compileJsonSchema,
-  loadRpc,
-} = require('./reducers')
+const { loadFile } = require('./reducers/load/main.js')
+const { applyCollsDefault } = require('./reducers/colls_default.js')
+const { validateCircularRefs } = require('./reducers/circular_refs.js')
+const { validateJsonSchemaData } = require('./reducers/json_schema_data.js')
+const { validateConfigSyntax } = require('./reducers/syntax/main.js')
+const { addDefaults } = require('./reducers/defaults.js')
+const { normalizeClientCollname } = require('./reducers/collname.js')
+const { addRequiredId } = require('./reducers/required_id.js')
+const { normalizeType } = require('./reducers/type.js')
+const { mergeNestedColl } = require('./reducers/nested_coll.js')
+const { addTypeValidation } = require('./reducers/type_validation.js')
+const { normalizeAliases } = require('./reducers/alias.js')
+const { addDescriptions } = require('./reducers/description.js')
+const { normalizeAuthorize } = require('./reducers/authorize.js')
+const { normalizePatchOperators } = require('./reducers/patch_operators.js')
+const { normalizeLog } = require('./reducers/log.js')
+const { normalizeShortcuts } = require('./reducers/shortcuts/main.js')
+const { validateClientCollnames } = require('./reducers/validate_collname.js')
+const { validateProtocols } = require('./reducers/protocols.js')
+const { validateDatabases } = require('./reducers/databases.js')
+const { validateLogs } = require('./reducers/log_validation.js')
+const { validateLimits } = require('./reducers/limits.js')
+const { compileJsonSchema } = require('./reducers/json_schema.js')
+// eslint-disable-next-line import/max-dependencies
+const { loadRpc } = require('./reducers/rpc.js')
 
 // Loads config
 const loadConfig = function({ measures, configPath, config }) {

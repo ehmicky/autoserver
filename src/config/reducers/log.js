@@ -1,7 +1,7 @@
 'use strict'
 
-const { addGenErrorHandler } = require('../../errors')
-const { getLog } = require('../../log')
+const { addGenErrorHandler } = require('../../errors/handler.js')
+const { getLog } = require('../../log/get.js')
 const { DEFAULT_LOGGER } = require('../../log/constants.js')
 
 const { provider: defaultProvider } = DEFAULT_LOGGER

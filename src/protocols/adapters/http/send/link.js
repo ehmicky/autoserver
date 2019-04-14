@@ -2,7 +2,8 @@
 
 const { stringify: stringifyLinks } = require('li')
 
-const { mapValues, omitBy } = require('../../../../utils')
+const { omitBy } = require('../../../../utils/functional/filter.js')
+const { mapValues } = require('../../../../utils/functional/map.js')
 const { stringifyUrl, getStandardUrl } = require('../origin')
 
 // `Link` HTTP header, using pagination metadata,

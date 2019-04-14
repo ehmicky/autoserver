@@ -1,7 +1,7 @@
 'use strict'
 
-const { getProtocol } = require('../../../protocols')
-const { getRpc } = require('../../../rpc')
+const { getProtocol } = require('../../../protocols/get.js')
+const { getRpc } = require('../../../rpc/get.js')
 
 // Build message of events `request` as:
 //  STATUS [ERROR] - PROTOCOL METHOD RPC /PATH COMMAND...

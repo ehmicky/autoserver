@@ -1,7 +1,9 @@
 'use strict'
 
-const { getWordsList, difference, intersection } = require('../../utils')
-const { ENUM_OPERATORS } = require('../operators')
+const { difference } = require('../../utils/functional/difference.js')
+const { intersection } = require('../../utils/functional/intersection.js')
+const { getWordsList } = require('../../utils/string.js')
+const { ENUM_OPERATORS } = require('../operators/main.js')
 
 // Validate value is among set of values
 const validateEnum = function({ type, value, ruleVal, throwErr }) {

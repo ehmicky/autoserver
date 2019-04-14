@@ -1,6 +1,6 @@
 'use strict'
 
-const { uniq } = require('../../../utils')
+const { uniq } = require('../../../utils/functional/uniq.js')
 const { getColl } = require('../get_coll')
 
 const { getDataPath } = require('./data_path')

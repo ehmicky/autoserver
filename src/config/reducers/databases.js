@@ -1,7 +1,8 @@
 'use strict'
 
-const { addGenErrorHandler } = require('../../errors')
-const { getDatabase, DATABASE_OPTS } = require('../../databases')
+const { addGenErrorHandler } = require('../../errors/handler.js')
+const { getDatabase } = require('../../databases/get.js')
+const { DATABASE_OPTS } = require('../../databases/info.js')
 const { mapColls } = require('../helpers')
 
 const { validateAdaptersOpts } = require('./adapter_opts')

@@ -8,7 +8,7 @@ const { addNestedFilter } = require('./parent_results')
 const { getConcurrentCommand, addPendingResults } = require('./concurrent')
 const { fireReadCommand } = require('./command')
 const { processResults } = require('./results')
-const { paginateResults } = require('./paginate')
+const { paginateResults } = require('./paginate/main.js')
 
 // Fire all commands associated with a set of read actions
 const sequenceRead = async function({ actions, config, mInput }, nextLayer) {

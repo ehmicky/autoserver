@@ -1,6 +1,6 @@
 'use strict'
 
-const { getServerParams } = require('../../functions')
+const { getServerParams } = require('../../functions/params/server.js')
 
 // Bind server-specific parameters with their parameters
 // This middleware needs to be:

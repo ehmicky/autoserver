@@ -1,6 +1,6 @@
 'use strict'
 
-const { monitor } = require('../../perf')
+const { monitor } = require('../../perf/helpers.js')
 
 const { emitMessageEvent } = require('./message')
 const { addExitHandler } = require('./error')

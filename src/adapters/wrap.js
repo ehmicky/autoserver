@@ -1,7 +1,9 @@
 'use strict'
 
-const { keyBy, mapValues, pick, pickBy } = require('../utils')
-const { addCatchAllPbHandler } = require('../errors')
+const { pick, pickBy } = require('../utils/functional/filter.js')
+const { keyBy } = require('../utils/functional/key_by.js')
+const { mapValues } = require('../utils/functional/map.js')
+const { addCatchAllPbHandler } = require('../errors/handler.js')
 
 // Wrap adapters to:
 //  - add error handlers to catch adapter bugs

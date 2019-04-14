@@ -2,7 +2,7 @@
 
 const { crawlAttrs } = require('../crawl')
 const { getThrowErr } = require('../error')
-const { getOperator } = require('../operators')
+const { getOperator } = require('../operators/main.js')
 
 const { getDeepAttr } = require('./attr')
 const { getSiblingValue } = require('./siblings')

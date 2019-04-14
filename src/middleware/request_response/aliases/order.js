@@ -1,5 +1,7 @@
 'use strict'
 
+const { isObject } = require('../../../utils/functional/type.js')
+
 // Copy first defined alias to main attribute, providing it is not defined.
 const applyOrderAliases = function({ order, attrName, aliases }) {
   if (!Array.isArray(order)) {
@@ -7,7 +9,7 @@ const applyOrderAliases = function({ order, attrName, aliases }) {
   }
 
   return order.map(orderPart => {
-    if (!orderPart || orderPart.constructor !== Object) {
+    if (!isObject(orderPart)) {
       return orderPart
     }
 

@@ -1,6 +1,7 @@
 'use strict'
 
-const { groupMeasures, stringifyMeasures } = require('../perf')
+const { groupMeasures } = require('../perf/group.js')
+const { stringifyMeasures } = require('../perf/stringify.js')
 
 const { logEvent } = require('./main')
 

@@ -5,9 +5,9 @@ const { promisify } = require('util')
 const Nodemon = require('nodemon')
 const { exec } = require('gulp-execa')
 
-const EXAMPLE_PATH = `${__dirname}/../examples/index.js`
+const EXAMPLE_PATH = `${__dirname}/../examples/main.js`
 const SRC_PATH = `${__dirname}/../build/src`
-const BINARY_PATH = `${__dirname}/../build/src/bin/index.js`
+const BINARY_PATH = `${__dirname}/../build/src/bin/main.js`
 
 // We use this instead of requiring the application to test the CLI
 const runProd = () => exec(`node ${BINARY_PATH}`, { cwd: 'examples' })

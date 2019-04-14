@@ -2,7 +2,7 @@
 
 const { format: formatBytes } = require('bytes')
 
-const { throwPb } = require('../../../../errors')
+const { throwPb } = require('../../../../errors/props.js')
 
 // `raw-body` throws some errors that we want to convert to the correct error
 // reason

@@ -1,5 +1,7 @@
 'use strict'
 
+const { isObject } = require('../../../../../utils/functional/type.js')
+
 const { getSiblingNode } = require('./siblings')
 
 // Transform `args.filter` into MongoDB query object
@@ -40,8 +42,7 @@ const allOperator = function({ value, attrName }) {
 }
 
 const genericOperator = function({ type, value, attrName }) {
-  const isSibling =
-    value && value.constructor === Object && value.type === 'sibling'
+  const isSibling = isObject(value) && value.type === 'sibling'
 
   if (isSibling) {
     return getSiblingNode({ type, value, attrName })

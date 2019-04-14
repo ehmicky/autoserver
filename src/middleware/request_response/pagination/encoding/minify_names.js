@@ -1,6 +1,7 @@
 'use strict'
 
-const { invert, mapKeys } = require('../../../../utils')
+const { invert } = require('../../../../utils/functional/invert.js')
+const { mapKeys } = require('../../../../utils/functional/map.js')
 
 // Name shortcuts, e.g. { filter: value } -> { f: value }
 const addNameShortcuts = function(token) {

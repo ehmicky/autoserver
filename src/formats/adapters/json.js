@@ -10,7 +10,7 @@ const serialize = function({ content }) {
   return JSON.stringify(content, null, 2)
 }
 
-module.exports = {
+const json = {
   name: 'json',
   title: 'JSON',
   extensions: ['json'],
@@ -20,4 +20,8 @@ module.exports = {
   jsonCompat: [],
   parse,
   serialize,
+}
+
+module.exports = {
+  json,
 }

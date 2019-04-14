@@ -1,7 +1,7 @@
 'use strict'
 
-const { isEqual } = require('../../../../utils')
-const { throwError } = require('../../../../errors')
+const { isEqual } = require('../../../../utils/functional/equal.js')
+const { throwError } = require('../../../../errors/main.js')
 const { SAME_ARGS } = require('../info')
 
 const { validateToken } = require('./token')

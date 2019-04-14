@@ -1,11 +1,12 @@
 'use strict'
 
-const { DEEP_OPERATORS } = require('../operators')
+const { isObject } = require('../../utils/functional/type.js')
+const { DEEP_OPERATORS } = require('../operators/main.js')
 
 const { parseOperations } = require('./operations')
 
 const parseAttrs = function({ attrs, throwErr }) {
-  if (!attrs || attrs.constructor !== Object) {
+  if (!isObject(attrs)) {
     const message = 'There should be an object containing the filter attributes'
     throwErr(message)
   }

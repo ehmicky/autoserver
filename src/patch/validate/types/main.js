@@ -1,6 +1,6 @@
 'use strict'
 
-const { uniq } = require('../../../utils')
+const { uniq } = require('../../../utils/functional/uniq.js')
 const { getOpValRef, cannotCheckType } = require('../../ref')
 
 const { validateTypes } = require('./validate')

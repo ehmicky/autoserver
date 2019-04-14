@@ -2,7 +2,7 @@
 
 const yargs = require('yargs')
 
-const { monitor } = require('../perf')
+const { monitor } = require('../perf/helpers.js')
 
 const { addInstructions } = require('./instructions')
 const { processOpts } = require('./process')

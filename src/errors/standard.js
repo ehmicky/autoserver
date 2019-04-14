@@ -1,6 +1,6 @@
 'use strict'
 
-const { omitBy } = require('../utils')
+const { omitBy } = require('../utils/functional/filter.js')
 
 const { getReason, getProps } = require('./props')
 const { normalizeError } = require('./main')

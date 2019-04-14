@@ -1,7 +1,7 @@
 'use strict'
 
-const { logEvent } = require('../../log')
-const { nanoSecsToMilliSecs } = require('../../perf')
+const { logEvent } = require('../../log/main.js')
+const { nanoSecsToMilliSecs } = require('../../perf/measure.js')
 
 // Main "call" event middleware.
 // Each request creates exactly one "call" event, whether successful or not

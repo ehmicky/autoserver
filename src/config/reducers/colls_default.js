@@ -1,6 +1,8 @@
 'use strict'
 
-const { omit, mapValues, deepMerge } = require('../../utils')
+const { omit } = require('../../utils/functional/filter.js')
+const { mapValues } = require('../../utils/functional/map.js')
+const { deepMerge } = require('../../utils/functional/merge.js')
 
 // Applies `config.collections.default` to each collection
 const applyCollsDefault = function({

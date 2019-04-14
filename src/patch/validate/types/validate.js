@@ -1,6 +1,7 @@
 'use strict'
 
-const { getWordsList, uniq } = require('../../../utils')
+const { uniq } = require('../../../utils/functional/uniq.js')
+const { getWordsList } = require('../../../utils/string.js')
 
 const { TYPES } = require('./available')
 
@@ -15,8 +16,7 @@ const validateTypes = function({ possTypes, attrTypes, attrIsArray, strict }) {
     return
   }
 
-  const validTypes = getValidTypes({ possTypes, strict })
-  return validTypes
+  return getValidTypes({ possTypes, strict })
 }
 
 const validateType = function({ possTypes, attrType, attrIsArray, strict }) {

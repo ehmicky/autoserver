@@ -1,7 +1,11 @@
 'use strict'
 
-const { addGenPbHandler } = require('../../../errors')
-const { DEFAULT_FORMAT, getFormat, getMimes } = require('../../../formats')
+const { addGenPbHandler } = require('../../../errors/handler.js')
+const {
+  DEFAULT_FORMAT,
+  getFormat,
+  getMimes,
+} = require('../../../formats/get.js')
 
 // Retrieve format asked by client for the response payload
 const getFormatFunc = function({ queryvars, format }) {

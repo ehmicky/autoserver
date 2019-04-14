@@ -1,10 +1,10 @@
 'use strict'
 
-const { deflate, inflate } = require('zlib')
+const zlib = require('zlib')
 const { promisify } = require('util')
 
-const pDeflate = promisify(deflate)
-const pInflate = promisify(inflate)
+const pDeflate = promisify(zlib.deflate)
+const pInflate = promisify(zlib.inflate)
 
 // Compress to Deflate
 const compress = function(content) {
@@ -16,9 +16,13 @@ const decompress = function(content) {
   return pInflate(content)
 }
 
-module.exports = {
+const deflate = {
   name: 'deflate',
   title: 'Deflate',
   compress,
   decompress,
+}
+
+module.exports = {
+  deflate,
 }

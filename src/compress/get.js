@@ -1,6 +1,6 @@
 'use strict'
 
-const { getAdapter } = require('../adapters')
+const { getAdapter } = require('../adapters/get.js')
 
 const { compressAdapters } = require('./wrap')
 

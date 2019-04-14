@@ -1,7 +1,9 @@
 'use strict'
 
-const { throwPb, addGenPbHandler } = require('../../errors')
-const { compile, validate } = require('../../validation')
+const { addGenPbHandler } = require('../../errors/handler.js')
+const { throwPb } = require('../../errors/props.js')
+const { compile } = require('../../validation/compile.js')
+const { validate } = require('../../validation/validate.js')
 
 // Validates `database.DATABASE.*`, `protocols.PROTOCOL.*` and `log.LOG.*`
 const validateAdaptersOpts = function({ opts, adaptersOpts, key }) {

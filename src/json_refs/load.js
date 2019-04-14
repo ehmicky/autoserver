@@ -1,8 +1,8 @@
 'use strict'
 
-const { pStat } = require('../utils')
-const { addGenErrorHandler, addErrorHandler } = require('../errors')
-const { getByExt, DEFAULT_RAW_FORMAT } = require('../formats')
+const { pStat } = require('../utils/fs.js')
+const { addGenErrorHandler, addErrorHandler } = require('../errors/handler.js')
+const { getByExt, DEFAULT_RAW_FORMAT } = require('../formats/get.js')
 
 // Load the file pointing to by the JSON reference
 const load = async function({ path }) {

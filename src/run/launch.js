@@ -1,8 +1,9 @@
 'use strict'
 
-const { monitor } = require('../perf')
-const { logEvent } = require('../log')
-const { PROTOCOLS, getProtocol } = require('../protocols')
+const { monitor } = require('../perf/helpers.js')
+const { logEvent } = require('../log/main.js')
+const { getProtocol } = require('../protocols/get.js')
+const { PROTOCOLS } = require('../protocols/info.js')
 
 // Launch the server for each protocol
 const launchProtocols = async function(options) {

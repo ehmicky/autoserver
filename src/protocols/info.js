@@ -1,12 +1,12 @@
 'use strict'
 
-const { getNames, getMember } = require('../adapters')
+const { getNames, getMember } = require('../adapters/get.js')
 
-const protocolAdapters = require('./adapters')
+const { PROTOCOL_ADAPTERS } = require('./adapters/main.js')
 
-const PROTOCOLS = getNames(protocolAdapters)
-const PROTOCOL_OPTS = getMember(protocolAdapters, 'opts', {})
-const PROTOCOL_DEFAULTS = getMember(protocolAdapters, 'defaults', {})
+const PROTOCOLS = getNames(PROTOCOL_ADAPTERS)
+const PROTOCOL_OPTS = getMember(PROTOCOL_ADAPTERS, 'opts', {})
+const PROTOCOL_DEFAULTS = getMember(PROTOCOL_ADAPTERS, 'defaults', {})
 
 module.exports = {
   PROTOCOLS,

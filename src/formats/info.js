@@ -1,13 +1,13 @@
 'use strict'
 
-const formatAdapters = require('./adapters')
+const { FORMAT_ADAPTERS } = require('./adapters/main.js')
 const { getExtension } = require('./extensions')
 
 // All possible extensions, for documentation
 const getExtensions = function() {
-  return formatAdapters
-    .map(formatAdapter => getExtension(formatAdapter))
-    .filter(extension => extension !== undefined)
+  return FORMAT_ADAPTERS.map(formatAdapter =>
+    getExtension(formatAdapter),
+  ).filter(extension => extension !== undefined)
 }
 
 const EXTENSIONS = getExtensions()

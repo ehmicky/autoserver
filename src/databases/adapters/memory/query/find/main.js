@@ -1,6 +1,6 @@
 'use strict'
 
-const { evalFilter } = require('../../../../../filter')
+const { evalFilter } = require('../../../../../filter/eval.js')
 
 const { sortResponse } = require('./order')
 const { offsetResponse } = require('./offset')

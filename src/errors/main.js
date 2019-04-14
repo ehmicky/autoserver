@@ -1,8 +1,7 @@
 'use strict'
 
-const { difference } = require('../utils')
+const { difference } = require('../utils/functional/difference.js')
 
-const { ERROR_TYPE, ALLOWED_OPTS, MISSING_MESSAGE } = require('./constants')
 const { getInnerError } = require('./inner')
 
 // Note that any exception thrown in the `error` module might not create an
@@ -34,15 +33,21 @@ const validateError = function(opts) {
   throwError(message, { reason: 'ENGINE' })
 }
 
+const ALLOWED_OPTS = ['reason', 'stack', 'innererror', 'extra']
+
 const isError = function({ error }) {
   return error && error.type === ERROR_TYPE
 }
+
+const ERROR_TYPE = Symbol('error')
 
 const throwError = function(message = MISSING_MESSAGE, opts) {
   const stack = message.stack || getStack({ caller: throwError })
   const error = createError(message, { ...opts, stack })
   throw error
 }
+
+const MISSING_MESSAGE = 'Missing error message'
 
 // External dependencies might throw errors that are not instances of
 // our types of error, so we want to fix those.

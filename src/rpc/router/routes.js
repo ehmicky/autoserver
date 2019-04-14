@@ -2,8 +2,9 @@
 
 const { parse, tokensToRegExp } = require('path-to-regexp')
 
+const { isObject } = require('../../utils/functional/type.js')
+const { throwPb } = require('../../errors/props.js')
 const { rpcAdapters } = require('../wrap')
-const { throwPb } = require('../../errors')
 
 // Retrieve all routes regexps, rpc and variable names
 const getAllRoutes = function() {
@@ -25,9 +26,7 @@ const parseRoute = function(route) {
 }
 
 const getVariables = function({ tokens }) {
-  return tokens
-    .filter(token => token.constructor === Object)
-    .map(({ name }) => name)
+  return tokens.filter(isObject).map(({ name }) => name)
 }
 
 const allRoutes = getAllRoutes()

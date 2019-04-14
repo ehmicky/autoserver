@@ -1,8 +1,11 @@
 'use strict'
 
-const { omitBy, fullRecurseMap } = require('../../../utils')
-const { addGenErrorHandler } = require('../../../errors')
-const { compile, validate } = require('../../../validation')
+const { omitBy } = require('../../../utils/functional/filter.js')
+const { fullRecurseMap } = require('../../../utils/functional/map.js')
+const { isObject } = require('../../../utils/functional/type.js')
+const { addGenErrorHandler } = require('../../../errors/handler.js')
+const { compile } = require('../../../validation/compile.js')
+const { validate } = require('../../../validation/validate.js')
 
 const { SCHEMA } = require('./config_schema')
 
@@ -38,9 +41,7 @@ const getCollTypes = function({ collections }) {
 }
 
 const getCustomValidationNames = function({ validation }) {
-  const hasValidation = validation && validation.constructor === Object
-
-  if (!hasValidation) {
+  if (!isObject(validation)) {
     return []
   }
 
@@ -54,7 +55,7 @@ const removeData = function(config) {
 }
 
 const removeDatum = function(obj) {
-  if (!obj || obj.constructor !== Object) {
+  if (!isObject(obj)) {
     return obj
   }
 

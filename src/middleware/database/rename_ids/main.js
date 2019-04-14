@@ -1,6 +1,7 @@
 'use strict'
 
-const { pickBy, mapValues } = require('../../../utils')
+const { pickBy } = require('../../../utils/functional/filter.js')
+const { mapValues } = require('../../../utils/functional/map.js')
 
 const { renameData } = require('./data')
 const { renameFilter } = require('./filter')

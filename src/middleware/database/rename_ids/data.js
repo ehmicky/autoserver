@@ -1,6 +1,6 @@
 'use strict'
 
-const { omit } = require('../../../utils')
+const { omit } = require('../../../utils/functional/filter.js')
 
 // Modify `args.newData`, or database output
 const renameData = function({ value, newIdName, oldIdName }) {

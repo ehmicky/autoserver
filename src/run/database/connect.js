@@ -1,7 +1,7 @@
 'use strict'
 
-const { logEvent } = require('../../log')
-const { monitor } = require('../../perf')
+const { logEvent } = require('../../log/main.js')
+const { monitor } = require('../../perf/helpers.js')
 
 // Start each database connection
 const startConnections = async function({ dbAdapters, config, measures }) {

@@ -1,6 +1,6 @@
 'use strict'
 
-const { throwPb } = require('../../errors')
+const { throwPb } = require('../../errors/props.js')
 const { parsePatchOp } = require('../parse')
 
 const { PRE_VALIDATORS } = require('./pre_validators')

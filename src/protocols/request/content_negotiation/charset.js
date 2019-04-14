@@ -1,7 +1,7 @@
 'use strict'
 
-const { addGenPbHandler } = require('../../../errors')
-const { getCharset, getCharsets } = require('../../../charsets')
+const { addGenPbHandler } = require('../../../errors/handler.js')
+const { getCharset, getCharsets } = require('../../../charsets/main.js')
 
 // Retrieve charset asked by client for the request and response payload
 const getCharsetFunc = function({ queryvars, charset, format }) {

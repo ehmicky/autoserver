@@ -1,23 +1,24 @@
 'use strict'
 
-const { monitor } = require('../../perf')
-const { onlyOnce } = require('../../utils')
-const { addErrorHandler } = require('../../errors')
-const { logEvent, logPerfEvent } = require('../../log')
+const { monitor } = require('../../perf/helpers.js')
+const { once } = require('../../utils/functional/once.js')
+const { addErrorHandler } = require('../../errors/handler.js')
+const { logEvent } = require('../../log/main.js')
+const { logPerfEvent } = require('../../log/perf.js')
 
 const { closeProtocols } = require('./protocol_close')
 const { closeDbAdapters } = require('./db_close')
 const { emitStopEvent } = require('./stop_event')
 
 // Close servers and database connections
-const mmGracefulExit = async function({
+const oGracefulExit = async function({
   protocolAdapters,
   dbAdapters,
   stopProcessErrors,
   config,
 }) {
   const measures = []
-  const { exit } = await mGracefulExit({
+  const { exit } = await mmGracefulExit({
     protocolAdapters,
     dbAdapters,
     stopProcessErrors,
@@ -30,7 +31,7 @@ const mmGracefulExit = async function({
   await logPerfEvent({ phase: 'shutdown', measures, config })
 }
 
-const oGracefulExit = onlyOnce(mmGracefulExit)
+const eGracefulExit = once(oGracefulExit)
 
 const gracefulExitHandler = async function(error, { config }) {
   const message = 'Shutdown failure'
@@ -43,9 +44,9 @@ const gracefulExitHandler = async function(error, { config }) {
   })
 }
 
-const eGracefulExit = addErrorHandler(oGracefulExit, gracefulExitHandler)
+const gracefulExit = addErrorHandler(eGracefulExit, gracefulExitHandler)
 
-const gracefulExit = async function({
+const mGracefulExit = async function({
   protocolAdapters,
   dbAdapters,
   stopProcessErrors,
@@ -67,8 +68,8 @@ const gracefulExit = async function({
   return { exit }
 }
 
-const mGracefulExit = monitor(gracefulExit, 'all')
+const mmGracefulExit = monitor(mGracefulExit, 'all')
 
 module.exports = {
-  gracefulExit: eGracefulExit,
+  gracefulExit,
 }

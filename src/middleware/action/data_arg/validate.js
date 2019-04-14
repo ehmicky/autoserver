@@ -1,11 +1,12 @@
 'use strict'
 
-const {
-  Buffer: { byteLength },
-} = require('buffer')
+const { Buffer } = require('buffer')
 
-const { throwError } = require('../../../errors')
-const { isPatchOp } = require('../../../patch')
+const { isObject } = require('../../../utils/functional/type.js')
+const { throwError } = require('../../../errors/main.js')
+const { isPatchOp } = require('../../../patch/parse.js')
+
+const { byteLength } = Buffer
 
 // Validate that user passed a correct `args.data`
 const validateData = function({
@@ -98,7 +99,7 @@ const isModelsType = function(val) {
 }
 
 const isModelType = function(obj) {
-  return obj && obj.constructor === Object && !isPatchOp(obj)
+  return isObject(obj) && !isPatchOp(obj)
 }
 
 module.exports = {

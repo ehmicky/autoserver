@@ -1,7 +1,7 @@
 'use strict'
 
 const { getDefaultValue } = require('./default')
-const { getArgs } = require('./args')
+const { getArgs } = require('./args/main.js')
 
 // Retrieves a GraphQL field info for a given config definition,
 // i.e. an object that can be passed to new

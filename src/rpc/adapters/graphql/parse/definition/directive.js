@@ -1,6 +1,7 @@
 'use strict'
 
-const { throwError, addGenErrorHandler } = require('../../../../../errors')
+const { addGenErrorHandler } = require('../../../../../errors/handler.js')
+const { throwError } = require('../../../../../errors/main.js')
 const { validateDuplicates } = require('../duplicates')
 
 // Apply GraphQL directives @include and @skip

@@ -1,6 +1,6 @@
 'use strict'
 
-const { getProps } = require('../../errors')
+const { getProps } = require('../../errors/props.js')
 
 // Retrieve response's status
 // TODO: why is this called twice???

@@ -2,7 +2,7 @@
 
 const { cwd } = require('process')
 
-const { isObjectType } = require('../utils')
+const { isObjectType } = require('../utils/functional/type.js')
 
 const { getPath } = require('./path')
 const { fireCachedFunc } = require('./circular_refs')

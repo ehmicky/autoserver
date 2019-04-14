@@ -1,6 +1,6 @@
 'use strict'
 
-const { deepMerge } = require('../../utils')
+const { deepMerge } = require('../../utils/functional/merge.js')
 
 // Deep merge all results' metadata
 const mergeMetadata = function({ results, metadata }) {

@@ -1,6 +1,8 @@
 'use strict'
 
-const { addErrorHandler, normalizeError, createPb } = require('../errors')
+const { addErrorHandler } = require('../errors/handler.js')
+const { createPb } = require('../errors/props.js')
+const { normalizeError } = require('../errors/main.js')
 
 const { getLogParams } = require('./params')
 const { LEVELS, DEFAULT_LOGGER } = require('./constants')
@@ -8,7 +10,7 @@ const { getLog } = require('./get')
 
 // Log some event, including printing to console
 // `config.log` might be `undefined` if the error happened at startup time.
-const logEvent = async function({
+const eLogEvent = async function({
   config,
   config: { log: logConf = [DEFAULT_LOGGER] },
   ...rest
@@ -81,7 +83,7 @@ const logEventHandler = function(error, { config, event }) {
   throw errorB
 }
 
-const eLogEvent = addErrorHandler(logEvent, logEventHandler)
+const logEvent = addErrorHandler(eLogEvent, logEventHandler)
 
 // This means there is a bug in the logging code itself
 const safetyHandler = function(error) {
@@ -94,9 +96,9 @@ const safetyHandler = function(error) {
   console.error(errorA.message, errorB)
 }
 
-const silentLogEvent = addErrorHandler(logEvent, safetyHandler)
+const silentLogEvent = addErrorHandler(eLogEvent, safetyHandler)
 
 module.exports = {
-  logEvent: eLogEvent,
+  logEvent,
   safetyHandler,
 }

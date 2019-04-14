@@ -1,8 +1,8 @@
 'use strict'
 
-const { pick } = require('../../../../utils')
+const { pick } = require('../../../../utils/functional/filter.js')
 const { isOffset, SAME_ARGS, BOUNDARY_TOKEN } = require('../info')
-const { encode } = require('../encoding')
+const { encode } = require('../encoding/main.js')
 const { isOnlyForwardCursor } = require('../condition')
 
 const getMetadata = function({

@@ -1,18 +1,18 @@
 'use strict'
 
-const json5 = require('json5')
+const { parse: json5Parse, stringify: json5Stringify } = require('json5')
 
 // Parses a JSON5 file
 const parse = function({ content }) {
-  return json5.parse(content)
+  return json5Parse(content)
 }
 
 // Serializes a JSON5 file
 const serialize = function({ content }) {
-  return json5.stringify(content, null, 2)
+  return json5Stringify(content, null, 2)
 }
 
-module.exports = {
+const json5 = {
   name: 'json5',
   title: 'JSON5',
   extensions: ['json5'],
@@ -22,4 +22,8 @@ module.exports = {
   jsonCompat: ['superset'],
   parse,
   serialize,
+}
+
+module.exports = {
+  json5,
 }

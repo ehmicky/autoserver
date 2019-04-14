@@ -2,7 +2,10 @@
 
 const { GraphQLInt, GraphQLString } = require('graphql')
 
-const { pick, omit } = require('../../../../../../../../utils')
+const {
+  pick,
+  omit,
+} = require('../../../../../../../../utils/functional/filter.js')
 
 // Pagination arguments
 const getPaginationArgument = function({ command, features }) {

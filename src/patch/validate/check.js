@@ -2,8 +2,9 @@
 
 const { decapitalize } = require('underscore.string')
 
-const { runConfigFunc } = require('../../functions')
-const { addErrorHandler, createPb } = require('../../errors')
+const { runConfigFunc } = require('../../functions/run.js')
+const { addErrorHandler } = require('../../errors/handler.js')
+const { createPb } = require('../../errors/props.js')
 const { getPatchErrorProps } = require('../error')
 
 // Uses `patchOp.check()`

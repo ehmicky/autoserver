@@ -1,6 +1,6 @@
 'use strict'
 
-const { mapValues } = require('../../utils')
+const { mapValues } = require('../../utils/functional/map.js')
 const { throwAttrValError, throwAttrTypeError } = require('../error')
 
 const parseAsIs = function({ value }) {

@@ -1,6 +1,6 @@
 'use strict'
 
-const { isEqual } = require('../../../utils')
+const { isEqual } = require('../../../utils/functional/equal.js')
 
 // Retrieve `currentData` for `delete` and `patch` by running `find` commands,
 // reusing `arg.filter`.

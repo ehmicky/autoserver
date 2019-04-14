@@ -1,14 +1,85 @@
 /* eslint-disable max-lines */
 'use strict'
 
-const final = require('./final')
-const time = require('./time')
-const protocol = require('./protocol')
-const rpc = require('./rpc')
-const action = require('./action')
-const sequencer = require('./sequencer')
-const requestResponse = require('./request_response')
-const database = require('./database')
+const { getStatus } = require('./final/status.js')
+const { setDuration } = require('./final/duration.js')
+const { sendResponse } = require('./final/send_response/main.js')
+const { callEvent } = require('./final/call_event.js')
+const { perfEvent } = require('./final/perf_event.js')
+const { addTimestamp } = require('./time/timestamp.js')
+const { setRequestTimeout } = require('./time/timeout.js')
+const { setRequestid } = require('./protocol/requestid.js')
+const { parseProtocol } = require('./protocol/parse.js')
+const { fireRpc } = require('./protocol/rpc.js')
+const { router } = require('./rpc/router.js')
+const { methodCheck } = require('./rpc/method_check.js')
+const { parseRpc } = require('./rpc/parse.js')
+const { fireActions } = require('./rpc/actions.js')
+const { parseTopAction } = require('./action/top.js')
+const { validateArgs } = require('./action/validate_args/main.js')
+const { renameArgs } = require('./action/rename_args.js')
+const { bindServerParams } = require('./action/server_params.js')
+const { parseFilter } = require('./action/filter.js')
+const { parseDataArg } = require('./action/data_arg/main.js')
+const { parsePopulateCascade } = require('./action/populate_cascade.js')
+const { parseOrder } = require('./action/order.js')
+const { parseSelect } = require('./action/select/parse.js')
+const { parseRename } = require('./action/rename/parse.js')
+const { validateRequestLimits } = require('./action/limits.js')
+const { validateUnknownAttrs } = require('./action/unknown_attrs/main.js')
+const { validateStableIds } = require('./action/stable_ids.js')
+const { getSummary } = require('./action/summary.js')
+const { setClientNames } = require('./action/client_names.js')
+const { sortActions, sortResults } = require('./action/sort.js')
+const { addCurrentData } = require('./action/current_data/main.js')
+const { patchData } = require('./action/patch_data.js')
+const { resolveActions } = require('./action/resolve.js')
+const { rollback } = require('./action/rollback/main.js')
+const { getModelscount } = require('./action/modelscount.js')
+const { applySelect } = require('./action/select/apply.js')
+const { assembleResults } = require('./action/assemble.js')
+const { applyRename } = require('./action/rename/apply.js')
+const { parseResponse } = require('./action/parse_response.js')
+const { actionValidationOut } = require('./action/validation_out.js')
+const { sequenceRead } = require('./sequencer/read/main.js')
+const { sequenceWrite } = require('./sequencer/write/main.js')
+const { mergeMetadata } = require('./sequencer/metadata.js')
+const { normalizeEmpty } = require('./request_response/normalize_empty.js')
+const {
+  renameAliasesInput,
+  renameAliasesOutput,
+} = require('./request_response/aliases/main.js')
+const {
+  handleValue,
+  handleReadonly,
+  handleUserDefault,
+} = require('./request_response/transform/main.js')
+const {
+  handlePaginationInput,
+} = require('./request_response/pagination/input/main.js')
+const {
+  validateAuthorization,
+} = require('./request_response/authorize/main.js')
+const { validateRuntimeFeatures } = require('./request_response/features.js')
+const { dataValidation } = require('./request_response/data_validation.js')
+const { pickDatabaseAdapter } = require('./database/pick_adapter.js')
+const {
+  renameIdsInput,
+  renameIdsOutput,
+} = require('./database/rename_ids/main.js')
+const { databaseExecute } = require('./database/execute.js')
+const { getDbResponse } = require('./database/response.js')
+const {
+  responseValidation,
+} = require('./request_response/response_validation.js')
+const { removeEmptyModels } = require('./request_response/empty_models.js')
+const { duplicateReads } = require('./request_response/duplicate_read.js')
+const { validateMissingIds } = require('./request_response/missing_ids.js')
+const { validateCreateIds } = require('./request_response/create_ids.js')
+const {
+  handlePaginationOutput,
+  // eslint-disable-next-line import/max-dependencies
+} = require('./request_response/pagination/output/main.js')
 
 const middlewareLayers = [
   // Final layer, always fired, whether the request fails or not
@@ -16,15 +87,15 @@ const middlewareLayers = [
     name: 'final',
     layers: [
       // Sets response status
-      final.getStatus,
+      getStatus,
       // Sets how long processing the request took
-      final.setDuration,
+      setDuration,
       // Sends final response, if success
-      final.sendResponse,
+      sendResponse,
       // Emit "call" events
-      final.callEvent,
+      callEvent,
       // Emit event about how long the request handling takes
-      final.perfEvent,
+      perfEvent,
     ],
   },
 
@@ -32,9 +103,9 @@ const middlewareLayers = [
     name: 'time',
     layers: [
       // Add request timestamp
-      time.addTimestamp,
+      addTimestamp,
       // Abort request after a certain delay
-      time.setRequestTimeout,
+      setRequestTimeout,
     ],
   },
 
@@ -42,12 +113,12 @@ const middlewareLayers = [
     name: 'protocol',
     layers: [
       // Sets requestid
-      protocol.setRequestid,
+      setRequestid,
       // Retrieves protocol request's input
-      protocol.parseProtocol,
+      parseProtocol,
 
       // Fires rpc layer
-      protocol.fireRpc,
+      fireRpc,
     ],
   },
 
@@ -55,15 +126,15 @@ const middlewareLayers = [
     name: 'rpc',
     layers: [
       // Retrieves mInput.rpc, using mInput.path
-      rpc.router,
+      router,
       // Check if protocol method is allowed for current rpc
-      rpc.methodCheck,
+      methodCheck,
       // Use rpc-specific logic to parse the request into an
       // rpc-agnostic `rpcDef`
-      rpc.parseRpc,
+      parseRpc,
 
       // Fire action layer
-      rpc.fireActions,
+      fireActions,
     ],
   },
 
@@ -71,63 +142,63 @@ const middlewareLayers = [
     name: 'action',
     layers: [
       // Parse a `rpcDef` into a top-level action
-      action.parseTopAction,
+      parseTopAction,
       // Validate client-supplied args
-      action.validateArgs,
+      validateArgs,
       // Change arguments cases to camelCase
-      action.renameArgs,
+      renameArgs,
       // Bind server-specific parameters with their parameters
-      action.bindServerParams,
+      bindServerParams,
       // Parse `args.filter` and `args.id` into AST
-      action.parseFilter,
+      parseFilter,
       // Parse `args.data` into write `actions`
-      action.parseDataArg,
+      parseDataArg,
       // Parse `args.populate|cascade` into a set of nested `actions`
-      action.parsePopulateCascade,
+      parsePopulateCascade,
       // Parse `args.order` from a string to an array of objects
-      action.parseOrder,
+      parseOrder,
       // Parse `args.select` into a set of `actions`
-      action.parseSelect,
+      parseSelect,
       // Parse `args.rename`
-      action.parseRename,
+      parseRename,
       // Validate request limits
-      action.validateRequestLimits,
+      validateRequestLimits,
       // Validate that attributes in `args.select|data|filter|order`
       // are in the config
-      action.validateUnknownAttrs,
+      validateUnknownAttrs,
       // Validate that attributes used in nested actions will not change
-      action.validateStableIds,
+      validateStableIds,
       // Retrieves `summary`, `commandpaths` and `collections`
-      action.getSummary,
+      getSummary,
       // Sets `clientCollname` and `clientCollnames`
-      action.setClientNames,
+      setClientNames,
       // Sort `actions` so that top-level ones are fired first
-      action.sortActions,
+      sortActions,
 
       // Add `action.currentData`
       // and (for `patch|delete`) fix `action.dataPaths`
-      action.addCurrentData,
+      addCurrentData,
       // Merge `currentData` with the `args.data` in `patch` commands
-      action.patchData,
+      patchData,
       // Fire all read or write actions, retrieving some `results`
-      action.resolveActions,
+      resolveActions,
       // Rollback write actions if any of them failed
-      action.rollback,
+      rollback,
 
       // Sort `results` so that top-level ones are processed first
-      action.sortResults,
+      sortResults,
       // Add `modelscount` and `uniquecount`
-      action.getModelscount,
+      getModelscount,
       // Merge all `results` into a single nested response, using `result.path`
-      action.assembleResults,
+      assembleResults,
       // Applies `args.select`
-      action.applySelect,
+      applySelect,
       // Applies `args.rename`
-      action.applyRename,
+      applyRename,
       // Add content type, and remove top-level key
-      action.parseResponse,
+      parseResponse,
       // Middleware for rpc-related output validation
-      action.actionValidationOut,
+      actionValidationOut,
     ],
   },
 
@@ -135,9 +206,9 @@ const middlewareLayers = [
     name: 'read',
     layers: [
       // Fire one or several read commands for a set of actions
-      sequencer.sequenceRead,
+      sequenceRead,
       // Deep merge all results' metadata
-      sequencer.mergeMetadata,
+      mergeMetadata,
     ],
   },
 
@@ -145,9 +216,9 @@ const middlewareLayers = [
     name: 'write',
     layers: [
       // Fire one or several write commands for a set of actions
-      sequencer.sequenceWrite,
+      sequenceWrite,
       // Deep merge all results' metadata
-      sequencer.mergeMetadata,
+      mergeMetadata,
     ],
   },
 
@@ -155,23 +226,23 @@ const middlewareLayers = [
     name: 'request',
     layers: [
       // Normalize empty values (undefined, null) by removing their key
-      requestResponse.normalizeEmpty,
+      normalizeEmpty,
       // Apply attribute aliases, in mInput
-      requestResponse.renameAliasesInput,
+      renameAliasesInput,
       // Process `attr.value`
-      requestResponse.handleValue,
+      handleValue,
       // Apply user-defined default values
-      requestResponse.handleUserDefault,
+      handleUserDefault,
       // Resets readonly attributes in `args.newData`
-      requestResponse.handleReadonly,
+      handleReadonly,
       // Paginate mInput
-      requestResponse.handlePaginationInput,
+      handlePaginationInput,
       // Authorization middleware
-      requestResponse.validateAuthorization,
+      validateAuthorization,
       // Validate database supports command features
-      requestResponse.validateRuntimeFeatures,
+      validateRuntimeFeatures,
       // Custom data validation middleware
-      requestResponse.dataValidation,
+      dataValidation,
     ],
   },
 
@@ -179,17 +250,17 @@ const middlewareLayers = [
     name: 'database',
     layers: [
       // Pick database adapter
-      database.pickDatabaseAdapter,
+      pickDatabaseAdapter,
       // Add database-specific id names
-      database.renameIdsInput,
+      renameIdsInput,
 
       // Do the database action, protocol and rpc-agnostic
-      database.databaseExecute,
+      databaseExecute,
 
       // Remove database-specific id names
-      database.renameIdsOutput,
+      renameIdsOutput,
       // Retrieves database return value
-      database.getDbResponse,
+      getDbResponse,
     ],
   },
 
@@ -197,19 +268,19 @@ const middlewareLayers = [
     name: 'response',
     layers: [
       // Validate database response
-      requestResponse.responseValidation,
+      responseValidation,
       // Remove models that are null|undefined
-      requestResponse.removeEmptyModels,
+      removeEmptyModels,
       // Remove duplicate read models
-      requestResponse.duplicateReads,
+      duplicateReads,
       // Check if any `id` was not found (404) or was unauthorized (403)
-      requestResponse.validateMissingIds,
+      validateMissingIds,
       // Check if any model already exists, for create actions
-      requestResponse.validateCreateIds,
+      validateCreateIds,
       // Paginate output
-      requestResponse.handlePaginationOutput,
+      handlePaginationOutput,
       // Apply attribute aliases, in output
-      requestResponse.renameAliasesOutput,
+      renameAliasesOutput,
     ],
   },
 ]

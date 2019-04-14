@@ -1,8 +1,8 @@
 'use strict'
 
-const { throwError } = require('../../../errors')
-const { uniq } = require('../../../utils')
-const { addToActions } = require('../add_actions')
+const { throwError } = require('../../../errors/main.js')
+const { uniq } = require('../../../utils/functional/uniq.js')
+const { addToActions } = require('../add_actions/add.js')
 
 const { addParentSelects } = require('./parent')
 

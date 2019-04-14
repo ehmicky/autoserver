@@ -1,10 +1,10 @@
 'use strict'
 
-const { gzip, gunzip } = require('zlib')
+const zlib = require('zlib')
 const { promisify } = require('util')
 
-const pGzip = promisify(gzip)
-const pGunzip = promisify(gunzip)
+const pGzip = promisify(zlib.gzip)
+const pGunzip = promisify(zlib.gunzip)
 
 // Compress to Gzip
 const compress = function(content) {
@@ -16,9 +16,13 @@ const decompress = function(content) {
   return pGunzip(content)
 }
 
-module.exports = {
+const gzip = {
   name: 'gzip',
   title: 'Gzip',
   compress,
   decompress,
+}
+
+module.exports = {
+  gzip,
 }

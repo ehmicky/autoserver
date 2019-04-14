@@ -1,8 +1,9 @@
 'use strict'
 
-const { pickBy, getWordsList } = require('../../utils')
-const { logEvent } = require('../../log')
-const { getDefaultDuration } = require('../../perf')
+const { pickBy } = require('../../utils/functional/filter.js')
+const { getWordsList } = require('../../utils/string.js')
+const { logEvent } = require('../../log/main.js')
+const { getDefaultDuration } = require('../../perf/measure.js')
 
 // Emit successful or failed shutdown event
 const emitStopEvent = async function({ exit, config, measures }) {

@@ -1,8 +1,9 @@
 'use strict'
 
-const { pick, omit } = require('../../../utils')
+const { pick, omit } = require('../../../utils/functional/filter.js')
 const { isType } = require('../../../content_types')
-const { getParams, reduceParams } = require('../../../functions')
+const { getParams } = require('../../../functions/params/values.js')
+const { reduceParams } = require('../../../functions/params/reduce.js')
 
 // Add response's metadata
 const addMetadata = function({

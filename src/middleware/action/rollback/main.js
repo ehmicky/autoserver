@@ -1,6 +1,7 @@
 'use strict'
 
-const { isError, normalizeError, addErrorHandler } = require('../../../errors')
+const { addErrorHandler } = require('../../../errors/handler.js')
+const { isError, normalizeError } = require('../../../errors/main.js')
 
 const { getRollbackInput } = require('./input')
 const { rethrowFailure } = require('./failure')

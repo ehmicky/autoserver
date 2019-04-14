@@ -2,8 +2,8 @@
 
 const logProcessErrors = require('log-process-errors')
 
-const { logEvent } = require('../log')
-const { createPb } = require('../errors')
+const { logEvent } = require('../log/main.js')
+const { createPb } = require('../errors/props.js')
 
 // Error handling for all failures that are process-related
 // If a single process might start two instances of the server, each instance

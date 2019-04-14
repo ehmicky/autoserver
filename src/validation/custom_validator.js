@@ -2,7 +2,8 @@
 
 const moize = require('moize').default
 
-const { runConfigFunc, getModelParams } = require('../functions')
+const { runConfigFunc } = require('../functions/run.js')
+const { getModelParams } = require('../functions/params/values.js')
 
 const { getValidator } = require('./validator')
 

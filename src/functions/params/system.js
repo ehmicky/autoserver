@@ -1,8 +1,8 @@
 /* eslint-disable max-lines */
 'use strict'
 
-const { PROTOCOLS } = require('../../protocols')
-const { RPCS } = require('../../rpc')
+const { PROTOCOLS } = require('../../protocols/info.js')
+const { RPCS } = require('../../rpc/info.js')
 const { COMMAND_TYPES } = require('../../commands/constants.js')
 
 // System parameters that are always present

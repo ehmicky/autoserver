@@ -1,10 +1,10 @@
 'use strict'
 
-const { getNames } = require('../adapters')
+const { getNames } = require('../adapters/get.js')
 
-const rpcAdapters = require('./adapters')
+const { RPC_ADAPTERS } = require('./adapters/main.js')
 
-const RPCS = getNames(rpcAdapters)
+const RPCS = getNames(RPC_ADAPTERS)
 
 module.exports = {
   RPCS,

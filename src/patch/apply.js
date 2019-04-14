@@ -1,8 +1,8 @@
 'use strict'
 
-const { mapValues } = require('../utils')
-const { runConfigFunc } = require('../functions')
-const { addGenPbHandler } = require('../errors')
+const { mapValues } = require('../utils/functional/map.js')
+const { runConfigFunc } = require('../functions/run.js')
+const { addGenPbHandler } = require('../errors/handler.js')
 
 const { parsePatchOp } = require('./parse')
 const { parseRef } = require('./ref_parsing')

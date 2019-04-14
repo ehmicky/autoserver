@@ -1,6 +1,8 @@
 'use strict'
 
-const { NO_SIBLINGS_OPERATORS } = require('./operators')
+const { isObject } = require('../utils/functional/type.js')
+
+const { NO_SIBLINGS_OPERATORS } = require('./operators/main.js')
 
 // Values starting with `model.` target sibling attributes
 const parseSiblingNode = function({ type, value, throwErr }) {
@@ -10,7 +12,7 @@ const parseSiblingNode = function({ type, value, throwErr }) {
     return
   }
 
-  validateForbiddenOps({ type, throwErr })
+  validateForbiddenOpts({ type, throwErr })
 
   const shortAttrName = attrName.replace(/\..*/u, '')
 
@@ -22,7 +24,7 @@ const parseSiblingNode = function({ type, value, throwErr }) {
   throwErr(message)
 }
 
-const validateForbiddenOps = function({ type, throwErr }) {
+const validateForbiddenOpts = function({ type, throwErr }) {
   if (!NO_SIBLINGS_OPERATORS.includes(type)) {
     return
   }
@@ -40,7 +42,7 @@ const parseSibling = function({ value }) {
 const SIBLING_REGEXP = /^model\.(.+)/u
 
 const isSiblingValue = function({ value }) {
-  return value && value.constructor === Object && value.type === 'sibling'
+  return isObject(value) && value.type === 'sibling'
 }
 
 const getSiblingValue = function({ value, attrs }) {
@@ -58,7 +60,7 @@ const getSiblingValue = function({ value, attrs }) {
 
 module.exports = {
   parseSiblingNode,
-  validateForbiddenOps,
+  validateForbiddenOpts,
   isSiblingValue,
   getSiblingValue,
 }

@@ -3,9 +3,10 @@
 const { cwd } = require('process')
 const { resolve, isAbsolute } = require('path')
 
-const { throwError, addGenErrorHandler } = require('../../../errors')
-const { pReaddir } = require('../../../utils')
-const { getByExt } = require('../../../formats')
+const { addGenErrorHandler } = require('../../../errors/handler.js')
+const { throwError } = require('../../../errors/main.js')
+const { pReaddir } = require('../../../utils/fs.js')
+const { getByExt } = require('../../../formats/get.js')
 
 // Retrieves final config path to use
 const getConfPath = async function({ envConfigPath, configPath }) {

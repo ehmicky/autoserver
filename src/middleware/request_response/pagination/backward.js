@@ -1,6 +1,6 @@
 'use strict'
 
-const { reverseArray } = require('../../../utils')
+const { reverseArray } = require('../../../utils/functional/reverse.js')
 
 // When using args.before, reverse args.filter on input
 const getBackwardFilter = function({ args, node, node: { type } }) {

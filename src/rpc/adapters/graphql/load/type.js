@@ -2,9 +2,9 @@
 
 const { v4: uuidv4 } = require('uuid')
 
-const { mapValues } = require('../../../../utils')
+const { mapValues } = require('../../../../utils/functional/map.js')
 
-const { getTypeGetter } = require('./types')
+const { getTypeGetter } = require('./types/main.js')
 
 // Builds query|mutation type
 const getTopTypes = function({ topDefs }) {

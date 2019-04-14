@@ -1,6 +1,6 @@
 'use strict'
 
-const { throwPb } = require('../errors')
+const { throwPb } = require('../errors/props.js')
 
 // Check if protocol method is allowed for current rpc
 const checkMethod = function({ methods, title }, { method }) {

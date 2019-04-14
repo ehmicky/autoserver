@@ -1,7 +1,8 @@
 'use strict'
 
-const { getWordsList, difference } = require('../../utils')
-const { getFeatures } = require('../../filter')
+const { difference } = require('../../utils/functional/difference.js')
+const { getWordsList } = require('../../utils/string.js')
+const { getFeatures } = require('../../filter/features.js')
 
 // Startup time adapter features validation
 const validateStartupFeatures = function({ name, features }, { coll }) {

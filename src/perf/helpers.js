@@ -2,13 +2,21 @@
 
 const keepFuncProps = require('keep-func-props')
 
-const { reduceAsync, identity, promiseThen, result } = require('../utils')
+const { identity } = require('../utils/functional/identity.js')
+const { promiseThen } = require('../utils/functional/promise.js')
+const { reduceAsync } = require('../utils/functional/reduce.js')
+const { result } = require('../utils/functional/result.js')
 
 const { startPerf, stopPerf } = require('./measure')
 
 // Wraps a function, so it calculate how long the function takes.
 // eslint-disable-next-line max-params
-const monitor = function(func, label = func.name, category, measuresIndex = 0) {
+const kMonitor = function(
+  func,
+  label = func.name,
+  category,
+  measuresIndex = 0,
+) {
   return function monitoredFunc(...args) {
     const labelA = result(label, ...args)
     const categoryA = result(category, ...args)
@@ -19,7 +27,7 @@ const monitor = function(func, label = func.name, category, measuresIndex = 0) {
   }
 }
 
-const kMonitor = keepFuncProps(monitor)
+const monitor = keepFuncProps(kMonitor)
 
 const recordPerf = function(measures, perf, response) {
   const perfA = stopPerf(perf)
@@ -50,6 +58,6 @@ const monitoredReduceFunc = function(mapInput, input, func) {
 }
 
 module.exports = {
-  monitor: kMonitor,
+  monitor,
   monitoredReduce,
 }

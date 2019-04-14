@@ -2,5 +2,5 @@
 
 module.exports = {
   ...require('gulp-shared-tasks'),
-  ...require('./gulp'),
+  ...require('./gulp/run.js'),
 }

@@ -1,5 +1,7 @@
 'use strict'
 
+const { isObject } = require('../../utils/functional/type.js')
+
 const orAnd = require('./or_and')
 const someAll = require('./some_all')
 const eqNeq = require('./eq_neq')
@@ -17,8 +19,7 @@ const operators = {
 }
 
 const getOperator = function({ node }) {
-  const hasOperator =
-    node && node.constructor === Object && operators[node.type] !== undefined
+  const hasOperator = isObject(node) && operators[node.type] !== undefined
 
   if (!hasOperator) {
     return

@@ -1,6 +1,8 @@
 'use strict'
 
-const { pickBy, mapKeys, mapValues, transtype } = require('../../../utils')
+const { pickBy } = require('../../../utils/functional/filter.js')
+const { mapKeys, mapValues } = require('../../../utils/functional/map.js')
+const { transtype } = require('../../../utils/transtype.js')
 
 // Returns a request's application-specific HTTP headers, normalized lowercase.
 // At the moment, only keeps X-Autoserver-Params header

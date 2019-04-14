@@ -2,10 +2,10 @@
 
 const { throwError } = require('../errors')
 
-const checkObject = function(obj) {
-  const isObject = obj && obj.constructor === Object
+const { isObject } = require('./type')
 
-  if (isObject) {
+const checkObject = function(obj) {
+  if (isObject(obj)) {
     return
   }
 

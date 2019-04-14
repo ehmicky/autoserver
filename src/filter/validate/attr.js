@@ -1,7 +1,7 @@
 'use strict'
 
-const { get } = require('../../utils')
-const { DEEP_OPERATORS } = require('../operators')
+const { get } = require('../../utils/functional/get_set.js')
+const { DEEP_OPERATORS } = require('../operators/main.js')
 
 // In `{ attribute: { _some: { _eq: value } } }`, `_eq` is considered deep
 const getDeepAttr = function({ attrs, attrName, throwErr }) {

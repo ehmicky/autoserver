@@ -18,7 +18,7 @@ const serialize = function({ content }) {
   return `module.exports = ${json}`
 }
 
-module.exports = {
+const javascript = {
   name: 'javascript',
   title: 'JavaScript',
   unsafe: true,
@@ -35,4 +35,8 @@ module.exports = {
   jsonCompat: ['superset'],
   parse,
   serialize,
+}
+
+module.exports = {
+  javascript,
 }

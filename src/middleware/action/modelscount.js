@@ -1,6 +1,6 @@
 'use strict'
 
-const { uniq } = require('../../utils')
+const { uniq } = require('../../utils/functional/uniq.js')
 
 // Add `modelscount` and `uniquecount`, using `results`.
 // `modelscount` is the number of models in the response

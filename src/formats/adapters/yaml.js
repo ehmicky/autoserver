@@ -1,11 +1,11 @@
 'use strict'
 
-const yaml = require('js-yaml')
+const { load: yamlParse, dump: yamlStringify, JSON_SCHEMA } = require('js-yaml')
 
 // Parses a YAML file
 const parse = function({ content, path }) {
-  return yaml.load(content, {
-    schema: yaml.JSON_SCHEMA,
+  return yamlParse(content, {
+    schema: JSON_SCHEMA,
     json: true,
     // Error handling
     filename: path,
@@ -17,13 +17,13 @@ const parse = function({ content, path }) {
 
 // Serializes a YAML file
 const serialize = function({ content }) {
-  return yaml.dump(content, {
-    schema: yaml.JSON_SCHEMA,
+  return yamlStringify(content, {
+    schema: JSON_SCHEMA,
     noRefs: true,
   })
 }
 
-module.exports = {
+const yaml = {
   name: 'yaml',
   title: 'YAML',
   extensions: ['yml', 'yaml'],
@@ -35,4 +35,8 @@ module.exports = {
   jsonCompat: ['superset'],
   parse,
   serialize,
+}
+
+module.exports = {
+  yaml,
 }

@@ -1,6 +1,7 @@
 'use strict'
 
-const { omit } = require('../../../utils')
+const { omit } = require('../../../utils/functional/filter.js')
+const { isObject } = require('../../../utils/functional/type.js')
 
 // Normalize protocol handlers
 // Some protocols are stateful (e.g. WebSocket) and reuse the same URL for the
@@ -62,7 +63,7 @@ const isPartialProtocol = function({ getHeaders, getMethod, getPath }) {
 
 // Only use payload if it is an object
 const normalizePayload = function({ payload }) {
-  if (!payload || payload.constructor !== Object) {
+  if (!isObject(payload)) {
     return { body: payload }
   }
 

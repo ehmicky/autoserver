@@ -1,7 +1,8 @@
 'use strict'
 
-const { fullRecurseMap } = require('../../utils')
-const { throwError } = require('../../errors')
+const { fullRecurseMap } = require('../../utils/functional/map.js')
+const { isObject } = require('../../utils/functional/type.js')
+const { throwError } = require('../../errors/main.js')
 
 // Validate JSON schema `$data` properties
 const validateJsonSchemaData = function({ config }) {
@@ -9,7 +10,7 @@ const validateJsonSchemaData = function({ config }) {
 }
 
 const validateDataMapper = function(obj) {
-  if (!obj || obj.constructor !== Object) {
+  if (!isObject(obj)) {
     return
   }
 

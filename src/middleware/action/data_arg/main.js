@@ -1,7 +1,7 @@
 'use strict'
 
 const { getLimits } = require('../../../limits')
-const { addActions } = require('../add_actions')
+const { addActions } = require('../add_actions/merge.js')
 
 const { getDataPath } = require('./data_path')
 const { parseData } = require('./data')

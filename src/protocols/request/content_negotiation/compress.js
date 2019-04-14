@@ -1,7 +1,7 @@
 'use strict'
 
-const { addGenPbHandler } = require('../../../errors')
-const { getAlgo, getAlgos } = require('../../../compress')
+const { addGenPbHandler } = require('../../../errors/handler.js')
+const { getAlgo, getAlgos } = require('../../../compress/get.js')
 
 // Retrieve compression asked by client for the response and request payloads
 const getCompress = function({ queryvars, compressResponse, compressRequest }) {

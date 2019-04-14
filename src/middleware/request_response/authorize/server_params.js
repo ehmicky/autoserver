@@ -1,8 +1,11 @@
 'use strict'
 
-const { uniq, pick, mapValues, intersection } = require('../../../utils')
-const { runConfigFunc } = require('../../../functions')
-const { crawlNodes } = require('../../../filter')
+const { intersection } = require('../../../utils/functional/intersection.js')
+const { pick } = require('../../../utils/functional/filter.js')
+const { mapValues } = require('../../../utils/functional/map.js')
+const { uniq } = require('../../../utils/functional/uniq.js')
+const { runConfigFunc } = require('../../../functions/run.js')
+const { crawlNodes } = require('../../../filter/crawl.js')
 
 // Retrieve all server-specific parameters used in `coll.authorize`, and
 // resolve their config functions.

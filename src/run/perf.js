@@ -1,7 +1,7 @@
 'use strict'
 
-const { startPerf, stopPerf } = require('../perf')
-const { logPerfEvent } = require('../log')
+const { startPerf, stopPerf } = require('../perf/measure.js')
+const { logPerfEvent } = require('../log/perf.js')
 
 // Monitor startup time
 const startStartupPerf = function() {

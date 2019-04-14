@@ -1,7 +1,10 @@
 'use strict'
 
-const { omit, recurseMap, fullRecurseMap, transtype } = require('../utils')
-const { throwPb } = require('../errors')
+const { omit } = require('../utils/functional/filter.js')
+const { recurseMap, fullRecurseMap } = require('../utils/functional/map.js')
+const { isObject } = require('../utils/functional/type.js')
+const { transtype } = require('../utils/transtype.js')
+const { throwPb } = require('../errors/props.js')
 
 const { availableInstructions } = require('./available')
 
@@ -64,10 +67,7 @@ const parseArrays = function({ opts }) {
 }
 
 const parseArray = function(value) {
-  const isArray =
-    value != null &&
-    value.constructor === Object &&
-    Object.keys(value).some(isIndex)
+  const isArray = isObject(value) && Object.keys(value).some(isIndex)
 
   if (!isArray) {
     return value

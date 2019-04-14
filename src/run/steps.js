@@ -1,7 +1,7 @@
 'use strict'
 
-const { getRequestHandler } = require('../middleware')
-const { loadConfig } = require('../config')
+const { getRequestHandler } = require('../middleware/main.js')
+const { loadConfig } = require('../config/main.js')
 
 const {
   startStartupPerf,
@@ -9,8 +9,8 @@ const {
   reportStartupPerf,
 } = require('./perf')
 const { processErrorHandler } = require('./process')
-const { connectToDatabases } = require('./database')
-const { setupGracefulExit } = require('./exit')
+const { connectToDatabases } = require('./database/main.js')
+const { setupGracefulExit } = require('./exit/setup.js')
 const { launchProtocols } = require('./launch')
 const { emitStartEvent } = require('./start_event')
 

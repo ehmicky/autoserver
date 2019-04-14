@@ -1,8 +1,8 @@
 'use strict'
 
-const { pSetTimeout } = require('../../../../utils')
+const { pSetTimeout } = require('../../../../utils/timeout.js')
 
-const { find } = require('./find')
+const { find } = require('./find/main.js')
 const { delete: deleteMany } = require('./delete')
 const { upsert } = require('./upsert')
 

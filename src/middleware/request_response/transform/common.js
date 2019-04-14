@@ -1,7 +1,9 @@
 'use strict'
 
-const { mapValues, pickBy } = require('../../../utils')
-const { runConfigFunc, getModelParams } = require('../../../functions')
+const { pickBy } = require('../../../utils/functional/filter.js')
+const { mapValues } = require('../../../utils/functional/map.js')
+const { runConfigFunc } = require('../../../functions/run.js')
+const { getModelParams } = require('../../../functions/params/values.js')
 
 // Handles `attr.value`, `attr.default` and `attr.readonly`
 const handleTransforms = function({

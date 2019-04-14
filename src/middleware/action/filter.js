@@ -1,7 +1,8 @@
 'use strict'
 
-const { omit } = require('../../utils')
-const { parseFilter, validateFilter } = require('../../filter')
+const { omit } = require('../../utils/functional/filter.js')
+const { parseFilter } = require('../../filter/parse/main.js')
+const { validateFilter } = require('../../filter/validate/main.js')
 
 // Parse `args.filter` and `args.id` into AST
 const parseFilterActions = function({ actions, config }) {

@@ -2,7 +2,7 @@
 
 const { camelize } = require('underscore.string')
 
-const { mapKeys } = require('../../utils')
+const { mapKeys } = require('../../utils/functional/map.js')
 
 // Change arguments cases to camelCase
 const renameArgs = function({ actions }) {

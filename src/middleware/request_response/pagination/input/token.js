@@ -1,8 +1,11 @@
 'use strict'
 
-const { pick, pickBy, mapValues } = require('../../../../utils')
-const { addGenErrorHandler, throwError } = require('../../../../errors')
-const { decode } = require('../encoding')
+const { pick, pickBy } = require('../../../../utils/functional/filter.js')
+const { mapValues } = require('../../../../utils/functional/map.js')
+const { isObject } = require('../../../../utils/functional/type.js')
+const { addGenErrorHandler } = require('../../../../errors/handler.js')
+const { throwError } = require('../../../../errors/main.js')
+const { decode } = require('../encoding/main.js')
 const { getRightToken, TOKEN_NAMES, BOUNDARY_TOKEN } = require('../info')
 
 // Parse cursor tokens
@@ -41,7 +44,7 @@ const validateToken = function({ token }) {
 
 // List of tests to validate token syntax
 const TOKEN_TESTS = [
-  tokenObj => tokenObj.constructor === Object,
+  tokenObj => isObject(tokenObj),
 
   ({ order }) => order === undefined || typeof order === 'string',
 

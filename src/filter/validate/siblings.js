@@ -1,7 +1,7 @@
 'use strict'
 
-const { isSiblingValue, validateForbiddenOps } = require('../siblings')
-const { DEEP_OPERATORS } = require('../operators')
+const { isSiblingValue, validateForbiddenOpts } = require('../siblings')
+const { DEEP_OPERATORS } = require('../operators/main.js')
 
 const { getAttr } = require('./attr')
 
@@ -21,7 +21,7 @@ const getSiblingValue = function({
     return value
   }
 
-  validateForbiddenOps({ type, throwErr })
+  validateForbiddenOpts({ type, throwErr })
 
   const { value: attrName } = value
 

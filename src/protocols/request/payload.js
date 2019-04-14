@@ -1,7 +1,8 @@
 'use strict'
 
-const { getSumParams } = require('../../utils')
-const { addGenPbHandler, addErrorHandler, throwPb } = require('../../errors')
+const { getSumParams } = require('../../utils/sums.js')
+const { addGenPbHandler, addErrorHandler } = require('../../errors/handler.js')
+const { throwPb } = require('../../errors/props.js')
 const { getLimits } = require('../../limits')
 
 const { validateBoolean } = require('./validate')

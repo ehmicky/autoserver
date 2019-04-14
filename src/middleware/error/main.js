@@ -1,10 +1,12 @@
 'use strict'
 
-const { normalizeError, addErrorHandler, getProps } = require('../../errors')
-const { omit } = require('../../utils')
-const { safetyHandler } = require('../../log')
+const { addErrorHandler } = require('../../errors/handler.js')
+const { getProps } = require('../../errors/props.js')
+const { normalizeError } = require('../../errors/main.js')
+const { omit } = require('../../utils/functional/filter.js')
+const { safetyHandler } = require('../../log/main.js')
 
-const { errorHandler } = require('./error_handler')
+const { errorHandler } = require('./handler')
 
 // Middleware function error handler, which just rethrow the error,
 // and adds the current `mInput` as information by setting `error.mInput`
@@ -38,13 +40,13 @@ const fireMainLayersHandler = async function(
 }
 
 // Fire request error handlers
-const fireErrorHandler = function(errorA) {
+const eFireErrorHandler = function(errorA) {
   const mInputA = getErrorMInput({ error: errorA })
   return errorHandler(mInputA)
 }
 
 // If error handler itself fails, gives up
-const eFireErrorHandler = addErrorHandler(fireErrorHandler, safetyHandler)
+const fireErrorHandler = addErrorHandler(eFireErrorHandler, safetyHandler)
 
 // Add `error.mInput`, to keep track of current `mInput` during exception flow
 const addMInput = function(error, mInput) {
@@ -66,5 +68,5 @@ const getErrorMInput = function({ error, error: { mInput = {} } }) {
 module.exports = {
   fireMiddlewareHandler,
   fireMainLayersHandler,
-  fireErrorHandler: eFireErrorHandler,
+  fireErrorHandler,
 }
