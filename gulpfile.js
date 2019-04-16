@@ -1,6 +1,12 @@
 'use strict'
 
+const gulpSharedTasks = require('gulp-shared-tasks')
+
+const { runProd, runDev, runDebug } = require('./gulp/run.js')
+
 module.exports = {
-  ...require('gulp-shared-tasks'),
-  ...require('./gulp/run.js'),
+  ...gulpSharedTasks,
+  runProd,
+  runDev,
+  runDebug,
 }
