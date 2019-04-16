@@ -1,6 +1,7 @@
 import { getThrowErr } from '../error.js'
 
 import { parseOperation } from './operations.js'
+import { parseAttrs } from './attrs.js'
 import { optimizeFilter } from './optimize.js'
 
 // Parse `args.filter` and `coll.authorize` format
@@ -22,7 +23,11 @@ import { optimizeFilter } from './optimize.js'
 //      }
 //    }
 //  ]
-export const parseFilter = function({ filter, reason = 'VALIDATION', prefix = '' }) {
+export const parseFilter = function({
+  filter,
+  reason = 'VALIDATION',
+  prefix = '',
+}) {
   if (filter == null) {
     return
   }
@@ -32,7 +37,7 @@ export const parseFilter = function({ filter, reason = 'VALIDATION', prefix = ''
 
   const throwErr = getThrowErr.bind(null, { reason, prefix })
 
-  const filterA = parseOperation({ type, value: filter, throwErr })
+  const filterA = parseOperation({ type, value: filter, throwErr, parseAttrs })
 
   const filterB = optimizeFilter({ filter: filterA })
 
