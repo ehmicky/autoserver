@@ -1,5 +1,3 @@
-'use strict'
-
 const { GraphQLNonNull, GraphQLList } = require('graphql')
 
 const { getArgTypeDescription } = require('../../../../description')

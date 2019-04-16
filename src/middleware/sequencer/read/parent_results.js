@@ -1,5 +1,3 @@
-'use strict'
-
 const { isEqual } = require('../../../utils/functional/equal.js')
 const { uniq } = require('../../../utils/functional/uniq.js')
 const { getSimpleFilter } = require('../../../filter/simple_id.js')

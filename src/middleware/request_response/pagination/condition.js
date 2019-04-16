@@ -1,5 +1,3 @@
-'use strict'
-
 const { getPagesize } = require('./info')
 
 // Whether request will be paginated

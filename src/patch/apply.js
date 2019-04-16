@@ -1,5 +1,3 @@
-'use strict'
-
 const { mapValues } = require('../utils/functional/map.js')
 const { runConfigFunc } = require('../functions/run.js')
 const { addGenPbHandler } = require('../errors/handler.js')

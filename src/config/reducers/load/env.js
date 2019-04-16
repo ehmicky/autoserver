@@ -1,5 +1,3 @@
-'use strict'
-
 const { env } = require('process')
 
 const { set } = require('../../../utils/functional/get_set.js')

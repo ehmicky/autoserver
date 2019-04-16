@@ -1,5 +1,3 @@
-'use strict'
-
 const { pickBy } = require('../../../utils/functional/filter.js')
 const { mapKeys, mapValues } = require('../../../utils/functional/map.js')
 const { transtype } = require('../../../utils/transtype.js')

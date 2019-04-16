@@ -1,5 +1,3 @@
-'use strict'
-
 const { throwError } = require('../../../../../errors/main.js')
 const { mapValues } = require('../../../../../utils/functional/map.js')
 const { validateDuplicates } = require('../duplicates')

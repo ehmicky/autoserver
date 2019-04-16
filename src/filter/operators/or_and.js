@@ -1,5 +1,3 @@
-'use strict'
-
 const parseOr = function({ value, parseOperations, throwErr }) {
   return value.flatMap(_and =>
     parseOperations({ operations: { _and }, throwErr }),

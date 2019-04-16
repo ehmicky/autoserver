@@ -1,5 +1,3 @@
-'use strict'
-
 const { getProtocol } = require('../../../protocols/get.js')
 const { getRpc } = require('../../../rpc/get.js')
 

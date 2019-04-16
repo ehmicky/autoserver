@@ -1,5 +1,3 @@
-'use strict'
-
 const { LEVELS } = require('../../constants')
 
 // Retrieves `[EVENT] [LEVEL] [HOSTID] [PROCESSNAME] [PROCESSID] [TIMESTAMP]

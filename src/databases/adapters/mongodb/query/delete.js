@@ -1,5 +1,3 @@
-'use strict'
-
 // Delete models
 const deleteFunc = function({ collection, deletedIds }) {
   const func = deletedIds.length === 1 ? deleteOne : deleteMany

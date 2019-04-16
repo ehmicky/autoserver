@@ -1,5 +1,3 @@
-'use strict'
-
 const { GraphQLString } = require('graphql')
 
 // GraphQL requires every object field to have attributes,

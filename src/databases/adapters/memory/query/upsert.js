@@ -1,5 +1,3 @@
-'use strict'
-
 // Upsert models
 const upsert = function({ collection, newData }) {
   newData.forEach(datum => upsertOne({ collection, datum }))

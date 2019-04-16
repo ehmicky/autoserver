@@ -1,5 +1,3 @@
-'use strict'
-
 const { getWordsList } = require('../../utils/string.js')
 
 const getMessage = function({ value, suggestions }) {

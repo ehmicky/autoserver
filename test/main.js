@@ -1,5 +1,3 @@
-'use strict'
-
 const { chdir } = require('process')
 const { promisify } = require('util')
 

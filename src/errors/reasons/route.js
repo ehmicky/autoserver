@@ -1,5 +1,3 @@
-'use strict'
-
 // Extra:
 //  - value 'PATH'
 //  - suggestions VAL_ARR

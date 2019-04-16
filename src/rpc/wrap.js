@@ -1,5 +1,3 @@
-'use strict'
-
 const { wrapAdapters } = require('../adapters/wrap.js')
 
 const { RPC_ADAPTERS } = require('./adapters/main.js')

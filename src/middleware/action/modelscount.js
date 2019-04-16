@@ -1,5 +1,3 @@
-'use strict'
-
 const { uniq } = require('../../utils/functional/uniq.js')
 
 // Add `modelscount` and `uniquecount`, using `results`.

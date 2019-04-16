@@ -1,5 +1,3 @@
-'use strict'
-
 const { getLimits } = require('../../../limits')
 
 // Whether this is offset pagination (args.page)

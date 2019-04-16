@@ -1,5 +1,3 @@
-'use strict'
-
 const pluralize = require('pluralize')
 
 const { getWordsList } = require('../../utils/string.js')

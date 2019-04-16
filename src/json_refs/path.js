@@ -1,5 +1,3 @@
-'use strict'
-
 const { resolve, dirname } = require('path')
 
 const { addGenErrorHandler } = require('../errors/handler.js')

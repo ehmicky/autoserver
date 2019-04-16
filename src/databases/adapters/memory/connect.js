@@ -1,5 +1,3 @@
-'use strict'
-
 // Starts connection
 const connect = function({ config, options: { data } }) {
   validateEnv({ config })

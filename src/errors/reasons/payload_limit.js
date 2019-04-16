@@ -1,5 +1,3 @@
-'use strict'
-
 // Extra:
 //  - kind 'size|models|commands|depth'
 //  - value NUM

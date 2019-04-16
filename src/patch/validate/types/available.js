@@ -1,5 +1,3 @@
-'use strict'
-
 // Available types in `patchOp.attribute|argument`
 const TYPES = {
   empty: {

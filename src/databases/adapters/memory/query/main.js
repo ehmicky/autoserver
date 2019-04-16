@@ -1,5 +1,3 @@
-'use strict'
-
 const { pSetTimeout } = require('../../../../utils/timeout.js')
 
 const { find } = require('./find/main.js')

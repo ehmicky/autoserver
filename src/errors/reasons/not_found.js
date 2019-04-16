@@ -1,5 +1,3 @@
-'use strict'
-
 const { getModels } = require('./message')
 
 // Extra:

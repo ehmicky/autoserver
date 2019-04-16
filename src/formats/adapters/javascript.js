@@ -1,5 +1,3 @@
-'use strict'
-
 const requireFromString = require('require-from-string')
 
 // Parses a JavaScript file

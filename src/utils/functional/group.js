@@ -1,5 +1,3 @@
-'use strict'
-
 // Group array of objects together according to a specific key
 // `key` can a string (the object key), an array (several object keys) or
 // a function returning a string.

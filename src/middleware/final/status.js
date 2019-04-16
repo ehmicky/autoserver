@@ -1,5 +1,3 @@
-'use strict'
-
 const { getProps } = require('../../errors/props.js')
 
 // Retrieve response's status

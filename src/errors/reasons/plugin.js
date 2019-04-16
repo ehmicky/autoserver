@@ -1,5 +1,3 @@
-'use strict'
-
 const getMessage = function({ plugin }) {
   if (plugin === undefined) {
     return

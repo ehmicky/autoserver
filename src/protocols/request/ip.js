@@ -1,5 +1,3 @@
-'use strict'
-
 const { validateString } = require('./validate')
 
 const parseIp = function({

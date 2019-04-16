@@ -1,5 +1,3 @@
-'use strict'
-
 const { throwError } = require('../../../errors/main.js')
 const { isEqual } = require('../../../utils/functional/equal.js')
 const { groupValuesBy } = require('../../../utils/functional/group.js')

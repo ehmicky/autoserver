@@ -1,5 +1,3 @@
-'use strict'
-
 // Retrieves path without query string nor hash
 const getPath = function({
   specific: {

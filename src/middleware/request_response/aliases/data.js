@@ -1,5 +1,3 @@
-'use strict'
-
 const { isEqual } = require('../../../utils/functional/equal.js')
 const { omit } = require('../../../utils/functional/filter.js')
 const { throwError } = require('../../../errors/main.js')

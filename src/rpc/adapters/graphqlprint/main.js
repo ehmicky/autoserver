@@ -1,5 +1,3 @@
-'use strict'
-
 const { parse } = require('./parse/main.js')
 
 const graphqlprint = {

@@ -1,5 +1,3 @@
-'use strict'
-
 // Retrieve an adapter by its name
 const getAdapter = function({ adapters, key, name }) {
   const adapter = adapters[key]

@@ -1,5 +1,3 @@
-'use strict'
-
 // Adapter feature `featureName` allows for `args[argName]`
 const getGenericValidator = function({ argName, dbName, featureName }) {
   const validator = genericValidator.bind(null, { argName, dbName })

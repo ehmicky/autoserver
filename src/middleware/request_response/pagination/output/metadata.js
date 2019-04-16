@@ -1,5 +1,3 @@
-'use strict'
-
 const { pick } = require('../../../../utils/functional/filter.js')
 const { isOffset, SAME_ARGS, BOUNDARY_TOKEN } = require('../info')
 const { encode } = require('../encoding/main.js')

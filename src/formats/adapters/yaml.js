@@ -1,5 +1,3 @@
-'use strict'
-
 const { load: yamlParse, dump: yamlStringify, JSON_SCHEMA } = require('js-yaml')
 
 // Parses a YAML file

@@ -1,6 +1,4 @@
 /* eslint-disable max-lines */
-'use strict'
-
 const SCHEMA = {
   type: 'object',
   properties: {

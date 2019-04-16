@@ -1,5 +1,3 @@
-'use strict'
-
 const { isObject } = require('../../utils/functional/type.js')
 
 const orAnd = require('./or_and')

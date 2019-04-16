@@ -1,5 +1,3 @@
-'use strict'
-
 const { evalAuthorize } = require('./eval')
 const { addAuthorizeFilter } = require('./filter')
 const { checkNewData } = require('./data')

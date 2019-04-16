@@ -1,5 +1,3 @@
-'use strict'
-
 const { addGenPbHandler } = require('../../../errors/handler.js')
 const { getByExt } = require('../../../formats/get.js')
 const { getRef } = require('../../../json_refs/ref_path.js')

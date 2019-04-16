@@ -1,5 +1,3 @@
-'use strict'
-
 const { GraphQLNonNull } = require('graphql')
 
 // Returns whether a field is required

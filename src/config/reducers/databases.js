@@ -1,5 +1,3 @@
-'use strict'
-
 const { addGenErrorHandler } = require('../../errors/handler.js')
 const { getDatabase } = require('../../databases/get.js')
 const { DATABASE_OPTS } = require('../../databases/info.js')

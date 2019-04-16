@@ -1,5 +1,3 @@
-'use strict'
-
 // Apply `alias` in responses
 const applyResponseAliases = function({ data, attrName, aliases }) {
   return data.map(datum =>

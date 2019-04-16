@@ -1,5 +1,3 @@
-'use strict'
-
 // Merge `coll.authorize` `model.*` to `args.filter`
 const addAuthorizeFilter = function({
   command,

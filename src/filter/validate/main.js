@@ -1,5 +1,3 @@
-'use strict'
-
 const { crawlAttrs } = require('../crawl')
 const { getThrowErr } = require('../error')
 const { getOperator } = require('../operators/main.js')

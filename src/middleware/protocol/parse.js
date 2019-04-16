@@ -1,5 +1,3 @@
-'use strict'
-
 // Retrieves protocol request's input
 // TODO: remove specific
 const parseProtocol = function(

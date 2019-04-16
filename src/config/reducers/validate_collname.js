@@ -1,5 +1,3 @@
-'use strict'
-
 const { plural } = require('pluralize')
 
 const { throwError } = require('../../errors/main.js')

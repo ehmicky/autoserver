@@ -1,5 +1,3 @@
-'use strict'
-
 const { FORMAT_ADAPTERS } = require('./adapters/main.js')
 const { getExtension } = require('./extensions')
 

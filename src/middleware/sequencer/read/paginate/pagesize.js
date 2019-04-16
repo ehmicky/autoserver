@@ -1,5 +1,3 @@
-'use strict'
-
 // Retrieve `nestedPagesize`, which is the pagesize applied to nested actions
 // We try to maximize it, while still be under the `maxmodels` limit
 const getNestedPagesize = function({ results, nestedAttrs, maxmodels }) {

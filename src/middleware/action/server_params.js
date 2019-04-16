@@ -1,5 +1,3 @@
-'use strict'
-
 const { getServerParams } = require('../../functions/params/server.js')
 
 // Bind server-specific parameters with their parameters

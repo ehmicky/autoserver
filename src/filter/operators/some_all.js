@@ -1,5 +1,3 @@
-'use strict'
-
 const { validateArray } = require('./common')
 const { _and: and } = require('./or_and')
 

@@ -1,5 +1,3 @@
-'use strict'
-
 const { features } = require('./features')
 const { disconnect } = require('./disconnect')
 const { connect } = require('./connect')

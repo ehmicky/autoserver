@@ -1,5 +1,3 @@
-'use strict'
-
 const { memory } = require('./memory/main.js')
 const { mongodb } = require('./mongodb/main.js')
 

@@ -1,5 +1,3 @@
-'use strict'
-
 // Sort by category (asc) then by duration (desc)
 const sortMeasures = function(
   { category: catA, average: timeA },

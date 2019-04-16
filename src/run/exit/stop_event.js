@@ -1,5 +1,3 @@
-'use strict'
-
 const { pickBy } = require('../../utils/functional/filter.js')
 const { getWordsList } = require('../../utils/string.js')
 const { logEvent } = require('../../log/main.js')

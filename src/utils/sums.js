@@ -1,5 +1,3 @@
-'use strict'
-
 // Some parameters are filtered out in logs and in error responses
 // because they can get too big, e.g. `args.data`, `response.data` and `payload`
 // `sumParams` summarize them by their size and length, e.g. `payloadsize` and

@@ -1,5 +1,3 @@
-'use strict'
-
 const { logEvent } = require('../log/main.js')
 
 // Handle exceptions thrown at server startup

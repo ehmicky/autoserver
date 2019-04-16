@@ -1,5 +1,3 @@
-'use strict'
-
 const { getArgTypeDescription } = require('../../../../description')
 
 // `filter` argument

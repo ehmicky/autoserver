@@ -1,5 +1,3 @@
-'use strict'
-
 const { checkObject } = require('./validate')
 
 // Similar to lodash pickBy(), but faster.

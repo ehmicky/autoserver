@@ -1,5 +1,3 @@
-'use strict'
-
 const { omit } = require('../../../utils/functional/filter.js')
 
 // Modify `args.newData`, or database output

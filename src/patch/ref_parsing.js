@@ -1,5 +1,3 @@
-'use strict'
-
 // Model references, e.g. model.ATTR
 const isRef = function(opVal) {
   return REFERENCE_REGEXP.test(opVal)

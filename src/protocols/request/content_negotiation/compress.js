@@ -1,5 +1,3 @@
-'use strict'
-
 const { addGenPbHandler } = require('../../../errors/handler.js')
 const { getAlgo, getAlgos } = require('../../../compress/get.js')
 

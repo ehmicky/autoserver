@@ -1,5 +1,3 @@
-'use strict'
-
 const { getDefaultValue } = require('./default')
 const { getArgs } = require('./args/main.js')
 

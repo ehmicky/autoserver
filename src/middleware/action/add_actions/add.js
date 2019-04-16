@@ -1,5 +1,3 @@
-'use strict'
-
 const { difference } = require('../../../utils/functional/difference.js')
 const { omit } = require('../../../utils/functional/filter.js')
 const { uniq } = require('../../../utils/functional/uniq.js')

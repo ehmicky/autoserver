@@ -1,5 +1,3 @@
-'use strict'
-
 const { omit } = require('../../../utils/functional/filter.js')
 
 // Apply JSON-RPC-specific error response transformation

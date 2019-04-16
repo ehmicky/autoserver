@@ -1,5 +1,3 @@
-'use strict'
-
 const { isObject } = require('../../../utils/functional/type.js')
 
 // Copy first defined alias to main attribute, providing it is not defined.

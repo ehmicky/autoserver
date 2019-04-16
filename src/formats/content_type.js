@@ -1,5 +1,3 @@
-'use strict'
-
 const { parse, format: formatContentType } = require('content-type')
 
 const { formatAdapters } = require('./wrap')

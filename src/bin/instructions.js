@@ -1,5 +1,3 @@
-'use strict'
-
 const { availableInstructions } = require('./available')
 
 // Iterate over `availableOptions` to add all instructions

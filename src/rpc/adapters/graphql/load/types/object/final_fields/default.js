@@ -1,5 +1,3 @@
-'use strict'
-
 const getDefaultValue = function(def, opts) {
   const shouldSetDefault = defaultValueTests.every(func => func(def, opts))
 

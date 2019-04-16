@@ -1,5 +1,3 @@
-'use strict'
-
 const { Buffer } = require('buffer')
 
 const { isObject } = require('../../../utils/functional/type.js')

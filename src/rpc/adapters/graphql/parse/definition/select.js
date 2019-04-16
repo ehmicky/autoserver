@@ -1,5 +1,3 @@
-'use strict'
-
 const { throwError } = require('../../../../../errors/main.js')
 
 const { applyDirectives } = require('./directive')

@@ -1,5 +1,3 @@
-'use strict'
-
 const { getNames, getMember } = require('../adapters/get.js')
 
 const { PROTOCOL_ADAPTERS } = require('./adapters/main.js')

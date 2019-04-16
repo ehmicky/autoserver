@@ -1,5 +1,3 @@
-'use strict'
-
 const { recurseMap } = require('../utils/functional/map.js')
 const { transtype } = require('../utils/transtype.js')
 

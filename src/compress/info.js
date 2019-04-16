@@ -1,5 +1,3 @@
-'use strict'
-
 const compressible = require('compressible')
 
 const { getNames } = require('../adapters/get.js')

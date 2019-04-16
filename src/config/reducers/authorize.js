@@ -1,5 +1,3 @@
-'use strict'
-
 const { parseFilter } = require('../../filter/parse/main.js')
 const { validateFilter } = require('../../filter/validate/main.js')
 const { getAuthorizeAttrs } = require('../../filter/authorize.js')

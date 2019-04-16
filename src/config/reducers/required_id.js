@@ -1,5 +1,3 @@
-'use strict'
-
 const { mapAttrs } = require('../helpers')
 
 // Make sure `id` attributes are required

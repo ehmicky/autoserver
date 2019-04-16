@@ -1,5 +1,3 @@
-'use strict'
-
 const { attributesPlugin } = require('./attributes')
 
 // Plugin that adds who modified last each model:

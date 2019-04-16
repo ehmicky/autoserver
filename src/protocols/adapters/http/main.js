@@ -1,5 +1,3 @@
-'use strict'
-
 const { startServer } = require('./start')
 const { stopServer } = require('./stop')
 const { getUrl, getOrigin } = require('./origin')

@@ -1,5 +1,3 @@
-'use strict'
-
 const { addGenErrorHandler } = require('../../../../../errors/handler.js')
 const { throwError } = require('../../../../../errors/main.js')
 const { validateDuplicates } = require('../duplicates')

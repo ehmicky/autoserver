@@ -1,5 +1,3 @@
-'use strict'
-
 const { deepMerge } = require('../../../utils/functional/merge.js')
 const { dereferenceRefs } = require('../../../json_refs/main.js')
 

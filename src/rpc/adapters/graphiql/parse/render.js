@@ -1,5 +1,3 @@
-'use strict'
-
 const { resolve } = require('path')
 
 const { mapValues } = require('../../../../utils/functional/map.js')

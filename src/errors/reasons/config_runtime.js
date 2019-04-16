@@ -1,5 +1,3 @@
-'use strict'
-
 // Extra:
 //  - path 'VARR'
 //  - value VAL

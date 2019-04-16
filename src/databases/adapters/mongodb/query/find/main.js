@@ -1,5 +1,3 @@
-'use strict'
-
 const { getQueryFilter } = require('./operators')
 const { limitResponse } = require('./limit')
 const { offsetResponse } = require('./offset')

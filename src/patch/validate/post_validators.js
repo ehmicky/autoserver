@@ -1,5 +1,3 @@
-'use strict'
-
 const { checkEmpty } = require('./types/empty.js')
 const { applyCheck } = require('./check')
 

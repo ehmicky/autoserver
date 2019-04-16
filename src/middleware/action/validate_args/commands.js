@@ -1,5 +1,3 @@
-'use strict'
-
 const COMMANDS = {
   findOne: {
     optional: ['populate', 'select', 'rename', 'silent', 'params'],

@@ -1,5 +1,3 @@
-'use strict'
-
 const { PROTOCOL_OPTS } = require('../../protocols/info.js')
 
 const { validateAdaptersOpts } = require('./adapter_opts')

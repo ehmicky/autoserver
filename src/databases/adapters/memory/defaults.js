@@ -1,5 +1,3 @@
-'use strict'
-
 const defaults = {
   save: false,
   data: {},

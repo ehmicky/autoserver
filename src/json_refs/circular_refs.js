@@ -1,5 +1,3 @@
-'use strict'
-
 const { throwError } = require('../errors/main.js')
 
 // When encountering the same JSON reference twice, do not resolve the second

@@ -1,5 +1,3 @@
-'use strict'
-
 const parseInput = function({
   protocolAdapter: { getInput },
   specific,

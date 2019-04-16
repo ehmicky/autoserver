@@ -1,5 +1,3 @@
-'use strict'
-
 const { throwAttrValError } = require('../error')
 
 const { parseAsIs, validateNotArray, validateSameType } = require('./common')

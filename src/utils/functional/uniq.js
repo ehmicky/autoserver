@@ -1,5 +1,3 @@
-'use strict'
-
 const { includes } = require('./includes')
 
 // Like Lodash uniq(), but deep equal, and can use mapper functions

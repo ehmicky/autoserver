@@ -1,5 +1,3 @@
-'use strict'
-
 const { addGenPbHandler } = require('../../errors/handler.js')
 const { throwPb } = require('../../errors/props.js')
 const { compile } = require('../../validation/compile.js')

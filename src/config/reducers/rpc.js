@@ -1,5 +1,3 @@
-'use strict'
-
 const { getRpc } = require('../../rpc/get.js')
 const { RPCS } = require('../../rpc/info.js')
 

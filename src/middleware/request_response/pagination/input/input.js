@@ -1,5 +1,3 @@
-'use strict'
-
 const { isOffset, getLimit } = require('../info')
 const { getBackwardOrder } = require('../backward')
 

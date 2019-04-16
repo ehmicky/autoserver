@@ -1,5 +1,3 @@
-'use strict'
-
 // Deeply Object.freeze() over an object.
 // Since linting enforces immutability, we only need to (and should) perform
 // this on values that are passed to library caller.

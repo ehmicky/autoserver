@@ -1,5 +1,3 @@
-'use strict'
-
 const { isObject } = require('./type.js')
 
 // Returns all leaves values (i.e. not objects|arrays) as a list of

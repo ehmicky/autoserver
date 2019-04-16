@@ -1,5 +1,3 @@
-'use strict'
-
 const { rest } = require('./rest/main.js')
 const { graphql } = require('./graphql/main.js')
 const { graphiql } = require('./graphiql/main.js')

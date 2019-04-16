@@ -1,5 +1,3 @@
-'use strict'
-
 const { monitor } = require('../perf/helpers.js')
 const { logEvent } = require('../log/main.js')
 const { getProtocol } = require('../protocols/get.js')

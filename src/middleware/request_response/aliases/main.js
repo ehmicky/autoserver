@@ -1,5 +1,3 @@
-'use strict'
-
 const { applyInputAliases } = require('./input')
 const { applyOutputAliases } = require('./output')
 

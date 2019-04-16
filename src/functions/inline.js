@@ -1,5 +1,3 @@
-'use strict'
-
 const { addGenErrorHandler } = require('../errors/handler.js')
 const { set } = require('../utils/functional/get_set.js')
 const { getValues } = require('../utils/functional/values.js')

@@ -1,5 +1,3 @@
-'use strict'
-
 // Create a structure indicating which actions are the parents of which action.
 // This is needed since parent actions must be fired before children.
 // Uses `commandpath` to determine this, and output a recursive structure

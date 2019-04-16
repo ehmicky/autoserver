@@ -1,5 +1,3 @@
-'use strict'
-
 const vary = require('vary')
 
 const { isType } = require('../../../../content_types')

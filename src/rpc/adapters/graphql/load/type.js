@@ -1,5 +1,3 @@
-'use strict'
-
 const { v4: uuidv4 } = require('uuid')
 
 const { mapValues } = require('../../../../utils/functional/map.js')

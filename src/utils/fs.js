@@ -1,5 +1,3 @@
-'use strict'
-
 const { promisify } = require('util')
 const { stat, readdir, readFile, writeFile } = require('fs')
 

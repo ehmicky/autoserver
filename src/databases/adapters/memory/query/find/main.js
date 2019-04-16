@@ -1,5 +1,3 @@
-'use strict'
-
 const { evalFilter } = require('../../../../../filter/eval.js')
 
 const { sortResponse } = require('./order')

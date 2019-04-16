@@ -1,5 +1,3 @@
-'use strict'
-
 const { tokenizeInlineFunc } = require('./tokenize')
 
 // Test whether a value is inline function

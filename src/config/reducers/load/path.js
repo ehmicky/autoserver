@@ -1,5 +1,3 @@
-'use strict'
-
 const { cwd } = require('process')
 const { resolve, isAbsolute } = require('path')
 

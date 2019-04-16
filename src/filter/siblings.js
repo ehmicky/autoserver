@@ -1,5 +1,3 @@
-'use strict'
-
 const { isObject } = require('../utils/functional/type.js')
 
 const { NO_SIBLINGS_OPERATORS } = require('./operators/main.js')

@@ -1,5 +1,3 @@
-'use strict'
-
 // This calculates time intervals, in order to do performance monitoring
 // Concepts:
 //   - a `label` is a measurements name

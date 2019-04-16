@@ -1,5 +1,3 @@
-'use strict'
-
 // Delete models
 const deleteMany = function({ collection, deletedIds }) {
   Object.entries(collection)

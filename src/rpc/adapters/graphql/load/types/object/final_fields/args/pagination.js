@@ -1,5 +1,3 @@
-'use strict'
-
 const { GraphQLInt, GraphQLString } = require('graphql')
 
 const {

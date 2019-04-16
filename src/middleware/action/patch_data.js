@@ -1,5 +1,3 @@
-'use strict'
-
 const { groupBy } = require('../../utils/functional/group.js')
 const { mapValues } = require('../../utils/functional/map.js')
 const { applyPatchOps } = require('../../patch/apply.js')

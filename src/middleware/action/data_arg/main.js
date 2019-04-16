@@ -1,5 +1,3 @@
-'use strict'
-
 const { getLimits } = require('../../../limits')
 const { addActions } = require('../add_actions/merge.js')
 

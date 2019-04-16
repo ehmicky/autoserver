@@ -1,6 +1,4 @@
 /* eslint-disable max-lines */
-'use strict'
-
 const { getStatus } = require('./final/status.js')
 const { setDuration } = require('./final/duration.js')
 const { sendResponse } = require('./final/send_response/main.js')

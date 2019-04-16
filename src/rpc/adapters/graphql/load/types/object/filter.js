@@ -1,5 +1,3 @@
-'use strict'
-
 const filterField = function(def, opts) {
   const isFiltered = filters.some(filter => filter(def, opts))
   return isFiltered ? null : def

@@ -1,5 +1,3 @@
-'use strict'
-
 const parsePreferHeaderLib = require('parse-prefer-header')
 
 const { omitBy } = require('../../../utils/functional/filter.js')

@@ -1,5 +1,3 @@
-'use strict'
-
 const { getThrowErr } = require('../error')
 
 const { parseOperation } = require('./operations')

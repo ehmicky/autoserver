@@ -1,5 +1,3 @@
-'use strict'
-
 const { addGenPbHandler } = require('../errors/handler.js')
 
 const { getParams } = require('./params/values.js')

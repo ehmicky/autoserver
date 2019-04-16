@@ -1,5 +1,3 @@
-'use strict'
-
 const { SUCCESS } = require('./success.js')
 const { VALIDATION } = require('./validation.js')
 const { ABORTED } = require('./aborted.js')

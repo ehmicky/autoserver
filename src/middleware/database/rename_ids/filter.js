@@ -1,5 +1,3 @@
-'use strict'
-
 const { mapNodes } = require('../../../filter/crawl.js')
 const { isSiblingValue } = require('../../../filter/siblings.js')
 

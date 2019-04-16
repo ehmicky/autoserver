@@ -1,5 +1,3 @@
-'use strict'
-
 const { extractSimpleIds } = require('../../filter/simple_id.js')
 
 // Delegates to database adapter

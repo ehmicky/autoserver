@@ -1,5 +1,3 @@
-'use strict'
-
 const { hasBody } = require('type-is')
 const getBody = require('raw-body')
 

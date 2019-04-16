@@ -1,5 +1,3 @@
-'use strict'
-
 const { parse: hjsonParse, stringify: hjsonStringify } = require('hjson')
 
 // Parses a HJSON file

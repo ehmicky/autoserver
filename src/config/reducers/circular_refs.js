@@ -1,5 +1,3 @@
-'use strict'
-
 const { mapValues } = require('../../utils/functional/map.js')
 const { isObjectType } = require('../../utils/functional/type.js')
 const { throwError } = require('../../errors/main.js')

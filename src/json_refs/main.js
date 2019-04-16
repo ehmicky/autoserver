@@ -1,5 +1,3 @@
-'use strict'
-
 const { cwd } = require('process')
 
 const { isObjectType } = require('../utils/functional/type.js')

@@ -1,5 +1,3 @@
-'use strict'
-
 const { getFormat } = require('../../formats/get.js')
 
 const { validateString } = require('./validate')

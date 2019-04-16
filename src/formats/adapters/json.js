@@ -1,5 +1,3 @@
-'use strict'
-
 // Parses a JSON file
 const parse = function({ content }) {
   return JSON.parse(content)

@@ -1,5 +1,3 @@
-'use strict'
-
 const { parseContentType } = require('../../../../formats/content_type.js')
 
 // Parse HTTP header `Content-Type`

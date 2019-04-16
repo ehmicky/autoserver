@@ -1,5 +1,3 @@
-'use strict'
-
 const { OPERATORS } = require('./operators/main.js')
 
 // Properties of errors during `patch`

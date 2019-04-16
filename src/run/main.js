@@ -1,5 +1,3 @@
-'use strict'
-
 const { monitoredReduce } = require('../perf/helpers.js')
 const { addErrorHandler } = require('../errors/handler.js')
 

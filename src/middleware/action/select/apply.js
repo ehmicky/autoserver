@@ -1,5 +1,3 @@
-'use strict'
-
 const { get, set } = require('../../../utils/functional/get_set.js')
 
 // Applies `args.select`.

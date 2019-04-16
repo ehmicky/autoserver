@@ -1,5 +1,3 @@
-'use strict'
-
 // Modify `args.order`
 const renameOrder = function({ value, newIdName, oldIdName }) {
   return value.map(part => renameOrderPart({ part, newIdName, oldIdName }))

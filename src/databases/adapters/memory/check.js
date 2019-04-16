@@ -1,5 +1,3 @@
-'use strict'
-
 const { getRef } = require('../../../json_refs/ref_path.js')
 const { isObject } = require('../../../utils/functional/type.js')
 

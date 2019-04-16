@@ -1,5 +1,3 @@
-'use strict'
-
 const commonTypes = {
   attribute: ['number'],
   argument: ['number', 'empty'],

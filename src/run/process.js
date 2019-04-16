@@ -1,5 +1,3 @@
-'use strict'
-
 const logProcessErrors = require('log-process-errors')
 
 const { logEvent } = require('../log/main.js')

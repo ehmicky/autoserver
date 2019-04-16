@@ -1,5 +1,3 @@
-'use strict'
-
 const { addErrorHandler } = require('../../errors/handler.js')
 const { getProps } = require('../../errors/props.js')
 const { normalizeError } = require('../../errors/main.js')

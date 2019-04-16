@@ -1,5 +1,3 @@
-'use strict'
-
 const { getValues } = require('../utils/functional/values.js')
 
 // Recursively find all the JSON references

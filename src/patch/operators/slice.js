@@ -1,5 +1,3 @@
-'use strict'
-
 const { ANY_ARRAY } = require('./array')
 
 const checkSlice = function({ arg: opVal }) {

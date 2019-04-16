@@ -1,5 +1,3 @@
-'use strict'
-
 const { omit } = require('../utils/functional/filter.js')
 const { reduceAsync } = require('../utils/functional/reduce.js')
 const { addGenPbHandler } = require('../errors/handler.js')

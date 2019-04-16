@@ -1,5 +1,3 @@
-'use strict'
-
 const { logEvent } = require('../../log/main.js')
 
 const emitMessageEvent = function({ step, type, adapter: { title }, config }) {

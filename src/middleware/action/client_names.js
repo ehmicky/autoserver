@@ -1,5 +1,3 @@
-'use strict'
-
 // Sets `clientCollname` and `clientCollnames`
 // Those are the same, but using client-facing collection name, which might be
 // different because of `collection.name`

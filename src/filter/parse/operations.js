@@ -1,5 +1,3 @@
-'use strict'
-
 const { isObject } = require('../../utils/functional/type.js')
 const { getOperator } = require('../operators/main.js')
 const { parseSiblingNode } = require('../siblings')

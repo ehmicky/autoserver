@@ -1,5 +1,3 @@
-'use strict'
-
 const { fullRecurseMap } = require('../../utils/functional/map.js')
 const { isObject } = require('../../utils/functional/type.js')
 const { throwError } = require('../../errors/main.js')

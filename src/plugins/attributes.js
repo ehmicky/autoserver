@@ -1,5 +1,3 @@
-'use strict'
-
 const pluralize = require('pluralize')
 
 const { intersection } = require('../utils/functional/intersection.js')

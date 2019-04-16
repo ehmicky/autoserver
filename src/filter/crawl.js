@@ -1,5 +1,3 @@
-'use strict'
-
 const { groupBy } = require('../utils/functional/group.js')
 
 const {

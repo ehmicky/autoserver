@@ -1,5 +1,3 @@
-'use strict'
-
 const { pick } = require('../utils/functional/filter.js')
 const { mapValues } = require('../utils/functional/map.js')
 const { SYSTEM_PARAMS } = require('../functions/params/system.js')

@@ -1,5 +1,3 @@
-'use strict'
-
 const Ajv = require('ajv')
 const ajvKeywords = require('ajv-keywords')
 

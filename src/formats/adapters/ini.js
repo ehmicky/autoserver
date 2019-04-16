@@ -1,5 +1,3 @@
-'use strict'
-
 const { parse: iniParse, stringify: iniStringify } = require('ini')
 
 const { fullRecurseMap } = require('../../utils/functional/map.js')

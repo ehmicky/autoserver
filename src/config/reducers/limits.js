@@ -1,5 +1,3 @@
-'use strict'
-
 const { parse: parseBytes, format: formatBytes } = require('bytes')
 
 const { throwError } = require('../../errors/main.js')

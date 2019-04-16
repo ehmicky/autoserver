@@ -1,5 +1,3 @@
-'use strict'
-
 const { runConfigFunc } = require('../../../functions/run.js')
 const { getParams } = require('../../../functions/params/values.js')
 const { validateFilter } = require('../../../filter/validate/main.js')

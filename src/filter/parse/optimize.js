@@ -1,5 +1,3 @@
-'use strict'
-
 const { getOperator } = require('../operators/main.js')
 const { mapNodes } = require('../crawl')
 

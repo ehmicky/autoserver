@@ -1,5 +1,3 @@
-'use strict'
-
 const { getShortcut } = require('../../helpers')
 
 // Retrieves map of collections's attributes for which a default value

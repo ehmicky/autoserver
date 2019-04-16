@@ -1,5 +1,3 @@
-'use strict'
-
 const { logConsole } = require('./console/main.js')
 const { logDebug } = require('./debug/main.js')
 const { logHttp } = require('./http/main.js')

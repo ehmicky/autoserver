@@ -1,5 +1,3 @@
-'use strict'
-
 const { version: nodeVersion } = require('process')
 
 const readPkgUp = require('read-pkg-up')

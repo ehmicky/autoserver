@@ -1,5 +1,3 @@
-'use strict'
-
 const { mapValues } = require('../../utils/functional/map.js')
 
 const { getParams } = require('./values')

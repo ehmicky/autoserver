@@ -1,5 +1,3 @@
-'use strict'
-
 // Apply `args.order`
 const sortResponse = function({ cursor, order }) {
   if (order === undefined) {

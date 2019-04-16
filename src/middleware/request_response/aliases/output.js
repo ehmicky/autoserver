@@ -1,5 +1,3 @@
-'use strict'
-
 const { applyResponseAliases } = require('./response')
 
 // Apply `alias` in server output

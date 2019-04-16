@@ -1,5 +1,3 @@
-'use strict'
-
 const { omit } = require('../utils/functional/filter.js')
 const { mapValues } = require('../utils/functional/map.js')
 

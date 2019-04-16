@@ -1,5 +1,3 @@
-'use strict'
-
 const { capitalize } = require('underscore.string')
 
 const { COMMANDS } = require('../../../../commands/constants.js')

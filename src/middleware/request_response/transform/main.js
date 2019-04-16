@@ -1,5 +1,3 @@
-'use strict'
-
 const { handleTransforms } = require('./common')
 
 // Apply `attr.default` only on model creation (on `create` or `upsert`),

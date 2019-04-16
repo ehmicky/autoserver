@@ -1,5 +1,3 @@
-'use strict'
-
 const mergeSelectRename = function({ selectRename, name }) {
   const values = selectRename
     .map(({ [name]: value }) => value)

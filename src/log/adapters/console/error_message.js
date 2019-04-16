@@ -1,5 +1,3 @@
-'use strict'
-
 const { resolve } = require('path')
 
 // Retrieve error message of a standard error

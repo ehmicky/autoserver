@@ -1,5 +1,3 @@
-'use strict'
-
 // Similar to Lodash get(), but do not mutate, and faster
 const get = function(obj, keys) {
   if (keys.length === 0) {

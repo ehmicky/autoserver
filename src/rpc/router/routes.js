@@ -1,5 +1,3 @@
-'use strict'
-
 const { parse, tokensToRegExp } = require('path-to-regexp')
 
 const { isObject } = require('../../utils/functional/type.js')

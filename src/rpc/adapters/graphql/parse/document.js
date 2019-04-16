@@ -1,5 +1,3 @@
-'use strict'
-
 const { parse } = require('graphql')
 
 const { isObject } = require('../../../../utils/functional/type.js')

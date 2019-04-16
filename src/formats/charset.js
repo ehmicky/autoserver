@@ -1,5 +1,3 @@
-'use strict'
-
 // Retrieves format's prefered charset
 const getCharset = function({ charsets: [charset] = [] }) {
   return charset

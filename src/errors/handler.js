@@ -1,5 +1,3 @@
-'use strict'
-
 const keepFuncProps = require('keep-func-props')
 
 const { result } = require('../utils/functional/result.js')

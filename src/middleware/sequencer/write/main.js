@@ -1,5 +1,3 @@
-'use strict'
-
 const { groupValuesBy } = require('../../../utils/functional/group.js')
 const { addErrorHandler } = require('../../../errors/handler.js')
 const { normalizeError } = require('../../../errors/main.js')

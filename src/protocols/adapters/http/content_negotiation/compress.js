@@ -1,5 +1,3 @@
-'use strict'
-
 const { Negotiator } = require('negotiator')
 
 const { findAlgo } = require('../../../../compress/get.js')

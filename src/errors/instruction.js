@@ -1,5 +1,3 @@
-'use strict'
-
 const { addErrorHandler } = require('./handler.js')
 const { getStandardError } = require('./standard.js')
 

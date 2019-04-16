@@ -1,5 +1,3 @@
-'use strict'
-
 const { _set } = require('./generic')
 const { _add, _sub, _div, _mul } = require('./number')
 const { _invert } = require('./boolean')

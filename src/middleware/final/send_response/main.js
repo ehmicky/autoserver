@@ -1,5 +1,3 @@
-'use strict'
-
 const { getErrorResponse } = require('./error')
 const { getResponseParams } = require('./params')
 const { addMetadata } = require('./metadata')

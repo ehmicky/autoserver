@@ -1,5 +1,3 @@
-'use strict'
-
 const { promisify } = require('util')
 
 const { setStatusCode } = require('./status')

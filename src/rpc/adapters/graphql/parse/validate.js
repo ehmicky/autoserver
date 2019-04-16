@@ -1,5 +1,3 @@
-'use strict'
-
 const { getWordsList } = require('../../../../utils/string.js')
 const { throwError } = require('../../../../errors/main.js')
 

@@ -1,5 +1,3 @@
-'use strict'
-
 const { includes } = require('../../utils/functional/includes.js')
 const { uniq } = require('../../utils/functional/uniq.js')
 const { throwError } = require('../../errors/main.js')

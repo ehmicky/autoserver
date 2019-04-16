@@ -1,5 +1,3 @@
-'use strict'
-
 const { omitBy } = require('../../utils/functional/filter.js')
 
 // Normalize empty values (undefined, null) by removing their key

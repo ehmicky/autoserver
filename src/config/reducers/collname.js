@@ -1,5 +1,3 @@
-'use strict'
-
 const { mapColls } = require('../helpers')
 
 // Default `collection.name` to parent key

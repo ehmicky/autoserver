@@ -1,5 +1,3 @@
-'use strict'
-
 const { findDuplicate } = require('../../../../utils/functional/uniq.js')
 const { throwError } = require('../../../../errors/main.js')
 

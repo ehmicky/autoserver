@@ -1,5 +1,3 @@
-'use strict'
-
 const { mapValues } = require('../../utils/functional/map.js')
 const { uniq } = require('../../utils/functional/uniq.js')
 const { getDatabase } = require('../../databases/get.js')

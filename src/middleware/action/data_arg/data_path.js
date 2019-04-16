@@ -1,5 +1,3 @@
-'use strict'
-
 const { isModelsType } = require('./validate')
 
 // Retrieve the path to each nested object inside `args.data`

@@ -1,5 +1,3 @@
-'use strict'
-
 // Retrieves database return value
 // Only `find` command use database return value.
 // `create`, `patch` and `upsert` assumes database does not modify input,

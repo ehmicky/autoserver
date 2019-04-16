@@ -1,5 +1,3 @@
-'use strict'
-
 const { transformSuccess, transformError } = require('./response')
 const { parse } = require('./parse')
 

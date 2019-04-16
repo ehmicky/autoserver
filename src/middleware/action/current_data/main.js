@@ -1,5 +1,3 @@
-'use strict'
-
 const { parallelResolve } = require('./parallel')
 const { serialResolve } = require('./serial')
 

@@ -1,5 +1,3 @@
-'use strict'
-
 const { startPerf, stopPerf } = require('../perf/measure.js')
 const { logPerfEvent } = require('../log/perf.js')
 

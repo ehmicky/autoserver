@@ -1,5 +1,3 @@
-'use strict'
-
 const { getClientIp } = require('request-ip')
 
 // Retrieves request IP.

@@ -1,5 +1,3 @@
-'use strict'
-
 const { find } = require('./find/main.js')
 const { delete: deleteFunc } = require('./delete')
 const { upsert } = require('./upsert')

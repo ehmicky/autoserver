@@ -1,5 +1,3 @@
-'use strict'
-
 const { omit } = require('../utils/functional/filter.js')
 const { recurseMap, fullRecurseMap } = require('../utils/functional/map.js')
 const { isObject } = require('../utils/functional/type.js')

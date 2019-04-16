@@ -1,5 +1,3 @@
-'use strict'
-
 const { getNestedAttrs } = require('./attr')
 const { getNestedPagesize } = require('./pagesize')
 const { truncateAttrs } = require('./truncate')

@@ -1,5 +1,3 @@
-'use strict'
-
 // Retrieve list of nested attributes as `{ attrName, weight }`
 // `weight` is the number of models spawn by each instance of this child action
 const getNestedAttrs = function({ childActions }) {

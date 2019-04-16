@@ -1,5 +1,3 @@
-'use strict'
-
 const { pid } = require('process')
 
 // Retrieve process-specific information

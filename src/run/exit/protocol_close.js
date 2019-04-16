@@ -1,5 +1,3 @@
-'use strict'
-
 const { wrapCloseFunc } = require('./wrapper')
 
 // Attempts to close server

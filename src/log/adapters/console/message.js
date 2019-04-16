@@ -1,5 +1,3 @@
-'use strict'
-
 const { getPrefix } = require('./prefix')
 const { getErrorMessage } = require('./error_message')
 const { getRequestMessage } = require('./request_message')

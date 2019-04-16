@@ -1,5 +1,3 @@
-'use strict'
-
 const { EXTENSIONS } = require('../formats/info.js')
 
 const runInstruction = {

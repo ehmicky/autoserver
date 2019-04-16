@@ -1,5 +1,3 @@
-'use strict'
-
 const { reduceAsync } = require('../utils/functional/reduce.js')
 const { monitor } = require('../perf/helpers.js')
 const { addErrorHandler } = require('../errors/handler.js')

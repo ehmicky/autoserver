@@ -1,6 +1,4 @@
 /* eslint-disable max-lines, max-lines-per-function */
-'use strict'
-
 const { getStandardError } = require('../../errors/standard.js')
 const { makeImmutable } = require('../../utils/functional/immutable.js')
 const { getServerinfo } = require('../../serverinfo/main.js')

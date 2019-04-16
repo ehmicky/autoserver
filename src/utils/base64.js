@@ -1,5 +1,3 @@
-'use strict'
-
 const { Buffer } = require('buffer')
 
 // Encodes and decodes base64 (RFC 4648)

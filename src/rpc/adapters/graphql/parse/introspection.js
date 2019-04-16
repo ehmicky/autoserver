@@ -1,5 +1,3 @@
-'use strict'
-
 const { execute } = require('graphql')
 
 // At the moment, we do not support mixing introspection query with

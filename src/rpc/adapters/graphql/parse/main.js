@@ -1,5 +1,3 @@
-'use strict'
-
 const { getGraphqlDocument } = require('./document')
 const { getMainDef } = require('./main_def')
 const { validateMainDef } = require('./validate')

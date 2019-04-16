@@ -1,5 +1,3 @@
-'use strict'
-
 const { getConsoleMessage } = require('./message')
 const { colorize } = require('./colorize')
 

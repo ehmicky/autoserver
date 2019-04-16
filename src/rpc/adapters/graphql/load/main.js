@@ -1,5 +1,3 @@
-'use strict'
-
 const { GraphQLSchema } = require('graphql')
 
 const { getTopDefs } = require('./top_defs')

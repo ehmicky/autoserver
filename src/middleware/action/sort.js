@@ -1,5 +1,3 @@
-'use strict'
-
 const { sortArray, compareArrays } = require('../../utils/functional/sort.js')
 
 const sorter = function(obj, key, pathKey) {

@@ -1,5 +1,3 @@
-'use strict'
-
 const { includes } = require('./includes')
 const { uniq } = require('./uniq')
 

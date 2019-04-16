@@ -1,5 +1,3 @@
-'use strict'
-
 const { addGenErrorHandler } = require('../../errors/handler.js')
 
 // Validate database supports command features

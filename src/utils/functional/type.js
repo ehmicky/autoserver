@@ -1,5 +1,3 @@
-'use strict'
-
 // Is any kind of object, including array, RegExp, Date, Error, etc.
 const isObjectType = function(val) {
   return typeof val === 'object' && val !== null

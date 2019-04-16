@@ -1,5 +1,3 @@
-'use strict'
-
 const { brotli } = require('./brotli')
 const { deflate } = require('./deflate')
 const { gzip } = require('./gzip')

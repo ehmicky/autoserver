@@ -1,5 +1,3 @@
-'use strict'
-
 // Retrieves HTTP method, but protocol-agnostic
 const getMethod = function({
   specific: {

@@ -1,5 +1,3 @@
-'use strict'
-
 const { mapAttrs } = require('../helpers')
 
 // Add JSON schema validation based on `type`

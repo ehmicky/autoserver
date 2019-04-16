@@ -1,5 +1,3 @@
-'use strict'
-
 const { omit } = require('../../../utils/functional/filter.js')
 
 // Retrieve a database input that reverts the write action, if it was

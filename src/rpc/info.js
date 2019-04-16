@@ -1,5 +1,3 @@
-'use strict'
-
 const { getNames } = require('../adapters/get.js')
 
 const { RPC_ADAPTERS } = require('./adapters/main.js')

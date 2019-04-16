@@ -1,5 +1,3 @@
-'use strict'
-
 const { Buffer } = require('buffer')
 
 const { isType } = require('../../../content_types')

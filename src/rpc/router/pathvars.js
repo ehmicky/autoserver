@@ -1,5 +1,3 @@
-'use strict'
-
 const { transtype } = require('../../utils/transtype.js')
 
 // Retrieves path variables, e.g. /path/:id

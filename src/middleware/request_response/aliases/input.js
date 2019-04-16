@@ -1,5 +1,3 @@
-'use strict'
-
 const { applyDataAliases } = require('./data')
 const { applyOrderAliases } = require('./order')
 

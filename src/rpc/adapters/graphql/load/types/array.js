@@ -1,5 +1,3 @@
-'use strict'
-
 const { GraphQLList } = require('graphql')
 
 const graphqlArrayTest = function({ arrayWrapped, command, isArray }) {

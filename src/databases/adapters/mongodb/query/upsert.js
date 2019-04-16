@@ -1,5 +1,3 @@
-'use strict'
-
 // Modify models
 const upsert = function({ collection, newData }) {
   const func = newData.length === 1 ? upsertOne : upsertMany

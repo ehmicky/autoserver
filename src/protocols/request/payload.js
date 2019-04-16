@@ -1,5 +1,3 @@
-'use strict'
-
 const { getSumParams } = require('../../utils/sums.js')
 const { addGenPbHandler, addErrorHandler } = require('../../errors/handler.js')
 const { throwPb } = require('../../errors/props.js')

@@ -1,5 +1,3 @@
-'use strict'
-
 const { getArgs } = require('./args')
 
 // Use JSON-RPC-specific logic to parse the request into an

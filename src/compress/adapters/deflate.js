@@ -1,5 +1,3 @@
-'use strict'
-
 const zlib = require('zlib')
 const { promisify } = require('util')
 

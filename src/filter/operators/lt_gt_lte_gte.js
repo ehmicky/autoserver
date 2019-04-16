@@ -1,5 +1,3 @@
-'use strict'
-
 const { validateSameType, parseAsIs } = require('./common')
 
 // `{ attribute: { _lt: value } }`

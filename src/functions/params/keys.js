@@ -1,5 +1,3 @@
-'use strict'
-
 const {
   SYSTEM_PARAMS,
   LATER_SYSTEM_PARAMS,

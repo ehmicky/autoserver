@@ -1,5 +1,3 @@
-'use strict'
-
 // `_replace` patch operator
 const replaceOperator = {
   attribute: ['string'],

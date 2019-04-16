@@ -1,5 +1,3 @@
-'use strict'
-
 const process = require('process')
 
 // Avoid requiring `signal-exit` directly as it adds a global EventEmitter

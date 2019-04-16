@@ -1,5 +1,3 @@
-'use strict'
-
 // Apply `args.page`
 const offsetResponse = function({ cursor, offset }) {
   if (offset === undefined) {

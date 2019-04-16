@@ -1,5 +1,3 @@
-'use strict'
-
 // Extra:
 //  - kind 'feature|protocol|rpc|argument|data|constraint'
 //  - path 'VARR'

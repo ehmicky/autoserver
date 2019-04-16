@@ -1,5 +1,3 @@
-'use strict'
-
 const { sortBy } = require('../../../../../utils/functional/sort.js')
 
 // `order` sorting

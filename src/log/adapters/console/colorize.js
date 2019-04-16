@@ -1,5 +1,3 @@
-'use strict'
-
 const { magenta, green, yellow, red, gray, reset, dim } = require('chalk')
 
 // Colorize a standard error message

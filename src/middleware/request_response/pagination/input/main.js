@@ -1,5 +1,3 @@
-'use strict'
-
 const { willPaginate } = require('../condition')
 
 const { getToken } = require('./token')

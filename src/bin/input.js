@@ -1,5 +1,3 @@
-'use strict'
-
 const yargs = require('yargs')
 
 const { monitor } = require('../perf/helpers.js')

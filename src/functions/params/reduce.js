@@ -1,5 +1,3 @@
-'use strict'
-
 const { pick, omitBy } = require('../../utils/functional/filter.js')
 const { get, set, has } = require('../../utils/functional/get_set.js')
 const { isObject } = require('../../utils/functional/type.js')

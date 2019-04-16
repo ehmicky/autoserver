@@ -1,5 +1,3 @@
-'use strict'
-
 // `_invert` patch operator
 const invertOperator = {
   attribute: ['boolean'],

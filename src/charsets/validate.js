@@ -1,5 +1,3 @@
-'use strict'
-
 const { encodingExists } = require('iconv-lite')
 
 // Validate `charset` name is valid

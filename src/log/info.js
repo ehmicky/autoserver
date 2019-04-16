@@ -1,5 +1,3 @@
-'use strict'
-
 const { getMember } = require('../adapters/get.js')
 
 const { LOG_ADAPTERS } = require('./adapters/main.js')

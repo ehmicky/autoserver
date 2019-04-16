@@ -1,5 +1,3 @@
-'use strict'
-
 // When using model.ATTR
 const getSiblingNode = function({
   type,

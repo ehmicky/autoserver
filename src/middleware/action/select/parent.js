@@ -1,5 +1,3 @@
-'use strict'
-
 // When using `select=parent.child`, `select=parent` is implicity added,
 // unless it was already selected, including by `select=all` or by specifying
 // no `select` at that level

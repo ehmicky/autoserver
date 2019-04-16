@@ -1,5 +1,3 @@
-'use strict'
-
 const features = [
   'filter:_eq',
   'filter:_neq',

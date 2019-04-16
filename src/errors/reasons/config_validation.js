@@ -1,5 +1,3 @@
-'use strict'
-
 const getMessage = function({ path }) {
   return path === undefined ? undefined : `In configuration property '${path}'`
 }

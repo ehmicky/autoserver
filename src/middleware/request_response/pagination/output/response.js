@@ -1,5 +1,3 @@
-'use strict'
-
 const { isOffset, getLimit, hasToken } = require('../info')
 const { isOnlyForwardCursor } = require('../condition')
 

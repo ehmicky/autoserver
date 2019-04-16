@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-'use strict'
-
 const { exit } = require('process')
 
 const instructions = require('../main.js')

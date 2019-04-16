@@ -1,5 +1,3 @@
-'use strict'
-
 const { groupMeasures } = require('../perf/group.js')
 const { stringifyMeasures } = require('../perf/stringify.js')
 

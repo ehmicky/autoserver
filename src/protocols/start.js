@@ -1,5 +1,3 @@
-'use strict'
-
 const { pick, omit } = require('../utils/functional/filter.js')
 const { identity } = require('../utils/functional/identity.js')
 const { mapValues } = require('../utils/functional/map.js')

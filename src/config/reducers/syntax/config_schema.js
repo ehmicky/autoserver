@@ -1,6 +1,4 @@
 /* eslint-disable max-lines */
-'use strict'
-
 const SCHEMA = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   $id: 'config_json_schema_v1',

@@ -1,5 +1,3 @@
-'use strict'
-
 const { camelize, capitalize } = require('underscore.string')
 
 // Returns top-level command name, e.g. `find_collection` or `delete_collection`

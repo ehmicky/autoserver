@@ -1,5 +1,3 @@
-'use strict'
-
 // Extra:
 //  - limit NUM
 const TIMEOUT = {

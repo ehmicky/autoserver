@@ -1,5 +1,3 @@
-'use strict'
-
 const { pick, omit } = require('../../../utils/functional/filter.js')
 const { isType } = require('../../../content_types')
 const { getParams } = require('../../../functions/params/values.js')

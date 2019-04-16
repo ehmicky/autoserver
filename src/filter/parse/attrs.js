@@ -1,5 +1,3 @@
-'use strict'
-
 const { isObject } = require('../../utils/functional/type.js')
 const { DEEP_OPERATORS } = require('../operators/main.js')
 

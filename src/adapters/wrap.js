@@ -1,5 +1,3 @@
-'use strict'
-
 const { pick, pickBy } = require('../utils/functional/filter.js')
 const { keyBy } = require('../utils/functional/key_by.js')
 const { mapValues } = require('../utils/functional/map.js')

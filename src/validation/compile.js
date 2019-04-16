@@ -1,5 +1,3 @@
-'use strict'
-
 const { getCustomValidator } = require('./custom_validator')
 
 // Compile JSON schema

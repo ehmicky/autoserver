@@ -1,5 +1,3 @@
-'use strict'
-
 const { report } = require('./report')
 const { opts } = require('./opts')
 

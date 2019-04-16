@@ -1,5 +1,3 @@
-'use strict'
-
 const { intersection } = require('../utils/functional/intersection.js')
 const { uniq } = require('../utils/functional/uniq.js')
 

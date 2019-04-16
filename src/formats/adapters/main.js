@@ -1,5 +1,3 @@
-'use strict'
-
 const { json } = require('./json')
 const { yaml } = require('./yaml')
 const { urlencoded } = require('./urlencoded')

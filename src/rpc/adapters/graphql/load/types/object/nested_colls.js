@@ -1,5 +1,3 @@
-'use strict'
-
 const { omit } = require('../../../../../../utils/functional/filter.js')
 
 // Create nested collections definitions

@@ -1,5 +1,3 @@
-'use strict'
-
 const { getRequestHandler } = require('../middleware/main.js')
 const { loadConfig } = require('../config/main.js')
 

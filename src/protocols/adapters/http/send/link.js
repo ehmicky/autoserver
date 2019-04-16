@@ -1,5 +1,3 @@
-'use strict'
-
 const { stringify: stringifyLinks } = require('li')
 
 const { omitBy } = require('../../../../utils/functional/filter.js')

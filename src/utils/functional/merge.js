@@ -1,5 +1,3 @@
-'use strict'
-
 const { isObject } = require('./type')
 
 // Like Lodash merge() but faster and does not mutate input

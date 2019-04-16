@@ -1,5 +1,3 @@
-'use strict'
-
 // Break down '  \\( inlineFunc )  '
 // into tokens: '  ', '\', '(', ' inlineFunc ', ')', '  '
 const tokenizeInlineFunc = function({ inlineFunc }) {

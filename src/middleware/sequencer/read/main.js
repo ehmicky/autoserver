@@ -1,5 +1,3 @@
-'use strict'
-
 const { getLimits } = require('../../../limits')
 
 const { getParentActions } = require('./parent_actions')

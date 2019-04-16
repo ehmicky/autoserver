@@ -1,5 +1,3 @@
-'use strict'
-
 const { decapitalize } = require('underscore.string')
 
 const { createError } = require('./main')

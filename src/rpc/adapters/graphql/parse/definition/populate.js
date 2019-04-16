@@ -1,5 +1,3 @@
-'use strict'
-
 const { uniq } = require('../../../../../utils/functional/uniq.js')
 
 // Retrieve `rpcDef.args.populate` using GraphQL selection sets

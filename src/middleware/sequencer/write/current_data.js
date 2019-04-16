@@ -1,5 +1,3 @@
-'use strict'
-
 // Retrieve `currentData`, so it is passed to command middleware
 const getCurrentData = function({ actions, ids }) {
   const currentData = actions.flatMap(action => action.currentData)

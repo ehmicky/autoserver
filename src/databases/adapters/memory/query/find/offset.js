@@ -1,5 +1,3 @@
-'use strict'
-
 // Pagination offsetting
 // If offset is too big, just return empty array
 const offsetResponse = function({ data, offset }) {

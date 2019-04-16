@@ -1,5 +1,3 @@
-'use strict'
-
 const { monitoredReduce } = require('../perf/helpers.js')
 const { createInlineFuncs } = require('../functions/inline.js')
 const { applyPlugins } = require('../plugins/main.js')

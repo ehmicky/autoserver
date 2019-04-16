@@ -1,5 +1,3 @@
-'use strict'
-
 const getValues = function({ actions, filter, mapper, ...rest }) {
   return actions
     .filter(({ args }) => filterArgs({ args, filter }))

@@ -1,5 +1,3 @@
-'use strict'
-
 const { errorMessages } = require('./messages')
 
 // Perform a validation, using a JSON schema, and a `data` as input

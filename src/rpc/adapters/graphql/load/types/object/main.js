@@ -1,5 +1,3 @@
-'use strict'
-
 const moize = require('moize').default
 const { GraphQLObjectType, GraphQLInputObjectType } = require('graphql')
 

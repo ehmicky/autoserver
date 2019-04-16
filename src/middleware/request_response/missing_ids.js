@@ -1,6 +1,4 @@
 /* eslint-disable max-lines */
-'use strict'
-
 const { difference } = require('../../utils/functional/difference.js')
 const { throwPb } = require('../../errors/props.js')
 const {

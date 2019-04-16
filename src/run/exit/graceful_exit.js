@@ -1,5 +1,3 @@
-'use strict'
-
 const { monitor } = require('../../perf/helpers.js')
 const { once } = require('../../utils/functional/once.js')
 const { addErrorHandler } = require('../../errors/handler.js')

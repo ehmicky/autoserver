@@ -1,5 +1,3 @@
-'use strict'
-
 const { decode } = require('iconv-lite')
 
 const { addGenPbHandler } = require('../errors/handler.js')

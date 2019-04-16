@@ -1,5 +1,3 @@
-'use strict'
-
 const { pick } = require('../../../utils/functional/filter.js')
 
 const { getCurrentData } = require('./current_data')

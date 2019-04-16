@@ -1,5 +1,3 @@
-'use strict'
-
 const { getReason } = require('../../../errors/props.js')
 const {
   DEFAULT_FORMAT,

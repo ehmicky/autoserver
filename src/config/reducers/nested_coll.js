@@ -1,5 +1,3 @@
-'use strict'
-
 const { mapAttrs } = require('../helpers')
 
 // Copy `attr.type|description` to nested collections

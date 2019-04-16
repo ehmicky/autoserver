@@ -1,5 +1,3 @@
-'use strict'
-
 const { intersection } = require('../../../utils/functional/intersection.js')
 const { pick } = require('../../../utils/functional/filter.js')
 const { mapValues } = require('../../../utils/functional/map.js')

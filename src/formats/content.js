@@ -1,5 +1,3 @@
-'use strict'
-
 const { applyCompatParse, applyCompatSerialize } = require('./compat')
 
 // Generic parser, delegating to the format specified in `format`

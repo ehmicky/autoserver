@@ -1,5 +1,3 @@
-'use strict'
-
 const bytes = require('bytes')
 
 // Returns the main numerical limits of the engine.

@@ -1,5 +1,3 @@
-'use strict'
-
 const {
   Buffer: { byteLength },
 } = require('buffer')

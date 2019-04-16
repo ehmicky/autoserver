@@ -1,5 +1,3 @@
-'use strict'
-
 const { getRpc } = require('../get')
 
 const { findRoute } = require('./routes')

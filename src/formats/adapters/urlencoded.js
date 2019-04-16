@@ -1,5 +1,3 @@
-'use strict'
-
 const qs = require('qs')
 
 const { getLimits } = require('../../limits')

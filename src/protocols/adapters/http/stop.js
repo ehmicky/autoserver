@@ -1,5 +1,3 @@
-'use strict'
-
 const { promisify } = require('util')
 
 // Try a graceful server exit

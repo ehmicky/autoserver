@@ -1,5 +1,3 @@
-'use strict'
-
 const { runConfigFunc } = require('../../../functions/run.js')
 
 // Report log

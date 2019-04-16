@@ -1,5 +1,3 @@
-'use strict'
-
 const { get } = require('../../utils/functional/get_set.js')
 const { DEEP_OPERATORS } = require('../operators/main.js')
 

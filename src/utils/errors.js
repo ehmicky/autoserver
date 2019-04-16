@@ -1,5 +1,3 @@
-'use strict'
-
 // We want to enforce using throwError() when throwing exception
 // Therefore, we have ESLint rule no-throw enabled.
 // However, utils cannot use normal throwError() without circular

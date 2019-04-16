@@ -1,5 +1,3 @@
-'use strict'
-
 const { throwError } = require('../errors/main.js')
 
 const { parseRef, isRef } = require('./ref_parsing')

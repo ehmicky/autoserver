@@ -1,5 +1,3 @@
-'use strict'
-
 const { omit } = require('../utils/functional/filter.js')
 const { get, set } = require('../utils/functional/get_set.js')
 const { deepMerge } = require('../utils/functional/merge.js')

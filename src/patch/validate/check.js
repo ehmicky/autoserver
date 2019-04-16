@@ -1,5 +1,3 @@
-'use strict'
-
 const { decapitalize } = require('underscore.string')
 
 const { runConfigFunc } = require('../../functions/run.js')

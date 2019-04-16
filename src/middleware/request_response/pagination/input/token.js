@@ -1,5 +1,3 @@
-'use strict'
-
 const { pick, pickBy } = require('../../../../utils/functional/filter.js')
 const { mapValues } = require('../../../../utils/functional/map.js')
 const { isObject } = require('../../../../utils/functional/type.js')

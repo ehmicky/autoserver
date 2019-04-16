@@ -1,5 +1,3 @@
-'use strict'
-
 const { getParams } = require('../functions/params/values.js')
 const { reduceParams } = require('../functions/params/reduce.js')
 

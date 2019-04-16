@@ -1,5 +1,3 @@
-'use strict'
-
 const { throwPb } = require('../../errors/props.js')
 const { setWeakTimeout } = require('../../utils/timeout.js')
 const { getLimits } = require('../../limits')

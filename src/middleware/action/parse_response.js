@@ -1,5 +1,3 @@
-'use strict'
-
 // Add content type, and remove top-level key
 // Also add metadata
 const parseResponse = function({ response }) {

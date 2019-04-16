@@ -1,5 +1,3 @@
-'use strict'
-
 const { isObjectType } = require('../utils/functional/type.js')
 
 const REF_SYM = Symbol('ref')

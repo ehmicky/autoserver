@@ -1,5 +1,3 @@
-'use strict'
-
 const { logPerfEvent } = require('../../log/perf.js')
 
 // Event performance events related to the current request,

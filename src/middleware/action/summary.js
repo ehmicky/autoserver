@@ -1,5 +1,3 @@
-'use strict'
-
 const { isEqual } = require('../../utils/functional/equal.js')
 
 // Retrieves `summary`

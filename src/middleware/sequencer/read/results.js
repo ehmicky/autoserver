@@ -1,5 +1,3 @@
-'use strict'
-
 // Normalize results to an object with `path`, `model`, `collname`, `select`
 // Then push to shared `results` variable
 const processResults = function({

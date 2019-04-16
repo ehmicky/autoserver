@@ -1,5 +1,3 @@
-'use strict'
-
 const { isError } = require('../../../errors/main.js')
 
 // Rethrow original error

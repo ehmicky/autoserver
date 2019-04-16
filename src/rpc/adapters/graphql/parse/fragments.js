@@ -1,5 +1,3 @@
-'use strict'
-
 const { validateDuplicates } = require('./duplicates')
 
 // Retrieve GraphQL fragments

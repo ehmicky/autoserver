@@ -1,5 +1,3 @@
-'use strict'
-
 const { resolve } = require('path')
 
 const { printSchema } = require('graphql')

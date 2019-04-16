@@ -1,5 +1,3 @@
-'use strict'
-
 const { mapValues } = require('../../../utils/functional/map.js')
 const { throwPb } = require('../../../errors/props.js')
 const { throwError } = require('../../../errors/main.js')

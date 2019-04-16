@@ -1,5 +1,3 @@
-'use strict'
-
 const { decapitalize, capitalize } = require('underscore.string')
 
 const { throwError } = require('../errors/main.js')

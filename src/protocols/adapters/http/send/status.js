@@ -1,5 +1,3 @@
-'use strict'
-
 // All HTTP status codes, according to error reason
 const STATUS_CODE_MAP = {
   SUCCESS: 200,

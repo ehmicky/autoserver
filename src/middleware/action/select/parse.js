@@ -1,5 +1,3 @@
-'use strict'
-
 const { throwError } = require('../../../errors/main.js')
 const { uniq } = require('../../../utils/functional/uniq.js')
 const { addToActions } = require('../add_actions/add.js')

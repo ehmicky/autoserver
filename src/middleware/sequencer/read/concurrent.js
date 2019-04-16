@@ -1,5 +1,3 @@
-'use strict'
-
 const { difference } = require('../../../utils/functional/difference.js')
 const {
   extractSimpleIds,

@@ -1,5 +1,3 @@
-'use strict'
-
 const { getRpcByPath } = require('../../rpc/router/main.js')
 
 // Add route and URL parameters to mInput

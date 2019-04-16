@@ -1,5 +1,3 @@
-'use strict'
-
 // Returns a map from clientCollname to collname
 // Example: { my_name: 'my_coll', ... }
 const collsNames = function({ config: { collections } }) {

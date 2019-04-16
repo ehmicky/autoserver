@@ -1,5 +1,3 @@
-'use strict'
-
 const { v4: uuidv4 } = require('uuid')
 
 // Assigns unique ID (UUIDv4) to each request

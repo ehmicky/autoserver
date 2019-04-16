@@ -1,5 +1,3 @@
-'use strict'
-
 const { getAdapter } = require('../adapters/get.js')
 
 const { databaseAdapters } = require('./wrap')

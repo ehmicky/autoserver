@@ -1,5 +1,3 @@
-'use strict'
-
 const { isEqual } = require('../../../utils/functional/equal.js')
 
 // Retrieve `currentData` for `delete` and `patch` by running `find` commands,

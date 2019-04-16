@@ -1,5 +1,3 @@
-'use strict'
-
 const { mapAttrs } = require('../helpers')
 
 // From `type: string[]` or `type: my_coll`

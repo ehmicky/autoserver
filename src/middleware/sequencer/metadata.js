@@ -1,5 +1,3 @@
-'use strict'
-
 const { deepMerge } = require('../../utils/functional/merge.js')
 
 // Deep merge all results' metadata

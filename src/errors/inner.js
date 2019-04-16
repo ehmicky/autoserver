@@ -1,5 +1,3 @@
-'use strict'
-
 // Keep track of innererror
 const getInnerError = function({ stack: upperStack, ...opts }) {
   const { shallowInnerError, deepInnerError, innererror } = getInnerErrors({

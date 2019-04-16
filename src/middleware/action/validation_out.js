@@ -1,5 +1,3 @@
-'use strict'
-
 const { throwPb } = require('../../errors/props.js')
 const { CONTENT_TYPES } = require('../../content_types')
 

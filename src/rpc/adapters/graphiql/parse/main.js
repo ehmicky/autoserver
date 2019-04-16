@@ -1,5 +1,3 @@
-'use strict'
-
 const { renderGraphiql } = require('./render')
 
 // Render GraphiQL HTML file, i.e. GraphQL debugger

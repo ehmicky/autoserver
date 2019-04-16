@@ -1,5 +1,3 @@
-'use strict'
-
 // Extra:
 //  - value STR
 //  - suggestions STR_ARR

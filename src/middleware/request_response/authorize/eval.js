@@ -1,5 +1,3 @@
-'use strict'
-
 const { throwPb } = require('../../../errors/props.js')
 const { evalFilter } = require('../../../filter/eval.js')
 const { mapNodes } = require('../../../filter/crawl.js')

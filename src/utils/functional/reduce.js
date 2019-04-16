@@ -1,5 +1,3 @@
-'use strict'
-
 const { promiseThen } = require('./promise')
 
 // Like Array.reduce(), but supports async

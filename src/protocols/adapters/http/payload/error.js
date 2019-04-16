@@ -1,5 +1,3 @@
-'use strict'
-
 const { format: formatBytes } = require('bytes')
 
 const { throwPb } = require('../../../../errors/props.js')

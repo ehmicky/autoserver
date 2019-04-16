@@ -1,5 +1,3 @@
-'use strict'
-
 const { startPerf } = require('../../perf/measure.js')
 
 // Start the main performance counter, and add request timestamp

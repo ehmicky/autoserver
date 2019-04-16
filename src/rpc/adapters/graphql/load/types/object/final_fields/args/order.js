@@ -1,5 +1,3 @@
-'use strict'
-
 const { GraphQLString } = require('graphql')
 
 // `order` argument

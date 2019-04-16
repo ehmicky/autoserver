@@ -1,5 +1,3 @@
-'use strict'
-
 const { omitBy } = require('../../../utils/functional/filter.js')
 
 // Apply GraphQL-specific error response transformation

@@ -1,5 +1,3 @@
-'use strict'
-
 const { omit } = require('../../utils/functional/filter.js')
 const { parseFilter } = require('../../filter/parse/main.js')
 const { validateFilter } = require('../../filter/validate/main.js')

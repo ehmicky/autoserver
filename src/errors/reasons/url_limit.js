@@ -1,5 +1,3 @@
-'use strict'
-
 // Extra:
 //  - value NUM
 //  - limit NUM

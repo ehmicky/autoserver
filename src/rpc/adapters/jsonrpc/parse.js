@@ -1,5 +1,3 @@
-'use strict'
-
 const { validatePayload } = require('./validate')
 
 // Use JSON-RPC-specific logic to parse the request into an

@@ -1,5 +1,3 @@
-'use strict'
-
 const { checkObject } = require('./validate')
 const { isObject } = require('./type.js')
 

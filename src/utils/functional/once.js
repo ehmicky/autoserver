@@ -1,5 +1,3 @@
-'use strict'
-
 const { throwError } = require('../errors')
 
 // Enforces that a function is only called once

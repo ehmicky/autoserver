@@ -1,5 +1,3 @@
-'use strict'
-
 const { deepMerge } = require('../../utils/functional/merge.js')
 const { uniq } = require('../../utils/functional/uniq.js')
 const { getSumParams } = require('../../utils/sums.js')

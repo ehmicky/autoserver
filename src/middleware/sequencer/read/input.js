@@ -1,5 +1,3 @@
-'use strict'
-
 const { getParentResults, getParentIds } = require('./parent_results')
 const { validateMaxmodels } = require('./limits')
 

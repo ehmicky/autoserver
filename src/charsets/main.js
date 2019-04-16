@@ -1,5 +1,3 @@
-'use strict'
-
 const encodings = require('iconv-lite/encodings')
 
 const { omitBy } = require('../utils/functional/filter.js')

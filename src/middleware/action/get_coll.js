@@ -1,5 +1,3 @@
-'use strict'
-
 // Turn a `commandpath` into a `collname`, using config
 const getColl = function({
   commandpath,

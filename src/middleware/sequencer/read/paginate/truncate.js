@@ -1,5 +1,3 @@
-'use strict'
-
 // Truncate nested attributes to fit `nestedPagesize`
 // Append a `null` after truncating
 const truncateAttrs = function({ results, nestedAttrs, nestedPagesize }) {

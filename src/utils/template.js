@@ -1,5 +1,3 @@
-'use strict'
-
 const { render } = require('mustache')
 
 const { pReadFile } = require('./fs')

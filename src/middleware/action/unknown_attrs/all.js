@@ -1,5 +1,3 @@
-'use strict'
-
 const { throwError } = require('../../../errors/main.js')
 
 // Validate correct usage of special key 'all'

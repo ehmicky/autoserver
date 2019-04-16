@@ -1,5 +1,3 @@
-'use strict'
-
 // No compression
 const compress = function(content) {
   return content

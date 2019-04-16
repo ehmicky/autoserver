@@ -1,5 +1,3 @@
-'use strict'
-
 // `_set` patch operator
 const setOperator = {
   apply({ arg: opVal }) {

@@ -1,5 +1,3 @@
-'use strict'
-
 const { getShortcut } = require('../../helpers')
 
 // Gets a map of collections' attributes' aliases

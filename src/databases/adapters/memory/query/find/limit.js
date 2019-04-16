@@ -1,5 +1,3 @@
-'use strict'
-
 // Pagination limiting
 const limitResponse = function({ data, limit }) {
   if (limit === undefined) {

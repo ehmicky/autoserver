@@ -1,5 +1,3 @@
-'use strict'
-
 const { throwError } = require('../../errors/main.js')
 
 // Parse `args.order` from a string to an array of objects

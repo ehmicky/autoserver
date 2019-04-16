@@ -1,5 +1,3 @@
-'use strict'
-
 const { logEvent } = require('../../log/main.js')
 
 // Error handler, which sends final response, if server-side errors

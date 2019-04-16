@@ -1,5 +1,3 @@
-'use strict'
-
 const { attributesPlugin } = require('./attributes')
 
 // Plugin that adds default timestamps to each model:

@@ -1,5 +1,3 @@
-'use strict'
-
 const { isEqual } = require('../../utils/functional/equal.js')
 
 const { validateSameType, parseAsIs } = require('./common')

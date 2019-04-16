@@ -1,5 +1,3 @@
-'use strict'
-
 const { throwError } = require('../errors')
 
 const { isObject } = require('./type')

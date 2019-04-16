@@ -1,5 +1,3 @@
-'use strict'
-
 const { pReadFile, pWriteFile } = require('../utils/fs.js')
 
 const { parseContent, serializeContent } = require('./content')

@@ -1,5 +1,3 @@
-'use strict'
-
 const { deepMerge } = require('../../utils/functional/merge.js')
 const { PROTOCOL_DEFAULTS } = require('../../protocols/info.js')
 const { DEFAULT_DATABASE } = require('../../databases/get.js')

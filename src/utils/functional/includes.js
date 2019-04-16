@@ -1,5 +1,3 @@
-'use strict'
-
 const { isEqual } = require('./equal')
 
 const includes = function(arr, valA) {

@@ -1,5 +1,3 @@
-'use strict'
-
 const { omit } = require('../../utils/functional/filter.js')
 const { throwPb } = require('../../errors/props.js')
 const { mapColls } = require('../helpers')

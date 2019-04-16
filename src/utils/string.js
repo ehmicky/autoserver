@@ -1,5 +1,3 @@
-'use strict'
-
 const { toSentence } = require('underscore.string')
 
 // Turn ['a', 'b', 'c'] into 'a, b or c'

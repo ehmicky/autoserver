@@ -1,5 +1,3 @@
-'use strict'
-
 const { extname } = require('path')
 
 const { is: isType } = require('type-is')

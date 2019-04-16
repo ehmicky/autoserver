@@ -1,5 +1,3 @@
-'use strict'
-
 const { isSiblingValue, validateForbiddenOpts } = require('../siblings')
 const { DEEP_OPERATORS } = require('../operators/main.js')
 

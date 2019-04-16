@@ -1,5 +1,3 @@
-'use strict'
-
 const { isType } = require('../content_types')
 
 // Transform a response according to rpc syntax

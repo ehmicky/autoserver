@@ -1,5 +1,3 @@
-'use strict'
-
 const { invert } = require('../../../../utils/functional/invert.js')
 const { mapKeys } = require('../../../../utils/functional/map.js')
 
