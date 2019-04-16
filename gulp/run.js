@@ -1,26 +1,24 @@
-'use strict'
+import { promisify } from 'util'
 
-const { promisify } = require('util')
-
-const Nodemon = require('nodemon')
-const { exec } = require('gulp-execa')
+import Nodemon from 'nodemon'
+import { exec } from 'gulp-execa'
 
 const EXAMPLE_PATH = `${__dirname}/../examples/main.js`
 const SRC_PATH = `${__dirname}/../build/src`
 const BINARY_PATH = `${__dirname}/../build/src/bin/main.js`
 
 // We use this instead of requiring the application to test the CLI
-const runProd = () => exec(`node ${BINARY_PATH}`, { cwd: 'examples' })
+export const runProd = () => exec(`node ${BINARY_PATH}`, { cwd: 'examples' })
 
 // eslint-disable-next-line fp/no-mutation
 runProd.description = 'Run an example production server'
 
-const runDev = () => startNodemon(NODEMON_CONFIG)
+export const runDev = () => startNodemon(NODEMON_CONFIG)
 
 // eslint-disable-next-line fp/no-mutation
 runDev.description = 'Start an example dev server'
 
-const runDebug = () => startNodemon(DEBUG_NODEMON_CONFIG)
+export const runDebug = () => startNodemon(DEBUG_NODEMON_CONFIG)
 
 // eslint-disable-next-line fp/no-mutation
 runDebug.description = 'Start an example dev server in debug mode'
@@ -46,10 +44,4 @@ const NODEMON_CONFIG = {
 const DEBUG_NODEMON_CONFIG = {
   ...NODEMON_CONFIG,
   nodeArgs: ['--inspect-brk', '--stack-trace-limit=20'],
-}
-
-module.exports = {
-  runProd,
-  runDev,
-  runDebug,
 }
