@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 import { exit } from 'process'
 
-import instructions from '../main.js'
+// eslint-disable-next-line import/no-namespace
+import * as instructions from '../main.js'
 import { addErrorHandler } from '../errors/handler.js'
 
 import { parseInput } from './input.js'
@@ -11,6 +12,7 @@ const startCli = async function() {
   const measures = []
   const { instruction, opts } = parseInput({ measures })
 
+  // eslint-disable-next-line import/namespace
   await instructions[instruction]({ ...opts, measures })
 }
 
