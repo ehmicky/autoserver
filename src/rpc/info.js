@@ -1,6 +1,6 @@
-const { getNames } = require('../adapters/get.js')
+import { getNames } from '../adapters/get.js'
 
-const { RPC_ADAPTERS } = require('./adapters/main.js')
+import { RPC_ADAPTERS } from './adapters/main.js'
 
 const RPCS = getNames(RPC_ADAPTERS)
 

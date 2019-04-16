@@ -1,11 +1,11 @@
-const { omitBy } = require('../../../utils/functional/filter.js')
-const { fullRecurseMap } = require('../../../utils/functional/map.js')
-const { isObject } = require('../../../utils/functional/type.js')
-const { addGenErrorHandler } = require('../../../errors/handler.js')
-const { compile } = require('../../../validation/compile.js')
-const { validate } = require('../../../validation/validate.js')
+import { omitBy } from '../../../utils/functional/filter.js'
+import { fullRecurseMap } from '../../../utils/functional/map.js'
+import { isObject } from '../../../utils/functional/type.js'
+import { addGenErrorHandler } from '../../../errors/handler.js'
+import { compile } from '../../../validation/compile.js'
+import { validate } from '../../../validation/validate.js'
 
-const { SCHEMA } = require('./config_schema')
+import { SCHEMA } from './config_schema.js'
 
 // General config syntax validation
 const validateConfigSyntax = function({ config }) {

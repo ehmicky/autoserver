@@ -1,9 +1,9 @@
-const {
+import {
   SYSTEM_PARAMS,
   LATER_SYSTEM_PARAMS,
   POSITIONAL_PARAMS,
   TEMP_SYSTEM_PARAMS,
-} = require('./system')
+} from './system.js'
 
 // Retrieve parameters names
 const getParamsKeys = function({ config: { params = {} } }) {

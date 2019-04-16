@@ -1,13 +1,13 @@
-const { reduceAsync } = require('../utils/functional/reduce.js')
-const { monitor } = require('../perf/helpers.js')
-const { addErrorHandler } = require('../errors/handler.js')
+import { reduceAsync } from '../utils/functional/reduce.js'
+import { monitor } from '../perf/helpers.js'
+import { addErrorHandler } from '../errors/handler.js'
 
-const { middlewareLayers } = require('./layers')
-const {
+import { middlewareLayers } from './layers.js'
+import {
   fireMiddlewareHandler,
   fireMainLayersHandler,
   fireErrorHandler,
-} = require('./error/main.js')
+} from './error/main.js'
 
 // Called once per server startup
 const getRequestHandler = function() {

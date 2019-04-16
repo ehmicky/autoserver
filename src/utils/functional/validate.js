@@ -1,6 +1,6 @@
-const { throwError } = require('../errors')
+import { throwError } from '../errors.js'
 
-const { isObject } = require('./type')
+import { isObject } from './type.js'
 
 const checkObject = function(obj) {
   if (isObject(obj)) {

@@ -1,5 +1,5 @@
-const { validateArray } = require('./common')
-const { _and: and } = require('./or_and')
+import { validateArray } from './common.js'
+import { _and as and } from './or_and.js'
 
 const parseSomeAll = function({ value, parseOperations }) {
   return parseOperations({ operations: value })
@@ -39,17 +39,22 @@ const arrayMatcher = function({
   return and.eval({ attrs: attr, value: valueA, partialNames, evalFilter })
 }
 
+// eslint-disable-next-line no-underscore-dangle
+const _some = {
+  parse: parseSomeAll,
+  optimize: optimizeSomeAll,
+  validate: validateArray,
+  eval: evalSome,
+}
+// eslint-disable-next-line no-underscore-dangle
+const _all = {
+  parse: parseSomeAll,
+  optimize: optimizeSomeAll,
+  validate: validateArray,
+  eval: evalAll,
+}
+
 module.exports = {
-  _some: {
-    parse: parseSomeAll,
-    optimize: optimizeSomeAll,
-    validate: validateArray,
-    eval: evalSome,
-  },
-  _all: {
-    parse: parseSomeAll,
-    optimize: optimizeSomeAll,
-    validate: validateArray,
-    eval: evalAll,
-  },
+  _some,
+  _all,
 }

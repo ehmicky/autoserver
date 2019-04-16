@@ -1,4 +1,4 @@
-const { throwError } = require('../../errors/main.js')
+import { throwError } from '../../errors/main.js'
 
 // Parse `args.order` from a string to an array of objects
 // E.g. 'a,b+,c-' would become:

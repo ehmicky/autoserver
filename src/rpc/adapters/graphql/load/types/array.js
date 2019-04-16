@@ -1,4 +1,4 @@
-const { GraphQLList } = require('graphql')
+import { GraphQLList } from 'graphql'
 
 const graphqlArrayTest = function({ arrayWrapped, command, isArray }) {
   // Already wrapped in Array type

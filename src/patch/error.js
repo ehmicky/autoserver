@@ -1,4 +1,4 @@
-const { OPERATORS } = require('./operators/main.js')
+import { OPERATORS } from './operators/main.js'
 
 // Properties of errors during `patch`
 // We want to differentiate between errors due to engine bug or wrong config

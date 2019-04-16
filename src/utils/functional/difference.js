@@ -1,4 +1,4 @@
-const { includes } = require('./includes')
+import { includes } from './includes.js'
 
 // Like Lodash difference()
 const difference = function(arrA, arrB) {

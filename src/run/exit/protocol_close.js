@@ -1,4 +1,4 @@
-const { wrapCloseFunc } = require('./wrapper')
+import { wrapCloseFunc } from './wrapper.js'
 
 // Attempts to close server
 // No new connections will be accepted, but we will wait for ongoing ones to end

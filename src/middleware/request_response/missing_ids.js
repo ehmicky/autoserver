@@ -1,10 +1,10 @@
 /* eslint-disable max-lines */
-const { difference } = require('../../utils/functional/difference.js')
-const { throwPb } = require('../../errors/props.js')
-const {
+import { difference } from '../../utils/functional/difference.js'
+import { throwPb } from '../../errors/props.js'
+import {
   extractSimpleIds,
   getSimpleFilter,
-} = require('../../filter/simple_id.js')
+} from '../../filter/simple_id.js'
 
 // Check if any `id` was not found (404) or was unauthorized (403)
 const validateMissingIds = function(

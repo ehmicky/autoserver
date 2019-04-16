@@ -1,4 +1,4 @@
-const { applyCompatParse, applyCompatSerialize } = require('./compat')
+import { applyCompatParse, applyCompatSerialize } from './compat.js'
 
 // Generic parser, delegating to the format specified in `format`
 const parseContent = function(

@@ -1,5 +1,5 @@
-const { includes } = require('./includes')
-const { uniq } = require('./uniq')
+import { includes } from './includes.js'
+import { uniq } from './uniq.js'
 
 // Like Lodash intersection()
 const intersection = function(arrA, arrB, ...arrays) {

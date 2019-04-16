@@ -1,4 +1,4 @@
-const { GraphQLNonNull } = require('graphql')
+import { GraphQLNonNull } from 'graphql'
 
 // Returns whether a field is required
 const graphqlRequiredTest = function(def, opts) {

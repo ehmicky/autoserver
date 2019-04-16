@@ -1,4 +1,4 @@
-const { getClientIp } = require('request-ip')
+import { getClientIp } from 'request-ip'
 
 // Retrieves request IP.
 // Tries, in order:

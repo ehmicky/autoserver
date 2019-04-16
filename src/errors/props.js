@@ -1,7 +1,7 @@
-const { decapitalize } = require('underscore.string')
+import { decapitalize } from 'underscore.string'
 
-const { createError } = require('./main')
-const { REASONS } = require('./reasons/main.js')
+import { createError } from './main.js'
+import { REASONS } from './reasons/main.js'
 
 // Throw exception for a specific error reason
 const throwPb = function({ message, messageInput, ...opts } = {}) {

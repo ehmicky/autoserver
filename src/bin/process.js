@@ -1,10 +1,10 @@
-const { omit } = require('../utils/functional/filter.js')
-const { recurseMap, fullRecurseMap } = require('../utils/functional/map.js')
-const { isObject } = require('../utils/functional/type.js')
-const { transtype } = require('../utils/transtype.js')
-const { throwPb } = require('../errors/props.js')
+import { omit } from '../utils/functional/filter.js'
+import { recurseMap, fullRecurseMap } from '../utils/functional/map.js'
+import { isObject } from '../utils/functional/type.js'
+import { transtype } from '../utils/transtype.js'
+import { throwPb } from '../errors/props.js'
 
-const { availableInstructions } = require('./available')
+import { availableInstructions } from './available.js'
 
 // Process options after parsing
 const processOpts = function({ opts }) {

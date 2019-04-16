@@ -1,6 +1,6 @@
-const { wrapAdapters } = require('../adapters/wrap.js')
+import { wrapAdapters } from '../adapters/wrap.js'
 
-const { LOG_ADAPTERS } = require('./adapters/main.js')
+import { LOG_ADAPTERS } from './adapters/main.js'
 
 const members = ['name', 'title', 'report', 'reportPerf', 'getOpts']
 

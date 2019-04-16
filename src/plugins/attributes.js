@@ -1,12 +1,12 @@
-const pluralize = require('pluralize')
+import pluralize from 'pluralize'
 
-const { intersection } = require('../utils/functional/intersection.js')
-const { mapValues } = require('../utils/functional/map.js')
-const { getWordsList } = require('../utils/string.js')
-const { addGenErrorHandler } = require('../errors/handler.js')
-const { throwError } = require('../errors/main.js')
-const { compile } = require('../validation/compile.js')
-const { validate } = require('../validation/validate.js')
+import { intersection } from '../utils/functional/intersection.js'
+import { mapValues } from '../utils/functional/map.js'
+import { getWordsList } from '../utils/string.js'
+import { addGenErrorHandler } from '../errors/handler.js'
+import { throwError } from '../errors/main.js'
+import { compile } from '../validation/compile.js'
+import { validate } from '../validation/validate.js'
 
 // Generic plugin factory
 // It adds attributes to each collection, using `getAttributes(pluginOpts)`

@@ -1,4 +1,4 @@
-const { runConfigFunc } = require('../../../functions/run.js')
+import { runConfigFunc } from '../../../functions/run.js'
 
 // Report log
 const report = function({ opts: { report: configFunc }, configFuncInput }) {

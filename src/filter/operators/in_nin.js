@@ -1,6 +1,6 @@
-const { throwAttrValError } = require('../error')
+import { throwAttrValError } from '../error.js'
 
-const { parseAsIs, validateNotArray, validateSameType } = require('./common')
+import { parseAsIs, validateNotArray, validateSameType } from './common.js'
 
 const validateInNin = function({ value, type, attr, throwErr }) {
   validateNotArray({ type, attr, throwErr })
@@ -22,15 +22,12 @@ const evalNin = function({ attr, value }) {
   return !value.includes(attr)
 }
 
+// eslint-disable-next-line no-underscore-dangle
+const _in = { parse: parseAsIs, validate: validateInNin, eval: evalIn }
+// eslint-disable-next-line no-underscore-dangle
+const _nin = { parse: parseAsIs, validate: validateInNin, eval: evalNin }
+
 module.exports = {
-  _in: {
-    parse: parseAsIs,
-    validate: validateInNin,
-    eval: evalIn,
-  },
-  _nin: {
-    parse: parseAsIs,
-    validate: validateInNin,
-    eval: evalNin,
-  },
+  _in,
+  _nin,
 }

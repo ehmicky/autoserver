@@ -1,7 +1,7 @@
-const { getThrowErr } = require('../error')
+import { getThrowErr } from '../error.js'
 
-const { parseOperation } = require('./operations')
-const { optimizeFilter } = require('./optimize')
+import { parseOperation } from './operations.js'
+import { optimizeFilter } from './optimize.js'
 
 // Parse `args.filter` and `coll.authorize` format
 // Syntax:

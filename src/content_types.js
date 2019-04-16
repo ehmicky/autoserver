@@ -1,4 +1,4 @@
-const { isObject } = require('./utils/functional/type.js')
+import { isObject } from './utils/functional/type.js'
 
 const CONTENT_TYPES = {
   model: {

@@ -1,8 +1,8 @@
-const { throwPb } = require('../../errors/props.js')
-const { parsePatchOp } = require('../parse')
+import { throwPb } from '../../errors/props.js'
+import { parsePatchOp } from '../parse.js'
 
-const { PRE_VALIDATORS } = require('./pre_validators')
-const { POST_VALIDATORS } = require('./post_validators')
+import { PRE_VALIDATORS } from './pre_validators.js'
+import { POST_VALIDATORS } from './post_validators.js'
 
 // Validate patch operation has valid syntax, during args.data parsing
 const preValidate = function({

@@ -1,5 +1,5 @@
-const { report } = require('./report')
-const { opts } = require('./opts')
+import { report } from './report.js'
+import { opts } from './opts.js'
 
 const logCustom = {
   name: 'custom',

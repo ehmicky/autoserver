@@ -1,5 +1,5 @@
-const { getWordsList } = require('../../utils/string.js')
-const { mapAttrs } = require('../helpers')
+import { getWordsList } from '../../utils/string.js'
+import { mapAttrs } from '../helpers.js'
 
 // Add related `attr.description`, for the following features:
 // `attr.readonly`, `attr.value`, `attr.examples`, `attr.alias`

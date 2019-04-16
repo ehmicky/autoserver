@@ -1,6 +1,6 @@
-const { getAdapter } = require('../adapters/get.js')
+import { getAdapter } from '../adapters/get.js'
 
-const { rpcAdapters } = require('./wrap')
+import { rpcAdapters } from './wrap.js'
 
 // Retrieves rpc adapter
 const getRpc = function(key) {

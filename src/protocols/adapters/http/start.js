@@ -1,5 +1,5 @@
-const http = require('http')
-const { promisify } = require('util')
+import http from 'http'
+import { promisify } from 'util'
 
 // Start HTTP server
 const startServer = function({

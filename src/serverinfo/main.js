@@ -1,10 +1,10 @@
-const { pid } = require('process')
+import { pid } from 'process'
 
-const moize = require('moize').default
+import moize from 'moize'
 
-const { getHostInfo } = require('./host')
-const { getVersionsInfo } = require('./versions')
-const { getProcessInfo } = require('./process')
+import { getHostInfo } from './host.js'
+import { getVersionsInfo } from './versions.js'
+import { getProcessInfo } from './process.js'
 
 // Retrieve process-specific and host-specific information
 const mGetServerinfo = function({ config: { name: processName } = {} }) {

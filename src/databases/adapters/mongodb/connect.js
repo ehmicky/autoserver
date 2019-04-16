@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb')
+import { MongoClient } from 'mongodb'
 
 // Starts connection
 const connect = async function({

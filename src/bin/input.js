@@ -1,9 +1,9 @@
-const yargs = require('yargs')
+import yargs from 'yargs'
 
-const { monitor } = require('../perf/helpers.js')
+import { monitor } from '../perf/helpers.js'
 
-const { addInstructions } = require('./instructions')
-const { processOpts } = require('./process')
+import { addInstructions } from './instructions.js'
+import { processOpts } from './process.js'
 
 // CLI input parsing
 const parseInput = function() {

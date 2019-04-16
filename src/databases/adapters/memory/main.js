@@ -1,10 +1,10 @@
-const { features } = require('./features')
-const { disconnect } = require('./disconnect')
-const { connect } = require('./connect')
-const { query } = require('./query/main.js')
-const { check } = require('./check')
-const { defaults } = require('./defaults')
-const { opts } = require('./opts')
+import { features } from './features.js'
+import { disconnect } from './disconnect.js'
+import { connect } from './connect.js'
+import { query } from './query/main.js'
+import { check } from './check.js'
+import { defaults } from './defaults.js'
+import { opts } from './opts.js'
 
 const memory = {
   name: 'memory',

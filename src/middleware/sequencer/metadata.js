@@ -1,4 +1,4 @@
-const { deepMerge } = require('../../utils/functional/merge.js')
+import { deepMerge } from '../../utils/functional/merge.js'
 
 // Deep merge all results' metadata
 const mergeMetadata = function({ results, metadata }) {

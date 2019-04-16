@@ -1,33 +1,33 @@
-const { SUCCESS } = require('./success.js')
-const { VALIDATION } = require('./validation.js')
-const { ABORTED } = require('./aborted.js')
-const { AUTHORIZATION } = require('./authorization.js')
-const { ROUTE } = require('./route.js')
-const { NOT_FOUND } = require('./not_found.js')
-const { METHOD } = require('./method.js')
-const { COMMAND } = require('./command.js')
-const {
+import { SUCCESS } from './success.js'
+import { VALIDATION } from './validation.js'
+import { ABORTED } from './aborted.js'
+import { AUTHORIZATION } from './authorization.js'
+import { ROUTE } from './route.js'
+import { NOT_FOUND } from './not_found.js'
+import { METHOD } from './method.js'
+import { COMMAND } from './command.js'
+import {
   REQUEST_NEGOTIATION,
   RESPONSE_NEGOTIATION,
-} = require('./negotiation.js')
-const { TIMEOUT } = require('./timeout.js')
-const { CONFLICT } = require('./conflict.js')
-const { NO_CONTENT_LENGTH } = require('./no_content_length.js')
-const { PAYLOAD_LIMIT } = require('./payload_limit.js')
-const { URL_LIMIT } = require('./url_limit.js')
-const { CONFIG_VALIDATION } = require('./config_validation.js')
-const { CONFIG_RUNTIME } = require('./config_runtime.js')
-const { FORMAT } = require('./format.js')
-const { CHARSET } = require('./charset.js')
-const { PROTOCOL } = require('./protocol.js')
-const { RPC } = require('./rpc.js')
-const { DATABASE } = require('./database.js')
-const { LOG } = require('./log.js')
-const { COMPRESS } = require('./compress.js')
-const { PLUGIN } = require('./plugin.js')
-const { ENGINE } = require('./engine.js')
+} from './negotiation.js'
+import { TIMEOUT } from './timeout.js'
+import { CONFLICT } from './conflict.js'
+import { NO_CONTENT_LENGTH } from './no_content_length.js'
+import { PAYLOAD_LIMIT } from './payload_limit.js'
+import { URL_LIMIT } from './url_limit.js'
+import { CONFIG_VALIDATION } from './config_validation.js'
+import { CONFIG_RUNTIME } from './config_runtime.js'
+import { FORMAT } from './format.js'
+import { CHARSET } from './charset.js'
+import { PROTOCOL } from './protocol.js'
+import { RPC } from './rpc.js'
+import { DATABASE } from './database.js'
+import { LOG } from './log.js'
+import { COMPRESS } from './compress.js'
+import { PLUGIN } from './plugin.js'
+import { ENGINE } from './engine.js'
 // eslint-disable-next-line import/max-dependencies
-const { UNKNOWN } = require('./unknown.js')
+import { UNKNOWN } from './unknown.js'
 
 // List of error reasons.
 // Keys are the exception.reason of the exception thrown

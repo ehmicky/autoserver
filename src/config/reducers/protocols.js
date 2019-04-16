@@ -1,6 +1,6 @@
-const { PROTOCOL_OPTS } = require('../../protocols/info.js')
+import { PROTOCOL_OPTS } from '../../protocols/info.js'
 
-const { validateAdaptersOpts } = require('./adapter_opts')
+import { validateAdaptersOpts } from './adapter_opts.js'
 
 // Validates `protocols.PROTOCOL.*`
 const validateProtocols = function({ config: { protocols } }) {

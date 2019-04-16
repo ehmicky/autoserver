@@ -1,6 +1,6 @@
-const { throwPb } = require('../../errors/props.js')
-const { setWeakTimeout } = require('../../utils/timeout.js')
-const { getLimits } = require('../../limits')
+import { throwPb } from '../../errors/props.js'
+import { setWeakTimeout } from '../../utils/timeout.js'
+import { getLimits } from '../../limits.js'
 
 // Make request fail after some timeout
 const setRequestTimeout = function({ mInput, config }, nextLayer) {

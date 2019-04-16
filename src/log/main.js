@@ -1,10 +1,10 @@
-const { addErrorHandler } = require('../errors/handler.js')
-const { createPb } = require('../errors/props.js')
-const { normalizeError } = require('../errors/main.js')
+import { addErrorHandler } from '../errors/handler.js'
+import { createPb } from '../errors/props.js'
+import { normalizeError } from '../errors/main.js'
 
-const { getLogParams } = require('./params')
-const { LEVELS, DEFAULT_LOGGER } = require('./constants')
-const { getLog } = require('./get')
+import { getLogParams } from './params.js'
+import { LEVELS, DEFAULT_LOGGER } from './constants.js'
+import { getLog } from './get.js'
 
 // Log some event, including printing to console
 // `config.log` might be `undefined` if the error happened at startup time.

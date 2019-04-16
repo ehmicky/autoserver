@@ -1,9 +1,9 @@
-const process = require('process')
+import process from 'process'
 
 // Avoid requiring `signal-exit` directly as it adds a global EventEmitter
-const EXIT_SIGNALS = require('signal-exit/signals')
+import EXIT_SIGNALS from 'signal-exit/signals'
 
-const { gracefulExit } = require('./graceful_exit')
+import { gracefulExit } from './graceful_exit.js'
 
 // Make sure the server stops when graceful exits are possible
 // Also send related events

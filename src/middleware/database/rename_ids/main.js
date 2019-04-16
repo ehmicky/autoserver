@@ -1,9 +1,9 @@
-const { pickBy } = require('../../../utils/functional/filter.js')
-const { mapValues } = require('../../../utils/functional/map.js')
+import { pickBy } from '../../../utils/functional/filter.js'
+import { mapValues } from '../../../utils/functional/map.js'
 
-const { renameData } = require('./data')
-const { renameFilter } = require('./filter')
-const { renameOrder } = require('./order')
+import { renameData } from './data.js'
+import { renameFilter } from './filter.js'
+import { renameOrder } from './order.js'
 
 // Some databases require a specific name for `id`, e.g. `_id` for MongoDB.
 // This is a translation layer that modifies `id` name inside and outside of

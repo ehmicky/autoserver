@@ -1,9 +1,9 @@
-const { chdir } = require('process')
-const { promisify } = require('util')
+import { chdir } from 'process'
+import { promisify } from 'util'
 
-const test = require('ava')
-const execa = require('execa')
-const fetch = require('cross-fetch')
+import test from 'ava'
+import execa from 'execa'
+import fetch from 'cross-fetch'
 
 const pSetTimeout = promisify(setTimeout)
 

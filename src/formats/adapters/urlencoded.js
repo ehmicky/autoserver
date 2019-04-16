@@ -1,6 +1,6 @@
-const qs = require('qs')
+import qs from 'qs'
 
-const { getLimits } = require('../../limits')
+import { getLimits } from '../../limits.js'
 
 // Parse x-www-form-urlencoded, e.g. used in query strings
 // Can use the following notations:

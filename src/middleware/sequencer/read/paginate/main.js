@@ -1,6 +1,6 @@
-const { getNestedAttrs } = require('./attr')
-const { getNestedPagesize } = require('./pagesize')
-const { truncateAttrs } = require('./truncate')
+import { getNestedAttrs } from './attr.js'
+import { getNestedPagesize } from './pagesize.js'
+import { truncateAttrs } from './truncate.js'
 
 // Paginates nested find commands, to ensure response does not hit `maxmodels`
 // limit

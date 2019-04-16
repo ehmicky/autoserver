@@ -1,7 +1,7 @@
-const { monitor } = require('../perf/helpers.js')
-const { logEvent } = require('../log/main.js')
-const { getProtocol } = require('../protocols/get.js')
-const { PROTOCOLS } = require('../protocols/info.js')
+import { monitor } from '../perf/helpers.js'
+import { logEvent } from '../log/main.js'
+import { getProtocol } from '../protocols/get.js'
+import { PROTOCOLS } from '../protocols/info.js'
 
 // Launch the server for each protocol
 const launchProtocols = async function(options) {

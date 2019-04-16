@@ -1,5 +1,5 @@
-const { applyDataAliases } = require('./data')
-const { applyOrderAliases } = require('./order')
+import { applyDataAliases } from './data.js'
+import { applyOrderAliases } from './order.js'
 
 // Apply `alias` in server input
 const applyInputAliases = function({ args, modelAliases }) {

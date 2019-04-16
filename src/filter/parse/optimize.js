@@ -1,5 +1,5 @@
-const { getOperator } = require('../operators/main.js')
-const { mapNodes } = require('../crawl')
+import { getOperator } from '../operators/main.js'
+import { mapNodes } from '../crawl.js'
 
 // Try to simplify AST
 const optimizeFilter = function({ filter }) {

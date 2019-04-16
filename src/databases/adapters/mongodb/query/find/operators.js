@@ -1,6 +1,6 @@
-const { isObject } = require('../../../../../utils/functional/type.js')
+import { isObject } from '../../../../../utils/functional/type.js'
 
-const { getSiblingNode } = require('./siblings')
+import { getSiblingNode } from './siblings.js'
 
 // Transform `args.filter` into MongoDB query object
 // Applied recursively

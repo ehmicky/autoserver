@@ -11,7 +11,7 @@
 // Notice that a new measure is returned after each call, the passed measure
 // is not modified.
 
-const { hrtime } = require('process')
+import { hrtime } from 'process'
 
 // Start a new measure
 const startPerf = function(label, category = 'default') {

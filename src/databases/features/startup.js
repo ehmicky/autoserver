@@ -1,6 +1,6 @@
-const { difference } = require('../../utils/functional/difference.js')
-const { getWordsList } = require('../../utils/string.js')
-const { getFeatures } = require('../../filter/features.js')
+import { difference } from '../../utils/functional/difference.js'
+import { getWordsList } from '../../utils/string.js'
+import { getFeatures } from '../../filter/features.js'
 
 // Startup time adapter features validation
 const validateStartupFeatures = function({ name, features }, { coll }) {

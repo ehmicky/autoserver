@@ -1,10 +1,10 @@
-const { cwd } = require('process')
-const { resolve, isAbsolute } = require('path')
+import { cwd } from 'process'
+import { resolve, isAbsolute } from 'path'
 
-const { addGenErrorHandler } = require('../../../errors/handler.js')
-const { throwError } = require('../../../errors/main.js')
-const { pReaddir } = require('../../../utils/fs.js')
-const { getByExt } = require('../../../formats/get.js')
+import { addGenErrorHandler } from '../../../errors/handler.js'
+import { throwError } from '../../../errors/main.js'
+import { pReaddir } from '../../../utils/fs.js'
+import { getByExt } from '../../../formats/get.js'
 
 // Retrieves final config path to use
 const getConfPath = async function({ envConfigPath, configPath }) {

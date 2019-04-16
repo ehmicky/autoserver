@@ -1,9 +1,9 @@
-const { includes } = require('../../utils/functional/includes.js')
-const { uniq } = require('../../utils/functional/uniq.js')
-const { throwError } = require('../../errors/main.js')
+import { includes } from '../../utils/functional/includes.js'
+import { uniq } from '../../utils/functional/uniq.js'
+import { throwError } from '../../errors/main.js'
 
-const { getColl } = require('./get_coll')
-const { addActions } = require('./add_actions/merge.js')
+import { getColl } from './get_coll.js'
+import { addActions } from './add_actions/merge.js'
 
 // Parse `args.populate|cascade` into a set of nested `actions`
 const parsePopulateCascade = function({ actions, ...rest }) {

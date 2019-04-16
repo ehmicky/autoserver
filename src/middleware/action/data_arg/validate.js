@@ -1,8 +1,8 @@
-const { Buffer } = require('buffer')
+import { Buffer } from 'buffer'
 
-const { isObject } = require('../../../utils/functional/type.js')
-const { throwError } = require('../../../errors/main.js')
-const { isPatchOp } = require('../../../patch/parse.js')
+import { isObject } from '../../../utils/functional/type.js'
+import { throwError } from '../../../errors/main.js'
+import { isPatchOp } from '../../../patch/parse.js'
 
 const { byteLength } = Buffer
 

@@ -1,5 +1,5 @@
-const { mapNodes } = require('../../../filter/crawl.js')
-const { isSiblingValue } = require('../../../filter/siblings.js')
+import { mapNodes } from '../../../filter/crawl.js'
+import { isSiblingValue } from '../../../filter/siblings.js'
 
 // Modify `args.filter`
 const renameFilter = function({ value, newIdName, oldIdName }) {

@@ -1,6 +1,6 @@
-const { render } = require('mustache')
+import { render } from 'mustache'
 
-const { pReadFile } = require('./fs')
+import { pReadFile } from './fs.js'
 
 const renderTemplate = async function({ template, data }) {
   const htmlFile = await pReadFile(template, { encoding: 'utf-8' })

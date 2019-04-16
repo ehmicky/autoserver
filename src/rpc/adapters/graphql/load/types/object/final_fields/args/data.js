@@ -1,6 +1,6 @@
-const { GraphQLNonNull, GraphQLList } = require('graphql')
+import { GraphQLNonNull, GraphQLList } from 'graphql'
 
-const { getArgTypeDescription } = require('../../../../description')
+import { getArgTypeDescription } from '../../../../description.js'
 
 // `data` argument
 const getDataArgument = function(def, opts) {

@@ -1,7 +1,7 @@
-const { uniq } = require('../../../utils/functional/uniq.js')
-const { throwError } = require('../../../errors/main.js')
+import { uniq } from '../../../utils/functional/uniq.js'
+import { throwError } from '../../../errors/main.js'
 
-const { validateAllAttr } = require('./all')
+import { validateAllAttr } from './all.js'
 
 // Validate that attributes in `args.select|data|order` are in the
 // config.

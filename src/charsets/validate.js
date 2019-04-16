@@ -1,4 +1,4 @@
-const { encodingExists } = require('iconv-lite')
+import { encodingExists } from 'iconv-lite'
 
 // Validate `charset` name is valid
 const validateCharset = function({ charset, format }) {

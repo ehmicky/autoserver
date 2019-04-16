@@ -1,4 +1,4 @@
-const { mapAttrs } = require('../helpers')
+import { mapAttrs } from '../helpers.js'
 
 // From `type: string[]` or `type: my_coll`
 // to `type: string, isArray: true` or `target: my_coll, isArray: false`

@@ -1,7 +1,7 @@
-const { shouldCompress } = require('../../../compress/info.js')
-const { DEFAULT_ALGO } = require('../../../compress/get.js')
+import { shouldCompress } from '../../../compress/info.js'
+import { DEFAULT_ALGO } from '../../../compress/get.js'
 
-const { TYPES } = require('./types')
+import { TYPES } from './types.js'
 
 // Response body compression
 const compressContent = async function({

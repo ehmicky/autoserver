@@ -1,4 +1,4 @@
-const { handleTransforms } = require('./common')
+import { handleTransforms } from './common.js'
 
 // Apply `attr.default` only on model creation (on `create` or `upsert`),
 // and the attribute is missing

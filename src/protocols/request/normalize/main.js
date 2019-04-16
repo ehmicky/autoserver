@@ -1,6 +1,6 @@
-const { isObject } = require('../../../utils/functional/type.js')
+import { isObject } from '../../../utils/functional/type.js'
 
-const { normalizePartialProtocol } = require('./partial')
+import { normalizePartialProtocol } from './partial.js'
 
 // Normalize parameters created during protocol layer
 const protocolNormalization = function({

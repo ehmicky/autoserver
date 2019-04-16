@@ -1,10 +1,10 @@
-const { addGenErrorHandler } = require('../errors/handler.js')
-const { set } = require('../utils/functional/get_set.js')
-const { getValues } = require('../utils/functional/values.js')
+import { addGenErrorHandler } from '../errors/handler.js'
+import { set } from '../utils/functional/get_set.js'
+import { getValues } from '../utils/functional/values.js'
 
-const { getParamsKeys } = require('./params/keys.js')
-const { isInlineFunc, isEscapedInlineFunc } = require('./test')
-const { getInlineFunc } = require('./tokenize')
+import { getParamsKeys } from './params/keys.js'
+import { isInlineFunc, isEscapedInlineFunc } from './test.js'
+import { getInlineFunc } from './tokenize.js'
 
 // Create all config inline functions, i.e. apply `new Function()`
 const createInlineFuncs = function({ config }) {

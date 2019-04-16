@@ -1,5 +1,5 @@
-const { pickBy } = require('../utils/functional/filter.js')
-const { mapValues } = require('../utils/functional/map.js')
+import { pickBy } from '../utils/functional/filter.js'
+import { mapValues } from '../utils/functional/map.js'
 
 // Apply a mapping function on each collection
 const mapColls = function(func, { config, config: { collections } }) {

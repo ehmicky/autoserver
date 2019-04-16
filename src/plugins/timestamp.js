@@ -1,4 +1,4 @@
-const { attributesPlugin } = require('./attributes')
+import { attributesPlugin } from './attributes.js'
 
 // Plugin that adds default timestamps to each model:
 //   created_time {string} - set on model creation

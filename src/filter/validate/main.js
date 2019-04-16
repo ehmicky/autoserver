@@ -1,10 +1,10 @@
-const { crawlAttrs } = require('../crawl')
-const { getThrowErr } = require('../error')
-const { getOperator } = require('../operators/main.js')
+import { crawlAttrs } from '../crawl.js'
+import { getThrowErr } from '../error.js'
+import { getOperator } from '../operators/main.js'
 
-const { getDeepAttr } = require('./attr')
-const { getSiblingValue } = require('./siblings')
-const { validators } = require('./validators')
+import { getDeepAttr } from './attr.js'
+import { getSiblingValue } from './siblings.js'
+import { validators } from './validators.js'
 
 // `attrs` must be `{ collname: { attrName:
 // { type: 'string|number|integer|boolean', isArray: true|false } } }`

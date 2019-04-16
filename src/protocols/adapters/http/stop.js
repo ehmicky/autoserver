@@ -1,4 +1,4 @@
-const { promisify } = require('util')
+import { promisify } from 'util'
 
 // Try a graceful server exit
 const stopServer = function({ server }) {

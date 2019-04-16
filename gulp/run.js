@@ -1,7 +1,7 @@
-const { promisify } = require('util')
+import { promisify } from 'util'
 
-const Nodemon = require('nodemon')
-const { exec } = require('gulp-execa')
+import Nodemon from 'nodemon'
+import { exec } from 'gulp-execa'
 
 const EXAMPLE_PATH = `${__dirname}/../examples/main.js`
 const SRC_PATH = `${__dirname}/../build/src`

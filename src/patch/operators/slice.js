@@ -1,4 +1,4 @@
-const { ANY_ARRAY } = require('./array')
+import { ANY_ARRAY } from './array.js'
 
 const checkSlice = function({ arg: opVal }) {
   if (opVal.length <= 2) {

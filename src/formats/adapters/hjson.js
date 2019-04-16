@@ -1,4 +1,4 @@
-const { parse: hjsonParse, stringify: hjsonStringify } = require('hjson')
+import { parse as hjsonParse, stringify as hjsonStringify } from 'hjson'
 
 // Parses a HJSON file
 const parse = function({ content }) {

@@ -1,6 +1,6 @@
-const { mapValues } = require('../../utils/functional/map.js')
-const { isObjectType } = require('../../utils/functional/type.js')
-const { throwError } = require('../../errors/main.js')
+import { mapValues } from '../../utils/functional/map.js'
+import { isObjectType } from '../../utils/functional/type.js'
+import { throwError } from '../../errors/main.js'
 
 // There should be no circular references.
 // They may be introduced by e.g. dereferencing JSON references `$ref`

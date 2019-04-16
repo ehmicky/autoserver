@@ -1,4 +1,4 @@
-const { isError } = require('../../../errors/main.js')
+import { isError } from '../../../errors/main.js'
 
 // Rethrow original error
 const rethrowFailure = function({ failedActions: [error], results }) {

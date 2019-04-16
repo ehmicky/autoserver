@@ -1,4 +1,4 @@
-const { omitBy } = require('../../../utils/functional/filter.js')
+import { omitBy } from '../../../utils/functional/filter.js'
 
 // Apply GraphQL-specific error response transformation
 const transformSuccess = function({

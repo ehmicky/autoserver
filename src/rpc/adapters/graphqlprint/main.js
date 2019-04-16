@@ -1,4 +1,4 @@
-const { parse } = require('./parse/main.js')
+import { parse } from './parse/main.js'
 
 const graphqlprint = {
   name: 'graphqlprint',

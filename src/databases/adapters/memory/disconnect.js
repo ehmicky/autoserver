@@ -1,6 +1,6 @@
-const { addGenPbHandler } = require('../../../errors/handler.js')
-const { getByExt } = require('../../../formats/get.js')
-const { getRef } = require('../../../json_refs/ref_path.js')
+import { addGenPbHandler } from '../../../errors/handler.js'
+import { getByExt } from '../../../formats/get.js'
+import { getRef } from '../../../json_refs/ref_path.js'
 
 // Stops connection
 // Persist back to file, unless database adapter option `save` is false

@@ -1,15 +1,15 @@
-const { Buffer } = require('buffer')
+import { Buffer } from 'buffer'
 
-const pluralize = require('pluralize')
+import pluralize from 'pluralize'
 
-const { getWordsList } = require('../../utils/string.js')
-const { isPatchOpName } = require('../parse')
-const { isRef } = require('../ref_parsing')
+import { getWordsList } from '../../utils/string.js'
+import { isPatchOpName } from '../parse.js'
+import { isRef } from '../ref_parsing.js'
 
-const { checkAttrType, checkOpValType } = require('./types/main.js')
-const { applyCheck } = require('./check')
+import { checkAttrType, checkOpValType } from './types/main.js'
+import { applyCheck } from './check.js'
 
-const { byteLength } = Buffer
+import { byteLength } = Buffer
 
 const attributeExists = function({ attr }) {
   if (attr !== undefined) {

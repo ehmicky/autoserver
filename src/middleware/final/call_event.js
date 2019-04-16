@@ -1,5 +1,5 @@
-const { logEvent } = require('../../log/main.js')
-const { nanoSecsToMilliSecs } = require('../../perf/measure.js')
+import { logEvent } from '../../log/main.js'
+import { nanoSecsToMilliSecs } from '../../perf/measure.js'
 
 // Main "call" event middleware.
 // Each request creates exactly one "call" event, whether successful or not

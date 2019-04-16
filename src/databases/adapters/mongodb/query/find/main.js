@@ -1,7 +1,7 @@
-const { getQueryFilter } = require('./operators')
-const { limitResponse } = require('./limit')
-const { offsetResponse } = require('./offset')
-const { sortResponse } = require('./order')
+import { getQueryFilter } from './operators.js'
+import { limitResponse } from './limit.js'
+import { offsetResponse } from './offset.js'
+import { sortResponse } from './order.js'
 
 // Find models
 const find = function(input) {

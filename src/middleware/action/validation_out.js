@@ -1,5 +1,5 @@
-const { throwPb } = require('../../errors/props.js')
-const { CONTENT_TYPES } = require('../../content_types')
+import { throwPb } from '../../errors/props.js'
+import { CONTENT_TYPES } from '../../content_types.js'
 
 // Action layer output validation
 // Those errors should not happen, i.e. server-side (e.g. 500)

@@ -1,10 +1,10 @@
-const { addGenErrorHandler } = require('../../../errors/handler.js')
-const { compile } = require('../../../validation/compile.js')
-const { validate } = require('../../../validation/validate.js')
-const { getLimits } = require('../../../limits')
+import { addGenErrorHandler } from '../../../errors/handler.js'
+import { compile } from '../../../validation/compile.js'
+import { validate } from '../../../validation/validate.js'
+import { getLimits } from '../../../limits.js'
 
-const { SCHEMA } = require('./args_schema')
-const { COMMANDS } = require('./commands')
+import { SCHEMA } from './args_schema.js'
+import { COMMANDS } from './commands.js'
 
 // Check arguments for client-side syntax errors.
 const validateArgs = function({ top: { args, command }, config }) {

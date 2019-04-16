@@ -1,7 +1,7 @@
-const { omit } = require('../utils/functional/filter.js')
-const { get, set } = require('../utils/functional/get_set.js')
-const { deepMerge } = require('../utils/functional/merge.js')
-const { isObjectType } = require('../utils/functional/type.js')
+import { omit } from '../utils/functional/filter.js'
+import { get, set } from '../utils/functional/get_set.js'
+import { deepMerge } from '../utils/functional/merge.js'
+import { isObjectType } from '../utils/functional/type.js'
 
 // Merge resolved JSON reference values back to original document
 const mergeChildren = function({ content, children }) {

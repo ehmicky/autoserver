@@ -1,6 +1,6 @@
-const { report } = require('./report')
-const { opts } = require('./opts')
-const { getOpts } = require('./get_opts')
+import { report } from './report.js'
+import { opts } from './opts.js'
+import { getOpts } from './get_opts.js'
 
 const logHttp = {
   name: 'http',

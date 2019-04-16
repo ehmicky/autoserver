@@ -1,7 +1,7 @@
-const { addGenPbHandler } = require('../../errors/handler.js')
-const { throwPb } = require('../../errors/props.js')
-const { compile } = require('../../validation/compile.js')
-const { validate } = require('../../validation/validate.js')
+import { addGenPbHandler } from '../../errors/handler.js'
+import { throwPb } from '../../errors/props.js'
+import { compile } from '../../validation/compile.js'
+import { validate } from '../../validation/validate.js'
 
 // Validates `database.DATABASE.*`, `protocols.PROTOCOL.*` and `log.LOG.*`
 const validateAdaptersOpts = function({ opts, adaptersOpts, key }) {

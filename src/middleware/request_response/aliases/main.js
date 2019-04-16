@@ -1,5 +1,5 @@
-const { applyInputAliases } = require('./input')
-const { applyOutputAliases } = require('./output')
+import { applyInputAliases } from './input.js'
+import { applyOutputAliases } from './output.js'
 
 // Rename attributes using config property `alias`.
 // Aliases allow clients to use different possible names for the same attribute:

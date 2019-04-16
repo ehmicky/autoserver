@@ -1,10 +1,10 @@
-const { hasBody } = require('type-is')
-const getBody = require('raw-body')
+import { hasBody } from 'type-is'
+import getBody from 'raw-body'
 
-const { addErrorHandler } = require('../../../../errors/handler.js')
-const { throwPb } = require('../../../../errors/props.js')
+import { addErrorHandler } from '../../../../errors/handler.js'
+import { throwPb } from '../../../../errors/props.js'
 
-const { getRawBodyHandler } = require('./error')
+import { getRawBodyHandler } from './error.js'
 
 // Loads raw request payload
 // Should handle:

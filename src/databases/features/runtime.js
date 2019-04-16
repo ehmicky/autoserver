@@ -1,8 +1,8 @@
-const { difference } = require('../../utils/functional/difference.js')
-const { getFeatures } = require('../../filter/features.js')
+import { difference } from '../../utils/functional/difference.js'
+import { getFeatures } from '../../filter/features.js'
 
-const { genericValidators } = require('./generic')
-const { filterValidator } = require('./filter')
+import { genericValidators } from './generic.js'
+import { filterValidator } from './filter.js'
 
 // Validate database supports command features
 const validateRuntimeFeatures = function(

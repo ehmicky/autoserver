@@ -1,6 +1,6 @@
-const { Buffer } = require('buffer')
+import { Buffer } from 'buffer'
 
-const { isType } = require('../../../content_types')
+import { isType } from '../../../content_types.js'
 
 // Transform content to a buffer
 const serializeContent = function({ format, content, type, topargs, error }) {

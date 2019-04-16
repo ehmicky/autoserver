@@ -1,8 +1,8 @@
-const compressible = require('compressible')
+import compressible from 'compressible'
 
-const { getNames } = require('../adapters/get.js')
+import { getNames } from '../adapters/get.js'
 
-const { COMPRESS_ADAPTERS } = require('./adapters/main.js')
+import { COMPRESS_ADAPTERS } from './adapters/main.js'
 
 const ALGOS = getNames(COMPRESS_ADAPTERS)
 

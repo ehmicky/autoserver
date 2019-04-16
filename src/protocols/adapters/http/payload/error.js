@@ -1,6 +1,6 @@
-const { format: formatBytes } = require('bytes')
+import { format as formatBytes } from 'bytes'
 
-const { throwPb } = require('../../../../errors/props.js')
+import { throwPb } from '../../../../errors/props.js'
 
 // `raw-body` throws some errors that we want to convert to the correct error
 // reason

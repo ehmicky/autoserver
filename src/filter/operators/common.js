@@ -1,5 +1,5 @@
-const { mapValues } = require('../../utils/functional/map.js')
-const { throwAttrValError, throwAttrTypeError } = require('../error')
+import { mapValues } from '../../utils/functional/map.js'
+import { throwAttrValError, throwAttrTypeError } from '../error.js'
 
 const parseAsIs = function({ value }) {
   return value

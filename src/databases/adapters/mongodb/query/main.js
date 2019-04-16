@@ -1,6 +1,6 @@
-const { find } = require('./find/main.js')
-const { delete: deleteFunc } = require('./delete')
-const { upsert } = require('./upsert')
+import { find } from './find/main.js'
+import { delete as deleteFunc } from './delete.js'
+import { upsert } from './upsert.js'
 
 // CRUD commands
 const query = async function(commandInput, ...args) {

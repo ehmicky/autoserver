@@ -1,4 +1,4 @@
-const { throwPb } = require('../../errors/props.js')
+import { throwPb } from '../../errors/props.js'
 
 // Check output, for the errors that should not happen,
 // i.e. server-side (e.g. 500)

@@ -1,6 +1,6 @@
-const { throwPb } = require('../../../errors/props.js')
+import { throwPb } from '../../../errors/props.js'
 
-const { handlers } = require('./args')
+import { handlers } from './args.js'
 
 // Transform `data` to normalized `results`
 const getResults = function({ actions, data, metadata, ids, top }) {

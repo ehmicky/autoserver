@@ -1,17 +1,17 @@
-const { monitoredReduce } = require('../../perf/helpers.js')
+import { monitoredReduce } from '../../perf/helpers.js'
 
-const { validateSpecific } = require('./validate')
-const { parseIp } = require('./ip')
-const { parseOrigin } = require('./origin')
-const { parseQueryvars } = require('./queryvars')
-const { parseHeaders } = require('./headers')
-const { parseMethod } = require('./method')
-const { parsePath } = require('./path')
-const { parseInput } = require('./input')
-const { handleContentNegotiation } = require('./content_negotiation/main.js')
-const { parsePayload } = require('./payload')
+import { validateSpecific } from './validate.js'
+import { parseIp } from './ip.js'
+import { parseOrigin } from './origin.js'
+import { parseQueryvars } from './queryvars.js'
+import { parseHeaders } from './headers.js'
+import { parseMethod } from './method.js'
+import { parsePath } from './path.js'
+import { parseInput } from './input.js'
+import { handleContentNegotiation } from './content_negotiation/main.js'
+import { parsePayload } from './payload.js'
 // eslint-disable-next-line import/max-dependencies
-const { protocolNormalization } = require('./normalize/main.js')
+import { protocolNormalization } from './normalize/main.js'
 
 // Retrieves protocol-specific request information
 const parseRequest = function(protocolAdapter, { specific, config, measures }) {

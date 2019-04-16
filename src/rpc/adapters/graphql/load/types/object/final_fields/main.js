@@ -1,5 +1,5 @@
-const { getDefaultValue } = require('./default')
-const { getArgs } = require('./args/main.js')
+import { getDefaultValue } from './default.js'
+import { getArgs } from './args/main.js'
 
 // Retrieves a GraphQL field info for a given config definition,
 // i.e. an object that can be passed to new

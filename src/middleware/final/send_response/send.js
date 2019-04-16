@@ -1,12 +1,12 @@
-const { getReason } = require('../../../errors/props.js')
-const {
+import { getReason } from '../../../errors/props.js'
+import {
   DEFAULT_FORMAT,
   DEFAULT_RAW_FORMAT,
-} = require('../../../formats/get.js')
+} from '../../../formats/get.js'
 
-const { getContentType } = require('./types')
-const { serializeContent } = require('./serialize')
-const { compressContent } = require('./compress')
+import { getContentType } from './types.js'
+import { serializeContent } from './serialize.js'
+import { compressContent } from './compress.js'
 
 // Set basic payload headers, then delegate to protocol handler
 const send = async function({

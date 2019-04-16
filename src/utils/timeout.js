@@ -1,4 +1,4 @@
-const { promisify } = require('util')
+import { promisify } from 'util'
 
 const pSetTimeout = promisify(setTimeout)
 

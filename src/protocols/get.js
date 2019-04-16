@@ -1,6 +1,6 @@
-const { getAdapter } = require('../adapters/get.js')
+import { getAdapter } from '../adapters/get.js'
 
-const { protocolAdapters } = require('./wrap')
+import { protocolAdapters } from './wrap.js'
 
 // Retrieves protocol adapter
 const getProtocol = function(key) {

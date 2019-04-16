@@ -1,5 +1,5 @@
-const { report } = require('./report')
-const { reportPerf } = require('./report_perf')
+import { report } from './report.js'
+import { reportPerf } from './report_perf.js'
 
 const logDebug = {
   name: 'debug',

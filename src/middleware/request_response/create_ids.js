@@ -1,4 +1,4 @@
-const { throwPb } = require('../../errors/props.js')
+import { throwPb } from '../../errors/props.js'
 
 // Check if any model already exists, for create actions
 const validateCreateIds = function({

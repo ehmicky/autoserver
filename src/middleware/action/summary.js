@@ -1,4 +1,4 @@
-const { isEqual } = require('../../utils/functional/equal.js')
+import { isEqual } from '../../utils/functional/equal.js'
 
 // Retrieves `summary`
 // This is all `actions`, included nested ones as a nice formatted string,

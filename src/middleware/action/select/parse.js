@@ -1,8 +1,8 @@
-const { throwError } = require('../../../errors/main.js')
-const { uniq } = require('../../../utils/functional/uniq.js')
-const { addToActions } = require('../add_actions/add.js')
+import { throwError } from '../../../errors/main.js'
+import { uniq } from '../../../utils/functional/uniq.js'
+import { addToActions } from '../add_actions/add.js'
 
-const { addParentSelects } = require('./parent')
+import { addParentSelects } from './parent.js'
 
 // Parse `args.select` for each action
 const parseSelect = function({ actions, top }) {

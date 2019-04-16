@@ -1,4 +1,4 @@
-const { omit } = require('../../../utils/functional/filter.js')
+import { omit } from '../../../utils/functional/filter.js'
 
 // Retrieve a database input that reverts the write action, if it was
 // successful, or is a noop, if it was not performed.

@@ -1,7 +1,7 @@
-const { omitBy } = require('../utils/functional/filter.js')
+import { omitBy } from '../utils/functional/filter.js'
 
-const { getReason, getProps } = require('./props')
-const { normalizeError } = require('./main')
+import { getReason, getProps } from './props.js'
+import { normalizeError } from './main.js'
 
 // Gets normalized error information
 const getStandardError = function({ error, mInput }) {

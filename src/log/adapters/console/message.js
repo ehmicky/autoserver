@@ -1,6 +1,6 @@
-const { getPrefix } = require('./prefix')
-const { getErrorMessage } = require('./error_message')
-const { getRequestMessage } = require('./request_message')
+import { getPrefix } from './prefix.js'
+import { getErrorMessage } from './error_message.js'
+import { getRequestMessage } from './request_message.js'
 
 // Build a standardized event message:
 // `[EVENT] [LEVEL] [HOSTID] [PROCESSNAME] [PROCESSID] [TIMESTAMP] [PHASE]

@@ -1,5 +1,5 @@
-const { omit } = require('../utils/functional/filter.js')
-const { mapValues } = require('../utils/functional/map.js')
+import { omit } from '../utils/functional/filter.js'
+import { mapValues } from '../utils/functional/map.js'
 
 // Start database connection
 // Returns a copy of the database adapter, but with fewer members and some other

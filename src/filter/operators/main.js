@@ -1,29 +1,37 @@
-const { isObject } = require('../../utils/functional/type.js')
+import { isObject } from '../../utils/functional/type.js'
 
-const orAnd = require('./or_and')
-const someAll = require('./some_all')
-const eqNeq = require('./eq_neq')
-const ltGtLteGte = require('./lt_gt_lte_gte')
-const inNin = require('./in_nin')
-const likeNlike = require('./like_nlike')
+import { _or, _and } from './or_and.js'
+import { _some, _all } from './some_all.js'
+import { _eq, _neq } from './eq_neq.js'
+import { _lt, _gt, _lte, _gte } from './lt_gt_lte_gte.js'
+import { _in, _nin } from './in_nin.js'
+import { _like, _nlike } from './like_nlike.js'
 
-const operators = {
-  ...orAnd,
-  ...someAll,
-  ...eqNeq,
-  ...ltGtLteGte,
-  ...inNin,
-  ...likeNlike,
+const OPERATORS = {
+  _or,
+  _and,
+  _some,
+  _all,
+  _eq,
+  _neq,
+  _lt,
+  _gt,
+  _lte,
+  _gte,
+  _in,
+  _nin,
+  _like,
+  _nlike,
 }
 
 const getOperator = function({ node }) {
-  const hasOperator = isObject(node) && operators[node.type] !== undefined
+  const hasOperator = isObject(node) && OPERATORS[node.type] !== undefined
 
   if (!hasOperator) {
     return
   }
 
-  const operator = operators[node.type]
+  const operator = OPERATORS[node.type]
   return operator
 }
 

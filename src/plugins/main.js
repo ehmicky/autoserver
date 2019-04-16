@@ -1,10 +1,10 @@
-const { omit } = require('../utils/functional/filter.js')
-const { reduceAsync } = require('../utils/functional/reduce.js')
-const { addGenPbHandler } = require('../errors/handler.js')
-const { throwError } = require('../errors/main.js')
+import { omit } from '../utils/functional/filter.js'
+import { reduceAsync } from '../utils/functional/reduce.js'
+import { addGenPbHandler } from '../errors/handler.js'
+import { throwError } from '../errors/main.js'
 
-const { timestampPlugin } = require('./timestamp')
-const { authorPlugin } = require('./author')
+import { timestampPlugin } from './timestamp.js'
+import { authorPlugin } from './author.js'
 
 // Plugins are functions that take `config` as input,
 // and returns a modified config as output

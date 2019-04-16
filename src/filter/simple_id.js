@@ -1,5 +1,5 @@
-const { intersection } = require('../utils/functional/intersection.js')
-const { uniq } = require('../utils/functional/uniq.js')
+import { intersection } from '../utils/functional/intersection.js'
+import { uniq } from '../utils/functional/uniq.js'
 
 // Try to guess the model `id`s by looking at `args.filter`
 // This won't work on top-level filter of findMany command using a complex one,

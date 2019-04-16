@@ -1,8 +1,8 @@
-const { monitoredReduce } = require('../perf/helpers.js')
-const { addErrorHandler } = require('../errors/handler.js')
+import { monitoredReduce } from '../perf/helpers.js'
+import { addErrorHandler } from '../errors/handler.js'
 
-const { startupSteps } = require('./steps')
-const { handleStartupError } = require('./error')
+import { startupSteps } from './steps.js'
+import { handleStartupError } from './error.js'
 
 // Start server for each protocol
 const run = async function({

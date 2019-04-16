@@ -1,8 +1,8 @@
-const { pick, omit } = require('../utils/functional/filter.js')
-const { identity } = require('../utils/functional/identity.js')
-const { mapValues } = require('../utils/functional/map.js')
+import { pick, omit } from '../utils/functional/filter.js'
+import { identity } from '../utils/functional/identity.js'
+import { mapValues } from '../utils/functional/map.js'
 
-const { parseRequest } = require('./request/main.js')
+import { parseRequest } from './request/main.js'
 
 // Start the server
 const start = async function(

@@ -1,6 +1,6 @@
-const { throwPb } = require('../../../errors/props.js')
+import { throwPb } from '../../../errors/props.js'
 
-const { TYPES } = require('./types')
+import { TYPES } from './types.js'
 
 const validateResponse = function({ response: { type, content } }) {
   if (!type) {

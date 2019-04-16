@@ -1,4 +1,4 @@
-const { resolve } = require('path')
+import { resolve } from 'path'
 
 // Retrieve error message of a standard error
 const getErrorMessage = function({

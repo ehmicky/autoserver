@@ -1,17 +1,17 @@
-const { startServer } = require('./start')
-const { stopServer } = require('./stop')
-const { getUrl, getOrigin } = require('./origin')
-const { getQueryString } = require('./query_string')
-const { getHeaders } = require('./headers')
-const { getMethod } = require('./method')
-const { getPath } = require('./path')
-const { getPayload, hasPayload } = require('./payload/main.js')
-const { send } = require('./send/main.js')
-const { getIp } = require('./ip')
-const { getInput } = require('./input')
-const { opts } = require('./opts')
+import { startServer } from './start.js'
+import { stopServer } from './stop.js'
+import { getUrl, getOrigin } from './origin.js'
+import { getQueryString } from './query_string.js'
+import { getHeaders } from './headers.js'
+import { getMethod } from './method.js'
+import { getPath } from './path.js'
+import { getPayload, hasPayload } from './payload/main.js'
+import { send } from './send/main.js'
+import { getIp } from './ip.js'
+import { getInput } from './input.js'
+import { opts } from './opts.js'
 // eslint-disable-next-line import/max-dependencies
-const { defaults } = require('./defaults')
+import { defaults } from './defaults.js'
 
 const http = {
   name: 'http',

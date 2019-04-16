@@ -1,6 +1,6 @@
-const { uniq } = require('../../utils/functional/uniq.js')
+import { uniq } from '../../utils/functional/uniq.js'
 
-const { wrapCloseFunc } = require('./wrapper')
+import { wrapCloseFunc } from './wrapper.js'
 
 // Attempts to close database connections
 // No new connections will be accepted, but we will wait for ongoing ones to end

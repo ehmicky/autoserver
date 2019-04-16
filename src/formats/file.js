@@ -1,6 +1,6 @@
-const { pReadFile, pWriteFile } = require('../utils/fs.js')
+import { pReadFile, pWriteFile } from '../utils/fs.js'
 
-const { parseContent, serializeContent } = require('./content')
+import { parseContent, serializeContent } from './content.js'
 
 // Loads any of the supported formats
 // This is abstracted to allow easily adding new formats.

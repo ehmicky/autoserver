@@ -1,5 +1,5 @@
-const { invert } = require('../../../../utils/functional/invert.js')
-const { mapKeys } = require('../../../../utils/functional/map.js')
+import { invert } from '../../../../utils/functional/invert.js'
+import { mapKeys } from '../../../../utils/functional/map.js'
 
 // Name shortcuts, e.g. { filter: value } -> { f: value }
 const addNameShortcuts = function(token) {

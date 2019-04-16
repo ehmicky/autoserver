@@ -1,8 +1,8 @@
-const { throwPb } = require('../../../errors/props.js')
-const { evalFilter } = require('../../../filter/eval.js')
-const { mapNodes } = require('../../../filter/crawl.js')
+import { throwPb } from '../../../errors/props.js'
+import { evalFilter } from '../../../filter/eval.js'
+import { mapNodes } from '../../../filter/crawl.js'
 
-const { handleConfigFuncs } = require('./functions')
+import { handleConfigFuncs } from './functions.js'
 
 // Evaluate `coll.authorize` filter to a boolean
 // Do a partial evaluation, because we do not know the value of `model.*` yet

@@ -1,6 +1,6 @@
-const { decapitalize, capitalize } = require('underscore.string')
+import { decapitalize, capitalize } from 'underscore.string'
 
-const { throwError } = require('../errors/main.js')
+import { throwError } from '../errors/main.js'
 
 const getThrowErr = function({ reason, prefix }, attrName, message) {
   const messageA = getMessage({ attrName, message })

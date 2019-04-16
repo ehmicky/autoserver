@@ -1,4 +1,4 @@
-const GraphQLJSON = require('graphql-type-json')
+import GraphQLJSON from 'graphql-type-json'
 
 // `params` argument
 const getParamsArgument = function() {

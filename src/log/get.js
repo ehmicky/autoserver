@@ -1,6 +1,6 @@
-const { getAdapter } = require('../adapters/get.js')
+import { getAdapter } from '../adapters/get.js'
 
-const { logAdapters } = require('./wrap')
+import { logAdapters } from './wrap.js'
 
 // Retrieves log adapter
 const getLog = function(key) {

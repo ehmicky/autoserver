@@ -1,6 +1,6 @@
-const { Negotiator } = require('negotiator')
+import { Negotiator } from 'negotiator'
 
-const { findAlgo } = require('../../../../compress/get.js')
+import { findAlgo } from '../../../../compress/get.js'
 
 // Use similar logic as `args.format`, but for `args.compressResponse`
 // Uses HTTP header `Accept-Encoding`

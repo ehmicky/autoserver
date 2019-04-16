@@ -1,5 +1,5 @@
-const { startPerf, stopPerf } = require('../perf/measure.js')
-const { logPerfEvent } = require('../log/perf.js')
+import { startPerf, stopPerf } from '../perf/measure.js'
+import { logPerfEvent } from '../log/perf.js'
 
 // Monitor startup time
 const startStartupPerf = function() {

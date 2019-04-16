@@ -1,10 +1,10 @@
-const {
+import {
   base64UrlEncode,
   base64UrlDecode,
-} = require('../../../../utils/base64.js')
+} from '../../../../utils/base64.js'
 
-const { addNameShortcuts, removeNameShortcuts } = require('./minify_names')
-const { convertUndefined } = require('./convert_undefined')
+import { addNameShortcuts, removeNameShortcuts } from './minify_names.js'
+import { convertUndefined } from './convert_undefined.js'
 
 // Encode token from a usable object to a short opaque base64 token
 // Make sure token is small by minifying it

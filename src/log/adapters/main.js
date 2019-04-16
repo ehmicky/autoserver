@@ -1,7 +1,7 @@
-const { logConsole } = require('./console/main.js')
-const { logDebug } = require('./debug/main.js')
-const { logHttp } = require('./http/main.js')
-const { logCustom } = require('./custom/main.js')
+import { logConsole } from './console/main.js'
+import { logDebug } from './debug/main.js'
+import { logHttp } from './http/main.js'
+import { logCustom } from './custom/main.js'
 
 const LOG_ADAPTERS = [logConsole, logDebug, logHttp, logCustom]
 

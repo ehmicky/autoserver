@@ -1,7 +1,7 @@
-const { has, get } = require('../utils/functional/get_set.js')
+import { has, get } from '../utils/functional/get_set.js'
 
-const { getOperator } = require('./operators/main.js')
-const { getSiblingValue } = require('./siblings')
+import { getOperator } from './operators/main.js'
+import { getSiblingValue } from './siblings.js'
 
 // Check if a set of `attrs` matches a filter such as `args.filter` or
 // `coll.authorize`

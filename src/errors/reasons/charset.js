@@ -1,4 +1,4 @@
-const { getAdapterMessage } = require('./message')
+import { getAdapterMessage } from './message.js'
 
 // Extra:
 //  - adapter `{string}`: adapter name

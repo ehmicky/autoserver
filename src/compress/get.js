@@ -1,6 +1,6 @@
-const { getAdapter } = require('../adapters/get.js')
+import { getAdapter } from '../adapters/get.js'
 
-const { compressAdapters } = require('./wrap')
+import { compressAdapters } from './wrap.js'
 
 // Retrieves compression adapter
 const getAlgo = function(algo = 'identity') {

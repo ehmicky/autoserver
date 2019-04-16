@@ -1,4 +1,4 @@
-const { isObject } = require('../../../utils/functional/type.js')
+import { isObject } from '../../../utils/functional/type.js'
 
 // Copy first defined alias to main attribute, providing it is not defined.
 const applyOrderAliases = function({ order, attrName, aliases }) {

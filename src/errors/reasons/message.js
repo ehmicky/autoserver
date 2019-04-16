@@ -1,6 +1,6 @@
-const pluralize = require('pluralize')
+import pluralize from 'pluralize'
 
-const { getWordsList } = require('../../utils/string.js')
+import { getWordsList } from '../../utils/string.js'
 
 // Try to make error messages start the same way when referring to models
 const getModels = function({ ids, op = 'and', collection } = {}) {

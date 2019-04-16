@@ -1,4 +1,4 @@
-const { isModelsType } = require('./validate')
+import { isModelsType } from './validate.js'
 
 // Retrieve the path to each nested object inside `args.data`
 const getDataPath = function({ data, commandpath }) {

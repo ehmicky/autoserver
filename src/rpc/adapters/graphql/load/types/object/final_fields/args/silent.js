@@ -1,4 +1,4 @@
-const { GraphQLBoolean } = require('graphql')
+import { GraphQLBoolean } from 'graphql'
 
 // `silent` argument
 const getSilentArgument = function() {

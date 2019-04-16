@@ -1,9 +1,9 @@
-const moize = require('moize').default
+import moize from 'moize'
 
-const { runConfigFunc } = require('../functions/run.js')
-const { getModelParams } = require('../functions/params/values.js')
+import { runConfigFunc } from '../functions/run.js'
+import { getModelParams } from '../functions/params/values.js'
 
-const { getValidator } = require('./validator')
+import { getValidator } from './validator.js'
 
 // Add custom validation keywords, from config.validation
 const getCustomValidator = function({ config: { validation = {} } = {} }) {

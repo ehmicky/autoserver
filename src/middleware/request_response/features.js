@@ -1,4 +1,4 @@
-const { addGenErrorHandler } = require('../../errors/handler.js')
+import { addGenErrorHandler } from '../../errors/handler.js'
 
 // Validate database supports command features
 const eValidateRuntimeFeatures = function({

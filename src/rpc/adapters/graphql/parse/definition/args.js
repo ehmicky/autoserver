@@ -1,6 +1,6 @@
-const { throwError } = require('../../../../../errors/main.js')
-const { mapValues } = require('../../../../../utils/functional/map.js')
-const { validateDuplicates } = require('../duplicates')
+import { throwError } from '../../../../../errors/main.js'
+import { mapValues } from '../../../../../utils/functional/map.js'
+import { validateDuplicates } from '../duplicates.js'
 
 // Parse GraphQL arguments, for each possible argument type
 const parseArgs = function({

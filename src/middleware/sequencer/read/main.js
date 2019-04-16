@@ -1,12 +1,12 @@
-const { getLimits } = require('../../../limits')
+import { getLimits } from '../../../limits.js'
 
-const { getParentActions } = require('./parent_actions')
-const { getInput } = require('./input')
-const { addNestedFilter } = require('./parent_results')
-const { getConcurrentCommand, addPendingResults } = require('./concurrent')
-const { fireReadCommand } = require('./command')
-const { processResults } = require('./results')
-const { paginateResults } = require('./paginate/main.js')
+import { getParentActions } from './parent_actions.js'
+import { getInput } from './input.js'
+import { addNestedFilter } from './parent_results.js'
+import { getConcurrentCommand, addPendingResults } from './concurrent.js'
+import { fireReadCommand } from './command.js'
+import { processResults } from './results.js'
+import { paginateResults } from './paginate/main.js'
 
 // Fire all commands associated with a set of read actions
 const sequenceRead = async function({ actions, config, mInput }, nextLayer) {

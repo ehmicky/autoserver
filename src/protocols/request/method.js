@@ -1,6 +1,6 @@
-const { throwPb } = require('../../errors/props.js')
+import { throwPb } from '../../errors/props.js'
 
-const { validateString } = require('./validate')
+import { validateString } from './validate.js'
 
 const parseMethod = function({
   protocolAdapter,

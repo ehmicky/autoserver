@@ -1,8 +1,8 @@
-const { uniq } = require('../../../utils/functional/uniq.js')
-const { getOpValRef, cannotCheckType } = require('../../ref')
+import { uniq } from '../../../utils/functional/uniq.js'
+import { getOpValRef, cannotCheckType } from '../../ref.js'
 
-const { validateTypes } = require('./validate')
-const { TYPES } = require('./available')
+import { validateTypes } from './validate.js'
+import { TYPES } from './available.js'
 
 // Uses `patchOp.attribute`
 const checkAttrType = function({

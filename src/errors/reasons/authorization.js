@@ -1,4 +1,4 @@
-const { getModels } = require('./message')
+import { getModels } from './message.js'
 
 // Extra:
 //  - collection `{string}`

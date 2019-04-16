@@ -1,16 +1,16 @@
-const { getRequestHandler } = require('../middleware/main.js')
-const { loadConfig } = require('../config/main.js')
+import { getRequestHandler } from '../middleware/main.js'
+import { loadConfig } from '../config/main.js'
 
-const {
+import {
   startStartupPerf,
   stopStartupPerf,
   reportStartupPerf,
-} = require('./perf')
-const { processErrorHandler } = require('./process')
-const { connectToDatabases } = require('./database/main.js')
-const { setupGracefulExit } = require('./exit/setup.js')
-const { launchProtocols } = require('./launch')
-const { emitStartEvent } = require('./start_event')
+} from './perf.js'
+import { processErrorHandler } from './process.js'
+import { connectToDatabases } from './database/main.js'
+import { setupGracefulExit } from './exit/setup.js'
+import { launchProtocols } from './launch.js'
+import { emitStartEvent } from './start_event.js'
 
 const startupSteps = [
   // Start monitoring main startup time

@@ -1,5 +1,5 @@
-const Ajv = require('ajv')
-const ajvKeywords = require('ajv-keywords')
+import Ajv from 'ajv'
+import ajvKeywords from 'ajv-keywords'
 
 const getValidator = function() {
   const ajv = new Ajv(AJV_OPTIONS)

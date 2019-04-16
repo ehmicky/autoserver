@@ -1,6 +1,6 @@
-const { isEqual } = require('../../../utils/functional/equal.js')
-const { omit } = require('../../../utils/functional/filter.js')
-const { throwError } = require('../../../errors/main.js')
+import { isEqual } from '../../../utils/functional/equal.js'
+import { omit } from '../../../utils/functional/filter.js'
+import { throwError } from '../../../errors/main.js'
 
 // Apply `alias` in `args.data`
 const applyDataAliases = function({ newData, currentData, attrName, aliases }) {

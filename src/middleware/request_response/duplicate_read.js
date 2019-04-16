@@ -1,4 +1,4 @@
-const { uniq } = require('../../utils/functional/uniq.js')
+import { uniq } from '../../utils/functional/uniq.js'
 
 // Remove duplicate read models
 // Those can happen with some database. E.g. MongoDB sometimes release read

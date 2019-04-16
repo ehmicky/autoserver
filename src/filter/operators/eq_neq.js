@@ -1,6 +1,6 @@
-const { isEqual } = require('../../utils/functional/equal.js')
+import { isEqual } from '../../utils/functional/equal.js'
 
-const { validateSameType, parseAsIs } = require('./common')
+import { validateSameType, parseAsIs } from './common.js'
 
 // `{ attribute: { _eq: value } }` or `{ attribute: value }`
 const evalEq = function({ attr, value }) {
@@ -12,15 +12,12 @@ const evalNeq = function({ attr, value }) {
   return !isEqual(attr, value)
 }
 
+// eslint-disable-next-line no-underscore-dangle
+const _eq = { parse: parseAsIs, validate: validateSameType, eval: evalEq }
+// eslint-disable-next-line no-underscore-dangle
+const _neq = { parse: parseAsIs, validate: validateSameType, eval: evalNeq }
+
 module.exports = {
-  _eq: {
-    parse: parseAsIs,
-    validate: validateSameType,
-    eval: evalEq,
-  },
-  _neq: {
-    parse: parseAsIs,
-    validate: validateSameType,
-    eval: evalNeq,
-  },
+  _eq,
+  _neq,
 }

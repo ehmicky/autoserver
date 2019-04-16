@@ -1,5 +1,5 @@
-const { throwPb } = require('../../../errors/props.js')
-const { evalFilter } = require('../../../filter/eval.js')
+import { throwPb } from '../../../errors/props.js'
+import { evalFilter } from '../../../filter/eval.js'
 
 // Check `model.authorize` `model.*` against `args.newData`
 const checkNewData = function({

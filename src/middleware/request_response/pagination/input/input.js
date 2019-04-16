@@ -1,7 +1,7 @@
-const { isOffset, getLimit } = require('../info')
-const { getBackwardOrder } = require('../backward')
+import { isOffset, getLimit } from '../info.js'
+import { getBackwardOrder } from '../backward.js'
 
-const { getTokenFilter } = require('./filter')
+import { getTokenFilter } from './filter.js'
 
 // Transform args.pagesize|before|after|page into args.limit|offset|filter
 const getPaginationInput = function({ args, token, config }) {

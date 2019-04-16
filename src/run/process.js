@@ -1,7 +1,7 @@
-const logProcessErrors = require('log-process-errors')
+import logProcessErrors from 'log-process-errors'
 
-const { logEvent } = require('../log/main.js')
-const { createPb } = require('../errors/props.js')
+import { logEvent } from '../log/main.js'
+import { createPb } from '../errors/props.js'
 
 // Error handling for all failures that are process-related
 // If a single process might start two instances of the server, each instance

@@ -1,4 +1,4 @@
-const { throwError } = require('../../../errors/main.js')
+import { throwError } from '../../../errors/main.js'
 
 // Validate correct usage of special key 'all'
 const validateAllAttr = function({

@@ -1,7 +1,7 @@
-const { addErrorHandler } = require('../../errors/handler.js')
-const { createPb } = require('../../errors/props.js')
-const { normalizeError } = require('../../errors/main.js')
-const { logEvent } = require('../../log/main.js')
+import { addErrorHandler } from '../../errors/handler.js'
+import { createPb } from '../../errors/props.js'
+import { normalizeError } from '../../errors/main.js'
+import { logEvent } from '../../log/main.js'
 
 // Shutdown failures events
 const addExitHandler = function(func) {

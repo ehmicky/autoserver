@@ -1,4 +1,4 @@
-const { throwPb } = require('../../../errors/props.js')
+import { throwPb } from '../../../errors/props.js'
 
 // Only start a command if we know it won't hit the `maxmodels` limit
 const validateMaxmodels = function({ results, allIds, maxmodels, top }) {

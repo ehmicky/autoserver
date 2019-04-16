@@ -1,4 +1,4 @@
-const { camelize, capitalize } = require('underscore.string')
+import { camelize, capitalize } from 'underscore.string'
 
 // Returns top-level command name, e.g. `find_collection` or `delete_collection`
 const getCommandName = function({ clientCollname, command }) {

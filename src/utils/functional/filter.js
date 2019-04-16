@@ -1,4 +1,4 @@
-const { checkObject } = require('./validate')
+import { checkObject } from './validate.js'
 
 // Similar to lodash pickBy(), but faster.
 const pickBy = function(obj, condition) {

@@ -1,4 +1,4 @@
-const requireFromString = require('require-from-string')
+import requireFromString from 'require-from-string'
 
 // Parses a JavaScript file
 const parse = function({ content, path }) {

@@ -1,4 +1,4 @@
-const { parseContentType } = require('../../../../formats/content_type.js')
+import { parseContentType } from '../../../../formats/content_type.js'
 
 // Parse HTTP header `Content-Type`
 const getContentType = function({

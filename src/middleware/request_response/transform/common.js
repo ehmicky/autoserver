@@ -1,7 +1,7 @@
-const { pickBy } = require('../../../utils/functional/filter.js')
-const { mapValues } = require('../../../utils/functional/map.js')
-const { runConfigFunc } = require('../../../functions/run.js')
-const { getModelParams } = require('../../../functions/params/values.js')
+import { pickBy } from '../../../utils/functional/filter.js'
+import { mapValues } from '../../../utils/functional/map.js'
+import { runConfigFunc } from '../../../functions/run.js'
+import { getModelParams } from '../../../functions/params/values.js'
 
 // Handles `attr.value`, `attr.default` and `attr.readonly`
 const handleTransforms = function({

@@ -1,4 +1,4 @@
-const { GraphQLBoolean } = require('graphql')
+import { GraphQLBoolean } from 'graphql'
 
 // `dryrun` argument
 const getDryrunArgument = function({ command }) {

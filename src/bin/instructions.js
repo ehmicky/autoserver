@@ -1,4 +1,4 @@
-const { availableInstructions } = require('./available')
+import { availableInstructions } from './available.js'
 
 // Iterate over `availableOptions` to add all instructions
 const addInstructions = function({ yargs }) {

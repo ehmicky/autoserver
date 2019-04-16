@@ -1,7 +1,7 @@
-const { brotli } = require('./brotli')
-const { deflate } = require('./deflate')
-const { gzip } = require('./gzip')
-const { identity } = require('./identity')
+import { brotli } from './brotli.js'
+import { deflate } from './deflate.js'
+import { gzip } from './gzip.js'
+import { identity } from './identity.js'
 
 // Order matters, as first ones will have priority
 const COMPRESS_ADAPTERS = [

@@ -1,7 +1,7 @@
-const { uniq } = require('../utils/functional/uniq.js')
+import { uniq } from '../utils/functional/uniq.js'
 
-const { crawlNodes } = require('./crawl')
-const { isSiblingValue } = require('./siblings')
+import { crawlNodes } from './crawl.js'
+import { isSiblingValue } from './siblings.js'
 
 // Returns all the database features needed by this filter
 const getFeatures = function({ filter }) {

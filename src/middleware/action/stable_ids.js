@@ -1,6 +1,6 @@
-const { throwError } = require('../../errors/main.js')
+import { throwError } from '../../errors/main.js'
 
-const { getColl } = require('./get_coll')
+import { getColl } from './get_coll.js'
 
 // Validate that attributes used in nested actions will not change
 // If a nested action is performed by the client, but the server changes its

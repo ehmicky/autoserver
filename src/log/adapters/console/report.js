@@ -1,5 +1,5 @@
-const { getConsoleMessage } = require('./message')
-const { colorize } = require('./colorize')
+import { getConsoleMessage } from './message.js'
+import { colorize } from './colorize.js'
 
 // Prints event messages to console.
 const report = function({ log, log: { level } }) {

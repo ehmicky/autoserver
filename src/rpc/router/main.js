@@ -1,7 +1,7 @@
-const { getRpc } = require('../get')
+import { getRpc } from '../get.js'
 
-const { findRoute } = require('./routes')
-const { getPathvars } = require('./pathvars')
+import { findRoute } from './routes.js'
+import { getPathvars } from './pathvars.js'
 
 // Retrieves RPC using URL's path
 const getRpcByPath = function({ path }) {

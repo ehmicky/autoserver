@@ -1,4 +1,4 @@
-const { getPagesize } = require('./info')
+import { getPagesize } from './info.js'
 
 // Whether request will be paginated
 const willPaginate = function({ args, command, commandpath, top, config }) {

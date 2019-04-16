@@ -1,4 +1,4 @@
-const { uniq } = require('../../utils/functional/uniq.js')
+import { uniq } from '../../utils/functional/uniq.js'
 
 // Add `modelscount` and `uniquecount`, using `results`.
 // `modelscount` is the number of models in the response

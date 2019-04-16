@@ -1,4 +1,4 @@
-const { includes } = require('./includes')
+import { includes } from './includes.js'
 
 // Like Lodash uniq(), but deep equal, and can use mapper functions
 const uniq = function(arr, mapper) {

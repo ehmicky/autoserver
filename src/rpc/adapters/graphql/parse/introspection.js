@@ -1,4 +1,4 @@
-const { execute } = require('graphql')
+import { execute } from 'graphql'
 
 // At the moment, we do not support mixing introspection query with
 // non-introspection query, except for `__typename`

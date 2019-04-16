@@ -1,4 +1,4 @@
-const { LEVELS } = require('../../constants')
+import { LEVELS } from '../../constants.js'
 
 // Retrieves `[EVENT] [LEVEL] [HOSTID] [PROCESSNAME] [PROCESSID] [TIMESTAMP]
 // [PHASE]`

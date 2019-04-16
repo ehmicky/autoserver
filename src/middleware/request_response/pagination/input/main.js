@@ -1,8 +1,8 @@
-const { willPaginate } = require('../condition')
+import { willPaginate } from '../condition.js'
 
-const { getToken } = require('./token')
-const { validatePaginationInput } = require('./validation')
-const { getPaginationInput } = require('./input')
+import { getToken } from './token.js'
+import { validatePaginationInput } from './validation.js'
+import { getPaginationInput } from './input.js'
 
 // Pagination input middleware.
 // Supports several kinds of pagination:

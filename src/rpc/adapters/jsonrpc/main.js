@@ -1,5 +1,5 @@
-const { transformSuccess, transformError } = require('./response')
-const { parse } = require('./parse')
+import { transformSuccess, transformError } from './response.js'
+import { parse } from './parse.js'
 
 const jsonrpc = {
   name: 'jsonrpc',

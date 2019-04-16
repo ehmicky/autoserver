@@ -1,6 +1,6 @@
-const { getFormat } = require('../../formats/get.js')
+import { getFormat } from '../../formats/get.js'
 
-const { validateString } = require('./validate')
+import { validateString } from './validate.js'
 
 const parseQueryvars = function({
   protocolAdapter,

@@ -1,4 +1,4 @@
-const { getSumParams } = require('../../../utils/sums.js')
+import { getSumParams } from '../../../utils/sums.js'
 
 // Add `response`-related parameters
 const getResponseParams = function({ type, content }) {

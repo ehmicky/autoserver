@@ -1,7 +1,7 @@
-const { isObject } = require('../../utils/functional/type.js')
-const { DEEP_OPERATORS } = require('../operators/main.js')
+import { isObject } from '../../utils/functional/type.js'
+import { DEEP_OPERATORS } from '../operators/main.js'
 
-const { parseOperations } = require('./operations')
+import { parseOperations } from './operations.js'
 
 const parseAttrs = function({ attrs, throwErr }) {
   if (!isObject(attrs)) {

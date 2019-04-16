@@ -1,4 +1,4 @@
-const { sortBy } = require('../../../../../utils/functional/sort.js')
+import { sortBy } from '../../../../../utils/functional/sort.js'
 
 // `order` sorting
 const sortResponse = function({ data, order }) {

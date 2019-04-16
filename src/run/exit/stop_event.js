@@ -1,7 +1,7 @@
-const { pickBy } = require('../../utils/functional/filter.js')
-const { getWordsList } = require('../../utils/string.js')
-const { logEvent } = require('../../log/main.js')
-const { getDefaultDuration } = require('../../perf/measure.js')
+import { pickBy } from '../../utils/functional/filter.js'
+import { getWordsList } from '../../utils/string.js'
+import { logEvent } from '../../log/main.js'
+import { getDefaultDuration } from '../../perf/measure.js'
 
 // Emit successful or failed shutdown event
 const emitStopEvent = async function({ exit, config, measures }) {

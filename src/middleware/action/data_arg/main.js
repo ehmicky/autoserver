@@ -1,9 +1,9 @@
-const { getLimits } = require('../../../limits')
-const { addActions } = require('../add_actions/merge.js')
+import { getLimits } from '../../../limits.js'
+import { addActions } from '../add_actions/merge.js'
 
-const { getDataPath } = require('./data_path')
-const { parseData } = require('./data')
-const { parseActions } = require('./actions')
+import { getDataPath } from './data_path.js'
+import { parseData } from './data.js'
+import { parseActions } from './actions.js'
 
 // Parse `args.data` into write `actions`
 const parseDataArg = function({ actions, ...rest }) {

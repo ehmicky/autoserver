@@ -1,4 +1,4 @@
-const { stopPerf } = require('../../perf/measure.js')
+import { stopPerf } from '../../perf/measure.js'
 
 // Request response time, from request handling start to response sending
 // Note that other functions might happen after response sending, e.g. events

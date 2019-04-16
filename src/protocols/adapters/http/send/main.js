@@ -1,7 +1,7 @@
-const { promisify } = require('util')
+import { promisify } from 'util'
 
-const { setStatusCode } = require('./status')
-const { setHeaders } = require('./headers')
+import { setStatusCode } from './status.js'
+import { setHeaders } from './headers.js'
 
 // Sends response
 const send = async function({

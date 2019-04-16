@@ -1,6 +1,6 @@
-const { GraphQLString } = require('graphql')
+import { GraphQLString } from 'graphql'
 
-const { getArgTypeDescription } = require('../../../../description')
+import { getArgTypeDescription } from '../../../../description.js'
 
 // `id` argument
 const getIdArgument = function(def) {

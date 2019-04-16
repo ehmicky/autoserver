@@ -1,9 +1,9 @@
-const moize = require('moize').default
-const { GraphQLObjectType, GraphQLInputObjectType } = require('graphql')
+import moize from 'moize'
+import { GraphQLObjectType, GraphQLInputObjectType } from 'graphql'
 
-const { getTypeName } = require('../../name')
+import { getTypeName } from '../../name.js'
 
-const { getObjectFields } = require('./fields')
+import { getObjectFields } from './fields.js'
 
 // Object field TGetter
 const mGraphqlObjectTGetter = function(def, opts) {

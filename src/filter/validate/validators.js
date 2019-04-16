@@ -1,7 +1,7 @@
-const { difference } = require('../../utils/functional/difference.js')
-const { intersection } = require('../../utils/functional/intersection.js')
-const { getWordsList } = require('../../utils/string.js')
-const { ENUM_OPERATORS } = require('../operators/main.js')
+import { difference } from '../../utils/functional/difference.js'
+import { intersection } from '../../utils/functional/intersection.js'
+import { getWordsList } from '../../utils/string.js'
+import { ENUM_OPERATORS } from '../operators/main.js'
 
 // Validate value is among set of values
 const validateEnum = function({ type, value, ruleVal, throwErr }) {

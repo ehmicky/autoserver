@@ -1,12 +1,12 @@
-const { monitor } = require('../../perf/helpers.js')
-const { once } = require('../../utils/functional/once.js')
-const { addErrorHandler } = require('../../errors/handler.js')
-const { logEvent } = require('../../log/main.js')
-const { logPerfEvent } = require('../../log/perf.js')
+import { monitor } from '../../perf/helpers.js'
+import { once } from '../../utils/functional/once.js'
+import { addErrorHandler } from '../../errors/handler.js'
+import { logEvent } from '../../log/main.js'
+import { logPerfEvent } from '../../log/perf.js'
 
-const { closeProtocols } = require('./protocol_close')
-const { closeDbAdapters } = require('./db_close')
-const { emitStopEvent } = require('./stop_event')
+import { closeProtocols } from './protocol_close.js'
+import { closeDbAdapters } from './db_close.js'
+import { emitStopEvent } from './stop_event.js'
 
 // Close servers and database connections
 const oGracefulExit = async function({

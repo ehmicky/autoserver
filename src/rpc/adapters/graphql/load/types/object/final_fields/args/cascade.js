@@ -1,4 +1,4 @@
-const { GraphQLString } = require('graphql')
+import { GraphQLString } from 'graphql'
 
 // `cascade` argument
 const getCascadeArgument = function({ command }) {

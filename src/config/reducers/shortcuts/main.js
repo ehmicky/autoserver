@@ -1,10 +1,10 @@
-const { mapValues } = require('../../../utils/functional/map.js')
+import { mapValues } from '../../../utils/functional/map.js'
 
-const { aliasesMap } = require('./aliases.js')
-const { collsNames } = require('./colls_names.js')
-const { readonlyMap } = require('./readonly.js')
-const { userDefaultsMap } = require('./user_defaults.js')
-const { valuesMap } = require('./value.js')
+import { aliasesMap } from './aliases.js'
+import { collsNames } from './colls_names.js'
+import { readonlyMap } from './readonly.js'
+import { userDefaultsMap } from './user_defaults.js'
+import { valuesMap } from './value.js'
 
 // Startup transformations just meant for runtime performance optimization
 const normalizeShortcuts = function({ config }) {

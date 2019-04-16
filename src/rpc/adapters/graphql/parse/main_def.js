@@ -1,6 +1,6 @@
-const { throwError } = require('../../../../errors/main.js')
+import { throwError } from '../../../../errors/main.js'
 
-const { validateDuplicates } = require('./duplicates')
+import { validateDuplicates } from './duplicates.js'
 
 // Retrieve GraphQL main definition
 // Takes into account GraphQL's `operationName`

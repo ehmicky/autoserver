@@ -1,6 +1,6 @@
-const { addGenErrorHandler } = require('../../errors/handler.js')
-const { getLog } = require('../../log/get.js')
-const { DEFAULT_LOGGER } = require('../../log/constants.js')
+import { addGenErrorHandler } from '../../errors/handler.js'
+import { getLog } from '../../log/get.js'
+import { DEFAULT_LOGGER } from '../../log/constants.js'
 
 const { provider: defaultProvider } = DEFAULT_LOGGER
 

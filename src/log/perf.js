@@ -1,7 +1,7 @@
-const { groupMeasures } = require('../perf/group.js')
-const { stringifyMeasures } = require('../perf/stringify.js')
+import { groupMeasures } from '../perf/group.js'
+import { stringifyMeasures } from '../perf/stringify.js'
 
-const { logEvent } = require('./main')
+import { logEvent } from './main.js'
 
 // Emit 'perf' event
 const logPerfEvent = function({ phase, measures, ...rest }) {

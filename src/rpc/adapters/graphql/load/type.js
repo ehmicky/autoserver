@@ -1,8 +1,8 @@
-const { v4: uuidv4 } = require('uuid')
+import { v4 as uuidv4 } from 'uuid'
 
-const { mapValues } = require('../../../../utils/functional/map.js')
+import { mapValues } from '../../../../utils/functional/map.js'
 
-const { getTypeGetter } = require('./types/main.js')
+import { getTypeGetter } from './types/main.js'
 
 // Builds query|mutation type
 const getTopTypes = function({ topDefs }) {

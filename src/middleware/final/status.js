@@ -1,4 +1,4 @@
-const { getProps } = require('../../errors/props.js')
+import { getProps } from '../../errors/props.js'
 
 // Retrieve response's status
 // TODO: why is this called twice???

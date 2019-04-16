@@ -1,7 +1,7 @@
-const { parse: parseBytes, format: formatBytes } = require('bytes')
+import { parse as parseBytes, format as formatBytes } from 'bytes'
 
-const { throwError } = require('../../errors/main.js')
-const { getLimits } = require('../../limits')
+import { throwError } from '../../errors/main.js'
+import { getLimits } from '../../limits.js'
 
 // Validates `limits`
 const validateLimits = function({ config }) {

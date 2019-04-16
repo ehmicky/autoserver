@@ -1,8 +1,8 @@
-const { addErrorHandler } = require('../../../errors/handler.js')
-const { isError, normalizeError } = require('../../../errors/main.js')
+import { addErrorHandler } from '../../../errors/handler.js'
+import { isError, normalizeError } from '../../../errors/main.js'
 
-const { getRollbackInput } = require('./input')
-const { rethrowFailure } = require('./failure')
+import { getRollbackInput } from './input.js'
+import { rethrowFailure } from './failure.js'
 
 // Rollback write actions if any of them failed
 const rollback = function({ results, inputs }, nextLayer) {

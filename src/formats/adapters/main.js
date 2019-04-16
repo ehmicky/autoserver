@@ -1,11 +1,11 @@
-const { json } = require('./json')
-const { yaml } = require('./yaml')
-const { urlencoded } = require('./urlencoded')
-const { javascript } = require('./javascript')
-const { hjson } = require('./hjson')
-const { json5 } = require('./json5')
-const { ini } = require('./ini')
-const { raw } = require('./raw')
+import { json } from './json.js'
+import { yaml } from './yaml.js'
+import { urlencoded } from './urlencoded.js'
+import { javascript } from './javascript.js'
+import { hjson } from './hjson.js'
+import { json5 } from './json5.js'
+import { ini } from './ini.js'
+import { raw } from './raw.js'
 
 // Order matters, as first ones will have priority
 const FORMAT_ADAPTERS = [

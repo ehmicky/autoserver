@@ -1,6 +1,6 @@
-const { pickBy } = require('../../../utils/functional/filter.js')
-const { mapKeys, mapValues } = require('../../../utils/functional/map.js')
-const { transtype } = require('../../../utils/transtype.js')
+import { pickBy } from '../../../utils/functional/filter.js'
+import { mapKeys, mapValues } from '../../../utils/functional/map.js'
+import { transtype } from '../../../utils/transtype.js'
 
 // Returns a request's application-specific HTTP headers, normalized lowercase.
 // At the moment, only keeps X-Autoserver-Params header

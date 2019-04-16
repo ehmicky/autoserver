@@ -1,4 +1,4 @@
-const { EXTENSIONS } = require('../formats/info.js')
+import { EXTENSIONS } from '../formats/info.js'
 
 const runInstruction = {
   name: 'run',

@@ -1,4 +1,4 @@
-const { tokenizeInlineFunc } = require('./tokenize')
+import { tokenizeInlineFunc } from './tokenize.js'
 
 // Test whether a value is inline function
 const isInlineFunc = ({ inlineFunc }) =>

@@ -1,7 +1,7 @@
-const { pick, omit } = require('../../../utils/functional/filter.js')
-const { isType } = require('../../../content_types')
-const { getParams } = require('../../../functions/params/values.js')
-const { reduceParams } = require('../../../functions/params/reduce.js')
+import { pick, omit } from '../../../utils/functional/filter.js'
+import { isType } from '../../../content_types.js'
+import { getParams } from '../../../functions/params/values.js'
+import { reduceParams } from '../../../functions/params/reduce.js'
 
 // Add response's metadata
 const addMetadata = function({

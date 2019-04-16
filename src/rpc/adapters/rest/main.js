@@ -1,4 +1,4 @@
-const { parse } = require('./parse')
+import { parse } from './parse.js'
 
 const rest = {
   name: 'rest',

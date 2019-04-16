@@ -1,4 +1,4 @@
-const { getLimits } = require('../../../limits')
+import { getLimits } from '../../../limits.js'
 
 // Whether this is offset pagination (args.page)
 // or cursor pagination (args.after|before)

@@ -1,14 +1,14 @@
-const { Negotiator } = require('negotiator')
+import { Negotiator } from 'negotiator'
 
-const { addErrorHandler } = require('../../../../errors/handler.js')
-const { throwPb } = require('../../../../errors/props.js')
-const {
+import { addErrorHandler } from '../../../../errors/handler.js'
+import { throwPb } from '../../../../errors/props.js'
+import {
   getByMime,
   getMimes,
   DEFAULT_RAW_FORMAT,
-} = require('../../../../formats/get.js')
+} from '../../../../formats/get.js'
 
-const { getContentType } = require('./content_type')
+import { getContentType } from './content_type.js'
 
 // Using `Content-Type` or `Accept` results in `args.format`
 // Note that since `args.format` is for both input and output, any of the

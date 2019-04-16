@@ -1,6 +1,6 @@
-const { parse, format: formatContentType } = require('content-type')
+import { parse, format as formatContentType } from 'content-type'
 
-const { formatAdapters } = require('./wrap')
+import { formatAdapters } from './wrap.js'
 
 // Parse MIME and charset, such as the one in Content-Type HTTP headers
 const parseContentType = function({ contentType }) {

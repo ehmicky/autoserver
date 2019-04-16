@@ -1,4 +1,4 @@
-const { isObject } = require('../utils/functional/type.js')
+import { isObject } from '../utils/functional/type.js'
 
 // Check if this is a patch operation, e.g. `{ _add: 10 }`
 const isPatchOp = function(patchOp) {

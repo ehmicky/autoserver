@@ -1,10 +1,10 @@
-const pluralize = require('pluralize')
+import pluralize from 'pluralize'
 
-const { getWordsList } = require('../../utils/string.js')
-const { throwPb } = require('../../errors/props.js')
-const { getLimits } = require('../../limits')
+import { getWordsList } from '../../utils/string.js'
+import { throwPb } from '../../errors/props.js'
+import { getLimits } from '../../limits.js'
 
-const { getColl } = require('./get_coll')
+import { getColl } from './get_coll.js'
 
 // Validate request limits
 const validateRequestLimits = function({ config, mInput }) {

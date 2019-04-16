@@ -1,4 +1,4 @@
-const { validateString } = require('./validate')
+import { validateString } from './validate.js'
 
 const parseIp = function({
   protocolAdapter,

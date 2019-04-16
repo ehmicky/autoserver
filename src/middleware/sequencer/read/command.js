@@ -1,5 +1,5 @@
-const { omit } = require('../../../utils/functional/filter.js')
-const { extractSimpleIds } = require('../../../filter/simple_id.js')
+import { omit } from '../../../utils/functional/filter.js'
+import { extractSimpleIds } from '../../../filter/simple_id.js'
 
 // Fire the actual command
 const fireReadCommand = async function({

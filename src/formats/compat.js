@@ -1,5 +1,5 @@
-const { recurseMap } = require('../utils/functional/map.js')
-const { transtype } = require('../utils/transtype.js')
+import { recurseMap } from '../utils/functional/map.js'
+import { transtype } from '../utils/transtype.js'
 
 // All formats must be JSON-compatible.
 // Depending on format.jsonCompat:

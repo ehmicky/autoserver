@@ -1,10 +1,10 @@
-const { mapValues } = require('../../../utils/functional/map.js')
-const { preValidate } = require('../../../patch/validate/main.js')
-const { getColl } = require('../get_coll')
+import { mapValues } from '../../../utils/functional/map.js'
+import { preValidate } from '../../../patch/validate/main.js'
+import { getColl } from '../get_coll.js'
 
-const { validateData, isModelsType } = require('./validate')
-const { addDefaultIds } = require('./default_id')
-const { isModel } = require('./nested')
+import { validateData, isModelsType } from './validate.js'
+import { addDefaultIds } from './default_id.js'
+import { isModel } from './nested.js'
 
 // Validates `args.data` and adds default ids.
 const parseData = function({ data, ...rest }) {

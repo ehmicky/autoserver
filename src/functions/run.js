@@ -1,7 +1,7 @@
-const { addGenPbHandler } = require('../errors/handler.js')
+import { addGenPbHandler } from '../errors/handler.js'
 
-const { getParams } = require('./params/values.js')
-const { stringifyConfigFunc } = require('./tokenize')
+import { getParams } from './params/values.js'
+import { stringifyConfigFunc } from './tokenize.js'
 
 // Process config function, i.e. fires it and returns its value
 const eRunConfigFunc = function({

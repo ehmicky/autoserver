@@ -1,6 +1,6 @@
-const { difference } = require('../utils/functional/difference.js')
+import { difference } from '../utils/functional/difference.js'
 
-const { getInnerError } = require('./inner')
+import { getInnerError } from './inner.js'
 
 // Note that any exception thrown in the `error` module might not create an
 // event (since this is the error), so we must be precautious.

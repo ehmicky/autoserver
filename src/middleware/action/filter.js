@@ -1,6 +1,6 @@
-const { omit } = require('../../utils/functional/filter.js')
-const { parseFilter } = require('../../filter/parse/main.js')
-const { validateFilter } = require('../../filter/validate/main.js')
+import { omit } from '../../utils/functional/filter.js'
+import { parseFilter } from '../../filter/parse/main.js'
+import { validateFilter } from '../../filter/validate/main.js'
 
 // Parse `args.filter` and `args.id` into AST
 const parseFilterActions = function({ actions, config }) {

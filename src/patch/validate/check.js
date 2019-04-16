@@ -1,9 +1,9 @@
-const { decapitalize } = require('underscore.string')
+import { decapitalize } from 'underscore.string'
 
-const { runConfigFunc } = require('../../functions/run.js')
-const { addErrorHandler } = require('../../errors/handler.js')
-const { createPb } = require('../../errors/props.js')
-const { getPatchErrorProps } = require('../error')
+import { runConfigFunc } from '../../functions/run.js'
+import { addErrorHandler } from '../../errors/handler.js'
+import { createPb } from '../../errors/props.js'
+import { getPatchErrorProps } from '../error.js'
 
 // Uses `patchOp.check()`
 const applyCheck = function({

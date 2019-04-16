@@ -1,4 +1,4 @@
-const { validatePayload } = require('./validate')
+import { validatePayload } from './validate.js'
 
 // Use JSON-RPC-specific logic to parse the request into an
 // rpc-agnostic `rpcDef`

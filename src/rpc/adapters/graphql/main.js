@@ -1,6 +1,6 @@
-const { parse } = require('./parse/main.js')
-const { transformSuccess, transformError } = require('./response')
-const { load } = require('./load/main.js')
+import { parse } from './parse/main.js'
+import { transformSuccess, transformError } from './response.js'
+import { load } from './load/main.js'
 
 const graphql = {
   name: 'graphql',

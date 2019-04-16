@@ -1,8 +1,8 @@
-const { uniq } = require('../../../utils/functional/uniq.js')
-const { getColl } = require('../get_coll')
+import { uniq } from '../../../utils/functional/uniq.js'
+import { getColl } from '../get_coll.js'
 
-const { getDataPath } = require('./data_path')
-const { isModelType } = require('./validate')
+import { getDataPath } from './data_path.js'
+import { isModelType } from './validate.js'
 
 // Retrieve the keys of an `args.data` object which are nested collections
 const getNestedKeys = function({ data, commandpath, top, config }) {

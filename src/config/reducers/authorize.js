@@ -1,7 +1,7 @@
-const { parseFilter } = require('../../filter/parse/main.js')
-const { validateFilter } = require('../../filter/validate/main.js')
-const { getAuthorizeAttrs } = require('../../filter/authorize.js')
-const { mapColls } = require('../helpers')
+import { parseFilter } from '../../filter/parse/main.js'
+import { validateFilter } from '../../filter/validate/main.js'
+import { getAuthorizeAttrs } from '../../filter/authorize.js'
+import { mapColls } from '../helpers.js'
 
 // Parse `config.authorize` and `coll.authorize` into AST
 const normalizeAuthorize = function({ config, config: { authorize } }) {

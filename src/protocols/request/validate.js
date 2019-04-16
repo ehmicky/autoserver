@@ -1,5 +1,5 @@
-const { isObject } = require('../../utils/functional/type.js')
-const { throwPb } = require('../../errors/props.js')
+import { isObject } from '../../utils/functional/type.js'
+import { throwPb } from '../../errors/props.js'
 
 const validateSpecific = function({
   specific,

@@ -1,6 +1,6 @@
-const { wrapAdapters } = require('../adapters/wrap.js')
+import { wrapAdapters } from '../adapters/wrap.js'
 
-const { COMPRESS_ADAPTERS } = require('./adapters/main.js')
+import { COMPRESS_ADAPTERS } from './adapters/main.js'
 
 const members = ['name', 'title', 'decompress', 'compress']
 

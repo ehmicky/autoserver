@@ -1,10 +1,10 @@
-const { pick, pickBy } = require('../../../../utils/functional/filter.js')
-const { mapValues } = require('../../../../utils/functional/map.js')
-const { isObject } = require('../../../../utils/functional/type.js')
-const { addGenErrorHandler } = require('../../../../errors/handler.js')
-const { throwError } = require('../../../../errors/main.js')
-const { decode } = require('../encoding/main.js')
-const { getRightToken, TOKEN_NAMES, BOUNDARY_TOKEN } = require('../info')
+import { pick, pickBy } from '../../../../utils/functional/filter.js'
+import { mapValues } from '../../../../utils/functional/map.js'
+import { isObject } from '../../../../utils/functional/type.js'
+import { addGenErrorHandler } from '../../../../errors/handler.js'
+import { throwError } from '../../../../errors/main.js'
+import { decode } from '../encoding/main.js'
+import { getRightToken, TOKEN_NAMES, BOUNDARY_TOKEN } from '../info.js'
 
 // Parse cursor tokens
 const getToken = function({ args }) {

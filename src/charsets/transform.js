@@ -1,6 +1,6 @@
-const { decode } = require('iconv-lite')
+import { decode } from 'iconv-lite'
 
-const { addGenPbHandler } = require('../errors/handler.js')
+import { addGenPbHandler } from '../errors/handler.js'
 
 // Charset decoding
 const decodeCharset = function(charset, content) {

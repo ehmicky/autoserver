@@ -1,4 +1,4 @@
-const { renderGraphiql } = require('./render')
+import { renderGraphiql } from './render.js'
 
 // Render GraphiQL HTML file, i.e. GraphQL debugger
 const parse = async function({ queryvars, payload = {}, origin }) {

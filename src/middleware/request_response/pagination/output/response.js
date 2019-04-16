@@ -1,7 +1,7 @@
-const { isOffset, getLimit, hasToken } = require('../info')
-const { isOnlyForwardCursor } = require('../condition')
+import { isOffset, getLimit, hasToken } from '../info.js'
+import { isOnlyForwardCursor } from '../condition.js'
 
-const { getMetadata } = require('./metadata')
+import { getMetadata } from './metadata.js'
 
 // Add response metadata related to pagination:
 //   token, pagesize, has_prev_page, has_next_page

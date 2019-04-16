@@ -1,6 +1,6 @@
-const { isObject } = require('../utils/functional/type.js')
+import { isObject } from '../utils/functional/type.js'
 
-const { NO_SIBLINGS_OPERATORS } = require('./operators/main.js')
+import { NO_SIBLINGS_OPERATORS } from './operators/main.js'
 
 // Values starting with `model.` target sibling attributes
 const parseSiblingNode = function({ type, value, throwErr }) {

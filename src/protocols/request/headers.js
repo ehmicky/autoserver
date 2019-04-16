@@ -1,4 +1,4 @@
-const { validateObject } = require('./validate')
+import { validateObject } from './validate.js'
 
 const parseHeaders = function({
   protocolAdapter,

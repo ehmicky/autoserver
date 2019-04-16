@@ -1,4 +1,4 @@
-const { get, set } = require('../../../utils/functional/get_set.js')
+import { get, set } from '../../../utils/functional/get_set.js'
 
 // Applies `args.select`.
 // Only output the fields that were picked by the client.

@@ -1,4 +1,4 @@
-const { isEqual } = require('./equal')
+import { isEqual } from './equal.js'
 
 const includes = function(arr, valA) {
   return arr.some(valB => isEqual(valA, valB))

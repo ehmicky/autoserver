@@ -1,5 +1,5 @@
-const zlib = require('zlib')
-const { promisify } = require('util')
+import zlib from 'zlib'
+import { promisify } from 'util'
 
 const pDeflate = promisify(zlib.deflate)
 const pInflate = promisify(zlib.inflate)

@@ -1,4 +1,4 @@
-const { getCustomValidator } = require('./custom_validator')
+import { getCustomValidator } from './custom_validator.js'
 
 // Compile JSON schema
 const compile = function({ config, jsonSchema }) {

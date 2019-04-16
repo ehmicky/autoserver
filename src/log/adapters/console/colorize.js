@@ -1,4 +1,4 @@
-const { magenta, green, yellow, red, gray, reset, dim } = require('chalk')
+import { magenta, green, yellow, red, gray, reset, dim } from 'chalk'
 
 // Colorize a standard error message
 // Not performed if terminal does not support colors

@@ -1,8 +1,8 @@
-const { resolve } = require('path')
+import { resolve } from 'path'
 
-const { printSchema } = require('graphql')
+import { printSchema } from 'graphql'
 
-const { renderTemplate } = require('../../../../utils/template.js')
+import { renderTemplate } from '../../../../utils/template.js'
 
 const TEMPLATE = resolve(__dirname, './print.mustache')
 

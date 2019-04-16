@@ -1,8 +1,8 @@
-const { deepMerge } = require('../../../utils/functional/merge.js')
-const { dereferenceRefs } = require('../../../json_refs/main.js')
+import { deepMerge } from '../../../utils/functional/merge.js'
+import { dereferenceRefs } from '../../../json_refs/main.js'
 
-const { getEnvVars } = require('./env')
-const { getConfPath } = require('./path')
+import { getEnvVars } from './env.js'
+import { getConfPath } from './path.js'
 
 // Load config file
 const loadFile = async function({ configPath, config: configOpts }) {

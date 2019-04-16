@@ -1,4 +1,4 @@
-const { attributesPlugin } = require('./attributes')
+import { attributesPlugin } from './attributes.js'
 
 // Plugin that adds who modified last each model:
 //   created_by {User} - set on model creation

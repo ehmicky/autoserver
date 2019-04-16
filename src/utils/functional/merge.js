@@ -1,4 +1,4 @@
-const { isObject } = require('./type')
+import { isObject } from './type.js'
 
 // Like Lodash merge() but faster and does not mutate input
 const deepMerge = function(objA, objB, ...objects) {

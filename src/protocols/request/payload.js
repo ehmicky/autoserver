@@ -1,9 +1,9 @@
-const { getSumParams } = require('../../utils/sums.js')
-const { addGenPbHandler, addErrorHandler } = require('../../errors/handler.js')
-const { throwPb } = require('../../errors/props.js')
-const { getLimits } = require('../../limits')
+import { getSumParams } from '../../utils/sums.js'
+import { addGenPbHandler, addErrorHandler } from '../../errors/handler.js'
+import { throwPb } from '../../errors/props.js'
+import { getLimits } from '../../limits.js'
 
-const { validateBoolean } = require('./validate')
+import { validateBoolean } from './validate.js'
 
 // Fill in `mInput.payload` using protocol-specific request payload.
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same

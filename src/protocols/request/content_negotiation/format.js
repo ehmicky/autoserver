@@ -1,9 +1,9 @@
-const { addGenPbHandler } = require('../../../errors/handler.js')
-const {
+import { addGenPbHandler } from '../../../errors/handler.js'
+import {
   DEFAULT_FORMAT,
   getFormat,
   getMimes,
-} = require('../../../formats/get.js')
+} from '../../../formats/get.js'
 
 // Retrieve format asked by client for the response payload
 const getFormatFunc = function({ queryvars, format }) {

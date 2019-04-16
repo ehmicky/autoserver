@@ -1,9 +1,9 @@
-const encodings = require('iconv-lite/encodings')
+import encodings from 'iconv-lite/encodings'
 
-const { omitBy } = require('../utils/functional/filter.js')
+import { omitBy } from '../utils/functional/filter.js'
 
-const { validateCharset } = require('./validate')
-const { decodeCharset } = require('./transform')
+import { validateCharset } from './validate.js'
+import { decodeCharset } from './transform.js'
 
 // Normalize charset, including adding defaults and validating
 const getCharset = function(charset, { format } = {}) {

@@ -1,8 +1,8 @@
-const { omitBy } = require('../../../utils/functional/filter.js')
-const { mapValues } = require('../../../utils/functional/map.js')
-const { getColl } = require('../get_coll')
+import { omitBy } from '../../../utils/functional/filter.js'
+import { mapValues } from '../../../utils/functional/map.js'
+import { getColl } from '../get_coll.js'
 
-const { isModelsType } = require('./validate')
+import { isModelsType } from './validate.js'
 
 // Transform each `args.data` object into a separate write action
 const getWriteAction = function({

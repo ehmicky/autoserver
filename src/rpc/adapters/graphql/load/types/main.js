@@ -1,15 +1,15 @@
-const {
+import {
   GraphQLInt,
   GraphQLFloat,
   GraphQLBoolean,
   GraphQLString,
-} = require('graphql')
+} from 'graphql'
 
-const { throwError } = require('../../../../../errors/main.js')
+import { throwError } from '../../../../../errors/main.js'
 
-const { graphqlRequiredTest, graphqlRequiredTGetter } = require('./required')
-const { graphqlArrayTest, graphqlArrayTGetter } = require('./array')
-const { graphqlObjectTGetter } = require('./object/main.js')
+import { graphqlRequiredTest, graphqlRequiredTGetter } from './required.js'
+import { graphqlArrayTest, graphqlArrayTGetter } from './array.js'
+import { graphqlObjectTGetter } from './object/main.js'
 
 // Maps an config definition into a GraphQL type.
 // The first matching one will be used, i.e. order matters:

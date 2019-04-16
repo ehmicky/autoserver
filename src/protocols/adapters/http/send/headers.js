@@ -1,10 +1,10 @@
-const vary = require('vary')
+import vary from 'vary'
 
-const { isType } = require('../../../../content_types')
-const { ALGOS } = require('../../../../compress/info.js')
-const { DEFAULT_ALGO } = require('../../../../compress/get.js')
+import { isType } from '../../../../content_types.js'
+import { ALGOS } from '../../../../compress/info.js'
+import { DEFAULT_ALGO } from '../../../../compress/get.js'
 
-const { getLinks } = require('./link')
+import { getLinks } from './link.js'
 
 // Set HTTP-specific headers and status code
 const setHeaders = function({

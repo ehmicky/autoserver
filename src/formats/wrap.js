@@ -1,10 +1,10 @@
-const { wrapAdapters } = require('../adapters/wrap.js')
+import { wrapAdapters } from '../adapters/wrap.js'
 
-const { FORMAT_ADAPTERS } = require('./adapters/main.js')
-const { getCharset, hasCharset } = require('./charset')
-const { parseContent, serializeContent } = require('./content')
-const { parseFile, serializeFile } = require('./file')
-const { getExtension } = require('./extensions')
+import { FORMAT_ADAPTERS } from './adapters/main.js'
+import { getCharset, hasCharset } from './charset.js'
+import { parseContent, serializeContent } from './content.js'
+import { parseFile, serializeFile } from './file.js'
+import { getExtension } from './extensions.js'
 
 const members = ['name', 'title', 'unsafe']
 

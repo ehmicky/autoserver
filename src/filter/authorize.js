@@ -1,6 +1,6 @@
-const { pick } = require('../utils/functional/filter.js')
-const { mapValues } = require('../utils/functional/map.js')
-const { SYSTEM_PARAMS } = require('../functions/params/system.js')
+import { pick } from '../utils/functional/filter.js'
+import { mapValues } from '../utils/functional/map.js'
+import { SYSTEM_PARAMS } from '../functions/params/system.js'
 
 // Retrieve type and names of all possible `coll.authorize.*`
 const getAuthorizeAttrs = function({ config, collname }) {

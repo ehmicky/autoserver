@@ -1,9 +1,9 @@
-const { intersection } = require('../../../utils/functional/intersection.js')
-const { pick } = require('../../../utils/functional/filter.js')
-const { mapValues } = require('../../../utils/functional/map.js')
-const { uniq } = require('../../../utils/functional/uniq.js')
-const { runConfigFunc } = require('../../../functions/run.js')
-const { crawlNodes } = require('../../../filter/crawl.js')
+import { intersection } from '../../../utils/functional/intersection.js'
+import { pick } from '../../../utils/functional/filter.js'
+import { mapValues } from '../../../utils/functional/map.js'
+import { uniq } from '../../../utils/functional/uniq.js'
+import { runConfigFunc } from '../../../functions/run.js'
+import { crawlNodes } from '../../../filter/crawl.js'
 
 // Retrieve all server-specific parameters used in `coll.authorize`, and
 // resolve their config functions.

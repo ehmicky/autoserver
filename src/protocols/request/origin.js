@@ -1,7 +1,7 @@
-const { throwPb } = require('../../errors/props.js')
-const { getLimits } = require('../../limits')
+import { throwPb } from '../../errors/props.js'
+import { getLimits } from '../../limits.js'
 
-const { validateString } = require('./validate')
+import { validateString } from './validate.js'
 
 const parseOrigin = function({
   protocolAdapter,

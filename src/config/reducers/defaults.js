@@ -1,8 +1,8 @@
-const { deepMerge } = require('../../utils/functional/merge.js')
-const { PROTOCOL_DEFAULTS } = require('../../protocols/info.js')
-const { DEFAULT_DATABASE } = require('../../databases/get.js')
-const { DATABASE_DEFAULTS } = require('../../databases/info.js')
-const { mapColls, mapAttrs } = require('../helpers')
+import { deepMerge } from '../../utils/functional/merge.js'
+import { PROTOCOL_DEFAULTS } from '../../protocols/info.js'
+import { DEFAULT_DATABASE } from '../../databases/get.js'
+import { DATABASE_DEFAULTS } from '../../databases/info.js'
+import { mapColls, mapAttrs } from '../helpers.js'
 
 // Add config default values
 const addDefaults = function({ config }) {

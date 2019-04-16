@@ -1,9 +1,9 @@
-const { omit } = require('../utils/functional/filter.js')
-const { mapValues } = require('../utils/functional/map.js')
-const { pSetTimeout } = require('../utils/timeout.js')
-const { logEvent } = require('../log/main.js')
-const { getDefaultDuration } = require('../perf/measure.js')
-const { getServerinfo } = require('../serverinfo/main.js')
+import { omit } from '../utils/functional/filter.js'
+import { mapValues } from '../utils/functional/map.js'
+import { pSetTimeout } from '../utils/timeout.js'
+import { logEvent } from '../log/main.js'
+import { getDefaultDuration } from '../perf/measure.js'
+import { getServerinfo } from '../serverinfo/main.js'
 
 // Create event when all protocol-specific servers have started
 const emitStartEvent = async function({ protocolAdapters, config, measures }) {

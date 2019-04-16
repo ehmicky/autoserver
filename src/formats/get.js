@@ -1,10 +1,10 @@
-const { extname } = require('path')
+import { extname } from 'path'
 
-const { is: isType } = require('type-is')
+import { is as isType } from 'type-is'
 
-const { getAdapter } = require('../adapters/get.js')
+import { getAdapter } from '../adapters/get.js'
 
-const { formatAdapters } = require('./wrap')
+import { formatAdapters } from './wrap.js'
 
 // Retrieve correct format, using MIME type
 // Returns undefined if nothing is found

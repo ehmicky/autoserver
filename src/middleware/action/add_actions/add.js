@@ -1,10 +1,10 @@
-const { difference } = require('../../../utils/functional/difference.js')
-const { omit } = require('../../../utils/functional/filter.js')
-const { uniq } = require('../../../utils/functional/uniq.js')
-const { getWordsList } = require('../../../utils/string.js')
-const { throwError } = require('../../../errors/main.js')
+import { difference } from '../../../utils/functional/difference.js'
+import { omit } from '../../../utils/functional/filter.js'
+import { uniq } from '../../../utils/functional/uniq.js'
+import { getWordsList } from '../../../utils/string.js'
+import { throwError } from '../../../errors/main.js'
 
-const { getValues } = require('./values')
+import { getValues } from './values.js'
 
 // Add values to current actions
 const addToActions = function({ actions, name, filter, mapper, top }) {

@@ -1,6 +1,6 @@
-const { capitalize } = require('underscore.string')
+import { capitalize } from 'underscore.string'
 
-const { COMMANDS } = require('../../../../commands/constants.js')
+import { COMMANDS } from '../../../../commands/constants.js'
 
 const TOP_DESCRIPTIONS = {
   query: 'Fetch models',

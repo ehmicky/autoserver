@@ -1,4 +1,4 @@
-const { uniq } = require('../../../../../utils/functional/uniq.js')
+import { uniq } from '../../../../../utils/functional/uniq.js'
 
 // Retrieve `rpcDef.args.populate` using GraphQL selection sets
 const addPopulate = function({ args, args: { select }, commandName }) {

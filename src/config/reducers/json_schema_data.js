@@ -1,6 +1,6 @@
-const { fullRecurseMap } = require('../../utils/functional/map.js')
-const { isObject } = require('../../utils/functional/type.js')
-const { throwError } = require('../../errors/main.js')
+import { fullRecurseMap } from '../../utils/functional/map.js'
+import { isObject } from '../../utils/functional/type.js'
+import { throwError } from '../../errors/main.js'
 
 // Validate JSON schema `$data` properties
 const validateJsonSchemaData = function({ config }) {

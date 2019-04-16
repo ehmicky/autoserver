@@ -1,7 +1,7 @@
-const { willPaginate } = require('../condition')
-const { getBackwardResponse } = require('../backward')
+import { willPaginate } from '../condition.js'
+import { getBackwardResponse } from '../backward.js'
 
-const { getPaginationOutput } = require('./response')
+import { getPaginationOutput } from './response.js'
 
 // Add response metadata related to pagination
 const handlePaginationOutput = function({

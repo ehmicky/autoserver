@@ -1,4 +1,4 @@
-const { Buffer } = require('buffer')
+import { Buffer } from 'buffer'
 
 const { isBuffer } = Buffer
 

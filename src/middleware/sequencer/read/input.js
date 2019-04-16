@@ -1,5 +1,5 @@
-const { getParentResults, getParentIds } = require('./parent_results')
-const { validateMaxmodels } = require('./limits')
+import { getParentResults, getParentIds } from './parent_results.js'
+import { validateMaxmodels } from './limits.js'
 
 // Retrieve the main information we need to perform the commands
 const getInput = function({

@@ -1,8 +1,8 @@
-const { getErrorResponse } = require('./error')
-const { getResponseParams } = require('./params')
-const { addMetadata } = require('./metadata')
-const { validateResponse } = require('./validate')
-const { send } = require('./send')
+import { getErrorResponse } from './error.js'
+import { getResponseParams } from './params.js'
+import { addMetadata } from './metadata.js'
+import { validateResponse } from './validate.js'
+import { send } from './send.js'
 
 // Sends the response at the end of the request
 const sendResponse = async function({

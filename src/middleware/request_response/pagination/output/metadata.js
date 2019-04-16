@@ -1,7 +1,7 @@
-const { pick } = require('../../../../utils/functional/filter.js')
-const { isOffset, SAME_ARGS, BOUNDARY_TOKEN } = require('../info')
-const { encode } = require('../encoding/main.js')
-const { isOnlyForwardCursor } = require('../condition')
+import { pick } from '../../../../utils/functional/filter.js'
+import { isOffset, SAME_ARGS, BOUNDARY_TOKEN } from '../info.js'
+import { encode } from '../encoding/main.js'
+import { isOnlyForwardCursor } from '../condition.js'
 
 const getMetadata = function({
   data,

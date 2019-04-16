@@ -1,4 +1,4 @@
-const { GraphQLString } = require('graphql')
+import { GraphQLString } from 'graphql'
 
 // `order` argument
 const getOrderArgument = function({ command, features }) {

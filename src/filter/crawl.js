@@ -1,10 +1,10 @@
-const { groupBy } = require('../utils/functional/group.js')
+import { groupBy } from '../utils/functional/group.js'
 
-const {
+import {
   PARENT_OPERATORS,
   ATTR_PARENT_OPERATORS,
   ATTR_ANCESTOR_OPERATORS,
-} = require('./operators/main.js')
+} from './operators/main.js'
 
 // Call `func(node)` recursively over each node of `args.filter`
 // Returns array of func() return values

@@ -1,6 +1,6 @@
-const { LOG_OPTS } = require('../../log/info.js')
+import { LOG_OPTS } from '../../log/info.js'
 
-const { validateAdaptersOpts } = require('./adapter_opts')
+import { validateAdaptersOpts } from './adapter_opts.js'
 
 // Validates `log.LOG.*`
 const validateLogs = function({ config: { log } }) {

@@ -1,10 +1,10 @@
-const { addErrorHandler } = require('../../errors/handler.js')
-const { getProps } = require('../../errors/props.js')
-const { normalizeError } = require('../../errors/main.js')
-const { omit } = require('../../utils/functional/filter.js')
-const { safetyHandler } = require('../../log/main.js')
+import { addErrorHandler } from '../../errors/handler.js'
+import { getProps } from '../../errors/props.js'
+import { normalizeError } from '../../errors/main.js'
+import { omit } from '../../utils/functional/filter.js'
+import { safetyHandler } from '../../log/main.js'
 
-const { errorHandler } = require('./handler')
+import { errorHandler } from './handler.js'
 
 // Middleware function error handler, which just rethrow the error,
 // and adds the current `mInput` as information by setting `error.mInput`

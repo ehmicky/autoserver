@@ -1,5 +1,5 @@
-const { getProtocol } = require('../../../protocols/get.js')
-const { getRpc } = require('../../../rpc/get.js')
+import { getProtocol } from '../../../protocols/get.js'
+import { getRpc } from '../../../rpc/get.js'
 
 // Build message of events `request` as:
 //  STATUS [ERROR] - PROTOCOL METHOD RPC /PATH COMMAND...

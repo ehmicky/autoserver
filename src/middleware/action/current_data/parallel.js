@@ -1,7 +1,7 @@
-const { groupBy, groupValuesBy } = require('../../../utils/functional/group.js')
-const { mapValues } = require('../../../utils/functional/map.js')
-const { mergeCommandpaths } = require('../../../commands/helpers.js')
-const { getSimpleFilter } = require('../../../filter/simple_id.js')
+import { groupBy, groupValuesBy } from '../../../utils/functional/group.js'
+import { mapValues } from '../../../utils/functional/map.js'
+import { mergeCommandpaths } from '../../../commands/helpers.js'
+import { getSimpleFilter } from '../../../filter/simple_id.js'
 
 // Add `action.currentData` for `create` and `upsert` commands
 const parallelResolve = async function({ actions, mInput }, nextLayer) {

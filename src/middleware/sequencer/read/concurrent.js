@@ -1,8 +1,8 @@
-const { difference } = require('../../../utils/functional/difference.js')
-const {
+import { difference } from '../../../utils/functional/difference.js'
+import {
   extractSimpleIds,
   getSimpleFilter,
-} = require('../../../filter/simple_id.js')
+} from '../../../filter/simple_id.js'
 
 // If another `find` command searching for the same models is currently running,
 // use its future results (for efficiency reasons) instead of running it.

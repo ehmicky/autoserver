@@ -1,4 +1,4 @@
-const { getArgTypeDescription } = require('../../../../description')
+import { getArgTypeDescription } from '../../../../description.js'
 
 // `filter` argument
 const getFilterArgument = function(def, { filterObjectType }) {

@@ -1,6 +1,6 @@
-const { isObject } = require('../../utils/functional/type.js')
-const { getOperator } = require('../operators/main.js')
-const { parseSiblingNode } = require('../siblings')
+import { isObject } from '../../utils/functional/type.js'
+import { getOperator } from '../operators/main.js'
+import { parseSiblingNode } from '../siblings.js'
 
 const parseOperations = function({ operations, throwErr }) {
   const operationsA = getShortcut({ operations })
@@ -46,7 +46,7 @@ const parseValue = function({ operator, type, value, throwErr }) {
   }
 
   // Pass `parseAttrs` and `parseOperations` for recursion
-  const { parseAttrs } = require('./attrs')
+  const { parseAttrs } = require('./attrs.js')
 
   return operator.parse({ value, parseAttrs, parseOperations, throwErr })
 }

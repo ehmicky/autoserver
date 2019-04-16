@@ -1,7 +1,7 @@
-const { pickBy, omit } = require('../../utils/functional/filter.js')
-const { mapValues } = require('../../utils/functional/map.js')
-const { addGenErrorHandler } = require('../../errors/handler.js')
-const { compile } = require('../../validation/compile.js')
+import { pickBy, omit } from '../../utils/functional/filter.js'
+import { mapValues } from '../../utils/functional/map.js'
+import { addGenErrorHandler } from '../../errors/handler.js'
+import { compile } from '../../validation/compile.js'
 
 // Compile JSON schema defined in the config
 // Returns compiled JSON schema of:

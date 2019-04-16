@@ -1,4 +1,4 @@
-const { isObjectType } = require('../utils/functional/type.js')
+import { isObjectType } from '../utils/functional/type.js'
 
 const REF_SYM = Symbol('ref')
 

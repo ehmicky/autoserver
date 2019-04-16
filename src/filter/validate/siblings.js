@@ -1,7 +1,7 @@
-const { isSiblingValue, validateForbiddenOpts } = require('../siblings')
-const { DEEP_OPERATORS } = require('../operators/main.js')
+import { isSiblingValue, validateForbiddenOpts } from '../siblings.js'
+import { DEEP_OPERATORS } from '../operators/main.js'
 
-const { getAttr } = require('./attr')
+import { getAttr } from './attr.js'
 
 // When using `model.ATTR` to target a sibling attribute
 // Replace sibling attribute's value by a dummy value, since it is not known

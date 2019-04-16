@@ -1,7 +1,7 @@
-const { monitor } = require('../../perf/helpers.js')
+import { monitor } from '../../perf/helpers.js'
 
-const { emitMessageEvent } = require('./message')
-const { addExitHandler } = require('./error')
+import { emitMessageEvent } from './message.js'
+import { addExitHandler } from './error.js'
 
 // Add event handling, message event and monitoring capabilities to the function
 const wrapCloseFunc = function(func) {

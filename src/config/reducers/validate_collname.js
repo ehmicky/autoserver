@@ -1,7 +1,7 @@
-const { plural } = require('pluralize')
+import { plural } from 'pluralize'
 
-const { throwError } = require('../../errors/main.js')
-const { isObject } = require('../../utils/functional/type.js')
+import { throwError } from '../../errors/main.js'
+import { isObject } from '../../utils/functional/type.js'
 
 // Validate collections are properly named
 const validateClientCollnames = function({ config: { collections } }) {

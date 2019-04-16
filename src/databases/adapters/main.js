@@ -1,5 +1,5 @@
-const { memory } = require('./memory/main.js')
-const { mongodb } = require('./mongodb/main.js')
+import { memory } from './memory/main.js'
+import { mongodb } from './mongodb/main.js'
 
 const DATABASE_ADAPTERS = [memory, mongodb]
 

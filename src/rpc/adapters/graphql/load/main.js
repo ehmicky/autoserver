@@ -1,7 +1,7 @@
-const { GraphQLSchema } = require('graphql')
+import { GraphQLSchema } from 'graphql'
 
-const { getTopDefs } = require('./top_defs')
-const { getTopTypes } = require('./type')
+import { getTopDefs } from './top_defs.js'
+import { getTopTypes } from './type.js'
 
 // Add GraphQL schema, so it can be used by introspection, and by graphqlPrint
 const load = function({ config: { collections } }) {

@@ -1,7 +1,7 @@
-const { resolve } = require('path')
+import { resolve } from 'path'
 
-const { mapValues } = require('../../../../utils/functional/map.js')
-const { renderTemplate } = require('../../../../utils/template.js')
+import { mapValues } from '../../../../utils/functional/map.js'
+import { renderTemplate } from '../../../../utils/template.js'
 
 const TEMPLATE = resolve(__dirname, './graphiql.mustache')
 

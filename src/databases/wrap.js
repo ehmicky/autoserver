@@ -1,9 +1,9 @@
-const { wrapAdapters } = require('../adapters/wrap.js')
+import { wrapAdapters } from '../adapters/wrap.js'
 
-const { DATABASE_ADAPTERS } = require('./adapters/main.js')
-const { connectDatabase } = require('./connect')
-const { validateStartupFeatures } = require('./features/startup.js')
-const { validateRuntimeFeatures } = require('./features/runtime.js')
+import { DATABASE_ADAPTERS } from './adapters/main.js'
+import { connectDatabase } from './connect.js'
+import { validateStartupFeatures } from './features/startup.js'
+import { validateRuntimeFeatures } from './features/runtime.js'
 
 const members = ['name', 'title', 'idName', 'features', 'getDefaultId']
 

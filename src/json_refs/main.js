@@ -1,13 +1,13 @@
-const { cwd } = require('process')
+import { cwd } from 'process'
 
-const { isObjectType } = require('../utils/functional/type.js')
+import { isObjectType } from '../utils/functional/type.js'
 
-const { getPath } = require('./path')
-const { fireCachedFunc } = require('./circular_refs')
-const { load } = require('./load')
-const { findRefs } = require('./find')
-const { mergeChildren } = require('./merge')
-const { setRef } = require('./ref_path')
+import { getPath } from './path.js'
+import { fireCachedFunc } from './circular_refs.js'
+import { load } from './load.js'
+import { findRefs } from './find.js'
+import { mergeChildren } from './merge.js'
+import { setRef } from './ref_path.js'
 
 // Dereference JSON references, i.e. $ref
 // RFC: https://tools.ietf.org/id/draft-pbryan-zyp-json-ref-03.html

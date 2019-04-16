@@ -1,6 +1,6 @@
-const { isEqual } = require('../../../utils/functional/equal.js')
-const { uniq } = require('../../../utils/functional/uniq.js')
-const { getSimpleFilter } = require('../../../filter/simple_id.js')
+import { isEqual } from '../../../utils/functional/equal.js'
+import { uniq } from '../../../utils/functional/uniq.js'
+import { getSimpleFilter } from '../../../filter/simple_id.js'
 
 // Retrieve the results of all direct parent commands
 // E.g. when firing `find_collection { child { id } }`,

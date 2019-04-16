@@ -1,4 +1,4 @@
-const { getBackwardFilter } = require('../backward')
+import { getBackwardFilter } from '../backward.js'
 
 // Patches args.filter to allow for cursor pagination
 // E.g. if:

@@ -1,6 +1,6 @@
-const { mapValues } = require('../../utils/functional/map.js')
+import { mapValues } from '../../utils/functional/map.js'
 
-const { getParams } = require('./values')
+import { getParams } from './values.js'
 
 // Retrieve all server-specific parameters.
 // Functions are bound with parameters.

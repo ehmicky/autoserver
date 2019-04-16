@@ -1,7 +1,7 @@
-const { pick } = require('../../../utils/functional/filter.js')
+import { pick } from '../../../utils/functional/filter.js'
 
-const { getCurrentData } = require('./current_data')
-const { removeDuplicates } = require('./duplicate')
+import { getCurrentData } from './current_data.js'
+import { removeDuplicates } from './duplicate.js'
 
 // Merge arguments and retrieve model ids
 const getArgs = function({ actions, top, top: { args: topargs } }) {

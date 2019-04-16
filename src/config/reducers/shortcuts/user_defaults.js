@@ -1,4 +1,4 @@
-const { getShortcut } = require('../../helpers')
+import { getShortcut } from '../../helpers.js'
 
 // Retrieves map of collections's attributes for which a default value
 // is defined

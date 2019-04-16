@@ -1,4 +1,4 @@
-const { load: yamlParse, dump: yamlStringify, JSON_SCHEMA } = require('js-yaml')
+import { load as yamlParse, dump as yamlStringify, JSON_SCHEMA } from 'js-yaml'
 
 // Parses a YAML file
 const parse = function({ content, path }) {

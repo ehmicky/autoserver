@@ -1,6 +1,6 @@
-const pluralize = require('pluralize')
+import pluralize from 'pluralize'
 
-const { getWordsList } = require('../utils/string.js')
+import { getWordsList } from '../utils/string.js'
 
 // List of custom error messages getters
 const errorMessages = {

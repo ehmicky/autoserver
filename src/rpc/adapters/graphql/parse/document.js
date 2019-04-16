@@ -1,8 +1,8 @@
-const { parse } = require('graphql')
+import { parse } from 'graphql'
 
-const { isObject } = require('../../../../utils/functional/type.js')
-const { addCatchAllHandler } = require('../../../../errors/handler.js')
-const { throwPb } = require('../../../../errors/props.js')
+import { isObject } from '../../../../utils/functional/type.js'
+import { addCatchAllHandler } from '../../../../errors/handler.js'
+import { throwPb } from '../../../../errors/props.js'
 
 // Generic/raw GraphQL parsing
 const getGraphqlDocument = function({ queryvars, payload }) {

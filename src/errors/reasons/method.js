@@ -1,4 +1,4 @@
-const { getWordsList } = require('../../utils/string.js')
+import { getWordsList } from '../../utils/string.js'
 
 const getMessage = function({ value, suggestions }) {
   const protocols = getWordsList(suggestions, { op: 'or' })

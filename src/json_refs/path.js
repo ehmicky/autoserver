@@ -1,6 +1,6 @@
-const { resolve, dirname } = require('path')
+import { resolve, dirname } from 'path'
 
-const { addGenErrorHandler } = require('../errors/handler.js')
+import { addGenErrorHandler } from '../errors/handler.js'
 
 // Resolve JSON reference path to an absolute local file
 const getPath = function({ path, parentPath }) {

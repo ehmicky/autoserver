@@ -1,8 +1,8 @@
-const { isEqual } = require('../../../../utils/functional/equal.js')
-const { throwError } = require('../../../../errors/main.js')
-const { SAME_ARGS } = require('../info')
+import { isEqual } from '../../../../utils/functional/equal.js'
+import { throwError } from '../../../../errors/main.js'
+import { SAME_ARGS } from '../info.js'
 
-const { validateToken } = require('./token')
+import { validateToken } from './token.js'
 
 // Validate pagination input arguments
 const validatePaginationInput = function({ args, topargs, token }) {

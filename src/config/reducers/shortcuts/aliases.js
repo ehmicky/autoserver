@@ -1,4 +1,4 @@
-const { getShortcut } = require('../../helpers')
+import { getShortcut } from '../../helpers.js'
 
 // Gets a map of collections' attributes' aliases
 // e.g. { collname: { attrName: ['alias', ...], ... }, ... }

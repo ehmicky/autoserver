@@ -1,6 +1,6 @@
-const { addGenErrorHandler } = require('../../../../../errors/handler.js')
-const { throwError } = require('../../../../../errors/main.js')
-const { validateDuplicates } = require('../duplicates')
+import { addGenErrorHandler } from '../../../../../errors/handler.js'
+import { throwError } from '../../../../../errors/main.js'
+import { validateDuplicates } from '../duplicates.js'
 
 // Apply GraphQL directives @include and @skip
 const applyDirectives = function({

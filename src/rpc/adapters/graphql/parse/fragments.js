@@ -1,4 +1,4 @@
-const { validateDuplicates } = require('./duplicates')
+import { validateDuplicates } from './duplicates.js'
 
 // Retrieve GraphQL fragments
 const getFragments = function({ queryDocument: { definitions } }) {

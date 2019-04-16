@@ -1,5 +1,5 @@
-const { getRef } = require('../../../json_refs/ref_path.js')
-const { isObject } = require('../../../utils/functional/type.js')
+import { getRef } from '../../../json_refs/ref_path.js'
+import { isObject } from '../../../utils/functional/type.js'
 
 // Check for data model inconsistencies, and potentially fix them
 const check = function({ config: { collections }, connection, options }) {

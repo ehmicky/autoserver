@@ -1,7 +1,7 @@
 /* eslint-disable max-lines, max-lines-per-function */
-const { getStandardError } = require('../../errors/standard.js')
-const { makeImmutable } = require('../../utils/functional/immutable.js')
-const { getServerinfo } = require('../../serverinfo/main.js')
+import { getStandardError } from '../../errors/standard.js'
+import { makeImmutable } from '../../utils/functional/immutable.js'
+import { getServerinfo } from '../../serverinfo/main.js'
 
 // Retrieve all parameters
 const getParams = function(

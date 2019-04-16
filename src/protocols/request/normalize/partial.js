@@ -1,5 +1,5 @@
-const { omit } = require('../../../utils/functional/filter.js')
-const { isObject } = require('../../../utils/functional/type.js')
+import { omit } from '../../../utils/functional/filter.js'
+import { isObject } from '../../../utils/functional/type.js'
 
 // Normalize protocol handlers
 // Some protocols are stateful (e.g. WebSocket) and reuse the same URL for the

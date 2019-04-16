@@ -1,6 +1,6 @@
-const { sortArray } = require('../utils/functional/sort.js')
+import { sortArray } from '../utils/functional/sort.js'
 
-const { sortMeasures } = require('./sort')
+import { sortMeasures } from './sort.js'
 
 // Returns measures but as a single string, for console debugging
 const stringifyMeasures = function({ phase = '', measuresGroups }) {

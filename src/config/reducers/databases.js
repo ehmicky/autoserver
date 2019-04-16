@@ -1,9 +1,9 @@
-const { addGenErrorHandler } = require('../../errors/handler.js')
-const { getDatabase } = require('../../databases/get.js')
-const { DATABASE_OPTS } = require('../../databases/info.js')
-const { mapColls } = require('../helpers')
+import { addGenErrorHandler } from '../../errors/handler.js'
+import { getDatabase } from '../../databases/get.js'
+import { DATABASE_OPTS } from '../../databases/info.js'
+import { mapColls } from '../helpers.js'
 
-const { validateAdaptersOpts } = require('./adapter_opts')
+import { validateAdaptersOpts } from './adapter_opts.js'
 
 // Validates `collection.database` and `databases.DATABASE.*`
 const validateDatabases = function({ config, config: { databases } }) {

@@ -1,6 +1,6 @@
-const { getAdapter } = require('../adapters/get.js')
+import { getAdapter } from '../adapters/get.js'
 
-const { databaseAdapters } = require('./wrap')
+import { databaseAdapters } from './wrap.js'
 
 // Retrieves database adapter
 const getDatabase = function(key) {

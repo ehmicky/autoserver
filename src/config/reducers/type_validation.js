@@ -1,4 +1,4 @@
-const { mapAttrs } = require('../helpers')
+import { mapAttrs } from '../helpers.js'
 
 // Add JSON schema validation based on `type`
 const mapAttr = function({ attr, attr: { type, isArray } }) {

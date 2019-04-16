@@ -1,9 +1,9 @@
-const { features } = require('./features')
-const { connect } = require('./connect')
-const { disconnect } = require('./disconnect')
-const { query } = require('./query/main.js')
-const { defaults } = require('./defaults')
-const { opts } = require('./opts')
+import { features } from './features.js'
+import { connect } from './connect.js'
+import { disconnect } from './disconnect.js'
+import { query } from './query/main.js'
+import { defaults } from './defaults.js'
+import { opts } from './opts.js'
 
 const mongodb = {
   name: 'mongodb',

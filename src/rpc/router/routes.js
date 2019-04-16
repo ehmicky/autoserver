@@ -1,8 +1,8 @@
-const { parse, tokensToRegExp } = require('path-to-regexp')
+import { parse, tokensToRegExp } from 'path-to-regexp'
 
-const { isObject } = require('../../utils/functional/type.js')
-const { throwPb } = require('../../errors/props.js')
-const { rpcAdapters } = require('../wrap')
+import { isObject } from '../../utils/functional/type.js'
+import { throwPb } from '../../errors/props.js'
+import { rpcAdapters } from '../wrap.js'
 
 // Retrieve all routes regexps, rpc and variable names
 const getAllRoutes = function() {

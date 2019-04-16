@@ -1,4 +1,4 @@
-const { logEvent } = require('../../log/main.js')
+import { logEvent } from '../../log/main.js'
 
 // Error handler, which sends final response, if server-side errors
 const errorHandler = async function({

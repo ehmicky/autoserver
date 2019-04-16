@@ -1,6 +1,6 @@
-const { isEqual } = require('../../../utils/functional/equal.js')
+import { isEqual } from '../../../utils/functional/equal.js'
 
-const { getValues } = require('./values')
+import { getValues } from './values.js'
 
 // Add new actions to the current request
 const addActions = function({ actions, filter, mapper, ...rest }) {

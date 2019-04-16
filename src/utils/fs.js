@@ -1,5 +1,5 @@
-const { promisify } = require('util')
-const { stat, readdir, readFile, writeFile } = require('fs')
+import { promisify } from 'util'
+import { stat, readdir, readFile, writeFile } from 'fs'
 
 // TODO: replace with `fs.promises` after dropping support for Node 10
 const pStat = promisify(stat)

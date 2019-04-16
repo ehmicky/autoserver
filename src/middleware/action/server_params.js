@@ -1,4 +1,4 @@
-const { getServerParams } = require('../../functions/params/server.js')
+import { getServerParams } from '../../functions/params/server.js'
 
 // Bind server-specific parameters with their parameters
 // This middleware needs to be:

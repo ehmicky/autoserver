@@ -1,4 +1,4 @@
-const { omitBy } = require('../../utils/functional/filter.js')
+import { omitBy } from '../../utils/functional/filter.js'
 
 // Normalize empty values (undefined, null) by removing their key
 const normalizeEmpty = function({ args, args: { newData } }) {

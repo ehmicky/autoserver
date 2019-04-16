@@ -1,4 +1,4 @@
-const { mapAttrs } = require('../helpers')
+import { mapAttrs } from '../helpers.js'
 
 // Make sure `id` attributes are required
 const mapAttr = function({

@@ -1,9 +1,9 @@
-const { throwError } = require('../../../../../errors/main.js')
+import { throwError } from '../../../../../errors/main.js'
 
-const { parseArgs } = require('./args')
-const { applyDirectives } = require('./directive')
-const { parseSelects } = require('./select')
-const { addPopulate } = require('./populate')
+import { parseArgs } from './args.js'
+import { applyDirectives } from './directive.js'
+import { parseSelects } from './select.js'
+import { addPopulate } from './populate.js'
 
 // Transform GraphQL AST into rpc-agnostic `rpcDef`
 const parseRpcDef = function({ mainDef, variables, fragments }) {

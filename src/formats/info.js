@@ -1,5 +1,5 @@
-const { FORMAT_ADAPTERS } = require('./adapters/main.js')
-const { getExtension } = require('./extensions')
+import { FORMAT_ADAPTERS } from './adapters/main.js'
+import { getExtension } from './extensions.js'
 
 // All possible extensions, for documentation
 const getExtensions = function() {

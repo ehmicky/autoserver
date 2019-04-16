@@ -1,4 +1,4 @@
-const { parse: json5Parse, stringify: json5Stringify } = require('json5')
+import { parse as json5Parse, stringify as json5Stringify } from 'json5'
 
 // Parses a JSON5 file
 const parse = function({ content }) {

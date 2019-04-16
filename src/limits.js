@@ -1,4 +1,4 @@
-const bytes = require('bytes')
+import bytes from 'bytes'
 
 // Returns the main numerical limits of the engine.
 // Some of those limits cannot be changed by the user.

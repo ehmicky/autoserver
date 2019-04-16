@@ -1,4 +1,4 @@
-const { isEqual } = require('../../../utils/functional/equal.js')
+import { isEqual } from '../../../utils/functional/equal.js'
 
 // Retrieve `currentData` for `delete` and `patch` by running `find` commands,
 // reusing `arg.filter`.

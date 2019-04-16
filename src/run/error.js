@@ -1,4 +1,4 @@
-const { logEvent } = require('../log/main.js')
+import { logEvent } from '../log/main.js'
 
 // Handle exceptions thrown at server startup
 const handleStartupError = async function(

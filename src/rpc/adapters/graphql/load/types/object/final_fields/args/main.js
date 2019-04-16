@@ -1,14 +1,14 @@
-const { getArgTypeDescription } = require('../../../../description')
+import { getArgTypeDescription } from '../../../../description.js'
 
-const { getDataArgument } = require('./data')
-const { getFilterArgument } = require('./filter')
-const { getIdArgument } = require('./id')
-const { getOrderArgument } = require('./order')
-const { getPaginationArgument } = require('./pagination')
-const { getSilentArgument } = require('./silent')
-const { getDryrunArgument } = require('./dryrun')
-const { getCascadeArgument } = require('./cascade')
-const { getParamsArgument } = require('./params')
+import { getDataArgument } from './data.js'
+import { getFilterArgument } from './filter.js'
+import { getIdArgument } from './id.js'
+import { getOrderArgument } from './order.js'
+import { getPaginationArgument } from './pagination.js'
+import { getSilentArgument } from './silent.js'
+import { getDryrunArgument } from './dryrun.js'
+import { getCascadeArgument } from './cascade.js'
+import { getParamsArgument } from './params.js'
 
 // Retrieves all resolver arguments, before resolve function is fired
 const getArgs = function(def, opts) {

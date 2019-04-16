@@ -1,4 +1,4 @@
-const { promiseThen } = require('./promise')
+import { promiseThen } from './promise.js'
 
 // Like Array.reduce(), but supports async
 // eslint-disable-next-line max-params

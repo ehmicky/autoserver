@@ -1,5 +1,5 @@
-const { addErrorHandler } = require('./handler.js')
-const { getStandardError } = require('./standard.js')
+import { addErrorHandler } from './handler.js'
+import { getStandardError } from './standard.js'
 
 // Every instruction should throw standard errors
 const wrapInstruction = function(instructionName, instruction) {

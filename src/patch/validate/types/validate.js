@@ -1,7 +1,7 @@
-const { uniq } = require('../../../utils/functional/uniq.js')
-const { getWordsList } = require('../../../utils/string.js')
+import { uniq } from '../../../utils/functional/uniq.js'
+import { getWordsList } from '../../../utils/string.js'
 
-const { TYPES } = require('./available')
+import { TYPES } from './available.js'
 
 // Validates either a model attribute against `patchOp.attribute`,
 // or an argument against `patchOp.argument`

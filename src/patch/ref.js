@@ -1,7 +1,7 @@
-const { throwError } = require('../errors/main.js')
+import { throwError } from '../errors/main.js'
 
-const { parseRef, isRef } = require('./ref_parsing')
-const { postValidate } = require('./validate/main.js')
+import { parseRef, isRef } from './ref_parsing.js'
+import { postValidate } from './validate/main.js'
 
 // Get the config's attribute from a model.ATTR reference
 const getOpValRef = function({ opVal, coll: { attributes } }) {

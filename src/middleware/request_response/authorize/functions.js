@@ -1,10 +1,10 @@
-const { runConfigFunc } = require('../../../functions/run.js')
-const { getParams } = require('../../../functions/params/values.js')
-const { validateFilter } = require('../../../filter/validate/main.js')
-const { getAuthorizeAttrs } = require('../../../filter/authorize.js')
-const { mapNodes } = require('../../../filter/crawl.js')
+import { runConfigFunc } from '../../../functions/run.js'
+import { getParams } from '../../../functions/params/values.js'
+import { validateFilter } from '../../../filter/validate/main.js'
+import { getAuthorizeAttrs } from '../../../filter/authorize.js'
+import { mapNodes } from '../../../filter/crawl.js'
 
-const { getServerParams } = require('./server_params')
+import { getServerParams } from './server_params.js'
 
 // Handle all config function related logic in `coll.authorize`
 const handleConfigFuncs = function({

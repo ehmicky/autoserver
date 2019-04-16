@@ -1,4 +1,4 @@
-const { getRpcByPath } = require('../../rpc/router/main.js')
+import { getRpcByPath } from '../../rpc/router/main.js'
 
 // Add route and URL parameters to mInput
 const router = function({ path }) {

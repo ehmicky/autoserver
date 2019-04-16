@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-const { exit } = require('process')
+import { exit } from 'process'
 
-const instructions = require('../main.js')
-const { addErrorHandler } = require('../errors/handler.js')
+import instructions from '../main.js'
+import { addErrorHandler } from '../errors/handler.js'
 
-const { parseInput } = require('./input')
+import { parseInput } from './input.js'
 
 // Run a server instruction, from the CLI
 const startCli = async function() {

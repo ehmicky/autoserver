@@ -1,4 +1,4 @@
-const { isType } = require('../content_types')
+import { isType } from '../content_types.js'
 
 // Transform a response according to rpc syntax
 // Differs depending on whether the response is an error or a success

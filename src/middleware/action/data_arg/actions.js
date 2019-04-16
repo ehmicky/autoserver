@@ -1,5 +1,5 @@
-const { getNestedKeys, getNestedActions } = require('./nested')
-const { getWriteAction } = require('./write_action')
+import { getNestedKeys, getNestedActions } from './nested.js'
+import { getWriteAction } from './write_action.js'
 
 // Parse an object (including its children) inside `args.data`
 // as a set of write actions

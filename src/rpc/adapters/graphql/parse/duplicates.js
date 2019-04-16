@@ -1,5 +1,5 @@
-const { findDuplicate } = require('../../../../utils/functional/uniq.js')
-const { throwError } = require('../../../../errors/main.js')
+import { findDuplicate } from '../../../../utils/functional/uniq.js'
+import { throwError } from '../../../../errors/main.js'
 
 // GraphQL spec includes many requirements of checking for duplicates
 const validateDuplicates = function({ nodes, type }) {

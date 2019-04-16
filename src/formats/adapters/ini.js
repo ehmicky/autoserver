@@ -1,6 +1,6 @@
-const { parse: iniParse, stringify: iniStringify } = require('ini')
+import { parse as iniParse, stringify as iniStringify } from 'ini'
 
-const { fullRecurseMap } = require('../../utils/functional/map.js')
+import { fullRecurseMap } from '../../utils/functional/map.js'
 
 // Parses an INI file
 const parse = function({ content }) {

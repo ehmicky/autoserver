@@ -1,8 +1,8 @@
-const { omit } = require('../../../utils/functional/filter.js')
+import { omit } from '../../../utils/functional/filter.js'
 
-const { getFormat } = require('./format')
-const { getCharset } = require('./charset')
-const { getCompress } = require('./compress')
+import { getFormat } from './format.js'
+import { getCharset } from './charset.js'
+import { getCompress } from './compress.js'
 
 // Retrieve format|charset|compress of the response payloads, and
 // charset of the request payload

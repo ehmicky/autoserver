@@ -1,6 +1,6 @@
-const { version: nodeVersion } = require('process')
+import { version as nodeVersion } from 'process'
 
-const readPkgUp = require('read-pkg-up')
+import readPkgUp from 'read-pkg-up'
 
 // Caches it.
 // TODO: use async instead

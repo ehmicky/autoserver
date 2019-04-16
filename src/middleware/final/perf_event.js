@@ -1,4 +1,4 @@
-const { logPerfEvent } = require('../../log/perf.js')
+import { logPerfEvent } from '../../log/perf.js'
 
 // Event performance events related to the current request,
 // e.g. how long each middleware lasted.

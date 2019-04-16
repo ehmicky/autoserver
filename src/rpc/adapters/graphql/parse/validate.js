@@ -1,5 +1,5 @@
-const { getWordsList } = require('../../../../utils/string.js')
-const { throwError } = require('../../../../errors/main.js')
+import { getWordsList } from '../../../../utils/string.js'
+import { throwError } from '../../../../errors/main.js'
 
 // Validate GraphQL main definition
 const validateMainDef = function({ mainDef, operationName, method }) {

@@ -1,11 +1,11 @@
-const { omitBy } = require('../../../../../../utils/functional/filter.js')
-const { mapValues } = require('../../../../../../utils/functional/map.js')
+import { omitBy } from '../../../../../../utils/functional/filter.js'
+import { mapValues } from '../../../../../../utils/functional/map.js'
 
-const { addCommand } = require('./command')
-const { getNestedColl } = require('./nested_colls')
-const { filterField } = require('./filter')
-const { getFinalField } = require('./final_fields/main.js')
-const { addNoAttributes } = require('./no_attributes')
+import { addCommand } from './command.js'
+import { getNestedColl } from './nested_colls.js'
+import { filterField } from './filter.js'
+import { getFinalField } from './final_fields/main.js'
+import { addNoAttributes } from './no_attributes.js'
 
 // Retrieve the fields of an object, using config definition
 const getObjectFields = function(opts) {

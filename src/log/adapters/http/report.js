@@ -1,9 +1,9 @@
-const {
-  Buffer: { byteLength },
-} = require('buffer')
-const { request } = require('http')
+import { Buffer } from 'buffer'
+import { request } from 'http'
 
-const rawBody = require('raw-body')
+import rawBody from 'raw-body'
+
+const { byteLength } = Buffer
 
 // Report log with a HTTP request
 // TODO: use a proper HTTP request library

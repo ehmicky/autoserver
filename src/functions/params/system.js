@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
-const { PROTOCOLS } = require('../../protocols/info.js')
-const { RPCS } = require('../../rpc/info.js')
-const { COMMAND_TYPES } = require('../../commands/constants.js')
+import { PROTOCOLS } from '../../protocols/info.js'
+import { RPCS } from '../../rpc/info.js'
+import { COMMAND_TYPES } from '../../commands/constants.js'
 
 // System parameters that are always present
 // We need to specify their `type` and `isArray` for `coll.authorize`

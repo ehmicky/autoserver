@@ -1,9 +1,9 @@
-const { getGraphqlDocument } = require('./document')
-const { getMainDef } = require('./main_def')
-const { validateMainDef } = require('./validate')
-const { getFragments } = require('./fragments')
-const { parseRpcDef } = require('./definition/main.js')
-const { isIntrospectionQuery, handleIntrospection } = require('./introspection')
+import { getGraphqlDocument } from './document.js'
+import { getMainDef } from './main_def.js'
+import { validateMainDef } from './validate.js'
+import { getFragments } from './fragments.js'
+import { parseRpcDef } from './definition/main.js'
+import { isIntrospectionQuery, handleIntrospection } from './introspection.js'
 
 // Use GraphQL-specific logic to parse the request into an rpc-agnostic `rpcDef`
 const parse = function({

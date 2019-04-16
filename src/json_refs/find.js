@@ -1,4 +1,4 @@
-const { getValues } = require('../utils/functional/values.js')
+import { getValues } from '../utils/functional/values.js'
 
 // Recursively find all the JSON references
 const findRefs = function({ content }) {

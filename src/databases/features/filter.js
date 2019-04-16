@@ -1,5 +1,5 @@
-const { difference } = require('../../utils/functional/difference.js')
-const { getWordsList } = require('../../utils/string.js')
+import { difference } from '../../utils/functional/difference.js'
+import { getWordsList } from '../../utils/string.js'
 
 // Adapter feature 'filter:_OPERATOR' allows for
 // `args.filter: { attrName: { _OPERATOR: value } }`

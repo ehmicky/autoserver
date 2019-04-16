@@ -1,4 +1,4 @@
-const { Buffer } = require('buffer')
+import { Buffer } from 'buffer'
 
 // Encodes and decodes base64 (RFC 4648)
 // We use the `base64url` variant, as we need it to be URL-friendly

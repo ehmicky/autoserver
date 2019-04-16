@@ -1,10 +1,10 @@
-const { groupValuesBy } = require('../../../utils/functional/group.js')
-const { addErrorHandler } = require('../../../errors/handler.js')
-const { normalizeError } = require('../../../errors/main.js')
-const { mergeCommandpaths } = require('../../../commands/helpers.js')
+import { groupValuesBy } from '../../../utils/functional/group.js'
+import { addErrorHandler } from '../../../errors/handler.js'
+import { normalizeError } from '../../../errors/main.js'
+import { mergeCommandpaths } from '../../../commands/helpers.js'
 
-const { getArgs } = require('./args')
-const { getResults } = require('./results')
+import { getArgs } from './args.js'
+import { getResults } from './results.js'
 
 // Fire all commands associated with a set of write actions
 const sequenceWrite = async function({ actions, top, mInput }, nextLayer) {

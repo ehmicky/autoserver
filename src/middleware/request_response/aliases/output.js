@@ -1,4 +1,4 @@
-const { applyResponseAliases } = require('./response')
+import { applyResponseAliases } from './response.js'
 
 // Apply `alias` in server output
 const applyOutputAliases = function({ response, modelAliases }) {

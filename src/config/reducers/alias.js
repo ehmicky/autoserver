@@ -1,6 +1,6 @@
-const { omit } = require('../../utils/functional/filter.js')
-const { throwPb } = require('../../errors/props.js')
-const { mapColls } = require('../helpers')
+import { omit } from '../../utils/functional/filter.js'
+import { throwPb } from '../../errors/props.js'
+import { mapColls } from '../helpers.js'
 
 // Transforms can copy each `alias` as a real attribute,
 // and set `aliasOf` property

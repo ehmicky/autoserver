@@ -1,4 +1,4 @@
-const { report } = require('./report')
+import { report } from './report.js'
 
 const logConsole = {
   name: 'console',

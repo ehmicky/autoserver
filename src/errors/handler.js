@@ -1,9 +1,9 @@
-const keepFuncProps = require('keep-func-props')
+import keepFuncProps from 'keep-func-props'
 
-const { result } = require('../utils/functional/result.js')
+import { result } from '../utils/functional/result.js'
 
-const { throwError, normalizeError, isError } = require('./main')
-const { throwPb } = require('./props')
+import { throwError, normalizeError, isError } from './main.js'
+import { throwPb } from './props.js'
 
 // Wrap a function with a error handler
 // Allow passing an empty error handler, i.e. ignoring any error thrown

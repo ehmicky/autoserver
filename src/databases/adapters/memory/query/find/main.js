@@ -1,8 +1,8 @@
-const { evalFilter } = require('../../../../../filter/eval.js')
+import { evalFilter } from '../../../../../filter/eval.js'
 
-const { sortResponse } = require('./order')
-const { offsetResponse } = require('./offset')
-const { limitResponse } = require('./limit')
+import { sortResponse } from './order.js'
+import { offsetResponse } from './offset.js'
+import { limitResponse } from './limit.js'
 
 // Retrieve models
 const find = function({ collection, filter, order, offset, limit }) {

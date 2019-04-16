@@ -1,4 +1,4 @@
-const { GraphQLString } = require('graphql')
+import { GraphQLString } from 'graphql'
 
 // GraphQL requires every object field to have attributes,
 // which does not always makes sense for us.

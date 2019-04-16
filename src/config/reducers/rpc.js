@@ -1,5 +1,5 @@
-const { getRpc } = require('../../rpc/get.js')
-const { RPCS } = require('../../rpc/info.js')
+import { getRpc } from '../../rpc/get.js'
+import { RPCS } from '../../rpc/info.js'
 
 // Fire each `rpcAdapter.load({ config })` function
 const loadRpc = function({ config }) {

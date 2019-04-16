@@ -1,4 +1,4 @@
-const { throwError } = require('../errors/main.js')
+import { throwError } from '../errors/main.js'
 
 // When encountering the same JSON reference twice, do not resolve the second
 // one. This is done to fix recursion problems. Those JSON references are

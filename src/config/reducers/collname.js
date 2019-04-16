@@ -1,4 +1,4 @@
-const { mapColls } = require('../helpers')
+import { mapColls } from '../helpers.js'
 
 // Default `collection.name` to parent key
 const mapColl = function({ collname, coll: { name = [collname] } }) {

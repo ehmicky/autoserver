@@ -1,4 +1,4 @@
-const { throwError } = require('../errors')
+import { throwError } from '../errors.js'
 
 // Enforces that a function is only called once
 const once = function(func, { error = false } = {}) {

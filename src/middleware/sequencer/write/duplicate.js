@@ -1,6 +1,6 @@
-const { throwError } = require('../../../errors/main.js')
-const { isEqual } = require('../../../utils/functional/equal.js')
-const { groupValuesBy } = require('../../../utils/functional/group.js')
+import { throwError } from '../../../errors/main.js'
+import { isEqual } from '../../../utils/functional/equal.js'
+import { groupValuesBy } from '../../../utils/functional/group.js'
 
 // We remove duplicates for several reasons:
 //  - efficiency

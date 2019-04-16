@@ -1,11 +1,11 @@
-const keepFuncProps = require('keep-func-props')
+import keepFuncProps from 'keep-func-props'
 
-const { identity } = require('../utils/functional/identity.js')
-const { promiseThen } = require('../utils/functional/promise.js')
-const { reduceAsync } = require('../utils/functional/reduce.js')
-const { result } = require('../utils/functional/result.js')
+import { identity } from '../utils/functional/identity.js'
+import { promiseThen } from '../utils/functional/promise.js'
+import { reduceAsync } from '../utils/functional/reduce.js'
+import { result } from '../utils/functional/result.js'
 
-const { startPerf, stopPerf } = require('./measure')
+import { startPerf, stopPerf } from './measure.js'
 
 // Wraps a function, so it calculate how long the function takes.
 // eslint-disable-next-line max-params

@@ -1,4 +1,4 @@
-const { isObject } = require('./type.js')
+import { isObject } from './type.js'
 
 // Returns all leaves values (i.e. not objects|arrays) as a list of
 // `{ value, key [...] }` pairs

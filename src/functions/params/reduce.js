@@ -1,6 +1,6 @@
-const { pick, omitBy } = require('../../utils/functional/filter.js')
-const { get, set, has } = require('../../utils/functional/get_set.js')
-const { isObject } = require('../../utils/functional/type.js')
+import { pick, omitBy } from '../../utils/functional/filter.js'
+import { get, set, has } from '../../utils/functional/get_set.js'
+import { isObject } from '../../utils/functional/type.js'
 
 // Reduce the size of parameters that might be too big
 const reduceParams = function({ params }) {

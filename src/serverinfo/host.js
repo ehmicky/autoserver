@@ -1,15 +1,15 @@
-const {
-  hostname: getHostname,
-  type: getOs,
-  platform: getPlatform,
-  release: getRelease,
-  arch: getArch,
-  totalmem: getMemory,
-  cpus: getCpus,
-  networkInterfaces: getNetworkInterfaces,
-} = require('os')
+import {
+  hostname as getHostname,
+  type as getOs,
+  platform as getPlatform,
+  release as getRelease,
+  arch as getArch,
+  totalmem as getMemory,
+  cpus as getCpus,
+  networkInterfaces as getNetworkInterfaces,
+} from 'os'
 
-const uuidv5 = require('uuid/v5')
+import { v5 as uuidv5 } from 'uuid'
 
 // Retrieve host-specific information
 const getHostInfo = function() {

@@ -1,5 +1,5 @@
-const { logEvent } = require('../../log/main.js')
-const { monitor } = require('../../perf/helpers.js')
+import { logEvent } from '../../log/main.js'
+import { monitor } from '../../perf/helpers.js'
 
 // Start each database connection
 const startConnections = async function({ dbAdapters, config, measures }) {

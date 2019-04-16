@@ -1,6 +1,6 @@
-const { difference } = require('../../utils/functional/difference.js')
-const { reverseArray } = require('../../utils/functional/reverse.js')
-const { sortArray } = require('../../utils/functional/sort.js')
+import { difference } from '../../utils/functional/difference.js'
+import { reverseArray } from '../../utils/functional/reverse.js'
+import { sortArray } from '../../utils/functional/sort.js'
 
 const ANY_ARRAY = [
   'boolean[]',

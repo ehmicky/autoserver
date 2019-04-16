@@ -1,7 +1,7 @@
-const { addErrorHandler } = require('../../errors/handler.js')
-const { throwAttrValError, throwAttrTypeError } = require('../error')
+import { addErrorHandler } from '../../errors/handler.js'
+import { throwAttrValError, throwAttrTypeError } from '../error.js'
 
-const { validateNotArray } = require('./common')
+import { validateNotArray } from './common.js'
 
 const parseLikeNlike = function({ value }) {
   // Using .* or .*$ at the end of a RegExp is useless
@@ -58,15 +58,20 @@ const evalNlike = function({ attr, value }) {
   return !regExp.test(attr)
 }
 
+// eslint-disable-next-line no-underscore-dangle
+const _like = {
+  parse: parseLikeNlike,
+  validate: validateLikeNlike,
+  eval: evalLike,
+}
+// eslint-disable-next-line no-underscore-dangle
+const _nlike = {
+  parse: parseLikeNlike,
+  validate: validateLikeNlike,
+  eval: evalNlike,
+}
+
 module.exports = {
-  _like: {
-    parse: parseLikeNlike,
-    validate: validateLikeNlike,
-    eval: evalLike,
-  },
-  _nlike: {
-    parse: parseLikeNlike,
-    validate: validateLikeNlike,
-    eval: evalNlike,
-  },
+  _like,
+  _nlike,
 }

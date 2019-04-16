@@ -1,5 +1,5 @@
-const zlib = require('zlib')
-const { promisify } = require('util')
+import zlib from 'zlib'
+import { promisify } from 'util'
 
 const pGzip = promisify(zlib.gzip)
 const pGunzip = promisify(zlib.gunzip)

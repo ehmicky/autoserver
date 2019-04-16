@@ -1,4 +1,4 @@
-const { extractSimpleIds } = require('../../filter/simple_id.js')
+import { extractSimpleIds } from '../../filter/simple_id.js'
 
 // Delegates to database adapter
 const databaseExecute = async function({

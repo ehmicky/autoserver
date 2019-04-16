@@ -1,4 +1,4 @@
-const { serializeContentType } = require('../../../formats/content_type.js')
+import { serializeContentType } from '../../../formats/content_type.js'
 
 // Each content type is sent differently
 const TYPES = {

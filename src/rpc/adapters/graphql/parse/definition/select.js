@@ -1,7 +1,7 @@
-const { throwError } = require('../../../../../errors/main.js')
+import { throwError } from '../../../../../errors/main.js'
 
-const { applyDirectives } = require('./directive')
-const { mergeSelectRename } = require('./merge_select')
+import { applyDirectives } from './directive.js'
+import { mergeSelectRename } from './merge_select.js'
 
 // Retrieve `rpcDef.args.select` using GraphQL selection sets
 const parseSelects = function({ args, ...input }) {

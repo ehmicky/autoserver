@@ -1,5 +1,5 @@
-const { addGenErrorHandler } = require('../../errors/handler.js')
-const { validate } = require('../../validation/validate.js')
+import { addGenErrorHandler } from '../../errors/handler.js'
+import { validate } from '../../validation/validate.js'
 
 // Custom data validation middleware
 // Check that newData passes config validation

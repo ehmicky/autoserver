@@ -1,4 +1,4 @@
-const { mapAttrs } = require('../helpers')
+import { mapAttrs } from '../helpers.js'
 
 // Copy `attr.type|description` to nested collections
 // from the `coll.id` they refer to

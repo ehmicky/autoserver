@@ -1,10 +1,10 @@
-const { capitalize } = require('underscore.string')
+import { capitalize } from 'underscore.string'
 
-const { mapValues, mapKeys } = require('../../../../utils/functional/map.js')
-const { COMMANDS } = require('../../../../commands/constants.js')
+import { mapValues, mapKeys } from '../../../../utils/functional/map.js'
+import { COMMANDS } from '../../../../commands/constants.js'
 
-const { getCommandName, getTypeName } = require('./name')
-const { TOP_DESCRIPTIONS, getCommandDescription } = require('./description')
+import { getCommandName, getTypeName } from './name.js'
+import { TOP_DESCRIPTIONS, getCommandDescription } from './description.js'
 
 // Retrieve the GraphQL definitions for Query|Mutation,
 // and the top-level commands

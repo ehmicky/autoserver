@@ -1,8 +1,8 @@
-const { wrapAdapters } = require('../adapters/wrap.js')
+import { wrapAdapters } from '../adapters/wrap.js'
 
-const { RPC_ADAPTERS } = require('./adapters/main.js')
-const { checkMethod } = require('./method_check')
-const { transformResponse } = require('./transform')
+import { RPC_ADAPTERS } from './adapters/main.js'
+import { checkMethod } from './method_check.js'
+import { transformResponse } from './transform.js'
 
 const members = ['name', 'title', 'load', 'parse']
 

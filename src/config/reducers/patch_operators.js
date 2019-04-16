@@ -1,6 +1,6 @@
-const { mapValues } = require('../../utils/functional/map.js')
-const { uniq } = require('../../utils/functional/uniq.js')
-const { OPERATORS } = require('../../patch/operators/main.js')
+import { mapValues } from '../../utils/functional/map.js'
+import { uniq } from '../../utils/functional/uniq.js'
+import { OPERATORS } from '../../patch/operators/main.js'
 
 // Parse `operators.attribute|argument` `any`
 const normalizePatchOperators = function({ config: { operators } }) {

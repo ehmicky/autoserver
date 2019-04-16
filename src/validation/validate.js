@@ -1,4 +1,4 @@
-const { errorMessages } = require('./messages')
+import { errorMessages } from './messages.js'
 
 // Perform a validation, using a JSON schema, and a `data` as input
 const validate = function({ compiledJsonSchema, data, extra = {} }) {

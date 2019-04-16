@@ -1,4 +1,4 @@
-const { http } = require('./http/main.js')
+import { http } from './http/main.js'
 
 const PROTOCOL_ADAPTERS = [http]
 

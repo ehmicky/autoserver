@@ -1,4 +1,4 @@
-const { toSentence } = require('underscore.string')
+import { toSentence } from 'underscore.string'
 
 // Turn ['a', 'b', 'c'] into 'a, b or c'
 const getWordsList = function(

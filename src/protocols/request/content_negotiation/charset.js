@@ -1,5 +1,5 @@
-const { addGenPbHandler } = require('../../../errors/handler.js')
-const { getCharset, getCharsets } = require('../../../charsets/main.js')
+import { addGenPbHandler } from '../../../errors/handler.js'
+import { getCharset, getCharsets } from '../../../charsets/main.js'
 
 // Retrieve charset asked by client for the request and response payload
 const getCharsetFunc = function({ queryvars, charset, format }) {

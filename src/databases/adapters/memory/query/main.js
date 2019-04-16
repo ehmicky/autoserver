@@ -1,8 +1,8 @@
-const { pSetTimeout } = require('../../../../utils/timeout.js')
+import { pSetTimeout } from '../../../../utils/timeout.js'
 
-const { find } = require('./find/main.js')
-const { delete: deleteMany } = require('./delete')
-const { upsert } = require('./upsert')
+import { find } from './find/main.js'
+import { delete as deleteMany } from './delete.js'
+import { upsert } from './upsert.js'
 
 // CRUD commands
 const query = async function({
