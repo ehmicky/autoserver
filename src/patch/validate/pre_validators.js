@@ -9,7 +9,7 @@ import { isRef } from '../ref_parsing.js'
 import { checkAttrType, checkOpValType } from './types/main.js'
 import { applyCheck } from './check.js'
 
-import { byteLength } = Buffer
+const { byteLength } = Buffer
 
 const attributeExists = function({ attr }) {
   if (attr !== undefined) {
