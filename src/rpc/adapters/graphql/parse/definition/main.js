@@ -6,7 +6,7 @@ import { parseSelects } from './select.js'
 import { addPopulate } from './populate.js'
 
 // Transform GraphQL AST into rpc-agnostic `rpcDef`
-const parseRpcDef = function({ mainDef, variables, fragments }) {
+export const parseRpcDef = function({ mainDef, variables, fragments }) {
   const mainSelection = getMainSelection({ mainDef, variables })
 
   const {
@@ -55,8 +55,4 @@ const validateForbiddenArg = function({ args, argName }) {
 
   const message = `Cannot specify '${argName}' argument with GraphQL`
   throwError(message, { reason: 'VALIDATION' })
-}
-
-module.exports = {
-  parseRpcDef,
 }

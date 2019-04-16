@@ -2,7 +2,7 @@ import { omit } from '../../../utils/functional/filter.js'
 import { getStandardError } from '../../../errors/standard.js'
 
 // Use protocol-specific way to send back the response to the client
-const getErrorResponse = function({ error, mInput, response }) {
+export const getErrorResponse = function({ error, mInput, response }) {
   if (!error) {
     return response
   }
@@ -13,8 +13,4 @@ const getErrorResponse = function({ error, mInput, response }) {
   const contentA = omit(content, 'details')
 
   return { type: 'error', content: contentA }
-}
-
-module.exports = {
-  getErrorResponse,
 }

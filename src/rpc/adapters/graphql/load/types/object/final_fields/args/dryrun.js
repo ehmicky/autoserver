@@ -1,7 +1,7 @@
 import { GraphQLBoolean } from 'graphql'
 
 // `dryrun` argument
-const getDryrunArgument = function({ command }) {
+export const getDryrunArgument = function({ command }) {
   const hasDryrun = DRYRUN_COMMANDS.includes(command)
 
   if (!hasDryrun) {
@@ -20,8 +20,4 @@ const DRYRUN_ARGS = {
       'No modification will be applied to the database, but the response will be the same as if it did.',
     defaultValue: false,
   },
-}
-
-module.exports = {
-  getDryrunArgument,
 }

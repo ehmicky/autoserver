@@ -7,7 +7,7 @@ import { getAttr } from './attr.js'
 // Replace sibling attribute's value by a dummy value, since it is not known
 // yet, but we still want to validate for example that sibling attribute is of
 // the right attribute
-const getSiblingValue = function({
+export const getSiblingValue = function({
   node,
   node: { value, type },
   attrs,
@@ -54,8 +54,4 @@ const DUMMY_VALUES = {
   integer: 0,
   boolean: true,
   dynamic: '',
-}
-
-module.exports = {
-  getSiblingValue,
 }

@@ -7,7 +7,7 @@ import { isInlineFunc, isEscapedInlineFunc } from './test.js'
 import { getInlineFunc } from './tokenize.js'
 
 // Create all config inline functions, i.e. apply `new Function()`
-const createInlineFuncs = function({ config }) {
+export const createInlineFuncs = function({ config }) {
   const paramsKeys = getParamsKeys({ config })
 
   const configB = getValues(config).reduce(
@@ -60,7 +60,3 @@ const eCreateFunction = addGenErrorHandler(createFunction, {
   message: ({ inlineFunc }) => `Invalid function: '${inlineFunc}'`,
   reason: 'CONFIG_VALIDATION',
 })
-
-module.exports = {
-  createInlineFuncs,
-}

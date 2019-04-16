@@ -5,7 +5,7 @@ import { getDataPath } from './data_path.js'
 import { isModelType } from './validate.js'
 
 // Retrieve the keys of an `args.data` object which are nested collections
-const getNestedKeys = function({ data, commandpath, top, config }) {
+export const getNestedKeys = function({ data, commandpath, top, config }) {
   const nestedKeys = data.flatMap(Object.keys)
   const nestedKeysA = uniq(nestedKeys)
   // Keep only the keys which are nested collections
@@ -15,14 +15,14 @@ const getNestedKeys = function({ data, commandpath, top, config }) {
   return nestedKeysB
 }
 
-const isModel = function({ attrName, commandpath, top, config }) {
+export const isModel = function({ attrName, commandpath, top, config }) {
   const commandpathA = [...commandpath, attrName]
   const coll = getColl({ top, config, commandpath: commandpathA })
   return coll !== undefined && coll.collname !== undefined
 }
 
 // Retrieve children actions of an `args.data` object by iterating over them
-const getNestedActions = function({ nestedKeys, ...rest }) {
+export const getNestedActions = function({ nestedKeys, ...rest }) {
   return nestedKeys.flatMap(nestedKey =>
     getNestedAction({ ...rest, nestedKey }),
   )
@@ -64,10 +64,4 @@ const getDataPaths = function({ dataPaths, data, nestedKey }) {
       commandpath: [...dataPath, nestedKey],
     }),
   )
-}
-
-module.exports = {
-  isModel,
-  getNestedKeys,
-  getNestedActions,
 }

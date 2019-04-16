@@ -3,7 +3,7 @@ import { uniq } from '../../utils/functional/uniq.js'
 import { OPERATORS } from '../../patch/operators/main.js'
 
 // Parse `operators.attribute|argument` `any`
-const normalizePatchOperators = function({ config: { operators } }) {
+export const normalizePatchOperators = function({ config: { operators } }) {
   if (operators === undefined) {
     return
   }
@@ -50,8 +50,4 @@ const TYPES = {
       'object[]',
     ],
   },
-}
-
-module.exports = {
-  normalizePatchOperators,
 }

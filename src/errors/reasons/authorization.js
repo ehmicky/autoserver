@@ -3,7 +3,7 @@ import { getModels } from './message.js'
 // Extra:
 //  - collection `{string}`
 //  - ids `{string[]}`: models `id`s
-const AUTHORIZATION = {
+export const AUTHORIZATION = {
   status: 'CLIENT_ERROR',
   title: 'The request is not authorized, i.e. not allowed to be performed',
   getMessage: ({
@@ -12,8 +12,4 @@ const AUTHORIZATION = {
     },
     ...extra
   }) => `${getModels(extra)} cannot be ${participle}`,
-}
-
-module.exports = {
-  AUTHORIZATION,
 }

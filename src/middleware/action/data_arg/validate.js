@@ -7,7 +7,7 @@ import { isPatchOp } from '../../../patch/parse.js'
 const { byteLength } = Buffer
 
 // Validate that user passed a correct `args.data`
-const validateData = function({
+export const validateData = function({
   datum,
   commandpath,
   top: { command },
@@ -88,7 +88,7 @@ const validateDataValue = function({
   throwError(message, { reason: 'VALIDATION' })
 }
 
-const isModelsType = function(val) {
+export const isModelsType = function(val) {
   if (isModelType(val)) {
     return true
   }
@@ -96,12 +96,6 @@ const isModelsType = function(val) {
   return Array.isArray(val) && val.every(isModelType)
 }
 
-const isModelType = function(obj) {
+export const isModelType = function(obj) {
   return isObject(obj) && !isPatchOp(obj)
-}
-
-module.exports = {
-  validateData,
-  isModelsType,
-  isModelType,
 }

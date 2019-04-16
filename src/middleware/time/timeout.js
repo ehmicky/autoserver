@@ -3,7 +3,7 @@ import { setWeakTimeout } from '../../utils/timeout.js'
 import { getLimits } from '../../limits.js'
 
 // Make request fail after some timeout
-const setRequestTimeout = function({ mInput, config }, nextLayer) {
+export const setRequestTimeout = function({ mInput, config }, nextLayer) {
   const timeoutPromise = startRequestTimeout({ config })
   const nextLayerPromise = nextLayer(mInput, 'protocol')
 
@@ -26,7 +26,3 @@ const startRequestTimeout = async function({ config, config: { env } }) {
 }
 
 const HUGE_TIMEOUT = 1e9
-
-module.exports = {
-  setRequestTimeout,
-}

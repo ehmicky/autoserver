@@ -1,7 +1,7 @@
 import { groupBy } from '../utils/functional/group.js'
 
 // Normalize and group measures, returning an array of objects
-const groupMeasures = function({ measures }) {
+export const groupMeasures = function({ measures }) {
   // Only keep finished measures
   const filteredMeasures = measures.filter(
     ({ duration }) => duration !== undefined,
@@ -30,7 +30,3 @@ const getMillisecsDuration = function({ duration }) {
 }
 
 const NANOSECS_TO_MILLISECS = 1e6
-
-module.exports = {
-  groupMeasures,
-}

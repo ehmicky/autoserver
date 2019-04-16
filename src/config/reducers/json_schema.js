@@ -6,7 +6,7 @@ import { compile } from '../../validation/compile.js'
 // Compile JSON schema defined in the config
 // Returns compiled JSON schema of:
 //   { coll: { type: 'object', required: [...], properties: { ... } }
-const compileJsonSchema = function({
+export const compileJsonSchema = function({
   config,
   config: { collections, shortcuts },
 }) {
@@ -85,7 +85,3 @@ const eCompileSchema = addGenErrorHandler(compileSchema, {
     `Invalid JSON schema in 'validate' property of '${collname}' collection`,
   reason: 'CONFIG_VALIDATION',
 })
-
-module.exports = {
-  compileJsonSchema,
-}

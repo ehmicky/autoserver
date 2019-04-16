@@ -3,7 +3,7 @@ import { addAuthorizeFilter } from './filter.js'
 import { checkNewData } from './data.js'
 
 // Handles `config.authorize` and `collection.authorize`
-const validateAuthorization = function({
+export const validateAuthorization = function({
   args,
   collname,
   clientCollname,
@@ -98,8 +98,4 @@ const validateCollAuth = function({
   checkNewData({ authorize: authorizeA, args, clientCollname, top })
 
   return argsA
-}
-
-module.exports = {
-  validateAuthorization,
 }

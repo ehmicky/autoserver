@@ -4,7 +4,7 @@ import { mergeCommandpaths } from '../../../commands/helpers.js'
 import { getSimpleFilter } from '../../../filter/simple_id.js'
 
 // Add `action.currentData` for `create` and `upsert` commands
-const parallelResolve = async function({ actions, mInput }, nextLayer) {
+export const parallelResolve = async function({ actions, mInput }, nextLayer) {
   const { currentDataMap, metadata } = await getCurrentDataMap({
     actions,
     nextLayer,
@@ -78,8 +78,4 @@ const addCurrentDataAction = function({
 
 const currentDataMatches = function({ id, currentData = [] }) {
   return currentData.find(model => model.id === id)
-}
-
-module.exports = {
-  parallelResolve,
 }

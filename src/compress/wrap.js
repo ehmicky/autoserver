@@ -4,12 +4,8 @@ import { COMPRESS_ADAPTERS } from './adapters/main.js'
 
 const members = ['name', 'title', 'decompress', 'compress']
 
-const compressAdapters = wrapAdapters({
+export const compressAdapters = wrapAdapters({
   adapters: COMPRESS_ADAPTERS,
   members,
   reason: 'COMPRESS',
 })
-
-module.exports = {
-  compressAdapters,
-}

@@ -14,13 +14,9 @@ const decompress = function(content) {
   return pInflate(content)
 }
 
-const deflate = {
+export const deflate = {
   name: 'deflate',
   title: 'Deflate',
   compress,
   decompress,
-}
-
-module.exports = {
-  deflate,
 }

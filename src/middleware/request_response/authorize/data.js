@@ -2,7 +2,7 @@ import { throwPb } from '../../../errors/props.js'
 import { evalFilter } from '../../../filter/eval.js'
 
 // Check `model.authorize` `model.*` against `args.newData`
-const checkNewData = function({
+export const checkNewData = function({
   authorize,
   args: { newData },
   clientCollname,
@@ -25,8 +25,4 @@ const checkNewData = function({
     messageInput: { top },
     extra: { collection: clientCollname, ids },
   })
-}
-
-module.exports = {
-  checkNewData,
 }

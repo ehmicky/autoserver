@@ -29,7 +29,7 @@ import { compileJsonSchema } from './reducers/json_schema.js'
 import { loadRpc } from './reducers/rpc.js'
 
 // Loads config
-const loadConfig = function({ measures, configPath, config }) {
+export const loadConfig = function({ measures, configPath, config }) {
   return monitoredReduce({
     funcs: reducers,
     initialInput: { measures, configPath, config },
@@ -102,7 +102,3 @@ const reducers = [
   // Fire each `rpcAdapter.load({ config })` function
   loadRpc,
 ]
-
-module.exports = {
-  loadConfig,
-}

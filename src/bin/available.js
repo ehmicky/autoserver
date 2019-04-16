@@ -23,8 +23,4 @@ By default, will use any file named autoserver.config${EXTENSIONS.join('|')}`,
   },
 }
 
-const availableInstructions = [runInstruction]
-
-module.exports = {
-  availableInstructions,
-}
+export const availableInstructions = [runInstruction]

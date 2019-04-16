@@ -3,7 +3,7 @@ import { throwPb } from '../../../errors/props.js'
 import { handlers } from './args.js'
 
 // Transform `data` to normalized `results`
-const getResults = function({ actions, data, metadata, ids, top }) {
+export const getResults = function({ actions, data, metadata, ids, top }) {
   validateData({ ids, data })
 
   return actions.flatMap(action => setModels({ action, data, metadata, top }))
@@ -45,8 +45,4 @@ const validateData = function({ ids, data }) {
 
   const message = "'ids' and 'results' do not have the same length"
   throwPb({ message, reason: 'ENGINE' })
-}
-
-module.exports = {
-  getResults,
 }

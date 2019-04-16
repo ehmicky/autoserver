@@ -1,7 +1,7 @@
 import { GraphQLString } from 'graphql'
 
 // `order` argument
-const getOrderArgument = function({ command, features }) {
+export const getOrderArgument = function({ command, features }) {
   const canOrder =
     ORDER_COMMAND_TYPES.includes(command) && features.includes('order')
 
@@ -22,8 +22,4 @@ Specify ascending or descending order by appending + or - (default is ascending)
 Several attributes can specified, by using a comma-separated list.`,
     defaultValue: 'id+',
   },
-}
-
-module.exports = {
-  getOrderArgument,
 }

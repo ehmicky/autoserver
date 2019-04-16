@@ -1,6 +1,6 @@
 // Retrieve list of nested attributes as `{ attrName, weight }`
 // `weight` is the number of models spawn by each instance of this child action
-const getNestedAttrs = function({ childActions }) {
+export const getNestedAttrs = function({ childActions }) {
   const topChildActions = childActions.filter(
     ({ parentAction: { commandpath } }) => commandpath.length === 1,
   )
@@ -23,8 +23,4 @@ const getWeight = function({ childActions }) {
     .map(childAction => getWeight({ childActions: childAction.childActions }))
     .reduce((sum, weightA) => sum + weightA, 0)
   return childWeights + 1
-}
-
-module.exports = {
-  getNestedAttrs,
 }

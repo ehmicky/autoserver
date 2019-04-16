@@ -3,7 +3,7 @@ import { sortArray } from '../utils/functional/sort.js'
 import { sortMeasures } from './sort.js'
 
 // Returns measures but as a single string, for console debugging
-const stringifyMeasures = function({ phase = '', measuresGroups }) {
+export const stringifyMeasures = function({ phase = '', measuresGroups }) {
   const sortedMeasures = sortArray(measuresGroups, sortMeasures)
   return sortedMeasures.map(stringifyMeasure.bind(null, phase)).join('\n')
 }
@@ -49,8 +49,4 @@ const LENGTHS = {
   duration: 11,
   average: 10,
   count: 3,
-}
-
-module.exports = {
-  stringifyMeasures,
 }

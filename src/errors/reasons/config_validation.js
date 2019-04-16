@@ -7,12 +7,8 @@ const getMessage = function({ path }) {
 //  - value VAL
 //  - jsonSchema OBJ
 //  - suggestions VAL_ARR
-const CONFIG_VALIDATION = {
+export const CONFIG_VALIDATION = {
   status: 'SERVER_ERROR',
   title: 'Wrong configuration caught during server startup',
   getMessage,
-}
-
-module.exports = {
-  CONFIG_VALIDATION,
 }

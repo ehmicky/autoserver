@@ -8,8 +8,4 @@ const getExtensions = function() {
   ).filter(extension => extension !== undefined)
 }
 
-const EXTENSIONS = getExtensions()
-
-module.exports = {
-  EXTENSIONS,
-}
+export const EXTENSIONS = getExtensions()

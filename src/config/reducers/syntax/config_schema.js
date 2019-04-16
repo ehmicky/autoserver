@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-const SCHEMA = {
+export const SCHEMA = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   $id: 'config_json_schema_v1',
   title: "autoserver configuration's JSON schema",
@@ -766,9 +766,5 @@ const SCHEMA = {
       },
     },
   },
-}
-
-module.exports = {
-  SCHEMA,
 }
 /* eslint-enable max-lines */

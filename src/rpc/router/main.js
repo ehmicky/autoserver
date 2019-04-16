@@ -4,7 +4,7 @@ import { findRoute } from './routes.js'
 import { getPathvars } from './pathvars.js'
 
 // Retrieves RPC using URL's path
-const getRpcByPath = function({ path }) {
+export const getRpcByPath = function({ path }) {
   const route = findRoute({ path })
   const { rpc } = route
   const rpcAdapter = getRpc(rpc)
@@ -12,8 +12,4 @@ const getRpcByPath = function({ path }) {
   const pathvars = getPathvars({ path, route })
 
   return { rpcAdapter, pathvars }
-}
-
-module.exports = {
-  getRpcByPath,
 }

@@ -2,7 +2,7 @@ import { difference } from '../../utils/functional/difference.js'
 import { reverseArray } from '../../utils/functional/reverse.js'
 import { sortArray } from '../../utils/functional/sort.js'
 
-const ANY_ARRAY = [
+export const ANY_ARRAY = [
   'boolean[]',
   'integer[]',
   'number[]',
@@ -23,8 +23,8 @@ const commonEmptyAttrs = {
   argument: ['empty'],
 }
 
-// `_push` patch operator
-const pushOperator = {
+// eslint-disable-next-line no-underscore-dangle
+export const _push = {
   ...commonAttrs,
 
   apply({ value: attrVal = [], arg: opVal = [] }) {
@@ -32,8 +32,8 @@ const pushOperator = {
   },
 }
 
-// `_unshift` patch operator
-const unshiftOperator = {
+// eslint-disable-next-line no-underscore-dangle
+export const _unshift = {
   ...commonAttrs,
 
   apply({ value: attrVal = [], arg: opVal = [] }) {
@@ -41,8 +41,8 @@ const unshiftOperator = {
   },
 }
 
-// `_pop` patch operator
-const popOperator = {
+// eslint-disable-next-line no-underscore-dangle
+export const _pop = {
   ...commonEmptyAttrs,
 
   apply({ value: attrVal = [] }) {
@@ -50,8 +50,8 @@ const popOperator = {
   },
 }
 
-// `_shift` patch operator
-const shiftOperator = {
+// eslint-disable-next-line no-underscore-dangle
+export const _shift = {
   ...commonEmptyAttrs,
 
   apply({ value: attrVal = [] }) {
@@ -59,8 +59,8 @@ const shiftOperator = {
   },
 }
 
-// `_remove` patch operator
-const removeOperator = {
+// eslint-disable-next-line no-underscore-dangle
+export const _remove = {
   ...commonAttrs,
 
   apply({ value: attrVal = [], arg: opVal = [] }) {
@@ -68,8 +68,8 @@ const removeOperator = {
   },
 }
 
-// `_sort` patch operator
-const sortOperator = {
+// eslint-disable-next-line no-underscore-dangle
+export const _sort = {
   attribute: ANY_ARRAY,
 
   argument: ['string'],
@@ -86,14 +86,4 @@ const sortOperator = {
     const attrValA = sortArray(attrVal)
     return order === 'asc' ? attrValA : reverseArray(attrValA)
   },
-}
-
-module.exports = {
-  _push: pushOperator,
-  _unshift: unshiftOperator,
-  _pop: popOperator,
-  _shift: shiftOperator,
-  _remove: removeOperator,
-  _sort: sortOperator,
-  ANY_ARRAY,
 }

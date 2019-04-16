@@ -4,7 +4,7 @@ import { getRef } from '../../../json_refs/ref_path.js'
 
 // Stops connection
 // Persist back to file, unless database adapter option `save` is false
-const disconnect = async function({ options: { save, data }, connection }) {
+export const disconnect = async function({ options: { save, data }, connection }) {
   if (!save) {
     return
   }
@@ -22,7 +22,3 @@ const eGetByExt = addGenPbHandler(getByExt, {
   reason: 'CONFIG_RUNTIME',
   extra: ({ path }) => ({ path: 'databases.memory.data', value: path }),
 })
-
-module.exports = {
-  disconnect,
-}

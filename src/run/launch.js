@@ -4,7 +4,7 @@ import { getProtocol } from '../protocols/get.js'
 import { PROTOCOLS } from '../protocols/info.js'
 
 // Launch the server for each protocol
-const launchProtocols = async function(options) {
+export const launchProtocols = async function(options) {
   // Make sure all servers are starting concurrently, not serially
   const protocolPromises = PROTOCOLS.map(protocol =>
     kLaunchProtocol(options, protocol),
@@ -72,8 +72,4 @@ const startEvent = function({
 }) {
   const message = `${title} - Listening on ${hostname}:${port}`
   return logEvent({ event: 'message', phase: 'startup', message, config })
-}
-
-module.exports = {
-  launchProtocols,
 }

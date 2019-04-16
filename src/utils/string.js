@@ -1,7 +1,7 @@
 import { toSentence } from 'underscore.string'
 
 // Turn ['a', 'b', 'c'] into 'a, b or c'
-const getWordsList = function(
+export const getWordsList = function(
   words,
   { op = 'or', quotes = false, json = false } = {},
 ) {
@@ -29,8 +29,4 @@ const quoteWords = function(words, { quotes }) {
   }
 
   return words.map(word => `'${word}'`)
-}
-
-module.exports = {
-  getWordsList,
 }

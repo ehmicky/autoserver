@@ -1,8 +1,4 @@
 // Stops connection
-const disconnect = function({ connection: db }) {
+export const disconnect = function({ connection: db }) {
   return db.close()
-}
-
-module.exports = {
-  disconnect,
 }

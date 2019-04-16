@@ -1,7 +1,7 @@
 import { transformSuccess, transformError } from './response.js'
 import { parse } from './parse.js'
 
-const jsonrpc = {
+export const jsonrpc = {
   name: 'jsonrpc',
   title: 'JSON-RPC',
   routes: ['/jsonrpc'],
@@ -9,8 +9,4 @@ const jsonrpc = {
   parse,
   transformSuccess,
   transformError,
-}
-
-module.exports = {
-  jsonrpc,
 }

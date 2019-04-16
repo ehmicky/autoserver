@@ -1,7 +1,7 @@
 // When using `select=parent.child`, `select=parent` is implicity added,
 // unless it was already selected, including by `select=all` or by specifying
 // no `select` at that level
-const addParentSelects = function({ selects }) {
+export const addParentSelects = function({ selects }) {
   const parentSelects = selects.flatMap(select =>
     getParentSelect({ select, selects }),
   )
@@ -43,7 +43,3 @@ const hasAllParent = function({ selects }) {
 
 // Remove last select part, e.g. `parent.child` -> `parent`
 const PARENT_SELECT_REGEXP = /\.?[^.]+$/u
-
-module.exports = {
-  addParentSelects,
-}

@@ -1,5 +1,5 @@
 // Apply `alias` in responses
-const applyResponseAliases = function({ data, attrName, aliases }) {
+export const applyResponseAliases = function({ data, attrName, aliases }) {
   return data.map(datum =>
     applyResponseAlias({ data: datum, attrName, aliases }),
   )
@@ -17,8 +17,4 @@ const applyResponseAlias = function({ data, attrName, aliases }) {
   const aliasesObj = aliases.map(alias => ({ [alias]: data[attrName] }))
 
   return Object.assign({}, data, ...aliasesObj)
-}
-
-module.exports = {
-  applyResponseAliases,
 }

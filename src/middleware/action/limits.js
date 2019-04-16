@@ -7,7 +7,7 @@ import { getLimits } from '../../limits.js'
 import { getColl } from './get_coll.js'
 
 // Validate request limits
-const validateRequestLimits = function({ config, mInput }) {
+export const validateRequestLimits = function({ config, mInput }) {
   const limits = getLimits({ config })
 
   validators.forEach(validator => validator({ ...mInput, limits }))
@@ -108,7 +108,3 @@ const validateMaxData = function({
 const MAX_DATA_COMMANDS = ['create', 'upsert']
 
 const validators = [validateMaxActions, validateNestedFind, validateMaxData]
-
-module.exports = {
-  validateRequestLimits,
-}

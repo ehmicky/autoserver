@@ -4,7 +4,7 @@ import { throwError } from '../../errors/main.js'
 import { isObject } from '../../utils/functional/type.js'
 
 // Validate collections are properly named
-const validateClientCollnames = function({ config: { collections } }) {
+export const validateClientCollnames = function({ config: { collections } }) {
   if (!isObject(collections)) {
     return
   }
@@ -29,8 +29,4 @@ const checkCollname = function({ name }) {
 
   const message = `Collection's name '${name}' must be in plural form, i.e. should be '${pluralname}'`
   throwError(message, { reason: 'CONFIG_VALIDATION' })
-}
-
-module.exports = {
-  validateClientCollnames,
 }

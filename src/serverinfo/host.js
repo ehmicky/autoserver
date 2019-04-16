@@ -12,7 +12,7 @@ import {
 import { v5 as uuidv5 } from 'uuid'
 
 // Retrieve host-specific information
-const getHostInfo = function() {
+export const getHostInfo = function() {
   const id = getHostId()
   const name = getHostname()
   const os = getOs()
@@ -48,7 +48,3 @@ const getMacAddress = function() {
 }
 
 const DEFAULT_MAC_ADDRESS = '00:00:00:00:00:00'
-
-module.exports = {
-  getHostInfo,
-}

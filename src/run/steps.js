@@ -12,7 +12,7 @@ import { setupGracefulExit } from './exit/setup.js'
 import { launchProtocols } from './launch.js'
 import { emitStartEvent } from './start_event.js'
 
-const startupSteps = [
+export const startupSteps = [
   // Start monitoring main startup time
   startStartupPerf,
   // Loads config
@@ -34,7 +34,3 @@ const startupSteps = [
   // Report startup performance monitoring
   reportStartupPerf,
 ]
-
-module.exports = {
-  startupSteps,
-}

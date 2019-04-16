@@ -4,7 +4,7 @@ import { offsetResponse } from './offset.js'
 import { sortResponse } from './order.js'
 
 // Find models
-const find = function(input) {
+export const find = function(input) {
   const { filterIds } = input
   const func = filterIds && filterIds.length === 1 ? findOne : findMany
   return func(input)
@@ -24,8 +24,4 @@ const findMany = function({ collection, filter, offset, limit, order }) {
   const cursorC = sortResponse({ cursor: cursorB, order })
 
   return cursorC.toArray()
-}
-
-module.exports = {
-  find,
 }

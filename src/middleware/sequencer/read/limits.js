@@ -1,7 +1,7 @@
 import { throwPb } from '../../../errors/props.js'
 
 // Only start a command if we know it won't hit the `maxmodels` limit
-const validateMaxmodels = function({ results, allIds, maxmodels, top }) {
+export const validateMaxmodels = function({ results, allIds, maxmodels, top }) {
   const shouldValidate = shouldValidateMaxmodels({ top })
 
   if (!shouldValidate) {
@@ -56,8 +56,4 @@ const shouldValidateMaxmodels = function({
   },
 }) {
   return command === 'patch' || (command === 'delete' && dryrun)
-}
-
-module.exports = {
-  validateMaxmodels,
 }

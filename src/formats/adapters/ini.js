@@ -24,7 +24,7 @@ const escapeEmptyArrays = function(val) {
   return '[]'
 }
 
-const ini = {
+export const ini = {
   name: 'ini',
   title: 'INI',
   extensions: ['ini', 'in', 'cfg', 'conf'],
@@ -34,8 +34,4 @@ const ini = {
   jsonCompat: ['subset'],
   parse,
   serialize,
-}
-
-module.exports = {
-  ini,
 }

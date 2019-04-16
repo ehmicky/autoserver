@@ -34,8 +34,8 @@ const sliceApply = function({ attrVal, start, end }) {
   return attrVal.slice(startA, endA)
 }
 
-// `_slicestr` patch operator
-const slicestrOperator = {
+// eslint-disable-next-line no-underscore-dangle
+export const _slicestr = {
   ...commonAttrs,
 
   attribute: ['string'],
@@ -45,8 +45,8 @@ const slicestrOperator = {
   },
 }
 
-// `_slice` patch operator
-const sliceOperator = {
+// eslint-disable-next-line no-underscore-dangle
+export const _slice = {
   ...commonAttrs,
 
   attribute: ANY_ARRAY,
@@ -63,8 +63,8 @@ const insertApply = function({ index, attrVal }) {
   return { start, end }
 }
 
-// `_insertstr` patch operator
-const insertstrOperator = {
+// eslint-disable-next-line no-underscore-dangle
+export const _insertstr = {
   attribute: ['string'],
 
   argument: ['integer[]', 'empty[]', 'string[]'],
@@ -91,8 +91,8 @@ const isValidInsertstr = function({ opVal }) {
   )
 }
 
-// `_insert` patch operator
-const insertOperator = {
+// eslint-disable-next-line no-underscore-dangle
+export const _insert = {
   attribute: ANY_ARRAY,
 
   argument: ANY_ARRAY,
@@ -111,11 +111,4 @@ const insertOperator = {
     const { start, end } = insertApply({ index, attrVal })
     return [...start, ...values, ...end]
   },
-}
-
-module.exports = {
-  _slicestr: slicestrOperator,
-  _slice: sliceOperator,
-  _insertstr: insertstrOperator,
-  _insert: insertOperator,
 }

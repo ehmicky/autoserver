@@ -4,7 +4,7 @@ import { makeImmutable } from '../../utils/functional/immutable.js'
 import { getServerinfo } from '../../serverinfo/main.js'
 
 // Retrieve all parameters
-const getParams = function(
+export const getParams = function(
   mInput,
   {
     params: { error, ...params } = {},
@@ -132,17 +132,11 @@ const getError = function({ error, mInput }) {
 }
 
 // Retrieve model-related system parameters
-const getModelParams = function({ model, previousmodel, attrName }) {
+export const getModelParams = function({ model, previousmodel, attrName }) {
   const value = model[attrName]
   const previousvalue =
     previousmodel == null ? undefined : previousmodel[attrName]
 
   return { model, value, previousmodel, previousvalue }
 }
-
-module.exports = {
-  getParams,
-  getModelParams,
-}
-
 /* eslint-enable max-lines, max-lines-per-function */

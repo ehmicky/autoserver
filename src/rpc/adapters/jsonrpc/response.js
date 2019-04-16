@@ -1,14 +1,14 @@
 import { omit } from '../../../utils/functional/filter.js'
 
 // Apply JSON-RPC-specific error response transformation
-const transformSuccess = function({ response: { content }, payload }) {
+export const transformSuccess = function({ response: { content }, payload }) {
   const { jsonrpc, id, other } = getResponse({ payload })
 
   return { jsonrpc, id, result: content, error: other }
 }
 
 // Apply JSON-RPC-specific error response transformation
-const transformError = function({
+export const transformError = function({
   response: {
     content: {
       error,
@@ -97,8 +97,3 @@ const ERROR_CODES_MAP = {
 
 // We use the code `1` for any error related to database/request runtime issues
 const DEFAULT_ERROR_CODE = 1
-
-module.exports = {
-  transformSuccess,
-  transformError,
-}

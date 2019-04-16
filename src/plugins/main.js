@@ -11,7 +11,7 @@ import { authorPlugin } from './author.js'
 // They can also take an `opts` parameter
 // Use cases can be: adding a attribute to each collection,
 // extending core functionalities, etc.
-const applyPlugins = async function({ config }) {
+export const applyPlugins = async function({ config }) {
   if (!config.collections) {
     return
   }
@@ -114,7 +114,3 @@ const builtinPlugins = [
     enabled: false,
   },
 ]
-
-module.exports = {
-  applyPlugins,
-}

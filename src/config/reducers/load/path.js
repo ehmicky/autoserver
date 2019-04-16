@@ -7,7 +7,7 @@ import { pReaddir } from '../../../utils/fs.js'
 import { getByExt } from '../../../formats/get.js'
 
 // Retrieves final config path to use
-const getConfPath = async function({ envConfigPath, configPath }) {
+export const getConfPath = async function({ envConfigPath, configPath }) {
   const path = envConfigPath || configPath
 
   const pathA = await getPath({ path })
@@ -84,7 +84,3 @@ const eGetByExt = addGenErrorHandler(getByExt, {
   message: ({ path }) => `Config file format is not supported: '${path}'`,
   reason: 'CONFIG_VALIDATION',
 })
-
-module.exports = {
-  getConfPath,
-}

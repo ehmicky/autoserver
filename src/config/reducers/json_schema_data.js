@@ -3,7 +3,7 @@ import { isObject } from '../../utils/functional/type.js'
 import { throwError } from '../../errors/main.js'
 
 // Validate JSON schema `$data` properties
-const validateJsonSchemaData = function({ config }) {
+export const validateJsonSchemaData = function({ config }) {
   fullRecurseMap(config, validateDataMapper)
 }
 
@@ -33,8 +33,4 @@ const validateDataFormat = function(obj) {
     const message = `'$data' must be the only property when specified: '${val}'`
     throwError(message, { reason: 'CONFIG_VALIDATION' })
   }
-}
-
-module.exports = {
-  validateJsonSchemaData,
 }

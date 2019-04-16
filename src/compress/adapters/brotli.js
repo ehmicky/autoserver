@@ -15,14 +15,10 @@ const decompress = function(content) {
 
 const supported = brotliCompress !== undefined
 
-const brotli = {
+export const brotli = {
   name: 'br',
   title: 'Brotli',
   compress,
   decompress,
   supported,
-}
-
-module.exports = {
-  brotli,
 }

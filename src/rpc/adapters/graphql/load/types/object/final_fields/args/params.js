@@ -1,7 +1,7 @@
 import GraphQLJSON from 'graphql-type-json'
 
 // `params` argument
-const getParamsArgument = function() {
+export const getParamsArgument = function() {
   return PARAMS_ARGS
 }
 
@@ -10,8 +10,4 @@ const PARAMS_ARGS = {
     type: GraphQLJSON,
     description: 'Custom parameters passed to database logic',
   },
-}
-
-module.exports = {
-  getParamsArgument,
 }

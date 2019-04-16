@@ -7,7 +7,7 @@ import { getArgs } from './args.js'
 import { getResults } from './results.js'
 
 // Fire all commands associated with a set of write actions
-const sequenceWrite = async function({ actions, top, mInput }, nextLayer) {
+export const sequenceWrite = async function({ actions, top, mInput }, nextLayer) {
   // Run write commands in parallel, for each `collname`
   const actionsGroups = groupValuesBy(actions, 'collname')
   const allInputs = actionsGroups
@@ -99,7 +99,3 @@ const responseHandler = function(error) {
 }
 
 const eFireResponseLayer = addErrorHandler(fireResponseLayer, responseHandler)
-
-module.exports = {
-  sequenceWrite,
-}

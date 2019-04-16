@@ -1,6 +1,6 @@
 import { validateString } from './validate.js'
 
-const parseIp = function({
+export const parseIp = function({
   protocolAdapter,
   protocolAdapter: { getIp },
   specific,
@@ -10,8 +10,4 @@ const parseIp = function({
   validateString(ip, 'ip', protocolAdapter)
 
   return { ip }
-}
-
-module.exports = {
-  parseIp,
 }

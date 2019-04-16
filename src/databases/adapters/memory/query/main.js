@@ -1,11 +1,11 @@
 import { pSetTimeout } from '../../../../utils/timeout.js'
 
 import { find } from './find/main.js'
-import { delete as deleteMany } from './delete.js'
+import { deleteMany } from './delete.js'
 import { upsert } from './upsert.js'
 
 // CRUD commands
-const query = async function({
+export const query = async function({
   collname,
   command,
   filter,
@@ -21,7 +21,7 @@ const query = async function({
 
   const collection = connection[collname]
 
-  return commands[command]({
+  return COMMANDS[command]({
     collection,
     filter,
     deletedIds,
@@ -32,12 +32,4 @@ const query = async function({
   })
 }
 
-const commands = {
-  find,
-  delete: deleteMany,
-  upsert,
-}
-
-module.exports = {
-  query,
-}
+const COMMANDS = { find, delete: deleteMany, upsert }

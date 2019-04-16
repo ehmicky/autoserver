@@ -1,7 +1,7 @@
 import { isError } from '../../../errors/main.js'
 
 // Rethrow original error
-const rethrowFailure = function({ failedActions: [error], results }) {
+export const rethrowFailure = function({ failedActions: [error], results }) {
   const errorA = addRollbackFailures({ error, results })
 
   throw errorA
@@ -23,8 +23,4 @@ const addRollbackFailures = function({ error, results }) {
   // eslint-disable-next-line no-param-reassign, fp/no-mutation
   error.extra.rollback_failures = rollbackFailuresA
   return error
-}
-
-module.exports = {
-  rethrowFailure,
 }

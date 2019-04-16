@@ -5,7 +5,7 @@ import { SAME_ARGS } from '../info.js'
 import { validateToken } from './token.js'
 
 // Validate pagination input arguments
-const validatePaginationInput = function({ args, topargs, token }) {
+export const validatePaginationInput = function({ args, topargs, token }) {
   validators.forEach(validator => validator({ args, topargs, token }))
 }
 
@@ -61,7 +61,3 @@ const validators = [
   validateBothDirection,
   validateSameTopargs,
 ]
-
-module.exports = {
-  validatePaginationInput,
-}

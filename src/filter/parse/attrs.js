@@ -3,7 +3,7 @@ import { DEEP_OPERATORS } from '../operators/main.js'
 
 import { parseOperations } from './operations.js'
 
-const parseAttrs = function({ attrs, throwErr }) {
+export const parseAttrs = function({ attrs, throwErr }) {
   if (!isObject(attrs)) {
     const message = 'There should be an object containing the filter attributes'
     throwErr(message)
@@ -85,8 +85,4 @@ const addDeepAttrName = function({ type, value, attrName }) {
   }
 
   return value.map(node => ({ ...node, attrName: `${attrName} ${type}` }))
-}
-
-module.exports = {
-  parseAttrs,
 }

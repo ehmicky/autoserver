@@ -5,7 +5,7 @@ import { addCatchAllHandler } from '../../../../errors/handler.js'
 import { throwPb } from '../../../../errors/props.js'
 
 // Generic/raw GraphQL parsing
-const getGraphqlDocument = function({ queryvars, payload }) {
+const eGetGraphqlDocument = function({ queryvars, payload }) {
   const payloadA = parsePayload({ payload })
   // Parameters can be in either query variables or payload
   const { query, variables, operationName } = { ...queryvars, ...payloadA }
@@ -54,11 +54,7 @@ const getGraphqlHandler = function(error) {
   })
 }
 
-const eGetGraphqlDocument = addCatchAllHandler(
-  getGraphqlDocument,
+export const getGraphqlDocument = addCatchAllHandler(
+  eGetGraphqlDocument,
   getGraphqlHandler,
 )
-
-module.exports = {
-  getGraphqlDocument: eGetGraphqlDocument,
-}

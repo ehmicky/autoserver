@@ -79,7 +79,7 @@ import {
   // eslint-disable-next-line import/max-dependencies
 } from './request_response/pagination/output/main.js'
 
-const middlewareLayers = [
+export const middlewareLayers = [
   // Final layer, always fired, whether the request fails or not
   {
     name: 'final',
@@ -282,8 +282,4 @@ const middlewareLayers = [
     ],
   },
 ]
-
-module.exports = {
-  middlewareLayers,
-}
 /* eslint-enable max-lines */

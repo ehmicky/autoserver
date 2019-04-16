@@ -5,7 +5,7 @@ import { genericValidators } from './generic.js'
 import { filterValidator } from './filter.js'
 
 // Validate database supports command features
-const validateRuntimeFeatures = function(
+export const validateRuntimeFeatures = function(
   { features },
   { args, clientCollname },
 ) {
@@ -62,8 +62,4 @@ const checkFeature = function({ feature, features, args, filterFeatures }) {
 const VALIDATORS = {
   ...genericValidators,
   filter: filterValidator,
-}
-
-module.exports = {
-  validateRuntimeFeatures,
 }

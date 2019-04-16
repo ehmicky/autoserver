@@ -3,7 +3,7 @@ import { isEqual } from '../../../utils/functional/equal.js'
 import { getValues } from './values.js'
 
 // Add new actions to the current request
-const addActions = function({ actions, filter, mapper, ...rest }) {
+export const addActions = function({ actions, filter, mapper, ...rest }) {
   const newActions = getValues({ actions, filter, mapper, ...rest })
   const actionsA = mergeActions({ actions, newActions })
   return actionsA
@@ -44,8 +44,4 @@ const isNotMerged = function({ actions, newAction }) {
 
 const hasSamePath = function({ action, newAction }) {
   return isEqual(action.commandpath, newAction.commandpath)
-}
-
-module.exports = {
-  addActions,
 }

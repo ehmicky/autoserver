@@ -27,8 +27,4 @@ const NON_COLL_TYPES = [
   'boolean',
 ]
 
-const normalizeType = mapAttrs.bind(null, mapAttr)
-
-module.exports = {
-  normalizeType,
-}
+export const normalizeType = mapAttrs.bind(null, mapAttr)

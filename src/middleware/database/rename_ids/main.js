@@ -8,7 +8,7 @@ import { renameOrder } from './order.js'
 // Some databases require a specific name for `id`, e.g. `_id` for MongoDB.
 // This is a translation layer that modifies `id` name inside and outside of
 // the database adapter.
-const renameIdsInput = function({ dbAdapter: { idName }, args }) {
+export const renameIdsInput = function({ dbAdapter: { idName }, args }) {
   // Database adapter declare optional `id` name with `idName`
   if (idName === undefined) {
     return
@@ -22,7 +22,7 @@ const renameIdsInput = function({ dbAdapter: { idName }, args }) {
 }
 
 // Revert changes
-const renameIdsOutput = function({ dbAdapter: { idName }, args, dbData }) {
+export const renameIdsOutput = function({ dbAdapter: { idName }, args, dbData }) {
   if (idName === undefined) {
     return
   }
@@ -64,9 +64,4 @@ const idsInput = {
   filter: renameFilter,
   order: renameOrder,
   dbData: renameData,
-}
-
-module.exports = {
-  renameIdsInput,
-  renameIdsOutput,
 }

@@ -2,7 +2,7 @@ import { get, set } from '../../../utils/functional/get_set.js'
 
 // Applies `args.select`.
 // Only output the fields that were picked by the client.
-const applySelect = function({ response, results }) {
+export const applySelect = function({ response, results }) {
   // Need to recurse through children first
   const responseA = results.reduceRight(selectFieldsByResult, response)
   return { response: responseA }
@@ -47,8 +47,4 @@ const pickAttr = function({ model, key }) {
   // When explicitely selected, transform `undefined` to `null`
   const value = model[key] === undefined ? null : model[key]
   return { [key]: value }
-}
-
-module.exports = {
-  applySelect,
 }

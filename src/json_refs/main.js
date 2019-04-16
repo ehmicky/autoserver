@@ -18,7 +18,7 @@ import { setRef } from './ref_path.js'
 // although this is not standard|spec behavior.
 // This function is called recursively, which is why it is passed to children
 // Recursion is handled.
-const dereferenceRefs = async function({
+export const dereferenceRefs = async function({
   path = '',
   parentPath = cwd(),
   cache = {},
@@ -66,8 +66,4 @@ const dereferenceChildren = async function({ content, path, cache, stack }) {
 const dereferenceChild = async function({ keys, ...rest }) {
   const refContent = await dereferenceRefs(rest)
   return { keys, refContent }
-}
-
-module.exports = {
-  dereferenceRefs,
 }

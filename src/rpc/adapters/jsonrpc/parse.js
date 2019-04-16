@@ -2,7 +2,7 @@ import { validatePayload } from './validate.js'
 
 // Use JSON-RPC-specific logic to parse the request into an
 // rpc-agnostic `rpcDef`
-const parse = function({ payload }) {
+export const parse = function({ payload }) {
   validatePayload({ payload })
 
   const { method, params, id } = payload
@@ -35,8 +35,4 @@ const addSilent = function({ args, id }) {
   }
 
   return { ...args, silent: true }
-}
-
-module.exports = {
-  parse,
 }

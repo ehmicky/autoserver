@@ -4,7 +4,7 @@ import { attributesPlugin } from './attributes.js'
 //   created_time {string} - set on model creation
 //   updated_time {string} - set on model creation, modification or deletion
 // Are handled by the system, and cannot be overriden by users
-const timestampPlugin = function({ config }) {
+export const timestampPlugin = function({ config }) {
   return attributesPlugin({ name: 'timestamp', getAttributes, config })
 }
 
@@ -39,8 +39,4 @@ const getCreatedTime = function({ previousmodel, previousvalue, timestamp }) {
 
 const getUpdatedTime = function({ timestamp }) {
   return timestamp
-}
-
-module.exports = {
-  timestampPlugin,
 }

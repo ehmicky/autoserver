@@ -90,8 +90,4 @@ const INPUT = {
   compressResponse: getCompressResponse,
   compressRequest: getCompressRequest,
 }
-const getInput = mapInput.bind(null, INPUT)
-
-module.exports = {
-  getInput,
-}
+export const getInput = mapInput.bind(null, INPUT)

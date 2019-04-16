@@ -1,7 +1,7 @@
 import { getValues } from '../utils/functional/values.js'
 
 // Recursively find all the JSON references
-const findRefs = function({ content }) {
+export const findRefs = function({ content }) {
   return getValues(content)
     .filter(isRef)
     .map(removeLastPath)
@@ -15,8 +15,4 @@ const isRef = function({ value, keys }) {
 const removeLastPath = function({ value, keys }) {
   const keysA = keys.slice(0, -1)
   return { value, keys: keysA }
-}
-
-module.exports = {
-  findRefs,
 }

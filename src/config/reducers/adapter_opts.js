@@ -4,7 +4,7 @@ import { compile } from '../../validation/compile.js'
 import { validate } from '../../validation/validate.js'
 
 // Validates `database.DATABASE.*`, `protocols.PROTOCOL.*` and `log.LOG.*`
-const validateAdaptersOpts = function({ opts, adaptersOpts, key }) {
+export const validateAdaptersOpts = function({ opts, adaptersOpts, key }) {
   Object.entries(opts).forEach(([name, optsA]) =>
     validateAdapterOpts({ name, opts: optsA, adaptersOpts, key }),
   )
@@ -39,7 +39,3 @@ const eValidate = addGenPbHandler(validate, {
     path: `${key}.${name}`,
   }),
 })
-
-module.exports = {
-  validateAdaptersOpts,
-}

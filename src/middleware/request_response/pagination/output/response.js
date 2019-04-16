@@ -6,7 +6,7 @@ import { getMetadata } from './metadata.js'
 // Add response metadata related to pagination:
 //   token, pagesize, has_prev_page, has_next_page
 // Also removes the extra model fetched to guess has_next_page
-const getPaginationOutput = function({ top, args, topargs, config, response }) {
+export const getPaginationOutput = function({ top, args, topargs, config, response }) {
   const hasPrevPage = getHasPrevPage({ args, top })
   const hasNextPage = getHasNextPage({ args, config, response })
 
@@ -49,8 +49,4 @@ const getData = function({ response: { data }, hasNextPage }) {
   }
 
   return data.slice(0, -1)
-}
-
-module.exports = {
-  getPaginationOutput,
 }

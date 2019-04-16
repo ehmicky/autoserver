@@ -1,5 +1,5 @@
 // Retrieves HTTP method, but protocol-agnostic
-const getMethod = function({
+export const getMethod = function({
   specific: {
     req: { method },
   },
@@ -7,7 +7,7 @@ const getMethod = function({
   return getAgnosticMethod({ method })
 }
 
-const getAgnosticMethod = function({ method }) {
+export const getAgnosticMethod = function({ method }) {
   if (typeof method !== 'string') {
     return method
   }
@@ -31,9 +31,4 @@ const METHODS_MAP = {
   PUT: 'PUT',
   PATCH: 'PATCH',
   DELETE: 'DELETE',
-}
-
-module.exports = {
-  getMethod,
-  getAgnosticMethod,
 }

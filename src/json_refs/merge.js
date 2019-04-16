@@ -4,7 +4,7 @@ import { deepMerge } from '../utils/functional/merge.js'
 import { isObjectType } from '../utils/functional/type.js'
 
 // Merge resolved JSON reference values back to original document
-const mergeChildren = function({ content, children }) {
+export const mergeChildren = function({ content, children }) {
   return children.reduce(mergeChild, content)
 }
 
@@ -40,8 +40,4 @@ const mergeSiblings = function({ content, keys, refContent }) {
   const parentA = omit(parent, '$ref')
   const refContentA = deepMerge(parentA, refContent)
   return refContentA
-}
-
-module.exports = {
-  mergeChildren,
 }

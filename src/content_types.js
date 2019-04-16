@@ -1,6 +1,6 @@
 import { isObject } from './utils/functional/type.js'
 
-const CONTENT_TYPES = {
+export const CONTENT_TYPES = {
   model: {
     validate: content => isJsonObject(content),
     types: ['model', 'object'],
@@ -50,14 +50,9 @@ const isJson = function(val) {
   return true
 }
 
-const isType = function(contentType, type) {
+export const isType = function(contentType, type) {
   return (
     CONTENT_TYPES[contentType] !== undefined &&
     CONTENT_TYPES[contentType].types.includes(type)
   )
-}
-
-module.exports = {
-  CONTENT_TYPES,
-  isType,
 }

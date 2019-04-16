@@ -2,7 +2,7 @@
 // This is needed since parent actions must be fired before children.
 // Uses `commandpath` to determine this, and output a recursive structure
 // { parentAction, childActions: [{...}, ...] }
-const getParentActions = function({ actions }) {
+export const getParentActions = function({ actions }) {
   return actions
     .filter(action => isParentAction({ action, actions }))
     .map(parentAction => getParentAction({ parentAction, actions }))
@@ -37,8 +37,4 @@ const isChildAction = function({
     childPath.length > parentPath.length &&
     childPath.join('.').startsWith(parentPath.join('.'))
   )
-}
-
-module.exports = {
-  getParentActions,
 }

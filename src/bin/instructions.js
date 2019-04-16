@@ -1,7 +1,7 @@
 import { availableInstructions } from './available.js'
 
 // Iterate over `availableOptions` to add all instructions
-const addInstructions = function({ yargs }) {
+export const addInstructions = function({ yargs }) {
   return availableInstructions.reduce(
     (yargsA, instruction) => addInstruction({ yargs: yargsA, instruction }),
     yargs,
@@ -64,8 +64,4 @@ const addPositionalArgs = function({ instruction: { args = [] }, yargs }) {
     (yargsA, { name, ...arg }) => yargsA.positional(name, arg),
     yargs,
   )
-}
-
-module.exports = {
-  addInstructions,
 }

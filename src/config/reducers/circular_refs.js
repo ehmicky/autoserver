@@ -5,7 +5,7 @@ import { throwError } from '../../errors/main.js'
 // There should be no circular references.
 // They may be introduced by e.g. dereferencing JSON references `$ref`
 // or YAML anchors `*var`
-const validateCircularRefs = function({ config }) {
+export const validateCircularRefs = function({ config }) {
   validateCircRefs(config)
 }
 
@@ -39,8 +39,4 @@ const walkCircularRefs = function(value, { path, pathSet }) {
   })
 
   pathSet.delete(value)
-}
-
-module.exports = {
-  validateCircularRefs,
 }

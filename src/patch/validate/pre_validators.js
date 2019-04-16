@@ -95,7 +95,7 @@ const checkOpVal = function({ opVal, ...rest }) {
 }
 
 // Validation applied during `args.data` parsing
-const PRE_VALIDATORS = [
+export const PRE_VALIDATORS = [
   attributeExists,
   isPatchCommand,
   isNotMixed,
@@ -106,7 +106,3 @@ const PRE_VALIDATORS = [
   checkOpValType,
   checkOpVal,
 ]
-
-module.exports = {
-  PRE_VALIDATORS,
-}

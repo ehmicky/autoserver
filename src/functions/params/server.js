@@ -4,7 +4,7 @@ import { getParams } from './values.js'
 
 // Retrieve all server-specific parameters.
 // Functions are bound with parameters.
-const getServerParams = function({ config, mInput }) {
+export const getServerParams = function({ config, mInput }) {
   const params = getParams(mInput)
 
   // Only pass parameters to config.params.* not config.params.*.*
@@ -39,8 +39,4 @@ const bindServerParam = function({ serverParam, params }) {
   Object.assign(serverParamA, serverParam)
 
   return serverParamA
-}
-
-module.exports = {
-  getServerParams,
 }

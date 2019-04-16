@@ -1,7 +1,7 @@
 import { extractSimpleIds } from '../../filter/simple_id.js'
 
 // Delegates to database adapter
-const databaseExecute = async function({
+export const databaseExecute = async function({
   dbAdapter,
   collname,
   args,
@@ -53,8 +53,4 @@ const commandMap = {
   patch: 'upsert',
   upsert: 'upsert',
   create: 'upsert',
-}
-
-module.exports = {
-  databaseExecute,
 }

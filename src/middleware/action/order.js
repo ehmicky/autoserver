@@ -8,7 +8,7 @@ import { throwError } from '../../errors/main.js'
 //     { attrName: 'c', dir: 'desc' },
 //     { attrName: 'id', dir: 'asc' },
 //   ]
-const parseOrder = function({ actions }) {
+export const parseOrder = function({ actions }) {
   const actionsA = actions.map(action => parseAction({ action }))
   return { actions: actionsA }
 }
@@ -77,7 +77,3 @@ const addIdSorting = function({ order }) {
 // For 'delete', sorting is an unnecessary feature, so we keep it similar to
 // 'patch' command.
 const ID_ORDER = [{ attrName: 'id', dir: 'asc' }]
-
-module.exports = {
-  parseOrder,
-}

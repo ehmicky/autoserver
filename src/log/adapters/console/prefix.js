@@ -2,7 +2,7 @@ import { LEVELS } from '../../constants.js'
 
 // Retrieves `[EVENT] [LEVEL] [HOSTID] [PROCESSNAME] [PROCESSID] [TIMESTAMP]
 // [PHASE]`
-const getPrefix = function({ log }) {
+export const getPrefix = function({ log }) {
   return PREFIXES.map(({ value, length }) =>
     getEachPrefix({ value, length, log }),
   ).join(' ')
@@ -71,7 +71,3 @@ const PREFIXES = [
     length: 8,
   },
 ]
-
-module.exports = {
-  getPrefix,
-}

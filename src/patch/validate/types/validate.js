@@ -5,7 +5,7 @@ import { TYPES } from './available.js'
 
 // Validates either a model attribute against `patchOp.attribute`,
 // or an argument against `patchOp.argument`
-const validateTypes = function({ possTypes, attrTypes, attrIsArray, strict }) {
+export const validateTypes = function({ possTypes, attrTypes, attrIsArray, strict }) {
   const isValid = attrTypes.every(attrType =>
     validateType({ possTypes, attrType, attrIsArray, strict }),
   )
@@ -118,8 +118,4 @@ const parseType = function({ type }) {
   const typeA = type.replace('[]', '')
 
   return { isArray, type: typeA }
-}
-
-module.exports = {
-  validateTypes,
 }

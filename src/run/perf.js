@@ -2,24 +2,18 @@ import { startPerf, stopPerf } from '../perf/measure.js'
 import { logPerfEvent } from '../log/perf.js'
 
 // Monitor startup time
-const startStartupPerf = function() {
+export const startStartupPerf = function() {
   const startupPerf = startPerf('startup')
   return { startupPerf }
 }
 
-const stopStartupPerf = function({ startupPerf, measures }) {
+export const stopStartupPerf = function({ startupPerf, measures }) {
   const startupPerfA = stopPerf(startupPerf)
   const measuresA = [startupPerfA, ...measures]
   return { measures: measuresA }
 }
 
 // Emit "perf" event with startup performance
-const reportStartupPerf = function({ config, measures }) {
+export const reportStartupPerf = function({ config, measures }) {
   return logPerfEvent({ phase: 'startup', config, measures })
-}
-
-module.exports = {
-  startStartupPerf,
-  stopStartupPerf,
-  reportStartupPerf,
 }

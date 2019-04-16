@@ -8,7 +8,7 @@ import { createPb } from '../errors/props.js'
 // will collect the warnings of all the instances.
 // Note that process events fired that do not belong to autoserver might be
 // caught as well.
-const processErrorHandler = function({ config }) {
+export const processErrorHandler = function({ config }) {
   const stopProcessErrors = logProcessErrors({
     ...LOG_PROCESS_ERRORS_OPTS,
     log: emitProcessEvent.bind(null, { config }),
@@ -35,8 +35,4 @@ const emitProcessEvent = async function({ config }, { stack }, level) {
     params: { error },
     config,
   })
-}
-
-module.exports = {
-  processErrorHandler,
 }

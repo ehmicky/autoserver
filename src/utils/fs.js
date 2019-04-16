@@ -2,14 +2,7 @@ import { promisify } from 'util'
 import { stat, readdir, readFile, writeFile } from 'fs'
 
 // TODO: replace with `fs.promises` after dropping support for Node 10
-const pStat = promisify(stat)
-const pReaddir = promisify(readdir)
-const pReadFile = promisify(readFile)
-const pWriteFile = promisify(writeFile)
-
-module.exports = {
-  pStat,
-  pReaddir,
-  pReadFile,
-  pWriteFile,
-}
+export const pStat = promisify(stat)
+export const pReaddir = promisify(readdir)
+export const pReadFile = promisify(readFile)
+export const pWriteFile = promisify(writeFile)

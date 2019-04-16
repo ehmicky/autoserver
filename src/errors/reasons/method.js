@@ -8,12 +8,8 @@ const getMessage = function({ value, suggestions }) {
 // Extra:
 //  - value STR
 //  - suggestions STR_ARR
-const METHOD = {
+export const METHOD = {
   status: 'CLIENT_ERROR',
   title: 'The protocol method is invalid',
   getMessage,
-}
-
-module.exports = {
-  METHOD,
 }

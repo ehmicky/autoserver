@@ -5,7 +5,7 @@ import { PRE_VALIDATORS } from './pre_validators.js'
 import { POST_VALIDATORS } from './post_validators.js'
 
 // Validate patch operation has valid syntax, during args.data parsing
-const preValidate = function({
+export const preValidate = function({
   patchOp,
   commandpath,
   attrName,
@@ -45,7 +45,7 @@ const preValidate = function({
 }
 
 // Validate patch operation has valid syntax, after model.ATTR resolution
-const postValidate = function(input) {
+export const postValidate = function(input) {
   const validators = POST_VALIDATORS
 
   validatePatchOp({ ...input, validators })
@@ -85,9 +85,4 @@ const checkError = function({ error, commandpath, attrName, patchOp }) {
     message: `${prefix}${error}`,
     extra: { value: patchOp, path: commandpathA },
   })
-}
-
-module.exports = {
-  preValidate,
-  postValidate,
 }

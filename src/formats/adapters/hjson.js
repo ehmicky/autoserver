@@ -10,7 +10,7 @@ const serialize = function({ content }) {
   return hjsonStringify(content, { bracesSameLine: true })
 }
 
-const hjson = {
+export const hjson = {
   name: 'hjson',
   title: 'Hjson',
   extensions: ['hjson'],
@@ -20,8 +20,4 @@ const hjson = {
   jsonCompat: [],
   parse,
   serialize,
-}
-
-module.exports = {
-  hjson,
 }

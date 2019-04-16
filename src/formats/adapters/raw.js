@@ -23,7 +23,7 @@ const serialize = function({ content }) {
 // Means this is not a structured type, like media types,
 // and unlike JSON or YAML
 // This won't be parsed (i.e. returned as is), and will use 'binary' charset
-const raw = {
+export const raw = {
   name: 'raw',
   title: 'raw',
   extensions: [],
@@ -31,8 +31,4 @@ const raw = {
   jsonCompat: [],
   parse,
   serialize,
-}
-
-module.exports = {
-  raw,
 }

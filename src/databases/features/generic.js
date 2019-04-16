@@ -17,9 +17,7 @@ const FEATURES = [
   { argName: 'page', dbName: 'offset', featureName: 'offset' },
 ]
 
-const genericValidators = FEATURES.map(getGenericValidator)
-const genericValidatorsA = Object.assign({}, ...genericValidators)
-
-module.exports = {
-  genericValidators: genericValidatorsA,
-}
+export const genericValidators = Object.assign(
+  {},
+  ...FEATURES.map(getGenericValidator),
+)

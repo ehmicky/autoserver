@@ -1,17 +1,12 @@
 // Model references, e.g. model.ATTR
-const isRef = function(opVal) {
+export const isRef = function(opVal) {
   return REFERENCE_REGEXP.test(opVal)
 }
 
-const parseRef = function(opVal) {
+export const parseRef = function(opVal) {
   const [, ref] = REFERENCE_REGEXP.exec(opVal) || []
   return ref
 }
 
 // Matches model.ATTR -> [, 'ATTR']
 const REFERENCE_REGEXP = /^model\.([a-z][_0-9a-z]*)$/u
-
-module.exports = {
-  isRef,
-  parseRef,
-}

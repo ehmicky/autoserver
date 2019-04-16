@@ -3,7 +3,7 @@ import { isObject } from '../utils/functional/type.js'
 import { NO_SIBLINGS_OPERATORS } from './operators/main.js'
 
 // Values starting with `model.` target sibling attributes
-const parseSiblingNode = function({ type, value, throwErr }) {
+export const parseSiblingNode = function({ type, value, throwErr }) {
   const attrName = parseSibling({ value })
 
   if (attrName === undefined) {
@@ -22,7 +22,7 @@ const parseSiblingNode = function({ type, value, throwErr }) {
   throwErr(message)
 }
 
-const validateForbiddenOpts = function({ type, throwErr }) {
+export const validateForbiddenOpts = function({ type, throwErr }) {
   if (!NO_SIBLINGS_OPERATORS.includes(type)) {
     return
   }
@@ -39,11 +39,11 @@ const parseSibling = function({ value }) {
 // 'model.ATTR' -> 'ATTR'
 const SIBLING_REGEXP = /^model\.(.+)/u
 
-const isSiblingValue = function({ value }) {
+export const isSiblingValue = function({ value }) {
   return isObject(value) && value.type === 'sibling'
 }
 
-const getSiblingValue = function({ value, attrs }) {
+export const getSiblingValue = function({ value, attrs }) {
   const isSibling = isSiblingValue({ value })
 
   if (!isSibling) {
@@ -54,11 +54,4 @@ const getSiblingValue = function({ value, attrs }) {
 
   const valueA = attrs[attrNameA]
   return valueA
-}
-
-module.exports = {
-  parseSiblingNode,
-  validateForbiddenOpts,
-  isSiblingValue,
-  getSiblingValue,
 }

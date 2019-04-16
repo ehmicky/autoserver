@@ -1,4 +1,4 @@
-const mergeSelectRename = function({ selectRename, name }) {
+export const mergeSelectRename = function({ selectRename, name }) {
   const values = selectRename
     .map(({ [name]: value }) => value)
     .filter(value => value !== undefined)
@@ -9,8 +9,4 @@ const mergeSelectRename = function({ selectRename, name }) {
 
   const valuesA = values.join(',')
   return valuesA
-}
-
-module.exports = {
-  mergeSelectRename,
 }

@@ -2,7 +2,7 @@ import http from 'http'
 import { promisify } from 'util'
 
 // Start HTTP server
-const startServer = function({
+export const startServer = function({
   opts: { hostname, port },
   config: { env },
   handleRequest,
@@ -53,8 +53,4 @@ const handleClientRequest = function({ server, handleRequest }) {
   server.on('request', function requestHandler(req, res) {
     handleRequest({ req, res })
   })
-}
-
-module.exports = {
-  startServer,
 }

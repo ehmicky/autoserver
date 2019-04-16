@@ -1,11 +1,11 @@
 import { mapValues } from '../../utils/functional/map.js'
 import { throwAttrValError, throwAttrTypeError } from '../error.js'
 
-const parseAsIs = function({ value }) {
+export const parseAsIs = function({ value }) {
   return value
 }
 
-const validateSameType = function({
+export const validateSameType = function({
   type,
   value,
   attr,
@@ -53,7 +53,7 @@ const typeValidators = {
   many: getManyTypeValidators(),
 }
 
-const validateNotArray = function({ type, attr, throwErr }) {
+export const validateNotArray = function({ type, attr, throwErr }) {
   if (!attr.isArray) {
     return
   }
@@ -61,17 +61,10 @@ const validateNotArray = function({ type, attr, throwErr }) {
   throwAttrTypeError({ attr, type, throwErr }, 'an array')
 }
 
-const validateArray = function({ type, attr, throwErr }) {
+export const validateArray = function({ type, attr, throwErr }) {
   if (attr.isArray) {
     return
   }
 
   throwAttrTypeError({ attr, type, throwErr }, 'not an array')
-}
-
-module.exports = {
-  parseAsIs,
-  validateSameType,
-  validateNotArray,
-  validateArray,
 }

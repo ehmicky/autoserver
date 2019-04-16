@@ -22,7 +22,7 @@ import { optimizeFilter } from './optimize.js'
 //      }
 //    }
 //  ]
-const parseFilter = function({ filter, reason = 'VALIDATION', prefix = '' }) {
+export const parseFilter = function({ filter, reason = 'VALIDATION', prefix = '' }) {
   if (filter == null) {
     return
   }
@@ -37,8 +37,4 @@ const parseFilter = function({ filter, reason = 'VALIDATION', prefix = '' }) {
   const filterB = optimizeFilter({ filter: filterA })
 
   return filterB
-}
-
-module.exports = {
-  parseFilter,
 }

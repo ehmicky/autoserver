@@ -1,6 +1,6 @@
 import { validateString } from './validate.js'
 
-const parsePath = function({
+export const parsePath = function({
   protocolAdapter,
   protocolAdapter: { getPath },
   specific,
@@ -14,8 +14,4 @@ const parsePath = function({
   validateString(path, 'path', protocolAdapter)
 
   return { path }
-}
-
-module.exports = {
-  parsePath,
 }

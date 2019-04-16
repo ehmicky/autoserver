@@ -3,7 +3,7 @@ import { throwError } from '../../../errors/main.js'
 import { addToActions } from '../add_actions/add.js'
 
 // Parse `args.rename` for each action
-const parseRename = function({ actions, top }) {
+export const parseRename = function({ actions, top }) {
   const actionsA = addToActions({
     actions,
     name: 'rename',
@@ -48,7 +48,3 @@ const getRenamePart = function({ rename, commandpath }) {
 }
 
 const RENAME_REGEXP = /^(.+):([^:]+)$/u
-
-module.exports = {
-  parseRename,
-}

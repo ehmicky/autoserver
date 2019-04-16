@@ -8,7 +8,7 @@ import { getModelParams } from '../../../functions/params/values.js'
 //  - current collection's 'id' attribute's config 'default'
 //  - database adapter-specific function
 //  - UUIDv4
-const addDefaultIds = function({ datum, top: { command }, ...rest }) {
+export const addDefaultIds = function({ datum, top: { command }, ...rest }) {
   const shouldAddDefaultId = command.type === 'create' && datum.id == null
 
   if (!shouldAddDefaultId) {
@@ -77,7 +77,3 @@ const applyUuid = function() {
 }
 
 const handlers = [applyConfigDefault, applyDatabaseDefault, applyUuid]
-
-module.exports = {
-  addDefaultIds,
-}

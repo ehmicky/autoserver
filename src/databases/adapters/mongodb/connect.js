@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb'
 
 // Starts connection
-const connect = async function({
+export const connect = async function({
   options: { hostname, port, username, password, dbname, opts },
 }) {
   const host = getHost({ hostname, port })
@@ -76,8 +76,4 @@ const validateAuth = function({ username, password }) {
       "Invalid option 'databases.mongodb.username': 'databases.mongodb.password' must also be defined",
     )
   }
-}
-
-module.exports = {
-  connect,
 }

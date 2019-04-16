@@ -4,7 +4,7 @@ import { getBackwardOrder } from '../backward.js'
 import { getTokenFilter } from './filter.js'
 
 // Transform args.pagesize|before|after|page into args.limit|offset|filter
-const getPaginationInput = function({ args, token, config }) {
+export const getPaginationInput = function({ args, token, config }) {
   const argsA = getInput({ args, token, config })
   const argsB = { ...args, ...argsA }
   return argsB
@@ -30,8 +30,4 @@ const getTokensInput = function({ args, token, config }) {
   const order = getBackwardOrder({ args })
   const limit = getLimit({ args, config })
   return { ...tokenInput, ...order, limit }
-}
-
-module.exports = {
-  getPaginationInput,
 }

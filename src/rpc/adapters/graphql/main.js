@@ -2,7 +2,7 @@ import { parse } from './parse/main.js'
 import { transformSuccess, transformError } from './response.js'
 import { load } from './load/main.js'
 
-const graphql = {
+export const graphql = {
   name: 'graphql',
   title: 'GraphQL',
   routes: ['/graphql'],
@@ -11,8 +11,4 @@ const graphql = {
   transformSuccess,
   transformError,
   load,
-}
-
-module.exports = {
-  graphql,
 }

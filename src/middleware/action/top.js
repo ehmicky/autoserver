@@ -6,7 +6,7 @@ import { COMMANDS } from '../../commands/constants.js'
 
 // Parse a `rpcDef` into a top-level action, i.e.:
 // `collname`, `clientCollname`, `commandpath`, `args`
-const parseTopAction = function({
+export const parseTopAction = function({
   rpcDef: { commandName, args },
   config: {
     shortcuts: { collsNames },
@@ -112,8 +112,4 @@ const isMultiple = {
   upsert: hasDataArray,
   patch: hasNoId,
   delete: hasNoId,
-}
-
-module.exports = {
-  parseTopAction,
 }

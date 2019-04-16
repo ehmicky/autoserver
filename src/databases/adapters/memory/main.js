@@ -6,7 +6,7 @@ import { check } from './check.js'
 import { defaults } from './defaults.js'
 import { opts } from './opts.js'
 
-const memory = {
+export const memory = {
   name: 'memory',
   title: 'In-Memory',
   description: 'In-memory database. For development purpose only.',
@@ -17,8 +17,4 @@ const memory = {
   query,
   defaults,
   opts,
-}
-
-module.exports = {
-  memory,
 }

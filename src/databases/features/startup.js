@@ -3,7 +3,7 @@ import { getWordsList } from '../../utils/string.js'
 import { getFeatures } from '../../filter/features.js'
 
 // Startup time adapter features validation
-const validateStartupFeatures = function({ name, features }, { coll }) {
+export const validateStartupFeatures = function({ name, features }, { coll }) {
   const requiredFeatures = getRequiredFeatures({ coll })
   const missingFeatures = difference(requiredFeatures, features)
 
@@ -38,7 +38,3 @@ const filterChecker = function({ coll: { authorize } }) {
 }
 
 const featuresCheckers = [filterChecker]
-
-module.exports = {
-  validateStartupFeatures,
-}

@@ -3,7 +3,7 @@ import { throwError } from '../errors/main.js'
 // When encountering the same JSON reference twice, do not resolve the second
 // one. This is done to fix recursion problems. Those JSON references are
 // resolve later.
-const fireCachedFunc = function(func, { path, cache, stack }) {
+export const fireCachedFunc = function(func, { path, cache, stack }) {
   if (cache[path] !== undefined) {
     return cache[path]
   }
@@ -21,16 +21,11 @@ const fireCachedFunc = function(func, { path, cache, stack }) {
   return content
 }
 
-const validateRecursion = function({ path, stack }) {
+export const validateRecursion = function({ path, stack }) {
   if (!stack.includes(path)) {
     return [...stack, path]
   }
 
   const message = `The configuration cannot contain circular references: '${path}'`
   throwError(message, { reason: 'CONFIG_VALIDATION' })
-}
-
-module.exports = {
-  fireCachedFunc,
-  validateRecursion,
 }

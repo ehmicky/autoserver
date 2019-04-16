@@ -42,7 +42,7 @@ const gracefulExitHandler = async function(error, { config }) {
   })
 }
 
-const gracefulExit = addErrorHandler(eGracefulExit, gracefulExitHandler)
+export const gracefulExit = addErrorHandler(eGracefulExit, gracefulExitHandler)
 
 const mGracefulExit = async function({
   protocolAdapters,
@@ -67,7 +67,3 @@ const mGracefulExit = async function({
 }
 
 const mmGracefulExit = monitor(mGracefulExit, 'all')
-
-module.exports = {
-  gracefulExit,
-}

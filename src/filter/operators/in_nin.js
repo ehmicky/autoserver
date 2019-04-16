@@ -23,11 +23,6 @@ const evalNin = function({ attr, value }) {
 }
 
 // eslint-disable-next-line no-underscore-dangle
-const _in = { parse: parseAsIs, validate: validateInNin, eval: evalIn }
+export const _in = { parse: parseAsIs, validate: validateInNin, eval: evalIn }
 // eslint-disable-next-line no-underscore-dangle
-const _nin = { parse: parseAsIs, validate: validateInNin, eval: evalNin }
-
-module.exports = {
-  _in,
-  _nin,
-}
+export const _nin = { parse: parseAsIs, validate: validateInNin, eval: evalNin }

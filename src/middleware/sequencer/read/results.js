@@ -1,6 +1,6 @@
 // Normalize results to an object with `path`, `model`, `collname`, `select`
 // Then push to shared `results` variable
-const processResults = function({
+export const processResults = function({
   results,
   finishedResults,
   pendingResults,
@@ -72,8 +72,4 @@ const getResult = function({
   const pathA = commandName === undefined ? path : [...path, commandName]
   const pathB = multipleA ? [...pathA, index] : pathA
   return { path: pathB, action, model, metadata, collname }
-}
-
-module.exports = {
-  processResults,
 }

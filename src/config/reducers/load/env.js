@@ -9,7 +9,7 @@ import { transtype } from '../../../utils/transtype.js'
 // The value will be JSON transtyped
 // Nested variables can be indicated with double-underscores,
 // e.g. `HTTP__HOSTNAME` becomes `{ http: { hostname } }`
-const getEnvVars = function() {
+export const getEnvVars = function() {
   return Object.entries(env).reduce(reduceEnvVar, {})
 }
 
@@ -50,8 +50,4 @@ const getEnvVarName = function({ name }) {
     // Indexes must be actual number for `set()` utility to work
     .map(transtype)
   return nameB
-}
-
-module.exports = {
-  getEnvVars,
 }

@@ -7,7 +7,7 @@ import { DEFAULT_ALGO } from '../../../../compress/get.js'
 import { getLinks } from './link.js'
 
 // Set HTTP-specific headers and status code
-const setHeaders = function({
+export const setHeaders = function({
   specific,
   specific: { res },
   contentType,
@@ -82,7 +82,3 @@ const VARY_HEADERS = [
 ]
 
 const OBJECT_VARY_HEADERS = ['Content-Type', 'Accept']
-
-module.exports = {
-  setHeaders,
-}

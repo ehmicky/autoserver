@@ -1,6 +1,6 @@
 import { validateObject } from './validate.js'
 
-const parseHeaders = function({
+export const parseHeaders = function({
   protocolAdapter,
   protocolAdapter: { getHeaders },
   specific,
@@ -14,8 +14,4 @@ const parseHeaders = function({
   validateObject(headers, 'headers', protocolAdapter)
 
   return { headers }
-}
-
-module.exports = {
-  parseHeaders,
 }

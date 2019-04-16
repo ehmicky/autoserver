@@ -4,7 +4,7 @@ import { normalizeError } from '../../errors/main.js'
 import { logEvent } from '../../log/main.js'
 
 // Shutdown failures events
-const addExitHandler = function(func) {
+export const addExitHandler = function(func) {
   return addErrorHandler(func, funcHandler)
 }
 
@@ -44,8 +44,4 @@ const FAILURE_MESSAGES = {
 const REASONS = {
   protocols: 'PROTOCOL',
   databases: 'DATABASE',
-}
-
-module.exports = {
-  addExitHandler,
 }

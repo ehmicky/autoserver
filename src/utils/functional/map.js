@@ -2,7 +2,7 @@ import { checkObject } from './validate.js'
 import { isObject } from './type.js'
 
 // Similar to Lodash mapValues(), but with vanilla JavaScript
-const mapValues = function(obj, mapperFunc) {
+export const mapValues = function(obj, mapperFunc) {
   return generalMap({ obj, mapperFunc, iterationFunc: mapValuesFunc })
 }
 
@@ -13,7 +13,7 @@ const mapValuesFunc = function({ key, obj, newValue }) {
 }
 
 // Similar to map() for keys
-const mapKeys = function(obj, mapperFunc) {
+export const mapKeys = function(obj, mapperFunc) {
   return generalMap({ obj, mapperFunc, iterationFunc: mapKeysFunc })
 }
 
@@ -33,7 +33,7 @@ const generalMap = function({ obj, mapperFunc, iterationFunc }) {
 }
 
 // Apply map() recursively
-const recurseMap = function(
+export const recurseMap = function(
   value,
   mapperFunc,
   { key, onlyLeaves = true } = {},
@@ -62,14 +62,7 @@ const getRecurseFunc = function(value) {
   }
 }
 
-const fullRecurseMap = function(value, mapperFunc, opts = {}) {
+export const fullRecurseMap = function(value, mapperFunc, opts = {}) {
   const optsA = { ...opts, onlyLeaves: false }
   return recurseMap(value, mapperFunc, optsA)
-}
-
-module.exports = {
-  mapValues,
-  mapKeys,
-  recurseMap,
-  fullRecurseMap,
 }

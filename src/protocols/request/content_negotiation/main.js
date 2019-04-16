@@ -1,20 +1,20 @@
 import { omit } from '../../../utils/functional/filter.js'
 
-import { getFormat } from './format.js'
-import { getCharset } from './charset.js'
+import { getFormatFunc } from './format.js'
+import { getCharsetFunc } from './charset.js'
 import { getCompress } from './compress.js'
 
 // Retrieve format|charset|compress of the response payloads, and
 // charset of the request payload
-const handleContentNegotiation = function({
+export const handleContentNegotiation = function({
   queryvars,
   format,
   charset,
   compressResponse,
   compressRequest,
 }) {
-  const formatA = getFormat({ queryvars, format })
-  const charsetA = getCharset({ queryvars, charset, format: formatA })
+  const formatA = getFormatFunc({ queryvars, format })
+  const charsetA = getCharsetFunc({ queryvars, charset, format: formatA })
   const {
     compressResponse: compressResponseA,
     compressRequest: compressRequestA,
@@ -31,8 +31,4 @@ const handleContentNegotiation = function({
     compressRequest: compressRequestA,
     compress: compressA,
   }
-}
-
-module.exports = {
-  handleContentNegotiation,
 }

@@ -75,8 +75,4 @@ const checkAliasDuplicates = function({
   }
 }
 
-const normalizeAliases = mapColls.bind(null, mapColl)
-
-module.exports = {
-  normalizeAliases,
-}
+export const normalizeAliases = mapColls.bind(null, mapColl)

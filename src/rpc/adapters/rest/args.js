@@ -3,7 +3,7 @@ import { throwPb } from '../../../errors/props.js'
 import { throwError } from '../../../errors/main.js'
 
 // Use query variables, request payload and URL /ID to retrieve `args`
-const getArgs = function({ method, payload, queryvars, id }) {
+export const getArgs = function({ method, payload, queryvars, id }) {
   const args = mapValues(queryvars, addDefaultTrue)
   const argsA = addData({ args, payload })
   const argsB = addId({ method, args: argsA, id })
@@ -80,8 +80,4 @@ const validateId = function({ data, id }) {
     }' in the request payload but is '${id}' in the URL`
     throwError(message, { reason: 'VALIDATION' })
   }
-}
-
-module.exports = {
-  getArgs,
 }

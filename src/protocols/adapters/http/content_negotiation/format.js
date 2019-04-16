@@ -13,7 +13,7 @@ import { getContentType } from './content_type.js'
 // Using `Content-Type` or `Accept` results in `args.format`
 // Note that since `args.format` is for both input and output, any of the
 // two headers can be used. `Content-Type` has priority.
-const getFormat = function({ specific }) {
+export const getFormat = function({ specific }) {
   return getContentTypeFormat({ specific }) || getAcceptFormat({ specific })
 }
 
@@ -62,7 +62,3 @@ const getAcceptFormat = function({ specific: { req } }) {
 
 // Ignore exceptions due to unexisting mime, since we try several
 const eGetByMime = addErrorHandler(getByMime)
-
-module.exports = {
-  getFormat,
-}

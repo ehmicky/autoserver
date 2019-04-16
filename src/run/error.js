@@ -1,7 +1,7 @@
 import { logEvent } from '../log/main.js'
 
 // Handle exceptions thrown at server startup
-const handleStartupError = async function(
+export const handleStartupError = async function(
   error,
   { exitFunc, protocolAdapters, dbAdapters, config },
 ) {
@@ -19,8 +19,4 @@ const handleStartupError = async function(
   })
 
   throw error
-}
-
-module.exports = {
-  handleStartupError,
 }

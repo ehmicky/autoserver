@@ -4,7 +4,7 @@ import { throwError } from '../../errors/main.js'
 import { getLimits } from '../../limits.js'
 
 // Validates `limits`
-const validateLimits = function({ config }) {
+export const validateLimits = function({ config }) {
   const {
     maxpayload,
     minMaxpayload,
@@ -48,8 +48,4 @@ const validateMaxmodels = function({ maxmodels, pagesize, maxActions }) {
 
   const message = `'config.limits.maxmodels' must be at least ${minMaxmodels}`
   throwError(message, { reason: 'CONFIG_VALIDATION' })
-}
-
-module.exports = {
-  validateLimits,
 }

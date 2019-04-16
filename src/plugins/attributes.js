@@ -11,7 +11,7 @@ import { validate } from '../validation/validate.js'
 // Generic plugin factory
 // It adds attributes to each collection, using `getAttributes(pluginOpts)`
 // option which returns the attributes
-const attributesPlugin = function({
+export const attributesPlugin = function({
   name,
   getAttributes = () => ({}),
   optsSchema,
@@ -98,7 +98,3 @@ const eValidate = addGenErrorHandler(validate, {
   message: ({ name }, { message }) =>
     `Wrong '${name}' plugin configuration: ${message}`,
 })
-
-module.exports = {
-  attributesPlugin,
-}

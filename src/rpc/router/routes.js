@@ -30,7 +30,7 @@ const getVariables = function({ tokens }) {
 const allRoutes = getAllRoutes()
 
 // Retrieves correct route, according to path
-const findRoute = function({ path }) {
+export const findRoute = function({ path }) {
   validateMissingPath({ path })
 
   const route = allRoutes.find(({ regexp }) => regexp.test(path))
@@ -48,8 +48,4 @@ const validateMissingPath = function({ path }) {
   }
 
   throwPb({ reason: 'ROUTE', extra: { value: '' } })
-}
-
-module.exports = {
-  findRoute,
 }

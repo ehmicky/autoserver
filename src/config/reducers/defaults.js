@@ -5,7 +5,7 @@ import { DATABASE_DEFAULTS } from '../../databases/info.js'
 import { mapColls, mapAttrs } from '../helpers.js'
 
 // Add config default values
-const addDefaults = function({ config }) {
+export const addDefaults = function({ config }) {
   const configA = addTopDefaults({ config })
   const configB = addCollsDefaults({ config: configA })
   const configC = addAttrsDefaults({ config: configB })
@@ -67,8 +67,4 @@ const COLL_DEFAULTS = {
 const ATTR_DEFAULTS = {
   type: 'string',
   validate: {},
-}
-
-module.exports = {
-  addDefaults,
 }

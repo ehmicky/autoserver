@@ -14,13 +14,9 @@ const decompress = function(content) {
   return pGunzip(content)
 }
 
-const gzip = {
+export const gzip = {
   name: 'gzip',
   title: 'Gzip',
   compress,
   decompress,
-}
-
-module.exports = {
-  gzip,
 }

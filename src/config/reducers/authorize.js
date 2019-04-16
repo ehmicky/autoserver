@@ -4,7 +4,7 @@ import { getAuthorizeAttrs } from '../../filter/authorize.js'
 import { mapColls } from '../helpers.js'
 
 // Parse `config.authorize` and `coll.authorize` into AST
-const normalizeAuthorize = function({ config, config: { authorize } }) {
+export const normalizeAuthorize = function({ config, config: { authorize } }) {
   if (authorize === undefined) {
     return
   }
@@ -42,8 +42,4 @@ const parseAuthorize = function({ authorize, collname, config, prefix }) {
   })
 
   return authorizeA
-}
-
-module.exports = {
-  normalizeAuthorize,
 }

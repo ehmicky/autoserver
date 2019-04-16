@@ -4,7 +4,7 @@ import { getParams } from '../../../functions/params/values.js'
 import { reduceParams } from '../../../functions/params/reduce.js'
 
 // Add response's metadata
-const addMetadata = function({
+export const addMetadata = function({
   response,
   response: { type, content },
   metadata,
@@ -54,7 +54,3 @@ const HIDDEN_ERROR_INFO = [
   // For security reasons
   'serverinfo',
 ]
-
-module.exports = {
-  addMetadata,
-}

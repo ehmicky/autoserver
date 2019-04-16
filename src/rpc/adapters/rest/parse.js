@@ -2,7 +2,7 @@ import { getArgs } from './args.js'
 
 // Use JSON-RPC-specific logic to parse the request into an
 // rpc-agnostic `rpcDef`
-const parse = function({
+export const parse = function({
   payload,
   method,
   queryvars,
@@ -20,8 +20,4 @@ const METHODS_MAP = {
   PUT: 'upsert',
   PATCH: 'patch',
   DELETE: 'delete',
-}
-
-module.exports = {
-  parse,
 }

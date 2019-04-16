@@ -39,15 +39,11 @@ const serialize = function({ content }) {
   return qs.stringify(content, { allowDots: true })
 }
 
-const urlencoded = {
+export const urlencoded = {
   name: 'urlencoded',
   title: 'query string',
   mimes: ['application/x-www-form-urlencoded'],
   jsonCompat: ['subset'],
   parse,
   serialize,
-}
-
-module.exports = {
-  urlencoded,
 }

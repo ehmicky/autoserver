@@ -3,7 +3,7 @@ import { parse, format as formatContentType } from 'content-type'
 import { formatAdapters } from './wrap.js'
 
 // Parse MIME and charset, such as the one in Content-Type HTTP headers
-const parseContentType = function({ contentType }) {
+export const parseContentType = function({ contentType }) {
   if (!contentType) {
     return {}
   }
@@ -14,7 +14,7 @@ const parseContentType = function({ contentType }) {
 }
 
 // Inverse
-const serializeContentType = function({ mime, charset, format }) {
+export const serializeContentType = function({ mime, charset, format }) {
   const formatA = formatAdapters[format.name]
   const type = getMime({ mime, format: formatA })
   const mimeA = formatContentType({ type, parameters: { charset } })
@@ -50,9 +50,4 @@ const addMimeExtension = function({
   }
 
   return `${mime}${mimeExtension.slice(1)}`
-}
-
-module.exports = {
-  parseContentType,
-  serializeContentType,
 }

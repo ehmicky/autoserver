@@ -1,5 +1,5 @@
 // Merge `coll.authorize` `model.*` to `args.filter`
-const addAuthorizeFilter = function({
+export const addAuthorizeFilter = function({
   command,
   authorize,
   args,
@@ -34,8 +34,4 @@ const getFilter = function({ authorize, filter }) {
   }
 
   return { type: '_and', value: [authorize, filter] }
-}
-
-module.exports = {
-  addAuthorizeFilter,
 }

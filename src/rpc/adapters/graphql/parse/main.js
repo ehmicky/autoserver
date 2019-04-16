@@ -6,7 +6,7 @@ import { parseRpcDef } from './definition/main.js'
 import { isIntrospectionQuery, handleIntrospection } from './introspection.js'
 
 // Use GraphQL-specific logic to parse the request into an rpc-agnostic `rpcDef`
-const parse = function({
+export const parse = function({
   config: { graphqlSchema },
   queryvars,
   payload,
@@ -35,8 +35,4 @@ const parse = function({
   }
 
   return { rpcDef }
-}
-
-module.exports = {
-  parse,
 }

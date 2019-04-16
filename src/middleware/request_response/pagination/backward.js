@@ -1,7 +1,7 @@
 import { reverseArray } from '../../../utils/functional/reverse.js'
 
 // When using args.before, reverse args.filter on input
-const getBackwardFilter = function({ args, node, node: { type } }) {
+export const getBackwardFilter = function({ args, node, node: { type } }) {
   if (!isBackward({ args })) {
     return node
   }
@@ -11,7 +11,7 @@ const getBackwardFilter = function({ args, node, node: { type } }) {
 }
 
 // When using args.before, reverse args.order on input
-const getBackwardOrder = function({ args, args: { order } }) {
+export const getBackwardOrder = function({ args, args: { order } }) {
   if (!isBackward({ args })) {
     return
   }
@@ -24,7 +24,7 @@ const getBackwardOrder = function({ args, args: { order } }) {
 }
 
 // When using args.before, reverse both output and metadata on output.
-const getBackwardResponse = function({
+export const getBackwardResponse = function({
   args,
   response,
   response: {
@@ -58,10 +58,4 @@ const getBackwardResponse = function({
 
 const isBackward = function({ args }) {
   return args.before !== undefined
-}
-
-module.exports = {
-  getBackwardFilter,
-  getBackwardOrder,
-  getBackwardResponse,
 }

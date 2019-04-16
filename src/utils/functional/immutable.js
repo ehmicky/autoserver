@@ -2,7 +2,7 @@
 // Since linting enforces immutability, we only need to (and should) perform
 // this on values that are passed to library caller.
 // This directy mutates the argument for performance reasons
-const makeImmutable = function(val) {
+export const makeImmutable = function(val) {
   // Avoid infinite recursions
   const isFrozen = Object.isFrozen(val)
 
@@ -25,8 +25,4 @@ const freezeChildren = function(obj) {
   for (const val of Object.values(obj)) {
     makeImmutable(val)
   }
-}
-
-module.exports = {
-  makeImmutable,
 }

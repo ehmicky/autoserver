@@ -6,7 +6,7 @@ import { getColl } from './get_coll.js'
 import { addActions } from './add_actions/merge.js'
 
 // Parse `args.populate|cascade` into a set of nested `actions`
-const parsePopulateCascade = function({ actions, ...rest }) {
+export const parsePopulateCascade = function({ actions, ...rest }) {
   const actionsA = addActions({
     actions,
     filter: ['populate', 'cascade'],
@@ -89,8 +89,4 @@ const validateModel = function({ coll, commandpath, argName }) {
       ? `'${argName}' argument cannot contain empty attributes`
       : `In '${argName}' argument, attribute '${attrName}' is unknown`
   throwError(message, { reason: 'VALIDATION' })
-}
-
-module.exports = {
-  parsePopulateCascade,
 }

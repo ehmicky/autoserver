@@ -1,7 +1,7 @@
 import { isObject } from '../../../utils/functional/type.js'
 
 // Copy first defined alias to main attribute, providing it is not defined.
-const applyOrderAliases = function({ order, attrName, aliases }) {
+export const applyOrderAliases = function({ order, attrName, aliases }) {
   if (!Array.isArray(order)) {
     return order
   }
@@ -17,8 +17,4 @@ const applyOrderAliases = function({ order, attrName, aliases }) {
 
     return { ...orderPart, attrName }
   })
-}
-
-module.exports = {
-  applyOrderAliases,
 }

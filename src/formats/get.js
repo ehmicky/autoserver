@@ -8,7 +8,7 @@ import { formatAdapters } from './wrap.js'
 
 // Retrieve correct format, using MIME type
 // Returns undefined if nothing is found
-const getByMime = function({ mime, safe }) {
+export const getByMime = function({ mime, safe }) {
   const formats = getFormats({ safe })
 
   // We try the extensions MIME (e.g. `+json`) after the other MIME types
@@ -39,7 +39,7 @@ const mimeMatches = function({ mime, mimes = [] }) {
 }
 
 // Retrieve correct format, using file extension
-const getByExt = function({ path, safe }) {
+export const getByExt = function({ path, safe }) {
   const formats = getFormats({ safe })
 
   const fileExt = extname(path).slice(1)
@@ -69,7 +69,7 @@ const getFormats = function({ safe = false }) {
 }
 
 // Retrieve format adapter
-const getFormat = function(key, { safe = false } = {}) {
+export const getFormat = function(key, { safe = false } = {}) {
   const format = getAdapter({ adapters: formatAdapters, key, name: 'format' })
 
   const isSafe = !safe || !format.unsafe
@@ -86,7 +86,7 @@ const throwUnsupportedFormat = function({ format }) {
 }
 
 // Returns list of allowed MIME types
-const getMimes = function({ safe } = {}) {
+export const getMimes = function({ safe } = {}) {
   const formats = getFormats({ safe })
   const mimesA = formats.flatMap(({ mimes = [], mimeExtensions = [] }) => [
     ...mimes,
@@ -96,14 +96,5 @@ const getMimes = function({ safe } = {}) {
 }
 
 // Default format for structured types, and unstructure types
-const DEFAULT_RAW_FORMAT = getFormat('raw')
-const DEFAULT_FORMAT = getFormat('json')
-
-module.exports = {
-  getByMime,
-  getByExt,
-  getFormat,
-  getMimes,
-  DEFAULT_RAW_FORMAT,
-  DEFAULT_FORMAT,
-}
+export const DEFAULT_RAW_FORMAT = getFormat('raw')
+export const DEFAULT_FORMAT = getFormat('json')

@@ -9,12 +9,8 @@ const {
 } = readPkgUp.sync()
 
 // Retrieve environment-specific versions
-const getVersionsInfo = function() {
+export const getVersionsInfo = function() {
   const autoserver = `v${autoserverVersion}`
 
   return { node: nodeVersion, autoserver }
-}
-
-module.exports = {
-  getVersionsInfo,
 }

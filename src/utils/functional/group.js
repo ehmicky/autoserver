@@ -1,7 +1,7 @@
 // Group array of objects together according to a specific key
 // `key` can a string (the object key), an array (several object keys) or
 // a function returning a string.
-const groupBy = function(array, key) {
+export const groupBy = function(array, key) {
   return array.reduce(groupByReducer.bind(null, key), {})
 }
 
@@ -24,12 +24,7 @@ const getGroupName = function(key, obj) {
   return obj[key]
 }
 
-const groupValuesBy = function(array, key) {
+export const groupValuesBy = function(array, key) {
   const groups = groupBy(array, key)
   return Object.values(groups)
-}
-
-module.exports = {
-  groupBy,
-  groupValuesBy,
 }

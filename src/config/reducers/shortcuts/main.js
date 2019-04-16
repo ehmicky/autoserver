@@ -7,7 +7,7 @@ import { userDefaultsMap } from './user_defaults.js'
 import { valuesMap } from './value.js'
 
 // Startup transformations just meant for runtime performance optimization
-const normalizeShortcuts = function({ config }) {
+export const normalizeShortcuts = function({ config }) {
   const shortcuts = mapValues(MAPS, func => func({ config }))
   return { shortcuts }
 }
@@ -18,8 +18,4 @@ const MAPS = {
   readonlyMap,
   userDefaultsMap,
   valuesMap,
-}
-
-module.exports = {
-  normalizeShortcuts,
 }

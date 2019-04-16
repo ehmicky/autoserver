@@ -9,7 +9,7 @@ import { serializeContent } from './serialize.js'
 import { compressContent } from './compress.js'
 
 // Set basic payload headers, then delegate to protocol handler
-const send = async function({
+export const send = async function({
   protocolAdapter,
   content,
   response,
@@ -69,8 +69,4 @@ const normalizeFormat = function({ format }) {
   }
 
   return DEFAULT_FORMAT
-}
-
-module.exports = {
-  send,
 }

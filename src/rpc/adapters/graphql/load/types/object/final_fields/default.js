@@ -1,4 +1,4 @@
-const getDefaultValue = function(def, opts) {
+export const getDefaultValue = function(def, opts) {
   const shouldSetDefault = defaultValueTests.every(func => func(def, opts))
 
   if (!shouldSetDefault) {
@@ -35,7 +35,3 @@ const defaultValueTests = [
   isNotPatchData,
   isStatic,
 ]
-
-module.exports = {
-  getDefaultValue,
-}

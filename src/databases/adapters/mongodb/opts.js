@@ -1,4 +1,4 @@
-const opts = {
+export const opts = {
   type: 'object',
   additionalProperties: false,
   properties: {
@@ -45,8 +45,4 @@ const opts = {
       type: 'object',
     },
   },
-}
-
-module.exports = {
-  opts,
 }

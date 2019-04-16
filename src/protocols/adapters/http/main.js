@@ -13,7 +13,7 @@ import { opts } from './opts.js'
 // eslint-disable-next-line import/max-dependencies
 import { defaults } from './defaults.js'
 
-const http = {
+export const http = {
   name: 'http',
   title: 'HTTP',
   description: "HTTP server's options",
@@ -32,8 +32,4 @@ const http = {
   getInput,
   opts,
   defaults,
-}
-
-module.exports = {
-  http,
 }

@@ -1,9 +1,9 @@
 import { omit } from '../../utils/functional/filter.js'
-import { parseFilter } from '../../filter/parse/main.js'
+import { parseFilter as parseFilterExpr } from '../../filter/parse/main.js'
 import { validateFilter } from '../../filter/validate/main.js'
 
 // Parse `args.filter` and `args.id` into AST
-const parseFilterActions = function({ actions, config }) {
+export const parseFilter = function({ actions, config }) {
   const actionsA = actions.map(action => parseFilterArg({ action, config }))
   return { actions: actionsA }
 }
@@ -30,7 +30,7 @@ const parseFilterOrId = function({ args: { id, filter }, attributes }) {
   }
 
   const prefix = "In 'filter' argument, "
-  const filterA = parseFilter({ filter, prefix })
+  const filterA = parseFilterExpr({ filter, prefix })
 
   validateFilter({ filter: filterA, attrs: attributes, prefix })
 
@@ -40,8 +40,4 @@ const parseFilterOrId = function({ args: { id, filter }, attributes }) {
 // `args.id`
 const getIdFilter = function({ id }) {
   return { type: '_eq', attrName: 'id', value: id }
-}
-
-module.exports = {
-  parseFilter: parseFilterActions,
 }

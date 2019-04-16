@@ -1,7 +1,7 @@
 import { resolve } from 'path'
 
 // Retrieve error message of a standard error
-const getErrorMessage = function({
+export const getErrorMessage = function({
   error: { type, description, details },
   message,
 }) {
@@ -33,7 +33,3 @@ const getStack = function(description, details = '') {
 }
 
 const ROOT_DIR = resolve(__dirname, '../../..')
-
-module.exports = {
-  getErrorMessage,
-}

@@ -10,7 +10,7 @@ const serialize = function({ content }) {
   return json5Stringify(content, null, 2)
 }
 
-const json5 = {
+export const json5 = {
   name: 'json5',
   title: 'JSON5',
   extensions: ['json5'],
@@ -20,8 +20,4 @@ const json5 = {
   jsonCompat: ['superset'],
   parse,
   serialize,
-}
-
-module.exports = {
-  json5,
 }

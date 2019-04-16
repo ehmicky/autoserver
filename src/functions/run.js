@@ -20,13 +20,9 @@ const eRunConfigFunc = function({
   return configFunc(paramsA)
 }
 
-const runConfigFunc = addGenPbHandler(eRunConfigFunc, {
+export const runConfigFunc = addGenPbHandler(eRunConfigFunc, {
   message: ({ configFunc }) =>
     `Function failed: '${stringifyConfigFunc({ configFunc })}'`,
   reason: 'CONFIG_RUNTIME',
   extra: ({ configFunc }) => ({ value: stringifyConfigFunc({ configFunc }) }),
 })
-
-module.exports = {
-  runConfigFunc,
-}

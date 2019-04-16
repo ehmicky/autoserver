@@ -3,7 +3,7 @@ import { isObject } from '../../../utils/functional/type.js'
 import { normalizePartialProtocol } from './partial.js'
 
 // Normalize parameters created during protocol layer
-const protocolNormalization = function({
+export const protocolNormalization = function({
   protocolAdapter,
   topargs,
   queryvars,
@@ -58,8 +58,4 @@ const getTopargs = function({ topargs = {}, headers: { params } }) {
   }
 
   return { ...topargs, params }
-}
-
-module.exports = {
-  protocolNormalization,
 }

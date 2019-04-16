@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { PROTOCOLS } from '../../protocols/info.js'
 import { RPCS } from '../../rpc/info.js'
 import { COMMAND_TYPES } from '../../commands/constants.js'
@@ -6,7 +5,7 @@ import { COMMAND_TYPES } from '../../commands/constants.js'
 // System parameters that are always present
 // We need to specify their `type` and `isArray` for `coll.authorize`
 // validation
-const SYSTEM_PARAMS = {
+export const SYSTEM_PARAMS = {
   requestid: { type: 'string' },
   timestamp: { type: 'string' },
   protocol: { type: 'string', validation: { enum: PROTOCOLS } },
@@ -53,7 +52,7 @@ const SYSTEM_PARAMS = {
 }
 
 // Those system parameters are set after the database response
-const LATER_SYSTEM_PARAMS = [
+export const LATER_SYSTEM_PARAMS = [
   'status',
   'responsedata',
   'responsedatasize',
@@ -64,7 +63,7 @@ const LATER_SYSTEM_PARAMS = [
   'uniquecount',
 ]
 
-const POSITIONAL_PARAMS = [
+export const POSITIONAL_PARAMS = [
   'arg1',
   'arg2',
   'arg3',
@@ -77,7 +76,7 @@ const POSITIONAL_PARAMS = [
 ]
 
 // System parameters that are not always present
-const TEMP_SYSTEM_PARAMS = [
+export const TEMP_SYSTEM_PARAMS = [
   // Generic model values
   'model',
   'value',
@@ -101,12 +100,3 @@ const TEMP_SYSTEM_PARAMS = [
   'measuresmessage',
   'duration',
 ]
-
-module.exports = {
-  SYSTEM_PARAMS,
-  LATER_SYSTEM_PARAMS,
-  POSITIONAL_PARAMS,
-  TEMP_SYSTEM_PARAMS,
-}
-
-/* eslint-enable max-lines */

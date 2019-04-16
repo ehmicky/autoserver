@@ -1,7 +1,7 @@
 import { omitBy } from '../../../utils/functional/filter.js'
 
 // Apply GraphQL-specific error response transformation
-const transformSuccess = function({
+export const transformSuccess = function({
   response: {
     content: { metadata, ...content },
   },
@@ -11,7 +11,7 @@ const transformSuccess = function({
 }
 
 // Apply GraphQL-specific error response transformation
-const transformError = function({
+export const transformError = function({
   response: {
     content: { error, metadata },
   },
@@ -31,9 +31,4 @@ const getError = function({ type, title, description, ...extraContent }) {
   const errorA = omitBy(error, val => val === undefined)
 
   return [errorA]
-}
-
-module.exports = {
-  transformSuccess,
-  transformError,
 }

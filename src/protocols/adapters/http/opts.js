@@ -1,4 +1,4 @@
-const opts = {
+export const opts = {
   type: 'object',
   additionalProperties: false,
   properties: {
@@ -11,8 +11,4 @@ const opts = {
       maximum: 65535,
     },
   },
-}
-
-module.exports = {
-  opts,
 }

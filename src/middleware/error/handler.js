@@ -1,7 +1,7 @@
 import { logEvent } from '../../log/main.js'
 
 // Error handler, which sends final response, if server-side errors
-const errorHandler = async function({
+export const errorHandler = async function({
   error,
   protocolAdapter,
   config,
@@ -22,8 +22,4 @@ const errorHandler = async function({
     params: { error },
     config,
   })
-}
-
-module.exports = {
-  errorHandler,
 }

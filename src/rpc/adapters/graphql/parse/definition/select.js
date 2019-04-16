@@ -4,7 +4,7 @@ import { applyDirectives } from './directive.js'
 import { mergeSelectRename } from './merge_select.js'
 
 // Retrieve `rpcDef.args.select` using GraphQL selection sets
-const parseSelects = function({ args, ...input }) {
+export const parseSelects = function({ args, ...input }) {
   const selectRename = parseSelectionSet(input)
 
   const selectA = mergeSelectRename({ selectRename, name: 'select' })
@@ -102,8 +102,4 @@ const parsers = {
   Field: parseField,
   FragmentSpread: parseFragmentSpread,
   InlineFragment: parseInlineFragment,
-}
-
-module.exports = {
-  parseSelects,
 }

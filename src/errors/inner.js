@@ -1,5 +1,5 @@
 // Keep track of innererror
-const getInnerError = function({ stack: upperStack, ...opts }) {
+export const getInnerError = function({ stack: upperStack, ...opts }) {
   const { shallowInnerError, deepInnerError, innererror } = getInnerErrors({
     opts,
   })
@@ -47,8 +47,4 @@ const getInnerErrorStack = function({
   }
 
   return stack
-}
-
-module.exports = {
-  getInnerError,
 }

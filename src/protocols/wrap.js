@@ -9,13 +9,9 @@ const methods = {
   startServer: start,
 }
 
-const protocolAdapters = wrapAdapters({
+export const protocolAdapters = wrapAdapters({
   adapters: PROTOCOL_ADAPTERS,
   members,
   methods,
   reason: 'PROTOCOL',
 })
-
-module.exports = {
-  protocolAdapters,
-}

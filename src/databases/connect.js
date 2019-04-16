@@ -4,7 +4,7 @@ import { mapValues } from '../utils/functional/map.js'
 // Start database connection
 // Returns a copy of the database adapter, but with fewer members and some other
 // members bound
-const connectDatabase = async function(
+export const connectDatabase = async function(
   { connect, check, ...rest },
   { options, config },
 ) {
@@ -41,8 +41,4 @@ const getDbAdapter = function({
 
 const wrapMethod = function({ method, ...rest }, input, ...args) {
   return method({ ...rest, ...input }, ...args)
-}
-
-module.exports = {
-  connectDatabase,
 }

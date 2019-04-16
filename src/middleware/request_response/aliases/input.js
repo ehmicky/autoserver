@@ -2,7 +2,7 @@ import { applyDataAliases } from './data.js'
 import { applyOrderAliases } from './order.js'
 
 // Apply `alias` in server input
-const applyInputAliases = function({ args, modelAliases }) {
+export const applyInputAliases = function({ args, modelAliases }) {
   const argsB = Object.entries(modelAliases).reduce(
     (argsA, [attrName, aliases]) =>
       applyInputAlias({ args: argsA, attrName, aliases }),
@@ -47,7 +47,3 @@ const getOrder = function({ args, args: { order }, attrName, aliases }) {
 }
 
 const modifiers = [getNewData, getOrder]
-
-module.exports = {
-  applyInputAliases,
-}

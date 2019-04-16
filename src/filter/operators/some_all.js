@@ -40,21 +40,16 @@ const arrayMatcher = function({
 }
 
 // eslint-disable-next-line no-underscore-dangle
-const _some = {
+export const _some = {
   parse: parseSomeAll,
   optimize: optimizeSomeAll,
   validate: validateArray,
   eval: evalSome,
 }
 // eslint-disable-next-line no-underscore-dangle
-const _all = {
+export const _all = {
   parse: parseSomeAll,
   optimize: optimizeSomeAll,
   validate: validateArray,
   eval: evalAll,
-}
-
-module.exports = {
-  _some,
-  _all,
 }

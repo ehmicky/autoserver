@@ -5,7 +5,7 @@ import { addToActions } from '../add_actions/add.js'
 import { addParentSelects } from './parent.js'
 
 // Parse `args.select` for each action
-const parseSelect = function({ actions, top }) {
+export const parseSelect = function({ actions, top }) {
   const actionsA = addToActions({
     actions,
     name: 'select',
@@ -46,8 +46,4 @@ const getSelectPart = function({ select, commandpath }) {
 
   const message = `In 'select' argument, '${select}' is invalid`
   throwError(message, { reason: 'VALIDATION' })
-}
-
-module.exports = {
-  parseSelect,
 }

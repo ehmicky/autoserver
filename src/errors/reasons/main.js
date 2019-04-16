@@ -33,7 +33,7 @@ import { UNKNOWN } from './unknown.js'
 // Keys are the exception.reason of the exception thrown
 // Values are merged to exceptions thrown
 // All error reasons and their related status
-const REASONS = {
+export const REASONS = {
   SUCCESS,
   VALIDATION,
   ABORTED,
@@ -61,8 +61,4 @@ const REASONS = {
   PLUGIN,
   ENGINE,
   UNKNOWN,
-}
-
-module.exports = {
-  REASONS,
 }

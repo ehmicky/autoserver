@@ -7,7 +7,7 @@ import { throwError } from '../../../errors/main.js'
 import { getValues } from './values.js'
 
 // Add values to current actions
-const addToActions = function({ actions, name, filter, mapper, top }) {
+export const addToActions = function({ actions, name, filter, mapper, top }) {
   const values = getValues({ actions, filter, mapper })
 
   const actionsA = actions.map(action => addValue({ action, values, name }))
@@ -65,8 +65,4 @@ const RELATED_ARG = {
   patch: 'data',
   create: 'data',
   upsert: 'data',
-}
-
-module.exports = {
-  addToActions,
 }

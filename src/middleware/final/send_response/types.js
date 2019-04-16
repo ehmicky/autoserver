@@ -1,7 +1,7 @@
 import { serializeContentType } from '../../../formats/content_type.js'
 
 // Each content type is sent differently
-const TYPES = {
+export const TYPES = {
   model: {
     mime: 'application/x-resource+',
     isText: true,
@@ -34,7 +34,7 @@ const TYPES = {
 }
 
 // Retrieve response content type
-const getContentType = function({ format, type }) {
+export const getContentType = function({ format, type }) {
   const { mime } = TYPES[type]
   const charset = DEFAULT_OUTPUT_CHARSET
   const contentType = serializeContentType({ mime, charset, format })
@@ -42,8 +42,3 @@ const getContentType = function({ format, type }) {
 }
 
 const DEFAULT_OUTPUT_CHARSET = 'utf-8'
-
-module.exports = {
-  getContentType,
-  TYPES,
-}

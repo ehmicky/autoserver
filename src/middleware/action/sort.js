@@ -10,12 +10,7 @@ const sortTwo = function(pathKey, objA, objB) {
 }
 
 // Sort `actions` so that top-level ones are fired first
-const sortActions = obj => sorter(obj, 'actions', 'commandpath')
+export const sortActions = obj => sorter(obj, 'actions', 'commandpath')
 
 // Sort `results` so that top-level ones are processed first
-const sortResults = obj => sorter(obj, 'results', 'path')
-
-module.exports = {
-  sortActions,
-  sortResults,
-}
+export const sortResults = obj => sorter(obj, 'results', 'path')

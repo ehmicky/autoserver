@@ -2,7 +2,7 @@ import { getWordsList } from '../../../../utils/string.js'
 import { throwError } from '../../../../errors/main.js'
 
 // Validate GraphQL main definition
-const validateMainDef = function({ mainDef, operationName, method }) {
+export const validateMainDef = function({ mainDef, operationName, method }) {
   validateDef({ mainDef, operationName })
   validateMainSelection({ mainDef })
   validateQuery({ mainDef })
@@ -94,8 +94,4 @@ const validateMutation = function({
 
 const isFindQuery = function({ name }) {
   return name.value.startsWith('find') || name.value === '__schema'
-}
-
-module.exports = {
-  validateMainDef,
 }

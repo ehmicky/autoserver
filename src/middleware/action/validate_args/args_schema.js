@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-const SCHEMA = {
+export const SCHEMA = {
   type: 'object',
   properties: {
     dynamicVars: {
@@ -125,9 +125,5 @@ const SCHEMA = {
       },
     },
   ],
-}
-
-module.exports = {
-  SCHEMA,
 }
 /* eslint-enable max-lines */

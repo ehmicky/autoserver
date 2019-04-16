@@ -2,7 +2,7 @@ import { omit } from '../../../utils/functional/filter.js'
 import { extractSimpleIds } from '../../../filter/simple_id.js'
 
 // Fire the actual command
-const fireReadCommand = async function({
+export const fireReadCommand = async function({
   action: { commandpath, collname, clientCollname },
   mInput,
   nextLayer,
@@ -46,8 +46,4 @@ const getResponse = async function({ nextLayer, mInput }) {
 
   const { response: responseA } = await nextLayer(mInputB, 'response')
   return responseA
-}
-
-module.exports = {
-  fireReadCommand,
 }

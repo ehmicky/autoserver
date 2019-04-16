@@ -2,7 +2,7 @@ import { getOperator } from '../operators/main.js'
 import { mapNodes } from '../crawl.js'
 
 // Try to simplify AST
-const optimizeFilter = function({ filter }) {
+export const optimizeFilter = function({ filter }) {
   return mapNodes(filter, optimizeNode)
 }
 
@@ -15,8 +15,4 @@ const optimizeNode = function(node) {
 
   const nodeA = optimize(node)
   return nodeA
-}
-
-module.exports = {
-  optimizeFilter,
 }

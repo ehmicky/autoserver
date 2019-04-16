@@ -1,6 +1,6 @@
 import { GraphQLList } from 'graphql'
 
-const graphqlArrayTest = function({ arrayWrapped, command, isArray }) {
+export const graphqlArrayTest = function({ arrayWrapped, command, isArray }) {
   // Already wrapped in Array type
   if (arrayWrapped) {
     return false
@@ -21,14 +21,9 @@ const graphqlArrayTest = function({ arrayWrapped, command, isArray }) {
 }
 
 // Array field TGetter
-const graphqlArrayTGetter = function(def, opts) {
+export const graphqlArrayTGetter = function(def, opts) {
   const defA = { ...def, arrayWrapped: true }
   const subType = opts.getType(defA, opts)
   const type = new GraphQLList(subType)
   return type
-}
-
-module.exports = {
-  graphqlArrayTest,
-  graphqlArrayTGetter,
 }

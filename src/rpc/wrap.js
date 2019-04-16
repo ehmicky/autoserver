@@ -11,13 +11,9 @@ const methods = {
   transformResponse,
 }
 
-const rpcAdapters = wrapAdapters({
+export const rpcAdapters = wrapAdapters({
   adapters: RPC_ADAPTERS,
   members,
   methods,
   reason: 'RPC',
 })
-
-module.exports = {
-  rpcAdapters,
-}

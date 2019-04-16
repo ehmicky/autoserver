@@ -3,7 +3,7 @@ import { CONTENT_TYPES } from '../../content_types.js'
 
 // Action layer output validation
 // Those errors should not happen, i.e. server-side (e.g. 500)
-const actionValidationOut = function({ response: { content, type } }) {
+export const actionValidationOut = function({ response: { content, type } }) {
   validateType({ type })
   validateContent({ content, type })
 }
@@ -31,8 +31,4 @@ const validateContent = function({ content, type }) {
 
   const message = `Invalid 'content' of type '${type}': '${content}'`
   throwPb({ message, reason: 'ENGINE' })
-}
-
-module.exports = {
-  actionValidationOut,
 }

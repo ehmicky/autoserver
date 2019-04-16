@@ -2,7 +2,7 @@ import { getFormat } from '../../formats/get.js'
 
 import { validateString } from './validate.js'
 
-const parseQueryvars = function({
+export const parseQueryvars = function({
   protocolAdapter,
   protocolAdapter: { getQueryString },
   specific,
@@ -16,7 +16,3 @@ const parseQueryvars = function({
 }
 
 const urlencoded = getFormat('urlencoded')
-
-module.exports = {
-  parseQueryvars,
-}

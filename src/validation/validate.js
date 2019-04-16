@@ -1,7 +1,7 @@
 import { errorMessages } from './messages.js'
 
 // Perform a validation, using a JSON schema, and a `data` as input
-const validate = function({ compiledJsonSchema, data, extra = {} }) {
+export const validate = function({ compiledJsonSchema, data, extra = {} }) {
   // Hack to be able to pass information to custom validation keywords
   const dataA = { ...data, [Symbol.for('extra')]: extra }
 
@@ -54,8 +54,4 @@ const jsonPointerToDots = function(dataPath) {
     .substr(1)
     .replace(/\/(\d+)/gu, '[$1]')
     .replace(/\//gu, '.')
-}
-
-module.exports = {
-  validate,
 }

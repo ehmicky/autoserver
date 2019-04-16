@@ -8,7 +8,7 @@ import { getFinalField } from './final_fields/main.js'
 import { addNoAttributes } from './no_attributes.js'
 
 // Retrieve the fields of an object, using config definition
-const getObjectFields = function(opts) {
+export const getObjectFields = function(opts) {
   const fields = mappers.reduce(
     reduceFields.bind(null, opts),
     opts.parentDef.attributes,
@@ -26,8 +26,4 @@ const reduceFields = function(opts, fields, mapper) {
 
 const mapField = function({ opts, mapper }, def, defName) {
   return mapper(def, { ...opts, defName })
-}
-
-module.exports = {
-  getObjectFields,
 }

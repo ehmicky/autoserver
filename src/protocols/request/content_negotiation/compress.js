@@ -2,7 +2,7 @@ import { addGenPbHandler } from '../../../errors/handler.js'
 import { getAlgo, getAlgos } from '../../../compress/get.js'
 
 // Retrieve compression asked by client for the response and request payloads
-const getCompress = function({ queryvars, compressResponse, compressRequest }) {
+export const getCompress = function({ queryvars, compressResponse, compressRequest }) {
   const {
     compressResponse: compressResponseA,
     compressRequest: compressRequestA,
@@ -74,7 +74,3 @@ const getCompressRequest = addGenPbHandler(getAlgo, {
   reason: 'REQUEST_NEGOTIATION',
   extra: getExtra,
 })
-
-module.exports = {
-  getCompress,
-}

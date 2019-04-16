@@ -1,8 +1,4 @@
-const defaults = {
+export const defaults = {
   save: false,
   data: {},
-}
-
-module.exports = {
-  defaults,
 }

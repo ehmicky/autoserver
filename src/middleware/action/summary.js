@@ -4,7 +4,7 @@ import { isEqual } from '../../utils/functional/equal.js'
 // This is all `actions`, included nested ones as a nice formatted string,
 // e.g. 'find_collection{attrA,attrB,child{attrC}}'
 // Also retrieves `commandpaths` and `collnames`
-const getSummary = function({ actions, top, top: { commandpath } }) {
+export const getSummary = function({ actions, top, top: { commandpath } }) {
   const summary = getEachSummary({ actions, commandpath, top })
   const commandpaths = getCommandpaths({ actions })
   const collnames = getCollnames({ actions })
@@ -45,8 +45,4 @@ const getCommandpaths = function({ actions }) {
 // List of all actions's `collname`
 const getCollnames = function({ actions }) {
   return actions.map(({ collname }) => collname)
-}
-
-module.exports = {
-  getSummary,
 }

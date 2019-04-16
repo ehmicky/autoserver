@@ -8,7 +8,7 @@ import { validate } from '../../../validation/validate.js'
 import { SCHEMA } from './config_schema.js'
 
 // General config syntax validation
-const validateConfigSyntax = function({ config }) {
+export const validateConfigSyntax = function({ config }) {
   const data = getConfig(config)
 
   eValidate({ compiledJsonSchema, data })
@@ -66,7 +66,3 @@ const eValidate = addGenErrorHandler(validate, {
   reason: 'CONFIG_VALIDATION',
   message: (input, { message }) => `Wrong configuration: ${message}`,
 })
-
-module.exports = {
-  validateConfigSyntax,
-}

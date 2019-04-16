@@ -2,7 +2,7 @@ import { magenta, green, yellow, red, gray, reset, dim } from 'chalk'
 
 // Colorize a standard error message
 // Not performed if terminal does not support colors
-const colorize = function({ log: { event, level }, consoleMessage }) {
+export const colorize = function({ log: { event, level }, consoleMessage }) {
   const [, first, second, , third, , fourth = ''] = MESSAGE_REGEXP.test(
     consoleMessage,
   )
@@ -55,8 +55,4 @@ const colors = {
   log: green,
   warn: yellow,
   error: red,
-}
-
-module.exports = {
-  colorize,
 }

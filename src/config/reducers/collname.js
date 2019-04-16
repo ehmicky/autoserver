@@ -7,8 +7,4 @@ const mapColl = function({ collname, coll: { name = [collname] } }) {
   return { name: nameA }
 }
 
-const normalizeClientCollname = mapColls.bind(null, mapColl)
-
-module.exports = {
-  normalizeClientCollname,
-}
+export const normalizeClientCollname = mapColls.bind(null, mapColl)

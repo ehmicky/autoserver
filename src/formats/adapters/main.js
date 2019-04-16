@@ -8,7 +8,7 @@ import { ini } from './ini.js'
 import { raw } from './raw.js'
 
 // Order matters, as first ones will have priority
-const FORMAT_ADAPTERS = [
+export const FORMAT_ADAPTERS = [
   json,
   yaml,
   urlencoded,
@@ -18,7 +18,3 @@ const FORMAT_ADAPTERS = [
   ini,
   raw,
 ]
-
-module.exports = {
-  FORMAT_ADAPTERS,
-}

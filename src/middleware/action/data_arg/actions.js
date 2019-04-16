@@ -3,7 +3,7 @@ import { getWriteAction } from './write_action.js'
 
 // Parse an object (including its children) inside `args.data`
 // as a set of write actions
-const parseActions = function({ data, ...rest }) {
+export const parseActions = function({ data, ...rest }) {
   const dataA = normalizeData({ data })
 
   const nestedKeys = getNestedKeys({ data: dataA, ...rest })
@@ -39,8 +39,4 @@ const filterAction = function({
   }
 
   return [action]
-}
-
-module.exports = {
-  parseActions,
 }

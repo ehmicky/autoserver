@@ -1,4 +1,4 @@
-const COMMANDS = {
+export const COMMANDS = {
   findOne: {
     optional: ['populate', 'select', 'rename', 'silent', 'params'],
     required: ['id'],
@@ -68,8 +68,4 @@ const COMMANDS = {
     optional: ['select', 'rename', 'silent', 'dryrun', 'params'],
     required: ['data'],
   },
-}
-
-module.exports = {
-  COMMANDS,
 }

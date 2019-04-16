@@ -19,7 +19,7 @@ const TEMPLATE = resolve(__dirname, './graphiql.mustache')
 // @param {string} [options.result] - the result of the query to pre-fill
 //
 // @returns {string} document - HTML document
-const renderGraphiql = function(input) {
+export const renderGraphiql = function(input) {
   // Those must be valid JavaScript, so must JSON-stringified
   const dataToEscape = getDataToEscape(input)
   // Those must be valid HTML
@@ -46,8 +46,4 @@ const escapeData = function(dataToEscape) {
 
 const escapeJSON = function(string = null) {
   return JSON.stringify(string, null, 2)
-}
-
-module.exports = {
-  renderGraphiql,
 }

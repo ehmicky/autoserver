@@ -10,14 +10,14 @@ import { transtype } from '../utils/transtype.js'
 //    Those extra types are removed by being JSON serialized.
 // Formats that do not support arrays, objects or strings cannot be specified.
 
-const applyCompatParse = function({ jsonCompat, content }) {
+export const applyCompatParse = function({ jsonCompat, content }) {
   return jsonCompat.reduce(
     (contentA, compatType) => jsonCompatParse[compatType](contentA),
     content,
   )
 }
 
-const applyCompatSerialize = function({ jsonCompat, content }) {
+export const applyCompatSerialize = function({ jsonCompat, content }) {
   return jsonCompat.reduce(
     (contentA, compatType) => jsonCompatSerialize[compatType](contentA),
     content,
@@ -56,9 +56,4 @@ const jsonCompatParse = {
 const jsonCompatSerialize = {
   subset: subsetSerialize,
   superset: supersetParseStringify,
-}
-
-module.exports = {
-  applyCompatParse,
-  applyCompatSerialize,
 }

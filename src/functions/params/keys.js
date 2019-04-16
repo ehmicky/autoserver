@@ -6,7 +6,7 @@ import {
 } from './system.js'
 
 // Retrieve parameters names
-const getParamsKeys = function({ config: { params = {} } }) {
+export const getParamsKeys = function({ config: { params = {} } }) {
   const namedKeys = [
     ...Object.keys(SYSTEM_PARAMS),
     ...LATER_SYSTEM_PARAMS,
@@ -15,8 +15,4 @@ const getParamsKeys = function({ config: { params = {} } }) {
   ]
   const posKeys = POSITIONAL_PARAMS
   return { namedKeys, posKeys }
-}
-
-module.exports = {
-  getParamsKeys,
 }

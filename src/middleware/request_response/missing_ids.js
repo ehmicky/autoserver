@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { difference } from '../../utils/functional/difference.js'
 import { throwPb } from '../../errors/props.js'
 import {
@@ -7,7 +6,7 @@ import {
 } from '../../filter/simple_id.js'
 
 // Check if any `id` was not found (404) or was unauthorized (403)
-const validateMissingIds = function(
+export const validateMissingIds = function(
   {
     command,
     clientCollname,
@@ -132,8 +131,3 @@ const checkAuthorization = async function({
     messageInput: { top },
   })
 }
-
-module.exports = {
-  validateMissingIds,
-}
-/* eslint-enable max-lines */

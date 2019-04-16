@@ -3,7 +3,7 @@ import { mapValues } from '../../../../../utils/functional/map.js'
 import { validateDuplicates } from '../duplicates.js'
 
 // Parse GraphQL arguments, for each possible argument type
-const parseArgs = function({
+export const parseArgs = function({
   mainSelection: { arguments: fields },
   variables,
 }) {
@@ -69,8 +69,4 @@ const argParsers = {
   StringValue: parseAsIs,
   BooleanValue: parseAsIs,
   Variable: parseVariable,
-}
-
-module.exports = {
-  parseArgs,
 }

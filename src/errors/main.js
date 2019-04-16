@@ -4,7 +4,7 @@ import { getInnerError } from './inner.js'
 
 // Note that any exception thrown in the `error` module might not create an
 // event (since this is the error), so we must be precautious.
-const createError = function(message, opts = {}) {
+export const createError = function(message, opts = {}) {
   validateError(opts)
 
   const innererror = getInnerError(opts)
@@ -33,13 +33,13 @@ const validateError = function(opts) {
 
 const ALLOWED_OPTS = ['reason', 'stack', 'innererror', 'extra']
 
-const isError = function({ error }) {
+export const isError = function({ error }) {
   return error && error.type === ERROR_TYPE
 }
 
 const ERROR_TYPE = Symbol('error')
 
-const throwError = function(message = MISSING_MESSAGE, opts) {
+export const throwError = function(message = MISSING_MESSAGE, opts) {
   const stack = message.stack || getStack({ caller: throwError })
   const error = createError(message, { ...opts, stack })
   throw error
@@ -49,7 +49,7 @@ const MISSING_MESSAGE = 'Missing error message'
 
 // External dependencies might throw errors that are not instances of
 // our types of error, so we want to fix those.
-const normalizeError = function({ error }) {
+export const normalizeError = function({ error }) {
   if (isError({ error })) {
     return error
   }
@@ -75,11 +75,4 @@ const getStack = function({ caller } = {}) {
   const stackObj = {}
   Error.captureStackTrace(stackObj, caller)
   return stackObj.stack
-}
-
-module.exports = {
-  createError,
-  throwError,
-  normalizeError,
-  isError,
 }

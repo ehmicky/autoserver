@@ -11,7 +11,7 @@ import { getCascadeArgument } from './cascade.js'
 import { getParamsArgument } from './params.js'
 
 // Retrieves all resolver arguments, before resolve function is fired
-const getArgs = function(def, opts) {
+export const getArgs = function(def, opts) {
   // Only for top-level actions
   const isTopLevel = TOP_LEVEL_COLLS.includes(opts.parentDef.clientCollname)
 
@@ -51,8 +51,4 @@ const getArgType = function(def, opts, inputObjectType) {
   const optsA = { ...opts, inputObjectType }
 
   return getType(defA, optsA)
-}
-
-module.exports = {
-  getArgs,
 }

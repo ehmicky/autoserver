@@ -2,13 +2,13 @@ import { capitalize } from 'underscore.string'
 
 import { COMMANDS } from '../../../../commands/constants.js'
 
-const TOP_DESCRIPTIONS = {
+export const TOP_DESCRIPTIONS = {
   query: 'Fetch models',
   mutation: 'Modify models',
 }
 
 // Top-level action descriptions
-const getCommandDescription = function({ command, typeName }) {
+export const getCommandDescription = function({ command, typeName }) {
   const title = getTitle({ command })
   const description = `${title} ${typeName} models`
   const descriptionA = capitalize(description)
@@ -17,7 +17,7 @@ const getCommandDescription = function({ command, typeName }) {
 
 // Retrieve the description of a `args.data|filter` type, and of
 // `args.data|filter|id` arguments
-const getArgTypeDescription = function({ command }, type) {
+export const getArgTypeDescription = function({ command }, type) {
   const title = getTitle({ command })
   const description = `${ARG_TYPES_DESCRIPTIONS[type]} models to ${title}`
   return description
@@ -36,10 +36,4 @@ const ARG_TYPES_DESCRIPTIONS = {
   argId: 'Specifies which',
   argFilter: 'Specifies which',
   argData: 'New',
-}
-
-module.exports = {
-  TOP_DESCRIPTIONS,
-  getCommandDescription,
-  getArgTypeDescription,
 }

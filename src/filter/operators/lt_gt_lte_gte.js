@@ -21,17 +21,10 @@ const evalGte = function({ attr, value }) {
 }
 
 // eslint-disable-next-line no-underscore-dangle
-const _lt = { parse: parseAsIs, validate: validateSameType, eval: evalLt }
+export const _lt = { parse: parseAsIs, validate: validateSameType, eval: evalLt }
 // eslint-disable-next-line no-underscore-dangle
-const _gt = { parse: parseAsIs, validate: validateSameType, eval: evalGt }
+export const _gt = { parse: parseAsIs, validate: validateSameType, eval: evalGt }
 // eslint-disable-next-line no-underscore-dangle
-const _lte = { parse: parseAsIs, validate: validateSameType, eval: evalLte }
+export const _lte = { parse: parseAsIs, validate: validateSameType, eval: evalLte }
 // eslint-disable-next-line no-underscore-dangle
-const _gte = { parse: parseAsIs, validate: validateSameType, eval: evalGte }
-
-module.exports = {
-  _lt,
-  _gt,
-  _lte,
-  _gte,
-}
+export const _gte = { parse: parseAsIs, validate: validateSameType, eval: evalGte }

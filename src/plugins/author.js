@@ -7,7 +7,7 @@ import { attributesPlugin } from './attributes.js'
 // User is specified by opts:
 //   [currentuser] {function} - current user
 //   [collection] {string} - user's collection name
-const authorPlugin = function({ config, opts }) {
+export const authorPlugin = function({ config, opts }) {
   return attributesPlugin({
     name: 'author',
     getAttributes,
@@ -58,8 +58,4 @@ const getCreatedBy = function(currentuser, params) {
 
 const getUpdatedBy = function(currentuser, params) {
   return currentuser(params).id
-}
-
-module.exports = {
-  authorPlugin,
 }

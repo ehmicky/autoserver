@@ -2,7 +2,7 @@ import { pickBy } from '../utils/functional/filter.js'
 import { mapValues } from '../utils/functional/map.js'
 
 // Apply a mapping function on each collection
-const mapColls = function(func, { config, config: { collections } }) {
+export const mapColls = function(func, { config, config: { collections } }) {
   const collectionsA = mapValues(collections, (coll, collname) =>
     mapColl({ func, coll, collname, config }),
   )
@@ -15,7 +15,7 @@ const mapColl = function({ func, coll, collname, config }) {
 }
 
 // Apply a mapping function on each collection's attribute
-const mapAttrs = function(func, { config }) {
+export const mapAttrs = function(func, { config }) {
   const funcA = mapCollAttrs.bind(null, func)
   return mapColls(funcA, { funcA, config })
 }
@@ -47,7 +47,7 @@ const mapAttr = function({ func, attr, attrName, coll, collname, config }) {
 }
 
 // Create shortcuts map by iterating over each collection and its attributes
-const getShortcut = function({ filter, mapper, config: { collections } }) {
+export const getShortcut = function({ filter, mapper, config: { collections } }) {
   return mapValues(collections, ({ attributes = {} }) =>
     getShortcutColl({ attributes, filter, mapper }),
   )
@@ -59,10 +59,4 @@ const getShortcutColl = function({ attributes, filter, mapper }) {
   )
   const attributesB = mapValues(attributesA, mapper)
   return attributesB
-}
-
-module.exports = {
-  mapColls,
-  mapAttrs,
-  getShortcut,
 }

@@ -2,7 +2,7 @@ import bytes from 'bytes'
 
 // Returns the main numerical limits of the engine.
 // Some of those limits cannot be changed by the user.
-const getLimits = function({ config } = {}) {
+export const getLimits = function({ config } = {}) {
   const configLimits = getConfigLimits({ config })
 
   return { ...SYSTEM_LIMITS, ...configLimits }
@@ -76,7 +76,3 @@ const getMaxmodels = function({ limits: { maxmodels }, pagesize }) {
 }
 
 const MAX_MODELS_FACTOR = 1e2
-
-module.exports = {
-  getLimits,
-}

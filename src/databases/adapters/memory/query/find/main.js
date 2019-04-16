@@ -5,7 +5,7 @@ import { offsetResponse } from './offset.js'
 import { limitResponse } from './limit.js'
 
 // Retrieve models
-const find = function({ collection, filter, order, offset, limit }) {
+export const find = function({ collection, filter, order, offset, limit }) {
   const data = collection.filter(model => evalFilter({ attrs: model, filter }))
 
   const dataA = sortResponse({ data, order })
@@ -13,8 +13,4 @@ const find = function({ collection, filter, order, offset, limit }) {
   const dataC = limitResponse({ data: dataB, limit })
 
   return dataC
-}
-
-module.exports = {
-  find,
 }

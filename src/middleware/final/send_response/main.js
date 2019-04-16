@@ -5,7 +5,7 @@ import { validateResponse } from './validate.js'
 import { send } from './send.js'
 
 // Sends the response at the end of the request
-const sendResponse = async function({
+export const sendResponse = async function({
   error,
   response,
   metadata,
@@ -68,8 +68,4 @@ const transformResponse = function({
   }
 
   return rpcAdapter.transformResponse({ response, mInput })
-}
-
-module.exports = {
-  sendResponse,
 }

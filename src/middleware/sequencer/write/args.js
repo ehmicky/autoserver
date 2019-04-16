@@ -4,7 +4,7 @@ import { getCurrentData } from './current_data.js'
 import { removeDuplicates } from './duplicate.js'
 
 // Merge arguments and retrieve model ids
-const getArgs = function({ actions, top, top: { args: topargs } }) {
+export const getArgs = function({ actions, top, top: { args: topargs } }) {
   const { args, ids } = getCommandArgs({ actions, top })
 
   const argsA = applyTopargs({ args, topargs })
@@ -36,7 +36,7 @@ const setNewData = ({ models }) => ({ newData: models })
 const setDeletedIds = ({ ids }) => ({ deletedIds: ids })
 
 // `delete` uses a different logic than `create|upsert|patch`
-const handlers = {
+export const handlers = {
   create: { getModels: useArgsData, getArg: setNewData },
   upsert: { getModels: useArgsData, getArg: setNewData },
   patch: { getModels: useArgsData, getArg: setNewData },
@@ -47,9 +47,4 @@ const handlers = {
 const applyTopargs = function({ args, topargs }) {
   const topargsA = pick(topargs, ['dryrun'])
   return { ...topargsA, ...args }
-}
-
-module.exports = {
-  getArgs,
-  handlers,
 }

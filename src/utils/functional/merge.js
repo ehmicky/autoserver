@@ -1,7 +1,7 @@
 import { isObject } from './type.js'
 
 // Like Lodash merge() but faster and does not mutate input
-const deepMerge = function(objA, objB, ...objects) {
+export const deepMerge = function(objA, objB, ...objects) {
   if (objects.length !== 0) {
     const newObjA = deepMerge(objA, objB)
     return deepMerge(newObjA, ...objects)
@@ -24,8 +24,4 @@ const deepMerge = function(objA, objB, ...objects) {
 
 const isObjectTypes = function(objA, objB) {
   return isObject(objA) && isObject(objB)
-}
-
-module.exports = {
-  deepMerge,
 }

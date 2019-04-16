@@ -5,7 +5,7 @@ import { mapValues } from '../../../../utils/functional/map.js'
 import { getTypeGetter } from './types/main.js'
 
 // Builds query|mutation type
-const getTopTypes = function({ topDefs }) {
+export const getTopTypes = function({ topDefs }) {
   const graphqlSchemaId = uuidv4()
   // `getType`: recursion, while avoiding files circular dependencies
   const opts = {
@@ -22,8 +22,4 @@ const getType = function(def, opts) {
   const typeGetter = getTypeGetter(def, opts)
   const type = typeGetter.value(def, opts)
   return type
-}
-
-module.exports = {
-  getTopTypes,
 }

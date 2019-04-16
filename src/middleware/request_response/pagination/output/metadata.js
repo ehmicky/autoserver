@@ -3,7 +3,7 @@ import { isOffset, SAME_ARGS, BOUNDARY_TOKEN } from '../info.js'
 import { encode } from '../encoding/main.js'
 import { isOnlyForwardCursor } from '../condition.js'
 
-const getMetadata = function({
+export const getMetadata = function({
   data,
   top,
   args,
@@ -70,8 +70,4 @@ const getEncodedToken = function({ model, args: { order }, topargs }) {
 
   const encodedToken = encode({ token: tokenA })
   return encodedToken
-}
-
-module.exports = {
-  getMetadata,
 }

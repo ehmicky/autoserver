@@ -2,7 +2,7 @@ import { get, set } from '../../../utils/functional/get_set.js'
 
 // Rename fields if the output key is different from the database one,
 // using `arg.rename`, including with GraphQL aliases.
-const applyRename = function({ response, results }) {
+export const applyRename = function({ response, results }) {
   // Need to recurse through children first
   const responseA = results.reduceRight(renameFieldsByResult, response)
   return { response: responseA }
@@ -55,8 +55,4 @@ const renameAttr = function({ renameMap, name, value }) {
   const modelA = outputNames.map(outputName => ({ [outputName]: value }))
   const modelB = Object.assign({}, ...modelA)
   return modelB
-}
-
-module.exports = {
-  applyRename,
 }

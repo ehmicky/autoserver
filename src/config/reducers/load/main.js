@@ -5,7 +5,7 @@ import { getEnvVars } from './env.js'
 import { getConfPath } from './path.js'
 
 // Load config file
-const loadFile = async function({ configPath, config: configOpts }) {
+export const loadFile = async function({ configPath, config: configOpts }) {
   const { config: envConfigPath, ...envVars } = getEnvVars()
 
   const path = await getConfPath({ envConfigPath, configPath })
@@ -16,8 +16,4 @@ const loadFile = async function({ configPath, config: configOpts }) {
   const config = deepMerge(configFile, configOpts, envVars)
 
   return config
-}
-
-module.exports = {
-  loadFile,
 }

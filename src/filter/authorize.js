@@ -3,7 +3,7 @@ import { mapValues } from '../utils/functional/map.js'
 import { SYSTEM_PARAMS } from '../functions/params/system.js'
 
 // Retrieve type and names of all possible `coll.authorize.*`
-const getAuthorizeAttrs = function({ config, collname }) {
+export const getAuthorizeAttrs = function({ config, collname }) {
   const serverParams = getServerParams({ config })
   const modelAttrs = getModelAttrs({ config, collname })
   return { ...serverParams, ...modelAttrs, ...SYSTEM_PARAMS }
@@ -25,8 +25,4 @@ const getModelAttrs = function({ config: { collections }, collname }) {
     pick(attr, ['type', 'isArray']),
   )
   return { model: modelAttrs }
-}
-
-module.exports = {
-  getAuthorizeAttrs,
 }

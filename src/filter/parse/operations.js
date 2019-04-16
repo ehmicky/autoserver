@@ -2,7 +2,7 @@ import { isObject } from '../../utils/functional/type.js'
 import { getOperator } from '../operators/main.js'
 import { parseSiblingNode } from '../siblings.js'
 
-const parseOperations = function({ operations, throwErr }) {
+export const parseOperations = function({ operations, throwErr }) {
   const operationsA = getShortcut({ operations })
 
   return Object.entries(operationsA).map(([type, value]) =>
@@ -19,7 +19,7 @@ const getShortcut = function({ operations }) {
   return { _eq: operations }
 }
 
-const parseOperation = function({ type, value, throwErr }) {
+export const parseOperation = function({ type, value, throwErr }) {
   const node = { type, value }
   const operator = getOperator({ node })
 
@@ -49,9 +49,4 @@ const parseValue = function({ operator, type, value, throwErr }) {
   const { parseAttrs } = require('./attrs.js')
 
   return operator.parse({ value, parseAttrs, parseOperations, throwErr })
-}
-
-module.exports = {
-  parseOperations,
-  parseOperation,
 }

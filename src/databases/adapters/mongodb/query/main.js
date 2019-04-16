@@ -1,16 +1,16 @@
 import { find } from './find/main.js'
-import { delete as deleteFunc } from './delete.js'
+import { deleteFunc } from './delete.js'
 import { upsert } from './upsert.js'
 
 // CRUD commands
-const query = async function(commandInput, ...args) {
+export const query = async function(commandInput, ...args) {
   const { command, connection, collname } = commandInput
 
   // Add convenience input `collection`
   const collection = connection.collection(collname)
   const commandInputA = { ...commandInput, collection }
 
-  const returnValue = await commands[command](commandInputA, ...args)
+  const returnValue = await COMMANDS[command](commandInputA, ...args)
 
   // MongoDB read commands return models as is, but write commands return
   // a summary
@@ -21,11 +21,7 @@ const query = async function(commandInput, ...args) {
   validateWrongResult({ returnValue })
 }
 
-const commands = {
-  find,
-  delete: deleteFunc,
-  upsert,
-}
+const COMMANDS = { find, delete: deleteFunc, upsert }
 
 // MongoDB returns `result.ok` `0` when an error happened
 const validateWrongResult = function({
@@ -37,8 +33,4 @@ const validateWrongResult = function({
 
   const codeA = code === undefined ? '' : ` (code ${code})`
   throw new Error(`${errmsg}${codeA}`)
-}
-
-module.exports = {
-  query,
 }

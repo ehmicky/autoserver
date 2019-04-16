@@ -5,7 +5,7 @@ import { query } from './query/main.js'
 import { defaults } from './defaults.js'
 import { opts } from './opts.js'
 
-const mongodb = {
+export const mongodb = {
   name: 'mongodb',
   title: 'MongoDB',
   description: 'MongoDB database',
@@ -16,8 +16,4 @@ const mongodb = {
   defaults,
   opts,
   idName: '_id',
-}
-
-module.exports = {
-  mongodb,
 }

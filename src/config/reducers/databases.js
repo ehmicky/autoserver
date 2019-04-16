@@ -6,7 +6,7 @@ import { mapColls } from '../helpers.js'
 import { validateAdaptersOpts } from './adapter_opts.js'
 
 // Validates `collection.database` and `databases.DATABASE.*`
-const validateDatabases = function({ config, config: { databases } }) {
+export const validateDatabases = function({ config, config: { databases } }) {
   validateAdaptersOpts({
     opts: databases,
     adaptersOpts: DATABASE_OPTS,
@@ -43,7 +43,3 @@ const eValidateStartupFeatures = addGenErrorHandler(validateStartupFeatures, {
     `'collections.${collname}.database': ${message}`,
   reason: 'CONFIG_VALIDATION',
 })
-
-module.exports = {
-  validateDatabases,
-}

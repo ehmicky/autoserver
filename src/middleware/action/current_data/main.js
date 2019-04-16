@@ -4,7 +4,7 @@ import { serialResolve } from './serial.js'
 // Add `action.currentData`, i.e. current models for the write actions about
 // to be fired.
 // Also adds `action.dataPaths` for `patch` and `delete` commands.
-const addCurrentData = function({ top: { command }, ...rest }, nextLayer) {
+export const addCurrentData = function({ top: { command }, ...rest }, nextLayer) {
   const resolver = resolvers[command.type]
 
   if (resolver === undefined) {
@@ -23,8 +23,4 @@ const resolvers = {
   upsert: parallelResolve,
   patch: serialResolve,
   delete: serialResolve,
-}
-
-module.exports = {
-  addCurrentData,
 }

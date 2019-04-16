@@ -9,7 +9,7 @@ import { validateBoolean } from './validate.js'
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
 // Meant to be used by rpc layer, e.g. to populate `mInput.args`
-const parsePayload = function({
+export const parsePayload = function({
   protocolAdapter,
   specific,
   config,
@@ -108,7 +108,3 @@ const getContentErrorProps = function({ payload, format: { title } }) {
 }
 
 const eParseContent = addErrorHandler(parseContent, parseContentHandler)
-
-module.exports = {
-  parsePayload,
-}

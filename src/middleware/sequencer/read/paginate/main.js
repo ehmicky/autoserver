@@ -4,7 +4,7 @@ import { truncateAttrs } from './truncate.js'
 
 // Paginates nested find commands, to ensure response does not hit `maxmodels`
 // limit
-const paginateResults = function({
+export const paginateResults = function({
   results,
   maxmodels,
   top,
@@ -46,7 +46,3 @@ const shouldPaginateResults = function({ maxmodels, top, isTopLevel }) {
 }
 
 const COMMAND_TYPES = ['find']
-
-module.exports = {
-  paginateResults,
-}

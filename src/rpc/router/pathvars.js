@@ -1,7 +1,7 @@
 import { transtype } from '../../utils/transtype.js'
 
 // Retrieves path variables, e.g. /path/:id
-const getPathvars = function({ path, route: { regexp, variables } }) {
+export const getPathvars = function({ path, route: { regexp, variables } }) {
   const pathvars = regexp
     .exec(path)
     // Removes first value, which is the full path
@@ -17,8 +17,4 @@ const getPathvar = function({ value, index, variables }) {
   const key = variables[index]
   const valueA = transtype(value)
   return { [key]: valueA }
-}
-
-module.exports = {
-  getPathvars,
 }

@@ -5,7 +5,7 @@ import { mapValues } from '../utils/functional/map.js'
 import { parseRequest } from './request/main.js'
 
 // Start the server
-const start = async function(
+export const start = async function(
   protocolAdapter,
   { requestHandler, getRequestInput = identity, opts = {}, config = {} },
 ) {
@@ -77,8 +77,4 @@ const BOUND_METHODS = ['send', 'parseRequest']
 
 const wrapMethod = function({ method, specific }, arg, ...args) {
   return method({ ...arg, specific }, ...args)
-}
-
-module.exports = {
-  start,
 }

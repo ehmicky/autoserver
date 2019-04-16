@@ -1,5 +1,5 @@
 // Available types in `patchOp.attribute|argument`
-const TYPES = {
+export const TYPES = {
   empty: {
     test: val => val == null,
     name: 'null',
@@ -35,8 +35,4 @@ const TYPES = {
     name: 'an object',
     pluralname: 'objects',
   },
-}
-
-module.exports = {
-  TYPES,
 }

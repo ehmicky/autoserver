@@ -7,7 +7,7 @@ import { isObject } from '../../../utils/functional/type.js'
 // headers like HTTP do. In those cases, `path`, `method` and `headers` are
 // taken from the payload, the headers or the query variables.
 // All protocol handlers must at least parse `origin`, `queryvars` and `payload`
-const normalizePartialProtocol = function({
+export const normalizePartialProtocol = function({
   protocolAdapter: { getHeaders, getMethod, getPath },
   queryvars,
   headers,
@@ -83,8 +83,4 @@ const normalize = function({ name, value, alternatives, method }) {
   }
 
   return alternative[name]
-}
-
-module.exports = {
-  normalizePartialProtocol,
 }

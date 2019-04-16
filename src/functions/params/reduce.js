@@ -3,7 +3,7 @@ import { get, set, has } from '../../utils/functional/get_set.js'
 import { isObject } from '../../utils/functional/type.js'
 
 // Reduce the size of parameters that might be too big
-const reduceParams = function({ params }) {
+export const reduceParams = function({ params }) {
   const paramsB = attributes.reduce(
     (paramsA, { path, filter }) =>
       reduceInfo({ params: paramsA, path, filter }),
@@ -42,8 +42,4 @@ const reduceValue = function({ value, filter }) {
   }
 
   // Otherwise, removes value altogether
-}
-
-module.exports = {
-  reduceParams,
 }

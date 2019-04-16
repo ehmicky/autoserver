@@ -15,8 +15,4 @@ const mapAttr = function({
   return { validate: { ...validate, required: true } }
 }
 
-const addRequiredId = mapAttrs.bind(null, mapAttr)
-
-module.exports = {
-  addRequiredId,
-}
+export const addRequiredId = mapAttrs.bind(null, mapAttr)

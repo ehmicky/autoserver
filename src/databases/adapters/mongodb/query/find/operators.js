@@ -4,7 +4,7 @@ import { getSiblingNode } from './siblings.js'
 
 // Transform `args.filter` into MongoDB query object
 // Applied recursively
-const getQueryFilter = function({ type, value, attrName }) {
+export const getQueryFilter = function({ type, value, attrName }) {
   // No filter
   if (type === undefined) {
     return {}
@@ -86,8 +86,4 @@ const operators = {
   _nin: genericOperator,
   _like: genericOperator,
   _nlike: genericOperator,
-}
-
-module.exports = {
-  getQueryFilter,
 }

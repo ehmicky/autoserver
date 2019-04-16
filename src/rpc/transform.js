@@ -2,7 +2,7 @@ import { isType } from '../content_types.js'
 
 // Transform a response according to rpc syntax
 // Differs depending on whether the response is an error or a success
-const transformResponse = function(
+export const transformResponse = function(
   { transformError, transformSuccess },
   { response, response: { type, content }, mInput },
 ) {
@@ -23,8 +23,4 @@ const shouldTransformError = function({ type, transformError }) {
 
 const shouldTransformSuccess = function({ type, transformSuccess }) {
   return isType(type, 'model') && transformSuccess
-}
-
-module.exports = {
-  transformResponse,
 }

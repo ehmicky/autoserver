@@ -1,6 +1,6 @@
 // Retrieve `nestedPagesize`, which is the pagesize applied to nested actions
 // We try to maximize it, while still be under the `maxmodels` limit
-const getNestedPagesize = function({ results, nestedAttrs, maxmodels }) {
+export const getNestedPagesize = function({ results, nestedAttrs, maxmodels }) {
   const count = results.length
   const nestedLengths = getNestedLengths({ results, nestedAttrs })
   const nestedPagesize = findNestedPagesize({
@@ -74,8 +74,4 @@ const findNestedPagesize = function({
     maxmodels,
     nestedPagesize: nestedPagesize + 1,
   })
-}
-
-module.exports = {
-  getNestedPagesize,
 }

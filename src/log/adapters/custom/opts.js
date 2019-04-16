@@ -1,4 +1,4 @@
-const opts = {
+export const opts = {
   type: 'object',
   additionalProperties: false,
   required: ['report'],
@@ -7,8 +7,4 @@ const opts = {
       typeof: 'function',
     },
   },
-}
-
-module.exports = {
-  opts,
 }

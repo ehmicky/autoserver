@@ -5,7 +5,7 @@ import { getSiblingValue } from './siblings.js'
 
 // Check if a set of `attrs` matches a filter such as `args.filter` or
 // `coll.authorize`
-const evalFilter = function({
+export const evalFilter = function({
   filter,
   filter: { type, attrName, value } = {},
   attrs,
@@ -58,8 +58,4 @@ const getAttr = function({ attrs, attrName }) {
 
   const attr = get(attrs, path)
   return attr
-}
-
-module.exports = {
-  evalFilter,
 }

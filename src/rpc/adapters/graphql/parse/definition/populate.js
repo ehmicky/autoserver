@@ -1,7 +1,7 @@
 import { uniq } from '../../../../../utils/functional/uniq.js'
 
 // Retrieve `rpcDef.args.populate` using GraphQL selection sets
-const addPopulate = function({ args, args: { select }, commandName }) {
+export const addPopulate = function({ args, args: { select }, commandName }) {
   if (!commandName.startsWith('find_')) {
     return args
   }
@@ -24,7 +24,3 @@ const addPopulate = function({ args, args: { select }, commandName }) {
 
 // Keep only parent path, e.g. 'parent.child' -> 'parent'
 const PARENT_SELECT_REGEXP = /\.?[^.]+$/u
-
-module.exports = {
-  addPopulate,
-}

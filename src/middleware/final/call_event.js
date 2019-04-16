@@ -3,7 +3,7 @@ import { nanoSecsToMilliSecs } from '../../perf/measure.js'
 
 // Main "call" event middleware.
 // Each request creates exactly one "call" event, whether successful or not
-const callEvent = function({
+export const callEvent = function({
   config,
   level,
   mInput,
@@ -20,8 +20,4 @@ const callEvent = function({
     params: { error, duration: durationA },
     config,
   })
-}
-
-module.exports = {
-  callEvent,
 }

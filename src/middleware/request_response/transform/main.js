@@ -25,7 +25,7 @@ const setCurrentValIfTrue = function({ transform, previousvalue, value }) {
 }
 
 // `attr.value`
-const handleValue = function(mInput) {
+export const handleValue = function(mInput) {
   return handleTransforms({
     ...mInput,
     mapName: 'valuesMap',
@@ -34,7 +34,7 @@ const handleValue = function(mInput) {
 }
 
 // `attr.default`
-const handleUserDefault = function(mInput) {
+export const handleUserDefault = function(mInput) {
   return handleTransforms({
     ...mInput,
     mapName: 'userDefaultsMap',
@@ -51,16 +51,10 @@ const handleUserDefault = function(mInput) {
 // because readonly attributes can be part of a normal response, and clients
 // should be able to send responses back as is without having to remove
 // readonly attributes, even if another user changes that same model.
-const handleReadonly = function(mInput) {
+export const handleReadonly = function(mInput) {
   return handleTransforms({
     ...mInput,
     mapName: 'readonlyMap',
     setAttr: setCurrentValIfTrue,
   })
-}
-
-module.exports = {
-  handleValue,
-  handleReadonly,
-  handleUserDefault,
 }

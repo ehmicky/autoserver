@@ -25,7 +25,7 @@ const kMonitor = function(
   }
 }
 
-const monitor = keepFuncProps(kMonitor)
+export const monitor = keepFuncProps(kMonitor)
 
 const recordPerf = function(measures, perf, response) {
   const perfA = stopPerf(perf)
@@ -37,7 +37,7 @@ const recordPerf = function(measures, perf, response) {
 }
 
 // Combine monitor() and reduceAsync()
-const monitoredReduce = function({
+export const monitoredReduce = function({
   funcs,
   initialInput,
   mapInput = identity,
@@ -53,9 +53,4 @@ const monitoredReduce = function({
 const monitoredReduceFunc = function(mapInput, input, func) {
   const inputA = mapInput(input)
   return func(inputA)
-}
-
-module.exports = {
-  monitor,
-  monitoredReduce,
 }

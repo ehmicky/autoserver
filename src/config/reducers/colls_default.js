@@ -3,7 +3,7 @@ import { mapValues } from '../../utils/functional/map.js'
 import { deepMerge } from '../../utils/functional/merge.js'
 
 // Applies `config.collections.default` to each collection
-const applyCollsDefault = function({
+export const applyCollsDefault = function({
   config: { collections = {}, collections: { default: collDefault } = {} },
 }) {
   const collectionsA = omit(collections, ['default'])
@@ -26,8 +26,4 @@ const applyCollDefault = function({ coll, collDefault }) {
 
 const isProperColl = function(coll) {
   return coll != null && typeof coll === 'object'
-}
-
-module.exports = {
-  applyCollsDefault,
 }

@@ -2,7 +2,7 @@ import { throwPb } from '../../errors/props.js'
 
 import { validateString } from './validate.js'
 
-const parseMethod = function({
+export const parseMethod = function({
   protocolAdapter,
   protocolAdapter: { getMethod },
   specific,
@@ -28,7 +28,3 @@ const validateMethod = function({ method }) {
 }
 
 const METHODS = ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE']
-
-module.exports = {
-  parseMethod,
-}

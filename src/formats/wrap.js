@@ -18,13 +18,9 @@ const methods = {
   getExtension,
 }
 
-const formatAdapters = wrapAdapters({
+export const formatAdapters = wrapAdapters({
   adapters: FORMAT_ADAPTERS,
   members,
   methods,
   reason: 'FORMAT',
 })
-
-module.exports = {
-  formatAdapters,
-}

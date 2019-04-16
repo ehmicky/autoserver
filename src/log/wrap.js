@@ -4,12 +4,8 @@ import { LOG_ADAPTERS } from './adapters/main.js'
 
 const members = ['name', 'title', 'report', 'reportPerf', 'getOpts']
 
-const logAdapters = wrapAdapters({
+export const logAdapters = wrapAdapters({
   adapters: LOG_ADAPTERS,
   members,
   reason: 'LOG',
 })
-
-module.exports = {
-  logAdapters,
-}

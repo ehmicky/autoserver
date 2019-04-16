@@ -1,7 +1,7 @@
 import Ajv from 'ajv'
 import ajvKeywords from 'ajv-keywords'
 
-const getValidator = function() {
+export const getValidator = function() {
   const ajv = new Ajv(AJV_OPTIONS)
 
   // Add JSON keywords:
@@ -30,8 +30,4 @@ const AJV_OPTIONS = {
   extendRefs: true,
   strictDefaults: true,
   strictKeywords: true,
-}
-
-module.exports = {
-  getValidator,
 }

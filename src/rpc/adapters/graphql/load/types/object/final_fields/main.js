@@ -5,7 +5,7 @@ import { getArgs } from './args/main.js'
 // i.e. an object that can be passed to new
 // GraphQLObjectType({ fields })
 // Includes return type, resolve function, arguments, etc.
-const getFinalField = function(def, opts) {
+export const getFinalField = function(def, opts) {
   const type = opts.getType(def, opts)
 
   const args = getArgs(def, opts)
@@ -17,8 +17,4 @@ const getFinalField = function(def, opts) {
   const { deprecation_reason: deprecationReason } = def
 
   return { type, args, defaultValue, description, deprecationReason }
-}
-
-module.exports = {
-  getFinalField,
 }

@@ -8,7 +8,7 @@ import { gracefulExit } from './graceful_exit.js'
 // Make sure the server stops when graceful exits are possible
 // Also send related events
 // We cannot handle `process.exit()` since graceful exit is async
-const setupGracefulExit = function({
+export const setupGracefulExit = function({
   protocolAdapters,
   dbAdapters,
   stopProcessErrors,
@@ -32,8 +32,4 @@ const getExitSignals = function() {
   return EXIT_SIGNALS.includes('SIGUSR2')
     ? EXIT_SIGNALS
     : [...EXIT_SIGNALS, 'SIGUSR2']
-}
-
-module.exports = {
-  setupGracefulExit,
 }

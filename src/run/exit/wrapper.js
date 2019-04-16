@@ -4,7 +4,7 @@ import { emitMessageEvent } from './message.js'
 import { addExitHandler } from './error.js'
 
 // Add event handling, message event and monitoring capabilities to the function
-const wrapCloseFunc = function(func) {
+export const wrapCloseFunc = function(func) {
   const funcA = closeFunc.bind(null, func)
 
   const eFunc = addExitHandler(funcA)
@@ -26,8 +26,4 @@ const closeFunc = async function(func, opts) {
 
 const getEventLabel = function({ type, adapter: { name } }) {
   return `${type}.${name}`
-}
-
-module.exports = {
-  wrapCloseFunc,
 }

@@ -14,7 +14,7 @@ import { getRawBodyHandler } from './error.js'
 //  - charset decoding
 //  - compression/decompression
 //  - content parsing. Return raw buffer instead
-const getPayload = function({ specific, specific: { req }, maxpayload }) {
+export const getPayload = function({ specific, specific: { req }, maxpayload }) {
   const length = getContentLength({ specific })
 
   return eGetRawBody({ req, length, maxpayload })
@@ -44,11 +44,6 @@ const getRawBody = function({ req, length, maxpayload }) {
 const eGetRawBody = addErrorHandler(getRawBody, getRawBodyHandler)
 
 // Check if there is a request payload
-const hasPayload = function({ specific: { req } }) {
+export const hasPayload = function({ specific: { req } }) {
   return hasBody(req)
-}
-
-module.exports = {
-  getPayload,
-  hasPayload,
 }

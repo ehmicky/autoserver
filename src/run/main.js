@@ -5,7 +5,7 @@ import { startupSteps } from './steps.js'
 import { handleStartupError } from './error.js'
 
 // Start server for each protocol
-const run = async function({
+export const run = async function({
   measures = [],
   config: configPath,
   ...config
@@ -25,7 +25,3 @@ const run = async function({
 const eStartupSteps = startupSteps.map(startupStep =>
   addErrorHandler(startupStep, handleStartupError),
 )
-
-module.exports = {
-  run,
-}

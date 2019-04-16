@@ -4,13 +4,9 @@ import { gzip } from './gzip.js'
 import { identity } from './identity.js'
 
 // Order matters, as first ones will have priority
-const COMPRESS_ADAPTERS = [
+export const COMPRESS_ADAPTERS = [
   ...(brotli.supported ? [brotli] : []),
   deflate,
   gzip,
   identity,
 ]
-
-module.exports = {
-  COMPRESS_ADAPTERS,
-}

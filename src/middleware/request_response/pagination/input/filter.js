@@ -12,7 +12,7 @@ import { getBackwardFilter } from '../backward.js'
 //      { a: 1, b: 2, c: 3, d: { _gt: 4 } },
 //   ]
 // Using backward pagination would replace _gt to _lt and vice-versa.
-const getTokenFilter = function({ args, token }) {
+export const getTokenFilter = function({ args, token }) {
   if (token === undefined) {
     return
   }
@@ -84,8 +84,4 @@ const mergeExtraFilters = function({ extraFilters, filter }) {
   }
 
   return { type: '_and', value: [filter, extraFiltersA] }
-}
-
-module.exports = {
-  getTokenFilter,
 }

@@ -7,7 +7,7 @@ import { getRequestMessage } from './request_message.js'
 // MESSAGE - SUBMESSAGE
 //   STACK_TRACE
 // `PHASE` is requestid if phase is `request`
-const getConsoleMessage = function({ log }) {
+export const getConsoleMessage = function({ log }) {
   return parts.map(getPart => getPart({ log })).join(' ')
 }
 
@@ -39,7 +39,3 @@ const getDuration = function({ log: { duration } }) {
 const DURATION_LENGTH = 8
 
 const parts = [getPrefix, getDuration, getMessage]
-
-module.exports = {
-  getConsoleMessage,
-}

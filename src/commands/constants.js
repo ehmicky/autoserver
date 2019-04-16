@@ -1,4 +1,4 @@
-const COMMANDS = [
+export const COMMANDS = [
   {
     name: 'findOne',
     type: 'find',
@@ -71,9 +71,4 @@ const COMMANDS = [
   },
 ]
 
-const COMMAND_TYPES = ['find', 'create', 'upsert', 'patch', 'delete']
-
-module.exports = {
-  COMMANDS,
-  COMMAND_TYPES,
-}
+export const COMMAND_TYPES = ['find', 'create', 'upsert', 'patch', 'delete']

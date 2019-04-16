@@ -5,7 +5,7 @@ import { getDatabase } from '../../databases/get.js'
 import { startConnections } from './connect.js'
 
 // Create database connections
-const connectToDatabases = async function({ config, measures }) {
+export const connectToDatabases = async function({ config, measures }) {
   const dbAdapters = getDbAdapters({ config })
 
   const dbAdaptersA = await startConnections({ dbAdapters, config, measures })
@@ -33,8 +33,4 @@ const getCollDbAdapters = function({ dbAdapters, config: { collections } }) {
 
 const getCollDbAdapter = function({ dbAdapters, database }) {
   return dbAdapters.find(({ name }) => name === database)
-}
-
-module.exports = {
-  connectToDatabases,
 }

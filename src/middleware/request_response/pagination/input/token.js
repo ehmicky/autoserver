@@ -7,7 +7,7 @@ import { decode } from '../encoding/main.js'
 import { getRightToken, TOKEN_NAMES, BOUNDARY_TOKEN } from '../info.js'
 
 // Parse cursor tokens
-const getToken = function({ args }) {
+export const getToken = function({ args }) {
   const tokens = pick(args, TOKEN_NAMES)
   const tokensA = pickBy(
     tokens,
@@ -24,7 +24,7 @@ const eDecode = addGenErrorHandler(decode, {
 })
 
 // Validate cursor tokens syntax
-const validateToken = function({ token }) {
+export const validateToken = function({ token }) {
   if (token === undefined) {
     return
   }
@@ -50,8 +50,3 @@ const TOKEN_TESTS = [
 
   ({ parts }) => Array.isArray(parts) && parts.length > 0,
 ]
-
-module.exports = {
-  getToken,
-  validateToken,
-}

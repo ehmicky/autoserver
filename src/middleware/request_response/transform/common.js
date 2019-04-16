@@ -4,7 +4,7 @@ import { runConfigFunc } from '../../../functions/run.js'
 import { getModelParams } from '../../../functions/params/values.js'
 
 // Handles `attr.value`, `attr.default` and `attr.readonly`
-const handleTransforms = function({
+export const handleTransforms = function({
   mapName,
   preCondition,
   condition,
@@ -90,8 +90,4 @@ const transformAttr = function({
   const newValB = newValA === null ? undefined : newValA
 
   return newValB
-}
-
-module.exports = {
-  handleTransforms,
 }

@@ -1,5 +1,5 @@
 // Modify models
-const upsert = function({ collection, newData }) {
+export const upsert = function({ collection, newData }) {
   const func = newData.length === 1 ? upsertOne : upsertMany
   return func({ collection, newData })
 }
@@ -20,8 +20,4 @@ const upsertMany = async function({ collection, newData }) {
 const getBulkCommand = function({ replacement }) {
   const { _id: id } = replacement
   return { replaceOne: { filter: { _id: id }, replacement, upsert: true } }
-}
-
-module.exports = {
-  upsert,
 }

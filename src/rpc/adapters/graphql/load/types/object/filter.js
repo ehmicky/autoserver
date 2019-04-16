@@ -1,4 +1,4 @@
-const filterField = function(def, opts) {
+export const filterField = function(def, opts) {
   const isFiltered = filters.some(filter => filter(def, opts))
   return isFiltered ? null : def
 }
@@ -9,7 +9,3 @@ const patchIdData = function({ command }, { inputObjectType, defName }) {
 }
 
 const filters = [patchIdData]
-
-module.exports = {
-  filterField,
-}

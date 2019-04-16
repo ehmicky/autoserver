@@ -5,7 +5,7 @@ import { getRollbackInput } from './input.js'
 import { rethrowFailure } from './failure.js'
 
 // Rollback write actions if any of them failed
-const rollback = function({ results, inputs }, nextLayer) {
+export const rollback = function({ results, inputs }, nextLayer) {
   const failedActions = results.filter(result => isError({ error: result }))
 
   if (failedActions.length === 0) {
@@ -36,7 +36,3 @@ const responseHandler = function(error) {
 }
 
 const eFireResponseLayer = addErrorHandler(fireResponseLayer, responseHandler)
-
-module.exports = {
-  rollback,
-}

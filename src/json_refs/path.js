@@ -3,7 +3,7 @@ import { resolve, dirname } from 'path'
 import { addGenErrorHandler } from '../errors/handler.js'
 
 // Resolve JSON reference path to an absolute local file
-const getPath = function({ path, parentPath }) {
+export const getPath = function({ path, parentPath }) {
   if (NODE_REGEXP.test(path)) {
     return eGetModulePath({ path })
   }
@@ -32,7 +32,3 @@ const eGetModulePath = addGenErrorHandler(getModulePath, {
     `JSON reference '${value}' is invalid: this Node.js module does not exist`,
   reason: 'CONFIG_VALIDATION',
 })
-
-module.exports = {
-  getPath,
-}

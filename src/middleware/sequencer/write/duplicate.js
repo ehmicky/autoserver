@@ -8,7 +8,7 @@ import { groupValuesBy } from '../../../utils/functional/group.js'
 //    model in the same request would fail
 //  - output consistency, i.e. each model has a single representation for a
 //    given request
-const removeDuplicates = function({ models }) {
+export const removeDuplicates = function({ models }) {
   const modelsA = models.flat()
   const modelsB = groupValuesBy(modelsA, 'id')
 
@@ -36,8 +36,4 @@ const validateDuplicates = function(models) {
     models[0],
   )}', '${JSON.stringify(differentModel)}'`
   throwError(message, { reason: 'VALIDATION' })
-}
-
-module.exports = {
-  removeDuplicates,
 }

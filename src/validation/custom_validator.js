@@ -6,7 +6,7 @@ import { getModelParams } from '../functions/params/values.js'
 import { getValidator } from './validator.js'
 
 // Add custom validation keywords, from config.validation
-const getCustomValidator = function({ config: { validation = {} } = {} }) {
+const mGetCustomValidator = function({ config: { validation = {} } = {} }) {
   const validator = getValidator()
   return Object.entries(validation).reduce(addCustomKeyword, validator)
 }
@@ -16,7 +16,7 @@ const transformArgs = function([{ config: { validation = {} } = {} }]) {
   return Object.keys(validation).join(',')
 }
 
-const mGetCustomValidator = moize(getCustomValidator, { transformArgs })
+export const getCustomValidator = moize(mGetCustomValidator, { transformArgs })
 
 const addCustomKeyword = function(
   validatorA,
@@ -76,7 +76,3 @@ const keywordFunc = ({ keyword, testFunc, message }) =>
 
     return false
   }
-
-module.exports = {
-  getCustomValidator: mGetCustomValidator,
-}

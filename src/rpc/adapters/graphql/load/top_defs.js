@@ -8,7 +8,7 @@ import { TOP_DESCRIPTIONS, getCommandDescription } from './description.js'
 
 // Retrieve the GraphQL definitions for Query|Mutation,
 // and the top-level commands
-const getTopDefs = function({ collections }) {
+export const getTopDefs = function({ collections }) {
   return mapValues(GRAPHQL_METHODS, (commands, graphqlMethod) =>
     getTopDef({ graphqlMethod, commands, collections }),
   )
@@ -77,8 +77,4 @@ const normalizeCollDef = function({ coll, command }) {
   const commandDescription = getCommandDescription({ command, typeName })
 
   return { ...coll, command, commandDescription, type: 'object' }
-}
-
-module.exports = {
-  getTopDefs,
 }

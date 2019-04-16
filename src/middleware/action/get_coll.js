@@ -1,5 +1,5 @@
 // Turn a `commandpath` into a `collname`, using config
-const getColl = function({
+export const getColl = function({
   commandpath,
   config,
   top: {
@@ -44,8 +44,4 @@ const findColl = function({
   }
 
   return { collname: childCollname, multiple: isArray }
-}
-
-module.exports = {
-  getColl,
 }

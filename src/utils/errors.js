@@ -3,14 +3,10 @@
 // However, utils cannot use normal throwError() without circular
 // dependencies
 // ESLint rule fp/no-throw helps enforcing this utility is used
-const throwError = function(message) {
+export const throwError = function(message) {
   if (message instanceof Error) {
     throw message
   }
 
   throw new Error(message)
-}
-
-module.exports = {
-  throwError,
 }

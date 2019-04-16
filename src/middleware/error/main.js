@@ -8,14 +8,14 @@ import { errorHandler } from './handler.js'
 
 // Middleware function error handler, which just rethrow the error,
 // and adds the current `mInput` as information by setting `error.mInput`
-const fireMiddlewareHandler = function(error, ...args) {
+export const fireMiddlewareHandler = function(error, ...args) {
   // Skip `nextLayer` and `reqState` arguments
   const errorA = error.mInput ? error : addMInput(error, args[2])
   throw errorA
 }
 
 // Main layers error handler
-const fireMainLayersHandler = async function(
+export const fireMainLayersHandler = async function(
   fireFinalLayer,
   error,
   { allLayers, reqState },
@@ -44,7 +44,7 @@ const eFireErrorHandler = function(errorA) {
 }
 
 // If error handler itself fails, gives up
-const fireErrorHandler = addErrorHandler(eFireErrorHandler, safetyHandler)
+export const fireErrorHandler = addErrorHandler(eFireErrorHandler, safetyHandler)
 
 // Add `error.mInput`, to keep track of current `mInput` during exception flow
 const addMInput = function(error, mInput) {
@@ -61,10 +61,4 @@ const addMInput = function(error, mInput) {
 const getErrorMInput = function({ error, error: { mInput = {} } }) {
   const errorA = normalizeError({ error })
   return { ...mInput, mInput, error: errorA }
-}
-
-module.exports = {
-  fireMiddlewareHandler,
-  fireMainLayersHandler,
-  fireErrorHandler,
 }

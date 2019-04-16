@@ -21,7 +21,7 @@ const serialize = function({ content }) {
   })
 }
 
-const yaml = {
+export const yaml = {
   name: 'yaml',
   title: 'YAML',
   extensions: ['yml', 'yaml'],
@@ -33,8 +33,4 @@ const yaml = {
   jsonCompat: ['superset'],
   parse,
   serialize,
-}
-
-module.exports = {
-  yaml,
 }

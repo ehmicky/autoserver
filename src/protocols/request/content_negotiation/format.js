@@ -6,7 +6,7 @@ import {
 } from '../../../formats/get.js'
 
 // Retrieve format asked by client for the response payload
-const getFormatFunc = function({ queryvars, format }) {
+export const getFormatFunc = function({ queryvars, format }) {
   const formatA = getFormatName({ queryvars, format })
 
   if (formatA === undefined) {
@@ -36,7 +36,3 @@ const eGetFormat = addGenPbHandler(getFormat, {
   reason: 'RESPONSE_NEGOTIATION',
   extra: getExtra,
 })
-
-module.exports = {
-  getFormat: getFormatFunc,
-}

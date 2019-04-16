@@ -1,8 +1,4 @@
 import { wrapInstruction } from './errors/instruction.js'
-import { run } from './run/main.js'
+import { run as runInstruction } from './run/main.js'
 
-const runA = wrapInstruction('run', run)
-
-module.exports = {
-  run: runA,
-}
+export const run = wrapInstruction('run', runInstruction)

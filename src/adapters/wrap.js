@@ -7,7 +7,7 @@ import { addCatchAllPbHandler } from '../errors/handler.js'
 //  - add error handlers to catch adapter bugs
 //  - only expose some `members`
 //  - add `methods` bound with the adapter as first argument
-const wrapAdapters = function({
+export const wrapAdapters = function({
   adapters,
   members = [],
   methods = {},
@@ -52,8 +52,4 @@ const classify = function({ adapter, members, methods }) {
   const membersA = pick(adapter, members)
   const methodsA = mapValues(methods, method => method.bind(null, adapter))
   return { ...membersA, ...methodsA }
-}
-
-module.exports = {
-  wrapAdapters,
 }

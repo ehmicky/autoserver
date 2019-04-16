@@ -7,7 +7,7 @@ import { throwPb } from '../errors/props.js'
 import { availableInstructions } from './available.js'
 
 // Process options after parsing
-const processOpts = function({ opts }) {
+export const processOpts = function({ opts }) {
   const {
     // Positional arguments
     // eslint-disable-next-line id-length
@@ -90,8 +90,4 @@ const addArrayValue = function(arr, [index, val]) {
   const start = arr.slice(0, indexA)
   const end = arr.slice(indexA + 1)
   return [...start, val, ...end]
-}
-
-module.exports = {
-  processOpts,
 }

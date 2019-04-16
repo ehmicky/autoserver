@@ -1,6 +1,6 @@
 // Since we do not check for `empty` against `patchOp.argument` before
 // model.ATTR resolution, we do it now
-const checkEmpty = function({ opVal, operator: { argument }, type }) {
+export const checkEmpty = function({ opVal, operator: { argument }, type }) {
   if (argument === undefined) {
     return
   }
@@ -24,8 +24,4 @@ const hasWrongNulls = function({ opVal, argument }) {
     opVal.includes(null) &&
     !argument.includes('empty[]')
   )
-}
-
-module.exports = {
-  checkEmpty,
 }

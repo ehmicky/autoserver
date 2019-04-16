@@ -8,7 +8,7 @@ import { validators } from './validators.js'
 
 // `attrs` must be `{ collname: { attrName:
 // { type: 'string|number|integer|boolean', isArray: true|false } } }`
-const validateFilter = function({
+export const validateFilter = function({
   filter,
   attrs,
   reason = 'VALIDATION',
@@ -93,8 +93,4 @@ const validateValue = function({
 // If one wants to validate them, they need to be evaluated first
 const isConfigFunc = function({ skipConfigFuncs, value }) {
   return skipConfigFuncs && typeof value === 'function'
-}
-
-module.exports = {
-  validateFilter,
 }

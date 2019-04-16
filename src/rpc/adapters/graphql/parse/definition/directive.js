@@ -3,7 +3,7 @@ import { throwError } from '../../../../../errors/main.js'
 import { validateDuplicates } from '../duplicates.js'
 
 // Apply GraphQL directives @include and @skip
-const applyDirectives = function({
+export const applyDirectives = function({
   selection: { directives = [] },
   variables,
 }) {
@@ -96,8 +96,4 @@ const checkVariableDirective = function({ variables, ifValueName }) {
 const directivesCheckers = {
   BooleanValue: checkBooleanDirective,
   Variable: checkVariableDirective,
-}
-
-module.exports = {
-  applyDirectives,
 }

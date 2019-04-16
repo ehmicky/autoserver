@@ -2,7 +2,7 @@ import { isObject } from '../../../utils/functional/type.js'
 import { throwPb } from '../../../errors/props.js'
 
 // Validate JSON-RPC payload is correct format
-const validatePayload = function({ payload }) {
+export const validatePayload = function({ payload }) {
   const payloadA = typeof payload === 'object' ? payload : {}
   const { jsonrpc, method, id, params } = payloadA
 
@@ -66,7 +66,3 @@ const validators = [
     message: "'params' must only contain one object or none",
   },
 ]
-
-module.exports = {
-  validatePayload,
-}

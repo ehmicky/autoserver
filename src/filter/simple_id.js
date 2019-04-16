@@ -7,7 +7,7 @@ import { uniq } from '../utils/functional/uniq.js'
 // Returns undefined if it is impossible to guess. Returns empty array if the
 // client specifically asked for no `id`s,
 // e.g. `{ filter: { id: { _in: [] } } }`
-const extractSimpleIds = function({ filter: { type, attrName, value } = {} }) {
+export const extractSimpleIds = function({ filter: { type, attrName, value } = {} }) {
   if (type === '_and') {
     return parseAndNode({ value })
   }
@@ -57,13 +57,8 @@ const getIds = function({ type, value }) {
 }
 
 // Returns simple `args.filter` that only filters by `model.id`
-const getSimpleFilter = function({ ids }) {
+export const getSimpleFilter = function({ ids }) {
   return ids.length === 1
     ? { attrName: 'id', type: '_eq', value: ids[0] }
     : { attrName: 'id', type: '_in', value: uniq(ids) }
-}
-
-module.exports = {
-  extractSimpleIds,
-  getSimpleFilter,
 }

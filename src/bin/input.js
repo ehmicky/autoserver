@@ -6,14 +6,14 @@ import { addInstructions } from './instructions.js'
 import { processOpts } from './process.js'
 
 // CLI input parsing
-const parseInput = function() {
+const mParseInput = function() {
   const opts = parseOpts()
 
   const { instruction, opts: optsA } = processOpts({ opts })
   return { instruction, opts: optsA }
 }
 
-const mParseInput = monitor(parseInput, 'cli')
+export const parseInput = monitor(mParseInput, 'cli')
 
 // CLI options parsing
 const parseOpts = function() {
@@ -37,7 +37,3 @@ const USAGE = `$0 [INSTRUCTION] [OPTIONS]
 
 Engine generating an API from a simple config file.
 `
-
-module.exports = {
-  parseInput: mParseInput,
-}

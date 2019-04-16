@@ -4,7 +4,7 @@ import { parseRef, isRef } from './ref_parsing.js'
 import { postValidate } from './validate/main.js'
 
 // Get the config's attribute from a model.ATTR reference
-const getOpValRef = function({ opVal, coll: { attributes } }) {
+export const getOpValRef = function({ opVal, coll: { attributes } }) {
   const ref = parseRef(opVal)
 
   if (ref === undefined) {
@@ -25,12 +25,12 @@ const getOpValRef = function({ opVal, coll: { attributes } }) {
 // until it is resolved later.
 // If operator's argument contains `empty` but other types too, we can already
 // check model.ATTR against them.
-const cannotCheckType = function({ opVal, argument }) {
+export const cannotCheckType = function({ opVal, argument }) {
   return isRef(opVal) && argument.length === 1 && argument[0] === 'empty'
 }
 
 // Replaces model.ATTR in simple patch operations (i.e. with no operators)
-const replaceSimpleRef = function({ ref, attributes, datum, commandpath }) {
+export const replaceSimpleRef = function({ ref, attributes, datum, commandpath }) {
   if (attributes[ref] !== undefined) {
     return datum[ref]
   }
@@ -40,7 +40,7 @@ const replaceSimpleRef = function({ ref, attributes, datum, commandpath }) {
 }
 
 // Replaces model.ATTR when patch operation is applied
-const replaceRef = function({ opVal, datum, ...rest }) {
+export const replaceRef = function({ opVal, datum, ...rest }) {
   const ref = parseRef(opVal)
 
   if (ref === undefined) {
@@ -52,11 +52,4 @@ const replaceRef = function({ opVal, datum, ...rest }) {
   postValidate({ opVal: opValA, ...rest })
 
   return opValA
-}
-
-module.exports = {
-  getOpValRef,
-  cannotCheckType,
-  replaceSimpleRef,
-  replaceRef,
 }

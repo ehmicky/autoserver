@@ -1,5 +1,5 @@
-// `_replace` patch operator
-const replaceOperator = {
+// eslint-disable-next-line no-underscore-dangle
+export const _replace = {
   attribute: ['string'],
 
   argument: ['string[]'],
@@ -41,8 +41,4 @@ const validateRegExp = function({ opVal }) {
 
 const getRegExp = function({ regExp, flags = 'gi' }) {
   return new RegExp(regExp, flags)
-}
-
-module.exports = {
-  _replace: replaceOperator,
 }

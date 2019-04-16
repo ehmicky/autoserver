@@ -5,7 +5,7 @@ import { getColl } from '../get_coll.js'
 import { isModelsType } from './validate.js'
 
 // Transform each `args.data` object into a separate write action
-const getWriteAction = function({
+export const getWriteAction = function({
   data,
   commandpath,
   dataPaths,
@@ -38,8 +38,4 @@ const replaceNestedDatum = function({ value, key, nestedKeys }) {
   }
 
   return Array.isArray(value) ? value.map(({ id }) => id) : value.id
-}
-
-module.exports = {
-  getWriteAction,
 }

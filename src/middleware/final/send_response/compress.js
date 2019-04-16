@@ -4,7 +4,7 @@ import { DEFAULT_ALGO } from '../../../compress/get.js'
 import { TYPES } from './types.js'
 
 // Response body compression
-const compressContent = async function({
+export const compressContent = async function({
   content,
   compressResponse,
   type,
@@ -32,8 +32,4 @@ const getAlgo = function({ compressResponse, type, contentType }) {
 
 const willCompress = function({ type, contentType }) {
   return TYPES[type].isText || shouldCompress({ contentType })
-}
-
-module.exports = {
-  compressContent,
 }

@@ -1,7 +1,7 @@
 import { omit } from '../../../utils/functional/filter.js'
 
 // Modify `args.newData`, or database output
-const renameData = function({ value, newIdName, oldIdName }) {
+export const renameData = function({ value, newIdName, oldIdName }) {
   return value.map(datum => renameDatum({ datum, newIdName, oldIdName }))
 }
 
@@ -15,8 +15,4 @@ const renameDatum = function({ datum, newIdName, oldIdName }) {
   const { [oldIdName]: attr } = datum
   const datumA = omit(datum, oldIdName)
   return { ...datumA, [newIdName]: attr }
-}
-
-module.exports = {
-  renameData,
 }

@@ -58,7 +58,7 @@ const graphqlTGetters = [
   },
 ]
 
-const getTypeGetter = function(def, opts) {
+export const getTypeGetter = function(def, opts) {
   const typeGetter = graphqlTGetters.find(({ condition }) =>
     condition(def, opts),
   )
@@ -71,8 +71,4 @@ const getTypeGetter = function(def, opts) {
     def,
   )}`
   throwError(message, { reason: 'CONFIG_VALIDATION' })
-}
-
-module.exports = {
-  getTypeGetter,
 }

@@ -5,7 +5,7 @@
 // in request method names and in documentation.
 // Note that `commandpath`, `commandpaths` and `summary` are always using
 // the client-facing names.
-const setClientNames = function({ config, actions, collnames, top }) {
+export const setClientNames = function({ config, actions, collnames, top }) {
   const actionsA = actions.map(action =>
     setClientNamesActions({ config, action, top }),
   )
@@ -35,8 +35,4 @@ const getClientCollname = function({ config: { collections }, collname, top }) {
   // Otherwise, use first available
   const [clientCollname] = collections[collname].name
   return clientCollname
-}
-
-module.exports = {
-  setClientNames,
 }

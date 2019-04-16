@@ -3,7 +3,7 @@ import pluralize from 'pluralize'
 import { getWordsList } from '../utils/string.js'
 
 // List of custom error messages getters
-const errorMessages = {
+export const errorMessages = {
   // JSON schema keywords for any type
   type: ({ params: { type } }) => {
     const types = type.split(',')
@@ -65,8 +65,4 @@ const errorMessages = {
   // Special keyword for schema that are `false`,
   // e.g. `patternProperties: { pattern: false }`
   'false schema': () => ' must not be defined',
-}
-
-module.exports = {
-  errorMessages,
 }

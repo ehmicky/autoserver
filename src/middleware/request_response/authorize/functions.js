@@ -7,7 +7,7 @@ import { mapNodes } from '../../../filter/crawl.js'
 import { getServerParams } from './server_params.js'
 
 // Handle all config function related logic in `coll.authorize`
-const handleConfigFuncs = function({
+export const handleConfigFuncs = function({
   collname,
   authorize,
   serverParams,
@@ -53,8 +53,4 @@ const getAllParams = function({ authorize, serverParams, mInput }) {
   const systemParams = getParams(mInput)
 
   return { ...serverParamsA, ...systemParams }
-}
-
-module.exports = {
-  handleConfigFuncs,
 }

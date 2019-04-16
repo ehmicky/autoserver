@@ -59,19 +59,14 @@ const evalNlike = function({ attr, value }) {
 }
 
 // eslint-disable-next-line no-underscore-dangle
-const _like = {
+export const _like = {
   parse: parseLikeNlike,
   validate: validateLikeNlike,
   eval: evalLike,
 }
 // eslint-disable-next-line no-underscore-dangle
-const _nlike = {
+export const _nlike = {
   parse: parseLikeNlike,
   validate: validateLikeNlike,
   eval: evalNlike,
-}
-
-module.exports = {
-  _like,
-  _nlike,
 }

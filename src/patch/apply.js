@@ -8,7 +8,7 @@ import { replaceSimpleRef, replaceRef } from './ref.js'
 import { getPatchErrorProps } from './error.js'
 
 // Apply patch operation to a single datum
-const applyPatchOps = function({
+export const applyPatchOps = function({
   datum,
   patchOps,
   config: { collections, operators },
@@ -116,7 +116,3 @@ const eRunConfigFunc = addGenPbHandler(runConfigFunc, {
   reason: ({ type }) => getPatchErrorProps({ type }).reason,
   extra: ({ type }) => getPatchErrorProps({ type }).extra,
 })
-
-module.exports = {
-  applyPatchOps,
-}

@@ -4,12 +4,12 @@ import { createError } from './main.js'
 import { REASONS } from './reasons/main.js'
 
 // Throw exception for a specific error reason
-const throwPb = function({ message, messageInput, ...opts } = {}) {
+export const throwPb = function({ message, messageInput, ...opts } = {}) {
   const error = createPb(message, { messageInput, ...opts })
   throw error
 }
 
-const createPb = function(message, { messageInput, ...opts } = {}) {
+export const createPb = function(message, { messageInput, ...opts } = {}) {
   const messageA = getPropsMessage({ message, messageInput, ...opts })
 
   const error = createError(messageA, opts)
@@ -49,24 +49,17 @@ const addPrefix = function({ message, prefix }) {
 }
 
 // Get generic standard error properties, according to error reason
-const getProps = function(error) {
+export const getProps = function(error) {
   const reason = getReason(error)
   const props = REASONS[reason]
   return props
 }
 
 // Get error reason
-const getReason = function({ reason = 'UNKNOWN' } = { reason: 'SUCCESS' }) {
+export const getReason = function({ reason = 'UNKNOWN' } = { reason: 'SUCCESS' }) {
   if (REASONS[reason] === undefined) {
     return 'UNKNOWN'
   }
 
   return reason
-}
-
-module.exports = {
-  throwPb,
-  createPb,
-  getProps,
-  getReason,
 }

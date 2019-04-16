@@ -2,7 +2,7 @@ import { omit } from '../../../utils/functional/filter.js'
 
 // Retrieve a database input that reverts the write action, if it was
 // successful, or is a noop, if it was not performed.
-const getRollbackInput = function({ command, args, ...input }) {
+export const getRollbackInput = function({ command, args, ...input }) {
   const inputs = handlers[command](args)
   return inputs.map(inputA => ({ ...input, ...inputA }))
 }
@@ -66,8 +66,4 @@ const handlers = {
   patch: upsertRollback,
   delete: upsertRollback,
   upsert: deleteOrUpsertRollback,
-}
-
-module.exports = {
-  getRollbackInput,
 }

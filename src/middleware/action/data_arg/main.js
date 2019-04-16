@@ -6,7 +6,7 @@ import { parseData } from './data.js'
 import { parseActions } from './actions.js'
 
 // Parse `args.data` into write `actions`
-const parseDataArg = function({ actions, ...rest }) {
+export const parseDataArg = function({ actions, ...rest }) {
   const actionsA = addActions({
     actions,
     filter: ['data'],
@@ -56,8 +56,4 @@ const getDataAction = function({
   })
 
   return newActions
-}
-
-module.exports = {
-  parseDataArg,
 }

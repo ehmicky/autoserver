@@ -3,7 +3,7 @@ import { getRpc } from '../../../rpc/get.js'
 
 // Build message of events `request` as:
 //  STATUS [ERROR] - PROTOCOL METHOD RPC /PATH COMMAND...
-const getRequestMessage = function({
+export const getRequestMessage = function({
   protocol,
   rpc,
   method,
@@ -55,8 +55,4 @@ const getSuffixText = function({ status, summary, commandpath, description }) {
   }
 
   return `${commandpath} - ${description}`
-}
-
-module.exports = {
-  getRequestMessage,
 }

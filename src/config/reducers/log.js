@@ -5,7 +5,7 @@ import { DEFAULT_LOGGER } from '../../log/constants.js'
 const { provider: defaultProvider } = DEFAULT_LOGGER
 
 // Normalize `log`
-const normalizeLog = function({ config: { log } }) {
+export const normalizeLog = function({ config: { log } }) {
   const logA = Array.isArray(log) ? log : [log]
   const logC = logA.map(logB => addDefaultProviderName({ log: logB }))
   const logD = addDefaultProvider({ log: logC })
@@ -50,7 +50,3 @@ const normalizeProvider = function(log) {
 
 // This validates the log provider exists
 const eGetLog = addGenErrorHandler(getLog, { reason: 'CONFIG_VALIDATION' })
-
-module.exports = {
-  normalizeLog,
-}

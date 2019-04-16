@@ -1,5 +1,5 @@
 // Retrieve `currentData`, so it is passed to command middleware
-const getCurrentData = function({ actions, ids }) {
+export const getCurrentData = function({ actions, ids }) {
   const currentData = actions.flatMap(action => action.currentData)
   // Keep the same order as `newData` or `args.filter.id`
   const currentDataA = ids.map(id => findCurrentData({ id, currentData }))
@@ -10,8 +10,4 @@ const findCurrentData = function({ id, currentData }) {
   return currentData.find(
     currentDatum => currentDatum && currentDatum.id === id,
   )
-}
-
-module.exports = {
-  getCurrentData,
 }

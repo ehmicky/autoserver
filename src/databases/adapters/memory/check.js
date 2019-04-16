@@ -2,7 +2,7 @@ import { getRef } from '../../../json_refs/ref_path.js'
 import { isObject } from '../../../utils/functional/type.js'
 
 // Check for data model inconsistencies, and potentially fix them
-const check = function({ config: { collections }, connection, options }) {
+export const check = function({ config: { collections }, connection, options }) {
   checkConnection({ connection })
 
   checkSave({ options })
@@ -47,8 +47,4 @@ const checkCollection = function({ collname, connection }) {
   // Add empty collection if missing
   // eslint-disable-next-line fp/no-mutation, no-param-reassign
   connection[collname] = []
-}
-
-module.exports = {
-  check,
 }

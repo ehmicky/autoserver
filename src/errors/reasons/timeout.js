@@ -1,6 +1,6 @@
 // Extra:
 //  - limit NUM
-const TIMEOUT = {
+export const TIMEOUT = {
   status: 'CLIENT_ERROR',
   title: 'The request took too much time to process',
   getMessage: ({ limit }) =>
@@ -9,7 +9,3 @@ const TIMEOUT = {
 }
 
 const MILLISECS_TO_SECS = 1e3
-
-module.exports = {
-  TIMEOUT,
-}

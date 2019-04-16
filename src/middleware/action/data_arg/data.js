@@ -7,7 +7,7 @@ import { addDefaultIds } from './default_id.js'
 import { isModel } from './nested.js'
 
 // Validates `args.data` and adds default ids.
-const parseData = function({ data, ...rest }) {
+export const parseData = function({ data, ...rest }) {
   const { collname } = getColl(rest)
 
   if (!Array.isArray(data)) {
@@ -88,8 +88,4 @@ const parseAttr = function({
     mInput,
     ...rest,
   })
-}
-
-module.exports = {
-  parseData,
 }

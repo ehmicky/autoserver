@@ -2,7 +2,7 @@ import { get } from '../../utils/functional/get_set.js'
 import { DEEP_OPERATORS } from '../operators/main.js'
 
 // In `{ attribute: { _some: { _eq: value } } }`, `_eq` is considered deep
-const getDeepAttr = function({ attrs, attrName, throwErr }) {
+export const getDeepAttr = function({ attrs, attrName, throwErr }) {
   const [, attrNameA, , deepType] = DEEP_TYPE_REGEXP.exec(attrName) || []
 
   const attr = getAttr({ attrs, attrName: attrNameA, throwErr })
@@ -19,7 +19,7 @@ const getDeepAttr = function({ attrs, attrName, throwErr }) {
 // Matches '$attrName _some|_all' -> ['$attrName', '_some|_all']
 const DEEP_TYPE_REGEXP = /^([^ ]*)( (.*))?$/u
 
-const getAttr = function({ attrs, attrName, throwErr }) {
+export const getAttr = function({ attrs, attrName, throwErr }) {
   const attrParts = attrName.split('.')
 
   // Use `get()` for nested attributes
@@ -38,9 +38,4 @@ const getAttr = function({ attrs, attrName, throwErr }) {
 
   const message = `Attribute '${attrName}' is unknown`
   throwErr(message)
-}
-
-module.exports = {
-  getDeepAttr,
-  getAttr,
 }

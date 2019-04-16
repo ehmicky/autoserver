@@ -4,7 +4,7 @@ import { setStatusCode } from './status.js'
 import { setHeaders } from './headers.js'
 
 // Sends response
-const send = async function({
+export const send = async function({
   specific,
   specific: { req, res },
   content,
@@ -40,8 +40,4 @@ const cleanup = function({ req, res }) {
   // Not sure if this needed
   req.destroy()
   res.destroy()
-}
-
-module.exports = {
-  send,
 }

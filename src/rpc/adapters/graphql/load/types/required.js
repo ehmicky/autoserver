@@ -1,7 +1,7 @@
 import { GraphQLNonNull } from 'graphql'
 
 // Returns whether a field is required
-const graphqlRequiredTest = function(def, opts) {
+export const graphqlRequiredTest = function(def, opts) {
   return optionalTests.every(testFunc => !testFunc(def, opts))
 }
 
@@ -39,14 +39,9 @@ const optionalTests = [
 ]
 
 // Required field TGetter
-const graphqlRequiredTGetter = function(def, opts) {
+export const graphqlRequiredTGetter = function(def, opts) {
   const defA = { ...def, requiredWrapped: true }
   const subType = opts.getType(defA, opts)
   const type = new GraphQLNonNull(subType)
   return type
-}
-
-module.exports = {
-  graphqlRequiredTGetter,
-  graphqlRequiredTest,
 }

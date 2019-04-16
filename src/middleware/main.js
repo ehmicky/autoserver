@@ -10,7 +10,7 @@ import {
 } from './error/main.js'
 
 // Called once per server startup
-const getRequestHandler = function() {
+export const getRequestHandler = function() {
   // Add performance monitoring
   const allLayersA = middlewareLayers.map(monitorLayers)
   const requestHandler = eFireLayers.bind(null, allLayersA)
@@ -91,7 +91,3 @@ const eFireMainLayers = addErrorHandler(
 
 // Top-level request error handlers
 const eFireLayers = addErrorHandler(fireLayers, fireErrorHandler)
-
-module.exports = {
-  getRequestHandler,
-}

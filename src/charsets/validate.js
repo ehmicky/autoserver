@@ -1,7 +1,7 @@
 import { encodingExists } from 'iconv-lite'
 
 // Validate `charset` name is valid
-const validateCharset = function({ charset, format }) {
+export const validateCharset = function({ charset, format }) {
   validateExisting({ charset })
   validateWithFormat({ charset, format })
 }
@@ -24,8 +24,4 @@ const validateWithFormat = function({ charset, format, format: { title } }) {
   throw new Error(
     `Unsupported charset with a ${title} content type: '${charset}'`,
   )
-}
-
-module.exports = {
-  validateCharset,
 }

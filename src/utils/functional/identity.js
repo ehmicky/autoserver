@@ -1,5 +1,3 @@
-const identity = val => val
-
-module.exports = {
-  identity,
+export const identity = function (val) {
+  return val
 }

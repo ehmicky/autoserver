@@ -7,7 +7,7 @@ const { byteLength } = Buffer
 
 // Report log with a HTTP request
 // TODO: use a proper HTTP request library
-const report = function({ log, opts: { method = 'POST', ...opts } }) {
+export const report = function({ log, opts: { method = 'POST', ...opts } }) {
   const methodA = method.toUpperCase()
 
   const body = JSON.stringify(log)
@@ -64,8 +64,4 @@ const responseHandler = async function({ res, resolve, reject }) {
   const response = await rawBody(res, 'utf-8')
   const responseA = JSON.stringify(response)
   reject(responseA)
-}
-
-module.exports = {
-  report,
 }

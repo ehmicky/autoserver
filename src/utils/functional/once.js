@@ -1,7 +1,7 @@
 import { throwError } from '../errors.js'
 
 // Enforces that a function is only called once
-const once = function(func, { error = false } = {}) {
+export const once = function(func, { error = false } = {}) {
   // eslint-disable-next-line fp/no-let
   let called = false
 
@@ -20,8 +20,4 @@ const alreadyCalled = function({ error }) {
   if (error) {
     throwError('This function can only be called once')
   }
-}
-
-module.exports = {
-  once,
 }

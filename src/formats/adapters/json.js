@@ -8,7 +8,7 @@ const serialize = function({ content }) {
   return JSON.stringify(content, null, 2)
 }
 
-const json = {
+export const json = {
   name: 'json',
   title: 'JSON',
   extensions: ['json'],
@@ -18,8 +18,4 @@ const json = {
   jsonCompat: [],
   parse,
   serialize,
-}
-
-module.exports = {
-  json,
 }

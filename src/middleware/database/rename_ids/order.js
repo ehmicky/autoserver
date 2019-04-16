@@ -1,5 +1,5 @@
 // Modify `args.order`
-const renameOrder = function({ value, newIdName, oldIdName }) {
+export const renameOrder = function({ value, newIdName, oldIdName }) {
   return value.map(part => renameOrderPart({ part, newIdName, oldIdName }))
 }
 
@@ -14,8 +14,4 @@ const renameOrderPart = function({
   }
 
   return { ...part, attrName: newIdName }
-}
-
-module.exports = {
-  renameOrder,
 }

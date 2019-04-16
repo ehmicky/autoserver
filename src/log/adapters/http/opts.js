@@ -1,4 +1,4 @@
-const opts = {
+export const opts = {
   type: 'object',
   additionalProperties: false,
   required: ['url'],
@@ -25,8 +25,4 @@ const opts = {
       type: 'string',
     },
   },
-}
-
-module.exports = {
-  opts,
 }

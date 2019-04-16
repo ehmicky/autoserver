@@ -3,7 +3,7 @@ import { camelize } from 'underscore.string'
 import { mapKeys } from '../../utils/functional/map.js'
 
 // Change arguments cases to camelCase
-const renameArgs = function({ actions }) {
+export const renameArgs = function({ actions }) {
   const actionsA = actions.map(renameActionArgs)
   return { actions: actionsA }
 }
@@ -11,8 +11,4 @@ const renameArgs = function({ actions }) {
 const renameActionArgs = function({ args, ...action }) {
   const argsA = mapKeys(args, (arg, name) => camelize(name))
   return { ...action, args: argsA }
-}
-
-module.exports = {
-  renameArgs,
 }

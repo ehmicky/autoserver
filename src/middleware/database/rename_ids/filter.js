@@ -2,7 +2,7 @@ import { mapNodes } from '../../../filter/crawl.js'
 import { isSiblingValue } from '../../../filter/siblings.js'
 
 // Modify `args.filter`
-const renameFilter = function({ value, newIdName, oldIdName }) {
+export const renameFilter = function({ value, newIdName, oldIdName }) {
   return mapNodes(value, node => renameFilterId({ node, newIdName, oldIdName }))
 }
 
@@ -34,8 +34,4 @@ const renameFilterSiblings = function({
 
   const nodeA = { ...node, value: { ...value, value: newIdName } }
   return nodeA
-}
-
-module.exports = {
-  renameFilter,
 }

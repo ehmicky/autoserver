@@ -2,7 +2,7 @@ import { addErrorHandler } from './handler.js'
 import { getStandardError } from './standard.js'
 
 // Every instruction should throw standard errors
-const wrapInstruction = function(instructionName, instruction) {
+export const wrapInstruction = function(instructionName, instruction) {
   return addErrorHandler(
     instruction,
     instructionHandler.bind(null, instructionName),
@@ -17,8 +17,4 @@ const instructionHandler = function(instructionName, error) {
 
   const errorB = { ...errorA, description }
   throw errorB
-}
-
-module.exports = {
-  wrapInstruction,
 }

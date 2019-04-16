@@ -3,7 +3,7 @@ import { omit } from '../../../utils/functional/filter.js'
 import { throwError } from '../../../errors/main.js'
 
 // Apply `alias` in `args.data`
-const applyDataAliases = function({ newData, currentData, attrName, aliases }) {
+export const applyDataAliases = function({ newData, currentData, attrName, aliases }) {
   return newData.map((datum, index) =>
     applyDataAlias({
       newData: datum,
@@ -68,8 +68,4 @@ const validateAliases = function({ newValue, aliasData, firstAttrName }) {
     aliasData[wrongAlias],
   )}') but must have identical values because they are aliases.`
   throwError(message, { reason: 'VALIDATION' })
-}
-
-module.exports = {
-  applyDataAliases,
 }

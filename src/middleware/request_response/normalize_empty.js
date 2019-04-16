@@ -1,7 +1,7 @@
 import { omitBy } from '../../utils/functional/filter.js'
 
 // Normalize empty values (undefined, null) by removing their key
-const normalizeEmpty = function({ args, args: { newData } }) {
+export const normalizeEmpty = function({ args, args: { newData } }) {
   if (newData === undefined) {
     return
   }
@@ -12,8 +12,4 @@ const normalizeEmpty = function({ args, args: { newData } }) {
 
 const removeEmpty = function(newData) {
   return omitBy(newData, value => value == null)
-}
-
-module.exports = {
-  normalizeEmpty,
 }

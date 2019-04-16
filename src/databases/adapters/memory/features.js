@@ -1,4 +1,4 @@
-const features = [
+export const features = [
   'filter:_eq',
   'filter:_neq',
   'filter:_lt',
@@ -17,7 +17,3 @@ const features = [
   'order',
   'offset',
 ]
-
-module.exports = {
-  features,
-}

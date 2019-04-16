@@ -6,7 +6,7 @@ import { _push, _unshift, _pop, _shift, _remove, _sort } from './array.js'
 import { _slicestr, _slice, _insert, _insertstr } from './slice.js'
 
 // All patch operators
-const OPERATORS = {
+export const OPERATORS = {
   _set,
   _add,
   _sub,
@@ -24,8 +24,4 @@ const OPERATORS = {
   _slice,
   _insert,
   _insertstr,
-}
-
-module.exports = {
-  OPERATORS,
 }

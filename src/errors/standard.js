@@ -4,7 +4,7 @@ import { getReason, getProps } from './props.js'
 import { normalizeError } from './main.js'
 
 // Gets normalized error information
-const getStandardError = function({ error, mInput }) {
+export const getStandardError = function({ error, mInput }) {
   if (!error) {
     return
   }
@@ -35,8 +35,4 @@ const fillError = function({
 
   // Order matters, as this will be kept in final output
   return { type, title, description, status, instance, ...extra, details }
-}
-
-module.exports = {
-  getStandardError,
 }

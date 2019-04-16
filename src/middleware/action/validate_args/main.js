@@ -7,7 +7,7 @@ import { SCHEMA } from './args_schema.js'
 import { COMMANDS } from './commands.js'
 
 // Check arguments for client-side syntax errors.
-const validateArgs = function({ top: { args, command }, config }) {
+export const validateArgs = function({ top: { args, command }, config }) {
   const data = getData({ args, command, config })
 
   eValidate({ compiledJsonSchema, data })
@@ -40,7 +40,3 @@ const eValidate = addGenErrorHandler(validate, {
   reason: 'VALIDATION',
   message: getMessage,
 })
-
-module.exports = {
-  validateArgs,
-}

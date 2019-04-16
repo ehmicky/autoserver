@@ -2,7 +2,7 @@ import { getParams } from '../functions/params/values.js'
 import { reduceParams } from '../functions/params/reduce.js'
 
 // Get log-specific config parameters
-const getLogParams = function({
+export const getLogParams = function({
   params,
   config,
   mInput = { config },
@@ -34,8 +34,4 @@ const getLevel = function({ level, event }) {
   }
 
   return 'log'
-}
-
-module.exports = {
-  getLogParams,
 }

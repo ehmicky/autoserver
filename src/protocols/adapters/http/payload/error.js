@@ -4,7 +4,7 @@ import { throwPb } from '../../../../errors/props.js'
 
 // `raw-body` throws some errors that we want to convert to the correct error
 // reason
-const getRawBodyHandler = function(error, { maxpayload }) {
+export const getRawBodyHandler = function(error, { maxpayload }) {
   // Indicates a bug in `raw-body` library
   if (!(error instanceof Error)) {
     throw error
@@ -61,8 +61,4 @@ const ERROR_HANDLERS = {
   'entity.too.large': entityTooLargeHandler,
   'request.size.invalid': requestSizeHandler,
   'request.aborted': requestAbortedHandler,
-}
-
-module.exports = {
-  getRawBodyHandler,
 }

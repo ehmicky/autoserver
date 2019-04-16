@@ -97,11 +97,6 @@ const evalOr = evalOrAnd.bind(null, '_or')
 const evalAnd = evalOrAnd.bind(null, '_and')
 
 // eslint-disable-next-line no-underscore-dangle
-const _or = { parse: parseOr, optimize: optimizeOr, eval: evalOr }
+export const _or = { parse: parseOr, optimize: optimizeOr, eval: evalOr }
 // eslint-disable-next-line no-underscore-dangle
-const _and = { parse: parseAnd, optimize: optimizeAnd, eval: evalAnd }
-
-module.exports = {
-  _or,
-  _and,
-}
+export const _and = { parse: parseAnd, optimize: optimizeAnd, eval: evalAnd }

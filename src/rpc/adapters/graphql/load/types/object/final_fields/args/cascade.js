@@ -1,7 +1,7 @@
 import { GraphQLString } from 'graphql'
 
 // `cascade` argument
-const getCascadeArgument = function({ command }) {
+export const getCascadeArgument = function({ command }) {
   const hasCascade = CASCADE_COMMANDS.includes(command)
 
   if (!hasCascade) {
@@ -20,8 +20,4 @@ const CASCADE_ARGS = {
 Each attribute can use dot-delimited notation to specify deeply nested collections.
 Several attributes can specified, by using a comma-separated list.`,
   },
-}
-
-module.exports = {
-  getCascadeArgument,
 }

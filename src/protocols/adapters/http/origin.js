@@ -3,7 +3,7 @@
 import { URL, format as urlFormat } from 'url'
 
 // Retrieves full URL
-const getUrl = function({
+export const getUrl = function({
   specific,
   specific: {
     req: { url },
@@ -14,18 +14,18 @@ const getUrl = function({
 }
 
 // Used by `Link` HTTP header
-const getStandardUrl = function({ specific }) {
+export const getStandardUrl = function({ specific }) {
   const url = getUrl({ specific })
   const urlA = new URL(url)
   return urlA
 }
 
-const stringifyUrl = function({ url }) {
+export const stringifyUrl = function({ url }) {
   return urlFormat(url, { fragment: false })
 }
 
 // Retrieves origin, i.e. protocol + hostname + port
-const getOrigin = function({
+export const getOrigin = function({
   specific: {
     req: {
       headers,
@@ -43,11 +43,4 @@ const getOrigin = function({
 
   const origin = urlFormat({ protocol, host })
   return origin
-}
-
-module.exports = {
-  getUrl,
-  getStandardUrl,
-  stringifyUrl,
-  getOrigin,
 }

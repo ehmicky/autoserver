@@ -1,10 +1,6 @@
-// `_set` patch operator
-const setOperator = {
+// eslint-disable-next-line no-underscore-dangle
+export const _set = {
   apply({ arg: opVal }) {
     return opVal
   },
-}
-
-module.exports = {
-  _set: setOperator,
 }

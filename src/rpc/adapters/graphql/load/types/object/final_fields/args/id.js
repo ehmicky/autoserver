@@ -3,7 +3,7 @@ import { GraphQLString } from 'graphql'
 import { getArgTypeDescription } from '../../../../description.js'
 
 // `id` argument
-const getIdArgument = function(def) {
+export const getIdArgument = function(def) {
   const hasId = ID_COMMAND_TYPES.includes(def.command)
 
   if (!hasId) {
@@ -24,7 +24,3 @@ const getIdArgs = ({ description }) => ({
     description,
   },
 })
-
-module.exports = {
-  getIdArgument,
-}

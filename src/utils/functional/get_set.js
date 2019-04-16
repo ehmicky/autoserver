@@ -1,5 +1,5 @@
 // Similar to Lodash get(), but do not mutate, and faster
-const get = function(obj, keys) {
+export const get = function(obj, keys) {
   if (keys.length === 0) {
     return obj
   }
@@ -10,7 +10,7 @@ const get = function(obj, keys) {
 }
 
 // Same but do not use `result()`
-const set = function(objArr, keys, val) {
+export const set = function(objArr, keys, val) {
   if (keys.length === 0) {
     return val
   }
@@ -56,16 +56,10 @@ const setVal = function({ objArr, keys, val }) {
 }
 
 // Similar to Lodash has(), but faster
-const has = function(obj, keys) {
+export const has = function(obj, keys) {
   try {
     return get(obj, keys) !== undefined
   } catch {
     return false
   }
-}
-
-module.exports = {
-  get,
-  set,
-  has,
 }

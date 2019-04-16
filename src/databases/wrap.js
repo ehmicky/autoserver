@@ -13,13 +13,9 @@ const methods = {
   validateRuntimeFeatures,
 }
 
-const databaseAdapters = wrapAdapters({
+export const databaseAdapters = wrapAdapters({
   adapters: DATABASE_ADAPTERS,
   members,
   methods,
   reason: 'DATABASE',
 })
-
-module.exports = {
-  databaseAdapters,
-}

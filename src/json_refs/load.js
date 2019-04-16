@@ -3,7 +3,7 @@ import { addGenErrorHandler, addErrorHandler } from '../errors/handler.js'
 import { getByExt, DEFAULT_RAW_FORMAT } from '../formats/get.js'
 
 // Load the file pointing to by the JSON reference
-const load = async function({ path }) {
+export const load = async function({ path }) {
   // Checks that the file exists
   await eStat(path)
 
@@ -28,7 +28,3 @@ const eLoadFile = addGenErrorHandler(loadFile, {
   message: ({ path }) => `Config file could not be parsed: '${path}'`,
   reason: 'CONFIG_VALIDATION',
 })
-
-module.exports = {
-  load,
-}

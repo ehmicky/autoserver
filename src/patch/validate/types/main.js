@@ -5,7 +5,7 @@ import { validateTypes } from './validate.js'
 import { TYPES } from './available.js'
 
 // Uses `patchOp.attribute`
-const checkAttrType = function({
+export const checkAttrType = function({
   type,
   attr: { type: attrType, isArray: attrIsArray },
   operator: { attribute: possTypes },
@@ -25,7 +25,7 @@ const checkAttrType = function({
 }
 
 // Uses `patchOp.argument`
-const checkOpValType = function({ type, opVal, coll, operator: { argument } }) {
+export const checkOpValType = function({ type, opVal, coll, operator: { argument } }) {
   if (argument === undefined) {
     return
   }
@@ -111,9 +111,4 @@ const parseOpValType = function(value) {
     testFunc(value),
   )
   return attrType
-}
-
-module.exports = {
-  checkAttrType,
-  checkOpValType,
 }

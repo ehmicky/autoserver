@@ -3,7 +3,7 @@ import { getWordsList } from '../../utils/string.js'
 
 // Adapter feature 'filter:_OPERATOR' allows for
 // `args.filter: { attrName: { _OPERATOR: value } }`
-const filterValidator = function({ features, filterFeatures }) {
+export const filterValidator = function({ features, filterFeatures }) {
   const ops = getOps({ features, filterFeatures })
 
   if (ops.length === 0) {
@@ -26,8 +26,4 @@ const getOps = function({ features, filterFeatures }) {
   return difference(filterFeatures, features).map(feature =>
     feature.replace(/.*:/u, ''),
   )
-}
-
-module.exports = {
-  filterValidator,
 }

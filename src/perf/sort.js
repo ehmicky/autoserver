@@ -1,5 +1,5 @@
 // Sort by category (asc) then by duration (desc)
-const sortMeasures = function(
+export const sortMeasures = function(
   { category: catA, average: timeA },
   { category: catB, average: timeB },
 ) {
@@ -60,8 +60,4 @@ const sortByTime = function({ timeA, timeB }) {
   }
 
   return 0
-}
-
-module.exports = {
-  sortMeasures,
 }

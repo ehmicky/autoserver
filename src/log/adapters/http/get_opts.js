@@ -3,7 +3,7 @@
 import { URL } from 'url'
 
 // Parse `opts.url`, also ensuring it is a valid URL
-const getOpts = function({ opts: { url } }) {
+export const getOpts = function({ opts: { url } }) {
   if (url === undefined) {
     return
   }
@@ -20,8 +20,4 @@ const getOpts = function({ opts: { url } }) {
   const path = `${pathname}${search}${hash}`
 
   return { hostname, port: portA, auth, path }
-}
-
-module.exports = {
-  getOpts,
 }

@@ -80,11 +80,7 @@ const validateRequirePair = function({ ifVal, thenVal, enumVals, throwErr }) {
   throwErr(`When specifying ${ifStr}, ${missingStr} must also be specified`)
 }
 
-const validators = {
+export const validators = {
   enum: validateEnum,
   requires: validateRequires,
-}
-
-module.exports = {
-  validators,
 }

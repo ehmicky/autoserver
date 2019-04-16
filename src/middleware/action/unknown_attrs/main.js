@@ -7,7 +7,7 @@ import { validateAllAttr } from './all.js'
 // config.
 // Also validate special key 'all'
 // `args.cascade` is not validated because already previously checked.
-const validateUnknownAttrs = function({ actions, config }) {
+export const validateUnknownAttrs = function({ actions, config }) {
   actions.forEach(action => validateAction({ action, config }))
 }
 
@@ -84,8 +84,4 @@ const validateUnknownArg = function({
   const path = [...commandpath, keyA].join('.')
   const message = `In '${name}' argument, attribute '${path}' is unknown`
   throwError(message, { reason: 'VALIDATION' })
-}
-
-module.exports = {
-  validateUnknownAttrs,
 }

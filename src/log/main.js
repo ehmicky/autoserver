@@ -81,10 +81,10 @@ const logEventHandler = function(error, { config, event }) {
   throw errorB
 }
 
-const logEvent = addErrorHandler(eLogEvent, logEventHandler)
+export const logEvent = addErrorHandler(eLogEvent, logEventHandler)
 
 // This means there is a bug in the logging code itself
-const safetyHandler = function(error) {
+export const safetyHandler = function(error) {
   const errorA = normalizeError({ error })
   const errorB = createPb('An error occurred during logging error handling', {
     reason: 'ENGINE',
@@ -95,8 +95,3 @@ const safetyHandler = function(error) {
 }
 
 const silentLogEvent = addErrorHandler(eLogEvent, safetyHandler)
-
-module.exports = {
-  logEvent,
-  safetyHandler,
-}

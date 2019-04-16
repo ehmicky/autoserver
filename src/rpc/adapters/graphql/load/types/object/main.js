@@ -33,8 +33,4 @@ const transformArgs = function([def, opts]) {
   return `${opts.graphqlSchemaId}/${typeName}`
 }
 
-const graphqlObjectTGetter = moize(mGraphqlObjectTGetter, { transformArgs })
-
-module.exports = {
-  graphqlObjectTGetter,
-}
+export const graphqlObjectTGetter = moize(mGraphqlObjectTGetter, { transformArgs })

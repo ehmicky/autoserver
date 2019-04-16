@@ -1,7 +1,7 @@
 import { isObject } from '../../utils/functional/type.js'
 import { throwPb } from '../../errors/props.js'
 
-const validateSpecific = function({
+export const validateSpecific = function({
   specific,
   protocolAdapter: { name: protocol },
 }) {
@@ -13,7 +13,7 @@ const validateSpecific = function({
   throwPb({ message, reason: 'PROTOCOL', extra: { adapter: protocol } })
 }
 
-const validateString = function(value, name, protocolAdapter) {
+export const validateString = function(value, name, protocolAdapter) {
   if (typeof value === 'string') {
     return
   }
@@ -21,7 +21,7 @@ const validateString = function(value, name, protocolAdapter) {
   throwProtocolError('a string', { value, name, protocolAdapter })
 }
 
-const validateObject = function(value, name, protocolAdapter) {
+export const validateObject = function(value, name, protocolAdapter) {
   if (isObject(value)) {
     return
   }
@@ -29,7 +29,7 @@ const validateObject = function(value, name, protocolAdapter) {
   throwProtocolError('an object', { value, name, protocolAdapter })
 }
 
-const validateBoolean = function(value, name, protocolAdapter) {
+export const validateBoolean = function(value, name, protocolAdapter) {
   if (typeof value === 'boolean') {
     return
   }
@@ -44,11 +44,4 @@ const throwProtocolError = function(type, { value, name, protocolAdapter }) {
     reason: 'PROTOCOL',
     extra: { adapter: protocolAdapter.name },
   })
-}
-
-module.exports = {
-  validateSpecific,
-  validateString,
-  validateObject,
-  validateBoolean,
 }

@@ -2,7 +2,7 @@
 // because they can get too big, e.g. `args.data`, `response.data` and `payload`
 // `sumParams` summarize them by their size and length, e.g. `payloadsize` and
 // `payloadcount`
-const getSumParams = function({ attrName, value }) {
+export const getSumParams = function({ attrName, value }) {
   if (value === undefined) {
     return
   }
@@ -29,8 +29,4 @@ const getCount = function({ attrName, value }) {
   const count = value.length
   const name = `${attrName}count`
   return { [name]: count }
-}
-
-module.exports = {
-  getSumParams,
 }

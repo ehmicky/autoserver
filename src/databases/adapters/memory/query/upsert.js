@@ -1,5 +1,5 @@
 // Upsert models
-const upsert = function({ collection, newData }) {
+export const upsert = function({ collection, newData }) {
   newData.forEach(datum => upsertOne({ collection, datum }))
 }
 
@@ -14,8 +14,4 @@ const upsertOne = function({ collection, datum }) {
 
   // eslint-disable-next-line fp/no-mutating-methods
   collection.splice(index, 1, datum)
-}
-
-module.exports = {
-  upsert,
 }

@@ -1,5 +1,5 @@
 // When using model.ATTR
-const getSiblingNode = function({
+export const getSiblingNode = function({
   type,
   value: { value: otherAttr },
   attrName,
@@ -19,8 +19,4 @@ const WHERE_TEXTS = {
     `Array.isArray(this.${otherAttr}) && this.${otherAttr}.includes(this.${attrName})`,
   _nin: ({ attrName, otherAttr }) =>
     `!Array.isArray(this.${otherAttr}) || !this.${otherAttr}.includes(this.${attrName})`,
-}
-
-module.exports = {
-  getSiblingNode,
 }

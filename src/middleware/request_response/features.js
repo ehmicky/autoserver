@@ -11,10 +11,6 @@ const eValidateRuntimeFeatures = function({
   return dbAdapter.validateRuntimeFeatures({ args, clientCollname })
 }
 
-const validateRuntimeFeatures = addGenErrorHandler(eValidateRuntimeFeatures, {
+export const validateRuntimeFeatures = addGenErrorHandler(eValidateRuntimeFeatures, {
   reason: 'VALIDATION',
 })
-
-module.exports = {
-  validateRuntimeFeatures,
-}

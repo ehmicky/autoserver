@@ -3,7 +3,7 @@ import { isEqual } from '../../../utils/functional/equal.js'
 // Retrieve `currentData` for `delete` and `patch` by running `find` commands,
 // reusing `arg.filter`.
 // Also adds `dataPaths` since we'll now know the length of each array of models
-const serialResolve = async function({ actions, mInput }, nextLayer) {
+export const serialResolve = async function({ actions, mInput }, nextLayer) {
   const { results, metadata } = await nextLayer(mInput, 'read')
 
   const actionsA = actions.map(action => mergeResult({ results, action }))
@@ -33,8 +33,4 @@ const getAction = function({ results, action }) {
   const currentData = results.map(({ model }) => model)
 
   return { ...action, currentData, dataPaths }
-}
-
-module.exports = {
-  serialResolve,
 }

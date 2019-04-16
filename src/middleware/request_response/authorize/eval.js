@@ -7,7 +7,7 @@ import { handleConfigFuncs } from './functions.js'
 // Evaluate `coll.authorize` filter to a boolean
 // Do a partial evaluation, because we do not know the value of `model.*` yet
 // Returns partial filter if any.
-const evalAuthorize = function({
+export const evalAuthorize = function({
   collname,
   clientCollname,
   authorize,
@@ -66,7 +66,3 @@ const removePrefix = function({ attrName, ...node }) {
 // `model.*` is transformed to `authorize`, which is added to
 // `args.filter` and checked against `args.data`
 const PARTIAL_NAMES_REGEXP = /^model\./u
-
-module.exports = {
-  evalAuthorize,
-}

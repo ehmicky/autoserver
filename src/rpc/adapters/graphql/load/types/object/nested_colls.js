@@ -1,7 +1,7 @@
 import { omit } from '../../../../../../utils/functional/filter.js'
 
 // Create nested collections definitions
-const getNestedColl = function(def, { inputObjectType, topDef }) {
+export const getNestedColl = function(def, { inputObjectType, topDef }) {
   const { target, isArray } = def
 
   // Only for nested collections, that are not filter arguments
@@ -24,8 +24,4 @@ const getNestedColl = function(def, { inputObjectType, topDef }) {
 
 const topLevelModelMatches = function({ target, command }, topDef) {
   return topDef.collname === target && topDef.command === command
-}
-
-module.exports = {
-  getNestedColl,
 }

@@ -26,7 +26,7 @@ const KINDS = {
 //  - kind 'type|compress|charset|format'
 //  - value STR_ARR
 //  - suggestions VAL_ARR
-const REQUEST_NEGOTIATION = {
+export const REQUEST_NEGOTIATION = {
   status: 'CLIENT_ERROR',
   title: 'The request content negotiation failed',
   getMessage: getMessage.bind(null, 'request'),
@@ -36,13 +36,8 @@ const REQUEST_NEGOTIATION = {
 //  - kind 'compress|charset|format'
 //  - value STR_ARR
 //  - suggestions STR_ARR
-const RESPONSE_NEGOTIATION = {
+export const RESPONSE_NEGOTIATION = {
   status: 'CLIENT_ERROR',
   title: 'The response content negotiation failed',
   getMessage: getMessage.bind(null, 'response'),
-}
-
-module.exports = {
-  REQUEST_NEGOTIATION,
-  RESPONSE_NEGOTIATION,
 }

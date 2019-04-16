@@ -4,12 +4,12 @@ import { execute } from 'graphql'
 // non-introspection query, except for `__typename`
 // This means that `__schema` must be the only top-level properties
 // when specified
-const isIntrospectionQuery = function({ rpcDef: { commandName } }) {
+export const isIntrospectionQuery = function({ rpcDef: { commandName } }) {
   return commandName === '__schema'
 }
 
 // Handle GraphQL introspection query by using the GraphQL schema object
-const handleIntrospection = async function({
+export const handleIntrospection = async function({
   graphqlSchema,
   queryDocument,
   variables,
@@ -47,9 +47,4 @@ const getIntrospectionResp = function({
   operationName,
 }) {
   return execute(graphqlSchema, queryDocument, {}, {}, variables, operationName)
-}
-
-module.exports = {
-  isIntrospectionQuery,
-  handleIntrospection,
 }

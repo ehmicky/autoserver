@@ -1,12 +1,12 @@
 import { tokenizeInlineFunc } from './tokenize.js'
 
 // Test whether a value is inline function
-const isInlineFunc = ({ inlineFunc }) =>
+export const isInlineFunc = ({ inlineFunc }) =>
   testInlineFunc({ inlineFunc }) === 'InlineFunc'
 
 // Test whether a value is almost inline function,
 // except opening parenthesis is escaped
-const isEscapedInlineFunc = ({ inlineFunc }) =>
+export const isEscapedInlineFunc = ({ inlineFunc }) =>
   testInlineFunc({ inlineFunc }) === 'Escaped'
 
 const testInlineFunc = ({ inlineFunc }) => {
@@ -27,9 +27,4 @@ const testInlineFunc = ({ inlineFunc }) => {
   }
 
   return 'InlineFunc'
-}
-
-module.exports = {
-  isInlineFunc,
-  isEscapedInlineFunc,
 }

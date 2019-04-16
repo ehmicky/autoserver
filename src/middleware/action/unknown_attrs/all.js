@@ -1,7 +1,7 @@
 import { throwError } from '../../../errors/main.js'
 
 // Validate correct usage of special key 'all'
-const validateAllAttr = function({
+export const validateAllAttr = function({
   action: {
     args: { select },
     collname,
@@ -28,8 +28,4 @@ const validateAllAttr = function({
 
   const message = `Argument 'select' cannot target both 'all' and '${keyA}' attributes`
   throwError(message, { reason: 'VALIDATION' })
-}
-
-module.exports = {
-  validateAllAttr,
 }

@@ -6,7 +6,7 @@ import { stringifyUrl, getStandardUrl } from '../origin.js'
 
 // `Link` HTTP header, using pagination metadata,
 // with `rel` `first|last|next|prev`
-const getLinks = function({ pages = {}, specific, rpc }) {
+export const getLinks = function({ pages = {}, specific, rpc }) {
   // Only with REST
   if (rpc !== 'rest') {
     return
@@ -50,7 +50,3 @@ const getLinkUrl = function({ pages, name, cursorName, url }) {
 }
 
 const CURSOR_NAMES = ['before', 'after']
-
-module.exports = {
-  getLinks,
-}

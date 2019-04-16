@@ -6,7 +6,7 @@ import { validateCharset } from './validate.js'
 import { decodeCharset } from './transform.js'
 
 // Normalize charset, including adding defaults and validating
-const getCharset = function(charset, { format } = {}) {
+export const getCharset = function(charset, { format } = {}) {
   const charsetA = addDefaultCharset({ charset, format })
 
   const charsetB = charsetA.toLowerCase()
@@ -43,15 +43,10 @@ const createInstance = function({ charset, title }) {
 }
 
 // Get list of supported charset
-const getCharsets = function() {
+export const getCharsets = function() {
   // Remove charsets that are just aliases, to keep return value small
   const charsets = omitBy(encodings, value => typeof value === 'string')
 
   const charsetsA = Object.keys(charsets)
   return charsetsA
-}
-
-module.exports = {
-  getCharset,
-  getCharsets,
 }

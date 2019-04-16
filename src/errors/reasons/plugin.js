@@ -8,12 +8,8 @@ const getMessage = function({ plugin }) {
 
 // Extra:
 //  - plugin `{string}`
-const PLUGIN = {
+export const PLUGIN = {
   status: 'SERVER_ERROR',
   title: 'Internal error related to a specific plugin',
   getMessage,
-}
-
-module.exports = {
-  PLUGIN,
 }
