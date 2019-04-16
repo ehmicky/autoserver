@@ -30,7 +30,12 @@ export const cannotCheckType = function({ opVal, argument }) {
 }
 
 // Replaces model.ATTR in simple patch operations (i.e. with no operators)
-export const replaceSimpleRef = function({ ref, attributes, datum, commandpath }) {
+export const replaceSimpleRef = function({
+  ref,
+  attributes,
+  datum,
+  commandpath,
+}) {
   if (attributes[ref] !== undefined) {
     return datum[ref]
   }

@@ -7,7 +7,9 @@ import { uniq } from '../utils/functional/uniq.js'
 // Returns undefined if it is impossible to guess. Returns empty array if the
 // client specifically asked for no `id`s,
 // e.g. `{ filter: { id: { _in: [] } } }`
-export const extractSimpleIds = function({ filter: { type, attrName, value } = {} }) {
+export const extractSimpleIds = function({
+  filter: { type, attrName, value } = {},
+}) {
   if (type === '_and') {
     return parseAndNode({ value })
   }

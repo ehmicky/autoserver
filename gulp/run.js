@@ -1,3 +1,5 @@
+'use strict'
+
 const { promisify } = require('util')
 
 const Nodemon = require('nodemon')

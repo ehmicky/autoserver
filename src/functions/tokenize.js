@@ -14,7 +14,10 @@ export const getInlineFunc = function({ inlineFunc }) {
 }
 
 // Retrieves inline config function body
-export const stringifyConfigFunc = function({ configFunc, configFunc: { name } }) {
+export const stringifyConfigFunc = function({
+  configFunc,
+  configFunc: { name },
+}) {
   if (name && name !== 'anonymous') {
     return `${name}()`
   }

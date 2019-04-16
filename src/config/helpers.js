@@ -47,7 +47,11 @@ const mapAttr = function({ func, attr, attrName, coll, collname, config }) {
 }
 
 // Create shortcuts map by iterating over each collection and its attributes
-export const getShortcut = function({ filter, mapper, config: { collections } }) {
+export const getShortcut = function({
+  filter,
+  mapper,
+  config: { collections },
+}) {
   return mapValues(collections, ({ attributes = {} }) =>
     getShortcutColl({ attributes, filter, mapper }),
   )
