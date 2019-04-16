@@ -9,7 +9,10 @@ import { processResults } from './results.js'
 import { paginateResults } from './paginate/main.js'
 
 // Fire all commands associated with a set of read actions
-export const sequenceRead = async function({ actions, config, mInput }, nextLayer) {
+export const sequenceRead = async function(
+  { actions, config, mInput },
+  nextLayer,
+) {
   const { maxmodels } = getLimits({ config })
 
   const actionsA = getParentActions({ actions })

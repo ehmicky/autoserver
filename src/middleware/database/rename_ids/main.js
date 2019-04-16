@@ -22,7 +22,11 @@ export const renameIdsInput = function({ dbAdapter: { idName }, args }) {
 }
 
 // Revert changes
-export const renameIdsOutput = function({ dbAdapter: { idName }, args, dbData }) {
+export const renameIdsOutput = function({
+  dbAdapter: { idName },
+  args,
+  dbData,
+}) {
   if (idName === undefined) {
     return
   }

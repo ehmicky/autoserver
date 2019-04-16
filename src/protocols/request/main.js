@@ -14,7 +14,10 @@ import { parsePayload } from './payload.js'
 import { protocolNormalization } from './normalize/main.js'
 
 // Retrieves protocol-specific request information
-export const parseRequest = function(protocolAdapter, { specific, config, measures }) {
+export const parseRequest = function(
+  protocolAdapter,
+  { specific, config, measures },
+) {
   return monitoredReduce({
     funcs: METHODS,
     mapInput: requestInfo => ({

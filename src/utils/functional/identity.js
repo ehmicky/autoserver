@@ -1,3 +1,3 @@
-export const identity = function (val) {
+export const identity = function(val) {
   return val
 }

@@ -44,7 +44,10 @@ const eFireErrorHandler = function(errorA) {
 }
 
 // If error handler itself fails, gives up
-export const fireErrorHandler = addErrorHandler(eFireErrorHandler, safetyHandler)
+export const fireErrorHandler = addErrorHandler(
+  eFireErrorHandler,
+  safetyHandler,
+)
 
 // Add `error.mInput`, to keep track of current `mInput` during exception flow
 const addMInput = function(error, mInput) {

@@ -1,8 +1,5 @@
 import { getReason } from '../../../errors/props.js'
-import {
-  DEFAULT_FORMAT,
-  DEFAULT_RAW_FORMAT,
-} from '../../../formats/get.js'
+import { DEFAULT_FORMAT, DEFAULT_RAW_FORMAT } from '../../../formats/get.js'
 
 import { getContentType } from './types.js'
 import { serializeContent } from './serialize.js'

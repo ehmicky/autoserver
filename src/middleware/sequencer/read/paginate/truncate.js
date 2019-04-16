@@ -1,6 +1,10 @@
 // Truncate nested attributes to fit `nestedPagesize`
 // Append a `null` after truncating
-export const truncateAttrs = function({ results, nestedAttrs, nestedPagesize }) {
+export const truncateAttrs = function({
+  results,
+  nestedAttrs,
+  nestedPagesize,
+}) {
   return nestedAttrs.reduce(
     (resultsA, { attrName }) =>
       truncateAttr({ results: resultsA, attrName, nestedPagesize }),

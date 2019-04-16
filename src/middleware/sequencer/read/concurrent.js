@@ -1,8 +1,5 @@
 import { difference } from '../../../utils/functional/difference.js'
-import {
-  extractSimpleIds,
-  getSimpleFilter,
-} from '../../../filter/simple_id.js'
+import { extractSimpleIds, getSimpleFilter } from '../../../filter/simple_id.js'
 
 // If another `find` command searching for the same models is currently running,
 // use its future results (for efficiency reasons) instead of running it.
@@ -58,7 +55,12 @@ const removeConcurrentIds = function({ concurrentResults, ids, args }) {
 // Communicate to parallel commands which `id`s are currently being searched
 // so that each call can reuse the result from other calls when targetting
 // the same model.
-export const addPendingResults = function({ args, results, collname, promise }) {
+export const addPendingResults = function({
+  args,
+  results,
+  collname,
+  promise,
+}) {
   const ids = extractSimpleIds(args) || []
   const pendingResults = ids.map(id => ({ model: { id }, collname, promise }))
 

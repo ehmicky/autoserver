@@ -2,7 +2,11 @@ import { logEvent } from '../../log/main.js'
 import { monitor } from '../../perf/helpers.js'
 
 // Start each database connection
-export const startConnections = async function({ dbAdapters, config, measures }) {
+export const startConnections = async function({
+  dbAdapters,
+  config,
+  measures,
+}) {
   const dbAdaptersPromises = dbAdapters.map(dbAdapter =>
     kStartConnection({ dbAdapter, config, measures }),
   )

@@ -1,33 +1,7 @@
 import { throwError } from '../errors/main.js'
 
-import { parseRef, isRef } from './ref_parsing.js'
+import { parseRef } from './ref_parsing.js'
 import { postValidate } from './validate/main.js'
-
-// Get the config's attribute from a model.ATTR reference
-export const getOpValRef = function({ opVal, coll: { attributes } }) {
-  const ref = parseRef(opVal)
-
-  if (ref === undefined) {
-    return
-  }
-
-  const attr = attributes[ref]
-
-  if (attr === undefined) {
-    return `attribute '${ref}' is unknown`
-  }
-
-  const { type, isArray } = attr
-  return { attrTypes: [type], attrIsArray: isArray }
-}
-
-// If operator's argument can only be `empty`, we cannot check model.ATTR
-// until it is resolved later.
-// If operator's argument contains `empty` but other types too, we can already
-// check model.ATTR against them.
-export const cannotCheckType = function({ opVal, argument }) {
-  return isRef(opVal) && argument.length === 1 && argument[0] === 'empty'
-}
 
 // Replaces model.ATTR in simple patch operations (i.e. with no operators)
 export const replaceSimpleRef = function({

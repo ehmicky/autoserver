@@ -24,7 +24,12 @@ import { getColl } from './get_coll.js'
 //     - no way for client to know response does not match current data state
 //  - replace nested actions by find actions:
 //     - request might not be authorized to fetch those models
-export const validateStableIds = function({ actions, config, top, top: { command } }) {
+export const validateStableIds = function({
+  actions,
+  config,
+  top,
+  top: { command },
+}) {
   // Only for commands with `args.data`
   if (!STABLE_IDS_COMMANDS.includes(command.type)) {
     return

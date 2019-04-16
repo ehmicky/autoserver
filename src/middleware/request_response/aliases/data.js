@@ -3,7 +3,12 @@ import { omit } from '../../../utils/functional/filter.js'
 import { throwError } from '../../../errors/main.js'
 
 // Apply `alias` in `args.data`
-export const applyDataAliases = function({ newData, currentData, attrName, aliases }) {
+export const applyDataAliases = function({
+  newData,
+  currentData,
+  attrName,
+  aliases,
+}) {
   return newData.map((datum, index) =>
     applyDataAlias({
       newData: datum,

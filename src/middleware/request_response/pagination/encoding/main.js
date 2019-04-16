@@ -1,7 +1,4 @@
-import {
-  base64UrlEncode,
-  base64UrlDecode,
-} from '../../../../utils/base64.js'
+import { base64UrlEncode, base64UrlDecode } from '../../../../utils/base64.js'
 
 import { addNameShortcuts, removeNameShortcuts } from './minify_names.js'
 import { convertUndefined } from './convert_undefined.js'

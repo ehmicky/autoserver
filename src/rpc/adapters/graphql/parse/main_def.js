@@ -4,7 +4,10 @@ import { validateDuplicates } from './duplicates.js'
 
 // Retrieve GraphQL main definition
 // Takes into account GraphQL's `operationName`
-export const getMainDef = function({ queryDocument: { definitions }, operationName }) {
+export const getMainDef = function({
+  queryDocument: { definitions },
+  operationName,
+}) {
   const defs = definitions.filter(({ kind }) => kind === 'OperationDefinition')
 
   // GraphQL spec 5.1.1.1 'Operation Name Uniqueness'

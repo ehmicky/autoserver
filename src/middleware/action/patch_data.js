@@ -4,7 +4,12 @@ import { applyPatchOps } from '../../patch/apply.js'
 
 // Merge `currentData` with the `args.data` in `patch` commands,
 // to obtain the final models we want to use as replacement
-export const patchData = function({ actions, top: { command }, config, mInput }) {
+export const patchData = function({
+  actions,
+  top: { command },
+  config,
+  mInput,
+}) {
   if (command.type !== 'patch') {
     return
   }

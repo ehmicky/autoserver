@@ -14,7 +14,11 @@ import { getRawBodyHandler } from './error.js'
 //  - charset decoding
 //  - compression/decompression
 //  - content parsing. Return raw buffer instead
-export const getPayload = function({ specific, specific: { req }, maxpayload }) {
+export const getPayload = function({
+  specific,
+  specific: { req },
+  maxpayload,
+}) {
   const length = getContentLength({ specific })
 
   return eGetRawBody({ req, length, maxpayload })

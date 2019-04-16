@@ -1,9 +1,6 @@
 import { GraphQLInt, GraphQLString } from 'graphql'
 
-import {
-  pick,
-  omit,
-} from '../../../../../../../../utils/functional/filter.js'
+import { pick, omit } from '../../../../../../../../utils/functional/filter.js'
 
 // Pagination arguments
 export const getPaginationArgument = function({ command, features }) {

@@ -13,6 +13,14 @@ const evalNeq = function({ attr, value }) {
 }
 
 // eslint-disable-next-line no-underscore-dangle
-export const _eq = { parse: parseAsIs, validate: validateSameType, eval: evalEq }
+export const _eq = {
+  parse: parseAsIs,
+  validate: validateSameType,
+  eval: evalEq,
+}
 // eslint-disable-next-line no-underscore-dangle
-export const _neq = { parse: parseAsIs, validate: validateSameType, eval: evalNeq }
+export const _neq = {
+  parse: parseAsIs,
+  validate: validateSameType,
+  eval: evalNeq,
+}

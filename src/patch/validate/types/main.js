@@ -1,5 +1,5 @@
 import { uniq } from '../../../utils/functional/uniq.js'
-import { getOpValRef, cannotCheckType } from '../../ref.js'
+import { getOpValRef, cannotCheckType } from '../../ref_parsing.js'
 
 import { validateTypes } from './validate.js'
 import { TYPES } from './available.js'
@@ -25,7 +25,12 @@ export const checkAttrType = function({
 }
 
 // Uses `patchOp.argument`
-export const checkOpValType = function({ type, opVal, coll, operator: { argument } }) {
+export const checkOpValType = function({
+  type,
+  opVal,
+  coll,
+  operator: { argument },
+}) {
   if (argument === undefined) {
     return
   }

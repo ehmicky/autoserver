@@ -3,7 +3,13 @@ import { Buffer } from 'buffer'
 import { isType } from '../../../content_types.js'
 
 // Transform content to a buffer
-export const serializeContent = function({ format, content, type, topargs, error }) {
+export const serializeContent = function({
+  format,
+  content,
+  type,
+  topargs,
+  error,
+}) {
   const contentA = stringifyContent({ format, content, type })
 
   const contentB = applySilent({ content: contentA, topargs, error })

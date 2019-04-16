@@ -1,6 +1,11 @@
 import { logEvent } from '../../log/main.js'
 
-export const emitMessageEvent = function({ step, type, adapter: { title }, config }) {
+export const emitMessageEvent = function({
+  step,
+  type,
+  adapter: { title },
+  config,
+}) {
   const message = SUCCESS_MESSAGES[type][step]
   const messageA = `${title} - ${message}`
 

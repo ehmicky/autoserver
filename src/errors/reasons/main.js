@@ -6,10 +6,7 @@ import { ROUTE } from './route.js'
 import { NOT_FOUND } from './not_found.js'
 import { METHOD } from './method.js'
 import { COMMAND } from './command.js'
-import {
-  REQUEST_NEGOTIATION,
-  RESPONSE_NEGOTIATION,
-} from './negotiation.js'
+import { REQUEST_NEGOTIATION, RESPONSE_NEGOTIATION } from './negotiation.js'
 import { TIMEOUT } from './timeout.js'
 import { CONFLICT } from './conflict.js'
 import { NO_CONTENT_LENGTH } from './no_content_length.js'

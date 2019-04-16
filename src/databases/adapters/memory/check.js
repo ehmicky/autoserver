@@ -2,7 +2,11 @@ import { getRef } from '../../../json_refs/ref_path.js'
 import { isObject } from '../../../utils/functional/type.js'
 
 // Check for data model inconsistencies, and potentially fix them
-export const check = function({ config: { collections }, connection, options }) {
+export const check = function({
+  config: { collections },
+  connection,
+  options,
+}) {
   checkConnection({ connection })
 
   checkSave({ options })

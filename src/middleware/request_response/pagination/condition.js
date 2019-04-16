@@ -1,7 +1,13 @@
 import { getPagesize } from './info.js'
 
 // Whether request will be paginated
-export const willPaginate = function({ args, command, commandpath, top, config }) {
+export const willPaginate = function({
+  args,
+  command,
+  commandpath,
+  top,
+  config,
+}) {
   // Only for top-level findMany, and patchMany (its currentData `find` command)
   return (
     commandpath === '' &&

@@ -6,7 +6,11 @@ import { getDefaultDuration } from '../perf/measure.js'
 import { getServerinfo } from '../serverinfo/main.js'
 
 // Create event when all protocol-specific servers have started
-export const emitStartEvent = async function({ protocolAdapters, config, measures }) {
+export const emitStartEvent = async function({
+  protocolAdapters,
+  config,
+  measures,
+}) {
   // Let other events finish first
   await pSetTimeout(0)
 

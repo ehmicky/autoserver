@@ -1,11 +1,7 @@
 import { getRequestHandler } from '../middleware/main.js'
 import { loadConfig } from '../config/main.js'
 
-import {
-  startStartupPerf,
-  stopStartupPerf,
-  reportStartupPerf,
-} from './perf.js'
+import { startStartupPerf, stopStartupPerf, reportStartupPerf } from './perf.js'
 import { processErrorHandler } from './process.js'
 import { connectToDatabases } from './database/main.js'
 import { setupGracefulExit } from './exit/setup.js'
