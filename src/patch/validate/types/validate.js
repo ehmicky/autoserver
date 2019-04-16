@@ -42,8 +42,7 @@ const checkType = function({ possType, attrType, attrIsArray, strict }) {
     return true
   }
 
-  const isSameType = compareTypes({ possType: possTypeA, attrType })
-  return isSameType
+  return compareTypes({ possType: possTypeA, attrType })
 }
 
 const isWrongType = function({ possIsArray, attrIsArray, strict }) {
