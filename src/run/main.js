@@ -1,6 +1,5 @@
 'use strict'
 
-const { getRequirePerf } = require('../require_perf')
 const { monitoredReduce } = require('../perf/helpers.js')
 const { addErrorHandler } = require('../errors/handler.js')
 
@@ -13,13 +12,10 @@ const run = async function({
   config: configPath,
   ...config
 } = {}) {
-  const requirePerf = getRequirePerf()
-  const measuresA = [requirePerf, ...measures]
-
   // Run each startup step
   const { startPayload } = await monitoredReduce({
     funcs: eStartupSteps,
-    initialInput: { measures: measuresA, configPath, config },
+    initialInput: { measures, configPath, config },
     mapResponse: (input, newInput) => ({ ...input, ...newInput }),
     category: 'main',
   })
