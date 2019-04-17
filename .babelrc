@@ -1,3 +1,0 @@
-{
-  "presets": ["gulp-shared-tasks/.babelrc.js"]
-}
