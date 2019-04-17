@@ -93,7 +93,9 @@ collections:
           uniqueItems: true
       status:
         description: Has this pet been adopted
-        value: '(typeof value === "string" ? value.toLowerCase() + " " + model.weight : value)'
+        value:
+          '(typeof value === "string" ? value.toLowerCase() + " " + model.weight
+          : value)'
         default:
           $ref: default_value.js
       creator_key:
@@ -124,11 +126,12 @@ authorize:
       _in: [find, create, upsert, patch]
 params:
   $my_math_func: ((arg1 * arg2) + (arg3 * arg4))
-  $example_function: '($my_math_func(1, 10, 100, 2) +
-    $my_other_math_func({ numA: 1, numB: 10, numC: 100, numD: 2 }))'
+  $example_function:
+    '($my_math_func(1, 10, 100, 2) + $my_other_math_func({ numA: 1, numB: 10,
+    numC: 100, numD: 2 }))'
   $recursive_func: ($example_function())
-  $more_recursive_func: ($recursive_func() + $constants.TestConstant +
-    $string.titleize(rpc))
+  $more_recursive_func:
+    ($recursive_func() + $constants.TestConstant + $string.titleize(rpc))
   $my_other_math_func:
     $ref: math_func.js
   $birth_date: '2005-01-01'
