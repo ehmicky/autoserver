@@ -1,7 +1,7 @@
 # Coding style
 
-We follow the [standard JavaScript style](https://standardjs.com), except
-for semicolons and trailing commas.
+We follow the [standard JavaScript style](https://standardjs.com), except for
+semicolons and trailing commas.
 
 Additionally, we enforce a pretty strong functional programming style with
 [ESLint](http://eslint.org/), which includes:

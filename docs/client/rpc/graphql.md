@@ -7,8 +7,8 @@ Clients can query the GraphQL server at `//HOST/graphql`.
 # Debugging
 
 Clients can perform interactive requests using a web application available at
-`//HOST/graphiql`.
-They can see the GraphQL schema by clicking on `Documentation explorer`.
+`//HOST/graphiql`. They can see the GraphQL schema by clicking on
+`Documentation explorer`.
 
 Clients can also see the GraphQL schema as HTML at `//HOST/graphql/schema`.
 
@@ -64,9 +64,8 @@ Fetching `users` with `id` `1`:
 # Error responses
 
 GraphQL error responses follow the usual error
-[response format](../request/error.md#error-responses), with some changes
-to accomodate the
-[GraphQL spec](https://facebook.github.io/graphql/#sec-Errors):
+[response format](../request/error.md#error-responses), with some changes to
+accomodate the [GraphQL spec](https://facebook.github.io/graphql/#sec-Errors):
 
 - `error` is called `errors`, and is an array containing a single object.
 - `description` is named `message`

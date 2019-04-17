@@ -1,11 +1,11 @@
 # Configuration
 
-The data model and business logic is specified in the configuration used by
-the [`run`](../usage/run.md) instruction.
+The data model and business logic is specified in the configuration used by the
+[`run`](../usage/run.md) instruction.
 
-There are several ways to define [configuration properties](#properties).
-If several are used, they are merged together (from the highest priority to
-the lowest):
+There are several ways to define [configuration properties](#properties). If
+several are used, they are merged together (from the highest priority to the
+lowest):
 
 - setting an [environment variable](#environment-variables):
   `AUTOSERVER__LIMITS__PAGESIZE=10`
@@ -28,9 +28,9 @@ The following configuration properties are available:
   [configuration format version](#configuration-format-version)
 - `name` `{string}` - sets the [parameter](functions.md#parameters)
   `serverinfo.process.name`
-- `env` (defaults to `dev`): can be `dev` or `production`.
-  Running in `dev` mode will add some developer-friendly features, e.g.
-  disable request timeouts during breakpoint debugging.
+- `env` (defaults to `dev`): can be `dev` or `production`. Running in `dev` mode
+  will add some developer-friendly features, e.g. disable request timeouts
+  during breakpoint debugging.
 - `collections` `{object}` (required) - list of
   [collections](../data_model/collections.md#collections)
   - `COLLECTION` `{object}` - `COLLECTION` is the name
@@ -46,21 +46,20 @@ The following configuration properties are available:
 - `operators` `{object}` -
   [custom patch operators](../data_model/patch.md#custom-operators)
 - `log` `{object}` - [logging configuration](../quality/logging.md)
-- `protocols` `{object}`:
-  [protocols options](../protocols/README.md#options)
+- `protocols` `{object}`: [protocols options](../protocols/README.md#options)
 - `databases` `{object}`: [databases options](../databases/README.md)
 - `limits` `{object}`: [limits](../quality/limits.md)
 
 # Configuration file
 
-The path of the configuration file is specified using the
-`config` [option](../usage/run.md).
+The path of the configuration file is specified using the `config`
+[option](../usage/run.md).
 
 The file format can be any of the [supported formats](formats.md).
 
-By default, any file named `autoserver.config.EXTENSION` will be searched in
-the current directory, or any parent. `EXTENSION` depends on the file format,
-e.g. `yml` for YAML.
+By default, any file named `autoserver.config.EXTENSION` will be searched in the
+current directory, or any parent. `EXTENSION` depends on the file format, e.g.
+`yml` for YAML.
 
 The configuration can be broken down into several files or import Node.js
 modules by using [references](references.md).
@@ -159,8 +158,8 @@ engine: 0
 
 # Metadata
 
-To add properties only meant as metadata, prefix them with `$` at the
-top-level, on a collection or on an attribute.
+To add properties only meant as metadata, prefix them with `$` at the top-level,
+on a collection or on an attribute.
 
 ```yml
 collections:

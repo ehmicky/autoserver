@@ -2,9 +2,9 @@
 
 The following [options](README.md#options) are available:
 
-- `hostname`, `port` (defaults to `localhost` and `27017`): if you are
-  targeting a cluster or a replica set, you must specify an array of hostnames
-  and/or an array of ports.
+- `hostname`, `port` (defaults to `localhost` and `27017`): if you are targeting
+  a cluster or a replica set, you must specify an array of hostnames and/or an
+  array of ports.
 - `username`, `password`: optional authentication information
 - `dbname` (defaults to `data`): MongoDB database name
 - `opts`: extra options passed to the

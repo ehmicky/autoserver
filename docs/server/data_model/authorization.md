@@ -1,7 +1,6 @@
 # Authorization
 
-It is possible to reject requests by specifying a condition with
-the `authorize`
+It is possible to reject requests by specifying a condition with the `authorize`
 [configuration property](../configuration/configuration.md#properties).
 
 `authorize` uses the same format as the
@@ -67,8 +66,8 @@ collections:
 ```
 
 If the model is being modified, attributes are checked both before and after
-modification. In other words, it is checked on both `previousmodel` and
-`model` [parameters](../configuration/functions.md#parameters).
+modification. In other words, it is checked on both `previousmodel` and `model`
+[parameters](../configuration/functions.md#parameters).
 
 In the example below, requests will be prevented from fetching any
 `example_collection` with `example_collection.locked` `true`. It will also
@@ -105,8 +104,8 @@ collections:
 
 # Readonly attributes
 
-Readonly attributes cannot be modified.
-Trying to do so won't report any error, but the attribute value will not change.
+Readonly attributes cannot be modified. Trying to do so won't report any error,
+but the attribute value will not change.
 
 They can be specified using `attribute.readonly`.
 

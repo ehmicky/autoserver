@@ -12,9 +12,8 @@ There are several ways to define the [configuration](configuration.md):
 - as a [Node.js option](../usage/README.md#node.js).
 
 When using a [configuration file](configuration.md#configuration-file), several
-[formats](formats.md) can be used.
-It can also be broken down into several files or import Node.js modules using
-[references](references.md).
+[formats](formats.md) can be used. It can also be broken down into several files
+or import Node.js modules using [references](references.md).
 
 # Functions
 

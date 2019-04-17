@@ -82,36 +82,35 @@ error-specific [additional properties](#error-responses).
 - [`VALIDATION`](#validation): the request syntax or semantics is invalid.
 - [`ABORTED`](#aborted): the request was aborted.
 - [`AUTHORIZATION`](#authorization): the request is not
-  [authorized](../../server/data_model/authorization.md), i.e. not allowed to
-  be performed.
+  [authorized](../../server/data_model/authorization.md), i.e. not allowed to be
+  performed.
 - [`ROUTE`](#route): the URL or route is invalid.
-- [`NOT_FOUND`](#not_found): some database models could not be found,
-  e.g. the `id`s were invalid.
-- [`METHOD`](#method): the [protocol](../protocols/README.md) method is
-  unknown or invalid.
+- [`NOT_FOUND`](#not_found): some database models could not be found, e.g. the
+  `id`s were invalid.
+- [`METHOD`](#method): the [protocol](../protocols/README.md) method is unknown
+  or invalid.
 - [`COMMAND`](#command): the [command](../arguments/README.md#rpc) name is
   unknown or invalid.
 - [`RESPONSE_NEGOTIATION`](#response_negotiation): the response could not be
   serialized or [content negotiation](../protocols/formats.md) failed.
 - [`TIMEOUT`](#timeout): the request took
   [too much time](../../server/quality/limits.md#system-limits) to process.
-- [`CONFLICT`](#conflict): another client updated the same model, resulting
-  in a conflict.
-- [`NO_CONTENT_LENGTH`](#no_content_length): the request payload's length
-  must be specified.
+- [`CONFLICT`](#conflict): another client updated the same model, resulting in a
+  conflict.
+- [`NO_CONTENT_LENGTH`](#no_content_length): the request payload's length must
+  be specified.
 - [`PAYLOAD_LIMIT`](#payload_limit): the request payload is
   [too big](../../server/quality/limits.md).
 - [`URL_LIMIT`](#url_limit): the URL is
   [too big](../../server/quality/limits.md).
-- [`REQUEST_NEGOTIATION`](#payload_negotiation): the request payload could
-  not be loaded, parsed or [content negotiation](../protocols/formats.md)
-  failed.
+- [`REQUEST_NEGOTIATION`](#payload_negotiation): the request payload could not
+  be loaded, parsed or [content negotiation](../protocols/formats.md) failed.
 
 [Server-side errors](#server-side-errors):
 
 - [`CONFIG_VALIDATION`](#config_validation): wrong
-  [configuration](../../server/configuration/README.md) caught during
-  server startup.
+  [configuration](../../server/configuration/README.md) caught during server
+  startup.
 - [`CONFIG_RUNTIME`](#config_runtime): wrong
   [configuration](../../server/configuration/README.md) caught runtime.
 - [`FORMAT`](#format): internal error related to a specific
@@ -470,8 +469,8 @@ The request payload could not be loaded, parsed or
 
 ### `CONFIG_VALIDATION`
 
-Wrong [configuration](../../server/configuration/README.md) caught during
-server startup.
+Wrong [configuration](../../server/configuration/README.md) caught during server
+startup.
 
 [_HTTP status code_](../protocols/http.md#error-responses): none. It is thrown
 during server startup.
@@ -480,13 +479,11 @@ during server startup.
 
 [_Additional properties_](#error-responses):
 
-- path `{string}`: path to the invalid configuration key.
-  Example: `protocols.http.port`.
-- value `{any}`: value of the invalid configuration key.
-  Example: `-80`.
+- path `{string}`: path to the invalid configuration key. Example:
+  `protocols.http.port`.
+- value `{any}`: value of the invalid configuration key. Example: `-80`.
 - suggestions `{any[]}`: suggestions of possible valid values for the
-  configuration key.
-  Example: `[80]`.
+  configuration key. Example: `[80]`.
 
 ```json
 {
@@ -546,8 +543,8 @@ Internal error related to a specific [format](../protocols/formats.md) adapter.
 
 ### `CHARSET`
 
-Internal error related to a specific
-[charset](../protocols/formats.md#charsets) adapter.
+Internal error related to a specific [charset](../protocols/formats.md#charsets)
+adapter.
 
 [_HTTP status code_](../protocols/http.md#error-responses): `500`
 
@@ -649,8 +646,8 @@ Internal error related to a specific
 
 [_Additional properties_](#error-responses):
 
-- adapter `{string}`:
-  [log provider](../../server/quality/logging.md#providers) name
+- adapter `{string}`: [log provider](../../server/quality/logging.md#providers)
+  name
 
 ```json
 {

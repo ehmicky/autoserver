@@ -32,8 +32,8 @@ The following keywords are available:
   - `const` `{any}`: must equal that value
   - `enum` `{any[]}`: must equal one of those values
   - `required` `{boolean}`: checked on `upsert` and `create` commands.
-  - `dependencies` `{string|string[]}`: attributes that are required
-    for the current attribute to be defined.
+  - `dependencies` `{string|string[]}`: attributes that are required for the
+    current attribute to be defined.
 - used as combinators:
   - `not` `{json_schema}`
   - `allOf` `{json_schema[]}`
@@ -46,10 +46,11 @@ The following properties have a slightly different syntax than in
 
 The following properties are not available or are available under a different
 [configuration property](../configuration/configuration.md#properties): `type`,
-`description`, `examples`, `default`, `title`, `$id`, `$schema`, `$comment`, `readOnly`, `contentMediaType`, `contentEncoding`, `definitions`.
+`description`, `examples`, `default`, `title`, `$id`, `$schema`, `$comment`,
+`readOnly`, `contentMediaType`, `contentEncoding`, `definitions`.
 
-Since attributes cannot be objects, the following properties are also
-not available: `maxProperties`, `minProperties`, `additionalProperties`,
+Since attributes cannot be objects, the following properties are also not
+available: `maxProperties`, `minProperties`, `additionalProperties`,
 `properties`, `patternProperties`, `propertyNames`
 
 # Example
@@ -67,25 +68,23 @@ collections:
 
 # Custom validation
 
-If the JSON schema validation keywords are not sufficient, one can define
-custom ones using the `validation`
+If the JSON schema validation keywords are not sufficient, one can define custom
+ones using the `validation`
 [configuration property](../configuration/configuration.md#properties).
 
-This property is an object of validation keywords, where the key is the
-keyword name and the value an object with the properties:
+This property is an object of validation keywords, where the key is the keyword
+name and the value an object with the properties:
 
 - `test` [`{function}`](../configuration/functions.md): function that returns
-  `false` if the validation failed.
-  The [parameter](../configuration/functions.md#parameters) `arg` represents
-  the value passed to the keyword, and `value` represents the value to
-  validate.
-- `message` [`{string|function}`](../configuration/functions.md):
-  error message.
+  `false` if the validation failed. The
+  [parameter](../configuration/functions.md#parameters) `arg` represents the
+  value passed to the keyword, and `value` represents the value to validate.
+- `message` [`{string|function}`](../configuration/functions.md): error message.
   Can be [functions](../configuration/functions.md) with the
-  [parameter](../configuration/functions.md#parameters) `arg`.
-  Must start with `'must '`
-- `type` `{string[]}`: optionally restrict the attributes types that can
-  use that keyword
+  [parameter](../configuration/functions.md#parameters) `arg`. Must start with
+  `'must '`
+- `type` `{string[]}`: optionally restrict the attributes types that can use
+  that keyword
 
 ```yml
 validation:

@@ -15,9 +15,9 @@ The `id` [argument](../rpc/README.md#rpc) is similar to `filter: { id: "ID" }`,
 except:
 
 - the response will be a model instead of an array of models
-- [pagination](pagination.md) and [sorting](sorting.md) cannot
-  be used, i.e. the following [arguments](../rpc/README.md#rpc) are not
-  available: `pagesize`, `page`, `before`, `after`, `order`
+- [pagination](pagination.md) and [sorting](sorting.md) cannot be used, i.e. the
+  following [arguments](../rpc/README.md#rpc) are not available: `pagesize`,
+  `page`, `before`, `after`, `order`
 
 ```HTTP
 GET /rest/users/1
@@ -69,12 +69,12 @@ The following operators can be used for advanced filtering:
 - `_all`: all elements match the filter
 - `_some`: at least some elements match the filter
 
-`_like` and `_nlike` use regular expressions and are only available for
-string attributes.
+`_like` and `_nlike` use regular expressions and are only available for string
+attributes.
 
 `_all` and `_some` are only available for array attributes and array attributes
-can only use those operators. They take another filter object as input which
-is applied on each element of the array.
+can only use those operators. They take another filter object as input which is
+applied on each element of the array.
 
 # Examples
 
@@ -106,8 +106,8 @@ which, after URI encoding is:
 GET /rest/users/?filter.country._in=%5B%22Denmark%22,%22Germany%22%5D
 ```
 
-Searching for users whose name starts with `B` (the regular expression must
-also be URI encoded):
+Searching for users whose name starts with `B` (the regular expression must also
+be URI encoded):
 
 ```HTTP
 GET /rest/users/?filter.name._like=^B

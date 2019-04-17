@@ -40,8 +40,8 @@ PATCH /rest/users/1
 
 # Array attributes
 
-Some patch operators are specific to arrays, e.g. `_push` or `_pop`. Others
-are specific to scalar attributes, e.g. `_add`.
+Some patch operators are specific to arrays, e.g. `_push` or `_pop`. Others are
+specific to scalar attributes, e.g. `_add`.
 
 If a scalar patch operator is applied to an array attribute, it will be applied
 to each element of the array.
@@ -169,8 +169,8 @@ attribute, like `variable.replace(regExp, value)` in JavaScript. The argument
 must be an array with the following elements:
 
 - a regular expression, as a string: the pattern to replace
-- the new value, as a string. It can contain the `$1`, `$&`, etc. like
-  the `replace()` JavaScript function.
+- the new value, as a string. It can contain the `$1`, `$&`, etc. like the
+  `replace()` JavaScript function.
 - the regular expression flags. This is optional and defaults to `gi`
 
 ```HTTP
@@ -184,9 +184,9 @@ PATCH /rest/article/1
 The `_insertstr` operator inserts a string inside a `string` attribute at a
 given position. The argument must be an array with the following elements:
 
-- the position where to insert inside the string, as an integer.
-  It can be a positive integer (position from the beginning), a negative
-  integer (position from the end) or `null` (i.e. the end).
+- the position where to insert inside the string, as an integer. It can be a
+  positive integer (position from the beginning), a negative integer (position
+  from the end) or `null` (i.e. the end).
 - the new value, as a string.
 
 ```HTTP
@@ -197,15 +197,14 @@ PATCH /rest/article/1
 
 ## `_slicestr`
 
-The `_slicestr` operator extracts part of a `string` attribute at a given
-start and end position. The argument must be an array with the following
-elements:
+The `_slicestr` operator extracts part of a `string` attribute at a given start
+and end position. The argument must be an array with the following elements:
 
-- the position where the slice starts inside the string, as an integer.
-  It can be a positive integer (position from the beginning), a negative
-  integer (position from the end) or `null` (i.e. the end).
-- the position where the slice ends, using the same kind of integer.
-  It defaults to the end of the string.
+- the position where the slice starts inside the string, as an integer. It can
+  be a positive integer (position from the beginning), a negative integer
+  (position from the end) or `null` (i.e. the end).
+- the position where the slice ends, using the same kind of integer. It defaults
+  to the end of the string.
 
 ```HTTP
 PATCH /rest/article/1
@@ -218,9 +217,9 @@ PATCH /rest/article/1
 The `_insert` operator inserts some values inside an `array` attribute at a
 given position. The argument must be an array with the following elements:
 
-- the position where to insert inside the array, as an integer.
-  It can be a positive integer (position from the beginning), a negative
-  integer (position from the end) or `null` (i.e. the end).
+- the position where to insert inside the array, as an integer. It can be a
+  positive integer (position from the beginning), a negative integer (position
+  from the end) or `null` (i.e. the end).
 - the new values, as several arguments.
 
 ```HTTP
@@ -231,15 +230,14 @@ PATCH /rest/user/1
 
 ## `_slice`
 
-The `_slice` operator extracts part of an array attribute at a given
-start and end position. The argument must be an array with the following
-elements:
+The `_slice` operator extracts part of an array attribute at a given start and
+end position. The argument must be an array with the following elements:
 
-- the position where the slice starts inside the array, as an integer.
-  It can be a positive integer (position from the beginning), a negative
-  integer (position from the end) or `null` (i.e. the end).
-- the position where the slice ends, using the same kind of integer.
-  It defaults to the end of the array.
+- the position where the slice starts inside the array, as an integer. It can be
+  a positive integer (position from the beginning), a negative integer (position
+  from the end) or `null` (i.e. the end).
+- the position where the slice ends, using the same kind of integer. It defaults
+  to the end of the array.
 
 ```HTTP
 PATCH /rest/user/1
@@ -249,8 +247,8 @@ PATCH /rest/user/1
 
 ## `_push`
 
-The `_push` operator inserts some values at the end of an `array` attribute.
-The argument must be the values to insert.
+The `_push` operator inserts some values at the end of an `array` attribute. The
+argument must be the values to insert.
 
 ```HTTP
 PATCH /rest/user/1
@@ -271,8 +269,8 @@ PATCH /rest/user/1
 
 ## `_pop`
 
-The `_pop` operator removes the last value of an `array` attribute.
-The argument must always be `null`.
+The `_pop` operator removes the last value of an `array` attribute. The argument
+must always be `null`.
 
 ```HTTP
 PATCH /rest/user/1
@@ -282,8 +280,8 @@ PATCH /rest/user/1
 
 ## `_shift`
 
-The `_shift` operator removes the first value of an `array` attribute.
-The argument must always be `null`.
+The `_shift` operator removes the first value of an `array` attribute. The
+argument must always be `null`.
 
 ```HTTP
 PATCH /rest/user/1
@@ -293,8 +291,8 @@ PATCH /rest/user/1
 
 ## `_remove`
 
-The `_remove` operator removes values from an `array` attribute.
-The argument must be the set of values to remove.
+The `_remove` operator removes values from an `array` attribute. The argument
+must be the set of values to remove.
 
 ```HTTP
 PATCH /rest/user/1
@@ -304,9 +302,8 @@ PATCH /rest/user/1
 
 ## `_sort`
 
-The `_sort` operator sort the values of an `array` attribute.
-The argument must be either `asc` or `desc` to specify the sorting order.
-It defaults to `asc`.
+The `_sort` operator sort the values of an `array` attribute. The argument must
+be either `asc` or `desc` to specify the sorting order. It defaults to `asc`.
 
 ```HTTP
 PATCH /rest/user/1

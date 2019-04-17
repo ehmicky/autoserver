@@ -3,8 +3,8 @@
 Custom logic can be added by using functions in the
 [configuration](configuration.md).
 
-The following [configuration properties](configuration.md#properties)
-can use functions:
+The following [configuration properties](configuration.md#properties) can use
+functions:
 
 - [`attribute.authorize`](../data_model/authorization.md)
 - [`attribute.readonly`](../data_model/authorization.md#readonly-attributes)
@@ -96,12 +96,12 @@ collections:
 
 The following parameters are available to any function:
 
-- `requestid` `{string}` - UUID identifying the current request.
-  Also available in response's `metadata.requestid` property
+- `requestid` `{string}` - UUID identifying the current request. Also available
+  in response's `metadata.requestid` property
 - `timestamp` `{string}` - [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601),
   i.e. `YYYY-MM-DDTHH:MM:SS.SSS`
-- [`protocol`](../../client/protocols/README.md) `{string}`: possible value
-  is only `http`
+- [`protocol`](../../client/protocols/README.md) `{string}`: possible value is
+  only `http`
 - `ip` `{string}`: request IP
 - `origin` `{string}` - protocol + hostname + port
 - `path` `{string}` - only the URL path, with no query string nor hash
@@ -109,8 +109,7 @@ The following parameters are available to any function:
   method, e.g. `GET`
 - `queryvars` `{object}` - query variables, as an object
 - `headers` `{object}` - [protocol headers](../../client/protocols/README.md)
-  specific to the engine, for example HTTP headers starting with
-  `X-Autoserver-`
+  specific to the engine, for example HTTP headers starting with `X-Autoserver-`
 - `format` `{string}` - request payload and server response's
   [format](../../client/protocols/formats.md)
 - `charset` `{string}` - request payload's
@@ -120,10 +119,10 @@ The following parameters are available to any function:
 - `payload` `{any}` - request [payload](../../client/protocols/README.md)
 - `payloadsize` `{number}` - in bytes
 - `payloadcount` `{number}` - array length, if it is an array
-- [`rpc`](../../client/rpc/README.md) `{string}`: possible values are
-  `graphql`, `graphiql`, `graphqlprint`, `rest` or `jsonrpc`
-- `args` `{object}`: client [arguments](../../client/rpc/README.md#rpc)
-  passed to the request, e.g. `filter`
+- [`rpc`](../../client/rpc/README.md) `{string}`: possible values are `graphql`,
+  `graphiql`, `graphqlprint`, `rest` or `jsonrpc`
+- `args` `{object}`: client [arguments](../../client/rpc/README.md#rpc) passed
+  to the request, e.g. `filter`
 - `params` `{object}`: all
   [client-specific parameters](../../client/arguments/params.md)
 - `datasize` `{number}` - size of the `data`
@@ -133,8 +132,8 @@ The following parameters are available to any function:
 - `summary` `{string}` - summary of the request, e.g. `find_collection{child}`
 - `commandpaths` `{string[]}` - array with all `commandpath`
 - `collections` `{string[]}` - array with all `collection`
-- [`command`](../../client/request/crud.md) `{string}` - among `create`,
-  `find`, `upsert`, `patch` and `delete`
+- [`command`](../../client/request/crud.md) `{string}` - among `create`, `find`,
+  `upsert`, `patch` and `delete`
 - `serverinfo` `{object}`:
   - `host` `{object}`:
     - `id` `{UUID}`: unique to each host machine (using the MAC address)
@@ -150,15 +149,15 @@ The following parameters are available to any function:
     - `autoserver` `{string}` - `autoserver` version, e.g. `v0.0.1`
   - `process` `{object}`:
     - `id` `{integer}`: PID
-    - `name` `{string}`: defaults to system hostname, but can be overriden
-      using the configuration property `name`
+    - `name` `{string}`: defaults to system hostname, but can be overriden using
+      the configuration property `name`
 
 The following parameters are available to any function except
 [custom log providers](../quality/logging.md#custom-log-provider) and
 [server-specific parameters](#server-specific-parameters):
 
-- `commandpath` `{string}` - [command](../../client/request/crud.md) full
-  path, e.g. `""` (top-level) or `child.grand_child`
+- `commandpath` `{string}` - [command](../../client/request/crud.md) full path,
+  e.g. `""` (top-level) or `child.grand_child`
 - `collection` `{string}`: name of the
   [collection](../data_model/collections.md), e.g. `users`
 
@@ -167,19 +166,18 @@ The following parameters are available to any function except
 [server-specific parameters](#server-specific-parameters) and
 [custom patch operators](../data_model/patch.md#custom-operators):
 
-- `value` `{any}`: value of the current attribute.
-  E.g. `value === 'John'` checks whether the current value equals `John`
-- `model` `{object}`: current model.
-  E.g. `model.first_name === 'John'` checks whether the model's `first_name`
-  equals `John`
-- `previousvalue` `{any}`: value of the attribute.
-  If the current request is modified the current attribute, `previousvalue`
-  is the value before that modification, and `value` after that modification.
-- `previousmodel` `{object|undefined}`: model.
-  If the current request is modified the current model, `previousmodel` is
-  the value before that modification, and `model` after that modification.
-  If the current request is creating the model (with a `create` or `upsert`
-  action), this will be `undefined`.
+- `value` `{any}`: value of the current attribute. E.g. `value === 'John'`
+  checks whether the current value equals `John`
+- `model` `{object}`: current model. E.g. `model.first_name === 'John'` checks
+  whether the model's `first_name` equals `John`
+- `previousvalue` `{any}`: value of the attribute. If the current request is
+  modified the current attribute, `previousvalue` is the value before that
+  modification, and `value` after that modification.
+- `previousmodel` `{object|undefined}`: model. If the current request is
+  modified the current model, `previousmodel` is the value before that
+  modification, and `model` after that modification. If the current request is
+  creating the model (with a `create` or `upsert` action), this will be
+  `undefined`.
 
 The following parameters are available only to
 [custom log providers](../quality/logging.md#custom-log-provider):
@@ -202,11 +200,9 @@ The following parameters are available for more specific cases:
 
 - `arg1`, `arg2`, etc.: see
   [server-specific parameters](#server-specific-parameters)
-- `arg`: see
-  [custom validation](../data_model/validation.md#custom-validation) and
-  [custom patch operators](../data_model/patch.md#custom-operators)
-- `type`: see
-  [custom patch operators](../data_model/patch.md#custom-operators)
+- `arg`: see [custom validation](../data_model/validation.md#custom-validation)
+  and [custom patch operators](../data_model/patch.md#custom-operators)
+- `type`: see [custom patch operators](../data_model/patch.md#custom-operators)
 
 # Server-specific parameters
 
@@ -234,10 +230,9 @@ module.exports = getDefaultValue
 
 Server-specific parameters can be functions themselves:
 
-- parameters (including other server-specific parameters) will be
-  passed as the first argument like any other function. This will only be
-  done if the parameter is a function, as as opposed to an object with
-  function members.
+- parameters (including other server-specific parameters) will be passed as the
+  first argument like any other function. This will only be done if the
+  parameter is a function, as as opposed to an object with function members.
 - if the function is [inline](#inline-functions), positional arguments are
   passed using the parameters `arg1`, `arg2`, etc.
 

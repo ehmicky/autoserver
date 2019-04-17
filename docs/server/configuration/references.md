@@ -1,9 +1,9 @@
 # References
 
-The [configuration file](configuration.md#configuration-file) can be broken
-down into several files by referring to local files with
-[references](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03).
-Those are simple objects with a single `$ref` property pointing to the file.
+The [configuration file](configuration.md#configuration-file) can be broken down
+into several files by referring to local files with
+[references](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03). Those
+are simple objects with a single `$ref` property pointing to the file.
 
 ```yml
 collections:
@@ -11,8 +11,8 @@ collections:
     $ref: example_collection.yml
 ```
 
-References are deeply merged with their siblings, which allows you to
-extend a configuration from another configuration.
+References are deeply merged with their siblings, which allows you to extend a
+configuration from another configuration.
 
 ```yml
 $ref: base_config.yml

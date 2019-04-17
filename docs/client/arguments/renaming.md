@@ -31,6 +31,6 @@ instead of:
 }
 ```
 
-[GraphQL](../rpc/graphql.md#selection-population-and-renaming) does not need
-the `rename` [argument](../rpc/README.md#rpc) since it natively uses selection
+[GraphQL](../rpc/graphql.md#selection-population-and-renaming) does not need the
+`rename` [argument](../rpc/README.md#rpc) since it natively uses selection
 fields.

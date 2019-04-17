@@ -1,7 +1,7 @@
 # Endpoint
 
-[REST](https://en.wikipedia.org/wiki/Representational_state_transfer)
-is one of the available [RPC systems](README.md).
+[REST](https://en.wikipedia.org/wiki/Representational_state_transfer) is one of
+the available [RPC systems](README.md).
 
 Clients can make REST requests at either `//HOST/rest/COLLECTION/` or
 `//HOST/rest/COLLECTION/ID`.
@@ -37,8 +37,8 @@ surround the number with double quotes.
 Objects and arrays can be specified using either:
 
 - a dot notation, e.g. `filter.0.name=David`
-- a JSON value, e.g. `filter=[{ "name": "David" }]`, which after URL encoding
-  is `filter=%5B%7B%22name%22%3A%22David%22%7D%5D`
+- a JSON value, e.g. `filter=[{ "name": "David" }]`, which after URL encoding is
+  `filter=%5B%7B%22name%22%3A%22David%22%7D%5D`
 
 Like for any URL, the query variables must be
 [URL encoded](https://en.wikipedia.org/wiki/Percent-encoding) if they contain

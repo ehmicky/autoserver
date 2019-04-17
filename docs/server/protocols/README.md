@@ -1,7 +1,7 @@
 # Protocols
 
-Several network protocols can be handled at the same time, each spawning
-a single server. By default, all protocols are spawned.
+Several network protocols can be handled at the same time, each spawning a
+single server. By default, all protocols are spawned.
 
 # Options
 

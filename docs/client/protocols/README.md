@@ -2,8 +2,8 @@
 
 Client requests can use several protocols (only HTTP at the moment).
 
-Each protocol has its own way of specifying the request headers, method, URL
-and payload.
+Each protocol has its own way of specifying the request headers, method, URL and
+payload.
 
 For example, HTTP uses HTTP headers and HTTP method (e.g. `GET`).
 

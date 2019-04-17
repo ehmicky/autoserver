@@ -91,11 +91,11 @@ POST /rest/users/
 
 # Upsert command
 
-The `upsert` command performs a full modification of existing models.
-If the models do not exist, they are created instead.
+The `upsert` command performs a full modification of existing models. If the
+models do not exist, they are created instead.
 
-The `data` [argument](../rpc/README.md#rpc) is either a single object
-or an array of objects.
+The `data` [argument](../rpc/README.md#rpc) is either a single object or an
+array of objects.
 
 Each model must contain an `id` attribute.
 

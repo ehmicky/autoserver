@@ -4,11 +4,11 @@ The [configuration](../configuration/configuration.md) can be extended using
 plugins.
 
 Plugins are configured with the `plugins`
-[configuration property](../configuration/configuration.md#properties), which
-is an array of objects with properties:
+[configuration property](../configuration/configuration.md#properties), which is
+an array of objects with properties:
 
-- `plugin` [`{function}`](../configuration/functions.md) or `{string}`
-  (system plugins names)
+- `plugin` [`{function}`](../configuration/functions.md) or `{string}` (system
+  plugins names)
 - `opts` `{object}`: plugin-specific options
 - `enabled` `{boolean}`: defaults to true
 

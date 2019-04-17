@@ -16,8 +16,8 @@ collections:
 ```
 
 It is possible to differentiate between the name used server-side (anywhere in
-the [configuration](../configuration/configuration.md)) and client-side
-(in URLs, method names, error responses and documentation) by specifying the
+the [configuration](../configuration/configuration.md)) and client-side (in
+URLs, method names, error responses and documentation) by specifying the
 `collection.name`
 [configuration property](../configuration/configuration.md#properties).
 
@@ -31,8 +31,8 @@ collections:
     attributes: {}
 ```
 
-It is also possible to specify several client-side names, which will behave
-as aliases, by using an array of names in `collection.name`.
+It is also possible to specify several client-side names, which will behave as
+aliases, by using an array of names in `collection.name`.
 
 ```yml
 collections:
@@ -72,8 +72,8 @@ One can specify an `attribute.type` among:
 - `integer`
 - `number`: includes both floating number and integer
 - `boolean`
-- `COLLECTION`: where `COLLECTION` is the collection's name, e.g. `users`,
-  for [nested collections](relations.md)
+- `COLLECTION`: where `COLLECTION` is the collection's name, e.g. `users`, for
+  [nested collections](relations.md)
 - `string[]`, `integer[]`, `number[]`, `boolean[]` or `COLLECTION[]`: same but
   as an array
 

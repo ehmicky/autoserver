@@ -6,9 +6,9 @@ responses: [JSON](#json), [YAML](#yaml),
 [JSON5](#json5), [INI](#ini) and [raw](#raw).
 
 To specify which format to use in both the client request payload (if any is
-present) and the server response, use the query variable `?format=FORMAT` in
-the request URL, where `FORMAT` is `json`, `yaml`, `urlencoded`, `hjson`,
-`json5`, `ini` or `raw`.
+present) and the server response, use the query variable `?format=FORMAT` in the
+request URL, where `FORMAT` is `json`, `yaml`, `urlencoded`, `hjson`, `json5`,
+`ini` or `raw`.
 
 Most of the examples in this documentation use [JSON](#json) for the the client
 request payloads and the server responses.
@@ -51,9 +51,9 @@ This is the default format.
 
 # YAML
 
-Only JSON-compatible YAML is allowed. In particular the types `!!set`,
-`!!map`, `!!omap`, `!!pairs`, `!!seq`, `!!binary`, `undefined`, `regexp` and
-`function` are not allowed.
+Only JSON-compatible YAML is allowed. In particular the types `!!set`, `!!map`,
+`!!omap`, `!!pairs`, `!!seq`, `!!binary`, `undefined`, `regexp` and `function`
+are not allowed.
 
 ```yml
 # Comment
@@ -128,7 +128,7 @@ hostname=myhostname
 
 # Raw
 
-Any format that does not require specific parsing, including images,
-videos, unstructured text files and binary files.
+Any format that does not require specific parsing, including images, videos,
+unstructured text files and binary files.
 
 The server response will be using the default format, i.e. [JSON](#json).

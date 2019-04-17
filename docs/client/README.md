@@ -12,8 +12,8 @@ Any of the following [RPC systems](rpc/README.md) can be used:
 ## Request
 
 [Client requests](request/README.md) are regular
-[CRUD commands](request/crud.md).
-Advanced [`patch` commands](request/patch.md) can be performed.
+[CRUD commands](request/crud.md). Advanced [`patch` commands](request/patch.md)
+can be performed.
 
 [Nested collections](request/relations.md) can be manipulated on both read and
 write requests.
@@ -29,8 +29,8 @@ The following [arguments](arguments/README.md) are available:
 - [`filter`](arguments/filtering.md)
 - [`data`](request/crud.md#create-command)
 - [`order`](arguments/sorting.md)
-- [`populate`](request/relations.md#populating-nested-collections)
-  and [`cascade`](request/relations.md#deleting-nested-collections)
+- [`populate`](request/relations.md#populating-nested-collections) and
+  [`cascade`](request/relations.md#deleting-nested-collections)
 - pagination: [`pagesize`](arguments/pagination.md#page-size),
   [`page`](arguments/pagination.md#offset-pagination),
   [`after`](arguments/pagination.md#cursor-pagination) and

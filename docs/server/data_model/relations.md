@@ -1,7 +1,7 @@
 # Relations
 
-Collections can refer to each other by using the other collection's name as
-the `attribute.type`
+Collections can refer to each other by using the other collection's name as the
+`attribute.type`
 [configuration property](../configuration/configuration.md#properties), either
 as a scalar value or an array, for one-to-one or one-to-many relationship.
 

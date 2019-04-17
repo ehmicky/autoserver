@@ -5,13 +5,13 @@
 
 Both JSON-RPC 1.0 and 2.0 are supported.
 
-Clients can query the GraphQL server at `//HOST/jsonrpc`.
-The `POST` [protocol method](../protocols/README.md) must be used.
+Clients can query the GraphQL server at `//HOST/jsonrpc`. The `POST`
+[protocol method](../protocols/README.md) must be used.
 
 # Command and arguments
 
-The collection and the [command](README.md#rpc) are specified using the
-JSON-RPC `method` field.
+The collection and the [command](README.md#rpc) are specified using the JSON-RPC
+`method` field.
 
 For example `{ "method": "find_users" }` specifies the `users` collection and
 the `find` command.
@@ -50,8 +50,8 @@ Fetching `users` with `id` `1`:
 # Error responses
 
 JSON-RPC error responses follow the usual error
-[response format](../request/error.md#error-responses), with some changes
-to accomodate the JSON-RPC spec:
+[response format](../request/error.md#error-responses), with some changes to
+accomodate the JSON-RPC spec:
 
 - the main response's envelope conforms to JSON-RPC, e.g. it has an
   [error code](../request/error.md#error-types). See the previous link for a

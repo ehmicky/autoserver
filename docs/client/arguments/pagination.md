@@ -38,8 +38,8 @@ across all batches.
 # Backward iteration
 
 To iterate through batches backward, use the `before`
-[argument](../rpc/README.md#rpc) instead of `after`.
-Start the iteration with the `last_token` which is always an empty string.
+[argument](../rpc/README.md#rpc) instead of `after`. Start the iteration with
+the `last_token` which is always an empty string.
 
 ```HTTP
 GET /rest/users/?before=
@@ -62,15 +62,14 @@ GET /rest/users/?before=
 }
 ```
 
-`prev_token` and `has_prev_page` should then be used instead of `next_token`
-and `has_next_page`.
+`prev_token` and `has_prev_page` should then be used instead of `next_token` and
+`has_next_page`.
 
 # Page size
 
 The page size is determined by the server using the `limits.pagesize`
 [configuration property](../../server/configuration/configuration.md#properties),
-which defaults to `100`.
-Setting it to `0` will disable pagination.
+which defaults to `100`. Setting it to `0` will disable pagination.
 
 Clients can decrease the page size by using the `pagesize`
 [argument](../rpc/README.md#rpc).
@@ -79,8 +78,8 @@ Clients can decrease the page size by using the `pagesize`
 GET /rest/users/?pagesize=20
 ```
 
-The actually used page size is returned in `metadata.pages.pagesize` and can
-be smaller than the requested page size.
+The actually used page size is returned in `metadata.pages.pagesize` and can be
+smaller than the requested page size.
 
 # Offset pagination
 
@@ -110,15 +109,15 @@ GET /rest/users/?pagesize=20&page=5
 Offset pagination is easier as it does not involve cursors. Also, it allows
 client to query a page in a non-serial fashion (random access).
 
-However, cursor pagination provides stronger consistency guarantees.
-If the collection is being modified while the pagination iteration is ongoing,
-cursor pagination offers a much lower chance of either retrieving duplicate
-models or skipping some models.
+However, cursor pagination provides stronger consistency guarantees. If the
+collection is being modified while the pagination iteration is ongoing, cursor
+pagination offers a much lower chance of either retrieving duplicate models or
+skipping some models.
 
 # Other commands
 
-[`patch` commands](../request/crud.md#patch-command) are also paginated.
-However offset pagination and backward iterations are not available.
+[`patch` commands](../request/crud.md#patch-command) are also paginated. However
+offset pagination and backward iterations are not available.
 
 [`delete`](../request/crud.md#delete-command),
 [`create`](../request/crud.md#create-command) and
@@ -163,14 +162,14 @@ limit.
 ```
 
 In the example above, the `friends` attributes contain only the first `10`
-nested models, as indicated by `metadata.pages.nested_pagesize`. If no
-attribute was truncated, `nested_pagesize` would not be defined.
+nested models, as indicated by `metadata.pages.nested_pagesize`. If no attribute
+was truncated, `nested_pagesize` would not be defined.
 
 The `nested_pagesize` is calculated by the server depending on `maxmodels`.
 
 Also, it is only possible to query collections at the top level or the second
-level of depth. This means only collections at the second level of depth will
-be truncated.
+level of depth. This means only collections at the second level of depth will be
+truncated.
 
 ## `patch`, `create`, `upsert`
 

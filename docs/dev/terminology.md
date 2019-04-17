@@ -1,7 +1,7 @@
 # Concepts
 
-This project is rather generic and conceptual, so we define specific words
-in order to avoid any confusion between similar concepts.
+This project is rather generic and conceptual, so we define specific words in
+order to avoid any confusion between similar concepts.
 
 Also we try to enforce using the same words between the code base, the API and
 the documentation.
@@ -83,8 +83,8 @@ Arguments passed to
 
 Variable, from a programming point of view.
 
-Also used for query variables, path variables, GraphQL variables and
-environment variables.
+Also used for query variables, path variables, GraphQL variables and environment
+variables.
 
 ## Action
 
@@ -94,9 +94,9 @@ E.g. in GraphQL, `find_users(...) { ... }`
 
 ## Command
 
-Actual database query, from a server perspective. An action is converted to
-one or several commands. E.g. a `patch` command will first trigger a `find`
-command to query the current models to patch.
+Actual database query, from a server perspective. An action is converted to one
+or several commands. E.g. a `patch` command will first trigger a `find` command
+to query the current models to patch.
 
 ## Functions
 
@@ -117,8 +117,8 @@ Response of the request, i.e. what the client receives
 
 ## Result
 
-Database query result. Each request usually assemble several results into
-a single response.
+Database query result. Each request usually assemble several results into a
+single response.
 
 ## Response type
 
@@ -152,13 +152,12 @@ another collection
 
 ## Target collection
 
-[Collection](../server/data_model/relations.md) targeted by a nested
-collection
+[Collection](../server/data_model/relations.md) targeted by a nested collection
 
 ## Attribute
 
-A collection's [attribute](../server/data_model/collections.md#attributes),
-i.e. like a database column or key
+A collection's [attribute](../server/data_model/collections.md#attributes), i.e.
+like a database column or key
 
 ## Property
 

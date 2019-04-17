@@ -19,6 +19,6 @@ GET /rest/users/1?select=name
 }
 ```
 
-[GraphQL](../rpc/graphql.md#selection-population-and-renaming) does not need
-the `select` [argument](../rpc/README.md#rpc) since it natively uses selection
+[GraphQL](../rpc/graphql.md#selection-population-and-renaming) does not need the
+`select` [argument](../rpc/README.md#rpc) since it natively uses selection
 fields.

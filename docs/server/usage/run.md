@@ -45,13 +45,12 @@ To stop the server, you can:
 
 - using the `PID`, fire `process.kill(pid)` from Node.js
 - using the `PID`, fire `kill $pid` from the console
-- type `CTRL-C` if the server is running in the console foreground.
-  Type this only once, not twice, or the server will not properly shut down.
+- type `CTRL-C` if the server is running in the console foreground. Type this
+  only once, not twice, or the server will not properly shut down.
 
 The `PID` (process ID) is available:
 
-- using the
-  [`serverinfo.process.id`](../configuration/functions.md#parameters)
+- using the [`serverinfo.process.id`](../configuration/functions.md#parameters)
   parameter. This parameter is also available in the resolved value of the
   promise returned by [`autoserver.run()`](#node.js).
 - printed on the console by the

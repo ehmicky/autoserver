@@ -25,13 +25,13 @@ autoserver.run()
 ## Configuration
 
 The [configuration](configuration/README.md) can be passed directly as
-[command line](usage/README.md#usage) or
-[Node.js](usage/README.md#node.js) options, but is usually specified using a
+[command line](usage/README.md#usage) or [Node.js](usage/README.md#node.js)
+options, but is usually specified using a
 [configuration file](configuration/configuration.md#configuration-file) named
 `autoserver.config.yml` in the current directory.
 
-It can be divided into [several files](configuration/references.md),
-use custom [functions](configuration/functions.md) or import
+It can be divided into [several files](configuration/references.md), use custom
+[functions](configuration/functions.md) or import
 [Node.js modules](configuration/references.md#node.js-modules).
 
 ```yml
@@ -98,8 +98,7 @@ automatically adding [timestamps](plugins/timestamp.md) and
 The following can also be [configured](quality/README.md):
 [logging](quality/logging.md),
 [performance monitoring](quality/logging.md#performance-monitoring),
-[API documentation](quality/documentation.md) and
-[limits](quality/limits.md).
+[API documentation](quality/documentation.md) and [limits](quality/limits.md).
 
 ## Protocols
 
