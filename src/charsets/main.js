@@ -1,9 +1,14 @@
-import encodings from 'iconv-lite/encodings'
+import iconv from 'iconv-lite'
 
 import { omitBy } from '../utils/functional/filter.js'
 
 import { validateCharset } from './validate.js'
 import { decodeCharset } from './transform.js'
+
+// `iconv.encodings` is lazily set, i.e. we need to do this noop
+iconv.getCodec('binary')
+
+const { encodings } = iconv
 
 // Normalize charset, including adding defaults and validating
 export const getCharset = function(charset, { format } = {}) {
