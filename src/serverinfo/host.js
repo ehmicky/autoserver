@@ -9,6 +9,7 @@ import {
   networkInterfaces as getNetworkInterfaces,
 } from 'os'
 
+// eslint-disable-next-line import/extensions
 import uuidv5 from 'uuid/v5'
 
 // Retrieve host-specific information
