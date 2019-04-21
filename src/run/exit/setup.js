@@ -1,7 +1,6 @@
 import process from 'process'
 
-// Avoid requiring `signal-exit` directly as it adds a global EventEmitter
-import EXIT_SIGNALS from 'signal-exit/signals'
+import { signals } from 'signal-exit'
 
 import { gracefulExit } from './graceful_exit.js'
 
@@ -29,7 +28,8 @@ export const setupGracefulExit = function({
 
 // Add `SIGUSR2` for Nodemon
 const getExitSignals = function() {
-  return EXIT_SIGNALS.includes('SIGUSR2')
-    ? EXIT_SIGNALS
-    : [...EXIT_SIGNALS, 'SIGUSR2']
+  const exitSignals = signals()
+  return exitSignals.includes('SIGUSR2')
+    ? exitSignals
+    : [...exitSignals, 'SIGUSR2']
 }
