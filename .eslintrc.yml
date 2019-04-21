@@ -1,1 +1,17 @@
 extends: standard-prettier-fp/.eslintrc.yml
+rules:
+  import/no-unused-modules:
+    - 2
+    - unusedExports: true
+      missingExports: true
+      src: [src/]
+      ignoreExports:
+        - '*.md'
+        - '**/*.md'
+        - examples/**/*.js
+        - test/**/*.js
+        - gulp/**/*.js
+        - gulpfile.js
+        - ava.config.js
+        - src/main.js
+        - src/bin/main.js
