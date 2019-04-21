@@ -21,7 +21,7 @@ export const fireCachedFunc = function(func, { path, cache, stack }) {
   return content
 }
 
-export const validateRecursion = function({ path, stack }) {
+const validateRecursion = function({ path, stack }) {
   if (!stack.includes(path)) {
     return [...stack, path]
   }
