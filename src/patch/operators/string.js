@@ -5,7 +5,6 @@ export const _replace = {
   argument: ['string[]'],
 
   check({ arg: opVal }) {
-    // eslint-disable-next-line no-magic-numbers
     const isValid = opVal.length <= 3 && opVal.length >= 2
 
     if (!isValid) {
