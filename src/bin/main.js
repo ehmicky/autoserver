@@ -11,7 +11,6 @@ const startCli = async function() {
   const measures = []
   const { instruction, opts } = parseInput({ measures })
 
-  // eslint-disable-next-line import/namespace
   await instructions[instruction]({ ...opts, measures })
 }
 
