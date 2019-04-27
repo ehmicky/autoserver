@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import { exit } from 'process'
 
-// eslint-disable-next-line import/no-namespace
 import * as instructions from '../main.js'
 import { addErrorHandler } from '../errors/handler.js'
 
