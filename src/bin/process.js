@@ -8,13 +8,8 @@ import { availableInstructions } from './available.js'
 
 // Process options after parsing
 export const processOpts = function({ opts }) {
-  const {
-    // Positional arguments
-    // eslint-disable-next-line id-length
-    _: posArgs,
-    ...optsA
-    // Remove parser-specific values
-  } = omit(opts, parserOpts)
+  // Remove parser-specific values
+  const { _: posArgs, ...optsA } = omit(opts, parserOpts)
 
   const { instruction, posArgs: posArgsA } = getInstruction({ posArgs })
 
