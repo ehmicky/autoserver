@@ -1,27 +1,27 @@
 import { isObject } from '../../utils/functional/type.js'
 
-import { _or, _and } from './or_and.js'
-import { _some, _all } from './some_all.js'
-import { _eq, _neq } from './eq_neq.js'
-import { _lt, _gt, _lte, _gte } from './lt_gt_lte_gte.js'
-import { _in, _nin } from './in_nin.js'
-import { _like, _nlike } from './like_nlike.js'
+import { or, and } from './or_and.js'
+import { some, all } from './some_all.js'
+import { eq, neq } from './eq_neq.js'
+import { lt, gt, lte, gte } from './lt_gt_lte_gte.js'
+import { inOperator, nin } from './in_nin.js'
+import { like, nlike } from './like_nlike.js'
 
 const OPERATORS = {
-  _or,
-  _and,
-  _some,
-  _all,
-  _eq,
-  _neq,
-  _lt,
-  _gt,
-  _lte,
-  _gte,
-  _in,
-  _nin,
-  _like,
-  _nlike,
+  _or: or,
+  _and: and,
+  _some: some,
+  _all: all,
+  _eq: eq,
+  _neq: neq,
+  _lt: lt,
+  _gt: gt,
+  _lte: lte,
+  _gte: gte,
+  _in: inOperator,
+  _nin: nin,
+  _like: like,
+  _nlike: nlike,
 }
 
 export const getOperator = function({ node }) {

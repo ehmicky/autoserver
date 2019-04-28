@@ -58,14 +58,12 @@ const evalNlike = function({ attr, value }) {
   return !regExp.test(attr)
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _like = {
+export const like = {
   parse: parseLikeNlike,
   validate: validateLikeNlike,
   eval: evalLike,
 }
-// eslint-disable-next-line no-underscore-dangle
-export const _nlike = {
+export const nlike = {
   parse: parseLikeNlike,
   validate: validateLikeNlike,
   eval: evalNlike,

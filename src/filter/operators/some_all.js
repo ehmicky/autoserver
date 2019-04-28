@@ -1,5 +1,5 @@
 import { validateArray } from './common.js'
-import { _and as and } from './or_and.js'
+import { and } from './or_and.js'
 
 const parseSomeAll = function({ value, parseOperations }) {
   return parseOperations({ operations: value })
@@ -39,15 +39,13 @@ const arrayMatcher = function({
   return and.eval({ attrs: attr, value: valueA, partialNames, evalFilter })
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _some = {
+export const some = {
   parse: parseSomeAll,
   optimize: optimizeSomeAll,
   validate: validateArray,
   eval: evalSome,
 }
-// eslint-disable-next-line no-underscore-dangle
-export const _all = {
+export const all = {
   parse: parseSomeAll,
   optimize: optimizeSomeAll,
   validate: validateArray,

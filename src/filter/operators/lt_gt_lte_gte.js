@@ -20,26 +20,22 @@ const evalGte = function({ attr, value }) {
   return attr >= value
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _lt = {
+export const lt = {
   parse: parseAsIs,
   validate: validateSameType,
   eval: evalLt,
 }
-// eslint-disable-next-line no-underscore-dangle
-export const _gt = {
+export const gt = {
   parse: parseAsIs,
   validate: validateSameType,
   eval: evalGt,
 }
-// eslint-disable-next-line no-underscore-dangle
-export const _lte = {
+export const lte = {
   parse: parseAsIs,
   validate: validateSameType,
   eval: evalLte,
 }
-// eslint-disable-next-line no-underscore-dangle
-export const _gte = {
+export const gte = {
   parse: parseAsIs,
   validate: validateSameType,
   eval: evalGte,

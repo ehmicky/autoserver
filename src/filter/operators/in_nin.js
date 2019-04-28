@@ -22,7 +22,9 @@ const evalNin = function({ attr, value }) {
   return !value.includes(attr)
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _in = { parse: parseAsIs, validate: validateInNin, eval: evalIn }
-// eslint-disable-next-line no-underscore-dangle
-export const _nin = { parse: parseAsIs, validate: validateInNin, eval: evalNin }
+export const inOperator = {
+  parse: parseAsIs,
+  validate: validateInNin,
+  eval: evalIn,
+}
+export const nin = { parse: parseAsIs, validate: validateInNin, eval: evalNin }

@@ -12,14 +12,12 @@ const evalNeq = function({ attr, value }) {
   return !isEqual(attr, value)
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _eq = {
+export const eq = {
   parse: parseAsIs,
   validate: validateSameType,
   eval: evalEq,
 }
-// eslint-disable-next-line no-underscore-dangle
-export const _neq = {
+export const neq = {
   parse: parseAsIs,
   validate: validateSameType,
   eval: evalNeq,

@@ -1,6 +1,6 @@
 const parseOr = function({ value, parseOperations, throwErr }) {
-  return value.flatMap(and =>
-    parseOperations({ operations: { _and: and }, throwErr }),
+  return value.flatMap(_and =>
+    parseOperations({ operations: { _and }, throwErr }),
   )
 }
 
@@ -96,7 +96,5 @@ const evalOr = evalOrAnd.bind(null, '_or')
 // Several fields inside a filter object
 const evalAnd = evalOrAnd.bind(null, '_and')
 
-// eslint-disable-next-line no-underscore-dangle
-export const _or = { parse: parseOr, optimize: optimizeOr, eval: evalOr }
-// eslint-disable-next-line no-underscore-dangle
-export const _and = { parse: parseAnd, optimize: optimizeAnd, eval: evalAnd }
+export const or = { parse: parseOr, optimize: optimizeOr, eval: evalOr }
+export const and = { parse: parseAnd, optimize: optimizeAnd, eval: evalAnd }
