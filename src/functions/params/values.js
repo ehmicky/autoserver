@@ -1,9 +1,10 @@
-/* eslint-disable max-lines, max-lines-per-function */
+/* eslint-disable max-lines */
 import { getStandardError } from '../../errors/standard.js'
 import { makeImmutable } from '../../utils/functional/immutable.js'
 import { getServerinfo } from '../../serverinfo/main.js'
 
 // Retrieve all parameters
+// eslint-disable-next-line max-lines-per-function
 export const getParams = function(
   mInput,
   {
@@ -139,4 +140,4 @@ export const getModelParams = function({ model, previousmodel, attrName }) {
 
   return { model, value, previousmodel, previousvalue }
 }
-/* eslint-enable max-lines, max-lines-per-function */
+/* eslint-enable max-lines */
