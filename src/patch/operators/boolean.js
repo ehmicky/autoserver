@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-underscore-dangle
-export const _invert = {
+export const invert = {
   attribute: ['boolean'],
 
   argument: ['empty'],

@@ -1,27 +1,27 @@
-import { _set } from './generic.js'
-import { _add, _sub, _div, _mul } from './number.js'
-import { _invert } from './boolean.js'
-import { _replace } from './string.js'
-import { _push, _unshift, _pop, _shift, _remove, _sort } from './array.js'
-import { _slicestr, _slice, _insert, _insertstr } from './slice.js'
+import { set } from './generic.js'
+import { add, sub, div, mul } from './number.js'
+import { invert } from './boolean.js'
+import { replace } from './string.js'
+import { push, unshift, pop, shift, remove, sort } from './array.js'
+import { slicestr, slice, insert, insertstr } from './slice.js'
 
 // All patch operators
 export const OPERATORS = {
-  _set,
-  _add,
-  _sub,
-  _div,
-  _mul,
-  _invert,
-  _replace,
-  _push,
-  _unshift,
-  _pop,
-  _shift,
-  _remove,
-  _sort,
-  _slicestr,
-  _slice,
-  _insert,
-  _insertstr,
+  _set: set,
+  _add: add,
+  _sub: sub,
+  _div: div,
+  _mul: mul,
+  _invert: invert,
+  _replace: replace,
+  _push: push,
+  _unshift: unshift,
+  _pop: pop,
+  _shift: shift,
+  _remove: remove,
+  _sort: sort,
+  _slicestr: slicestr,
+  _slice: slice,
+  _insert: insert,
+  _insertstr: insertstr,
 }

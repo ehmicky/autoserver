@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-underscore-dangle
-export const _set = {
+export const set = {
   apply({ arg: opVal }) {
     return opVal
   },

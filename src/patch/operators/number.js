@@ -19,8 +19,7 @@ const checkInteger = function({ opVal, attrType }) {
   return `the argument must be an integer instead of ${opVal}`
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _add = {
+export const add = {
   ...commonChecks(0),
 
   apply({ value: attrVal = 0, arg: opVal = 0 }) {
@@ -28,8 +27,7 @@ export const _add = {
   },
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _sub = {
+export const sub = {
   ...commonChecks(0),
 
   apply({ value: attrVal = 0, arg: opVal = 0 }) {
@@ -37,8 +35,7 @@ export const _sub = {
   },
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _mul = {
+export const mul = {
   ...commonChecks(1),
 
   apply({ value: attrVal = 0, arg: opVal = 1 }) {
@@ -46,8 +43,7 @@ export const _mul = {
   },
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _div = {
+export const div = {
   ...commonTypes,
 
   check({ arg: opVal = 1, type: attrType }) {

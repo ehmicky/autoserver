@@ -23,8 +23,7 @@ const commonEmptyAttrs = {
   argument: ['empty'],
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _push = {
+export const push = {
   ...commonAttrs,
 
   apply({ value: attrVal = [], arg: opVal = [] }) {
@@ -32,8 +31,7 @@ export const _push = {
   },
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _unshift = {
+export const unshift = {
   ...commonAttrs,
 
   apply({ value: attrVal = [], arg: opVal = [] }) {
@@ -41,8 +39,7 @@ export const _unshift = {
   },
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _pop = {
+export const pop = {
   ...commonEmptyAttrs,
 
   apply({ value: attrVal = [] }) {
@@ -50,8 +47,7 @@ export const _pop = {
   },
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _shift = {
+export const shift = {
   ...commonEmptyAttrs,
 
   apply({ value: attrVal = [] }) {
@@ -59,8 +55,7 @@ export const _shift = {
   },
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _remove = {
+export const remove = {
   ...commonAttrs,
 
   apply({ value: attrVal = [], arg: opVal = [] }) {
@@ -68,8 +63,7 @@ export const _remove = {
   },
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _sort = {
+export const sort = {
   attribute: ANY_ARRAY,
 
   argument: ['string'],

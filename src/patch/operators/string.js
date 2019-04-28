@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-underscore-dangle
-export const _replace = {
+export const replace = {
   attribute: ['string'],
 
   argument: ['string[]'],

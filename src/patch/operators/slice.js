@@ -34,8 +34,7 @@ const sliceApply = function({ attrVal, start, end }) {
   return attrVal.slice(startA, endA)
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _slicestr = {
+export const slicestr = {
   ...commonAttrs,
 
   attribute: ['string'],
@@ -45,8 +44,7 @@ export const _slicestr = {
   },
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _slice = {
+export const slice = {
   ...commonAttrs,
 
   attribute: ANY_ARRAY,
@@ -63,8 +61,7 @@ const insertApply = function({ index, attrVal }) {
   return { start, end }
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _insertstr = {
+export const insertstr = {
   attribute: ['string'],
 
   argument: ['integer[]', 'empty[]', 'string[]'],
@@ -91,8 +88,7 @@ const isValidInsertstr = function({ opVal }) {
   )
 }
 
-// eslint-disable-next-line no-underscore-dangle
-export const _insert = {
+export const insert = {
   attribute: ANY_ARRAY,
 
   argument: ANY_ARRAY,
