@@ -27,8 +27,8 @@ const startNodemon = async function(config) {
   const nodemon = new Nodemon(config)
 
   // Otherwise Nodemon's log does not appear
-  // eslint-disable-next-line no-restricted-globals
-  nodemon.on('log', ({ colour }) => global.console.log(colour))
+  // eslint-disable-next-line no-console, no-restricted-globals
+  nodemon.on('log', ({ colour }) => console.log(colour))
 
   await promisify(nodemon.on.bind(nodemon))('start')
 }
