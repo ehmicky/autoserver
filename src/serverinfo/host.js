@@ -9,8 +9,7 @@ import {
   networkInterfaces as getNetworkInterfaces,
 } from 'os'
 
-// eslint-disable-next-line import/extensions
-import uuidv5 from 'uuid/v5'
+import uuidv5 from 'uuid/v5.js'
 
 // Retrieve host-specific information
 export const getHostInfo = function() {
