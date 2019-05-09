@@ -86,7 +86,7 @@
     "moize": "^5.4.4",
     "mongodb": "^2.2.36",
     "mustache": "^2.3.2",
-    "negotiator": "^0.6.1",
+    "negotiator": "^0.6.2",
     "parse-prefer-header": "^1.0.0",
     "path-to-regexp": "^3.0.0",
     "pluralize": "^7.0.0",
