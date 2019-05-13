@@ -100,7 +100,7 @@
     "underscore.string": "^3.3.5",
     "uuid": "^3.3.2",
     "vary": "^1.1.2",
-    "yargs": "^13.2.2"
+    "yargs": "^13.2.4"
   },
   "devDependencies": {
     "ava": "^1.4.1",
