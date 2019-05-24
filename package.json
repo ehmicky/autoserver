@@ -107,7 +107,7 @@
     "cross-fetch": "^3.0.2",
     "execa": "^1.0.0",
     "gulp": "^4.0.2",
-    "gulp-execa": "^0.5.3",
+    "gulp-execa": "^0.5.4",
     "gulp-shared-tasks": "^0.27.76",
     "husky": "^2.3.0",
     "nodemon": "^1.19.0"
