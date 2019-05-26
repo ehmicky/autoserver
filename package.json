@@ -89,7 +89,7 @@
     "negotiator": "^0.6.2",
     "parse-prefer-header": "^1.0.0",
     "path-to-regexp": "^3.0.0",
-    "pluralize": "^7.0.0",
+    "pluralize": "^8.0.0",
     "qs": "^6.7.0",
     "raw-body": "^2.4.0",
     "read-pkg-up": "^6.0.0",
