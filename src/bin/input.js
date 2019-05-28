@@ -13,6 +13,7 @@ const mParseInput = function() {
   return { instruction, opts: optsA }
 }
 
+// eslint-disable-next-line import/no-unused-modules
 export const parseInput = monitor(mParseInput, 'cli')
 
 // CLI options parsing
