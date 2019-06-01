@@ -103,7 +103,7 @@
     "yargs": "^13.2.4"
   },
   "devDependencies": {
-    "ava": "^1.4.1",
+    "ava": "^2.0.0",
     "cross-fetch": "^3.0.3",
     "execa": "^1.0.0",
     "gulp": "^4.0.2",
