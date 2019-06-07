@@ -19,9 +19,7 @@ export const validateMaxmodels = function({ results, allIds, maxmodels, top }) {
     return
   }
 
-  const message = `The response must contain at most ${maxmodels} models, including nested models, but there are ${
-    results.count
-  } of them`
+  const message = `The response must contain at most ${maxmodels} models, including nested models, but there are ${results.count} of them`
   throwPb({
     reason: 'PAYLOAD_LIMIT',
     message,

@@ -44,9 +44,7 @@ export const errorMessages = {
   maxItems: ({ params: { limit } }) =>
     ` must contains at most ${pluralize('item', limit, true)}`,
   uniqueItems: ({ params }) =>
-    ` must not contain any duplicated item, but items number ${params.j} and ${
-      params.i
-    } are identical`,
+    ` must not contain any duplicated item, but items number ${params.j} and ${params.i} are identical`,
 
   // JSON schema keywords for `object` type
   minProperties: ({ params: { limit } }) =>

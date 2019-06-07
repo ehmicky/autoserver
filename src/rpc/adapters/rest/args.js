@@ -75,9 +75,7 @@ const validateId = function({ data, id }) {
   }
 
   if (data.id !== id) {
-    const message = `The model's 'id' is '${
-      data.id
-    }' in the request payload but is '${id}' in the URL`
+    const message = `The model's 'id' is '${data.id}' in the request payload but is '${id}' in the URL`
     throwError(message, { reason: 'VALIDATION' })
   }
 }

@@ -77,9 +77,7 @@ const decodeCharset = function({ content, charset }) {
 const eDecodeCharset = addGenPbHandler(decodeCharset, {
   reason: 'REQUEST_NEGOTIATION',
   message: ({ charset }) =>
-    `The request payload could not be decoded using the charset '${
-      charset.name
-    }'`,
+    `The request payload could not be decoded using the charset '${charset.name}'`,
   extra: { kind: 'charset' },
 })
 

@@ -62,9 +62,7 @@ const validateForbiddenId = function({ datum, commandpath, command }) {
   }
 
   const rightArg = command.multiple ? 'filter' : 'id'
-  const message = `'data' argument at '${commandpath}' must not have an 'id' attribute '${
-    datum.id
-  }'. 'patch' commands cannot specify 'id' attributes in 'data' argument, because ids cannot be changed. Use '${rightArg}' argument instead.`
+  const message = `'data' argument at '${commandpath}' must not have an 'id' attribute '${datum.id}'. 'patch' commands cannot specify 'id' attributes in 'data' argument, because ids cannot be changed. Use '${rightArg}' argument instead.`
   throwError(message, { reason: 'VALIDATION' })
 }
 
