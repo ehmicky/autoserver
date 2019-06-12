@@ -109,7 +109,7 @@
     "gulp": "^4.0.2",
     "gulp-execa": "^0.7.0",
     "gulp-shared-tasks": "^0.29.18",
-    "husky": "^2.4.0",
+    "husky": "^2.4.1",
     "nodemon": "^1.19.1"
   },
   "engines": {
