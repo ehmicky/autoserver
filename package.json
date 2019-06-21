@@ -108,7 +108,7 @@
     "execa": "^1.0.0",
     "gulp": "^4.0.2",
     "gulp-execa": "^0.8.0",
-    "gulp-shared-tasks": "^0.30.0",
+    "gulp-shared-tasks": "^0.30.1",
     "husky": "^2.4.1",
     "nodemon": "^1.19.1"
   },
