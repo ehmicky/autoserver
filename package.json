@@ -105,7 +105,7 @@
   "devDependencies": {
     "ava": "^2.1.0",
     "cross-fetch": "^3.0.4",
-    "execa": "^1.0.0",
+    "execa": "^2.0.0",
     "gulp": "^4.0.2",
     "gulp-execa": "^0.8.0",
     "gulp-shared-tasks": "^0.30.7",
