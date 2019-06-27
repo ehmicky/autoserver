@@ -10,22 +10,30 @@ const BINARY_PATH = `${__dirname}/../src/bin/main.js`
 const EXAMPLE_DIR = `${__dirname}/../../examples`
 
 test('Smoke test', async t => {
-  const childProcess = execa(BINARY_PATH, {
+  const server = execa(BINARY_PATH, {
     env: { NODE_ENV: 'dev' },
     cwd: EXAMPLE_DIR,
   })
   const [{ stdout, stderr }] = await Promise.all([
-    childProcess,
-    request(childProcess),
+    getOutput(server),
+    request(server),
   ])
   const message = normalizeStdout({ stdout })
   t.snapshot({ message, stderr })
 })
 
-const request = async function(childProcess) {
+const getOutput = async function(server) {
+  try {
+    await server
+  } catch (error) {
+    return error
+  }
+}
+
+const request = async function(server) {
   await pSetTimeout(STARTUP_TIMEOUT)
   await fetch('http://localhost:5001/rest/pets/2')
-  childProcess.kill()
+  server.kill('SIGKILL')
 }
 
 const normalizeStdout = function({ stdout }) {
