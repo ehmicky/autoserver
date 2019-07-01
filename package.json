@@ -106,6 +106,7 @@
     "ava": "^2.1.0",
     "cross-fetch": "^3.0.4",
     "execa": "^2.0.2",
+    "get-bin-path": "0.0.1",
     "gulp": "^4.0.2",
     "gulp-execa": "^1.0.0",
     "gulp-shared-tasks": "^0.30.12",

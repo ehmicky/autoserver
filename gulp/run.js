@@ -2,13 +2,17 @@ import { promisify } from 'util'
 
 import Nodemon from 'nodemon'
 import { exec } from 'gulp-execa'
+import { getBinPath } from 'get-bin-path'
 
 const EXAMPLE_PATH = `${__dirname}/../examples/main.js`
 const SRC_PATH = `${__dirname}/../build/src`
-const BINARY_PATH = `${__dirname}/../build/src/bin/main.js`
+const BINARY_PATH = getBinPath()
 
 // We use this instead of requiring the application to test the CLI
-export const runProd = () => exec(`node ${BINARY_PATH}`, { cwd: 'examples' })
+export const runProd = async () => {
+  const binaryPath = await BINARY_PATH
+  await exec(`node ${binaryPath}`, { cwd: 'examples' })
+}
 
 // eslint-disable-next-line fp/no-mutation
 runProd.description = 'Run an example production server'

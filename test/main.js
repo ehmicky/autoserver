@@ -3,14 +3,15 @@ import { promisify } from 'util'
 import test from 'ava'
 import execa from 'execa'
 import fetch from 'cross-fetch'
+import { getBinPath } from 'get-bin-path'
 
 const pSetTimeout = promisify(setTimeout)
 
-const BINARY_PATH = `${__dirname}/../src/bin/main.js`
+const BINARY_PATH = getBinPath()
 const EXAMPLE_DIR = `${__dirname}/../../examples`
 
 test('Smoke test', async t => {
-  const server = execa(BINARY_PATH, {
+  const server = execa(await BINARY_PATH, {
     env: { NODE_ENV: 'dev' },
     cwd: EXAMPLE_DIR,
   })
