@@ -71,7 +71,7 @@
     "chalk": "^2.4.2",
     "compressible": "^2.0.17",
     "content-type": "^1.0.4",
-    "core-js": "^3.1.4",
+    "core-js": "^3.2.0",
     "fast-deep-equal": "^2.0.1",
     "graphql": "^0.9.1",
     "graphql-type-json": "^0.3.0",
