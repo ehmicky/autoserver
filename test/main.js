@@ -53,7 +53,7 @@ const normalizeLine = function(line) {
     .trim()
 }
 
-const STARTUP_TIMEOUT = 60e3
+const STARTUP_TIMEOUT = 6e4
 
 const START_LINE_REGEXP = /^.{98}/u
 const PORT_REGEXP = /(Listening on).*/u
