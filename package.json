@@ -98,7 +98,7 @@
     "signal-exit": "^3.0.2",
     "type-is": "^1.6.18",
     "underscore.string": "^3.3.5",
-    "uuid": "^3.3.2",
+    "uuid": "^3.3.3",
     "vary": "^1.1.2",
     "yargs": "^14.0.0"
   },
