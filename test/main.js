@@ -2,7 +2,7 @@ import { promisify } from 'util'
 
 import test from 'ava'
 import execa from 'execa'
-import fetch from 'cross-fetch'
+import got from 'got'
 import { getBinPath } from 'get-bin-path'
 
 const pSetTimeout = promisify(setTimeout)
@@ -19,7 +19,7 @@ test('Smoke test', async t => {
     getOutput(server),
     request(server),
   ])
-  const message = normalizeStdout({ stdout })
+  const message = normalizeStdout(stdout)
   t.snapshot({ message, stderr })
 })
 
@@ -33,11 +33,11 @@ const getOutput = async function(server) {
 
 const request = async function(server) {
   await pSetTimeout(STARTUP_TIMEOUT)
-  await fetch('http://localhost:5001/rest/pets/2')
+  await got('http://localhost:5001/rest/pets/2')
   server.kill('SIGKILL')
 }
 
-const normalizeStdout = function({ stdout }) {
+const normalizeStdout = function(stdout) {
   // eslint-disable-next-line fp/no-mutating-methods
   return stdout
     .split('\n')
