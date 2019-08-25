@@ -88,7 +88,7 @@
     "mustache": "^2.3.2",
     "negotiator": "^0.6.2",
     "parse-prefer-header": "^1.0.0",
-    "path-to-regexp": "^3.0.0",
+    "path-to-regexp": "^3.1.0",
     "pluralize": "^8.0.0",
     "qs": "^6.8.0",
     "raw-body": "^2.4.1",
