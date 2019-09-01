@@ -1,6 +1,6 @@
 'use strict'
 
-const gulpSharedTasks = require('gulp-shared-tasks')
+const gulpSharedTasks = require('@ehmicky/dev-tasks')
 
 gulpSharedTasks.buildRegister()
 
