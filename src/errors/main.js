@@ -39,7 +39,7 @@ export const isError = function({ error }) {
 
 const ERROR_TYPE = Symbol('error')
 
-export const throwError = function(message = MISSING_MESSAGE, opts) {
+export const throwError = function(message = MISSING_MESSAGE, opts = {}) {
   const stack = message.stack || getStack({ caller: throwError })
   const error = createError(message, { ...opts, stack })
   throw error

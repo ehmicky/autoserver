@@ -11,6 +11,7 @@ import { startPerf, stopPerf } from './measure.js'
 // eslint-disable-next-line max-params
 const kMonitor = function(
   func,
+  // eslint-disable-next-line default-param-last
   label = func.name,
   category,
   measuresIndex = 0,

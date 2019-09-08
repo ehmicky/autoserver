@@ -22,12 +22,14 @@ export const set = function(objArr, keys, val) {
   return setObject(objArr, keys, val)
 }
 
+// eslint-disable-next-line default-param-last
 const setObject = function(obj = {}, keys, val) {
   const { child, childKey } = setVal({ objArr: obj, keys, val })
 
   return { ...obj, [childKey]: child }
 }
 
+// eslint-disable-next-line default-param-last
 const setArray = function(arr = [], keys, val) {
   const { child, childKey } = setVal({ objArr: arr, keys, val })
 
