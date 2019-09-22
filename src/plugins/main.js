@@ -1,4 +1,5 @@
-import { omit } from '../utils/functional/filter.js'
+import omit from 'omit.js'
+
 import { reduceAsync } from '../utils/functional/reduce.js'
 import { addGenPbHandler } from '../errors/handler.js'
 import { throwError } from '../errors/main.js'
@@ -99,7 +100,10 @@ const getPluginConf = function({ pluginConf, pluginConf: { plugin } }) {
     throwError(message, { reason: 'CONFIG_VALIDATION' })
   }
 
-  return { ...omit(builtinPlugin, 'enabled'), ...omit(pluginConf, 'plugin') }
+  return {
+    ...omit(builtinPlugin, ['enabled']),
+    ...omit(pluginConf, ['plugin']),
+  }
 }
 
 const builtinPlugins = [

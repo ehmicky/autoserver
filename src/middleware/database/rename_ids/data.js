@@ -1,4 +1,4 @@
-import { omit } from '../../../utils/functional/filter.js'
+import omit from 'omit.js'
 
 // Modify `args.newData`, or database output
 export const renameData = function({ value, newIdName, oldIdName }) {
@@ -13,6 +13,6 @@ const renameDatum = function({ datum, newIdName, oldIdName }) {
   }
 
   const { [oldIdName]: attr } = datum
-  const datumA = omit(datum, oldIdName)
+  const datumA = omit(datum, [oldIdName])
   return { ...datumA, [newIdName]: attr }
 }

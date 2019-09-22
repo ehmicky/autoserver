@@ -1,5 +1,6 @@
+import omit from 'omit.js'
+
 import { isEqual } from '../../../utils/functional/equal.js'
-import { omit } from '../../../utils/functional/filter.js'
 import { throwError } from '../../../errors/main.js'
 
 // Apply `alias` in `args.data`

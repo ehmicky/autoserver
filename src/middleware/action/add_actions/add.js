@@ -1,5 +1,6 @@
+import omit from 'omit.js'
+
 import { difference } from '../../../utils/functional/difference.js'
-import { omit } from '../../../utils/functional/filter.js'
 import { uniq } from '../../../utils/functional/uniq.js'
 import { getWordsList } from '../../../utils/string.js'
 import { throwError } from '../../../errors/main.js'
@@ -28,7 +29,7 @@ const addValue = function({
     .map(value => value[commandpathA])
     .filter(value => value !== undefined)
   const argsA =
-    valueA.length === 0 ? omit(args, name) : { ...args, [name]: valueA }
+    valueA.length === 0 ? omit(args, [name]) : { ...args, [name]: valueA }
 
   return { ...action, args: argsA }
 }

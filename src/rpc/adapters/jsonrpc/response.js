@@ -1,4 +1,4 @@
-import { omit } from '../../../utils/functional/filter.js'
+import omit from 'omit.js'
 
 // Apply JSON-RPC-specific error response transformation
 export const transformSuccess = function({ response: { content }, payload }) {

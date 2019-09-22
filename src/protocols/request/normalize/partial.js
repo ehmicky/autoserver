@@ -1,4 +1,5 @@
-import { omit } from '../../../utils/functional/filter.js'
+import omit from 'omit.js'
+
 import { isObject } from '../../../utils/functional/type.js'
 
 // Normalize protocol handlers

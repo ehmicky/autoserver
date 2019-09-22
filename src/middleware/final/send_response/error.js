@@ -1,4 +1,5 @@
-import { omit } from '../../../utils/functional/filter.js'
+import omit from 'omit.js'
+
 import { getStandardError } from '../../../errors/standard.js'
 
 // Use protocol-specific way to send back the response to the client
@@ -10,7 +11,7 @@ export const getErrorResponse = function({ error, mInput, response }) {
   const content = getStandardError({ error, mInput })
 
   // Do not show stack trace in error responses
-  const contentA = omit(content, 'details')
+  const contentA = omit(content, ['details'])
 
   return { type: 'error', content: contentA }
 }

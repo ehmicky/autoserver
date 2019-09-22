@@ -1,6 +1,6 @@
 import filterObj from 'filter-obj'
+import omit from 'omit.js'
 
-import { omit } from '../../../utils/functional/filter.js'
 import { isType } from '../../../content_types.js'
 import { getParams } from '../../../functions/params/values.js'
 import { reduceParams } from '../../../functions/params/reduce.js'

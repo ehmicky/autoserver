@@ -1,7 +1,6 @@
 import { GraphQLInt, GraphQLString } from 'graphql'
 import filterObj from 'filter-obj'
-
-import { omit } from '../../../../../../../../utils/functional/filter.js'
+import omit from 'omit.js'
 
 // Pagination arguments
 export const getPaginationArgument = function({ command, features }) {
@@ -21,7 +20,7 @@ export const getPaginationArgument = function({ command, features }) {
   }
 
   if (!features.includes('offset')) {
-    return omit(PAGINATION_ARGS, 'page')
+    return omit(PAGINATION_ARGS, ['page'])
   }
 
   return PAGINATION_ARGS

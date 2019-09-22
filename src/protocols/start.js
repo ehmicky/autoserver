@@ -1,6 +1,6 @@
 import filterObj from 'filter-obj'
+import omit from 'omit.js'
 
-import { omit } from '../utils/functional/filter.js'
 import { identity } from '../utils/functional/identity.js'
 import { mapValues } from '../utils/functional/map.js'
 
@@ -41,7 +41,7 @@ const getRequestAdapter = function({
   protocolAdapter: { wrapped, send },
 }) {
   const parseRequestA = parseRequest.bind(null, protocolAdapter)
-  const protocolAdapterA = omit(wrapped, 'startServer')
+  const protocolAdapterA = omit(wrapped, ['startServer'])
 
   return { ...protocolAdapterA, parseRequest: parseRequestA, send }
 }

@@ -1,6 +1,6 @@
 import filterObj from 'filter-obj'
+import omit from 'omit.js'
 
-import { omit } from '../../utils/functional/filter.js'
 import { mapValues } from '../../utils/functional/map.js'
 import { addGenErrorHandler } from '../../errors/handler.js'
 import { compile } from '../../validation/compile.js'

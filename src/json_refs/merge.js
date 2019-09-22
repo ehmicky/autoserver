@@ -1,4 +1,5 @@
-import { omit } from '../utils/functional/filter.js'
+import omit from 'omit.js'
+
 import { get, set } from '../utils/functional/get_set.js'
 import { deepMerge } from '../utils/functional/merge.js'
 import { isObjectType } from '../utils/functional/type.js'
@@ -37,7 +38,7 @@ const mergeSiblings = function({ content, keys, refContent }) {
     return refContent
   }
 
-  const parentA = omit(parent, '$ref')
+  const parentA = omit(parent, ['$ref'])
   const refContentA = deepMerge(parentA, refContent)
   return refContentA
 }

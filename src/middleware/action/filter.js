@@ -1,4 +1,5 @@
-import { omit } from '../../utils/functional/filter.js'
+import omit from 'omit.js'
+
 import { parseFilter as parseFilterExpr } from '../../filter/parse/main.js'
 import { validateFilter } from '../../filter/validate/main.js'
 
@@ -20,7 +21,7 @@ const parseFilterArg = function({
     return action
   }
 
-  const argsA = omit(args, 'id')
+  const argsA = omit(args, ['id'])
   return { ...action, args: { ...argsA, filter } }
 }
 

@@ -1,4 +1,5 @@
-import { omit } from '../utils/functional/filter.js'
+import omit from 'omit.js'
+
 import { mapValues } from '../utils/functional/map.js'
 import { pSetTimeout } from '../utils/timeout.js'
 import { logEvent } from '../log/main.js'

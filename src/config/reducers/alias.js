@@ -1,4 +1,5 @@
-import { omit } from '../../utils/functional/filter.js'
+import omit from 'omit.js'
+
 import { throwPb } from '../../errors/props.js'
 import { mapColls } from '../helpers.js'
 
@@ -40,7 +41,7 @@ const createAliases = function({ coll, collname, attrs, attr, attrName }) {
 const createAlias = function({ coll, collname, attrs, attr, attrName, alias }) {
   checkAliasDuplicates({ coll, collname, attrs, attrName, alias })
 
-  const aliasAttr = omit(attr, 'alias')
+  const aliasAttr = omit(attr, ['alias'])
   const attrA = { ...aliasAttr, aliasOf: attrName }
 
   return { [alias]: attrA }

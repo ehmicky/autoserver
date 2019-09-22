@@ -1,4 +1,4 @@
-import { omit } from '../../../utils/functional/filter.js'
+import omit from 'omit.js'
 
 import { getFormatFunc } from './format.js'
 import { getCharsetFunc } from './charset.js'

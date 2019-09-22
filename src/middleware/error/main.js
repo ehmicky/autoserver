@@ -1,7 +1,8 @@
+import omit from 'omit.js'
+
 import { addErrorHandler } from '../../errors/handler.js'
 import { getProps } from '../../errors/props.js'
 import { normalizeError } from '../../errors/main.js'
-import { omit } from '../../utils/functional/filter.js'
 import { safetyHandler } from '../../log/main.js'
 
 import { errorHandler } from './handler.js'
@@ -51,7 +52,7 @@ export const fireErrorHandler = addErrorHandler(
 
 // Add `error.mInput`, to keep track of current `mInput` during exception flow
 const addMInput = function(error, mInput) {
-  const mInputA = omit(mInput, 'error')
+  const mInputA = omit(mInput, ['error'])
   const errorA = normalizeError({ error })
   // We need to directly mutate to keep Error constructor
   // eslint-disable-next-line fp/no-mutating-assign

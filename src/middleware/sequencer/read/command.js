@@ -1,4 +1,5 @@
-import { omit } from '../../../utils/functional/filter.js'
+import omit from 'omit.js'
+
 import { extractSimpleIds } from '../../../filter/simple_id.js'
 
 // Fire the actual command
@@ -14,7 +15,7 @@ export const fireReadCommand = async function({
     return []
   }
 
-  const argsA = omit(args, 'data')
+  const argsA = omit(args, ['data'])
 
   const mInputA = {
     ...mInput,
