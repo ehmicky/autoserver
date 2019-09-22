@@ -1,5 +1,6 @@
+import filterObj from 'filter-obj'
+
 import { intersection } from '../../../utils/functional/intersection.js'
-import { pick } from '../../../utils/functional/filter.js'
 import { mapValues } from '../../../utils/functional/map.js'
 import { uniq } from '../../../utils/functional/uniq.js'
 import { runConfigFunc } from '../../../functions/run.js'
@@ -14,7 +15,7 @@ export const getServerParams = function({ authorize, serverParams, mInput }) {
     attrNames,
     serverParams,
   })
-  const serverParamsA = pick(serverParams, serverParamsNames)
+  const serverParamsA = filterObj(serverParams, serverParamsNames)
   const serverParamsB = mapValues(serverParamsA, configFunc =>
     runConfigFunc({ configFunc, mInput }),
   )

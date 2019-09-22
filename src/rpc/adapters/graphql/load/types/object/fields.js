@@ -1,4 +1,5 @@
-import { omitBy } from '../../../../../../utils/functional/filter.js'
+import filterObj from 'filter-obj'
+
 import { mapValues } from '../../../../../../utils/functional/map.js'
 
 import { addCommand } from './command.js'
@@ -21,9 +22,13 @@ const mappers = [addCommand, getNestedColl, filterField, getFinalField]
 
 const reduceFields = function(opts, fields, mapper) {
   const fieldsA = mapValues(fields, mapField.bind(null, { opts, mapper }))
-  return omitBy(fieldsA, def => def == null)
+  return filterObj(fieldsA, hasValue)
 }
 
 const mapField = function({ opts, mapper }, def, defName) {
   return mapper(def, { ...opts, defName })
+}
+
+const hasValue = function(key, value) {
+  return value != null
 }

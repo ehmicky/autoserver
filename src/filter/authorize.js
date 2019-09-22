@@ -1,4 +1,5 @@
-import { pick } from '../utils/functional/filter.js'
+import filterObj from 'filter-obj'
+
 import { mapValues } from '../utils/functional/map.js'
 import { SYSTEM_PARAMS } from '../functions/params/system.js'
 
@@ -21,8 +22,10 @@ const getModelAttrs = function({ config: { collections }, collname }) {
   }
 
   const { attributes = {} } = collections[collname]
-  const modelAttrs = mapValues(attributes, attr =>
-    pick(attr, ['type', 'isArray']),
-  )
+  const modelAttrs = mapValues(attributes, getModelAttr)
   return { model: modelAttrs }
+}
+
+const getModelAttr = function(attr) {
+  return filterObj(attr, ['type', 'isArray'])
 }

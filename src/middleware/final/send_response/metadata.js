@@ -1,4 +1,6 @@
-import { pick, omit } from '../../../utils/functional/filter.js'
+import filterObj from 'filter-obj'
+
+import { omit } from '../../../utils/functional/filter.js'
 import { isType } from '../../../content_types.js'
 import { getParams } from '../../../functions/params/values.js'
 import { reduceParams } from '../../../functions/params/reduce.js'
@@ -31,7 +33,7 @@ const getErrorMetadata = function({
     return metadata
   }
 
-  const metadataA = pick(metadata, ERROR_METADATA)
+  const metadataA = filterObj(metadata, ERROR_METADATA)
 
   const params = getParams(mInput, { client: true })
   const paramsA = omit(params, HIDDEN_ERROR_INFO)

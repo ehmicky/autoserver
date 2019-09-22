@@ -1,4 +1,5 @@
-import { pickBy } from '../../utils/functional/filter.js'
+import filterObj from 'filter-obj'
+
 import { getWordsList } from '../../utils/string.js'
 import { logEvent } from '../../log/main.js'
 import { getDefaultDuration } from '../../perf/measure.js'
@@ -31,7 +32,11 @@ export const emitStopEvent = async function({ exit, config, measures }) {
 
 // Retrieves which servers exits have failed, if any
 const getFailedProtocols = function({ exit }) {
-  const failedExits = pickBy(exit, code => !code)
+  const failedExits = filterObj(exit, hasFailedCode)
   const failedProtocols = Object.keys(failedExits)
   return failedProtocols
+}
+
+const hasFailedCode = function(key, code) {
+  return !code
 }

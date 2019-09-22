@@ -1,4 +1,4 @@
-import { omitBy } from '../../../utils/functional/filter.js'
+import filterObj from 'filter-obj'
 
 // Apply GraphQL-specific error response transformation
 export const transformSuccess = function({
@@ -28,7 +28,10 @@ const getError = function({ type, title, description, ...extraContent }) {
   // Custom information not following GraphQL spec is always rendered
   const error = { type, title, message: description, ...extraContent }
 
-  const errorA = omitBy(error, val => val === undefined)
-
+  const errorA = filterObj(error, isDefined)
   return [errorA]
+}
+
+const isDefined = function(key, value) {
+  return value !== undefined
 }

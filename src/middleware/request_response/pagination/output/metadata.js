@@ -1,4 +1,5 @@
-import { pick } from '../../../../utils/functional/filter.js'
+import filterObj from 'filter-obj'
+
 import { isOffset, SAME_ARGS, BOUNDARY_TOKEN } from '../info.js'
 import { encode } from '../encoding/main.js'
 import { isOnlyForwardCursor } from '../condition.js'
@@ -65,7 +66,7 @@ const getEncodedToken = function({ model, args: { order }, topargs }) {
 
   const parts = order.map(({ attrName }) => model[attrName])
 
-  const token = pick(topargs, SAME_ARGS)
+  const token = filterObj(topargs, SAME_ARGS)
   const tokenA = { ...token, parts }
 
   const encodedToken = encode({ token: tokenA })

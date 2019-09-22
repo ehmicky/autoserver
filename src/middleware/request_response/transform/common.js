@@ -1,4 +1,5 @@
-import { pickBy } from '../../../utils/functional/filter.js'
+import filterObj from 'filter-obj'
+
 import { mapValues } from '../../../utils/functional/map.js'
 import { runConfigFunc } from '../../../functions/run.js'
 import { getModelParams } from '../../../functions/params/values.js'
@@ -56,7 +57,7 @@ const filterTransforms = function({ condition, transforms, ...rest }) {
     return transforms
   }
 
-  const transformsA = pickBy(transforms, (transform, attrName) =>
+  const transformsA = filterObj(transforms, attrName =>
     filterTransform({ condition, attrName, ...rest }),
   )
   return transformsA

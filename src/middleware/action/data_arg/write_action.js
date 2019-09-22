@@ -1,4 +1,5 @@
-import { omitBy } from '../../../utils/functional/filter.js'
+import filterObj from 'filter-obj'
+
 import { mapValues } from '../../../utils/functional/map.js'
 import { getColl } from '../get_coll.js'
 
@@ -28,7 +29,7 @@ const replaceNestedData = function({ datum, nestedKeys }) {
   )
   // Patch commands do not use ids in args.data,
   // i.e. will create undefined values
-  const datumB = omitBy(datumA, value => value === undefined)
+  const datumB = filterObj(datumA, isDefined)
   return datumB
 }
 
@@ -38,4 +39,8 @@ const replaceNestedDatum = function({ value, key, nestedKeys }) {
   }
 
   return Array.isArray(value) ? value.map(({ id }) => id) : value.id
+}
+
+const isDefined = function(key, value) {
+  return value !== undefined
 }

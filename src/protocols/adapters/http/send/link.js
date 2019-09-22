@@ -1,6 +1,6 @@
 import { stringify as stringifyLinks } from 'li'
+import filterObj from 'filter-obj'
 
-import { omitBy } from '../../../../utils/functional/filter.js'
 import { mapValues } from '../../../../utils/functional/map.js'
 import { stringifyUrl, getStandardUrl } from '../origin.js'
 
@@ -17,7 +17,7 @@ export const getLinks = function({ pages = {}, specific, rpc }) {
   const links = mapValues(LINKS_NAMES, ({ name, cursorName }) =>
     getLinkUrl({ pages, name, cursorName, url }),
   )
-  const linksA = omitBy(links, link => link === undefined)
+  const linksA = filterObj(links, isDefined)
 
   if (Object.keys(linksA).length === 0) {
     return
@@ -50,3 +50,7 @@ const getLinkUrl = function({ pages, name, cursorName, url }) {
 }
 
 const CURSOR_NAMES = ['before', 'after']
+
+const isDefined = function(key, value) {
+  return value !== undefined
+}

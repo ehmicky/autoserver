@@ -1,4 +1,5 @@
-import { pickBy } from '../utils/functional/filter.js'
+import filterObj from 'filter-obj'
+
 import { mapValues } from '../utils/functional/map.js'
 
 // Apply a mapping function on each collection
@@ -58,7 +59,7 @@ export const getShortcut = function({
 }
 
 const getShortcutColl = function({ attributes, filter, mapper }) {
-  const attributesA = pickBy(attributes, attr =>
+  const attributesA = filterObj(attributes, (key, attr) =>
     Object.keys(attr).includes(filter),
   )
   const attributesB = mapValues(attributesA, mapper)

@@ -1,4 +1,6 @@
-import { pick, omit } from '../utils/functional/filter.js'
+import filterObj from 'filter-obj'
+
+import { omit } from '../utils/functional/filter.js'
 import { identity } from '../utils/functional/identity.js'
 import { mapValues } from '../utils/functional/map.js'
 
@@ -64,7 +66,7 @@ const processRequest = function(
 
 // Pass protocol-specific input to some adapter's methods
 const bindMethods = function({ protocolAdapter, specific }) {
-  const methods = pick(protocolAdapter, BOUND_METHODS)
+  const methods = filterObj(protocolAdapter, BOUND_METHODS)
   const methodsA = mapValues(methods, method =>
     wrapMethod.bind(null, { method, specific }),
   )

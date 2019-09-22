@@ -1,6 +1,5 @@
 import iconv from 'iconv-lite'
-
-import { omitBy } from '../utils/functional/filter.js'
+import filterObj from 'filter-obj'
 
 import { validateCharset } from './validate.js'
 import { decodeCharset } from './transform.js'
@@ -49,9 +48,12 @@ const createInstance = function({ charset, title }) {
 
 // Get list of supported charset
 export const getCharsets = function() {
-  // Remove charsets that are just aliases, to keep return value small
-  const charsets = omitBy(encodings, value => typeof value === 'string')
-
+  const charsets = filterObj(encodings, isNotAlias)
   const charsetsA = Object.keys(charsets)
   return charsetsA
+}
+
+// Remove charsets that are just aliases, to keep return value small
+const isNotAlias = function(key, value) {
+  return typeof value !== 'string'
 }

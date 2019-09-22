@@ -1,4 +1,4 @@
-import { pick } from '../../../utils/functional/filter.js'
+import filterObj from 'filter-obj'
 
 import { getCurrentData } from './current_data.js'
 import { removeDuplicates } from './duplicate.js'
@@ -45,6 +45,6 @@ export const handlers = {
 
 // Reuse some whitelisted top-level arguments
 const applyTopargs = function({ args, topargs }) {
-  const topargsA = pick(topargs, ['dryrun'])
+  const topargsA = filterObj(topargs, ['dryrun'])
   return { ...topargsA, ...args }
 }

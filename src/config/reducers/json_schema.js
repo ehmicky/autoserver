@@ -1,4 +1,6 @@
-import { pickBy, omit } from '../../utils/functional/filter.js'
+import filterObj from 'filter-obj'
+
+import { omit } from '../../utils/functional/filter.js'
 import { mapValues } from '../../utils/functional/map.js'
 import { addGenErrorHandler } from '../../errors/handler.js'
 import { compile } from '../../validation/compile.js'
@@ -44,11 +46,15 @@ const addJsonSchemaRequire = function({
   jsonSchema,
   jsonSchema: { properties },
 }) {
-  const requiredAttrs = pickBy(properties, ({ required }) => required)
+  const requiredAttrs = filterObj(properties, isRequired)
   const requiredA = Object.keys(requiredAttrs)
   // `id` requiredness is checked by other validators, so we skip it here
   const requiredB = requiredA.filter(attrName => attrName !== 'id')
   return { ...jsonSchema, required: requiredB }
+}
+
+const isRequired = function(key, { required }) {
+  return required
 }
 
 // JSON schema `dependencies` attribute is collection-level, not attribute-level
@@ -57,8 +63,12 @@ const addJsonSchemaDeps = function({ jsonSchema, jsonSchema: { properties } }) {
     properties,
     ({ dependencies }) => dependencies,
   )
-  const dependenciesB = pickBy(dependenciesA, dep => dep !== undefined)
+  const dependenciesB = filterObj(dependenciesA, isDefined)
   return { ...jsonSchema, dependencies: dependenciesB }
+}
+
+const isDefined = function(key, value) {
+  return value !== undefined
 }
 
 // Remove syntax that is not JSON schema

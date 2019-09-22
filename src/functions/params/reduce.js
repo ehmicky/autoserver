@@ -1,4 +1,5 @@
-import { pick, omitBy } from '../../utils/functional/filter.js'
+import filterObj from 'filter-obj'
+
 import { get, set, has } from '../../utils/functional/get_set.js'
 import { isObject } from '../../utils/functional/type.js'
 
@@ -9,7 +10,7 @@ export const reduceParams = function({ params }) {
       reduceInfo({ params: paramsA, path, filter }),
     params,
   )
-  const paramsC = omitBy(paramsB, value => value === undefined)
+  const paramsC = filterObj(paramsB, isDefined)
   return paramsC
 }
 
@@ -34,12 +35,16 @@ const reduceInfo = function({ params, path, filter }) {
 
 const reduceValue = function({ value, filter }) {
   if (Array.isArray(value)) {
-    return value.filter(isObject).map(obj => pick(obj, filter))
+    return value.filter(isObject).map(obj => filterObj(obj, filter))
   }
 
   if (isObject(value)) {
-    return pick(value, filter)
+    return filterObj(value, filter)
   }
 
   // Otherwise, removes value altogether
+}
+
+const isDefined = function(key, value) {
+  return value !== undefined
 }

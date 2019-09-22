@@ -1,4 +1,5 @@
-import { omitBy } from '../../../utils/functional/filter.js'
+import filterObj from 'filter-obj'
+
 import { fullRecurseMap } from '../../../utils/functional/map.js'
 import { isObject } from '../../../utils/functional/type.js'
 import { addGenErrorHandler } from '../../../errors/handler.js'
@@ -57,7 +58,11 @@ const removeDatum = function(obj) {
     return obj
   }
 
-  return omitBy(obj, prop => prop && prop.$data)
+  return filterObj(obj, hasNoData)
+}
+
+const hasNoData = function(key, prop) {
+  return !prop || !prop.$data
 }
 
 const modifiers = [addProps, removeData]

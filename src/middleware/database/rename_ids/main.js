@@ -1,4 +1,5 @@
-import { pickBy } from '../../../utils/functional/filter.js'
+import filterObj from 'filter-obj'
+
 import { mapValues } from '../../../utils/functional/map.js'
 
 import { renameData } from './data.js'
@@ -40,9 +41,9 @@ export const renameIdsOutput = function({
 }
 
 const renameArgs = function({ args, newIdName, oldIdName }) {
-  const input = pickBy(
+  const input = filterObj(
     args,
-    (value, name) =>
+    (name, value) =>
       value !== undefined && Object.keys(idsInput).includes(name),
   )
 
