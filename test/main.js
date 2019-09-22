@@ -7,11 +7,11 @@ import { getBinPath } from 'get-bin-path'
 
 const pSetTimeout = promisify(setTimeout)
 
-const BINARY_PATH = getBinPath()
 const EXAMPLE_DIR = `${__dirname}/../../examples`
 
 test('Smoke test', async t => {
-  const server = execa(await BINARY_PATH, {
+  const binPath = await getBinPath()
+  const server = execa(binPath, {
     env: { NODE_ENV: 'dev' },
     cwd: EXAMPLE_DIR,
   })
