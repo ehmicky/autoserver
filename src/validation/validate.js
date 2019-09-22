@@ -51,7 +51,7 @@ const addDataPath = function({ dataPath, message }) {
 // but we want dots (for properties) and brackets (for indexes) not slashes
 const jsonPointerToDots = function(dataPath) {
   return dataPath
-    .substr(1)
+    .slice(1)
     .replace(/\/(\d+)/gu, '[$1]')
     .replace(/\//gu, '.')
 }

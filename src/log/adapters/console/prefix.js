@@ -10,7 +10,7 @@ export const getPrefix = function({ log }) {
 
 const getEachPrefix = function({ value, length, log }) {
   const prefix = value(log)
-  const prefixA = prefix.substr(0, length).padEnd(length)
+  const prefixA = prefix.slice(0, length).padEnd(length)
   const prefixB = `[${prefixA}]`
   return prefixB
 }
