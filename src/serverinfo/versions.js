@@ -5,7 +5,7 @@ import readPkgUp from 'read-pkg-up'
 // Caches it.
 // TODO: use async instead
 const {
-  package: { version: autoserverVersion },
+  packageJson: { version: autoserverVersion },
 } = readPkgUp.sync()
 
 // Retrieve environment-specific versions
