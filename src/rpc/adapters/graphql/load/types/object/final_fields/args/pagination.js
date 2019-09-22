@@ -16,7 +16,7 @@ export const getPaginationArgument = function({ command, features }) {
   const hasFullArgs = FULL_PAGINATION_COMMANDS.includes(command)
 
   if (!hasFullArgs) {
-    return filterObj(PAGINATION_ARGS, 'pagesize')
+    return filterObj(PAGINATION_ARGS, ['pagesize'])
   }
 
   if (!features.includes('offset')) {
