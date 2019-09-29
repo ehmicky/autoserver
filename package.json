@@ -73,7 +73,7 @@
     "content-type": "^1.0.4",
     "core-js": "^3.2.1",
     "fast-deep-equal": "^2.0.1",
-    "filter-obj": "^2.0.0",
+    "filter-obj": "^2.0.1",
     "graphql": "^0.9.1",
     "graphql-type-json": "^0.3.0",
     "hjson": "^3.1.2",
