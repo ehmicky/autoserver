@@ -14,22 +14,12 @@ test('Smoke test', async t => {
   const server = execa(binPath, {
     env: { NODE_ENV: 'dev' },
     cwd: EXAMPLE_DIR,
+    reject: false,
   })
-  const [{ stdout, stderr }] = await Promise.all([
-    getOutput(server),
-    request(server),
-  ])
+  const [{ stdout, stderr }] = await Promise.all([server, request(server)])
   const message = normalizeStdout(stdout)
   t.snapshot({ message, stderr })
 })
-
-const getOutput = async function(server) {
-  try {
-    await server
-  } catch (error) {
-    return error
-  }
-}
 
 const request = async function(server) {
   await pSetTimeout(STARTUP_TIMEOUT)
