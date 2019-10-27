@@ -108,7 +108,7 @@
     "@ehmicky/dev-tasks": "^0.30.50",
     "ava": "^2.4.0",
     "execa": "^3.2.0",
-    "get-bin-path": "^3.0.0",
+    "get-bin-path": "^4.0.0",
     "got": "^9.6.0",
     "gulp": "^4.0.2",
     "gulp-execa": "^1.0.2",
