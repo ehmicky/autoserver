@@ -124,7 +124,10 @@ PUT /rest/users/
 
 ```json
 {
-  "data": [{ "id": "4", "name": "David" }, { "id": "5", "name": "Alex" }]
+  "data": [
+    { "id": "4", "name": "David" },
+    { "id": "5", "name": "Alex" }
+  ]
 }
 ```
 

@@ -65,9 +65,10 @@ const validateMixedOp = function({ nestedName, attrVal, throwErr }) {
 }
 
 const parseAttr = function({ attrName, attrVal, throwErr }) {
-  return parseOperations(parseAttrs, { operations: attrVal, throwErr }).map(
-    node => addAttrName({ node, attrName }),
-  )
+  return parseOperations(parseAttrs, {
+    operations: attrVal,
+    throwErr,
+  }).map(node => addAttrName({ node, attrName }))
 }
 
 const addAttrName = function({ node, node: { type, value }, attrName }) {
