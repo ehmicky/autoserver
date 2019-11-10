@@ -1,4 +1,4 @@
-import { getRpcByPath } from '../../rpc/router/main.js'
+import { getRpcByPath } from '../../rpc/router.js'
 
 // Add route and URL parameters to mInput
 export const router = function({ path }) {
@@ -6,6 +6,6 @@ export const router = function({ path }) {
     rpcAdapter,
     rpcAdapter: { name: rpc },
     pathvars,
-  } = getRpcByPath({ path })
+  } = getRpcByPath(path)
   return { rpc, rpcAdapter, pathvars }
 }
