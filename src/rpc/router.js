@@ -36,7 +36,10 @@ const getAllRoutes = function() {
 }
 
 const getRoutes = function({ routes, name }) {
-  return routes.map(route => ({ matchRoute: match(route), rpc: name }))
+  return routes.map(route => ({
+    matchRoute: match(route, { decode: decodeURIComponent }),
+    rpc: name,
+  }))
 }
 
 const allRoutes = getAllRoutes()
