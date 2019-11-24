@@ -107,7 +107,7 @@
   "devDependencies": {
     "@ehmicky/dev-tasks": "^0.30.59",
     "ava": "^2.4.0",
-    "execa": "^3.3.0",
+    "execa": "^3.4.0",
     "get-bin-path": "^4.0.0",
     "got": "10.0.0-alpha.2.2",
     "gulp": "^4.0.2",
