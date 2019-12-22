@@ -71,7 +71,7 @@
     "chalk": "^3.0.0",
     "compressible": "^2.0.17",
     "content-type": "^1.0.4",
-    "core-js": "^3.6.0",
+    "core-js": "^3.6.1",
     "filter-obj": "^2.0.1",
     "graphql": "^0.9.1",
     "graphql-type-json": "^0.3.1",
