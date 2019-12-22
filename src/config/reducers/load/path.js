@@ -1,9 +1,9 @@
 import { cwd } from 'process'
 import { resolve, isAbsolute } from 'path'
+import { promises } from 'fs'
 
 import { addGenErrorHandler } from '../../../errors/handler.js'
 import { throwError } from '../../../errors/main.js'
-import { pReaddir } from '../../../utils/fs.js'
 import { getByExt } from '../../../formats/get.js'
 
 // Retrieves final config path to use
@@ -29,7 +29,7 @@ const getPath = function({ path }) {
 
 // Try to find autoserver.config.EXT in current directory, or any parent
 const findConfPath = async function(dir) {
-  const paths = await pReaddir(dir)
+  const paths = await promises.readdir(dir)
   const pathA = paths.find(path => CONFIG_REGEXP.test(path))
 
   // Found a file
