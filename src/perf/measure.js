@@ -15,33 +15,25 @@ import { hrtime } from 'process'
 
 // Start a new measure
 export const startPerf = function(label, category = 'default') {
-  // `hrtime()` is more precise that `Date.now()`
-  const pending = getTimestamp()
+  const pending = hrtime.bigint()
   return { pending, label, category }
 }
 
 // Substracts the current time with the previous time
 export const stopPerf = function({ pending, label, category }) {
-  const ending = getTimestamp()
+  const ending = hrtime.bigint()
   const duration = Number(ending - pending)
   return { duration, label, category }
 }
 
 export const getDefaultDuration = function({ measures }) {
   const { duration } = measures.find(({ category }) => category === 'default')
-  const durationA = nanoSecsToMilliSecs({ duration })
+  const durationA = nanoSecsToMilliSecs(duration)
   return durationA
 }
 
-export const nanoSecsToMilliSecs = function({ duration }) {
+export const nanoSecsToMilliSecs = function(duration) {
   return Math.round(duration / NANOSECS_TO_MILLISECS)
 }
 
-// TODO: use hrtime.bigint() when dropping support for Node <10.7.0
-const getTimestamp = function() {
-  const [secs, nSecs] = hrtime()
-  return secs * NANOSECS_TO_SECS + nSecs
-}
-
 const NANOSECS_TO_MILLISECS = 1e6
-const NANOSECS_TO_SECS = 1e9

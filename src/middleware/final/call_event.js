@@ -10,7 +10,7 @@ export const callEvent = function({
   error,
   respPerf: { duration } = {},
 }) {
-  const durationA = nanoSecsToMilliSecs({ duration })
+  const durationA = nanoSecsToMilliSecs(duration)
 
   return logEvent({
     mInput,
