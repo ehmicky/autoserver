@@ -1,4 +1,4 @@
-import { isEqual } from '../../../utils/functional/equal.js'
+import { isDeepStrictEqual } from 'util'
 
 // Retrieve `currentData` for `delete` and `patch` by running `find` commands,
 // reusing `arg.filter`.
@@ -20,7 +20,7 @@ const mergeResult = function({ results, action, action: { args } }) {
 // Retrieve the relevant `results` for this specific action
 const resultMatches = function({ result: { path }, action: { commandpath } }) {
   const pathA = removeIndexes({ path })
-  return isEqual(commandpath, pathA)
+  return isDeepStrictEqual(commandpath, pathA)
 }
 
 const removeIndexes = function({ path }) {

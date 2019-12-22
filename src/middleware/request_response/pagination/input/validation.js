@@ -1,4 +1,5 @@
-import { isEqual } from '../../../../utils/functional/equal.js'
+import { isDeepStrictEqual } from 'util'
+
 import { throwError } from '../../../../errors/main.js'
 import { SAME_ARGS } from '../info.js'
 
@@ -43,7 +44,7 @@ const validateSameToparg = function({ topargs, token, name }) {
     return
   }
 
-  const hasSameToparg = isEqual(topargs[name], token[name])
+  const hasSameToparg = isDeepStrictEqual(topargs[name], token[name])
 
   if (hasSameToparg) {
     return

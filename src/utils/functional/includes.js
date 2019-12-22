@@ -1,5 +1,5 @@
-import { isEqual } from './equal.js'
+import { isDeepStrictEqual } from 'util'
 
 export const includes = function(arr, valA) {
-  return arr.some(valB => isEqual(valA, valB))
+  return arr.some(valB => isDeepStrictEqual(valA, valB))
 }

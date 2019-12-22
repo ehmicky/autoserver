@@ -1,5 +1,6 @@
+import { isDeepStrictEqual } from 'util'
+
 import { throwError } from '../../../errors/main.js'
-import { isEqual } from '../../../utils/functional/equal.js'
 import { groupValuesBy } from '../../../utils/functional/group.js'
 
 // We remove duplicates for several reasons:
@@ -26,7 +27,7 @@ const getUniqueModel = function(models) {
 const validateDuplicates = function(models) {
   const differentModel = models
     .slice(1)
-    .find(model => !isEqual(model, models[0]))
+    .find(model => !isDeepStrictEqual(model, models[0]))
 
   if (differentModel === undefined) {
     return

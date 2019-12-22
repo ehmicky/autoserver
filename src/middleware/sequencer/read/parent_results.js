@@ -1,4 +1,5 @@
-import { isEqual } from '../../../utils/functional/equal.js'
+import { isDeepStrictEqual } from 'util'
+
 import { uniq } from '../../../utils/functional/uniq.js'
 import { getSimpleFilter } from '../../../filter/simple_id.js'
 
@@ -17,7 +18,7 @@ const isParentResults = function({ result: { path, promise }, parentPath }) {
   }
 
   const pathA = path.filter(index => typeof index !== 'number')
-  return isEqual(pathA, parentPath)
+  return isDeepStrictEqual(pathA, parentPath)
 }
 
 // Reduce parent results to only the information the child needs: the `id`s

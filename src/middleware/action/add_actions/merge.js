@@ -1,4 +1,4 @@
-import { isEqual } from '../../../utils/functional/equal.js'
+import { isDeepStrictEqual } from 'util'
 
 import { getValues } from './values.js'
 
@@ -43,5 +43,5 @@ const isNotMerged = function({ actions, newAction }) {
 }
 
 const hasSamePath = function({ action, newAction }) {
-  return isEqual(action.commandpath, newAction.commandpath)
+  return isDeepStrictEqual(action.commandpath, newAction.commandpath)
 }

@@ -1,4 +1,4 @@
-import { isEqual } from '../../utils/functional/equal.js'
+import { isDeepStrictEqual } from 'util'
 
 // Retrieves `summary`
 // This is all `actions`, included nested ones as a nice formatted string,
@@ -16,7 +16,8 @@ const getEachSummary = function({ actions, commandpath: path, top }) {
 
   const childActions = actions.filter(
     ({ commandpath }) =>
-      commandpath.length !== 0 && isEqual(path, commandpath.slice(0, -1)),
+      commandpath.length !== 0 &&
+      isDeepStrictEqual(path, commandpath.slice(0, -1)),
   )
 
   if (childActions.length === 0) {

@@ -1,6 +1,7 @@
+import { isDeepStrictEqual } from 'util'
+
 import omit from 'omit.js'
 
-import { isEqual } from '../../../utils/functional/equal.js'
 import { throwError } from '../../../errors/main.js'
 
 // Apply `alias` in `args.data`
@@ -51,7 +52,7 @@ const getAliasData = function({ newData, currentData, attrName, aliases }) {
     .filter(
       name =>
         newDataKeys.includes(name) &&
-        (!currentData || !isEqual(newData[name], currentData[name])),
+        (!currentData || !isDeepStrictEqual(newData[name], currentData[name])),
     )
     .map(name => ({ [name]: newData[name] }))
   const aliasDataA = Object.assign({}, ...aliasData)
@@ -61,7 +62,7 @@ const getAliasData = function({ newData, currentData, attrName, aliases }) {
 // If the request specifies several aliases, all values must be equal
 const validateAliases = function({ newValue, aliasData, firstAttrName }) {
   const wrongAlias = Object.keys(aliasData).find(
-    name => !isEqual(aliasData[name], newValue),
+    name => !isDeepStrictEqual(aliasData[name], newValue),
   )
 
   if (!wrongAlias) {

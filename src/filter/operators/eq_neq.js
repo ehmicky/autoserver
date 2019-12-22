@@ -1,15 +1,15 @@
-import { isEqual } from '../../utils/functional/equal.js'
+import { isDeepStrictEqual } from 'util'
 
 import { validateSameType, parseAsIs } from './common.js'
 
 // `{ attribute: { _eq: value } }` or `{ attribute: value }`
 const evalEq = function({ attr, value }) {
-  return isEqual(attr, value)
+  return isDeepStrictEqual(attr, value)
 }
 
 // `{ attribute: { _neq: value } }`
 const evalNeq = function({ attr, value }) {
-  return !isEqual(attr, value)
+  return !isDeepStrictEqual(attr, value)
 }
 
 export const eq = {
