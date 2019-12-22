@@ -22,14 +22,14 @@ export const stringifyConfigFunc = function({
   }
 
   const funcStr = configFunc.toString()
-  const body = getInlineFuncBody({ funcStr })
-  return body || funcStr
-}
+  const parts = BODY_REGEXP.exec(funcStr)
 
-const getInlineFuncBody = function({ funcStr }) {
-  const [, body] = BODY_REGEXP.exec(funcStr) || []
-  return body
+  if (parts === null) {
+    return funcStr
+  }
+
+  return parts[1]
 }
 
 // Extracts inline function. Only works on inline functions.
-const BODY_REGEXP = /^function anonymous\(\{(?:.|\n)+return \((.*)\)/u
+const BODY_REGEXP = /^function anonymous\(\{.*return \((.*)\)/su
