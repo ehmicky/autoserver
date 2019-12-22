@@ -23,9 +23,9 @@ export const colorize = function({ log: { event, level }, consoleMessage }) {
 }
 
 // Look for [...] [...] [...] [...] [...] ([...]) ... - ...
-const MESSAGE_REGEXP = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) ((.|\n)*) (- (.|\n)*)/u
+const MESSAGE_REGEXP = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) (.*) (- .*)/su
 // Look for [...] [...] [...] [...] [...] ([...]) ...
-const SHORTMESSAGE_REXEXP = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) ((.|\n)*)/u
+const SHORTMESSAGE_REXEXP = /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) (.*)/su
 
 // Make it easy to read stack trace with color hints
 const colorStack = function({ stack }) {
