@@ -1,16 +1,15 @@
 // Break down '  \\( inlineFunc )  '
 // into tokens: '  ', '\', '(', ' inlineFunc ', ')', '  '
-export const tokenizeInlineFunc = function({ inlineFunc }) {
+export const tokenizeInlineFunc = function(inlineFunc) {
   return INLINE_FUNC_REGEXP.exec(inlineFunc)
 }
 
-const INLINE_FUNC_REGEXP = /^(\s*)(\\?)(\()(.*)(\))(\s*)$/u
-const INLINE_FUNC_INDEX = 4
+const INLINE_FUNC_REGEXP = /^(\s*)(?<escape>\\?)(\()(?<body>.*)(\))(\s*)$/su
 
 // Remove outer parenthesis from inline function
-export const getInlineFunc = function({ inlineFunc }) {
-  const parts = tokenizeInlineFunc({ inlineFunc })
-  return (parts && parts[INLINE_FUNC_INDEX]) || ''
+export const getInlineFunc = function(inlineFunc) {
+  const parts = tokenizeInlineFunc(inlineFunc)
+  return parts.groups.body
 }
 
 // Retrieves inline config function body

@@ -19,44 +19,40 @@ export const createInlineFuncs = function({ config }) {
 }
 
 const setInlineFunc = function({ config, keys, value, paramsKeys }) {
-  const inlineFunc = createInlineFunc({ inlineFunc: value, paramsKeys })
+  const inlineFunc = createInlineFunc(value, paramsKeys)
   return set(config, keys, inlineFunc)
 }
 
 // Transform inline functions into a function with the inline function as body
 // Returns if it is not inline function
 // This can throw if inline function's JavaScript is wrong
-const createInlineFunc = function({ inlineFunc, paramsKeys }) {
+const createInlineFunc = function(inlineFunc, paramsKeys) {
   // If this is not inline function, abort
-  if (!isInlineFunc({ inlineFunc })) {
-    return getNonInlineFunc({ inlineFunc })
+  if (!isInlineFunc(inlineFunc)) {
+    return getNonInlineFunc(inlineFunc)
   }
 
-  const inlineFuncA = getInlineFunc({ inlineFunc })
-
-  return eCreateFunction({ inlineFunc: inlineFuncA, paramsKeys })
+  const body = getInlineFunc(inlineFunc)
+  return eCreateFunction(body, paramsKeys)
 }
 
-const getNonInlineFunc = function({ inlineFunc }) {
+const getNonInlineFunc = function(inlineFunc) {
   // Can escape (...) from being interpreted as inline function by escaping
   // first parenthesis
-  if (isEscapedInlineFunc({ inlineFunc })) {
+  if (isEscapedInlineFunc(inlineFunc)) {
     return inlineFunc.replace('\\', '')
   }
 
   return inlineFunc
 }
 
-const createFunction = function({
-  inlineFunc,
-  paramsKeys: { namedKeys, posKeys },
-}) {
+const createFunction = function(body, { namedKeys, posKeys }) {
   // Create a function with the inline function as body
   // eslint-disable-next-line no-new-func
-  return new Function(`{ ${namedKeys} }, ${posKeys}`, `return (${inlineFunc});`)
+  return new Function(`{ ${namedKeys} }, ${posKeys}`, `return (${body});`)
 }
 
 const eCreateFunction = addGenErrorHandler(createFunction, {
-  message: ({ inlineFunc }) => `Invalid function: '${inlineFunc}'`,
+  message: inlineFunc => `Invalid function: '${inlineFunc}'`,
   reason: 'CONFIG_VALIDATION',
 })
