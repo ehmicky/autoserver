@@ -1,5 +1,3 @@
-import { URL } from 'url'
-
 // Parse `opts.url`, also ensuring it is a valid URL
 export const getOpts = function({ opts: { url } }) {
   if (url === undefined) {

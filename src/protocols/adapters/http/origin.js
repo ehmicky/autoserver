@@ -1,4 +1,4 @@
-import { URL, format as urlFormat } from 'url'
+import { format as urlFormat } from 'url'
 
 // Retrieves full URL
 export const getUrl = function({
