@@ -69,7 +69,7 @@
     "ajv-keywords": "^3.4.1",
     "bytes": "^3.1.0",
     "chalk": "^3.0.0",
-    "compressible": "^2.0.17",
+    "compressible": "^2.0.18",
     "content-type": "^1.0.4",
     "core-js": "^3.6.1",
     "filter-obj": "^2.0.1",
