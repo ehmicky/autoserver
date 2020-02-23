@@ -9,7 +9,7 @@ import {
   networkInterfaces as getNetworkInterfaces,
 } from 'os'
 
-import uuidv5 from 'uuid/v5.js'
+import { v5 as uuidv5 } from 'uuid'
 
 // Retrieve host-specific information
 export const getHostInfo = function() {
