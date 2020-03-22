@@ -10,8 +10,8 @@ import { getPayload, hasPayload } from './payload/main.js'
 import { getQueryString } from './query_string.js'
 import { send } from './send/main.js'
 import { startServer } from './start.js'
-import { stopServer } from './stop.js'
 // eslint-disable-next-line import/max-dependencies
+import { stopServer } from './stop.js'
 
 export const http = {
   name: 'http',
