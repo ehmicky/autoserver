@@ -6,7 +6,7 @@ const parse = function ({ content, path }) {
     return requireFromString(content)
   }
 
-  // eslint-disable-next-line import/no-dynamic-require, global-require
+  // eslint-disable-next-line import/no-dynamic-require, node/global-require
   return require(path)
 }
 
