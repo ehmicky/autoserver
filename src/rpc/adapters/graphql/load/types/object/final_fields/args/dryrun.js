@@ -2,7 +2,7 @@ import { GraphQLBoolean } from 'graphql'
 
 // `dryrun` argument
 export const getDryrunArgument = function ({ command }) {
-  const hasDryrun = DRYRUN_COMMANDS.includes(command)
+  const hasDryrun = DRYRUN_COMMANDS.has(command)
 
   if (!hasDryrun) {
     return {}
@@ -11,7 +11,7 @@ export const getDryrunArgument = function ({ command }) {
   return DRYRUN_ARGS
 }
 
-const DRYRUN_COMMANDS = ['create', 'upsert', 'patch', 'delete']
+const DRYRUN_COMMANDS = new Set(['create', 'upsert', 'patch', 'delete'])
 
 const DRYRUN_ARGS = {
   dryrun: {

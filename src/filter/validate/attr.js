@@ -7,7 +7,7 @@ export const getDeepAttr = function ({ attrs, attrName, throwErr }) {
 
   const attr = getAttr({ attrs, attrName: attrNameA, throwErr })
 
-  const isDeep = DEEP_OPERATORS.includes(deepType)
+  const isDeep = DEEP_OPERATORS.has(deepType)
 
   if (isDeep) {
     return { ...attr, isArray: false }

@@ -31,7 +31,7 @@ export const validateStableIds = function ({
   top: { command },
 }) {
   // Only for commands with `args.data`
-  if (!STABLE_IDS_COMMANDS.includes(command.type)) {
+  if (!STABLE_IDS_COMMANDS.has(command.type)) {
     return
   }
 
@@ -41,7 +41,7 @@ export const validateStableIds = function ({
     .forEach((action) => validateAction({ action, config, top }))
 }
 
-const STABLE_IDS_COMMANDS = ['create', 'patch', 'upsert']
+const STABLE_IDS_COMMANDS = new Set(['create', 'patch', 'upsert'])
 
 const validateAction = function ({ action: { commandpath }, config, top }) {
   const serverSet = isServerSet({ commandpath, config, top })

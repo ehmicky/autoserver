@@ -11,14 +11,14 @@ export const willPaginate = function ({
   // Only for top-level findMany, and patchMany (its currentData `find` command)
   return (
     commandpath === '' &&
-    PAGINATION_TOP_COMMANDS.includes(top.command.name) &&
-    PAGINATION_COMMANDS.includes(command) &&
+    PAGINATION_TOP_COMMANDS.has(top.command.name) &&
+    PAGINATION_COMMANDS.has(command) &&
     !isPaginationDisabled({ config, args })
   )
 }
 
-const PAGINATION_TOP_COMMANDS = ['findMany', 'patchMany']
-const PAGINATION_COMMANDS = ['find']
+const PAGINATION_TOP_COMMANDS = new Set(['findMany', 'patchMany'])
+const PAGINATION_COMMANDS = new Set(['find'])
 
 // Using args.pagesize 0 or pagesize 0 disables pagination
 const isPaginationDisabled = function ({ config, args }) {
@@ -32,7 +32,7 @@ const isPaginationDisabled = function ({ config, args }) {
 //  - offset pagination is not available
 //  - backward cursor pagination is not available
 export const isOnlyForwardCursor = function ({ top }) {
-  return FORWARD_TOP_COMMANDS.includes(top.command.name)
+  return FORWARD_TOP_COMMANDS.has(top.command.name)
 }
 
-const FORWARD_TOP_COMMANDS = ['patchMany']
+const FORWARD_TOP_COMMANDS = new Set(['patchMany'])

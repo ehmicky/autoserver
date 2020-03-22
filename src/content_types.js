@@ -3,32 +3,32 @@ import { isObject } from './utils/functional/type.js'
 export const CONTENT_TYPES = {
   model: {
     validate: (content) => isJsonObject(content),
-    types: ['model', 'object'],
+    types: new Set(['model', 'object']),
   },
 
   models: {
     validate: (content) => isJsonArray(content) && content.every(isJsonObject),
-    types: ['model', 'object'],
+    types: new Set(['model', 'object']),
   },
 
   error: {
     validate: (content) => isJsonObject(content),
-    types: ['model', 'object', 'error'],
+    types: new Set(['model', 'object', 'error']),
   },
 
   object: {
     validate: (content) => isJsonObject(content),
-    types: ['object'],
+    types: new Set(['object']),
   },
 
   html: {
     validate: (content) => typeof content === 'string',
-    types: [],
+    types: new Set([]),
   },
 
   text: {
     validate: (content) => typeof content === 'string',
-    types: [],
+    types: new Set([]),
   },
 }
 
@@ -53,6 +53,6 @@ const isJson = function (val) {
 export const isType = function (contentType, type) {
   return (
     CONTENT_TYPES[contentType] !== undefined &&
-    CONTENT_TYPES[contentType].types.includes(type)
+    CONTENT_TYPES[contentType].types.has(type)
   )
 }

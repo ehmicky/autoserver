@@ -22,7 +22,7 @@ export const crawlNodes = function (node, func) {
 }
 
 const getNodeChildren = function ({ type, value }) {
-  if (!PARENT_OPERATORS.includes(type)) {
+  if (!PARENT_OPERATORS.has(type)) {
     return []
   }
 
@@ -34,7 +34,7 @@ const getNodeChildren = function ({ type, value }) {
 export const crawlAttrs = function (node, func) {
   const { type, value } = node
 
-  if (!ATTR_ANCESTOR_OPERATORS.includes(type)) {
+  if (!ATTR_ANCESTOR_OPERATORS.has(type)) {
     const returnValue = getAttrs(node, func)
     return [...returnValue, value]
   }
@@ -46,7 +46,7 @@ export const crawlAttrs = function (node, func) {
 const getAttrs = function (node, func) {
   const { type, value } = node
 
-  if (!ATTR_PARENT_OPERATORS.includes(type)) {
+  if (!ATTR_PARENT_OPERATORS.has(type)) {
     return func([node]) || []
   }
 
@@ -68,7 +68,7 @@ export const mapNodes = function (node, func) {
 }
 
 const mapChildren = function ({ type, value }, func) {
-  if (!PARENT_OPERATORS.includes(type)) {
+  if (!PARENT_OPERATORS.has(type)) {
     return value
   }
 

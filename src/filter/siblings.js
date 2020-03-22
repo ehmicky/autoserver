@@ -23,7 +23,7 @@ export const parseSiblingNode = function ({ type, value, throwErr }) {
 }
 
 export const validateForbiddenOpts = function ({ type, throwErr }) {
-  if (!NO_SIBLINGS_OPERATORS.includes(type)) {
+  if (!NO_SIBLINGS_OPERATORS.has(type)) {
     return
   }
 

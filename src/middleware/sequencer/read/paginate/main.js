@@ -39,10 +39,8 @@ const shouldPaginateResults = function ({ maxmodels, top, isTopLevel }) {
   // Only depth level 2 is paginated, since deeper levels cannot use findMany
   // commands
   return (
-    isTopLevel &&
-    maxmodels !== Infinity &&
-    COMMAND_TYPES.includes(top.command.type)
+    isTopLevel && maxmodels !== Infinity && COMMAND_TYPES.has(top.command.type)
   )
 }
 
-const COMMAND_TYPES = ['find']
+const COMMAND_TYPES = new Set(['find'])

@@ -3,10 +3,10 @@ import { handleTransforms } from './common.js'
 // Apply `attr.default` only on model creation (on `create` or `upsert`),
 // and the attribute is missing
 const shouldUseDefault = function ({ command }) {
-  return DEFAULT_COMMANDS.includes(command)
+  return DEFAULT_COMMANDS.has(command)
 }
 
-const DEFAULT_COMMANDS = ['create', 'upsert']
+const DEFAULT_COMMANDS = new Set(['create', 'upsert'])
 
 const shouldSetDefault = function ({ value }) {
   return value == null

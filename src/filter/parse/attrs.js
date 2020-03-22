@@ -81,7 +81,7 @@ const addAttrName = function ({ node, node: { type, value }, attrName }) {
 }
 
 const addDeepAttrName = function ({ type, value, attrName }) {
-  if (!DEEP_OPERATORS.includes(type)) {
+  if (!DEEP_OPERATORS.has(type)) {
     return value
   }
 

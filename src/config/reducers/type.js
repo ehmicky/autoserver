@@ -5,7 +5,7 @@ import { mapAttrs } from '../helpers.js'
 const mapAttr = function ({ attr }) {
   const [, rawType, brackets] = TYPE_REGEXP.exec(attr.type)
   const isArray = brackets !== undefined
-  const isColl = !NON_COLL_TYPES.includes(rawType)
+  const isColl = !NON_COLL_TYPES.has(rawType)
 
   if (isColl) {
     return { type: undefined, target: rawType, isArray }
@@ -17,7 +17,7 @@ const mapAttr = function ({ attr }) {
 // Parse 'type[]' to ['type', '[]'] and 'type' to ['type', '']
 const TYPE_REGEXP = /([^[]*)(\[\])?$/u
 
-const NON_COLL_TYPES = [
+const NON_COLL_TYPES = new Set([
   'array',
   'object',
   'string',
@@ -25,6 +25,6 @@ const NON_COLL_TYPES = [
   'integer',
   'null',
   'boolean',
-]
+])
 
 export const normalizeType = mapAttrs.bind(null, mapAttr)

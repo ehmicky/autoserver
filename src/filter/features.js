@@ -24,9 +24,11 @@ const getFeature = function ({ type, attrName, value }) {
   // Simple filters, i.e. { id: string } and { id: { _in: array } }
   // do not require any feature, because every database adapter should
   // support them, since many things depend on those basic operations.
-  if (attrName === 'id' && ['_in', '_eq'].includes(type)) {
+  if (attrName === 'id' && NO_FEATURE_TYPES.has(type)) {
     return []
   }
 
   return [`filter:${type}`]
 }
+
+const NO_FEATURE_TYPES = new Set(['_in', '_eq'])

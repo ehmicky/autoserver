@@ -4,7 +4,7 @@ import { getArgTypeDescription } from '../../../../description.js'
 
 // `id` argument
 export const getIdArgument = function (def) {
-  const hasId = ID_COMMAND_TYPES.includes(def.command)
+  const hasId = ID_COMMAND_TYPES.has(def.command)
 
   if (!hasId) {
     return {}
@@ -16,7 +16,7 @@ export const getIdArgument = function (def) {
   return args
 }
 
-const ID_COMMAND_TYPES = ['find', 'delete', 'patch']
+const ID_COMMAND_TYPES = new Set(['find', 'delete', 'patch'])
 
 const getIdArgs = ({ description }) => ({
   id: {

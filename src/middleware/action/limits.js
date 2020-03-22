@@ -89,7 +89,7 @@ const validateMaxData = function ({
   // Not applied to:
   //  - find|patch commands: applied later since response size is not known yet
   //  - delete commands: they are never limited
-  if (!MAX_DATA_COMMANDS.includes(command.type)) {
+  if (!MAX_DATA_COMMANDS.has(command.type)) {
     return
   }
 
@@ -105,6 +105,6 @@ const validateMaxData = function ({
   throwPb({ reason: 'PAYLOAD_LIMIT', message, extra: { value, limit } })
 }
 
-const MAX_DATA_COMMANDS = ['create', 'upsert']
+const MAX_DATA_COMMANDS = new Set(['create', 'upsert'])
 
 const validators = [validateMaxActions, validateNestedFind, validateMaxData]

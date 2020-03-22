@@ -10,7 +10,7 @@ export const addAuthorizeFilter = function ({
   // However, all write commands first fire `currentData` `find` actions,
   // which means `model.*` authorization is checked for write actions then
   // as well.
-  if (!FILTER_COMMANDS.includes(command)) {
+  if (!FILTER_COMMANDS.has(command)) {
     return args
   }
 
@@ -24,7 +24,7 @@ export const addAuthorizeFilter = function ({
   return argsA
 }
 
-const FILTER_COMMANDS = ['find']
+const FILTER_COMMANDS = new Set(['find'])
 
 // Merge `authorizeFilter` to `args.filter`
 const getFilter = function ({ authorize, filter }) {

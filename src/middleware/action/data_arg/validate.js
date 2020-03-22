@@ -43,7 +43,7 @@ const validateType = function ({ datum, commandpath }) {
 }
 
 const validateRequiredId = function ({ datum, commandpath, command }) {
-  if (!REQUIRED_ID_TYPES.includes(command.type) || datum.id != null) {
+  if (!REQUIRED_ID_TYPES.has(command.type) || datum.id != null) {
     return
   }
 
@@ -51,11 +51,10 @@ const validateRequiredId = function ({ datum, commandpath, command }) {
   throwError(message, { reason: 'VALIDATION' })
 }
 
-const REQUIRED_ID_TYPES = ['upsert']
+const REQUIRED_ID_TYPES = new Set(['upsert'])
 
 const validateForbiddenId = function ({ datum, commandpath, command }) {
-  const forbidsId =
-    FORBIDDEN_ID_TYPES.includes(command.type) && datum.id != null
+  const forbidsId = FORBIDDEN_ID_TYPES.has(command.type) && datum.id != null
 
   if (!forbidsId) {
     return
@@ -66,7 +65,7 @@ const validateForbiddenId = function ({ datum, commandpath, command }) {
   throwError(message, { reason: 'VALIDATION' })
 }
 
-const FORBIDDEN_ID_TYPES = ['patch']
+const FORBIDDEN_ID_TYPES = new Set(['patch'])
 
 // Validate each attribute's value inside `args.data`
 const validateDataValue = function ({

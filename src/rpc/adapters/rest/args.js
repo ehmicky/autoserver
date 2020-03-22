@@ -17,14 +17,14 @@ const addDefaultTrue = function (value, name) {
     return value
   }
 
-  if (NO_DEFAULT_NAMES.includes(name)) {
+  if (NO_DEFAULT_NAMES.has(name)) {
     return value
   }
 
   return true
 }
 
-const NO_DEFAULT_NAMES = ['before', 'after']
+const NO_DEFAULT_NAMES = new Set(['before', 'after'])
 
 // Use request payload for `args.data`
 const addData = function ({ args, payload }) {
@@ -58,7 +58,7 @@ const addId = function ({ method, args, args: { data }, id }) {
 
   // If the method does not use `args.id`, it is still checked against
   // `args.data`
-  if (NO_ID_METHODS.includes(method)) {
+  if (NO_ID_METHODS.has(method)) {
     validateId({ data, id: idA })
     return args
   }
@@ -66,7 +66,7 @@ const addId = function ({ method, args, args: { data }, id }) {
   return { ...args, id: idA }
 }
 
-const NO_ID_METHODS = ['POST', 'PUT']
+const NO_ID_METHODS = new Set(['POST', 'PUT'])
 
 const validateId = function ({ data, id }) {
   if (Array.isArray(data)) {

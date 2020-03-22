@@ -5,8 +5,8 @@ import { ENUM_OPERATORS } from '../operators/main.js'
 
 // Validate value is among set of values
 const validateEnum = function ({ type, value, ruleVal, throwErr }) {
-  if (!ENUM_OPERATORS.includes(type)) {
-    const operators = getWordsList(ENUM_OPERATORS, { quotes: true })
+  if (!ENUM_OPERATORS.has(type)) {
+    const operators = getWordsList([...ENUM_OPERATORS], { quotes: true })
     const message = `must use operator ${operators}`
     throwErr(message)
   }

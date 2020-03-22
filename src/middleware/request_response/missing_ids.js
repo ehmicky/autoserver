@@ -48,12 +48,12 @@ const doesNotValidate = function ({ command, top, commandpath }) {
     //    predictable for the client
     //  - it makes less sense from semantic point of view
     //  - pagination prevents guessing missing ids
-    (FILTER_MANY_COMMANDS.includes(top.command.name) && commandpath === '')
+    (FILTER_MANY_COMMANDS.has(top.command.name) && commandpath === '')
   )
 }
 
 // Commands with a `filter` argument
-const FILTER_MANY_COMMANDS = ['findMany', 'patchMany', 'deleteMany']
+const FILTER_MANY_COMMANDS = new Set(['findMany', 'patchMany', 'deleteMany'])
 
 // Retrieve missing models ids
 const getMissingIds = function ({ filter, preFilter, response: { data } }) {

@@ -5,7 +5,7 @@ import { getArgTypeDescription } from '../../../../description.js'
 // `data` argument
 export const getDataArgument = function (def, opts) {
   // Only for mutation commands, but not delete
-  const hasData = DATA_COMMAND_TYPES.includes(def.command)
+  const hasData = DATA_COMMAND_TYPES.has(def.command)
 
   if (!hasData) {
     return {}
@@ -19,7 +19,7 @@ export const getDataArgument = function (def, opts) {
 
 const getDataObjectType = function ({ command }, { dataObjectType }) {
   // Only multiple with createMany or upsertMany
-  const isMultiple = MANY_DATA_COMMAND_TYPES.includes(command)
+  const isMultiple = MANY_DATA_COMMAND_TYPES.has(command)
 
   // Add required and array modifiers
   if (isMultiple) {
@@ -29,5 +29,5 @@ const getDataObjectType = function ({ command }, { dataObjectType }) {
   return new GraphQLNonNull(dataObjectType)
 }
 
-const DATA_COMMAND_TYPES = ['create', 'upsert', 'patch']
-const MANY_DATA_COMMAND_TYPES = ['create', 'upsert']
+const DATA_COMMAND_TYPES = new Set(['create', 'upsert', 'patch'])
+const MANY_DATA_COMMAND_TYPES = new Set(['create', 'upsert'])

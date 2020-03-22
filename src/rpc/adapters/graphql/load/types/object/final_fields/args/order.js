@@ -3,7 +3,7 @@ import { GraphQLString } from 'graphql'
 // `order` argument
 export const getOrderArgument = function ({ command, features }) {
   const canOrder =
-    ORDER_COMMAND_TYPES.includes(command) && features.includes('order')
+    ORDER_COMMAND_TYPES.has(command) && features.includes('order')
 
   if (!canOrder) {
     return {}
@@ -12,7 +12,7 @@ export const getOrderArgument = function ({ command, features }) {
   return ORDER_ARGS
 }
 
-const ORDER_COMMAND_TYPES = ['find']
+const ORDER_COMMAND_TYPES = new Set(['find'])
 
 const ORDER_ARGS = {
   order: {

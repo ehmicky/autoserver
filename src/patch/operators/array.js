@@ -69,7 +69,7 @@ export const sort = {
   argument: ['string'],
 
   check({ arg: order }) {
-    if (['asc', 'desc'].includes(order)) {
+    if (ORDERS.has(order)) {
       return
     }
 
@@ -81,3 +81,5 @@ export const sort = {
     return order === 'asc' ? attrValA : reverseArray(attrValA)
   },
 }
+
+const ORDERS = new Set(['asc', 'desc'])

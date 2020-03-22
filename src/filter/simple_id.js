@@ -46,8 +46,10 @@ const isSimpleFilter = function ({ type, attrName }) {
     return false
   }
 
-  return attrName === 'id' && ['_eq', '_in'].includes(type)
+  return attrName === 'id' && SIMPLE_TYPES.has(type)
 }
+
+const SIMPLE_TYPES = new Set(['_eq', '_in'])
 
 const getIds = function ({ type, value }) {
   // Use either type `_eq` or `_in`

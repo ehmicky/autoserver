@@ -2,7 +2,7 @@ import { GraphQLString } from 'graphql'
 
 // `cascade` argument
 export const getCascadeArgument = function ({ command }) {
-  const hasCascade = CASCADE_COMMANDS.includes(command)
+  const hasCascade = CASCADE_COMMANDS.has(command)
 
   if (!hasCascade) {
     return {}
@@ -11,7 +11,7 @@ export const getCascadeArgument = function ({ command }) {
   return CASCADE_ARGS
 }
 
-const CASCADE_COMMANDS = ['delete']
+const CASCADE_COMMANDS = new Set(['delete'])
 
 const CASCADE_ARGS = {
   cascade: {

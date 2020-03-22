@@ -13,7 +13,7 @@ import { getParamsArgument } from './params.js'
 // Retrieves all resolver arguments, before resolve function is fired
 export const getArgs = function (def, opts) {
   // Only for top-level actions
-  const isTopLevel = TOP_LEVEL_COLLS.includes(opts.parentDef.clientCollname)
+  const isTopLevel = TOP_LEVEL_COLLS.has(opts.parentDef.clientCollname)
 
   if (!isTopLevel) {
     return
@@ -34,7 +34,7 @@ export const getArgs = function (def, opts) {
   }
 }
 
-const TOP_LEVEL_COLLS = ['Query', 'Mutation']
+const TOP_LEVEL_COLLS = new Set(['Query', 'Mutation'])
 
 // Builds types used for `data` and `filter` arguments
 const getArgTypes = function (def, opts) {

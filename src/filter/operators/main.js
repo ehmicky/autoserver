@@ -36,23 +36,28 @@ export const getOperator = function ({ node }) {
 }
 
 // Operators that have other operators as children
-export const PARENT_OPERATORS = ['_all', '_some', '_or', '_and']
+export const PARENT_OPERATORS = new Set(['_all', '_some', '_or', '_and'])
 
 // Operators that are combined with their children operators
-export const DEEP_OPERATORS = ['_some', '_all']
+export const DEEP_OPERATORS = new Set(['_some', '_all'])
 
 // Operators that are parent to attributes
-export const ATTR_PARENT_OPERATORS = ['_and']
+export const ATTR_PARENT_OPERATORS = new Set(['_and'])
 
 // Operators that are parent to ATTR_PARENT_OPERATORS
-export const ATTR_ANCESTOR_OPERATORS = ['_or']
+export const ATTR_ANCESTOR_OPERATORS = new Set(['_or'])
 
 // Can be used with values that are enums
-export const ENUM_OPERATORS = ['_eq', '_neq', '_in', '_nin']
+export const ENUM_OPERATORS = new Set(['_eq', '_neq', '_in', '_nin'])
 
 // Cannot use siblings `model.ATTR`
 // This is because this would require parsing sibling value as RegExp during
 // query time, which is slow and prone to fail
 // For deep operators, it is sometimes quite complicated to implement in
 // database adapters. E.g. MongoDB does not allow $where inside $elemMatch
-export const NO_SIBLINGS_OPERATORS = ['_like', '_nlike', '_some', '_all']
+export const NO_SIBLINGS_OPERATORS = new Set([
+  '_like',
+  '_nlike',
+  '_some',
+  '_all',
+])

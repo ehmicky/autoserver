@@ -19,10 +19,10 @@ const isDataArgument = function (def, { inputObjectType }) {
 
 // Only applied when model is created, e.g. on `create` or `upsert`
 const isNotPatchData = function ({ command }) {
-  return DEFAULT_COMMANDS.includes(command)
+  return DEFAULT_COMMANDS.has(command)
 }
 
-const DEFAULT_COMMANDS = ['create', 'upsert']
+const DEFAULT_COMMANDS = new Set(['create', 'upsert'])
 
 // Config function are skipped
 const isStatic = function (def) {

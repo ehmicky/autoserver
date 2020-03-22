@@ -20,11 +20,11 @@ export const parseMethod = function ({
 }
 
 const validateMethod = function ({ method }) {
-  if (method === undefined || METHODS.includes(method)) {
+  if (method === undefined || METHODS.has(method)) {
     return
   }
 
   throwPb({ reason: 'METHOD', extra: { value: method, suggestions: METHODS } })
 }
 
-const METHODS = ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE']
+const METHODS = new Set(['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE'])

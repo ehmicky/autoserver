@@ -2,7 +2,7 @@ import { getArgTypeDescription } from '../../../../description.js'
 
 // `filter` argument
 export const getFilterArgument = function (def, { filterObjectType }) {
-  const hasFilter = FILTER_COMMAND_TYPES.includes(def.command)
+  const hasFilter = FILTER_COMMAND_TYPES.has(def.command)
 
   if (!hasFilter) {
     return {}
@@ -13,4 +13,4 @@ export const getFilterArgument = function (def, { filterObjectType }) {
   return { filter: { type: filterObjectType, description } }
 }
 
-const FILTER_COMMAND_TYPES = ['find', 'delete', 'patch']
+const FILTER_COMMAND_TYPES = new Set(['find', 'delete', 'patch'])

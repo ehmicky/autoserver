@@ -35,7 +35,7 @@ export const getSiblingValue = function ({
 }
 
 const hasSiblingValue = function ({ node: { type, value } }) {
-  if (DEEP_OPERATORS.includes(type) && Array.isArray(value)) {
+  if (DEEP_OPERATORS.has(type) && Array.isArray(value)) {
     return value.some((nodeA) => hasSiblingValue({ node: nodeA }))
   }
 

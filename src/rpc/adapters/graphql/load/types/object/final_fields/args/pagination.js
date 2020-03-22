@@ -6,14 +6,14 @@ import omit from 'omit.js'
 export const getPaginationArgument = function ({ command, features }) {
   // Only with commands that return an array and do not provide array of data,
   // i.e. only with findMany, deleteMany and patchMany
-  const hasPaginationArgs = PAGINATION_COMMANDS.includes(command)
+  const hasPaginationArgs = PAGINATION_COMMANDS.has(command)
 
   if (!hasPaginationArgs) {
     return {}
   }
 
   // Only with safe commands that return an array, i.e. only with findMany
-  const hasFullArgs = FULL_PAGINATION_COMMANDS.includes(command)
+  const hasFullArgs = FULL_PAGINATION_COMMANDS.has(command)
 
   if (!hasFullArgs) {
     return filterObj(PAGINATION_ARGS, ['pagesize'])
@@ -26,8 +26,8 @@ export const getPaginationArgument = function ({ command, features }) {
   return PAGINATION_ARGS
 }
 
-const PAGINATION_COMMANDS = ['find', 'patch', 'delete']
-const FULL_PAGINATION_COMMANDS = ['find']
+const PAGINATION_COMMANDS = new Set(['find', 'patch', 'delete'])
+const FULL_PAGINATION_COMMANDS = new Set(['find'])
 
 const PAGINATION_ARGS = {
   after: {
