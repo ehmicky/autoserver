@@ -1,6 +1,6 @@
 import { ANY_ARRAY } from './array.js'
 
-const checkSlice = function({ arg: opVal }) {
+const checkSlice = function ({ arg: opVal }) {
   if (opVal.length <= 2) {
     return
   }
@@ -16,7 +16,7 @@ const commonAttrs = {
 
 // Negative indexes are from the end. Null indexes are representing the end.
 // Positive indexes are from the start.
-const argToIndex = function(arg, attrVal) {
+const argToIndex = function (arg, attrVal) {
   if (arg == null) {
     return attrVal.length
   }
@@ -28,7 +28,7 @@ const argToIndex = function(arg, attrVal) {
   return attrVal.length + arg
 }
 
-const sliceApply = function({ attrVal, start, end }) {
+const sliceApply = function ({ attrVal, start, end }) {
   const startA = argToIndex(start, attrVal)
   const endA = argToIndex(end, attrVal)
   return attrVal.slice(startA, endA)
@@ -54,7 +54,7 @@ export const slice = {
   },
 }
 
-const insertApply = function({ index, attrVal }) {
+const insertApply = function ({ index, attrVal }) {
   const indexA = argToIndex(index, attrVal)
   const start = attrVal.slice(0, indexA)
   const end = attrVal.slice(indexA)
@@ -80,7 +80,7 @@ export const insertstr = {
   },
 }
 
-const isValidInsertstr = function({ opVal }) {
+const isValidInsertstr = function ({ opVal }) {
   return (
     opVal.length === 2 &&
     (Number.isInteger(opVal[0]) || opVal[0] == null) &&

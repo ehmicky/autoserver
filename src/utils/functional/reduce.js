@@ -2,11 +2,11 @@ import { promiseThen } from './promise.js'
 
 // Like Array.reduce(), but supports async
 // eslint-disable-next-line max-params
-export const reduceAsync = function(array, mapFunc, prevVal, secondMapFunc) {
+export const reduceAsync = function (array, mapFunc, prevVal, secondMapFunc) {
   return asyncReducer(prevVal, { array, mapFunc, secondMapFunc })
 }
 
-const asyncReducer = function(prevVal, input) {
+const asyncReducer = function (prevVal, input) {
   const { array, mapFunc, index = 0 } = input
 
   if (index === array.length) {
@@ -19,7 +19,7 @@ const asyncReducer = function(prevVal, input) {
   return promiseThen(nextVal, applySecondMap.bind(null, prevVal, inputA))
 }
 
-const applySecondMap = function(prevVal, input, nextVal) {
+const applySecondMap = function (prevVal, input, nextVal) {
   if (!input.secondMapFunc) {
     return asyncReducer(nextVal, input)
   }

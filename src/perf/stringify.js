@@ -3,13 +3,13 @@ import { sortArray } from '../utils/functional/sort.js'
 import { sortMeasures } from './sort.js'
 
 // Returns measures but as a single string, for console debugging
-export const stringifyMeasures = function({ phase = '', measuresGroups }) {
+export const stringifyMeasures = function ({ phase = '', measuresGroups }) {
   const sortedMeasures = sortArray(measuresGroups, sortMeasures)
   return sortedMeasures.map(stringifyMeasure.bind(null, phase)).join('\n')
 }
 
 // Prints as a table
-const stringifyMeasure = function(
+const stringifyMeasure = function (
   phase,
   { category, label, average, count, duration },
 ) {
@@ -24,7 +24,7 @@ const stringifyMeasure = function(
   return `${phaseS} ${categoryS} ${labelS} ${durationS} = ${averageS} * ${countS}`
 }
 
-const formatDuration = function(duration) {
+const formatDuration = function (duration) {
   const durationA = Math.round(duration * DECIMALS_EXP) / DECIMALS_EXP
 
   const durationB = String(durationA)

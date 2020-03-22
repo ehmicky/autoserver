@@ -1,5 +1,5 @@
 // Similar to Lodash get(), but do not mutate, and faster
-export const get = function(obj, keys) {
+export const get = function (obj, keys) {
   if (keys.length === 0) {
     return obj
   }
@@ -10,7 +10,7 @@ export const get = function(obj, keys) {
 }
 
 // Same but do not use `result()`
-export const set = function(objArr, keys, val) {
+export const set = function (objArr, keys, val) {
   if (keys.length === 0) {
     return val
   }
@@ -23,14 +23,14 @@ export const set = function(objArr, keys, val) {
 }
 
 // eslint-disable-next-line default-param-last
-const setObject = function(obj = {}, keys, val) {
+const setObject = function (obj = {}, keys, val) {
   const { child, childKey } = setVal({ objArr: obj, keys, val })
 
   return { ...obj, [childKey]: child }
 }
 
 // eslint-disable-next-line default-param-last
-const setArray = function(arr = [], keys, val) {
+const setArray = function (arr = [], keys, val) {
   const { child, childKey } = setVal({ objArr: arr, keys, val })
 
   const arrA = fillLength(arr, childKey)
@@ -40,7 +40,7 @@ const setArray = function(arr = [], keys, val) {
 
 // When setting with indice larger than the array, we need to first fill in
 // the array with extra `undefined` values
-const fillLength = function(arr, childKey) {
+const fillLength = function (arr, childKey) {
   if (arr.length >= childKey) {
     return arr
   }
@@ -49,7 +49,7 @@ const fillLength = function(arr, childKey) {
   return [...arr, ...extraArr]
 }
 
-const setVal = function({ objArr, keys, val }) {
+const setVal = function ({ objArr, keys, val }) {
   const [childKey, ...keysA] = keys
   const child = objArr[childKey]
   const childA = set(child, keysA, val)
@@ -58,7 +58,7 @@ const setVal = function({ objArr, keys, val }) {
 }
 
 // Similar to Lodash has(), but faster
-export const has = function(obj, keys) {
+export const has = function (obj, keys) {
   try {
     return get(obj, keys) !== undefined
   } catch {

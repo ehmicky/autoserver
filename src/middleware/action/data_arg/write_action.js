@@ -6,7 +6,7 @@ import { getColl } from '../get_coll.js'
 import { isModelsType } from './validate.js'
 
 // Transform each `args.data` object into a separate write action
-export const getWriteAction = function({
+export const getWriteAction = function ({
   data,
   commandpath,
   dataPaths,
@@ -16,14 +16,14 @@ export const getWriteAction = function({
 }) {
   const { collname } = getColl({ top, config, commandpath })
 
-  const dataA = data.map(datum => replaceNestedData({ datum, nestedKeys }))
+  const dataA = data.map((datum) => replaceNestedData({ datum, nestedKeys }))
   const args = { data: dataA }
 
   return { commandpath, args, collname, dataPaths }
 }
 
 // Replace nested objects from each `args.data` by only their ids
-const replaceNestedData = function({ datum, nestedKeys }) {
+const replaceNestedData = function ({ datum, nestedKeys }) {
   const datumA = mapValues(datum, (value, key) =>
     replaceNestedDatum({ value, key, nestedKeys }),
   )
@@ -33,7 +33,7 @@ const replaceNestedData = function({ datum, nestedKeys }) {
   return datumB
 }
 
-const replaceNestedDatum = function({ value, key, nestedKeys }) {
+const replaceNestedDatum = function ({ value, key, nestedKeys }) {
   if (!(nestedKeys.includes(key) && isModelsType(value))) {
     return value
   }
@@ -41,6 +41,6 @@ const replaceNestedDatum = function({ value, key, nestedKeys }) {
   return Array.isArray(value) ? value.map(({ id }) => id) : value.id
 }
 
-const isDefined = function(key, value) {
+const isDefined = function (key, value) {
   return value !== undefined
 }

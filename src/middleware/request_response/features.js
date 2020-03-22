@@ -1,7 +1,7 @@
 import { addGenErrorHandler } from '../../errors/handler.js'
 
 // Validate database supports command features
-const eValidateRuntimeFeatures = function({
+const eValidateRuntimeFeatures = function ({
   args,
   collname,
   clientCollname,

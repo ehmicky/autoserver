@@ -7,7 +7,7 @@ import { getAttr } from './attr.js'
 // Replace sibling attribute's value by a dummy value, since it is not known
 // yet, but we still want to validate for example that sibling attribute is of
 // the right attribute
-export const getSiblingValue = function({
+export const getSiblingValue = function ({
   node,
   node: { value, type },
   attrs,
@@ -34,15 +34,15 @@ export const getSiblingValue = function({
   return valueA
 }
 
-const hasSiblingValue = function({ node: { type, value } }) {
+const hasSiblingValue = function ({ node: { type, value } }) {
   if (DEEP_OPERATORS.includes(type) && Array.isArray(value)) {
-    return value.some(nodeA => hasSiblingValue({ node: nodeA }))
+    return value.some((nodeA) => hasSiblingValue({ node: nodeA }))
   }
 
   return isSiblingValue({ value })
 }
 
-const getDummyValue = function({ attr: { type, isArray } }) {
+const getDummyValue = function ({ attr: { type, isArray } }) {
   const valueA = DUMMY_VALUES[type]
   const valueB = isArray ? [valueA] : valueA
   return valueB

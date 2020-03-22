@@ -2,7 +2,7 @@ import { addGenPbHandler } from '../../../errors/handler.js'
 import { getAlgo, getAlgos } from '../../../compress/get.js'
 
 // Retrieve compression asked by client for the response and request payloads
-export const getCompress = function({
+export const getCompress = function ({
   queryvars,
   compressResponse,
   compressRequest,
@@ -32,7 +32,7 @@ export const getCompress = function({
 }
 
 // ?compress query variable, Content-Encoding or Accept-Encoding HTTP header
-const parseCompress = function({
+const parseCompress = function ({
   queryvars: { compress },
   compressResponse,
   compressRequest,
@@ -49,7 +49,7 @@ const parseCompress = function({
 }
 
 // Using query variable ?compress=REQUEST_COMPRESSION[,RESPONSE_COMPRESSION]
-const splitCompress = function({ compress }) {
+const splitCompress = function ({ compress }) {
   if (compress === undefined) {
     return {}
   }
@@ -59,12 +59,12 @@ const splitCompress = function({ compress }) {
 }
 
 // Inverse
-const joinCompress = function({ compressResponse, compressRequest }) {
+const joinCompress = function ({ compressResponse, compressRequest }) {
   return [compressResponse.name, compressRequest.name].join(',')
 }
 
 // Validates and adds default values
-const getExtra = function(algo) {
+const getExtra = function (algo) {
   const suggestions = getAlgos()
   return { kind: 'compress', value: [algo], suggestions }
 }

@@ -4,7 +4,7 @@ import { applyPatchOps } from '../../patch/apply.js'
 
 // Merge `currentData` with the `args.data` in `patch` commands,
 // to obtain the final models we want to use as replacement
-export const patchData = function({
+export const patchData = function ({
   actions,
   top: { command },
   config,
@@ -15,23 +15,23 @@ export const patchData = function({
   }
 
   const dataMap = mergePartialData({ actions, config, mInput })
-  const actionsA = actions.map(action => addData({ action, dataMap }))
+  const actionsA = actions.map((action) => addData({ action, dataMap }))
 
   return { actions: actionsA }
 }
 
 // Merge `currentData` with `args.data`
-const mergePartialData = function({ actions, config, mInput }) {
+const mergePartialData = function ({ actions, config, mInput }) {
   const actionsA = actions.flatMap(flattenAction)
   const dataMap = groupBy(actionsA, getActionKey)
-  const dataMapA = mapValues(dataMap, actionsB =>
+  const dataMapA = mapValues(dataMap, (actionsB) =>
     mergeDatum({ actions: actionsB, config, mInput }),
   )
   return dataMapA
 }
 
 // Flatten `action.data` and `action.currentData` together
-const flattenAction = function({
+const flattenAction = function ({
   currentData,
   args: {
     data: [patchOps],
@@ -39,7 +39,7 @@ const flattenAction = function({
   collname,
   commandpath,
 }) {
-  return currentData.map(currentDatum => ({
+  return currentData.map((currentDatum) => ({
     patchOps,
     currentDatum,
     collname,
@@ -48,12 +48,12 @@ const flattenAction = function({
 }
 
 // Group args.data according to currentData `id` and `collname`
-const getActionKey = function({ collname, currentDatum: { id } }) {
+const getActionKey = function ({ collname, currentDatum: { id } }) {
   return `${collname} ${id}`
 }
 
 // Do the actual merging
-const mergeDatum = function({
+const mergeDatum = function ({
   actions,
   actions: [{ currentDatum, commandpath, collname }],
   config,
@@ -71,7 +71,7 @@ const mergeDatum = function({
 }
 
 // Add merged `args.data` to each action
-const addData = function({
+const addData = function ({
   action,
   action: { args, collname, currentData },
   dataMap,

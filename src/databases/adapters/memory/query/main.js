@@ -5,7 +5,7 @@ import { deleteMany } from './delete.js'
 import { upsert } from './upsert.js'
 
 // CRUD commands
-export const query = async function({
+export const query = async function ({
   collname,
   command,
   filter,

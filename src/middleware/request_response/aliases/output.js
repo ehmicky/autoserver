@@ -1,7 +1,7 @@
 import { applyResponseAliases } from './response.js'
 
 // Apply `alias` in server output
-export const applyOutputAliases = function({ response, modelAliases }) {
+export const applyOutputAliases = function ({ response, modelAliases }) {
   const responseB = Object.entries(modelAliases).reduce(
     (responseA, [attrName, aliases]) =>
       applyOutputAlias({ response: responseA, attrName, aliases }),
@@ -10,7 +10,7 @@ export const applyOutputAliases = function({ response, modelAliases }) {
   return { response: responseB }
 }
 
-const applyOutputAlias = function({
+const applyOutputAlias = function ({
   response,
   response: { data },
   attrName,

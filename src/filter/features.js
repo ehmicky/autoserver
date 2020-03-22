@@ -4,7 +4,7 @@ import { crawlNodes } from './crawl.js'
 import { isSiblingValue } from './siblings.js'
 
 // Returns all the database features needed by this filter
-export const getFeatures = function({ filter }) {
+export const getFeatures = function ({ filter }) {
   if (filter === undefined) {
     return []
   }
@@ -15,7 +15,7 @@ export const getFeatures = function({ filter }) {
   return featuresB
 }
 
-const getFeature = function({ type, attrName, value }) {
+const getFeature = function ({ type, attrName, value }) {
   // `model.ATTR` targetting a sibling in `args.filter`
   if (isSiblingValue({ value })) {
     return ['filter:sibling']

@@ -1,6 +1,6 @@
 // Normalize results to an object with `path`, `model`, `collname`, `select`
 // Then push to shared `results` variable
-export const processResults = function({
+export const processResults = function ({
   results,
   finishedResults,
   pendingResults,
@@ -12,7 +12,7 @@ export const processResults = function({
 
   // Replace `pendingResults` promises by their resolved values
   if (pendingResults.length !== 0) {
-    const index = results.findIndex(result => pendingResults.includes(result))
+    const index = results.findIndex((result) => pendingResults.includes(result))
     // eslint-disable-next-line fp/no-mutating-methods
     results.splice(index, pendingResults.length)
   }
@@ -21,7 +21,7 @@ export const processResults = function({
   results.push(...finishedResultsB)
 }
 
-const getResults = function({
+const getResults = function ({
   isTopLevel,
   parentResults,
   nestedParentIds,
@@ -43,7 +43,7 @@ const getResults = function({
   return finishedResults
 }
 
-const getEachResults = function({ ids, results, ...rest }) {
+const getEachResults = function ({ ids, results, ...rest }) {
   const multiple = Array.isArray(ids)
   return results
     .filter(({ model }) => filterResult({ model, ids, multiple }))
@@ -52,11 +52,11 @@ const getEachResults = function({ ids, results, ...rest }) {
     )
 }
 
-const filterResult = function({ model: { id }, ids, multiple }) {
+const filterResult = function ({ model: { id }, ids, multiple }) {
   return multiple ? ids.includes(id) : ids === id
 }
 
-const getResult = function({
+const getResult = function ({
   action,
   model,
   metadata,

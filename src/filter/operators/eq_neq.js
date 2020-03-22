@@ -3,12 +3,12 @@ import { isDeepStrictEqual } from 'util'
 import { validateSameType, parseAsIs } from './common.js'
 
 // `{ attribute: { _eq: value } }` or `{ attribute: value }`
-const evalEq = function({ attr, value }) {
+const evalEq = function ({ attr, value }) {
   return isDeepStrictEqual(attr, value)
 }
 
 // `{ attribute: { _neq: value } }`
-const evalNeq = function({ attr, value }) {
+const evalNeq = function ({ attr, value }) {
   return !isDeepStrictEqual(attr, value)
 }
 

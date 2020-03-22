@@ -1,6 +1,10 @@
 // Retrieve `nestedPagesize`, which is the pagesize applied to nested actions
 // We try to maximize it, while still be under the `maxmodels` limit
-export const getNestedPagesize = function({ results, nestedAttrs, maxmodels }) {
+export const getNestedPagesize = function ({
+  results,
+  nestedAttrs,
+  maxmodels,
+}) {
   const count = results.length
   const nestedLengths = getNestedLengths({ results, nestedAttrs })
   const nestedPagesize = findNestedPagesize({
@@ -15,17 +19,17 @@ export const getNestedPagesize = function({ results, nestedAttrs, maxmodels }) {
 // `{ length, weight }` object with `length` being the length of the nested
 // attribute (1 if it is not an array) and `weight` the number of nested
 // actions implied
-const getNestedLengths = function({ results, nestedAttrs }) {
+const getNestedLengths = function ({ results, nestedAttrs }) {
   return results.flatMap(({ model }) => getNestedLength({ model, nestedAttrs }))
 }
 
-const getNestedLength = function({ model, nestedAttrs }) {
+const getNestedLength = function ({ model, nestedAttrs }) {
   return nestedAttrs
     .map(({ attrName, weight }) => getLength({ model, attrName, weight }))
     .filter(({ length }) => length > 0)
 }
 
-const getLength = function({ model, attrName, weight }) {
+const getLength = function ({ model, attrName, weight }) {
   const attrVal = model[attrName]
 
   if (attrVal == null) {
@@ -37,7 +41,7 @@ const getLength = function({ model, attrName, weight }) {
 }
 
 // Recursively try incrementing `nestedPagesize` until we hit `maxmodels` limit
-const findNestedPagesize = function({
+const findNestedPagesize = function ({
   nestedLengths,
   count,
   maxmodels,

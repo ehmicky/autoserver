@@ -7,7 +7,7 @@ import { isPatchOp } from '../../../patch/parse.js'
 const { byteLength } = Buffer
 
 // Validate that user passed a correct `args.data`
-export const validateData = function({
+export const validateData = function ({
   datum,
   commandpath,
   top: { command },
@@ -31,7 +31,7 @@ export const validateData = function({
   )
 }
 
-const validateType = function({ datum, commandpath }) {
+const validateType = function ({ datum, commandpath }) {
   if (isModelType(datum)) {
     return
   }
@@ -42,7 +42,7 @@ const validateType = function({ datum, commandpath }) {
   throwError(message, { reason: 'VALIDATION' })
 }
 
-const validateRequiredId = function({ datum, commandpath, command }) {
+const validateRequiredId = function ({ datum, commandpath, command }) {
   if (!REQUIRED_ID_TYPES.includes(command.type) || datum.id != null) {
     return
   }
@@ -53,7 +53,7 @@ const validateRequiredId = function({ datum, commandpath, command }) {
 
 const REQUIRED_ID_TYPES = ['upsert']
 
-const validateForbiddenId = function({ datum, commandpath, command }) {
+const validateForbiddenId = function ({ datum, commandpath, command }) {
   const forbidsId =
     FORBIDDEN_ID_TYPES.includes(command.type) && datum.id != null
 
@@ -69,7 +69,7 @@ const validateForbiddenId = function({ datum, commandpath, command }) {
 const FORBIDDEN_ID_TYPES = ['patch']
 
 // Validate each attribute's value inside `args.data`
-const validateDataValue = function({
+const validateDataValue = function ({
   value,
   attrName,
   commandpath,
@@ -86,7 +86,7 @@ const validateDataValue = function({
   throwError(message, { reason: 'VALIDATION' })
 }
 
-export const isModelsType = function(val) {
+export const isModelsType = function (val) {
   if (isModelType(val)) {
     return true
   }
@@ -94,6 +94,6 @@ export const isModelsType = function(val) {
   return Array.isArray(val) && val.every(isModelType)
 }
 
-export const isModelType = function(obj) {
+export const isModelType = function (obj) {
   return isObject(obj) && !isPatchOp(obj)
 }

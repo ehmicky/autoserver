@@ -9,7 +9,7 @@ import { validate } from '../../../validation/validate.js'
 import { SCHEMA } from './config_schema.js'
 
 // General config syntax validation
-export const validateConfigSyntax = function({ config }) {
+export const validateConfigSyntax = function ({ config }) {
   const data = getConfig(config)
 
   eValidate({ compiledJsonSchema, data })
@@ -20,26 +20,26 @@ const compiledJsonSchema = compile({ jsonSchema: SCHEMA })
 // At the moment, the config needs to be modified for proper JSON schema
 // validation
 // TODO: remove this
-const getConfig = function(config) {
+const getConfig = function (config) {
   return modifiers.reduce((configA, modifier) => modifier(configA), config)
 }
 
 // Adds some temporary property on the config, to help validation
-const addProps = function(config) {
+const addProps = function (config) {
   const collTypes = getCollTypes(config)
   const customValidationNames = getCustomValidationNames(config)
 
   return { ...config, collTypes, customValidationNames }
 }
 
-const getCollTypes = function({ collections }) {
+const getCollTypes = function ({ collections }) {
   const simpleCollTypes = Object.keys(collections || {})
-  const arrayCollTypes = simpleCollTypes.map(name => `${name}[]`)
+  const arrayCollTypes = simpleCollTypes.map((name) => `${name}[]`)
 
   return [...simpleCollTypes, ...arrayCollTypes]
 }
 
-const getCustomValidationNames = function({ validation }) {
+const getCustomValidationNames = function ({ validation }) {
   if (!isObject(validation)) {
     return []
   }
@@ -49,11 +49,11 @@ const getCustomValidationNames = function({ validation }) {
 
 // At the moment, main config validation does not support `$data`,
 // so we remove them
-const removeData = function(config) {
+const removeData = function (config) {
   return fullRecurseMap(config, removeDatum)
 }
 
-const removeDatum = function(obj) {
+const removeDatum = function (obj) {
   if (!isObject(obj)) {
     return obj
   }
@@ -61,7 +61,7 @@ const removeDatum = function(obj) {
   return filterObj(obj, hasNoData)
 }
 
-const hasNoData = function(key, prop) {
+const hasNoData = function (key, prop) {
   return !prop || !prop.$data
 }
 

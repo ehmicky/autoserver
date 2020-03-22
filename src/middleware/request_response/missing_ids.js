@@ -3,7 +3,7 @@ import { throwPb } from '../../errors/props.js'
 import { extractSimpleIds, getSimpleFilter } from '../../filter/simple_id.js'
 
 // Check if any `id` was not found (404) or was unauthorized (403)
-export const validateMissingIds = function(
+export const validateMissingIds = function (
   {
     command,
     clientCollname,
@@ -37,7 +37,7 @@ export const validateMissingIds = function(
   })
 }
 
-const doesNotValidate = function({ command, top, commandpath }) {
+const doesNotValidate = function ({ command, top, commandpath }) {
   // Other commands trigger this middleware during their `currentData` actions
   return (
     command !== 'find' ||
@@ -56,7 +56,7 @@ const doesNotValidate = function({ command, top, commandpath }) {
 const FILTER_MANY_COMMANDS = ['findMany', 'patchMany', 'deleteMany']
 
 // Retrieve missing models ids
-const getMissingIds = function({ filter, preFilter, response: { data } }) {
+const getMissingIds = function ({ filter, preFilter, response: { data } }) {
   const filterA = preFilter === undefined ? filter : preFilter
   const filterIds = extractSimpleIds({ filter: filterA })
 
@@ -73,14 +73,14 @@ const getMissingIds = function({ filter, preFilter, response: { data } }) {
   }
 
   const responseIds = data.map(({ id }) => id)
-  const ids = filterIds.filter(id => !responseIds.includes(id))
+  const ids = filterIds.filter((id) => !responseIds.includes(id))
 
   return ids
 }
 
 // Check whether this is because the model does not exist,
 // or because it is not authorized
-const reportProblem = async function({ top, clientCollname, ...rest }) {
+const reportProblem = async function ({ top, clientCollname, ...rest }) {
   const idsA = await checkAuthorization({ top, clientCollname, ...rest })
 
   // `upsert` commands might throw authorization errors, but not model not found
@@ -97,7 +97,7 @@ const reportProblem = async function({ top, clientCollname, ...rest }) {
 // Try the same database query, but this time without the authorization filter,
 // and only on the missing models.
 // If no missing model is missing anymore, flag it as an authorization error.
-const checkAuthorization = async function({
+const checkAuthorization = async function ({
   top,
   clientCollname,
   preFilter,

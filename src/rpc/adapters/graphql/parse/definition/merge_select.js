@@ -1,7 +1,7 @@
-export const mergeSelectRename = function({ selectRename, name }) {
+export const mergeSelectRename = function ({ selectRename, name }) {
   const values = selectRename
     .map(({ [name]: value }) => value)
-    .filter(value => value !== undefined)
+    .filter((value) => value !== undefined)
 
   if (values.length === 0) {
     return

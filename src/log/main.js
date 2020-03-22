@@ -8,7 +8,7 @@ import { getLog } from './get.js'
 
 // Log some event, including printing to console
 // `config.log` might be `undefined` if the error happened at startup time.
-const eLogEvent = async function({
+const eLogEvent = async function ({
   config,
   config: { log: logConf = [DEFAULT_LOGGER] },
   ...rest
@@ -16,14 +16,14 @@ const eLogEvent = async function({
   const { log, configFuncInput } = getLogParams({ config, ...rest })
 
   // Can fire several logAdapters at the same time
-  const promises = logConf.map(logConfA =>
+  const promises = logConf.map((logConfA) =>
     fireLogger({ logConf: logConfA, log, configFuncInput }),
   )
   // We make sure this function returns `undefined`
   await Promise.all(promises)
 }
 
-const fireLogger = function({
+const fireLogger = function ({
   logConf: { provider, opts = {}, level },
   log,
   log: { event },
@@ -47,13 +47,13 @@ const fireLogger = function({
 // Can filter verbosity with `config.log.level`
 // This won't work for very early startup errors since config is not
 // parsed yet.
-const shouldLog = function({ level, log }) {
+const shouldLog = function ({ level, log }) {
   return (
     level !== 'silent' && LEVELS.indexOf(log.level) >= LEVELS.indexOf(level)
   )
 }
 
-const getReportFunc = function({ event, provider }) {
+const getReportFunc = function ({ event, provider }) {
   // `perf` events are handled differently
   const funcName = event === 'perf' ? 'reportPerf' : 'report'
   const logProvider = getLog(provider)
@@ -61,7 +61,7 @@ const getReportFunc = function({ event, provider }) {
   return reportFunc
 }
 
-const logEventHandler = function(error, { config, event }) {
+const logEventHandler = function (error, { config, event }) {
   const errorA = normalizeError({ error })
   const errorB = createPb('An error occurred during logging', {
     reason: 'ENGINE',
@@ -84,7 +84,7 @@ const logEventHandler = function(error, { config, event }) {
 export const logEvent = addErrorHandler(eLogEvent, logEventHandler)
 
 // This means there is a bug in the logging code itself
-export const safetyHandler = function(error) {
+export const safetyHandler = function (error) {
   const errorA = normalizeError({ error })
   const errorB = createPb('An error occurred during logging error handling', {
     reason: 'ENGINE',

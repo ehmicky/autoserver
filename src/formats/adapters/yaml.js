@@ -1,7 +1,7 @@
 import { load as yamlParse, dump as yamlStringify, JSON_SCHEMA } from 'js-yaml'
 
 // Parses a YAML file
-const parse = function({ content, path }) {
+const parse = function ({ content, path }) {
   return yamlParse(content, {
     schema: JSON_SCHEMA,
     json: true,
@@ -14,7 +14,7 @@ const parse = function({ content, path }) {
 }
 
 // Serializes a YAML file
-const serialize = function({ content }) {
+const serialize = function ({ content }) {
   return yamlStringify(content, {
     schema: JSON_SCHEMA,
     noRefs: true,

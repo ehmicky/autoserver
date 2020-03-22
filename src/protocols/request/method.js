@@ -2,7 +2,7 @@ import { throwPb } from '../../errors/props.js'
 
 import { validateString } from './validate.js'
 
-export const parseMethod = function({
+export const parseMethod = function ({
   protocolAdapter,
   protocolAdapter: { getMethod },
   specific,
@@ -19,7 +19,7 @@ export const parseMethod = function({
   return { method }
 }
 
-const validateMethod = function({ method }) {
+const validateMethod = function ({ method }) {
   if (method === undefined || METHODS.includes(method)) {
     return
   }

@@ -7,7 +7,7 @@ import { gracefulExit } from './graceful_exit.js'
 // Make sure the server stops when graceful exits are possible
 // Also send related events
 // We cannot handle `process.exit()` since graceful exit is async
-export const setupGracefulExit = function({
+export const setupGracefulExit = function ({
   protocolAdapters,
   dbAdapters,
   stopProcessErrors,
@@ -21,13 +21,13 @@ export const setupGracefulExit = function({
   })
 
   const exitSignals = getExitSignals()
-  exitSignals.forEach(exitSignal => process.on(exitSignal, exitFunc))
+  exitSignals.forEach((exitSignal) => process.on(exitSignal, exitFunc))
 
   return { exitFunc }
 }
 
 // Add `SIGUSR2` for Nodemon
-const getExitSignals = function() {
+const getExitSignals = function () {
   const exitSignals = signals()
   return exitSignals.includes('SIGUSR2')
     ? exitSignals

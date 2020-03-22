@@ -23,7 +23,7 @@ import { optimizeFilter } from './optimize.js'
 //      }
 //    }
 //  ]
-export const parseFilter = function({
+export const parseFilter = function ({
   filter,
   reason = 'VALIDATION',
   prefix = '',

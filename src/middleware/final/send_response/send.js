@@ -6,7 +6,7 @@ import { serializeContent } from './serialize.js'
 import { compressContent } from './compress.js'
 
 // Set basic payload headers, then delegate to protocol handler
-export const send = async function({
+export const send = async function ({
   protocolAdapter,
   content,
   response,
@@ -55,7 +55,7 @@ export const send = async function({
 // If `raw` format was used in input, JSON should be used in output
 // Also if a wrong format was parsed during protocolInput and added to mInput,
 // then an error will be thrown later, but wrong `format` will be used here.
-const normalizeFormat = function({ format }) {
+const normalizeFormat = function ({ format }) {
   const isInvalidFormat =
     format === undefined ||
     typeof format === 'string' ||

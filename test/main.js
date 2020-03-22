@@ -9,7 +9,7 @@ const pSetTimeout = promisify(setTimeout)
 
 const EXAMPLE_DIR = `${__dirname}/../../examples`
 
-test('Smoke test', async t => {
+test('Smoke test', async (t) => {
   const binPath = await getBinPath()
   const server = execa(binPath, {
     env: { NODE_ENV: 'dev' },
@@ -21,26 +21,19 @@ test('Smoke test', async t => {
   t.snapshot({ message, stderr })
 })
 
-const request = async function(server) {
+const request = async function (server) {
   await pSetTimeout(STARTUP_TIMEOUT)
   await got('http://localhost:5001/rest/pets/2')
   server.kill('SIGKILL')
 }
 
-const normalizeStdout = function(stdout) {
+const normalizeStdout = function (stdout) {
   // eslint-disable-next-line fp/no-mutating-methods
-  return stdout
-    .split('\n')
-    .map(normalizeLine)
-    .sort()
-    .join('\n')
+  return stdout.split('\n').map(normalizeLine).sort().join('\n')
 }
 
-const normalizeLine = function(line) {
-  return line
-    .replace(START_LINE_REGEXP, '')
-    .replace(PORT_REGEXP, '$1')
-    .trim()
+const normalizeLine = function (line) {
+  return line.replace(START_LINE_REGEXP, '').replace(PORT_REGEXP, '$1').trim()
 }
 
 const STARTUP_TIMEOUT = 6e4

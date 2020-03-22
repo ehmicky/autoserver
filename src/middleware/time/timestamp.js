@@ -1,7 +1,7 @@
 import { startPerf } from '../../perf/measure.js'
 
 // Start the main performance counter, and add request timestamp
-export const addTimestamp = function() {
+export const addTimestamp = function () {
   // Used by other middleware
   const timestamp = new Date().toISOString()
 

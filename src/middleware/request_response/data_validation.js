@@ -5,7 +5,7 @@ import { validate } from '../../validation/validate.js'
 // Check that newData passes config validation
 // E.g. if a model is marked as `required` or `minimum: 10` in the
 // config, this will be validated here
-export const dataValidation = function({
+export const dataValidation = function ({
   args: { newData, currentData },
   collname,
   config: {

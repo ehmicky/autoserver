@@ -1,5 +1,5 @@
 // Sort by category (asc) then by duration (desc)
-export const sortMeasures = function(
+export const sortMeasures = function (
   { category: catA, average: timeA },
   { category: catB, average: timeB },
 ) {
@@ -12,7 +12,7 @@ export const sortMeasures = function(
   return sortByTime({ timeA, timeB })
 }
 
-const sortByCategory = function({ catA, catB }) {
+const sortByCategory = function ({ catA, catB }) {
   const indexCatA = CATEGORIES.indexOf(catA)
   const indexCatB = CATEGORIES.indexOf(catB)
 
@@ -50,7 +50,7 @@ const CATEGORIES = [
   'final',
 ]
 
-const sortByTime = function({ timeA, timeB }) {
+const sortByTime = function ({ timeA, timeB }) {
   if (timeA < timeB) {
     return 1
   }

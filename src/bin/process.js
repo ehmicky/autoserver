@@ -8,7 +8,7 @@ import { throwPb } from '../errors/props.js'
 import { availableInstructions } from './available.js'
 
 // Process options after parsing
-export const processOpts = function({ opts }) {
+export const processOpts = function ({ opts }) {
   // Remove parser-specific values
   const { _: posArgs, ...optsA } = omit(opts, parserOpts)
 
@@ -25,7 +25,7 @@ export const processOpts = function({ opts }) {
 const parserOpts = ['$0', 'help', 'version', 'instruction']
 
 // When using default command, `config` will be the first argument
-const getInstruction = function({
+const getInstruction = function ({
   posArgs = [],
   posArgs: [instruction, ...posArgsA] = [],
 }) {
@@ -40,7 +40,7 @@ const getInstruction = function({
   return { instruction: 'run', posArgs }
 }
 
-const validatePosArgs = function({ posArgs }) {
+const validatePosArgs = function ({ posArgs }) {
   if (posArgs.length === 0) {
     return
   }
@@ -50,17 +50,17 @@ const validatePosArgs = function({ posArgs }) {
 }
 
 // Allow JSON values for options
-const transtypeValues = function({ opts }) {
+const transtypeValues = function ({ opts }) {
   return recurseMap(opts, transtype)
 }
 
 // `yargs` parses `--OPT.0` as an object `{ OPT: { 0: ... } }`
 // We transform it to an array instead: `{ OPT: [...] }`
-const parseArrays = function({ opts }) {
+const parseArrays = function ({ opts }) {
   return fullRecurseMap(opts, parseArray)
 }
 
-const parseArray = function(value) {
+const parseArray = function (value) {
   const isArray = isObject(value) && Object.keys(value).some(isIndex)
 
   if (!isArray) {
@@ -77,11 +77,11 @@ const parseArray = function(value) {
   return arrC
 }
 
-const isIndex = function(value) {
+const isIndex = function (value) {
   return Number.isInteger(Number(value))
 }
 
-const addArrayValue = function(arr, [index, val]) {
+const addArrayValue = function (arr, [index, val]) {
   const indexA = Number(index)
   const start = arr.slice(0, indexA)
   const end = arr.slice(indexA + 1)

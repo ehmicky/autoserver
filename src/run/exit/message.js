@@ -1,6 +1,6 @@
 import { logEvent } from '../../log/main.js'
 
-export const emitMessageEvent = function({
+export const emitMessageEvent = function ({
   step,
   type,
   adapter: { title },

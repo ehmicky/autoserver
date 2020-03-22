@@ -10,12 +10,14 @@ import { getRpc } from './get.js'
 // Retrieves RPC using URL's path.
 // Find correct route, then get path variables, e.g. /path/:id
 // Will be an incrementing index e.g. for /path/* or /path/(maybe)?/
-export const getRpcByPath = function(path) {
+export const getRpcByPath = function (path) {
   if (path === undefined) {
     throwPb({ reason: 'ROUTE', extra: { value: '' } })
   }
 
-  const route = allRoutes.find(allRoute => allRoute.matchRoute(path) !== false)
+  const route = allRoutes.find(
+    (allRoute) => allRoute.matchRoute(path) !== false,
+  )
 
   if (route === undefined) {
     throwPb({ reason: 'ROUTE', extra: { value: path } })
@@ -31,12 +33,12 @@ export const getRpcByPath = function(path) {
 }
 
 // Retrieve all routes regexps, rpc and variable names
-const getAllRoutes = function() {
+const getAllRoutes = function () {
   return Object.values(rpcAdapters).flatMap(getRoutes)
 }
 
-const getRoutes = function({ routes, name }) {
-  return routes.map(route => ({
+const getRoutes = function ({ routes, name }) {
+  return routes.map((route) => ({
     matchRoute: match(route, { decode: decodeURIComponent }),
     rpc: name,
   }))

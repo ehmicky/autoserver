@@ -3,7 +3,7 @@ import { resolve, dirname } from 'path'
 import { addGenErrorHandler } from '../errors/handler.js'
 
 // Resolve JSON reference path to an absolute local file
-export const getPath = function({ path, parentPath }) {
+export const getPath = function ({ path, parentPath }) {
   if (NODE_REGEXP.test(path)) {
     return eGetModulePath({ path })
   }
@@ -19,7 +19,7 @@ export const getPath = function({ path, parentPath }) {
 }
 
 // Node module, e.g. $ref: 'lodash.node'
-const getModulePath = function({ path }) {
+const getModulePath = function ({ path }) {
   const moduleName = path.replace(NODE_REGEXP, '')
   const pathA = require.resolve(moduleName)
   return pathA

@@ -12,7 +12,7 @@ import {
 import { v5 as uuidv5 } from 'uuid'
 
 // Retrieve host-specific information
-export const getHostInfo = function() {
+export const getHostInfo = function () {
   const id = getHostId()
   const name = getHostname()
   const os = getOs()
@@ -27,13 +27,13 @@ export const getHostInfo = function() {
 
 // Unique id for a given host machine.
 // We use UUIDv5 with the MAC address.
-const getHostId = function() {
+const getHostId = function () {
   const macAddress = getMacAddress()
   const hostId = uuidv5(macAddress, uuidv5.DNS)
   return hostId
 }
 
-const getMacAddress = function() {
+const getMacAddress = function () {
   const ifaces = getNetworkInterfaces()
   const { mac: macA } =
     Object.values(ifaces)

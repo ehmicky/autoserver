@@ -9,7 +9,7 @@ import { extractSimpleIds, getSimpleFilter } from '../../../filter/simple_id.js'
 //  - efficiency
 //  - output consistency, i.e. each model has a single representation for a
 //    given request
-export const getConcurrentCommand = function({ args, results, collname }) {
+export const getConcurrentCommand = function ({ args, results, collname }) {
   const ids = extractSimpleIds(args) || []
   const concurrentResults = getConcurrentResults({ ids, results, collname })
 
@@ -30,21 +30,21 @@ export const getConcurrentCommand = function({ args, results, collname }) {
 }
 
 // Looks for concurrent `find` commands searching for the same models
-const getConcurrentResults = function({ ids, results, collname }) {
+const getConcurrentResults = function ({ ids, results, collname }) {
   return ids
-    .map(id => getConcurrentResult({ id, results, collname }))
-    .filter(result => result !== undefined)
+    .map((id) => getConcurrentResult({ id, results, collname }))
+    .filter((result) => result !== undefined)
 }
 
-const getConcurrentResult = function({ id, results, collname }) {
+const getConcurrentResult = function ({ id, results, collname }) {
   return results.find(
-    result => result.model.id === id && result.collname === collname,
+    (result) => result.model.id === id && result.collname === collname,
   )
 }
 
 // Do not try to search for models while waiting for another command to
 // fetch them, i.e. remove them from `args.filter.id`
-const removeConcurrentIds = function({ concurrentResults, ids, args }) {
+const removeConcurrentIds = function ({ concurrentResults, ids, args }) {
   const concurrentIds = concurrentResults.map(({ model: { id } }) => id)
   const idsA = difference(ids, concurrentIds)
 
@@ -55,14 +55,14 @@ const removeConcurrentIds = function({ concurrentResults, ids, args }) {
 // Communicate to parallel commands which `id`s are currently being searched
 // so that each call can reuse the result from other calls when targetting
 // the same model.
-export const addPendingResults = function({
+export const addPendingResults = function ({
   args,
   results,
   collname,
   promise,
 }) {
   const ids = extractSimpleIds(args) || []
-  const pendingResults = ids.map(id => ({ model: { id }, collname, promise }))
+  const pendingResults = ids.map((id) => ({ model: { id }, collname, promise }))
 
   // Since we are sharing between parallel calls, `results` must be a mutable
   // variable.

@@ -4,7 +4,7 @@ import { getSiblingNode } from './siblings.js'
 
 // Transform `args.filter` into MongoDB query object
 // Applied recursively
-export const getQueryFilter = function({ type, value, attrName }) {
+export const getQueryFilter = function ({ type, value, attrName }) {
   // No filter
   if (type === undefined) {
     return {}
@@ -13,33 +13,33 @@ export const getQueryFilter = function({ type, value, attrName }) {
   return operators[type]({ type, value, attrName })
 }
 
-const orOperator = function({ value }) {
+const orOperator = function ({ value }) {
   const nodes = value.map(getQueryFilter)
   return { $or: nodes }
 }
 
-const andOperator = function({ value }) {
+const andOperator = function ({ value }) {
   const nodes = value.map(getQueryFilter)
   return { $and: nodes }
 }
 
-const someOperator = function({ value, attrName }) {
-  const elemMatch = value.map(node =>
+const someOperator = function ({ value, attrName }) {
+  const elemMatch = value.map((node) =>
     getGenericNode({ ...node, key: 'opName' }),
   )
   const elemMatchA = Object.assign({}, ...elemMatch)
   return { [attrName]: { $elemMatch: elemMatchA } }
 }
 
-const allOperator = function({ value, attrName }) {
-  const elemMatch = value.map(node =>
+const allOperator = function ({ value, attrName }) {
+  const elemMatch = value.map((node) =>
     getGenericNode({ ...node, key: 'inverse' }),
   )
   const elemMatchA = Object.assign({}, ...elemMatch)
   return { [attrName]: { $not: { $elemMatch: elemMatchA } } }
 }
 
-const genericOperator = function({ type, value, attrName }) {
+const genericOperator = function ({ type, value, attrName }) {
   const isSibling = isObject(value) && value.type === 'sibling'
 
   if (isSibling) {
@@ -50,7 +50,7 @@ const genericOperator = function({ type, value, attrName }) {
   return { [attrName]: valueA }
 }
 
-const getGenericNode = function({ type, value, key }) {
+const getGenericNode = function ({ type, value, key }) {
   const { [key]: name, kind } = OPERATORS_MAP[type]
   const valueA = kind === 'regexp' ? new RegExp(value, 'iu') : value
   return { [name]: valueA }

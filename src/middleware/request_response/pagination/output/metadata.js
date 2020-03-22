@@ -4,7 +4,7 @@ import { isOffset, SAME_ARGS, BOUNDARY_TOKEN } from '../info.js'
 import { encode } from '../encoding/main.js'
 import { isOnlyForwardCursor } from '../condition.js'
 
-export const getMetadata = function({
+export const getMetadata = function ({
   data,
   top,
   args,
@@ -23,7 +23,7 @@ export const getMetadata = function({
   return { ...prev, ...next }
 }
 
-const getPrevTokens = function({ data, args, topargs, hasPrevPage }) {
+const getPrevTokens = function ({ data, args, topargs, hasPrevPage }) {
   if (!hasPrevPage) {
     return
   }
@@ -38,7 +38,7 @@ const getPrevTokens = function({ data, args, topargs, hasPrevPage }) {
   }
 }
 
-const getNextTokens = function({ data, top, args, topargs, hasNextPage }) {
+const getNextTokens = function ({ data, top, args, topargs, hasNextPage }) {
   if (!hasNextPage) {
     return
   }
@@ -56,7 +56,7 @@ const getNextTokens = function({ data, top, args, topargs, hasNextPage }) {
 }
 
 // Calculate token to output
-const getEncodedToken = function({ model, args: { order }, topargs }) {
+const getEncodedToken = function ({ model, args: { order }, topargs }) {
   // If the previous batch declared a next batch was available, but between
   // the two requests, the next batch's models were removed, `model` will be
   // `undefined`, so we return the `first_token|last_token` instead

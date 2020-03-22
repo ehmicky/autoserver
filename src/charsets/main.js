@@ -10,7 +10,7 @@ iconv.getCodec('binary')
 const { encodings } = iconv
 
 // Normalize charset, including adding defaults and validating
-export const getCharset = function(charset, { format } = {}) {
+export const getCharset = function (charset, { format } = {}) {
   const charsetA = addDefaultCharset({ charset, format })
 
   const charsetB = charsetA.toLowerCase()
@@ -23,7 +23,7 @@ export const getCharset = function(charset, { format } = {}) {
 }
 
 // Add default charsets, including the format's default charset
-const addDefaultCharset = function({ charset, format }) {
+const addDefaultCharset = function ({ charset, format }) {
   const formatCharset = findFormatCharset({ format })
 
   return charset || formatCharset || DEFAULT_INPUT_CHARSET
@@ -31,7 +31,7 @@ const addDefaultCharset = function({ charset, format }) {
 
 const DEFAULT_INPUT_CHARSET = 'binary'
 
-const findFormatCharset = function({ format }) {
+const findFormatCharset = function ({ format }) {
   if (format === undefined) {
     return
   }
@@ -40,20 +40,20 @@ const findFormatCharset = function({ format }) {
 }
 
 // Returns a charset adapter object
-const createInstance = function({ charset, title }) {
+const createInstance = function ({ charset, title }) {
   const decode = decodeCharset.bind(null, charset)
 
   return { name: charset, title, decode }
 }
 
 // Get list of supported charset
-export const getCharsets = function() {
+export const getCharsets = function () {
   const charsets = filterObj(encodings, isNotAlias)
   const charsetsA = Object.keys(charsets)
   return charsetsA
 }
 
 // Remove charsets that are just aliases, to keep return value small
-const isNotAlias = function(key, value) {
+const isNotAlias = function (key, value) {
   return typeof value !== 'string'
 }

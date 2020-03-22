@@ -4,7 +4,7 @@ import { getRef } from '../../../json_refs/ref_path.js'
 
 // Stops connection
 // Persist back to file, unless database adapter option `save` is false
-export const disconnect = async function({
+export const disconnect = async function ({
   options: { save, data },
   connection,
 }) {

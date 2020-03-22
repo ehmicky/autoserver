@@ -6,7 +6,7 @@ import { createPb } from '../../errors/props.js'
 import { getPatchErrorProps } from '../error.js'
 
 // Uses `patchOp.check()`
-export const applyCheck = function({
+export const applyCheck = function ({
   opVal,
   type,
   operator: { check },
@@ -27,13 +27,13 @@ export const applyCheck = function({
   return messageA
 }
 
-const applyCheckHandler = function(error) {
+const applyCheckHandler = function (error) {
   return error
 }
 
 const eRunConfigFunc = addErrorHandler(runConfigFunc, applyCheckHandler)
 
-const getCheckMessage = function({ type, message }) {
+const getCheckMessage = function ({ type, message }) {
   if (message === undefined) {
     return
   }

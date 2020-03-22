@@ -5,7 +5,7 @@ import { convertUndefined } from './convert_undefined.js'
 
 // Encode token from a usable object to a short opaque base64 token
 // Make sure token is small by minifying it
-export const encode = function({ token }) {
+export const encode = function ({ token }) {
   return encoders.reduce((tokenA, encoder) => encoder(tokenA), token)
 }
 
@@ -16,7 +16,7 @@ const encoders = [
   base64UrlEncode,
 ]
 
-export const decode = function({ token }) {
+export const decode = function ({ token }) {
   return decoders.reduce((tokenA, decoder) => decoder(tokenA), token)
 }
 

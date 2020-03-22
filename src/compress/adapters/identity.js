@@ -1,9 +1,9 @@
 // No compression
-const compress = function(content) {
+const compress = function (content) {
   return content
 }
 
-const decompress = function(content) {
+const decompress = function (content) {
   return content
 }
 

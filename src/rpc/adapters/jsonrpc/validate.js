@@ -2,16 +2,16 @@ import { isObject } from '../../../utils/functional/type.js'
 import { throwPb } from '../../../errors/props.js'
 
 // Validate JSON-RPC payload is correct format
-export const validatePayload = function({ payload }) {
+export const validatePayload = function ({ payload }) {
   const payloadA = typeof payload === 'object' ? payload : {}
   const { jsonrpc, method, id, params } = payloadA
 
-  validators.forEach(validator =>
+  validators.forEach((validator) =>
     applyValidator({ validator, payload, jsonrpc, method, id, params }),
   )
 }
 
-const applyValidator = function({
+const applyValidator = function ({
   validator: { check, message, reason = 'VALIDATION', extra },
   payload,
   jsonrpc,

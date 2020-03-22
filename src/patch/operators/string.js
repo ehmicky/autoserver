@@ -19,7 +19,7 @@ export const replace = {
   },
 }
 
-const validateRegExp = function({ opVal }) {
+const validateRegExp = function ({ opVal }) {
   const [regExp, , flags] = opVal
 
   try {
@@ -37,6 +37,6 @@ const validateRegExp = function({ opVal }) {
   }
 }
 
-const getRegExp = function({ regExp, flags = 'gi' }) {
+const getRegExp = function ({ regExp, flags = 'gi' }) {
   return new RegExp(regExp, flags)
 }

@@ -2,14 +2,14 @@ import { getWordsList } from '../../../../utils/string.js'
 import { throwError } from '../../../../errors/main.js'
 
 // Validate GraphQL main definition
-export const validateMainDef = function({ mainDef, operationName, method }) {
+export const validateMainDef = function ({ mainDef, operationName, method }) {
   validateDef({ mainDef, operationName })
   validateMainSelection({ mainDef })
   validateQuery({ mainDef })
   validateMutation({ mainDef, method })
 }
 
-const validateDef = function({ mainDef, operationName }) {
+const validateDef = function ({ mainDef, operationName }) {
   if (mainDef) {
     return
   }
@@ -23,7 +23,7 @@ const validateDef = function({ mainDef, operationName }) {
   throwError(msg, { reason: 'VALIDATION' })
 }
 
-const validateMainSelection = function({
+const validateMainSelection = function ({
   mainDef: {
     selectionSet: { selections },
   },
@@ -42,14 +42,14 @@ const validateMainSelection = function({
   }
 }
 
-const getOperationNames = function({ selections }) {
+const getOperationNames = function ({ selections }) {
   const operationNames = selections.map(({ name: { value } = {} }) => value)
   return getWordsList(operationNames, { op: 'and', quotes: true })
 }
 
 // GraphQL queries must use (e.g. in HTTP) GET, but mutations have no
 // restrictions
-const validateQuery = function({
+const validateQuery = function ({
   mainDef: {
     selectionSet: {
       selections: [{ name }],
@@ -67,7 +67,7 @@ const validateQuery = function({
   }
 }
 
-const validateMutation = function({
+const validateMutation = function ({
   mainDef: {
     selectionSet: {
       selections: [{ name }],
@@ -92,6 +92,6 @@ const validateMutation = function({
   }
 }
 
-const isFindQuery = function({ name }) {
+const isFindQuery = function ({ name }) {
   return name.value.startsWith('find') || name.value === '__schema'
 }

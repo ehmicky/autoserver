@@ -2,7 +2,7 @@ import { getParentResults, getParentIds } from './parent_results.js'
 import { validateMaxmodels } from './limits.js'
 
 // Retrieve the main information we need to perform the commands
-export const getInput = function({
+export const getInput = function ({
   action: { commandpath },
   results,
   maxmodels,

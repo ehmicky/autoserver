@@ -6,7 +6,7 @@ import { COMMANDS } from '../../commands/constants.js'
 
 // Parse a `rpcDef` into a top-level action, i.e.:
 // `collname`, `clientCollname`, `commandpath`, `args`
-export const parseTopAction = function({
+export const parseTopAction = function ({
   rpcDef: { commandName, args },
   config: {
     shortcuts: { collsNames },
@@ -30,7 +30,7 @@ export const parseTopAction = function({
   return { top, topargs: argsA, ...sumParams, actions }
 }
 
-const getArgs = function({ args, topargs }) {
+const getArgs = function ({ args, topargs }) {
   // Merge protocol-specific arguments with normal arguments
   const argsA = deepMerge(args, topargs)
 
@@ -42,7 +42,7 @@ const getArgs = function({ args, topargs }) {
 }
 
 // Retrieve `command` and `collname` using the main `commandName`
-const parseCommandName = function({ commandName, collsNames, args }) {
+const parseCommandName = function ({ commandName, collsNames, args }) {
   const [, commandType, clientCollname] = NAME_REGEXP.exec(commandName) || []
 
   const collname = collsNames[clientCollname]
@@ -57,7 +57,7 @@ const parseCommandName = function({ commandName, collsNames, args }) {
 // Matches e.g. 'find_my_coll' -> ['find', 'my_coll'];
 const NAME_REGEXP = /^([a-z0-9]+)_([a-z0-9_]*)$/u
 
-const validateCollname = function({
+const validateCollname = function ({
   commandName,
   commandType,
   collname,
@@ -77,26 +77,26 @@ const validateCollname = function({
 }
 
 // Returns all possible commands
-const getAllowed = function({ collsNames }) {
+const getAllowed = function ({ collsNames }) {
   const clientCollnames = Object.keys(collsNames)
   const commands = COMMANDS.map(({ type }) => type)
   const commandsA = uniq(commands)
-  const allowed = commandsA.flatMap(command =>
+  const allowed = commandsA.flatMap((command) =>
     getAllowedCommand({ command, clientCollnames }),
   )
   return allowed
 }
 
-const getAllowedCommand = function({ command, clientCollnames }) {
-  return clientCollnames.map(clientCollname => `${command}_${clientCollname}`)
+const getAllowedCommand = function ({ command, clientCollnames }) {
+  return clientCollnames.map((clientCollname) => `${command}_${clientCollname}`)
 }
 
 // Retrieve `top.command`
-const getCommand = function({ commandType, args }) {
+const getCommand = function ({ commandType, args }) {
   const multiple = isMultiple[commandType](args)
 
   const commandA = COMMANDS.find(
-    command => command.multiple === multiple && command.type === commandType,
+    (command) => command.multiple === multiple && command.type === commandType,
   )
   return commandA
 }

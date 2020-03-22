@@ -4,7 +4,7 @@ import { setStatusCode } from './status.js'
 import { setHeaders } from './headers.js'
 
 // Sends response
-export const send = async function({
+export const send = async function ({
   specific,
   specific: { req, res },
   content,
@@ -32,7 +32,7 @@ export const send = async function({
   cleanup({ req, res })
 }
 
-const cleanup = function({ req, res }) {
+const cleanup = function ({ req, res }) {
   // Otherwise, socket might not be freed, e.g. if an error was thrown before
   // the request body was fully read
   req.socket.destroy()

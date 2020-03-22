@@ -1,7 +1,7 @@
 import { throwError } from '../../../errors/main.js'
 
 // Validate correct usage of special key 'all'
-export const validateAllAttr = function({
+export const validateAllAttr = function ({
   action: {
     args: { select },
     collname,
@@ -12,15 +12,15 @@ export const validateAllAttr = function({
     return
   }
 
-  const hasAllAttr = select.some(key => key === 'all')
+  const hasAllAttr = select.some((key) => key === 'all')
 
   if (!hasAllAttr) {
     return
   }
 
   const keyA = select
-    .filter(key => key !== 'all')
-    .find(key => collections[collname].attributes[key].target === undefined)
+    .filter((key) => key !== 'all')
+    .find((key) => collections[collname].attributes[key].target === undefined)
 
   if (keyA === undefined) {
     return

@@ -2,7 +2,7 @@
 // because they can get too big, e.g. `args.data`, `response.data` and `payload`
 // `sumParams` summarize them by their size and length, e.g. `payloadsize` and
 // `payloadcount`
-export const getSumParams = function({ attrName, value }) {
+export const getSumParams = function ({ attrName, value }) {
   if (value === undefined) {
     return
   }
@@ -12,7 +12,7 @@ export const getSumParams = function({ attrName, value }) {
   return { ...size, ...count }
 }
 
-const getSize = function({ attrName, value }) {
+const getSize = function ({ attrName, value }) {
   try {
     const size = JSON.stringify(value).length
     const name = `${attrName}size`
@@ -21,7 +21,7 @@ const getSize = function({ attrName, value }) {
   } catch {}
 }
 
-const getCount = function({ attrName, value }) {
+const getCount = function ({ attrName, value }) {
   if (!Array.isArray(value)) {
     return
   }

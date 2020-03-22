@@ -34,7 +34,7 @@ autoserver
     console.log('Servers started at:', protocols)
     console.log('Process id', serverinfo.process.id)
   })
-  .catch(error => {
+  .catch((error) => {
     console.log('Could not start servers:', error)
   })
 ```

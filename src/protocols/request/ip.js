@@ -1,6 +1,6 @@
 import { validateString } from './validate.js'
 
-export const parseIp = function({
+export const parseIp = function ({
   protocolAdapter,
   protocolAdapter: { getIp },
   specific,

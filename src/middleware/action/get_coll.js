@@ -1,5 +1,5 @@
 // Turn a `commandpath` into a `collname`, using config
-export const getColl = function({
+export const getColl = function ({
   commandpath,
   config,
   top: {
@@ -8,7 +8,7 @@ export const getColl = function({
   },
 }) {
   // Ignore array indices
-  const commandpathA = commandpath.filter(key => typeof key !== 'number')
+  const commandpathA = commandpath.filter((key) => typeof key !== 'number')
 
   // This means this is the top-level action
   if (commandpathA.length === 0) {
@@ -19,7 +19,7 @@ export const getColl = function({
 }
 
 // Recurse over `config.collections`, using `commandpath`
-const findColl = function({
+const findColl = function ({
   config,
   config: { collections },
   collname,

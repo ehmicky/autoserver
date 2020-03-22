@@ -1,5 +1,5 @@
 // Retrieves HTTP method, but protocol-agnostic
-export const getMethod = function({
+export const getMethod = function ({
   specific: {
     req: { method },
   },
@@ -7,7 +7,7 @@ export const getMethod = function({
   return getAgnosticMethod({ method })
 }
 
-export const getAgnosticMethod = function({ method }) {
+export const getAgnosticMethod = function ({ method }) {
   if (typeof method !== 'string') {
     return method
   }

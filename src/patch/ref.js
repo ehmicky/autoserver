@@ -4,7 +4,7 @@ import { parseRef } from './ref_parsing.js'
 import { postValidate } from './validate/main.js'
 
 // Replaces model.ATTR in simple patch operations (i.e. with no operators)
-export const replaceSimpleRef = function({
+export const replaceSimpleRef = function ({
   ref,
   attributes,
   datum,
@@ -19,7 +19,7 @@ export const replaceSimpleRef = function({
 }
 
 // Replaces model.ATTR when patch operation is applied
-export const replaceRef = function({ opVal, datum, ...rest }) {
+export const replaceRef = function ({ opVal, datum, ...rest }) {
   const ref = parseRef(opVal)
 
   if (ref === undefined) {

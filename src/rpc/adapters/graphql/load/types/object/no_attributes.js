@@ -6,7 +6,7 @@ import { GraphQLString } from 'graphql'
 // is 'id'.
 // So we add this patch this problem by adding this fake attribute
 // when the problem arises.
-export const addNoAttributes = function({ fields }) {
+export const addNoAttributes = function ({ fields }) {
   if (Object.keys(fields).length !== 0) {
     return fields
   }

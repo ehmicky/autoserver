@@ -6,7 +6,7 @@ import { getColl } from './get_coll.js'
 import { addActions } from './add_actions/merge.js'
 
 // Parse `args.populate|cascade` into a set of nested `actions`
-export const parsePopulateCascade = function({ actions, ...rest }) {
+export const parsePopulateCascade = function ({ actions, ...rest }) {
   const actionsA = addActions({
     actions,
     filter: ['populate', 'cascade'],
@@ -16,7 +16,7 @@ export const parsePopulateCascade = function({ actions, ...rest }) {
   return { actions: actionsA }
 }
 
-const getActions = function({
+const getActions = function ({
   top,
   top: { command },
   action: { args },
@@ -27,8 +27,8 @@ const getActions = function({
 
   const attrs = arg.split(',')
   const attrsA = uniq(attrs)
-  const attrsB = attrsA.map(attrName => attrName.split('.'))
-  const actions = attrsB.map(attrName =>
+  const attrsB = attrsA.map((attrName) => attrName.split('.'))
+  const actions = attrsB.map((attrName) =>
     getAction({ attrName, attrs: attrsB, top, config, argName }),
   )
   return actions
@@ -44,7 +44,7 @@ const ARG_NAMES = {
 //   commandpath: ['commandName', 'attr', 'child_attr']
 //   collname
 //   args: {}
-const getAction = function({ attrName, attrs, top, config, argName }) {
+const getAction = function ({ attrName, attrs, top, config, argName }) {
   validateMiddleAction({ attrName, attrs, argName })
 
   const commandpath = [...top.commandpath, ...attrName]
@@ -59,7 +59,7 @@ const getAction = function({ attrName, attrs, top, config, argName }) {
 
 // Cannot specify `args.populate|cascade` `parent.child` but not `parent`.
 // Otherwise, this would require create an intermediate `find` action.
-const validateMiddleAction = function({ attrName, attrs, argName }) {
+const validateMiddleAction = function ({ attrName, attrs, argName }) {
   // Not for top-level attributes
   if (attrName.length <= 1) {
     return
@@ -78,7 +78,7 @@ const validateMiddleAction = function({ attrName, attrs, argName }) {
   throwError(message, { reason: 'VALIDATION' })
 }
 
-const validateModel = function({ coll, commandpath, argName }) {
+const validateModel = function ({ coll, commandpath, argName }) {
   if (coll !== undefined) {
     return
   }

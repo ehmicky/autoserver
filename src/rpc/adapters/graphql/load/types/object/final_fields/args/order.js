@@ -1,7 +1,7 @@
 import { GraphQLString } from 'graphql'
 
 // `order` argument
-export const getOrderArgument = function({ command, features }) {
+export const getOrderArgument = function ({ command, features }) {
   const canOrder =
     ORDER_COMMAND_TYPES.includes(command) && features.includes('order')
 

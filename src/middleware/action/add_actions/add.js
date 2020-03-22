@@ -8,17 +8,17 @@ import { throwError } from '../../../errors/main.js'
 import { getValues } from './values.js'
 
 // Add values to current actions
-export const addToActions = function({ actions, name, filter, mapper, top }) {
+export const addToActions = function ({ actions, name, filter, mapper, top }) {
   const values = getValues({ actions, filter, mapper })
 
-  const actionsA = actions.map(action => addValue({ action, values, name }))
+  const actionsA = actions.map((action) => addValue({ action, values, name }))
 
   validateAll({ actions, name, values, top })
 
   return actionsA
 }
 
-const addValue = function({
+const addValue = function ({
   action,
   action: { args, commandpath },
   values,
@@ -26,8 +26,8 @@ const addValue = function({
 }) {
   const commandpathA = commandpath.join('.')
   const valueA = values
-    .map(value => value[commandpathA])
-    .filter(value => value !== undefined)
+    .map((value) => value[commandpathA])
+    .filter((value) => value !== undefined)
   const argsA =
     valueA.length === 0 ? omit(args, [name]) : { ...args, [name]: valueA }
 
@@ -35,7 +35,7 @@ const addValue = function({
 }
 
 // Validate we are adding attributes in actions that are present|populated
-const validateAll = function({ name, actions, values, top }) {
+const validateAll = function ({ name, actions, values, top }) {
   const wrongPaths = getWrongPaths({ actions, values })
 
   if (wrongPaths.length === 0) {
@@ -48,7 +48,7 @@ const validateAll = function({ name, actions, values, top }) {
   throwError(message, { reason: 'VALIDATION' })
 }
 
-const getWrongPaths = function({ actions, values }) {
+const getWrongPaths = function ({ actions, values }) {
   const actionPaths = actions.map(({ commandpath }) => commandpath.join('.'))
 
   const valuePaths = values.flatMap(Object.keys)

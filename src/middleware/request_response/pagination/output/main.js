@@ -4,7 +4,7 @@ import { getBackwardResponse } from '../backward.js'
 import { getPaginationOutput } from './response.js'
 
 // Add response metadata related to pagination
-export const handlePaginationOutput = function({
+export const handlePaginationOutput = function ({
   top,
   args,
   topargs,

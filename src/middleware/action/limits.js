@@ -7,13 +7,13 @@ import { getLimits } from '../../limits.js'
 import { getColl } from './get_coll.js'
 
 // Validate request limits
-export const validateRequestLimits = function({ config, mInput }) {
+export const validateRequestLimits = function ({ config, mInput }) {
   const limits = getLimits({ config })
 
-  validators.forEach(validator => validator({ ...mInput, limits }))
+  validators.forEach((validator) => validator({ ...mInput, limits }))
 }
 
-const validateMaxActions = function({ limits: { maxActions }, actions }) {
+const validateMaxActions = function ({ limits: { maxActions }, actions }) {
   if (actions.length <= maxActions) {
     return
   }
@@ -27,12 +27,12 @@ const validateMaxActions = function({ limits: { maxActions }, actions }) {
 // Nested patch|create|upsert commands use `maxmodels` instead
 // Nested delete commands are not limited, as they are meant not to be performed
 // several times
-const validateNestedFind = function({ limits, actions, top, config }) {
+const validateNestedFind = function ({ limits, actions, top, config }) {
   if (top.command.type !== 'find') {
     return
   }
 
-  const tooNestedActions = actions.filter(action =>
+  const tooNestedActions = actions.filter((action) =>
     isTooNestedFind({ action, config, top, limits }),
   )
 
@@ -55,7 +55,7 @@ const validateNestedFind = function({ limits, actions, top, config }) {
   throwPb({ reason: 'PAYLOAD_LIMIT', message, extra })
 }
 
-const isTooNestedFind = function({
+const isTooNestedFind = function ({
   action: { commandpath },
   config,
   top,
@@ -69,7 +69,7 @@ const isTooNestedFind = function({
   return multiple
 }
 
-const getNestedFindExtra = function({
+const getNestedFindExtra = function ({
   tooNestedActions,
   limits: { maxFindManyDepth },
 }) {
@@ -81,7 +81,7 @@ const getNestedFindExtra = function({
 }
 
 // Validate `args.data` against `maxmodels` limit
-const validateMaxData = function({
+const validateMaxData = function ({
   actions,
   limits: { maxmodels },
   top: { command },

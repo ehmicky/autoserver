@@ -4,9 +4,9 @@ import { getProtocol } from '../protocols/get.js'
 import { PROTOCOLS } from '../protocols/info.js'
 
 // Launch the server for each protocol
-export const launchProtocols = async function(options) {
+export const launchProtocols = async function (options) {
   // Make sure all servers are starting concurrently, not serially
-  const protocolPromises = PROTOCOLS.map(protocol =>
+  const protocolPromises = PROTOCOLS.map((protocol) =>
     kLaunchProtocol(options, protocol),
   )
   const protocolsArray = await Promise.all(protocolPromises)
@@ -16,7 +16,7 @@ export const launchProtocols = async function(options) {
 }
 
 // Launch the server of a given protocol
-const launchProtocol = async function(options, protocol) {
+const launchProtocol = async function (options, protocol) {
   const protocolAdapter = getProtocol(protocol)
   const { protocolAdapter: protocolAdapterA } = await launchServer({
     protocolAdapter,
@@ -33,7 +33,7 @@ const kLaunchProtocol = monitor(
 )
 
 // Do the actual server launch
-const launchServer = async function({
+const launchServer = async function ({
   protocolAdapter,
   protocolAdapter: { name: protocol },
   options: {
@@ -57,13 +57,13 @@ const launchServer = async function({
   return { protocolAdapter: protocolAdapterA }
 }
 
-const getInput = function({ config, dbAdapters }) {
+const getInput = function ({ config, dbAdapters }) {
   // We need to recreate `metadata` for each request
   return { config, dbAdapters, metadata: {} }
 }
 
 // Protocol-specific start event
-const startEvent = function({
+const startEvent = function ({
   protocolAdapter: {
     title,
     info: { hostname, port },

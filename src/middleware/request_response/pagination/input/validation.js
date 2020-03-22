@@ -6,11 +6,11 @@ import { SAME_ARGS } from '../info.js'
 import { validateToken } from './token.js'
 
 // Validate pagination input arguments
-export const validatePaginationInput = function({ args, topargs, token }) {
-  validators.forEach(validator => validator({ args, topargs, token }))
+export const validatePaginationInput = function ({ args, topargs, token }) {
+  validators.forEach((validator) => validator({ args, topargs, token }))
 }
 
-const validateBothTypes = function({ args }) {
+const validateBothTypes = function ({ args }) {
   const hasOffset = args.page != null
   const hasCursor = args.before != null || args.after != null
   const bothTypes = hasOffset && hasCursor
@@ -24,7 +24,7 @@ const validateBothTypes = function({ args }) {
   throwError(message, { reason: 'VALIDATION' })
 }
 
-const validateBothDirection = function({ args }) {
+const validateBothDirection = function ({ args }) {
   const bothDirection = args.before != null && args.after != null
 
   if (!bothDirection) {
@@ -35,11 +35,11 @@ const validateBothDirection = function({ args }) {
   throwError(message, { reason: 'VALIDATION' })
 }
 
-const validateSameTopargs = function({ topargs, token }) {
-  SAME_ARGS.forEach(name => validateSameToparg({ topargs, token, name }))
+const validateSameTopargs = function ({ topargs, token }) {
+  SAME_ARGS.forEach((name) => validateSameToparg({ topargs, token, name }))
 }
 
-const validateSameToparg = function({ topargs, token, name }) {
+const validateSameToparg = function ({ topargs, token, name }) {
   if (token === undefined) {
     return
   }

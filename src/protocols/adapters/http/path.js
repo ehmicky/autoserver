@@ -1,5 +1,5 @@
 // Retrieves path without query string nor hash
-export const getPath = function({
+export const getPath = function ({
   specific: {
     req: { url },
   },

@@ -2,45 +2,45 @@ import { isObject } from './utils/functional/type.js'
 
 export const CONTENT_TYPES = {
   model: {
-    validate: content => isJsonObject(content),
+    validate: (content) => isJsonObject(content),
     types: ['model', 'object'],
   },
 
   models: {
-    validate: content => isJsonArray(content) && content.every(isJsonObject),
+    validate: (content) => isJsonArray(content) && content.every(isJsonObject),
     types: ['model', 'object'],
   },
 
   error: {
-    validate: content => isJsonObject(content),
+    validate: (content) => isJsonObject(content),
     types: ['model', 'object', 'error'],
   },
 
   object: {
-    validate: content => isJsonObject(content),
+    validate: (content) => isJsonObject(content),
     types: ['object'],
   },
 
   html: {
-    validate: content => typeof content === 'string',
+    validate: (content) => typeof content === 'string',
     types: [],
   },
 
   text: {
-    validate: content => typeof content === 'string',
+    validate: (content) => typeof content === 'string',
     types: [],
   },
 }
 
-const isJsonObject = function(value) {
+const isJsonObject = function (value) {
   return isObject(value) && isJson(value)
 }
 
-const isJsonArray = function(value) {
+const isJsonArray = function (value) {
   return Array.isArray(value) && isJson(value)
 }
 
-const isJson = function(val) {
+const isJson = function (val) {
   try {
     JSON.stringify(val)
   } catch {
@@ -50,7 +50,7 @@ const isJson = function(val) {
   return true
 }
 
-export const isType = function(contentType, type) {
+export const isType = function (contentType, type) {
   return (
     CONTENT_TYPES[contentType] !== undefined &&
     CONTENT_TYPES[contentType].types.includes(type)

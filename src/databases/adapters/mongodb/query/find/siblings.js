@@ -1,5 +1,5 @@
 // When using model.ATTR
-export const getSiblingNode = function({
+export const getSiblingNode = function ({
   type,
   value: { value: otherAttr },
   attrName,

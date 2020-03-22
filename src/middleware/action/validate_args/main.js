@@ -7,7 +7,7 @@ import { SCHEMA } from './args_schema.js'
 import { COMMANDS } from './commands.js'
 
 // Check arguments for client-side syntax errors.
-export const validateArgs = function({ top: { args, command }, config }) {
+export const validateArgs = function ({ top: { args, command }, config }) {
   const data = getData({ args, command, config })
 
   eValidate({ compiledJsonSchema, data })
@@ -15,12 +15,12 @@ export const validateArgs = function({ top: { args, command }, config }) {
 
 const compiledJsonSchema = compile({ jsonSchema: SCHEMA })
 
-const getData = function({ args, command, config }) {
+const getData = function ({ args, command, config }) {
   const dynamicVars = getDynamicArgs({ command, config })
   return { arguments: args, dynamicVars }
 }
 
-const getDynamicArgs = function({ command, command: { multiple }, config }) {
+const getDynamicArgs = function ({ command, command: { multiple }, config }) {
   const { required, optional } = COMMANDS[command.name]
   const validArgs = [...required, ...optional]
   const { pagesize } = getLimits({ config })
@@ -28,7 +28,7 @@ const getDynamicArgs = function({ command, command: { multiple }, config }) {
   return { multiple, requiredArgs: required, validArgs, pagesize }
 }
 
-const getMessage = function(input, { message }) {
+const getMessage = function (input, { message }) {
   const messageA = message.replace(ARGUMENTS_REGEXP, "'$1'")
   return `Wrong arguments: ${messageA}`
 }

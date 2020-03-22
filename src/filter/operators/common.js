@@ -1,11 +1,11 @@
 import { mapValues } from '../../utils/functional/map.js'
 import { throwAttrValError, throwAttrTypeError } from '../error.js'
 
-export const parseAsIs = function({ value }) {
+export const parseAsIs = function ({ value }) {
   return value
 }
 
-export const validateSameType = function({
+export const validateSameType = function ({
   type,
   value,
   attr,
@@ -24,7 +24,7 @@ export const validateSameType = function({
   throwAttrValError({ type, throwErr }, message)
 }
 
-const isValid = function({ value, attr: { type: attrType, isArray } }) {
+const isValid = function ({ value, attr: { type: attrType, isArray } }) {
   if (value === undefined) {
     return true
   }
@@ -35,15 +35,15 @@ const isValid = function({ value, attr: { type: attrType, isArray } }) {
 }
 
 const oneTypeValidators = {
-  string: value => typeof value === 'string',
-  number: value => Number.isFinite(value),
-  integer: value => Number.isInteger(value),
-  boolean: value => typeof value === 'boolean',
+  string: (value) => typeof value === 'string',
+  number: (value) => Number.isFinite(value),
+  integer: (value) => Number.isInteger(value),
+  boolean: (value) => typeof value === 'boolean',
   dynamic: () => true,
 }
 
-const getManyTypeValidators = function() {
-  return mapValues(oneTypeValidators, validator => value =>
+const getManyTypeValidators = function () {
+  return mapValues(oneTypeValidators, (validator) => (value) =>
     Array.isArray(value) && value.every(validator),
   )
 }
@@ -53,7 +53,7 @@ const typeValidators = {
   many: getManyTypeValidators(),
 }
 
-export const validateNotArray = function({ type, attr, throwErr }) {
+export const validateNotArray = function ({ type, attr, throwErr }) {
   if (!attr.isArray) {
     return
   }
@@ -61,7 +61,7 @@ export const validateNotArray = function({ type, attr, throwErr }) {
   throwAttrTypeError({ attr, type, throwErr }, 'an array')
 }
 
-export const validateArray = function({ type, attr, throwErr }) {
+export const validateArray = function ({ type, attr, throwErr }) {
   if (attr.isArray) {
     return
   }

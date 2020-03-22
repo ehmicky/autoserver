@@ -7,7 +7,7 @@ import { DEFAULT_ALGO } from '../../../../compress/get.js'
 import { getLinks } from './link.js'
 
 // Set HTTP-specific headers and status code
-export const setHeaders = function({
+export const setHeaders = function ({
   specific,
   specific: { res },
   contentType,
@@ -45,7 +45,7 @@ export const setHeaders = function({
 
 const ACCEPT_ENCODING = ALGOS.join(', ')
 
-const getContentEncoding = function({ compressResponse: { name } = {} }) {
+const getContentEncoding = function ({ compressResponse: { name } = {} }) {
   // Means no compression was applied
   if (name === DEFAULT_ALGO.name) {
     return
@@ -55,7 +55,7 @@ const getContentEncoding = function({ compressResponse: { name } = {} }) {
 }
 
 // On METHOD or COMMAND errors
-const getAllow = function({ data: { allowed } }) {
+const getAllow = function ({ data: { allowed } }) {
   if (allowed === undefined) {
     return
   }
@@ -63,14 +63,14 @@ const getAllow = function({ data: { allowed } }) {
   return allowed.join(', ')
 }
 
-const setAllHeaders = function(res, headers) {
+const setAllHeaders = function (res, headers) {
   Object.entries(headers)
     .filter(([, value]) => value !== undefined)
     .forEach(([name, value]) => res.setHeader(name, value))
 }
 
 // `Vary` HTTP header
-const setVary = function({ res, type }) {
+const setVary = function ({ res, type }) {
   const objectVary = isType(type, 'object') ? OBJECT_VARY_HEADERS : []
   vary(res, [...objectVary, ...VARY_HEADERS])
 }

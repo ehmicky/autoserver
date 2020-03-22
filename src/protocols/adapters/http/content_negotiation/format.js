@@ -13,12 +13,12 @@ import { getContentType } from './content_type.js'
 // Using `Content-Type` or `Accept` results in `args.format`
 // Note that since `args.format` is for both input and output, any of the
 // two headers can be used. `Content-Type` has priority.
-export const getFormat = function({ specific }) {
+export const getFormat = function ({ specific }) {
   return getContentTypeFormat({ specific }) || getAcceptFormat({ specific })
 }
 
 // Using `Content-Type` header
-const getContentTypeFormat = function({ specific }) {
+const getContentTypeFormat = function ({ specific }) {
   const { mime } = getContentType({ specific })
 
   if (mime === undefined) {
@@ -30,14 +30,14 @@ const getContentTypeFormat = function({ specific }) {
   return format.name
 }
 
-const defaultToRaw = function() {
+const defaultToRaw = function () {
   return DEFAULT_RAW_FORMAT
 }
 
 const eGetByMimeWithDefault = addErrorHandler(getByMime, defaultToRaw)
 
 // Using `Accept` header
-const getAcceptFormat = function({ specific: { req } }) {
+const getAcceptFormat = function ({ specific: { req } }) {
   const negotiator = new Negotiator(req)
   const mimes = negotiator.mediaTypes()
 
@@ -46,8 +46,8 @@ const getAcceptFormat = function({ specific: { req } }) {
   }
 
   const formatB = mimes
-    .map(mime => eGetByMime({ mime, safe: true }))
-    .find(formatA => formatA !== undefined)
+    .map((mime) => eGetByMime({ mime, safe: true }))
+    .find((formatA) => formatA !== undefined)
 
   if (formatB !== undefined) {
     return formatB.name

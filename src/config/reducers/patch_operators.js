@@ -3,7 +3,7 @@ import { uniq } from '../../utils/functional/uniq.js'
 import { OPERATORS } from '../../patch/operators/main.js'
 
 // Parse `operators.attribute|argument` `any`
-export const normalizePatchOperators = function({ config: { operators } }) {
+export const normalizePatchOperators = function ({ config: { operators } }) {
   if (operators === undefined) {
     return
   }
@@ -16,12 +16,12 @@ export const normalizePatchOperators = function({ config: { operators } }) {
   return { operators: operatorsB }
 }
 
-const normalizePatchOperator = function(operator) {
+const normalizePatchOperator = function (operator) {
   const field = normalizeField({ operator, name: 'attribute' })
   return { ...operator, ...field }
 }
 
-const normalizeField = function({ operator, name }) {
+const normalizeField = function ({ operator, name }) {
   const { [name]: field } = operator
 
   if (field === undefined) {
@@ -29,7 +29,7 @@ const normalizeField = function({ operator, name }) {
   }
 
   const types = TYPES[name]
-  const fieldA = field.flatMap(type => types[type] || type)
+  const fieldA = field.flatMap((type) => types[type] || type)
   const fieldB = uniq(fieldA)
   return { [name]: fieldB }
 }

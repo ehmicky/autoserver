@@ -11,7 +11,7 @@ import { getCascadeArgument } from './cascade.js'
 import { getParamsArgument } from './params.js'
 
 // Retrieves all resolver arguments, before resolve function is fired
-export const getArgs = function(def, opts) {
+export const getArgs = function (def, opts) {
   // Only for top-level actions
   const isTopLevel = TOP_LEVEL_COLLS.includes(opts.parentDef.clientCollname)
 
@@ -37,13 +37,13 @@ export const getArgs = function(def, opts) {
 const TOP_LEVEL_COLLS = ['Query', 'Mutation']
 
 // Builds types used for `data` and `filter` arguments
-const getArgTypes = function(def, opts) {
+const getArgTypes = function (def, opts) {
   const dataObjectType = getArgType(def, opts, 'data')
   const filterObjectType = getArgType(def, opts, 'filter')
   return { ...opts, dataObjectType, filterObjectType }
 }
 
-const getArgType = function(def, opts, inputObjectType) {
+const getArgType = function (def, opts, inputObjectType) {
   const description = getArgTypeDescription(def, inputObjectType)
   const defA = { ...def, arrayWrapped: true, description }
 

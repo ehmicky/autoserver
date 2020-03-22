@@ -6,7 +6,7 @@ import { getCompress } from './compress.js'
 
 // Retrieve format|charset|compress of the response payloads, and
 // charset of the request payload
-export const handleContentNegotiation = function({
+export const handleContentNegotiation = function ({
   queryvars,
   format,
   charset,

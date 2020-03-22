@@ -4,11 +4,11 @@ import { normalizeError } from '../../errors/main.js'
 import { logEvent } from '../../log/main.js'
 
 // Shutdown failures events
-export const addExitHandler = function(func) {
+export const addExitHandler = function (func) {
   return addErrorHandler(func, funcHandler)
 }
 
-const funcHandler = async function(
+const funcHandler = async function (
   error,
   { config, type, adapter: { title, name } },
 ) {

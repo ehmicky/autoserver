@@ -33,7 +33,7 @@ import { getPaginationInput } from './input.js'
 //                                 { c: 30, a: { _gt: 10 }, b: { _gt: 20 } }
 //   order                       - same as `filter` but for `order`
 // Add pagination-related metadata in response at `metadata.pages`
-export const handlePaginationInput = function({
+export const handlePaginationInput = function ({
   args,
   topargs,
   config,

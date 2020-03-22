@@ -7,11 +7,11 @@ import { getRequestMessage } from './request_message.js'
 // MESSAGE - SUBMESSAGE
 //   STACK_TRACE
 // `PHASE` is requestid if phase is `request`
-export const getConsoleMessage = function({ log }) {
-  return parts.map(getPart => getPart({ log })).join(' ')
+export const getConsoleMessage = function ({ log }) {
+  return parts.map((getPart) => getPart({ log })).join(' ')
 }
 
-const getMessage = function({
+const getMessage = function ({
   log,
   log: { event, phase, error, message = '' },
 }) {
@@ -27,7 +27,7 @@ const getMessage = function({
 }
 
 // Adds how long startup, shutdown or request took
-const getDuration = function({ log: { duration } }) {
+const getDuration = function ({ log: { duration } }) {
   if (duration === undefined) {
     return ' '.repeat(DURATION_LENGTH)
   }

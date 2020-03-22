@@ -5,7 +5,7 @@ import { addToActions } from '../add_actions/add.js'
 import { addParentSelects } from './parent.js'
 
 // Parse `args.select` for each action
-export const parseSelect = function({ actions, top }) {
+export const parseSelect = function ({ actions, top }) {
   const actionsA = addToActions({
     actions,
     name: 'select',
@@ -17,7 +17,7 @@ export const parseSelect = function({ actions, top }) {
   return { actions: actionsA }
 }
 
-const getSelectArg = function({
+const getSelectArg = function ({
   action: {
     args: { select },
     commandpath,
@@ -26,7 +26,7 @@ const getSelectArg = function({
   const selects = select.split(',')
   const selectsA = uniq(selects)
   const selectsB = addParentSelects({ selects: selectsA })
-  const selectsC = selectsB.map(selectA =>
+  const selectsC = selectsB.map((selectA) =>
     getSelectPart({ select: selectA, commandpath }),
   )
   const selectsD = uniq(selectsC)
@@ -34,7 +34,7 @@ const getSelectArg = function({
 }
 
 // Turns `args.select` 'aaa.bbb.ccc' into: { 'aaa.bbb': 'ccc' }
-const getSelectPart = function({ select, commandpath }) {
+const getSelectPart = function ({ select, commandpath }) {
   const parts = select.split('.')
   const key = parts[parts.length - 1]
   const commandpathA = parts.slice(0, -1)

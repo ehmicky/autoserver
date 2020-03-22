@@ -8,7 +8,7 @@ import { validators } from './validators.js'
 
 // `attrs` must be `{ collname: { attrName:
 // { type: 'string|number|integer|boolean', isArray: true|false } } }`
-export const validateFilter = function({
+export const validateFilter = function ({
   filter,
   attrs,
   reason = 'VALIDATION',
@@ -21,16 +21,16 @@ export const validateFilter = function({
 
   const throwErr = getThrowErr.bind(null, { reason, prefix })
 
-  crawlAttrs(filter, nodes =>
+  crawlAttrs(filter, (nodes) =>
     validateAttr({ nodes, attrs, skipConfigFuncs, throwErr }),
   )
 }
 
-const validateAttr = function({ nodes, ...rest }) {
-  nodes.forEach(node => validateNode({ node, operations: nodes, ...rest }))
+const validateAttr = function ({ nodes, ...rest }) {
+  nodes.forEach((node) => validateNode({ node, operations: nodes, ...rest }))
 }
 
-const validateNode = function({
+const validateNode = function ({
   node,
   node: { type, attrName },
   operations,
@@ -57,7 +57,7 @@ const validateNode = function({
   })
 }
 
-const validateValue = function({
+const validateValue = function ({
   type,
   value,
   attr,
@@ -91,6 +91,6 @@ const validateValue = function({
 
 // Skip config functions
 // If one wants to validate them, they need to be evaluated first
-const isConfigFunc = function({ skipConfigFuncs, value }) {
+const isConfigFunc = function ({ skipConfigFuncs, value }) {
   return skipConfigFuncs && typeof value === 'function'
 }

@@ -4,7 +4,7 @@ import { stringifyMeasures } from '../perf/stringify.js'
 import { logEvent } from './main.js'
 
 // Emit 'perf' event
-export const logPerfEvent = function({ phase, measures, ...rest }) {
+export const logPerfEvent = function ({ phase, measures, ...rest }) {
   const measuresGroups = groupMeasures({ measures })
   const measuresmessage = stringifyMeasures({ phase, measuresGroups })
   const params = { measures: measuresGroups, measuresmessage }

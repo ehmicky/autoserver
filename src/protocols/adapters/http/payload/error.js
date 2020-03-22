@@ -4,7 +4,7 @@ import { throwPb } from '../../../../errors/props.js'
 
 // `raw-body` throws some errors that we want to convert to the correct error
 // reason
-export const getRawBodyHandler = function(error, { maxpayload }) {
+export const getRawBodyHandler = function (error, { maxpayload }) {
   // Indicates a bug in `raw-body` library
   if (!(error instanceof Error)) {
     throw error
@@ -22,7 +22,7 @@ export const getRawBodyHandler = function(error, { maxpayload }) {
   throwPb({ ...props, innererror: error })
 }
 
-const entityTooLargeHandler = function({ error: { length }, maxpayload }) {
+const entityTooLargeHandler = function ({ error: { length }, maxpayload }) {
   const message = `The request payload must not be larger than ${formatBytes(
     maxpayload,
   )}`
@@ -35,7 +35,7 @@ const entityTooLargeHandler = function({ error: { length }, maxpayload }) {
   }
 }
 
-const requestSizeHandler = function({ error: { expected, received } }) {
+const requestSizeHandler = function ({ error: { expected, received } }) {
   const message = `The HTTP request header 'Content-Length' does not match the request payload length. It should be ${expected} instead of ${received}.`
 
   return {
@@ -50,7 +50,7 @@ const requestSizeHandler = function({ error: { expected, received } }) {
   }
 }
 
-const requestAbortedHandler = function() {
+const requestAbortedHandler = function () {
   const message =
     'The HTTP request was aborted by the client while the server was reading its payload'
 

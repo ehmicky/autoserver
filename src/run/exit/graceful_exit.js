@@ -9,7 +9,7 @@ import { closeDbAdapters } from './db_close.js'
 import { emitStopEvent } from './stop_event.js'
 
 // Close servers and database connections
-const oGracefulExit = async function({
+const oGracefulExit = async function ({
   protocolAdapters,
   dbAdapters,
   stopProcessErrors,
@@ -31,7 +31,7 @@ const oGracefulExit = async function({
 
 const eGracefulExit = once(oGracefulExit)
 
-const gracefulExitHandler = async function(error, { config }) {
+const gracefulExitHandler = async function (error, { config }) {
   const message = 'Shutdown failure'
   await logEvent({
     event: 'failure',
@@ -44,7 +44,7 @@ const gracefulExitHandler = async function(error, { config }) {
 
 export const gracefulExit = addErrorHandler(eGracefulExit, gracefulExitHandler)
 
-const mGracefulExit = async function({
+const mGracefulExit = async function ({
   protocolAdapters,
   dbAdapters,
   stopProcessErrors,

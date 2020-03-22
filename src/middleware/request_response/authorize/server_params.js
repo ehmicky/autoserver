@@ -8,7 +8,7 @@ import { crawlNodes } from '../../../filter/crawl.js'
 
 // Retrieve all server-specific parameters used in `coll.authorize`, and
 // resolve their config functions.
-export const getServerParams = function({ authorize, serverParams, mInput }) {
+export const getServerParams = function ({ authorize, serverParams, mInput }) {
   // Retrieve all `attrName` recursively inside filter AST
   const attrNames = crawlNodes(authorize, ({ attrName }) => attrName)
   const serverParamsNames = getPossibleServerParams({
@@ -16,14 +16,14 @@ export const getServerParams = function({ authorize, serverParams, mInput }) {
     serverParams,
   })
   const serverParamsA = filterObj(serverParams, serverParamsNames)
-  const serverParamsB = mapValues(serverParamsA, configFunc =>
+  const serverParamsB = mapValues(serverParamsA, (configFunc) =>
     runConfigFunc({ configFunc, mInput }),
   )
   return serverParamsB
 }
 
 // Only keep the `attrName` that targets a server-specific parameters
-const getPossibleServerParams = function({ attrNames, serverParams }) {
+const getPossibleServerParams = function ({ attrNames, serverParams }) {
   const possibleServerParams = Object.keys(serverParams)
   const serverParamsNames = intersection(attrNames, possibleServerParams)
   const serverParamsNamesA = uniq(serverParamsNames)

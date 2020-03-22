@@ -1,5 +1,5 @@
 // Use rpc-specific logic to parse the request into an rpc-agnostic `rpcDef`
-export const parseRpc = function({
+export const parseRpc = function ({
   rpcAdapter: { parse },
   config,
   origin,

@@ -8,7 +8,7 @@ import { addCatchAllPbHandler } from '../errors/handler.js'
 //  - add error handlers to catch adapter bugs
 //  - only expose some `members`
 //  - add `methods` bound with the adapter as first argument
-export const wrapAdapters = function({
+export const wrapAdapters = function ({
   adapters,
   members = [],
   methods = {},
@@ -16,12 +16,12 @@ export const wrapAdapters = function({
 }) {
   const adaptersA = keyBy(adapters)
 
-  return mapValues(adaptersA, adapter =>
+  return mapValues(adaptersA, (adapter) =>
     wrapAdapter({ adapter, members, methods, reason }),
   )
 }
 
-const wrapAdapter = function({ adapter, members, methods, reason }) {
+const wrapAdapter = function ({ adapter, members, methods, reason }) {
   const adapterA = addErrorHandlers({ adapter, reason })
   const wrapped = classify({ adapter: adapterA, members, methods })
 
@@ -36,9 +36,9 @@ const wrapAdapter = function({ adapter, members, methods, reason }) {
 // If they do, it indicates an adapter bug, where we assign specific error
 // reasons
 // Except if they threw using throwError()
-const addErrorHandlers = function({ adapter, reason }) {
+const addErrorHandlers = function ({ adapter, reason }) {
   const methods = filterObj(adapter, isFunction)
-  const methodsA = mapValues(methods, method =>
+  const methodsA = mapValues(methods, (method) =>
     addCatchAllPbHandler(method, {
       reason,
       extra: { adapter: adapter.name },
@@ -48,13 +48,13 @@ const addErrorHandlers = function({ adapter, reason }) {
   return adapterA
 }
 
-const isFunction = function(key, value) {
+const isFunction = function (key, value) {
   return typeof value === 'function'
 }
 
 // Similar to create a new class, but more functional programming-oriented
-const classify = function({ adapter, members, methods }) {
+const classify = function ({ adapter, members, methods }) {
   const membersA = filterObj(adapter, members)
-  const methodsA = mapValues(methods, method => method.bind(null, adapter))
+  const methodsA = mapValues(methods, (method) => method.bind(null, adapter))
   return { ...membersA, ...methodsA }
 }

@@ -9,7 +9,7 @@ import { startPerf, stopPerf } from './measure.js'
 
 // Wraps a function, so it calculate how long the function takes.
 // eslint-disable-next-line max-params
-const kMonitor = function(
+const kMonitor = function (
   func,
   // eslint-disable-next-line default-param-last
   label = func.name,
@@ -28,7 +28,7 @@ const kMonitor = function(
 
 export const monitor = keepFuncProps(kMonitor)
 
-const recordPerf = function(measures, perf, response) {
+const recordPerf = function (measures, perf, response) {
   const perfA = stopPerf(perf)
   // We directly mutate the passed argument, because it greatly simplifies
   // the code
@@ -38,7 +38,7 @@ const recordPerf = function(measures, perf, response) {
 }
 
 // Combine monitor() and reduceAsync()
-export const monitoredReduce = function({
+export const monitoredReduce = function ({
   funcs,
   initialInput,
   mapInput = identity,
@@ -46,12 +46,12 @@ export const monitoredReduce = function({
   label,
   category,
 }) {
-  const funcsA = funcs.map(func => kMonitor(func, label, category))
+  const funcsA = funcs.map((func) => kMonitor(func, label, category))
   const reduceFunc = monitoredReduceFunc.bind(null, mapInput)
   return reduceAsync(funcsA, reduceFunc, initialInput, mapResponse)
 }
 
-const monitoredReduceFunc = function(mapInput, input, func) {
+const monitoredReduceFunc = function (mapInput, input, func) {
   const inputA = mapInput(input)
   return func(inputA)
 }

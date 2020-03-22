@@ -14,18 +14,18 @@ import {
 import { getAgnosticMethod } from './method.js'
 
 // HTTP-specific ways to set input
-const mapInput = function(methods, ...args) {
-  const input = mapValues(methods, func => func(...args))
+const mapInput = function (methods, ...args) {
+  const input = mapValues(methods, (func) => func(...args))
   const inputA = filterObj(input, isDefined)
   return inputA
 }
 
-const isDefined = function(key, value) {
+const isDefined = function (key, value) {
   return value !== undefined
 }
 
 // Using `X-HTTP-Method-Override` changes the method
-const getMethod = function({
+const getMethod = function ({
   specific: {
     req: { headers },
   },
@@ -47,7 +47,7 @@ const getMethod = function({
 
 // Using `Prefer: return=minimal` request header results in `args.silent` true.
 // Same thing for `HEAD` method
-const getSilent = function({ specific, method }) {
+const getSilent = function ({ specific, method }) {
   if (method === 'HEAD') {
     return true
   }
@@ -61,7 +61,7 @@ const getSilent = function({ specific, method }) {
 }
 
 // Parses Prefer HTTP header
-const parsePreferHeader = function({
+const parsePreferHeader = function ({
   specific: {
     req: {
       headers: { prefer },

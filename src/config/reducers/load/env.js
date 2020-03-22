@@ -9,11 +9,11 @@ import { transtype } from '../../../utils/transtype.js'
 // The value will be JSON transtyped
 // Nested variables can be indicated with double-underscores,
 // e.g. `HTTP__HOSTNAME` becomes `{ http: { hostname } }`
-export const getEnvVars = function() {
+export const getEnvVars = function () {
   return Object.entries(env).reduce(reduceEnvVar, {})
 }
 
-const reduceEnvVar = function(envVars, [name, value]) {
+const reduceEnvVar = function (envVars, [name, value]) {
   if (!isValidEnvVar({ name })) {
     return envVars
   }
@@ -26,7 +26,7 @@ const reduceEnvVar = function(envVars, [name, value]) {
 }
 
 // Exclude environment variables not meant for the autoserver
-const isValidEnvVar = function({ name }) {
+const isValidEnvVar = function ({ name }) {
   return ENV_VARS_PREFIX.test(name) || BASIC_NAMES_MAP[name]
 }
 
@@ -40,7 +40,7 @@ const BASIC_NAMES_MAP = {
   PORT: 'AUTOSERVER__PROTOCOLS__HTTP__PORT',
 }
 
-const getEnvVarName = function({ name }) {
+const getEnvVarName = function ({ name }) {
   const nameA = BASIC_NAMES_MAP[name] || name
   const nameB = nameA
     .replace(ENV_VARS_PREFIX, '')

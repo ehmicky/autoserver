@@ -4,7 +4,7 @@ import { serialResolve } from './serial.js'
 // Add `action.currentData`, i.e. current models for the write actions about
 // to be fired.
 // Also adds `action.dataPaths` for `patch` and `delete` commands.
-export const addCurrentData = function(
+export const addCurrentData = function (
   { top: { command }, ...rest },
   nextLayer,
 ) {

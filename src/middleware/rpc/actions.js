@@ -1,5 +1,5 @@
 // Fire actions, unless the response is already known
-export const fireActions = function({ response, mInput }, nextLayer) {
+export const fireActions = function ({ response, mInput }, nextLayer) {
   // When the rpc parser already returned the response,
   // e.g. with GraphQL introspection queries
   if (response) {

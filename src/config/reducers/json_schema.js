@@ -8,7 +8,7 @@ import { compile } from '../../validation/compile.js'
 // Compile JSON schema defined in the config
 // Returns compiled JSON schema of:
 //   { coll: { type: 'object', required: [...], properties: { ... } }
-export const compileJsonSchema = function({
+export const compileJsonSchema = function ({
   config,
   config: { collections, shortcuts },
 }) {
@@ -19,7 +19,7 @@ export const compileJsonSchema = function({
   return { shortcuts: { ...shortcuts, validateMap } }
 }
 
-const compileCollection = function({ attributes, config, collname }) {
+const compileCollection = function ({ attributes, config, collname }) {
   const jsonSchemaA = mappers.reduce(
     (jsonSchema, mapper) => mapper({ jsonSchema }),
     attributes,
@@ -33,7 +33,7 @@ const compileCollection = function({ attributes, config, collname }) {
 }
 
 // From `attr.validate` to `{ type: 'object', properties }`
-const attrsToJsonSchema = function({ jsonSchema }) {
+const attrsToJsonSchema = function ({ jsonSchema }) {
   const properties = mapValues(jsonSchema, ({ validate }) => validate)
 
   return { type: 'object', properties }
@@ -42,23 +42,26 @@ const attrsToJsonSchema = function({ jsonSchema }) {
 // Fix `required` attribute according to the current command
 // JSON schema `require` attribute is a collection-level array,
 // not an attribute-level boolean
-const addJsonSchemaRequire = function({
+const addJsonSchemaRequire = function ({
   jsonSchema,
   jsonSchema: { properties },
 }) {
   const requiredAttrs = filterObj(properties, isRequired)
   const requiredA = Object.keys(requiredAttrs)
   // `id` requiredness is checked by other validators, so we skip it here
-  const requiredB = requiredA.filter(attrName => attrName !== 'id')
+  const requiredB = requiredA.filter((attrName) => attrName !== 'id')
   return { ...jsonSchema, required: requiredB }
 }
 
-const isRequired = function(key, { required }) {
+const isRequired = function (key, { required }) {
   return required
 }
 
 // JSON schema `dependencies` attribute is collection-level, not attribute-level
-const addJsonSchemaDeps = function({ jsonSchema, jsonSchema: { properties } }) {
+const addJsonSchemaDeps = function ({
+  jsonSchema,
+  jsonSchema: { properties },
+}) {
   const dependenciesA = mapValues(
     properties,
     ({ dependencies }) => dependencies,
@@ -67,13 +70,15 @@ const addJsonSchemaDeps = function({ jsonSchema, jsonSchema: { properties } }) {
   return { ...jsonSchema, dependencies: dependenciesB }
 }
 
-const isDefined = function(key, value) {
+const isDefined = function (key, value) {
   return value !== undefined
 }
 
 // Remove syntax that is not JSON schema
-const removeAltSyntax = function({ jsonSchema, jsonSchema: { properties } }) {
-  const propertiesA = mapValues(properties, attr => omit(attr, NON_JSON_SCHEMA))
+const removeAltSyntax = function ({ jsonSchema, jsonSchema: { properties } }) {
+  const propertiesA = mapValues(properties, (attr) =>
+    omit(attr, NON_JSON_SCHEMA),
+  )
   return { ...jsonSchema, properties: propertiesA }
 }
 
@@ -86,7 +91,7 @@ const mappers = [
   removeAltSyntax,
 ]
 
-const compileSchema = function({ config, jsonSchema }) {
+const compileSchema = function ({ config, jsonSchema }) {
   return compile({ config, jsonSchema })
 }
 

@@ -7,7 +7,7 @@ import { getDefaultDuration } from '../perf/measure.js'
 import { getServerinfo } from '../serverinfo/main.js'
 
 // Create event when all protocol-specific servers have started
-export const emitStartEvent = async function({
+export const emitStartEvent = async function ({
   protocolAdapters,
   config,
   measures,
@@ -26,7 +26,7 @@ export const emitStartEvent = async function({
 
 // Remove some properties from event payload as they are not serializable,
 // or should not be made immutable
-const getEventParams = function({ protocolAdapters, measures }) {
+const getEventParams = function ({ protocolAdapters, measures }) {
   const protocols = mapValues(protocolAdapters, ({ info }) =>
     omit(info, ['server']),
   )
@@ -36,7 +36,7 @@ const getEventParams = function({ protocolAdapters, measures }) {
   return { protocols, duration }
 }
 
-const getStartPayload = function({ params: { protocols }, config }) {
+const getStartPayload = function ({ params: { protocols }, config }) {
   const serverinfo = getServerinfo({ config })
 
   return { protocols, serverinfo }

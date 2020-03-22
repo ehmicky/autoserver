@@ -12,7 +12,7 @@ import { getBackwardFilter } from '../backward.js'
 //      { a: 1, b: 2, c: 3, d: { _gt: 4 } },
 //   ]
 // Using backward pagination would replace _gt to _lt and vice-versa.
-export const getTokenFilter = function({ args, token }) {
+export const getTokenFilter = function ({ args, token }) {
   if (token === undefined) {
     return
   }
@@ -21,7 +21,7 @@ export const getTokenFilter = function({ args, token }) {
   return { filter }
 }
 
-const getPaginatedFilter = function({
+const getPaginatedFilter = function ({
   args,
   args: { filter, order },
   token: { parts },
@@ -45,7 +45,7 @@ const getPaginatedFilter = function({
   return filterA
 }
 
-const getExtraFilters = function({
+const getExtraFilters = function ({
   args,
   order,
   partsObj,
@@ -55,7 +55,7 @@ const getExtraFilters = function({
 }) {
   const eqOrders = order
     .slice(0, index)
-    .map(sOrder => getEqOrder({ partsObj, sOrder }))
+    .map((sOrder) => getEqOrder({ partsObj, sOrder }))
 
   const type = dir === 'asc' ? '_gt' : '_lt'
   const orderVal = { type, attrName, value: partsObj[attrName] }
@@ -69,11 +69,11 @@ const getExtraFilters = function({
   return { type: '_and', value: [...eqOrders, orderValA] }
 }
 
-const getEqOrder = function({ partsObj, sOrder: { attrName } }) {
+const getEqOrder = function ({ partsObj, sOrder: { attrName } }) {
   return { type: '_eq', attrName, value: partsObj[attrName] }
 }
 
-const mergeExtraFilters = function({ extraFilters, filter }) {
+const mergeExtraFilters = function ({ extraFilters, filter }) {
   const extraFiltersA =
     extraFilters.length === 1
       ? extraFilters[0]

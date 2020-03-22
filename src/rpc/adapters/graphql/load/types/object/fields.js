@@ -9,7 +9,7 @@ import { getFinalField } from './final_fields/main.js'
 import { addNoAttributes } from './no_attributes.js'
 
 // Retrieve the fields of an object, using config definition
-export const getObjectFields = function(opts) {
+export const getObjectFields = function (opts) {
   const fields = mappers.reduce(
     reduceFields.bind(null, opts),
     opts.parentDef.attributes,
@@ -20,15 +20,15 @@ export const getObjectFields = function(opts) {
 
 const mappers = [addCommand, getNestedColl, filterField, getFinalField]
 
-const reduceFields = function(opts, fields, mapper) {
+const reduceFields = function (opts, fields, mapper) {
   const fieldsA = mapValues(fields, mapField.bind(null, { opts, mapper }))
   return filterObj(fieldsA, hasValue)
 }
 
-const mapField = function({ opts, mapper }, def, defName) {
+const mapField = function ({ opts, mapper }, def, defName) {
   return mapper(def, { ...opts, defName })
 }
 
-const hasValue = function(key, value) {
+const hasValue = function (key, value) {
   return value != null
 }

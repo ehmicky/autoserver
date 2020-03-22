@@ -24,7 +24,7 @@ import { getColl } from './get_coll.js'
 //     - no way for client to know response does not match current data state
 //  - replace nested actions by find actions:
 //     - request might not be authorized to fetch those models
-export const validateStableIds = function({
+export const validateStableIds = function ({
   actions,
   config,
   top,
@@ -38,12 +38,12 @@ export const validateStableIds = function({
   actions
     // Only for nested actions
     .filter(({ commandpath }) => commandpath.length !== 0)
-    .forEach(action => validateAction({ action, config, top }))
+    .forEach((action) => validateAction({ action, config, top }))
 }
 
 const STABLE_IDS_COMMANDS = ['create', 'patch', 'upsert']
 
-const validateAction = function({ action: { commandpath }, config, top }) {
+const validateAction = function ({ action: { commandpath }, config, top }) {
   const serverSet = isServerSet({ commandpath, config, top })
 
   if (!serverSet) {
@@ -55,13 +55,13 @@ const validateAction = function({ action: { commandpath }, config, top }) {
   throwError(message, { reason: 'VALIDATION' })
 }
 
-const isServerSet = function({ commandpath, config, top }) {
+const isServerSet = function ({ commandpath, config, top }) {
   const attr = getAttr({ commandpath, config, top })
   const serverSet = attr.readonly !== undefined || attr.value !== undefined
   return serverSet
 }
 
-const getAttr = function({
+const getAttr = function ({
   commandpath,
   config,
   config: { collections },

@@ -2,11 +2,11 @@ import { invert } from '../../../../utils/functional/invert.js'
 import { mapKeys } from '../../../../utils/functional/map.js'
 
 // Name shortcuts, e.g. { filter: value } -> { f: value }
-export const addNameShortcuts = function(token) {
+export const addNameShortcuts = function (token) {
   return mapKeys(token, (value, attrName) => SHORTCUTS[attrName] || attrName)
 }
 
-export const removeNameShortcuts = function(token) {
+export const removeNameShortcuts = function (token) {
   return mapKeys(
     token,
     (value, attrName) => REVERSE_SHORTCUTS[attrName] || attrName,

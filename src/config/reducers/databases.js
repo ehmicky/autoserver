@@ -6,7 +6,7 @@ import { mapColls } from '../helpers.js'
 import { validateAdaptersOpts } from './adapter_opts.js'
 
 // Validates `collection.database` and `databases.DATABASE.*`
-export const validateDatabases = function({ config, config: { databases } }) {
+export const validateDatabases = function ({ config, config: { databases } }) {
   validateAdaptersOpts({
     opts: databases,
     adaptersOpts: DATABASE_OPTS,
@@ -17,14 +17,14 @@ export const validateDatabases = function({ config, config: { databases } }) {
   return { collections }
 }
 
-const mapColl = function({ coll: { database }, coll, collname }) {
+const mapColl = function ({ coll: { database }, coll, collname }) {
   const dbAdapter = eGetDbAdapter({ database, collname })
 
   const features = eValidateStartupFeatures({ dbAdapter, coll, collname })
   return { features }
 }
 
-const getDbAdapter = function({ database }) {
+const getDbAdapter = function ({ database }) {
   return getDatabase(database)
 }
 
@@ -34,7 +34,7 @@ const eGetDbAdapter = addGenErrorHandler(getDbAdapter, {
   reason: 'CONFIG_VALIDATION',
 })
 
-const validateStartupFeatures = function({ dbAdapter, coll }) {
+const validateStartupFeatures = function ({ dbAdapter, coll }) {
   return dbAdapter.validateStartupFeatures({ coll })
 }
 

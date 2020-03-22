@@ -1,20 +1,20 @@
 import { groupBy } from '../utils/functional/group.js'
 
 // Normalize and group measures, returning an array of objects
-export const groupMeasures = function({ measures }) {
+export const groupMeasures = function ({ measures }) {
   // Only keep finished measures
   const filteredMeasures = measures.filter(
     ({ duration }) => duration !== undefined,
   )
   // Group measures belonging to the same category and label
   const groupedMeasures = groupBy(filteredMeasures, ['category', 'label'])
-  return Object.values(groupedMeasures).map(items =>
+  return Object.values(groupedMeasures).map((items) =>
     getGroupMeasure({ measures: items }),
   )
 }
 
 // Calculate aggregate for measures belonging to the same category and label
-const getGroupMeasure = function({ measures }) {
+const getGroupMeasure = function ({ measures }) {
   const [{ category, label }] = measures
   const count = measures.length
   const items = measures.map(getMillisecsDuration)
@@ -25,7 +25,7 @@ const getGroupMeasure = function({ measures }) {
 }
 
 // Use milliseconds, but with nanoseconds precision
-const getMillisecsDuration = function({ duration }) {
+const getMillisecsDuration = function ({ duration }) {
   return duration / NANOSECS_TO_MILLISECS
 }
 

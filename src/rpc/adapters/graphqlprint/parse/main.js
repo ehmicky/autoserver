@@ -7,7 +7,7 @@ import { renderTemplate } from '../../../../utils/template.js'
 const TEMPLATE = resolve(__dirname, './print.mustache')
 
 // Print GraphQL schema as beautified HTML
-export const parse = async function({ config: { graphqlSchema } }) {
+export const parse = async function ({ config: { graphqlSchema } }) {
   const graphqlPrintedSchema = await printGraphqlSchema({ graphqlSchema })
 
   const content = await renderTemplate({
@@ -18,6 +18,6 @@ export const parse = async function({ config: { graphqlSchema } }) {
   return { response: { type: 'html', content } }
 }
 
-const printGraphqlSchema = function({ graphqlSchema }) {
+const printGraphqlSchema = function ({ graphqlSchema }) {
   return printSchema(graphqlSchema).trim()
 }

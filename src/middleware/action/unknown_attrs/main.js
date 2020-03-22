@@ -7,32 +7,32 @@ import { validateAllAttr } from './all.js'
 // config.
 // Also validate special key 'all'
 // `args.cascade` is not validated because already previously checked.
-export const validateUnknownAttrs = function({ actions, config }) {
-  actions.forEach(action => validateAction({ action, config }))
+export const validateUnknownAttrs = function ({ actions, config }) {
+  actions.forEach((action) => validateAction({ action, config }))
 }
 
-const validateAction = function({ action, config }) {
+const validateAction = function ({ action, config }) {
   validateAllAttr({ action, config })
   validateUnknown({ action, config })
 }
 
 // Validate that arguments's attributes are present in config
-const validateUnknown = function({ action, config }) {
+const validateUnknown = function ({ action, config }) {
   argsToValidate.forEach(({ name, getKeys }) => {
     const keys = getKeys({ action })
     validateUnknownArg({ keys, action, config, name })
   })
 }
 
-const getSelectKeys = function({
+const getSelectKeys = function ({
   action: {
     args: { select = [] },
   },
 }) {
-  return select.filter(key => key !== 'all')
+  return select.filter((key) => key !== 'all')
 }
 
-const getRenameKeys = function({
+const getRenameKeys = function ({
   action: {
     args: { rename = [] },
   },
@@ -41,7 +41,7 @@ const getRenameKeys = function({
 }
 
 // Turn e.g. [{ a, b }, { a }] into ['a', 'b']
-const getDataKeys = function({
+const getDataKeys = function ({
   action: {
     args: { data = [] },
   },
@@ -51,7 +51,7 @@ const getDataKeys = function({
   return keysA
 }
 
-const getOrderKeys = function({
+const getOrderKeys = function ({
   action: {
     args: { order = [] },
   },
@@ -67,14 +67,14 @@ const argsToValidate = [
   { name: 'order', getKeys: getOrderKeys },
 ]
 
-const validateUnknownArg = function({
+const validateUnknownArg = function ({
   keys,
   action: { commandpath, collname },
   config: { collections },
   name,
 }) {
   const keyA = keys.find(
-    key => collections[collname].attributes[key] === undefined,
+    (key) => collections[collname].attributes[key] === undefined,
   )
 
   if (keyA === undefined) {

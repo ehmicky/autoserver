@@ -5,7 +5,7 @@ import { validateTypes } from './validate.js'
 import { TYPES } from './available.js'
 
 // Uses `patchOp.attribute`
-export const checkAttrType = function({
+export const checkAttrType = function ({
   type,
   attr: { type: attrType, isArray: attrIsArray },
   operator: { attribute: possTypes },
@@ -25,7 +25,7 @@ export const checkAttrType = function({
 }
 
 // Uses `patchOp.argument`
-export const checkOpValType = function({
+export const checkOpValType = function ({
   type,
   opVal,
   coll,
@@ -49,7 +49,7 @@ export const checkOpValType = function({
   return message
 }
 
-const validateOpValType = function({
+const validateOpValType = function ({
   type,
   opVal,
   argument,
@@ -70,7 +70,7 @@ const validateOpValType = function({
   return `the argument's type of ${opValStr} is invalid. Patch operator '${type}' argument must be ${validTypes}`
 }
 
-const getOpValType = function({ opVal, coll, argument }) {
+const getOpValType = function ({ opVal, coll, argument }) {
   const cannotCheck = cannotCheckType({ opVal, argument })
 
   if (cannotCheck) {
@@ -89,7 +89,7 @@ const getOpValType = function({ opVal, coll, argument }) {
   return { attrIsArray, attrTypes }
 }
 
-const getAttrTypes = function({ attrIsArray, opVal }) {
+const getAttrTypes = function ({ attrIsArray, opVal }) {
   if (!attrIsArray) {
     const attrType = parseOpValType(opVal)
     return [attrType]
@@ -106,12 +106,12 @@ const getAttrTypes = function({ attrIsArray, opVal }) {
   return attrTypes
 }
 
-const parseOpValTypes = function(opVal) {
+const parseOpValTypes = function (opVal) {
   const attrTypes = opVal.map(parseOpValType)
   return uniq(attrTypes)
 }
 
-const parseOpValType = function(value) {
+const parseOpValType = function (value) {
   const [attrType] = Object.entries(TYPES).find(([, { test: testFunc }]) =>
     testFunc(value),
   )

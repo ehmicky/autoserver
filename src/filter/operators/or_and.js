@@ -1,18 +1,18 @@
-const parseOr = function({ value, parseOperations, throwErr }) {
-  return value.flatMap(_and =>
+const parseOr = function ({ value, parseOperations, throwErr }) {
+  return value.flatMap((_and) =>
     parseOperations({ operations: { _and }, throwErr }),
   )
 }
 
-const parseAnd = function({ value, parseAttrs, throwErr }) {
+const parseAnd = function ({ value, parseAttrs, throwErr }) {
   return parseAttrs({ attrs: value, throwErr })
 }
 
-const optimizeOr = function(node) {
+const optimizeOr = function (node) {
   const { value } = node
 
   // If some alternatives is already true, whole node is true
-  const hasTrue = value.some(val => val == null)
+  const hasTrue = value.some((val) => val == null)
 
   if (hasTrue) {
     return
@@ -31,11 +31,11 @@ const optimizeOr = function(node) {
   return node
 }
 
-const optimizeAnd = function(node) {
+const optimizeAnd = function (node) {
   const { value } = node
 
   // Remove alternatives that are already true
-  const valueA = value.filter(val => val != null)
+  const valueA = value.filter((val) => val != null)
 
   // When using an empty object
   if (valueA.length === 0) {
@@ -50,23 +50,23 @@ const optimizeAnd = function(node) {
   return { ...node, value: valueA }
 }
 
-const evalOrAnd = function(
+const evalOrAnd = function (
   operator,
   { attrs, value, partialNames, evalFilter },
 ) {
   const operatorMap = andOrMap[operator]
 
-  const valueA = value.map(filter =>
+  const valueA = value.map((filter) =>
     evalFilter({ attrs, filter, partialNames }),
   )
 
-  const hasSomeFalse = valueA.some(val => val === operatorMap.some)
+  const hasSomeFalse = valueA.some((val) => val === operatorMap.some)
 
   if (hasSomeFalse) {
     return operatorMap.some
   }
 
-  const valueB = valueA.filter(val => typeof val !== 'boolean')
+  const valueB = valueA.filter((val) => typeof val !== 'boolean')
   const hasPartialNodes = valueB.length > 0
 
   if (hasPartialNodes) {
@@ -77,7 +77,7 @@ const evalOrAnd = function(
 }
 
 // Try to simplify a node when possible
-const simplifyNode = function(node) {
+const simplifyNode = function (node) {
   if (node.value.length === 1) {
     return node.value[0]
   }

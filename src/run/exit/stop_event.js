@@ -5,7 +5,7 @@ import { logEvent } from '../../log/main.js'
 import { getDefaultDuration } from '../../perf/measure.js'
 
 // Emit successful or failed shutdown event
-export const emitStopEvent = async function({ exit, config, measures }) {
+export const emitStopEvent = async function ({ exit, config, measures }) {
   const failedProtocols = getFailedProtocols({ exit })
 
   const isSuccess = failedProtocols.length === 0
@@ -31,12 +31,12 @@ export const emitStopEvent = async function({ exit, config, measures }) {
 }
 
 // Retrieves which servers exits have failed, if any
-const getFailedProtocols = function({ exit }) {
+const getFailedProtocols = function ({ exit }) {
   const failedExits = filterObj(exit, hasFailedCode)
   const failedProtocols = Object.keys(failedExits)
   return failedProtocols
 }
 
-const hasFailedCode = function(key, code) {
+const hasFailedCode = function (key, code) {
   return !code
 }

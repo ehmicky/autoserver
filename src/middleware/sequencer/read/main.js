@@ -9,7 +9,7 @@ import { processResults } from './results.js'
 import { paginateResults } from './paginate/main.js'
 
 // Fire all commands associated with a set of read actions
-export const sequenceRead = async function(
+export const sequenceRead = async function (
   { actions, config, mInput },
   nextLayer,
 ) {
@@ -26,7 +26,7 @@ export const sequenceRead = async function(
   return { results }
 }
 
-const fireReads = function(
+const fireReads = function (
   { actions, results, isTopLevel, ...mInput },
   nextLayer,
 ) {
@@ -45,7 +45,7 @@ const fireReads = function(
   return Promise.all(resultsPromises)
 }
 
-const fireRead = async function({
+const fireRead = async function ({
   action,
   action: { args, collname },
   childActions,

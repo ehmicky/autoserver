@@ -3,7 +3,7 @@ import { throwError } from '../../../errors/main.js'
 import { addToActions } from '../add_actions/add.js'
 
 // Parse `args.rename` for each action
-export const parseRename = function({ actions, top }) {
+export const parseRename = function ({ actions, top }) {
   const actionsA = addToActions({
     actions,
     name: 'rename',
@@ -15,7 +15,7 @@ export const parseRename = function({ actions, top }) {
   return { actions: actionsA }
 }
 
-const getRenameArg = function({
+const getRenameArg = function ({
   action: {
     args: { rename },
     commandpath,
@@ -23,7 +23,7 @@ const getRenameArg = function({
 }) {
   const renamesA = rename.split(',')
   const renamesB = uniq(renamesA)
-  const renamesC = renamesB.map(renameA =>
+  const renamesC = renamesB.map((renameA) =>
     getRenamePart({ rename: renameA, commandpath }),
   )
   return renamesC
@@ -31,7 +31,7 @@ const getRenameArg = function({
 
 // Turns `args.rename` 'aaa.bbb.ccc:ddd' into:
 // `commandpath` 'aaa.bbb', `key` 'ccc', `outputName` 'ddd']
-const getRenamePart = function({ rename, commandpath }) {
+const getRenamePart = function ({ rename, commandpath }) {
   const renameA = [...commandpath, rename].join('.')
   const [, commandpathA, outputName] = RENAME_REGEXP.exec(renameA) || []
 

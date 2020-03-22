@@ -1,4 +1,4 @@
-export const parseInput = function({
+export const parseInput = function ({
   protocolAdapter: { getInput },
   specific,
   method,

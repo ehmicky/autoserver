@@ -5,7 +5,7 @@ import { getServerinfo } from '../../serverinfo/main.js'
 
 // Retrieve all parameters
 // eslint-disable-next-line max-lines-per-function
-export const getParams = function(
+export const getParams = function (
   mInput,
   {
     params: { error, ...params } = {},
@@ -123,7 +123,7 @@ export const getParams = function(
 }
 
 // Normalize `params.error` so the caller does not have to
-const getError = function({ error, mInput }) {
+const getError = function ({ error, mInput }) {
   if (error === undefined) {
     return
   }
@@ -133,7 +133,7 @@ const getError = function({ error, mInput }) {
 }
 
 // Retrieve model-related system parameters
-export const getModelParams = function({ model, previousmodel, attrName }) {
+export const getModelParams = function ({ model, previousmodel, attrName }) {
   const value = model[attrName]
   const previousvalue =
     previousmodel == null ? undefined : previousmodel[attrName]

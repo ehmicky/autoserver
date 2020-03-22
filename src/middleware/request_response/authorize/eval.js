@@ -7,7 +7,7 @@ import { handleConfigFuncs } from './functions.js'
 // Evaluate `coll.authorize` filter to a boolean
 // Do a partial evaluation, because we do not know the value of `model.*` yet
 // Returns partial filter if any.
-export const evalAuthorize = function({
+export const evalAuthorize = function ({
   collname,
   clientCollname,
   authorize,
@@ -41,7 +41,7 @@ export const evalAuthorize = function({
 }
 
 // Throw error if authorization filter evaluated to false.
-const checkAuthorize = function({ clientCollname, authorize, top }) {
+const checkAuthorize = function ({ clientCollname, authorize, top }) {
   if (authorize) {
     return
   }
@@ -54,7 +54,7 @@ const checkAuthorize = function({ clientCollname, authorize, top }) {
 }
 
 // Remove `model.` prefix in AST's `attrName`
-const removePrefix = function({ attrName, ...node }) {
+const removePrefix = function ({ attrName, ...node }) {
   if (attrName === undefined) {
     return node
   }

@@ -11,7 +11,7 @@ import { validate } from '../validation/validate.js'
 // Generic plugin factory
 // It adds attributes to each collection, using `getAttributes(pluginOpts)`
 // option which returns the attributes
-export const attributesPlugin = function({
+export const attributesPlugin = function ({
   name,
   getAttributes = () => ({}),
   optsSchema,
@@ -32,7 +32,7 @@ export const attributesPlugin = function({
 }
 
 // Validate plugin options against `optsSchema`
-const validateOpts = function({ name, opts = {}, optsSchema, collections }) {
+const validateOpts = function ({ name, opts = {}, optsSchema, collections }) {
   if (optsSchema === undefined) {
     return
   }
@@ -44,11 +44,11 @@ const validateOpts = function({ name, opts = {}, optsSchema, collections }) {
   eValidate({ compiledJsonSchema, data, name })
 }
 
-const getJsonSchema = function({ optsSchema }) {
+const getJsonSchema = function ({ optsSchema }) {
   return { type: 'object', properties: { plugin: optsSchema } }
 }
 
-const getData = function({ collections, opts }) {
+const getData = function ({ collections, opts }) {
   const collTypes = Object.keys(collections)
   const data = {
     plugin: opts,
@@ -57,13 +57,13 @@ const getData = function({ collections, opts }) {
   return data
 }
 
-const applyPlugin = function({ collections, newAttrs }) {
+const applyPlugin = function ({ collections, newAttrs }) {
   return mapValues(collections, (coll, collname) =>
     mergeNewAttrs({ coll, collname, newAttrs }),
   )
 }
 
-const mergeNewAttrs = function({
+const mergeNewAttrs = function ({
   coll,
   coll: { attributes = {} },
   collname,
@@ -76,7 +76,7 @@ const mergeNewAttrs = function({
 }
 
 // Make sure plugin does not override user-defined attributes
-const validateAttrs = function({ attributes, collname, newAttrs }) {
+const validateAttrs = function ({ attributes, collname, newAttrs }) {
   const attrNames = Object.keys(attributes)
   const newAttrNames = Object.keys(newAttrs)
   const alreadyDefinedAttrs = intersection(attrNames, newAttrNames)

@@ -4,7 +4,7 @@ import { mergeCommandpaths } from '../../../commands/helpers.js'
 import { getSimpleFilter } from '../../../filter/simple_id.js'
 
 // Add `action.currentData` for `create` and `upsert` commands
-export const parallelResolve = async function({ actions, mInput }, nextLayer) {
+export const parallelResolve = async function ({ actions, mInput }, nextLayer) {
   const { currentDataMap, metadata } = await getCurrentDataMap({
     actions,
     nextLayer,
@@ -15,7 +15,7 @@ export const parallelResolve = async function({ actions, mInput }, nextLayer) {
 }
 
 // Fire the `find` commands, in parallel, to retrieve `currentData`
-const getCurrentDataMap = async function({ actions, nextLayer, mInput }) {
+const getCurrentDataMap = async function ({ actions, nextLayer, mInput }) {
   const actionsA = groupActions({ actions })
   const mInputA = { ...mInput, actions: actionsA }
 
@@ -27,13 +27,13 @@ const getCurrentDataMap = async function({ actions, nextLayer, mInput }) {
 }
 
 // Group write actions on the same model into single read action
-const groupActions = function({ actions }) {
+const groupActions = function ({ actions }) {
   const actionsGroups = groupValuesBy(actions, 'collname')
   const actionsA = actionsGroups.map(mergeActionsGroups)
   return actionsA
 }
 
-const mergeActionsGroups = function(actions) {
+const mergeActionsGroups = function (actions) {
   const commandpath = mergeCommandpaths({ actions })
   const args = getArgs({ actions })
   const [{ collname }] = actions
@@ -42,26 +42,28 @@ const mergeActionsGroups = function(actions) {
 }
 
 // `args.data` becomes `args.filter`
-const getArgs = function({ actions }) {
+const getArgs = function ({ actions }) {
   const ids = getIds({ actions })
   const filter = getSimpleFilter({ ids })
   return { filter }
 }
 
-const getIds = function({ actions }) {
+const getIds = function ({ actions }) {
   return actions.flatMap(({ args: { data } }) => data).map(({ id }) => id)
 }
 
-const getModels = function(results) {
+const getModels = function (results) {
   return results.map(({ model }) => model)
 }
 
 // Add `action.currentData`
-const addCurrentDataActions = function({ actions, currentDataMap }) {
-  return actions.map(action => addCurrentDataAction({ action, currentDataMap }))
+const addCurrentDataActions = function ({ actions, currentDataMap }) {
+  return actions.map((action) =>
+    addCurrentDataAction({ action, currentDataMap }),
+  )
 }
 
-const addCurrentDataAction = function({
+const addCurrentDataAction = function ({
   action,
   action: {
     collname,
@@ -76,6 +78,6 @@ const addCurrentDataAction = function({
   return { ...action, currentData: currentDataA }
 }
 
-const currentDataMatches = function({ id, currentData = [] }) {
-  return currentData.find(model => model.id === id)
+const currentDataMatches = function ({ id, currentData = [] }) {
+  return currentData.find((model) => model.id === id)
 }

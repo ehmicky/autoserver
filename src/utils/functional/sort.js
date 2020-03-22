@@ -1,15 +1,15 @@
 // Like array.sort() but does not mutate argument
-export const sortArray = function(array, func) {
+export const sortArray = function (array, func) {
   // eslint-disable-next-line fp/no-mutating-methods
   return [...array].sort(func)
 }
 
 // Like Lodash order() but faster, and using the same format we use in `order`
-export const sortBy = function(array, order) {
+export const sortBy = function (array, order) {
   return sortArray(array, (objA, objB) => sortByFunc({ objA, objB, order }))
 }
 
-const sortByFunc = function({ objA, objB, order }) {
+const sortByFunc = function ({ objA, objB, order }) {
   const orderPart = order.find(
     ({ attrName: attrNameA }) => objA[attrNameA] !== objB[attrNameA],
   )
@@ -25,7 +25,7 @@ const sortByFunc = function({ objA, objB, order }) {
 }
 
 // Compare two arrays, element by element
-export const compareArrays = function(arrA, arrB, index = 0) {
+export const compareArrays = function (arrA, arrB, index = 0) {
   const result = compareLengths(arrA, arrB, index)
 
   if (result !== undefined) {
@@ -43,7 +43,7 @@ export const compareArrays = function(arrA, arrB, index = 0) {
   return compareArrays(arrA, arrB, index + 1)
 }
 
-const compareLengths = function(arrA, arrB, index) {
+const compareLengths = function (arrA, arrB, index) {
   const isEmptyA = arrA.length < index
   const isEmptyB = arrB.length < index
 

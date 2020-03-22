@@ -6,7 +6,7 @@ import { getTypeName } from '../../name.js'
 import { getObjectFields } from './fields.js'
 
 // Object field TGetter
-const mGraphqlObjectTGetter = function(def, opts) {
+const mGraphqlObjectTGetter = function (def, opts) {
   const Type =
     opts.inputObjectType === 'type' ? GraphQLObjectType : GraphQLInputObjectType
 
@@ -28,7 +28,7 @@ const mGraphqlObjectTGetter = function(def, opts) {
 //    or command changes
 // We also namespace with a UUID which is unique for each new call to
 // `getGraphqlSchema()`, to avoid leaking
-const transformArgs = function([def, opts]) {
+const transformArgs = function ([def, opts]) {
   const typeName = getTypeName({ def, opts })
   return `${opts.graphqlSchemaId}/${typeName}`
 }

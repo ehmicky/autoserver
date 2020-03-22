@@ -1,7 +1,7 @@
 import Ajv from 'ajv'
 import ajvKeywords from 'ajv-keywords'
 
-export const getValidator = function() {
+export const getValidator = function () {
   const ajv = new Ajv(AJV_OPTIONS)
 
   // Add JSON keywords:
@@ -12,7 +12,7 @@ export const getValidator = function() {
 }
 
 // Intercepts when ajv uses console.* and throw exceptions instead
-const loggerError = function(...args) {
+const loggerError = function (...args) {
   const message = args.join(' ')
   throw new Error(message)
 }

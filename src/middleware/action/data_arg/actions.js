@@ -3,7 +3,7 @@ import { getWriteAction } from './write_action.js'
 
 // Parse an object (including its children) inside `args.data`
 // as a set of write actions
-export const parseActions = function({ data, ...rest }) {
+export const parseActions = function ({ data, ...rest }) {
   const dataA = normalizeData({ data })
 
   const nestedKeys = getNestedKeys({ data: dataA, ...rest })
@@ -21,12 +21,12 @@ export const parseActions = function({ data, ...rest }) {
 
 // Commands are normalized to being only multiple
 // So we also normalize `args.data` to always be an array
-const normalizeData = function({ data }) {
+const normalizeData = function ({ data }) {
   return Array.isArray(data) ? data : [data]
 }
 
 // Do not create actions with empty `args.data`
-const filterAction = function({
+const filterAction = function ({
   action,
   action: {
     args: { data },

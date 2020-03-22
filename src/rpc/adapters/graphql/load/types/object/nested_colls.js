@@ -1,7 +1,7 @@
 import omit from 'omit.js'
 
 // Create nested collections definitions
-export const getNestedColl = function(def, { inputObjectType, topDef }) {
+export const getNestedColl = function (def, { inputObjectType, topDef }) {
   const { target, isArray } = def
 
   // Only for nested collections, that are not filter arguments
@@ -11,7 +11,7 @@ export const getNestedColl = function(def, { inputObjectType, topDef }) {
     return def
   }
 
-  const topLevelModel = Object.values(topDef.attributes).find(topDefA =>
+  const topLevelModel = Object.values(topDef.attributes).find((topDefA) =>
     topLevelModelMatches(def, topDefA),
   )
   // Command description is only used for Query|Mutation children,
@@ -22,6 +22,6 @@ export const getNestedColl = function(def, { inputObjectType, topDef }) {
   return topLevelModelB
 }
 
-const topLevelModelMatches = function({ target, command }, topDef) {
+const topLevelModelMatches = function ({ target, command }, topDef) {
   return topDef.collname === target && topDef.command === command
 }

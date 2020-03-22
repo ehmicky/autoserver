@@ -2,7 +2,7 @@ import { isObject } from '../../utils/functional/type.js'
 import { getOperator } from '../operators/main.js'
 import { parseSiblingNode } from '../siblings.js'
 
-export const parseOperations = function(parseAttrs, { operations, throwErr }) {
+export const parseOperations = function (parseAttrs, { operations, throwErr }) {
   const operationsA = getShortcut({ operations })
 
   return Object.entries(operationsA).map(([type, value]) =>
@@ -11,7 +11,7 @@ export const parseOperations = function(parseAttrs, { operations, throwErr }) {
 }
 
 // `{ attribute: value }` is a shortcut for `{ attribute: { _eq: value } }`
-const getShortcut = function({ operations }) {
+const getShortcut = function ({ operations }) {
   if (isObject(operations)) {
     return operations
   }
@@ -19,7 +19,7 @@ const getShortcut = function({ operations }) {
   return { _eq: operations }
 }
 
-export const parseOperation = function({ type, value, throwErr, parseAttrs }) {
+export const parseOperation = function ({ type, value, throwErr, parseAttrs }) {
   const node = { type, value }
   const operator = getOperator({ node })
 
@@ -38,7 +38,7 @@ export const parseOperation = function({ type, value, throwErr, parseAttrs }) {
   return { ...node, value: valueA }
 }
 
-const parseValue = function({ operator, type, value, throwErr, parseAttrs }) {
+const parseValue = function ({ operator, type, value, throwErr, parseAttrs }) {
   const valueA = parseSiblingNode({ type, value, throwErr })
 
   if (valueA !== undefined) {

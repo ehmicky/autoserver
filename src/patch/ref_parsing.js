@@ -1,9 +1,9 @@
 // Model references, e.g. model.ATTR
-export const isRef = function(opVal) {
+export const isRef = function (opVal) {
   return REFERENCE_REGEXP.test(opVal)
 }
 
-export const parseRef = function(opVal) {
+export const parseRef = function (opVal) {
   const [, ref] = REFERENCE_REGEXP.exec(opVal) || []
   return ref
 }
@@ -12,7 +12,7 @@ export const parseRef = function(opVal) {
 const REFERENCE_REGEXP = /^model\.([a-z][_0-9a-z]*)$/u
 
 // Get the config's attribute from a model.ATTR reference
-export const getOpValRef = function({ opVal, coll: { attributes } }) {
+export const getOpValRef = function ({ opVal, coll: { attributes } }) {
   const ref = parseRef(opVal)
 
   if (ref === undefined) {
@@ -33,6 +33,6 @@ export const getOpValRef = function({ opVal, coll: { attributes } }) {
 // until it is resolved later.
 // If operator's argument contains `empty` but other types too, we can already
 // check model.ATTR against them.
-export const cannotCheckType = function({ opVal, argument }) {
+export const cannotCheckType = function ({ opVal, argument }) {
   return isRef(opVal) && argument.length === 1 && argument[0] === 'empty'
 }

@@ -1,5 +1,5 @@
 // Retrieves query string from a URL
-export const getQueryString = function({
+export const getQueryString = function ({
   specific: {
     req: { url },
   },

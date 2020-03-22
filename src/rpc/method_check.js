@@ -1,7 +1,7 @@
 import { throwPb } from '../errors/props.js'
 
 // Check if protocol method is allowed for current rpc
-export const checkMethod = function({ methods, title }, { method }) {
+export const checkMethod = function ({ methods, title }, { method }) {
   if (isAllowedMethod({ methods, method })) {
     return
   }
@@ -14,7 +14,7 @@ export const checkMethod = function({ methods, title }, { method }) {
   })
 }
 
-const isAllowedMethod = function({ methods, method }) {
+const isAllowedMethod = function ({ methods, method }) {
   return (
     methods === undefined ||
     methods.includes(method) ||

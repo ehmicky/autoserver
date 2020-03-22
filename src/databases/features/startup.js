@@ -3,7 +3,7 @@ import { getWordsList } from '../../utils/string.js'
 import { getFeatures } from '../../filter/features.js'
 
 // Startup time adapter features validation
-export const validateStartupFeatures = function({ name, features }, { coll }) {
+export const validateStartupFeatures = function ({ name, features }, { coll }) {
   const requiredFeatures = getRequiredFeatures({ coll })
   const missingFeatures = difference(requiredFeatures, features)
 
@@ -24,12 +24,12 @@ export const validateStartupFeatures = function({ name, features }, { coll }) {
 // just the collection config, i.e. startup time.
 // Some database features might only possible to be guessed runtime,
 // e.g. the 'filter' feature.
-const getRequiredFeatures = function({ coll }) {
-  return featuresCheckers.flatMap(checker => checker({ coll }))
+const getRequiredFeatures = function ({ coll }) {
+  return featuresCheckers.flatMap((checker) => checker({ coll }))
 }
 
 // `collection.authorize` adds authorization filter, i.e. requires 'filter'
-const filterChecker = function({ coll: { authorize } }) {
+const filterChecker = function ({ coll: { authorize } }) {
   if (authorize === undefined) {
     return []
   }

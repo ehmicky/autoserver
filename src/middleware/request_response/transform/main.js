@@ -2,21 +2,21 @@ import { handleTransforms } from './common.js'
 
 // Apply `attr.default` only on model creation (on `create` or `upsert`),
 // and the attribute is missing
-const shouldUseDefault = function({ command }) {
+const shouldUseDefault = function ({ command }) {
   return DEFAULT_COMMANDS.includes(command)
 }
 
 const DEFAULT_COMMANDS = ['create', 'upsert']
 
-const shouldSetDefault = function({ value }) {
+const shouldSetDefault = function ({ value }) {
   return value == null
 }
 
-const setTransform = function({ transform }) {
+const setTransform = function ({ transform }) {
   return transform
 }
 
-const setCurrentValIfTrue = function({ transform, previousvalue, value }) {
+const setCurrentValIfTrue = function ({ transform, previousvalue, value }) {
   if (!transform) {
     return value
   }
@@ -25,7 +25,7 @@ const setCurrentValIfTrue = function({ transform, previousvalue, value }) {
 }
 
 // `attr.value`
-export const handleValue = function(mInput) {
+export const handleValue = function (mInput) {
   return handleTransforms({
     ...mInput,
     mapName: 'valuesMap',
@@ -34,7 +34,7 @@ export const handleValue = function(mInput) {
 }
 
 // `attr.default`
-export const handleUserDefault = function(mInput) {
+export const handleUserDefault = function (mInput) {
   return handleTransforms({
     ...mInput,
     mapName: 'userDefaultsMap',
@@ -51,7 +51,7 @@ export const handleUserDefault = function(mInput) {
 // because readonly attributes can be part of a normal response, and clients
 // should be able to send responses back as is without having to remove
 // readonly attributes, even if another user changes that same model.
-export const handleReadonly = function(mInput) {
+export const handleReadonly = function (mInput) {
   return handleTransforms({
     ...mInput,
     mapName: 'readonlyMap',

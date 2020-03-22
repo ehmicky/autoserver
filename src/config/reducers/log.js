@@ -5,9 +5,9 @@ import { DEFAULT_LOGGER } from '../../log/constants.js'
 const { provider: defaultProvider } = DEFAULT_LOGGER
 
 // Normalize `log`
-export const normalizeLog = function({ config: { log } }) {
+export const normalizeLog = function ({ config: { log } }) {
   const logA = Array.isArray(log) ? log : [log]
-  const logC = logA.map(logB => addDefaultProviderName({ log: logB }))
+  const logC = logA.map((logB) => addDefaultProviderName({ log: logB }))
   const logD = addDefaultProvider({ log: logC })
 
   const logE = logD.map(normalizeProvider)
@@ -15,7 +15,7 @@ export const normalizeLog = function({ config: { log } }) {
   return { log: logE }
 }
 
-const addDefaultProviderName = function({ log, log: { provider } }) {
+const addDefaultProviderName = function ({ log, log: { provider } }) {
   if (provider !== undefined) {
     return log
   }
@@ -25,7 +25,7 @@ const addDefaultProviderName = function({ log, log: { provider } }) {
 
 // Default log provider is always available, but can be turned `silent` with
 // `log.level`
-const addDefaultProvider = function({ log }) {
+const addDefaultProvider = function ({ log }) {
   const hasConsole = log.some(({ provider }) => provider === defaultProvider)
 
   if (hasConsole) {
@@ -35,7 +35,7 @@ const addDefaultProvider = function({ log }) {
   return [...log, { provider: defaultProvider }]
 }
 
-const normalizeProvider = function(log) {
+const normalizeProvider = function (log) {
   const { provider, opts = {} } = log
   const { getOpts } = eGetLog(provider)
 

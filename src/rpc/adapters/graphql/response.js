@@ -1,7 +1,7 @@
 import filterObj from 'filter-obj'
 
 // Apply GraphQL-specific error response transformation
-export const transformSuccess = function({
+export const transformSuccess = function ({
   response: {
     content: { metadata, ...content },
   },
@@ -11,7 +11,7 @@ export const transformSuccess = function({
 }
 
 // Apply GraphQL-specific error response transformation
-export const transformError = function({
+export const transformError = function ({
   response: {
     content: { error, metadata },
   },
@@ -23,7 +23,7 @@ export const transformError = function({
 }
 
 // GraphQL spec error format
-const getError = function({ type, title, description, ...extraContent }) {
+const getError = function ({ type, title, description, ...extraContent }) {
   // Content following GraphQL spec
   // Custom information not following GraphQL spec is always rendered
   const error = { type, title, message: description, ...extraContent }
@@ -32,6 +32,6 @@ const getError = function({ type, title, description, ...extraContent }) {
   return [errorA]
 }
 
-const isDefined = function(key, value) {
+const isDefined = function (key, value) {
   return value !== undefined
 }

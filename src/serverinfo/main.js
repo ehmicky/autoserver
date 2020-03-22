@@ -7,7 +7,7 @@ import { getVersionsInfo } from './versions.js'
 import { getProcessInfo } from './process.js'
 
 // Retrieve process-specific and host-specific information
-const mGetServerinfo = function({ config: { name: processName } = {} }) {
+const mGetServerinfo = function ({ config: { name: processName } = {} }) {
   const host = getHostInfo()
   const versions = getVersionsInfo()
   const processInfo = getProcessInfo({ host, processName })

@@ -6,7 +6,7 @@ import { stringifyUrl, getStandardUrl } from '../origin.js'
 
 // `Link` HTTP header, using pagination metadata,
 // with `rel` `first|last|next|prev`
-export const getLinks = function({ pages = {}, specific, rpc }) {
+export const getLinks = function ({ pages = {}, specific, rpc }) {
   // Only with REST
   if (rpc !== 'rest') {
     return
@@ -34,14 +34,14 @@ const LINKS_NAMES = {
   last: { name: 'last_token', cursorName: 'before' },
 }
 
-const getLinkUrl = function({ pages, name, cursorName, url }) {
+const getLinkUrl = function ({ pages, name, cursorName, url }) {
   const token = pages[name]
 
   if (token === undefined) {
     return
   }
 
-  CURSOR_NAMES.forEach(cursorNameA => url.searchParams.delete(cursorNameA))
+  CURSOR_NAMES.forEach((cursorNameA) => url.searchParams.delete(cursorNameA))
 
   url.searchParams.set(cursorName, token)
 
@@ -51,6 +51,6 @@ const getLinkUrl = function({ pages, name, cursorName, url }) {
 
 const CURSOR_NAMES = ['before', 'after']
 
-const isDefined = function(key, value) {
+const isDefined = function (key, value) {
   return value !== undefined
 }

@@ -5,7 +5,7 @@ import { genericValidators } from './generic.js'
 import { filterValidator } from './filter.js'
 
 // Validate database supports command features
-export const validateRuntimeFeatures = function(
+export const validateRuntimeFeatures = function (
   { features },
   { args, clientCollname },
 ) {
@@ -22,12 +22,12 @@ export const validateRuntimeFeatures = function(
 
 // Fire the validator of each feature that is not supported by the
 // database adapters
-const getErrorMessage = function({ args, args: { filter }, features }) {
+const getErrorMessage = function ({ args, args: { filter }, features }) {
   const filterFeatures = getFeatures({ filter })
 
   const [messageA] = difference(FEATURES, features)
-    .map(feature => checkFeature({ feature, features, args, filterFeatures }))
-    .filter(message => message !== undefined)
+    .map((feature) => checkFeature({ feature, features, args, filterFeatures }))
+    .filter((message) => message !== undefined)
   return messageA
 }
 
@@ -51,7 +51,7 @@ const FEATURES = [
   'offset',
 ]
 
-const checkFeature = function({ feature, features, args, filterFeatures }) {
+const checkFeature = function ({ feature, features, args, filterFeatures }) {
   // Features can be namespaced, e.g. `filter:*` all fire the same validator
   const validatorName = feature.replace(/:.*/u, '')
 

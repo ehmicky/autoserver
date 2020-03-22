@@ -4,7 +4,7 @@ import { applyDirectives } from './directive.js'
 import { mergeSelectRename } from './merge_select.js'
 
 // Retrieve `rpcDef.args.select` using GraphQL selection sets
-export const parseSelects = function({ args, ...input }) {
+export const parseSelects = function ({ args, ...input }) {
   const selectRename = parseSelectionSet(input)
 
   const selectA = mergeSelectRename({ selectRename, name: 'select' })
@@ -13,7 +13,7 @@ export const parseSelects = function({ args, ...input }) {
   return { ...args, select: selectA, rename: renameA }
 }
 
-const parseSelectionSet = function({
+const parseSelectionSet = function ({
   selectionSet,
   parentPath = [],
   variables,
@@ -24,12 +24,12 @@ const parseSelectionSet = function({
   }
 
   const select = selectionSet.selections
-    .filter(selection => applyDirectives({ selection, variables }))
+    .filter((selection) => applyDirectives({ selection, variables }))
     .flatMap(parseSelection.bind(null, { parentPath, variables, fragments }))
   return select
 }
 
-const parseSelection = function(
+const parseSelection = function (
   { parentPath, variables, fragments },
   { name: { value: fieldName } = {}, alias, selectionSet, kind },
 ) {
@@ -43,7 +43,7 @@ const parseSelection = function(
   })
 }
 
-const parseField = function({
+const parseField = function ({
   fieldName,
   alias,
   selectionSet,
@@ -63,7 +63,7 @@ const parseField = function({
   return [selectRename, ...childSelectRename]
 }
 
-const getSelectRename = function({ parentPath, alias, fieldName }) {
+const getSelectRename = function ({ parentPath, alias, fieldName }) {
   const select = [...parentPath, fieldName].join('.')
   const outputName = alias && alias.value
 
@@ -72,7 +72,7 @@ const getSelectRename = function({ parentPath, alias, fieldName }) {
   return { select, rename }
 }
 
-const parseFragmentSpread = function({
+const parseFragmentSpread = function ({
   parentPath,
   variables,
   fragments,
@@ -89,7 +89,7 @@ const parseFragmentSpread = function({
   return parseSelectionSet({ selectionSet, parentPath, variables, fragments })
 }
 
-const parseInlineFragment = function({
+const parseInlineFragment = function ({
   selectionSet,
   parentPath,
   variables,

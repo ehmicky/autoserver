@@ -6,7 +6,7 @@ import { getModels } from './message.js'
 export const CONFLICT = {
   status: 'CLIENT_ERROR',
   title: 'Another client updated the same model, resulting in a conflict',
-  getMessage: extra =>
+  getMessage: (extra) =>
     `${getModels(extra)} already ${
       extra.ids.length === 1 ? 'exist' : 'exists'
     }`,

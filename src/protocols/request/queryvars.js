@@ -2,7 +2,7 @@ import { getFormat } from '../../formats/get.js'
 
 import { validateString } from './validate.js'
 
-export const parseQueryvars = function({
+export const parseQueryvars = function ({
   protocolAdapter,
   protocolAdapter: { getQueryString },
   specific,

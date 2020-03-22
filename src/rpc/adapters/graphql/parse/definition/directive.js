@@ -3,17 +3,19 @@ import { throwError } from '../../../../../errors/main.js'
 import { validateDuplicates } from '../duplicates.js'
 
 // Apply GraphQL directives @include and @skip
-export const applyDirectives = function({
+export const applyDirectives = function ({
   selection: { directives = [] },
   variables,
 }) {
   // GraphQL spec 5.6.3 'Directives Are Unique Per Location'
   validateDuplicates({ nodes: directives, type: 'directives' })
 
-  return directives.every(directive => applyDirective({ directive, variables }))
+  return directives.every((directive) =>
+    applyDirective({ directive, variables }),
+  )
 }
 
-const applyDirective = function({
+const applyDirective = function ({
   directive: {
     arguments: args,
     name: { value: directiveName },
@@ -32,7 +34,7 @@ const applyDirective = function({
   throwError(message, { reason: 'VALIDATION' })
 }
 
-const checkDirective = function({ variables, args }) {
+const checkDirective = function ({ variables, args }) {
   if (args.length !== 1) {
     const message = 'Incorrect number of arguments'
     throwError(message, { reason: 'VALIDATION' })
@@ -57,7 +59,7 @@ const checkDirective = function({ variables, args }) {
   return checkSpecificDirective({ ifKind, ifValue, variables, ifValueName })
 }
 
-const checkSpecificDirective = function({
+const checkSpecificDirective = function ({
   ifKind,
   ifValue,
   variables,
@@ -78,11 +80,11 @@ const eCheckDirective = addGenErrorHandler(checkDirective, {
   reason: 'VALIDATION',
 })
 
-const checkBooleanDirective = function({ ifValue }) {
+const checkBooleanDirective = function ({ ifValue }) {
   return ifValue
 }
 
-const checkVariableDirective = function({ variables, ifValueName }) {
+const checkVariableDirective = function ({ variables, ifValueName }) {
   const evaledValue = variables[ifValueName]
 
   if (typeof evaledValue !== 'boolean') {

@@ -2,7 +2,7 @@ import { getArgs } from './args.js'
 
 // Use JSON-RPC-specific logic to parse the request into an
 // rpc-agnostic `rpcDef`
-export const parse = function({
+export const parse = function ({
   payload,
   method,
   queryvars,

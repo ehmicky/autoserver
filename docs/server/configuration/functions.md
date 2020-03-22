@@ -23,7 +23,7 @@ Functions are regular JavaScript files exporting a function and required using a
 [reference](references.md).
 
 ```js
-const getDefaultValue = function() {
+const getDefaultValue = function () {
   return Math.random()
 }
 
@@ -77,7 +77,7 @@ with information about the current context.
 In the example below, the `timestamp` parameter is used.
 
 ```js
-const getDefaultValue = function({ timestamp }) {
+const getDefaultValue = function ({ timestamp }) {
   return timestamp
 }
 
@@ -221,7 +221,7 @@ params:
 <!-- eslint-disable id-match -->
 
 ```js
-const getDefaultValue = function({ $secret_password }) {
+const getDefaultValue = function ({ $secret_password }) {
   return $secret_password === 'admin' ? 1 : 0
 }
 

@@ -4,7 +4,7 @@ import { getAuthorizeAttrs } from '../../filter/authorize.js'
 import { mapColls } from '../helpers.js'
 
 // Parse `config.authorize` and `coll.authorize` into AST
-export const normalizeAuthorize = function({ config, config: { authorize } }) {
+export const normalizeAuthorize = function ({ config, config: { authorize } }) {
   if (authorize === undefined) {
     return
   }
@@ -17,7 +17,7 @@ export const normalizeAuthorize = function({ config, config: { authorize } }) {
   return { ...configA, authorize: authorizeA }
 }
 
-const mapColl = function({ coll: { authorize }, collname, config }) {
+const mapColl = function ({ coll: { authorize }, collname, config }) {
   if (authorize === undefined) {
     return
   }
@@ -28,7 +28,7 @@ const mapColl = function({ coll: { authorize }, collname, config }) {
   return { authorize: authorizeA }
 }
 
-const parseAuthorize = function({ authorize, collname, config, prefix }) {
+const parseAuthorize = function ({ authorize, collname, config, prefix }) {
   const reason = 'CONFIG_VALIDATION'
   const authorizeA = parseFilter({ filter: authorize, prefix, reason })
 

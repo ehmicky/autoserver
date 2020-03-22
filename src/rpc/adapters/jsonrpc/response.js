@@ -1,14 +1,14 @@
 import omit from 'omit.js'
 
 // Apply JSON-RPC-specific error response transformation
-export const transformSuccess = function({ response: { content }, payload }) {
+export const transformSuccess = function ({ response: { content }, payload }) {
   const { jsonrpc, id, other } = getResponse({ payload })
 
   return { jsonrpc, id, result: content, error: other }
 }
 
 // Apply JSON-RPC-specific error response transformation
-export const transformError = function({
+export const transformError = function ({
   response: {
     content: {
       error,
@@ -28,7 +28,7 @@ export const transformError = function({
 }
 
 // Response common to both success and error
-const getResponse = function({ payload }) {
+const getResponse = function ({ payload }) {
   const payloadA = getPayload({ payload })
 
   const jsonrpc = getJsonrpc({ payload: payloadA })
@@ -40,7 +40,7 @@ const getResponse = function({ payload }) {
 }
 
 // Fix broken payloads
-const getPayload = function({ payload }) {
+const getPayload = function ({ payload }) {
   if (payload && typeof payload === 'object') {
     return payload
   }
@@ -50,12 +50,12 @@ const getPayload = function({ payload }) {
 
 // We use the same JSON-RPC version as the request (1.0 has `undefined` field),
 // and defaults to 2.0 if unknown
-const getJsonrpc = function({ payload: { jsonrpc } }) {
+const getJsonrpc = function ({ payload: { jsonrpc } }) {
   return jsonrpc === undefined ? undefined : '2.0'
 }
 
 // Reuse request id in response
-const getId = function({ payload: { jsonrpc, id } }) {
+const getId = function ({ payload: { jsonrpc, id } }) {
   if (id != null) {
     return id
   }

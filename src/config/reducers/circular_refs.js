@@ -5,11 +5,11 @@ import { throwError } from '../../errors/main.js'
 // There should be no circular references.
 // They may be introduced by e.g. dereferencing JSON references `$ref`
 // or YAML anchors `*var`
-export const validateCircularRefs = function({ config }) {
+export const validateCircularRefs = function ({ config }) {
   validateCircRefs(config)
 }
 
-const validateCircRefs = function(
+const validateCircRefs = function (
   value,
   { path = 'config', pathSet = new WeakSet() } = {},
 ) {
@@ -25,7 +25,7 @@ const validateCircRefs = function(
   walkCircularRefs(value, { path, pathSet })
 }
 
-const walkCircularRefs = function(value, { path, pathSet }) {
+const walkCircularRefs = function (value, { path, pathSet }) {
   pathSet.add(value)
 
   const iterator = Array.isArray(value)

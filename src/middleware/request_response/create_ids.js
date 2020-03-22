@@ -1,7 +1,7 @@
 import { throwPb } from '../../errors/props.js'
 
 // Check if any model already exists, for create actions
-export const validateCreateIds = function({
+export const validateCreateIds = function ({
   response: { data },
   command,
   top: {

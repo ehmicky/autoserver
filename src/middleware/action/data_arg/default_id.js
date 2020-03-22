@@ -8,7 +8,7 @@ import { getModelParams } from '../../../functions/params/values.js'
 //  - current collection's 'id' attribute's config 'default'
 //  - database adapter-specific function
 //  - UUIDv4
-export const addDefaultIds = function({ datum, top: { command }, ...rest }) {
+export const addDefaultIds = function ({ datum, top: { command }, ...rest }) {
   const shouldAddDefaultId = command.type === 'create' && datum.id == null
 
   if (!shouldAddDefaultId) {
@@ -28,7 +28,7 @@ export const addDefaultIds = function({ datum, top: { command }, ...rest }) {
 }
 
 // Try each way to set default, in order
-const getIdDefault = function(input, id, handler) {
+const getIdDefault = function (input, id, handler) {
   if (id != null) {
     return id
   }
@@ -37,7 +37,7 @@ const getIdDefault = function(input, id, handler) {
 }
 
 // Apply default current collection's 'id' attribute
-const applyConfigDefault = function({
+const applyConfigDefault = function ({
   collname,
   command,
   datum,
@@ -61,7 +61,7 @@ const applyConfigDefault = function({
 
 // Apply database adapter-specific id default, i.e. adapter.getDefaultId()
 // Database adapters should prefer using UUID, to keep it consistent
-const applyDatabaseDefault = function({ collname, dbAdapters }) {
+const applyDatabaseDefault = function ({ collname, dbAdapters }) {
   const { getDefaultId } = dbAdapters[collname]
 
   if (getDefaultId === undefined) {
@@ -72,7 +72,7 @@ const applyDatabaseDefault = function({ collname, dbAdapters }) {
 }
 
 // UUID default fallback
-const applyUuid = function() {
+const applyUuid = function () {
   return uuidv4()
 }
 

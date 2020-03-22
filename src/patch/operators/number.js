@@ -3,7 +3,7 @@ const commonTypes = {
   argument: ['number', 'empty'],
 }
 
-const commonChecks = defaultValue => ({
+const commonChecks = (defaultValue) => ({
   ...commonTypes,
 
   check({ arg: opVal = defaultValue, type: attrType }) {
@@ -11,7 +11,7 @@ const commonChecks = defaultValue => ({
   },
 })
 
-const checkInteger = function({ opVal, attrType }) {
+const checkInteger = function ({ opVal, attrType }) {
   if (attrType !== 'integer' || Number.isInteger(opVal)) {
     return
   }

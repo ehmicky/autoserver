@@ -3,7 +3,7 @@ import { getRpc } from '../../../rpc/get.js'
 
 // Build message of events `request` as:
 //  STATUS [ERROR] - PROTOCOL METHOD RPC /PATH COMMAND...
-export const getRequestMessage = function({
+export const getRequestMessage = function ({
   protocol,
   rpc,
   method,
@@ -31,12 +31,12 @@ export const getRequestMessage = function({
     path,
     suffixText,
   ]
-    .filter(val => val)
+    .filter((val) => val)
     .join(' ')
   return message
 }
 
-const getRpcTitle = function({ rpc }) {
+const getRpcTitle = function ({ rpc }) {
   if (rpc === undefined) {
     return
   }
@@ -45,7 +45,7 @@ const getRpcTitle = function({ rpc }) {
   return rpcTitle
 }
 
-const getSuffixText = function({ status, summary, commandpath, description }) {
+const getSuffixText = function ({ status, summary, commandpath, description }) {
   if (status === 'SUCCESS') {
     return summary
   }

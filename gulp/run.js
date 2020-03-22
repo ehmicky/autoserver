@@ -27,7 +27,7 @@ export const runDebug = () => startNodemon(DEBUG_NODEMON_CONFIG)
 // eslint-disable-next-line fp/no-mutation
 runDebug.description = 'Start an example dev server in debug mode'
 
-const startNodemon = async function(config) {
+const startNodemon = async function (config) {
   const nodemon = new Nodemon(config)
 
   // Otherwise Nodemon's log does not appear

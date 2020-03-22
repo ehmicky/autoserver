@@ -3,7 +3,7 @@ import { mapAttrs } from '../helpers.js'
 
 // Add related `attr.description`, for the following features:
 // `attr.readonly`, `attr.value`, `attr.examples`, `attr.alias`
-const mapAttr = function({ attr, attr: { description } }) {
+const mapAttr = function ({ attr, attr: { description } }) {
   const descriptions = allDescriptions.filter(({ test: func }) => func(attr))
 
   if (descriptions.length === 0) {
@@ -18,12 +18,12 @@ const mapAttr = function({ attr, attr: { description } }) {
   return { description: descriptionB }
 }
 
-const getExamples = function({ examples }) {
-  const examplesA = examples.map(example => `  - ${example}`).join('\n')
+const getExamples = function ({ examples }) {
+  const examplesA = examples.map((example) => `  - ${example}`).join('\n')
   return `Examples:\n${examplesA}`
 }
 
-const getAliasesDescription = function({ alias }) {
+const getAliasesDescription = function ({ alias }) {
   const aliases = Array.isArray(alias) ? alias : [alias]
   const aliasesA = getWordsList(aliases, { op: 'and', quotes: true })
   return `Aliases: ${aliasesA}.`

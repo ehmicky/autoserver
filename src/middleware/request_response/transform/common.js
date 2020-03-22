@@ -5,7 +5,7 @@ import { runConfigFunc } from '../../../functions/run.js'
 import { getModelParams } from '../../../functions/params/values.js'
 
 // Handles `attr.value`, `attr.default` and `attr.readonly`
-export const handleTransforms = function({
+export const handleTransforms = function ({
   mapName,
   preCondition,
   condition,
@@ -40,7 +40,7 @@ export const handleTransforms = function({
   return { args: { ...args, newData: newDataA } }
 }
 
-const transformDatum = function({ newDatum, transforms, ...rest }) {
+const transformDatum = function ({ newDatum, transforms, ...rest }) {
   const transformsA = filterTransforms({ newDatum, transforms, ...rest })
 
   const newDatumA = mapValues(transformsA, (transform, attrName) =>
@@ -52,18 +52,18 @@ const transformDatum = function({ newDatum, transforms, ...rest }) {
   return newDatumB
 }
 
-const filterTransforms = function({ condition, transforms, ...rest }) {
+const filterTransforms = function ({ condition, transforms, ...rest }) {
   if (condition === undefined) {
     return transforms
   }
 
-  const transformsA = filterObj(transforms, attrName =>
+  const transformsA = filterObj(transforms, (attrName) =>
     filterTransform({ condition, attrName, ...rest }),
   )
   return transformsA
 }
 
-const filterTransform = function({
+const filterTransform = function ({
   condition,
   newDatum: model,
   currentDatum: previousmodel,
@@ -73,7 +73,7 @@ const filterTransform = function({
   return condition(params)
 }
 
-const transformAttr = function({
+const transformAttr = function ({
   setAttr,
   newDatum: model,
   currentDatum: previousmodel,

@@ -1,5 +1,5 @@
 // Keep track of innererror
-export const getInnerError = function({ stack: upperStack, ...opts }) {
+export const getInnerError = function ({ stack: upperStack, ...opts }) {
   const { shallowInnerError, deepInnerError, innererror } = getInnerErrors({
     opts,
   })
@@ -20,7 +20,7 @@ export const getInnerError = function({ stack: upperStack, ...opts }) {
   return innererror
 }
 
-const getInnerErrors = function({ opts }) {
+const getInnerErrors = function ({ opts }) {
   const shallowInnerError = opts.innererror
   const deepInnerError = shallowInnerError && shallowInnerError.innererror
 
@@ -30,7 +30,7 @@ const getInnerErrors = function({ opts }) {
   return { shallowInnerError, deepInnerError, innererror }
 }
 
-const getInnerErrorStack = function({
+const getInnerErrorStack = function ({
   innererror: { message, stack = '' },
   upperStack,
 }) {

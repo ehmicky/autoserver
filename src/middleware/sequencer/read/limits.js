@@ -1,7 +1,12 @@
 import { throwPb } from '../../../errors/props.js'
 
 // Only start a command if we know it won't hit the `maxmodels` limit
-export const validateMaxmodels = function({ results, allIds, maxmodels, top }) {
+export const validateMaxmodels = function ({
+  results,
+  allIds,
+  maxmodels,
+  top,
+}) {
   const shouldValidate = shouldValidateMaxmodels({ top })
 
   if (!shouldValidate) {
@@ -27,7 +32,7 @@ export const validateMaxmodels = function({ results, allIds, maxmodels, top }) {
   })
 }
 
-const incrementCount = function({ results, allIds }) {
+const incrementCount = function ({ results, allIds }) {
   // First nested action needs to add top-level action's count
   if (results.count === undefined) {
     // eslint-disable-next-line fp/no-mutation, no-param-reassign
@@ -47,7 +52,7 @@ const incrementCount = function({ results, allIds }) {
 //    want to avoid using them as a way to circumvent `maxmodels`, so we
 //    apply it on dryrun deletes
 //  - create|upsert: as it is checked during `args.data` parsing instead
-const shouldValidateMaxmodels = function({
+const shouldValidateMaxmodels = function ({
   top: {
     command: { type: command },
     args: { dryrun },

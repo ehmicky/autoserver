@@ -29,36 +29,36 @@ const graphqlTGetters = [
 
   // "Object" type
   {
-    condition: def => def.type === 'object',
+    condition: (def) => def.type === 'object',
     value: graphqlObjectTGetter,
   },
 
   // "Int" type
   {
-    condition: def => def.type === 'integer',
+    condition: (def) => def.type === 'integer',
     value: () => GraphQLInt,
   },
 
   // "Float" type
   {
-    condition: def => def.type === 'number',
+    condition: (def) => def.type === 'number',
     value: () => GraphQLFloat,
   },
 
   // "String" type
   {
-    condition: def => def.type === 'string',
+    condition: (def) => def.type === 'string',
     value: () => GraphQLString,
   },
 
   // "Boolean" type
   {
-    condition: def => def.type === 'boolean',
+    condition: (def) => def.type === 'boolean',
     value: () => GraphQLBoolean,
   },
 ]
 
-export const getTypeGetter = function(def, opts) {
+export const getTypeGetter = function (def, opts) {
   const typeGetter = graphqlTGetters.find(({ condition }) =>
     condition(def, opts),
   )

@@ -3,7 +3,7 @@ import { Buffer } from 'buffer'
 import { isType } from '../../../content_types.js'
 
 // Transform content to a buffer
-export const serializeContent = function({
+export const serializeContent = function ({
   format,
   content,
   type,
@@ -19,7 +19,7 @@ export const serializeContent = function({
   return contentC
 }
 
-const stringifyContent = function({ format, content, type }) {
+const stringifyContent = function ({ format, content, type }) {
   if (!isType(type, 'object')) {
     return content
   }
@@ -29,7 +29,7 @@ const stringifyContent = function({ format, content, type }) {
 }
 
 // When `args.silent` is used (unless this is an error response).
-const applySilent = function({ content, topargs: { silent } = {}, error }) {
+const applySilent = function ({ content, topargs: { silent } = {}, error }) {
   if (silent && error === undefined) {
     return ''
   }

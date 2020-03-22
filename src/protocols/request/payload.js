@@ -9,7 +9,7 @@ import { validateBoolean } from './validate.js'
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
 // Meant to be used by rpc layer, e.g. to populate `mInput.args`
-export const parsePayload = function({
+export const parsePayload = function ({
   protocolAdapter,
   specific,
   config,
@@ -34,7 +34,7 @@ export const parsePayload = function({
   })
 }
 
-const parseRawPayload = async function({
+const parseRawPayload = async function ({
   specific,
   protocolAdapter: { getPayload },
   config,
@@ -59,7 +59,7 @@ const parseRawPayload = async function({
 }
 
 // Request body decompression
-const decompressPayload = function({ compressRequest, payload }) {
+const decompressPayload = function ({ compressRequest, payload }) {
   return compressRequest.decompress(payload)
 }
 
@@ -70,7 +70,7 @@ const eDecompressPayload = addGenPbHandler(decompressPayload, {
   extra: { kind: 'compress' },
 })
 
-const decodeCharset = function({ content, charset }) {
+const decodeCharset = function ({ content, charset }) {
   return charset.decode(content)
 }
 
@@ -82,11 +82,11 @@ const eDecodeCharset = addGenPbHandler(decodeCharset, {
 })
 
 // Parse content, e.g. JSON/YAML parsing
-const parseContent = function({ format, payload }) {
+const parseContent = function ({ format, payload }) {
   return format.parseContent(payload)
 }
 
-const parseContentHandler = function(error, { payload, format }) {
+const parseContentHandler = function (error, { payload, format }) {
   const { message, kind } = getContentErrorProps({ payload, format })
 
   throwPb({
@@ -97,7 +97,7 @@ const parseContentHandler = function(error, { payload, format }) {
   })
 }
 
-const getContentErrorProps = function({ payload, format: { title } }) {
+const getContentErrorProps = function ({ payload, format: { title } }) {
   if (!payload) {
     return { message: 'The request payload is empty', kind: 'type' }
   }

@@ -2,7 +2,7 @@ import { throwError } from '../errors.js'
 
 import { isObject } from './type.js'
 
-export const checkObject = function(obj) {
+export const checkObject = function (obj) {
   if (isObject(obj)) {
     return
   }

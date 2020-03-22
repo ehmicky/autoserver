@@ -8,9 +8,9 @@ import {
 
 // Call `func(node)` recursively over each node of `args.filter`
 // Returns array of func() return values
-export const crawlNodes = function(node, func) {
+export const crawlNodes = function (node, func) {
   const children = getNodeChildren(node)
-  const childrenA = children.flatMap(child => crawlNodes(child, func))
+  const childrenA = children.flatMap((child) => crawlNodes(child, func))
 
   const returnValue = func(node)
 
@@ -21,7 +21,7 @@ export const crawlNodes = function(node, func) {
   return [returnValue, ...childrenA]
 }
 
-const getNodeChildren = function({ type, value }) {
+const getNodeChildren = function ({ type, value }) {
   if (!PARENT_OPERATORS.includes(type)) {
     return []
   }
@@ -31,7 +31,7 @@ const getNodeChildren = function({ type, value }) {
 
 // Call `func(node)` recursively over each attribute of `args.filter`
 // Returns array of func() return values
-export const crawlAttrs = function(node, func) {
+export const crawlAttrs = function (node, func) {
   const { type, value } = node
 
   if (!ATTR_ANCESTOR_OPERATORS.includes(type)) {
@@ -39,11 +39,11 @@ export const crawlAttrs = function(node, func) {
     return [...returnValue, value]
   }
 
-  const children = value.flatMap(child => crawlAttrs(child, func))
+  const children = value.flatMap((child) => crawlAttrs(child, func))
   return children
 }
 
-const getAttrs = function(node, func) {
+const getAttrs = function (node, func) {
   const { type, value } = node
 
   if (!ATTR_PARENT_OPERATORS.includes(type)) {
@@ -59,7 +59,7 @@ const getAttrs = function(node, func) {
 
 // Call `func(node)` recursively over each node of `args.filter`
 // Returns node recursively mapped
-export const mapNodes = function(node, func) {
+export const mapNodes = function (node, func) {
   const value = mapChildren(node, func)
   const nodeA = value === undefined ? node : { ...node, value }
 
@@ -67,10 +67,10 @@ export const mapNodes = function(node, func) {
   return nodeB
 }
 
-const mapChildren = function({ type, value }, func) {
+const mapChildren = function ({ type, value }, func) {
   if (!PARENT_OPERATORS.includes(type)) {
     return value
   }
 
-  return value.map(child => mapNodes(child, func))
+  return value.map((child) => mapNodes(child, func))
 }

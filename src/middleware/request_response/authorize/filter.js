@@ -1,5 +1,5 @@
 // Merge `coll.authorize` `model.*` to `args.filter`
-export const addAuthorizeFilter = function({
+export const addAuthorizeFilter = function ({
   command,
   authorize,
   args,
@@ -27,7 +27,7 @@ export const addAuthorizeFilter = function({
 const FILTER_COMMANDS = ['find']
 
 // Merge `authorizeFilter` to `args.filter`
-const getFilter = function({ authorize, filter }) {
+const getFilter = function ({ authorize, filter }) {
   // If no `args.filter`, no need to merge
   if (filter === undefined) {
     return authorize

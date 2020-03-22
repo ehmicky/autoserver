@@ -1,5 +1,5 @@
 // Apply `args.order`
-export const sortResponse = function({ cursor, order }) {
+export const sortResponse = function ({ cursor, order }) {
   if (order === undefined) {
     return cursor
   }

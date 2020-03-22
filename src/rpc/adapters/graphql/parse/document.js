@@ -5,7 +5,7 @@ import { addCatchAllHandler } from '../../../../errors/handler.js'
 import { throwPb } from '../../../../errors/props.js'
 
 // Generic/raw GraphQL parsing
-const eGetGraphqlDocument = function({ queryvars, payload }) {
+const eGetGraphqlDocument = function ({ queryvars, payload }) {
   const payloadA = parsePayload({ payload })
   // Parameters can be in either query variables or payload
   const { query, variables, operationName } = { ...queryvars, ...payloadA }
@@ -19,7 +19,7 @@ const eGetGraphqlDocument = function({ queryvars, payload }) {
 //   - a JSON with `query`, `variables` and `operationName`
 //     with MIME type application/json
 //   - the `query` directly, as a string with MIME type application/graphql
-const parsePayload = function({ payload }) {
+const parsePayload = function ({ payload }) {
   if (payload === undefined) {
     return
   }
@@ -38,7 +38,7 @@ const parsePayload = function({ payload }) {
 }
 
 // Transform GraphQL query string into AST
-const parseQuery = function({ query }) {
+const parseQuery = function ({ query }) {
   if (!query) {
     throwPb({ reason: 'VALIDATION', message: 'Missing GraphQL query' })
   }
@@ -46,7 +46,7 @@ const parseQuery = function({ query }) {
   return parse(query)
 }
 
-const getGraphqlHandler = function(error) {
+const getGraphqlHandler = function (error) {
   throwPb({
     reason: 'VALIDATION',
     message: 'Could not parse GraphQL query',

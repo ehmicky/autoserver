@@ -34,7 +34,7 @@ export const TYPES = {
 }
 
 // Retrieve response content type
-export const getContentType = function({ format, type }) {
+export const getContentType = function ({ format, type }) {
   const { mime } = TYPES[type]
   const charset = DEFAULT_OUTPUT_CHARSET
   const contentType = serializeContentType({ mime, charset, format })

@@ -6,7 +6,7 @@ import { parseSelects } from './select.js'
 import { addPopulate } from './populate.js'
 
 // Transform GraphQL AST into rpc-agnostic `rpcDef`
-export const parseRpcDef = function({ mainDef, variables, fragments }) {
+export const parseRpcDef = function ({ mainDef, variables, fragments }) {
   const mainSelection = getMainSelection({ mainDef, variables })
 
   const {
@@ -17,19 +17,19 @@ export const parseRpcDef = function({ mainDef, variables, fragments }) {
   return { commandName, args: argsA }
 }
 
-const getMainSelection = function({
+const getMainSelection = function ({
   mainDef: {
     selectionSet: { selections },
   },
   variables,
 }) {
-  const [mainSelection] = selections.filter(selection =>
+  const [mainSelection] = selections.filter((selection) =>
     applyDirectives({ selection, variables }),
   )
   return mainSelection
 }
 
-const getArgs = function({
+const getArgs = function ({
   mainSelection,
   mainSelection: { selectionSet },
   variables,
@@ -38,7 +38,7 @@ const getArgs = function({
 }) {
   const args = parseArgs({ mainSelection, variables })
 
-  FORBIDDEN_ARGS.forEach(argName => validateForbiddenArg({ args, argName }))
+  FORBIDDEN_ARGS.forEach((argName) => validateForbiddenArg({ args, argName }))
 
   const argsA = parseSelects({ args, selectionSet, variables, fragments })
   const argsB = addPopulate({ args: argsA, commandName })
@@ -48,7 +48,7 @@ const getArgs = function({
 
 const FORBIDDEN_ARGS = ['select', 'populate']
 
-const validateForbiddenArg = function({ args, argName }) {
+const validateForbiddenArg = function ({ args, argName }) {
   if (args[argName] === undefined) {
     return
   }

@@ -2,7 +2,7 @@ import { mapAttrs } from '../helpers.js'
 
 // From `type: string[]` or `type: my_coll`
 // to `type: string, isArray: true` or `target: my_coll, isArray: false`
-const mapAttr = function({ attr }) {
+const mapAttr = function ({ attr }) {
   const [, rawType, brackets] = TYPE_REGEXP.exec(attr.type)
   const isArray = brackets !== undefined
   const isColl = !NON_COLL_TYPES.includes(rawType)

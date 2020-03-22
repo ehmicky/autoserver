@@ -2,7 +2,7 @@ import { throwPb } from '../../../errors/props.js'
 import { evalFilter } from '../../../filter/eval.js'
 
 // Check `model.authorize` `model.*` against `args.newData`
-export const checkNewData = function({
+export const checkNewData = function ({
   authorize,
   args: { newData },
   clientCollname,
@@ -13,7 +13,7 @@ export const checkNewData = function({
   }
 
   const ids = newData
-    .filter(datum => !evalFilter({ filter: authorize, attrs: datum }))
+    .filter((datum) => !evalFilter({ filter: authorize, attrs: datum }))
     .map(({ id }) => id)
 
   if (ids.length === 0) {

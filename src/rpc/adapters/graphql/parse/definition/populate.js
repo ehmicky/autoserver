@@ -1,15 +1,15 @@
 import { uniq } from '../../../../../utils/functional/uniq.js'
 
 // Retrieve `rpcDef.args.populate` using GraphQL selection sets
-export const addPopulate = function({ args, args: { select }, commandName }) {
+export const addPopulate = function ({ args, args: { select }, commandName }) {
   if (!commandName.startsWith('find_')) {
     return args
   }
 
   const selects = select
     .split(',')
-    .map(selectA => selectA.replace(PARENT_SELECT_REGEXP, ''))
-    .filter(selectA => selectA !== '')
+    .map((selectA) => selectA.replace(PARENT_SELECT_REGEXP, ''))
+    .filter((selectA) => selectA !== '')
   const selectsA = uniq(selects)
 
   if (selectsA.length === 0) {

@@ -2,7 +2,7 @@ import { getParams } from '../functions/params/values.js'
 import { reduceParams } from '../functions/params/reduce.js'
 
 // Get log-specific config parameters
-export const getLogParams = function({
+export const getLogParams = function ({
   params,
   config,
   mInput = { config },
@@ -24,7 +24,7 @@ export const getLogParams = function({
 }
 
 // Level defaults to `error` for event `failure`, and to `log` for other events
-const getLevel = function({ level, event }) {
+const getLevel = function ({ level, event }) {
   if (level) {
     return level
   }

@@ -9,7 +9,7 @@ import { groupValuesBy } from '../../../utils/functional/group.js'
 //    model in the same request would fail
 //  - output consistency, i.e. each model has a single representation for a
 //    given request
-export const removeDuplicates = function({ models }) {
+export const removeDuplicates = function ({ models }) {
   const modelsA = models.flat()
   const modelsB = groupValuesBy(modelsA, 'id')
 
@@ -17,17 +17,17 @@ export const removeDuplicates = function({ models }) {
   return modelsC
 }
 
-const getUniqueModel = function(models) {
+const getUniqueModel = function (models) {
   validateDuplicates(models)
 
   return models[0]
 }
 
 // If user specified two models with same id but different content, throw error
-const validateDuplicates = function(models) {
+const validateDuplicates = function (models) {
   const differentModel = models
     .slice(1)
-    .find(model => !isDeepStrictEqual(model, models[0]))
+    .find((model) => !isDeepStrictEqual(model, models[0]))
 
   if (differentModel === undefined) {
     return

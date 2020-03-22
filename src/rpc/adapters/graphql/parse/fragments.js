@@ -1,7 +1,7 @@
 import { validateDuplicates } from './duplicates.js'
 
 // Retrieve GraphQL fragments
-export const getFragments = function({ queryDocument: { definitions } }) {
+export const getFragments = function ({ queryDocument: { definitions } }) {
   const fragments = definitions.filter(
     ({ kind }) => kind === 'FragmentDefinition',
   )
