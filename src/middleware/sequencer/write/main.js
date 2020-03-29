@@ -1,7 +1,7 @@
-import { groupValuesBy } from '../../../utils/functional/group.js'
+import { mergeCommandpaths } from '../../../commands/helpers.js'
 import { addErrorHandler } from '../../../errors/handler.js'
 import { normalizeError } from '../../../errors/main.js'
-import { mergeCommandpaths } from '../../../commands/helpers.js'
+import { groupValuesBy } from '../../../utils/functional/group.js'
 
 import { getArgs } from './args.js'
 import { getResults } from './results.js'

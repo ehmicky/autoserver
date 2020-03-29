@@ -1,5 +1,5 @@
-import { addGenPbHandler } from '../../../errors/handler.js'
 import { getAlgo, getAlgos } from '../../../compress/get.js'
+import { addGenPbHandler } from '../../../errors/handler.js'
 
 // Retrieve compression asked by client for the response and request payloads
 export const getCompress = function ({

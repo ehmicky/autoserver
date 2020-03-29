@@ -1,7 +1,7 @@
-import { getSumParams } from '../../utils/sums.js'
 import { addGenPbHandler, addErrorHandler } from '../../errors/handler.js'
 import { throwPb } from '../../errors/props.js'
 import { getLimits } from '../../limits.js'
+import { getSumParams } from '../../utils/sums.js'
 
 import { validateBoolean } from './validate.js'
 

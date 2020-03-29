@@ -1,9 +1,9 @@
 import omit from 'omit.js'
 
+import { throwError } from '../../../errors/main.js'
 import { difference } from '../../../utils/functional/difference.js'
 import { uniq } from '../../../utils/functional/uniq.js'
 import { getWordsList } from '../../../utils/string.js'
-import { throwError } from '../../../errors/main.js'
 
 import { getValues } from './values.js'
 

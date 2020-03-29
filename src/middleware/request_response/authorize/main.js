@@ -1,6 +1,6 @@
+import { checkNewData } from './data.js'
 import { evalAuthorize } from './eval.js'
 import { addAuthorizeFilter } from './filter.js'
-import { checkNewData } from './data.js'
 
 // Handles `config.authorize` and `collection.authorize`
 export const validateAuthorization = function ({

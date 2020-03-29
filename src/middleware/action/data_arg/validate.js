@@ -1,8 +1,8 @@
 import { Buffer } from 'buffer'
 
-import { isObject } from '../../../utils/functional/type.js'
 import { throwError } from '../../../errors/main.js'
 import { isPatchOp } from '../../../patch/parse.js'
+import { isObject } from '../../../utils/functional/type.js'
 
 const { byteLength } = Buffer
 

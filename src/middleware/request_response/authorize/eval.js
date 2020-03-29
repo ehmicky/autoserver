@@ -1,6 +1,6 @@
 import { throwPb } from '../../../errors/props.js'
-import { evalFilter } from '../../../filter/eval.js'
 import { mapNodes } from '../../../filter/crawl.js'
+import { evalFilter } from '../../../filter/eval.js'
 
 import { handleConfigFuncs } from './functions.js'
 

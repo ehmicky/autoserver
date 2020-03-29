@@ -1,6 +1,6 @@
 import { throwPb } from '../../errors/props.js'
-import { setWeakTimeout } from '../../utils/timeout.js'
 import { getLimits } from '../../limits.js'
+import { setWeakTimeout } from '../../utils/timeout.js'
 
 // Make request fail after some timeout
 export const setRequestTimeout = function ({ mInput, config }, nextLayer) {

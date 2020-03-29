@@ -1,8 +1,8 @@
-import { monitoredReduce } from '../perf/helpers.js'
 import { addErrorHandler } from '../errors/handler.js'
+import { monitoredReduce } from '../perf/helpers.js'
 
-import { startupSteps } from './steps.js'
 import { handleStartupError } from './error.js'
+import { startupSteps } from './steps.js'
 
 // Start server for each protocol
 export const run = async function ({

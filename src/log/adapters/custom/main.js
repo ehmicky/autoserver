@@ -1,5 +1,5 @@
-import { report } from './report.js'
 import { opts } from './opts.js'
+import { report } from './report.js'
 
 export const logCustom = {
   name: 'custom',

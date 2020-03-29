@@ -1,6 +1,6 @@
+import { throwError } from '../../errors/main.js'
 import { fullRecurseMap } from '../../utils/functional/map.js'
 import { isObject } from '../../utils/functional/type.js'
-import { throwError } from '../../errors/main.js'
 
 // Validate JSON schema `$data` properties
 export const validateJsonSchemaData = function ({ config }) {

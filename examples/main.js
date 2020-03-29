@@ -1,9 +1,9 @@
 'use strict'
 
-const { inspect } = require('util')
 const {
   stdout: { columns },
 } = require('process')
+const { inspect } = require('util')
 
 // We need to use this syntax to avoid linting issues: different ESLint
 // rules are reported whether `build` is present or not.

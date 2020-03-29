@@ -1,5 +1,5 @@
-import { getWordsList } from '../../../../utils/string.js'
 import { throwError } from '../../../../errors/main.js'
+import { getWordsList } from '../../../../utils/string.js'
 
 // Validate GraphQL main definition
 export const validateMainDef = function ({ mainDef, operationName, method }) {

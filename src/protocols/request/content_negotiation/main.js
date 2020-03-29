@@ -1,8 +1,8 @@
 import omit from 'omit.js'
 
-import { getFormatFunc } from './format.js'
 import { getCharsetFunc } from './charset.js'
 import { getCompress } from './compress.js'
+import { getFormatFunc } from './format.js'
 
 // Retrieve format|charset|compress of the response payloads, and
 // charset of the request payload

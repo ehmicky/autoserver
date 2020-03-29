@@ -1,11 +1,11 @@
 import omit from 'omit.js'
 
-import { reduceAsync } from '../utils/functional/reduce.js'
 import { addGenPbHandler } from '../errors/handler.js'
 import { throwError } from '../errors/main.js'
+import { reduceAsync } from '../utils/functional/reduce.js'
 
-import { timestampPlugin } from './timestamp.js'
 import { authorPlugin } from './author.js'
+import { timestampPlugin } from './timestamp.js'
 
 // Plugins are functions that take `config` as input,
 // and returns a modified config as output

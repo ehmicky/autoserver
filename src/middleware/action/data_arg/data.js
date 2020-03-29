@@ -1,10 +1,10 @@
-import { mapValues } from '../../../utils/functional/map.js'
 import { preValidate } from '../../../patch/validate/main.js'
+import { mapValues } from '../../../utils/functional/map.js'
 import { getColl } from '../get_coll.js'
 
-import { validateData, isModelsType } from './validate.js'
 import { addDefaultIds } from './default_id.js'
 import { isModel } from './nested.js'
+import { validateData, isModelsType } from './validate.js'
 
 // Validates `args.data` and adds default ids.
 export const parseData = function ({ data, ...rest }) {

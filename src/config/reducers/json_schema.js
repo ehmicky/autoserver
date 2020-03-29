@@ -1,8 +1,8 @@
 import filterObj from 'filter-obj'
 import omit from 'omit.js'
 
-import { mapValues } from '../../utils/functional/map.js'
 import { addGenErrorHandler } from '../../errors/handler.js'
+import { mapValues } from '../../utils/functional/map.js'
 import { compile } from '../../validation/compile.js'
 
 // Compile JSON schema defined in the config

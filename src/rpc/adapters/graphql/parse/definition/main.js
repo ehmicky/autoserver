@@ -2,8 +2,8 @@ import { throwError } from '../../../../../errors/main.js'
 
 import { parseArgs } from './args.js'
 import { applyDirectives } from './directive.js'
-import { parseSelects } from './select.js'
 import { addPopulate } from './populate.js'
+import { parseSelects } from './select.js'
 
 // Transform GraphQL AST into rpc-agnostic `rpcDef`
 export const parseRpcDef = function ({ mainDef, variables, fragments }) {

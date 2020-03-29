@@ -3,8 +3,8 @@ import { pid } from 'process'
 import moize from 'moize'
 
 import { getHostInfo } from './host.js'
-import { getVersionsInfo } from './versions.js'
 import { getProcessInfo } from './process.js'
+import { getVersionsInfo } from './versions.js'
 
 // Retrieve process-specific and host-specific information
 const mGetServerinfo = function ({ config: { name: processName } = {} }) {

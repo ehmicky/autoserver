@@ -2,11 +2,11 @@ import { cwd } from 'process'
 
 import { isObjectType } from '../utils/functional/type.js'
 
-import { getPath } from './path.js'
 import { fireCachedFunc } from './circular_refs.js'
-import { load } from './load.js'
 import { findRefs } from './find.js'
+import { load } from './load.js'
 import { mergeChildren } from './merge.js'
+import { getPath } from './path.js'
 import { setRef } from './ref_path.js'
 
 // Dereference JSON references, i.e. $ref

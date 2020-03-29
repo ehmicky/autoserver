@@ -1,9 +1,9 @@
 import { getLimits } from '../../../limits.js'
 import { addActions } from '../add_actions/merge.js'
 
-import { getDataPath } from './data_path.js'
-import { parseData } from './data.js'
 import { parseActions } from './actions.js'
+import { parseData } from './data.js'
+import { getDataPath } from './data_path.js'
 
 // Parse `args.data` into write `actions`
 export const parseDataArg = function ({ actions, ...rest }) {

@@ -1,5 +1,5 @@
-import { getOperator } from '../operators/main.js'
 import { mapNodes } from '../crawl.js'
+import { getOperator } from '../operators/main.js'
 
 // Try to simplify AST
 export const optimizeFilter = function ({ filter }) {

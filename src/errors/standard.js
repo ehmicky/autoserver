@@ -1,7 +1,7 @@
 import filterObj from 'filter-obj'
 
-import { getReason, getProps } from './props.js'
 import { normalizeError } from './main.js'
+import { getReason, getProps } from './props.js'
 
 // Gets normalized error information
 export const getStandardError = function ({ error, mInput }) {

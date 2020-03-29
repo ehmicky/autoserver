@@ -1,6 +1,6 @@
-import { cwd } from 'process'
-import { resolve, isAbsolute } from 'path'
 import { promises } from 'fs'
+import { resolve, isAbsolute } from 'path'
+import { cwd } from 'process'
 
 import { addGenErrorHandler } from '../../../errors/handler.js'
 import { throwError } from '../../../errors/main.js'

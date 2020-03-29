@@ -1,5 +1,5 @@
-import { willPaginate } from '../condition.js'
 import { getBackwardResponse } from '../backward.js'
+import { willPaginate } from '../condition.js'
 
 import { getPaginationOutput } from './response.js'
 

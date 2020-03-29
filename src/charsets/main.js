@@ -1,8 +1,8 @@
-import iconv from 'iconv-lite'
 import filterObj from 'filter-obj'
+import iconv from 'iconv-lite'
 
-import { validateCharset } from './validate.js'
 import { decodeCharset } from './transform.js'
+import { validateCharset } from './validate.js'
 
 // `iconv.encodings` is lazily set, i.e. we need to do this noop
 iconv.getCodec('binary')

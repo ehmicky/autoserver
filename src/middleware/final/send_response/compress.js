@@ -1,5 +1,5 @@
-import { shouldCompress } from '../../../compress/info.js'
 import { DEFAULT_ALGO } from '../../../compress/get.js'
+import { shouldCompress } from '../../../compress/info.js'
 
 import { TYPES } from './types.js'
 

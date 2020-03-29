@@ -1,8 +1,8 @@
 import filterObj from 'filter-obj'
 
-import { getWordsList } from '../../utils/string.js'
 import { logEvent } from '../../log/main.js'
 import { getDefaultDuration } from '../../perf/measure.js'
+import { getWordsList } from '../../utils/string.js'
 
 // Emit successful or failed shutdown event
 export const emitStopEvent = async function ({ exit, config, measures }) {

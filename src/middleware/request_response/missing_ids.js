@@ -1,6 +1,6 @@
-import { difference } from '../../utils/functional/difference.js'
 import { throwPb } from '../../errors/props.js'
 import { extractSimpleIds, getSimpleFilter } from '../../filter/simple_id.js'
+import { difference } from '../../utils/functional/difference.js'
 
 // Check if any `id` was not found (404) or was unauthorized (403)
 export const validateMissingIds = function (

@@ -1,10 +1,10 @@
 import filterObj from 'filter-obj'
 
+import { crawlNodes } from '../../../filter/crawl.js'
+import { runConfigFunc } from '../../../functions/run.js'
 import { intersection } from '../../../utils/functional/intersection.js'
 import { mapValues } from '../../../utils/functional/map.js'
 import { uniq } from '../../../utils/functional/uniq.js'
-import { runConfigFunc } from '../../../functions/run.js'
-import { crawlNodes } from '../../../filter/crawl.js'
 
 // Retrieve all server-specific parameters used in `coll.authorize`, and
 // resolve their config functions.

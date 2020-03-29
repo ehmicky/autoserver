@@ -1,5 +1,5 @@
-import { GraphQLInt, GraphQLString } from 'graphql'
 import filterObj from 'filter-obj'
+import { GraphQLInt, GraphQLString } from 'graphql'
 import omit from 'omit.js'
 
 // Pagination arguments

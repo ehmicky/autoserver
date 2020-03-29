@@ -1,5 +1,5 @@
-import { stringify as stringifyLinks } from 'li'
 import filterObj from 'filter-obj'
+import { stringify as stringifyLinks } from 'li'
 
 import { mapValues } from '../../../../utils/functional/map.js'
 import { stringifyUrl, getStandardUrl } from '../origin.js'

@@ -1,5 +1,5 @@
-import { isObject } from '../../utils/functional/type.js'
 import { throwPb } from '../../errors/props.js'
+import { isObject } from '../../utils/functional/type.js'
 
 export const validateSpecific = function ({
   specific,

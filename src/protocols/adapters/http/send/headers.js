@@ -1,8 +1,8 @@
 import vary from 'vary'
 
-import { isType } from '../../../../content_types.js'
-import { ALGOS } from '../../../../compress/info.js'
 import { DEFAULT_ALGO } from '../../../../compress/get.js'
+import { ALGOS } from '../../../../compress/info.js'
+import { isType } from '../../../../content_types.js'
 
 import { getLinks } from './link.js'
 

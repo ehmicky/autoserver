@@ -1,5 +1,5 @@
-import { isObject } from '../../../utils/functional/type.js'
 import { throwPb } from '../../../errors/props.js'
+import { isObject } from '../../../utils/functional/type.js'
 
 // Validate JSON-RPC payload is correct format
 export const validatePayload = function ({ payload }) {

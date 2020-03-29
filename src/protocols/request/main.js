@@ -1,17 +1,17 @@
 import { monitoredReduce } from '../../perf/helpers.js'
 
-import { validateSpecific } from './validate.js'
-import { parseIp } from './ip.js'
-import { parseOrigin } from './origin.js'
-import { parseQueryvars } from './queryvars.js'
-import { parseHeaders } from './headers.js'
-import { parseMethod } from './method.js'
-import { parsePath } from './path.js'
-import { parseInput } from './input.js'
 import { handleContentNegotiation } from './content_negotiation/main.js'
-import { parsePayload } from './payload.js'
-// eslint-disable-next-line import/max-dependencies
+import { parseHeaders } from './headers.js'
+import { parseInput } from './input.js'
+import { parseIp } from './ip.js'
+import { parseMethod } from './method.js'
 import { protocolNormalization } from './normalize/main.js'
+import { parseOrigin } from './origin.js'
+import { parsePath } from './path.js'
+import { parsePayload } from './payload.js'
+import { parseQueryvars } from './queryvars.js'
+// eslint-disable-next-line import/max-dependencies
+import { validateSpecific } from './validate.js'
 
 // Retrieves protocol-specific request information
 export const parseRequest = function (

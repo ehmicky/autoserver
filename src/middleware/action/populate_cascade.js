@@ -1,9 +1,9 @@
+import { throwError } from '../../errors/main.js'
 import { includes } from '../../utils/functional/includes.js'
 import { uniq } from '../../utils/functional/uniq.js'
-import { throwError } from '../../errors/main.js'
 
-import { getColl } from './get_coll.js'
 import { addActions } from './add_actions/merge.js'
+import { getColl } from './get_coll.js'
 
 // Parse `args.populate|cascade` into a set of nested `actions`
 export const parsePopulateCascade = function ({ actions, ...rest }) {

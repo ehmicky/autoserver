@@ -1,6 +1,6 @@
+import { applyPatchOps } from '../../patch/apply.js'
 import { groupBy } from '../../utils/functional/group.js'
 import { mapValues } from '../../utils/functional/map.js'
-import { applyPatchOps } from '../../patch/apply.js'
 
 // Merge `currentData` with the `args.data` in `patch` commands,
 // to obtain the final models we want to use as replacement

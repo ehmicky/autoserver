@@ -1,7 +1,7 @@
 import filterObj from 'filter-obj'
 
-import { mapValues } from '../utils/functional/map.js'
 import { SYSTEM_PARAMS } from '../functions/params/system.js'
+import { mapValues } from '../utils/functional/map.js'
 
 // Retrieve type and names of all possible `coll.authorize.*`
 export const getAuthorizeAttrs = function ({ config, collname }) {

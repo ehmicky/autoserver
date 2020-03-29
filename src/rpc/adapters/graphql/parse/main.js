@@ -1,9 +1,9 @@
+import { parseRpcDef } from './definition/main.js'
 import { getGraphqlDocument } from './document.js'
+import { getFragments } from './fragments.js'
+import { isIntrospectionQuery, handleIntrospection } from './introspection.js'
 import { getMainDef } from './main_def.js'
 import { validateMainDef } from './validate.js'
-import { getFragments } from './fragments.js'
-import { parseRpcDef } from './definition/main.js'
-import { isIntrospectionQuery, handleIntrospection } from './introspection.js'
 
 // Use GraphQL-specific logic to parse the request into an rpc-agnostic `rpcDef`
 export const parse = function ({

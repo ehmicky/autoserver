@@ -1,8 +1,8 @@
 import filterObj from 'filter-obj'
 
+import { addGenErrorHandler } from '../../../errors/handler.js'
 import { fullRecurseMap } from '../../../utils/functional/map.js'
 import { isObject } from '../../../utils/functional/type.js'
-import { addGenErrorHandler } from '../../../errors/handler.js'
 import { compile } from '../../../validation/compile.js'
 import { validate } from '../../../validation/validate.js'
 

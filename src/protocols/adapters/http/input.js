@@ -1,16 +1,16 @@
-import parsePreferHeaderLib from 'parse-prefer-header'
 import filterObj from 'filter-obj'
+import parsePreferHeaderLib from 'parse-prefer-header'
 
-import { mapValues } from '../../../utils/functional/map.js'
 import { addGenErrorHandler } from '../../../errors/handler.js'
 import { throwError } from '../../../errors/main.js'
+import { mapValues } from '../../../utils/functional/map.js'
 
-import { getFormat } from './content_negotiation/format.js'
 import { getCharset } from './content_negotiation/charset.js'
 import {
   getCompressResponse,
   getCompressRequest,
 } from './content_negotiation/compress.js'
+import { getFormat } from './content_negotiation/format.js'
 import { getAgnosticMethod } from './method.js'
 
 // HTTP-specific ways to set input

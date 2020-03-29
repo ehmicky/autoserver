@@ -1,6 +1,6 @@
+import { getAuthorizeAttrs } from '../../filter/authorize.js'
 import { parseFilter } from '../../filter/parse/main.js'
 import { validateFilter } from '../../filter/validate/main.js'
-import { getAuthorizeAttrs } from '../../filter/authorize.js'
 import { mapColls } from '../helpers.js'
 
 // Parse `config.authorize` and `coll.authorize` into AST

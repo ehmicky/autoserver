@@ -1,7 +1,7 @@
 import { getThrowErr } from '../error.js'
 
-import { parseOperation } from './operations.js'
 import { parseAttrs } from './attrs.js'
+import { parseOperation } from './operations.js'
 import { optimizeFilter } from './optimize.js'
 
 // Parse `args.filter` and `coll.authorize` format

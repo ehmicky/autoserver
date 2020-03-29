@@ -2,8 +2,8 @@ import { promisify } from 'util'
 
 import test from 'ava'
 import execa from 'execa'
-import got from 'got'
 import { getBinPath } from 'get-bin-path'
+import got from 'got'
 
 const pSetTimeout = promisify(setTimeout)
 

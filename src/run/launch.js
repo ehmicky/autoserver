@@ -1,5 +1,5 @@
-import { monitor } from '../perf/helpers.js'
 import { logEvent } from '../log/main.js'
+import { monitor } from '../perf/helpers.js'
 import { getProtocol } from '../protocols/get.js'
 import { PROTOCOLS } from '../protocols/info.js'
 

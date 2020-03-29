@@ -1,5 +1,5 @@
-import { deepMerge } from '../../../utils/functional/merge.js'
 import { dereferenceRefs } from '../../../json_refs/main.js'
+import { deepMerge } from '../../../utils/functional/merge.js'
 
 import { getEnvVars } from './env.js'
 import { getConfPath } from './path.js'

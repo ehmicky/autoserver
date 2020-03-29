@@ -1,8 +1,8 @@
 import { promisify } from 'util'
 
-import Nodemon from 'nodemon'
-import { exec } from 'gulp-execa'
 import { getBinPath } from 'get-bin-path'
+import { exec } from 'gulp-execa'
+import Nodemon from 'nodemon'
 
 const EXAMPLE_PATH = `${__dirname}/../examples/main.js`
 const SRC_PATH = `${__dirname}/../build/src`

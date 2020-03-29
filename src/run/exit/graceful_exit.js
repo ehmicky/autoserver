@@ -1,11 +1,11 @@
-import { monitor } from '../../perf/helpers.js'
-import { once } from '../../utils/functional/once.js'
 import { addErrorHandler } from '../../errors/handler.js'
 import { logEvent } from '../../log/main.js'
 import { logPerfEvent } from '../../log/perf.js'
+import { monitor } from '../../perf/helpers.js'
+import { once } from '../../utils/functional/once.js'
 
-import { closeProtocols } from './protocol_close.js'
 import { closeDbAdapters } from './db_close.js'
+import { closeProtocols } from './protocol_close.js'
 import { emitStopEvent } from './stop_event.js'
 
 // Close servers and database connections

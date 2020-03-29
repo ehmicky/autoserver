@@ -1,8 +1,8 @@
-import { difference } from '../../utils/functional/difference.js'
 import { getFeatures } from '../../filter/features.js'
+import { difference } from '../../utils/functional/difference.js'
 
-import { genericValidators } from './generic.js'
 import { filterValidator } from './filter.js'
+import { genericValidators } from './generic.js'
 
 // Validate database supports command features
 export const validateRuntimeFeatures = function (

@@ -1,10 +1,10 @@
 import { capitalize } from 'underscore.string'
 
-import { mapValues, mapKeys } from '../../../../utils/functional/map.js'
 import { COMMANDS } from '../../../../commands/constants.js'
+import { mapValues, mapKeys } from '../../../../utils/functional/map.js'
 
-import { getCommandName, getTypeName } from './name.js'
 import { TOP_DESCRIPTIONS, getCommandDescription } from './description.js'
+import { getCommandName, getTypeName } from './name.js'
 
 // Retrieve the GraphQL definitions for Query|Mutation,
 // and the top-level commands

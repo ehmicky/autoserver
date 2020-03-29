@@ -1,7 +1,7 @@
 import logProcessErrors from 'log-process-errors'
 
-import { logEvent } from '../log/main.js'
 import { createPb } from '../errors/props.js'
+import { logEvent } from '../log/main.js'
 
 // Error handling for all failures that are process-related
 // If a single process might start two instances of the server, each instance

@@ -1,5 +1,5 @@
-import { uniq } from '../../../utils/functional/uniq.js'
 import { throwError } from '../../../errors/main.js'
+import { uniq } from '../../../utils/functional/uniq.js'
 
 import { validateAllAttr } from './all.js'
 

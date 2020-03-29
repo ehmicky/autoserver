@@ -1,7 +1,7 @@
 import { isDeepStrictEqual } from 'util'
 
-import { uniq } from '../../../utils/functional/uniq.js'
 import { getSimpleFilter } from '../../../filter/simple_id.js'
+import { uniq } from '../../../utils/functional/uniq.js'
 
 // Retrieve the results of all direct parent commands
 // E.g. when firing `find_collection { child { id } }`,

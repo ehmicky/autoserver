@@ -6,8 +6,8 @@ import { getWordsList } from '../../utils/string.js'
 import { isPatchOpName } from '../parse.js'
 import { isRef } from '../ref_parsing.js'
 
-import { checkAttrType, checkOpValType } from './types/main.js'
 import { applyCheck } from './check.js'
+import { checkAttrType, checkOpValType } from './types/main.js'
 
 const { byteLength } = Buffer
 

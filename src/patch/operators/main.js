@@ -1,9 +1,9 @@
+import { push, unshift, pop, shift, remove, sort } from './array.js'
+import { invert } from './boolean.js'
 import { set } from './generic.js'
 import { add, sub, div, mul } from './number.js'
-import { invert } from './boolean.js'
-import { replace } from './string.js'
-import { push, unshift, pop, shift, remove, sort } from './array.js'
 import { slicestr, slice, insert, insertstr } from './slice.js'
+import { replace } from './string.js'
 
 // All patch operators
 export const OPERATORS = {

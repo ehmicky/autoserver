@@ -1,5 +1,5 @@
-import { isOffset, getLimit } from '../info.js'
 import { getBackwardOrder } from '../backward.js'
+import { isOffset, getLimit } from '../info.js'
 
 import { getTokenFilter } from './filter.js'
 

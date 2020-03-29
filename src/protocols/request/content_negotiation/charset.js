@@ -1,5 +1,5 @@
-import { addGenPbHandler } from '../../../errors/handler.js'
 import { getCharset, getCharsets } from '../../../charsets/main.js'
+import { addGenPbHandler } from '../../../errors/handler.js'
 
 // Retrieve charset asked by client for the request and response payload
 export const getCharsetFunc = function ({ queryvars, charset, format }) {

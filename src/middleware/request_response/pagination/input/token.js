@@ -1,9 +1,9 @@
 import filterObj from 'filter-obj'
 
-import { mapValues } from '../../../../utils/functional/map.js'
-import { isObject } from '../../../../utils/functional/type.js'
 import { addGenErrorHandler } from '../../../../errors/handler.js'
 import { throwError } from '../../../../errors/main.js'
+import { mapValues } from '../../../../utils/functional/map.js'
+import { isObject } from '../../../../utils/functional/type.js'
 import { decode } from '../encoding/main.js'
 import { getRightToken, TOKEN_NAMES, BOUNDARY_TOKEN } from '../info.js'
 

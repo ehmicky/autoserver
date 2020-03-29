@@ -1,8 +1,8 @@
 import pluralize from 'pluralize'
 
-import { getWordsList } from '../../utils/string.js'
 import { throwPb } from '../../errors/props.js'
 import { getLimits } from '../../limits.js'
+import { getWordsList } from '../../utils/string.js'
 
 import { getColl } from './get_coll.js'
 

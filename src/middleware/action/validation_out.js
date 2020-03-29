@@ -1,5 +1,5 @@
-import { throwPb } from '../../errors/props.js'
 import { CONTENT_TYPES } from '../../content_types.js'
+import { throwPb } from '../../errors/props.js'
 
 // Action layer output validation
 // Those errors should not happen, i.e. server-side (e.g. 500)

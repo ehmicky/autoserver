@@ -1,10 +1,10 @@
 import { addErrorHandler } from '../errors/handler.js'
-import { createPb } from '../errors/props.js'
 import { normalizeError } from '../errors/main.js'
+import { createPb } from '../errors/props.js'
 
-import { getLogParams } from './params.js'
 import { LEVELS, DEFAULT_LOGGER } from './constants.js'
 import { getLog } from './get.js'
+import { getLogParams } from './params.js'
 
 // Log some event, including printing to console
 // `config.log` might be `undefined` if the error happened at startup time.

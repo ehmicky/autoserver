@@ -1,5 +1,5 @@
-import { getPrefix } from './prefix.js'
 import { getErrorMessage } from './error_message.js'
+import { getPrefix } from './prefix.js'
 import { getRequestMessage } from './request_message.js'
 
 // Build a standardized event message:

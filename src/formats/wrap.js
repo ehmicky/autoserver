@@ -3,8 +3,8 @@ import { wrapAdapters } from '../adapters/wrap.js'
 import { FORMAT_ADAPTERS } from './adapters/main.js'
 import { getCharset, hasCharset } from './charset.js'
 import { parseContent, serializeContent } from './content.js'
-import { parseFile, serializeFile } from './file.js'
 import { getExtension } from './extensions.js'
+import { parseFile, serializeFile } from './file.js'
 
 const members = ['name', 'title', 'unsafe']
 

@@ -1,6 +1,6 @@
 import { addGenErrorHandler } from '../../errors/handler.js'
-import { getLog } from '../../log/get.js'
 import { DEFAULT_LOGGER } from '../../log/constants.js'
+import { getLog } from '../../log/get.js'
 
 const { provider: defaultProvider } = DEFAULT_LOGGER
 

@@ -1,7 +1,7 @@
 import { monitor } from '../../perf/helpers.js'
 
-import { emitMessageEvent } from './message.js'
 import { addExitHandler } from './error.js'
+import { emitMessageEvent } from './message.js'
 
 // Add event handling, message event and monitoring capabilities to the function
 export const wrapCloseFunc = function (func) {

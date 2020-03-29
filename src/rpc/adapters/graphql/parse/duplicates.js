@@ -1,5 +1,5 @@
-import { findDuplicate } from '../../../../utils/functional/uniq.js'
 import { throwError } from '../../../../errors/main.js'
+import { findDuplicate } from '../../../../utils/functional/uniq.js'
 
 // GraphQL spec includes many requirements of checking for duplicates
 export const validateDuplicates = function ({ nodes, type }) {

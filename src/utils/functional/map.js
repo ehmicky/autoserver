@@ -1,5 +1,5 @@
-import { checkObject } from './validate.js'
 import { isObject } from './type.js'
+import { checkObject } from './validate.js'
 
 // Similar to Lodash mapValues(), but with vanilla JavaScript
 export const mapValues = function (obj, mapperFunc) {

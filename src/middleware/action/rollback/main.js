@@ -1,8 +1,8 @@
 import { addErrorHandler } from '../../../errors/handler.js'
 import { isError, normalizeError } from '../../../errors/main.js'
 
-import { getRollbackInput } from './input.js'
 import { rethrowFailure } from './failure.js'
+import { getRollbackInput } from './input.js'
 
 // Rollback write actions if any of them failed
 export const rollback = function ({ results, inputs }, nextLayer) {

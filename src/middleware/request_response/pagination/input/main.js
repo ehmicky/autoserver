@@ -1,8 +1,8 @@
 import { willPaginate } from '../condition.js'
 
+import { getPaginationInput } from './input.js'
 import { getToken } from './token.js'
 import { validatePaginationInput } from './validation.js'
-import { getPaginationInput } from './input.js'
 
 // Pagination input middleware.
 // Supports several kinds of pagination:

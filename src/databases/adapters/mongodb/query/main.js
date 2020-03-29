@@ -1,5 +1,5 @@
-import { find } from './find/main.js'
 import { deleteFunc } from './delete.js'
+import { find } from './find/main.js'
 import { upsert } from './upsert.js'
 
 // CRUD commands

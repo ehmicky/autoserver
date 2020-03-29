@@ -1,10 +1,10 @@
 import pluralize from 'pluralize'
 
+import { addGenErrorHandler } from '../errors/handler.js'
+import { throwError } from '../errors/main.js'
 import { intersection } from '../utils/functional/intersection.js'
 import { mapValues } from '../utils/functional/map.js'
 import { getWordsList } from '../utils/string.js'
-import { addGenErrorHandler } from '../errors/handler.js'
-import { throwError } from '../errors/main.js'
 import { compile } from '../validation/compile.js'
 import { validate } from '../validation/validate.js'
 

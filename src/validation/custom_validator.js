@@ -1,7 +1,7 @@
 import moize from 'moize'
 
-import { runConfigFunc } from '../functions/run.js'
 import { getModelParams } from '../functions/params/values.js'
+import { runConfigFunc } from '../functions/run.js'
 
 import { getValidator } from './validator.js'
 

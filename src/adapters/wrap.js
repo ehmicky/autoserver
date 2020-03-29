@@ -1,8 +1,8 @@
 import filterObj from 'filter-obj'
 
+import { addCatchAllPbHandler } from '../errors/handler.js'
 import { keyBy } from '../utils/functional/key_by.js'
 import { mapValues } from '../utils/functional/map.js'
-import { addCatchAllPbHandler } from '../errors/handler.js'
 
 // Wrap adapters to:
 //  - add error handlers to catch adapter bugs

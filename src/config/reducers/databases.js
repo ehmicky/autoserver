@@ -1,6 +1,6 @@
-import { addGenErrorHandler } from '../../errors/handler.js'
 import { getDatabase } from '../../databases/get.js'
 import { DATABASE_OPTS } from '../../databases/info.js'
+import { addGenErrorHandler } from '../../errors/handler.js'
 import { mapColls } from '../helpers.js'
 
 import { validateAdaptersOpts } from './adapter_opts.js'

@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import { getStandardError } from '../../errors/standard.js'
-import { makeImmutable } from '../../utils/functional/immutable.js'
 import { getServerinfo } from '../../serverinfo/main.js'
+import { makeImmutable } from '../../utils/functional/immutable.js'
 
 // Retrieve all parameters
 // eslint-disable-next-line max-lines-per-function

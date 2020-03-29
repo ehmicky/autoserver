@@ -1,8 +1,8 @@
 import filterObj from 'filter-obj'
 
-import { isOffset, SAME_ARGS, BOUNDARY_TOKEN } from '../info.js'
-import { encode } from '../encoding/main.js'
 import { isOnlyForwardCursor } from '../condition.js'
+import { encode } from '../encoding/main.js'
+import { isOffset, SAME_ARGS, BOUNDARY_TOKEN } from '../info.js'
 
 export const getMetadata = function ({
   data,

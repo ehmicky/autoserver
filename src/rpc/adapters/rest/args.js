@@ -1,6 +1,6 @@
-import { mapValues } from '../../../utils/functional/map.js'
-import { throwPb } from '../../../errors/props.js'
 import { throwError } from '../../../errors/main.js'
+import { throwPb } from '../../../errors/props.js'
+import { mapValues } from '../../../utils/functional/map.js'
 
 // Use query variables, request payload and URL /ID to retrieve `args`
 export const getArgs = function ({ method, payload, queryvars, id }) {

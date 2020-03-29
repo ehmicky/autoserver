@@ -1,5 +1,5 @@
-import zlib from 'zlib'
 import { promisify } from 'util'
+import zlib from 'zlib'
 
 const pDeflate = promisify(zlib.deflate)
 const pInflate = promisify(zlib.inflate)

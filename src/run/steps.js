@@ -1,11 +1,11 @@
-import { getRequestHandler } from '../middleware/main.js'
 import { loadConfig } from '../config/main.js'
+import { getRequestHandler } from '../middleware/main.js'
 
-import { startStartupPerf, stopStartupPerf, reportStartupPerf } from './perf.js'
-import { processErrorHandler } from './process.js'
 import { connectToDatabases } from './database/main.js'
 import { setupGracefulExit } from './exit/setup.js'
 import { launchProtocols } from './launch.js'
+import { startStartupPerf, stopStartupPerf, reportStartupPerf } from './perf.js'
+import { processErrorHandler } from './process.js'
 import { emitStartEvent } from './start_event.js'
 
 export const startupSteps = [

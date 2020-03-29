@@ -1,6 +1,6 @@
+import { getFeatures } from '../../filter/features.js'
 import { difference } from '../../utils/functional/difference.js'
 import { getWordsList } from '../../utils/string.js'
-import { getFeatures } from '../../filter/features.js'
 
 // Startup time adapter features validation
 export const validateStartupFeatures = function ({ name, features }, { coll }) {

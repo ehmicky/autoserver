@@ -1,8 +1,8 @@
 import { throwPb } from '../../errors/props.js'
 import { parsePatchOp } from '../parse.js'
 
-import { PRE_VALIDATORS } from './pre_validators.js'
 import { POST_VALIDATORS } from './post_validators.js'
+import { PRE_VALIDATORS } from './pre_validators.js'
 
 // Validate patch operation has valid syntax, during args.data parsing
 export const preValidate = function ({

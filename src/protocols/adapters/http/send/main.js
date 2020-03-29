@@ -1,7 +1,7 @@
 import { promisify } from 'util'
 
-import { setStatusCode } from './status.js'
 import { setHeaders } from './headers.js'
+import { setStatusCode } from './status.js'
 
 // Sends response
 export const send = async function ({

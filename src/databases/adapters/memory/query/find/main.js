@@ -1,8 +1,8 @@
 import { evalFilter } from '../../../../../filter/eval.js'
 
-import { sortResponse } from './order.js'
-import { offsetResponse } from './offset.js'
 import { limitResponse } from './limit.js'
+import { offsetResponse } from './offset.js'
+import { sortResponse } from './order.js'
 
 // Retrieve models
 export const find = function ({ collection, filter, order, offset, limit }) {

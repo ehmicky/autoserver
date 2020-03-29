@@ -1,8 +1,8 @@
 import { decapitalize } from 'underscore.string'
 
-import { runConfigFunc } from '../../functions/run.js'
 import { addErrorHandler } from '../../errors/handler.js'
 import { createPb } from '../../errors/props.js'
+import { runConfigFunc } from '../../functions/run.js'
 import { getPatchErrorProps } from '../error.js'
 
 // Uses `patchOp.check()`

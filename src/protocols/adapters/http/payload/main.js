@@ -1,5 +1,5 @@
-import { hasBody } from 'type-is'
 import getBody from 'raw-body'
+import { hasBody } from 'type-is'
 
 import { addErrorHandler } from '../../../../errors/handler.js'
 import { throwPb } from '../../../../errors/props.js'

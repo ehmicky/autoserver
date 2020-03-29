@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 
-import { runConfigFunc } from '../../../functions/run.js'
 import { getModelParams } from '../../../functions/params/values.js'
+import { runConfigFunc } from '../../../functions/run.js'
 
 // Add default model.id for create commands, in order of priority:
 //  - nested `args.data` attribute (not handled here)

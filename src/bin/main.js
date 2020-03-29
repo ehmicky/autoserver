@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 import { exit } from 'process'
 
-import UpdateNotifier from 'update-notifier'
 import readPkgUp from 'read-pkg-up'
+import UpdateNotifier from 'update-notifier'
 
-import * as instructions from '../main.js'
 import { addErrorHandler } from '../errors/handler.js'
+import * as instructions from '../main.js'
 
 import { parseInput } from './input.js'
 

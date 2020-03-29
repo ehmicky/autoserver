@@ -1,6 +1,6 @@
+import { getDatabase } from '../../databases/get.js'
 import { mapValues } from '../../utils/functional/map.js'
 import { uniq } from '../../utils/functional/uniq.js'
-import { getDatabase } from '../../databases/get.js'
 
 import { startConnections } from './connect.js'
 

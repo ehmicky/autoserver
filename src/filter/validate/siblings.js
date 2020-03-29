@@ -1,5 +1,5 @@
-import { isSiblingValue, validateForbiddenOpts } from '../siblings.js'
 import { DEEP_OPERATORS } from '../operators/main.js'
+import { isSiblingValue, validateForbiddenOpts } from '../siblings.js'
 
 import { getAttr } from './attr.js'
 

@@ -1,8 +1,8 @@
+import { COMMANDS } from '../../commands/constants.js'
+import { throwPb } from '../../errors/props.js'
 import { deepMerge } from '../../utils/functional/merge.js'
 import { uniq } from '../../utils/functional/uniq.js'
 import { getSumParams } from '../../utils/sums.js'
-import { throwPb } from '../../errors/props.js'
-import { COMMANDS } from '../../commands/constants.js'
 
 // Parse a `rpcDef` into a top-level action, i.e.:
 // `collname`, `clientCollname`, `commandpath`, `args`

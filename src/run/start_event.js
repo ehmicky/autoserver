@@ -1,10 +1,10 @@
 import omit from 'omit.js'
 
-import { mapValues } from '../utils/functional/map.js'
-import { pSetTimeout } from '../utils/timeout.js'
 import { logEvent } from '../log/main.js'
 import { getDefaultDuration } from '../perf/measure.js'
 import { getServerinfo } from '../serverinfo/main.js'
+import { mapValues } from '../utils/functional/map.js'
+import { pSetTimeout } from '../utils/timeout.js'
 
 // Create event when all protocol-specific servers have started
 export const emitStartEvent = async function ({

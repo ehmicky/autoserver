@@ -1,8 +1,8 @@
 import omit from 'omit.js'
 
 import { addErrorHandler } from '../../errors/handler.js'
-import { getProps } from '../../errors/props.js'
 import { normalizeError } from '../../errors/main.js'
+import { getProps } from '../../errors/props.js'
 import { safetyHandler } from '../../log/main.js'
 
 import { errorHandler } from './handler.js'

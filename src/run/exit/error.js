@@ -1,6 +1,6 @@
 import { addErrorHandler } from '../../errors/handler.js'
-import { createPb } from '../../errors/props.js'
 import { normalizeError } from '../../errors/main.js'
+import { createPb } from '../../errors/props.js'
 import { logEvent } from '../../log/main.js'
 
 // Shutdown failures events

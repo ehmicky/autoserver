@@ -1,5 +1,5 @@
-import { getParams } from '../functions/params/values.js'
 import { reduceParams } from '../functions/params/reduce.js'
+import { getParams } from '../functions/params/values.js'
 
 // Get log-specific config parameters
 export const getLogParams = function ({

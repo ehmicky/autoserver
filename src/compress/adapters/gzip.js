@@ -1,5 +1,5 @@
-import zlib from 'zlib'
 import { promisify } from 'util'
+import zlib from 'zlib'
 
 const pGzip = promisify(zlib.gzip)
 const pGunzip = promisify(zlib.gunzip)

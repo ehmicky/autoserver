@@ -1,8 +1,8 @@
 import { getErrorResponse } from './error.js'
-import { getResponseParams } from './params.js'
 import { addMetadata } from './metadata.js'
-import { validateResponse } from './validate.js'
+import { getResponseParams } from './params.js'
 import { send } from './send.js'
+import { validateResponse } from './validate.js'
 
 // Sends the response at the end of the request
 export const sendResponse = async function ({

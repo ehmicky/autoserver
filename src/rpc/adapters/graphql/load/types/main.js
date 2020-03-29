@@ -7,9 +7,9 @@ import {
 
 import { throwError } from '../../../../../errors/main.js'
 
-import { graphqlRequiredTest, graphqlRequiredTGetter } from './required.js'
 import { graphqlArrayTest, graphqlArrayTGetter } from './array.js'
 import { graphqlObjectTGetter } from './object/main.js'
+import { graphqlRequiredTest, graphqlRequiredTGetter } from './required.js'
 
 // Maps an config definition into a GraphQL type.
 // The first matching one will be used, i.e. order matters:

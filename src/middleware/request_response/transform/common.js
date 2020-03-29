@@ -1,8 +1,8 @@
 import filterObj from 'filter-obj'
 
-import { mapValues } from '../../../utils/functional/map.js'
-import { runConfigFunc } from '../../../functions/run.js'
 import { getModelParams } from '../../../functions/params/values.js'
+import { runConfigFunc } from '../../../functions/run.js'
+import { mapValues } from '../../../utils/functional/map.js'
 
 // Handles `attr.value`, `attr.default` and `attr.readonly`
 export const handleTransforms = function ({

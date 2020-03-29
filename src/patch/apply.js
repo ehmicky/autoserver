@@ -1,11 +1,11 @@
-import { mapValues } from '../utils/functional/map.js'
-import { runConfigFunc } from '../functions/run.js'
 import { addGenPbHandler } from '../errors/handler.js'
+import { runConfigFunc } from '../functions/run.js'
+import { mapValues } from '../utils/functional/map.js'
 
-import { parsePatchOp } from './parse.js'
-import { parseRef } from './ref_parsing.js'
-import { replaceSimpleRef, replaceRef } from './ref.js'
 import { getPatchErrorProps } from './error.js'
+import { parsePatchOp } from './parse.js'
+import { replaceSimpleRef, replaceRef } from './ref.js'
+import { parseRef } from './ref_parsing.js'
 
 // Apply patch operation to a single datum
 export const applyPatchOps = function ({

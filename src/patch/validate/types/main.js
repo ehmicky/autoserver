@@ -1,8 +1,8 @@
 import { uniq } from '../../../utils/functional/uniq.js'
 import { getOpValRef, cannotCheckType } from '../../ref_parsing.js'
 
-import { validateTypes } from './validate.js'
 import { TYPES } from './available.js'
+import { validateTypes } from './validate.js'
 
 // Uses `patchOp.attribute`
 export const checkAttrType = function ({

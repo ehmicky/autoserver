@@ -1,14 +1,14 @@
 import { getArgTypeDescription } from '../../../../description.js'
 
+import { getCascadeArgument } from './cascade.js'
 import { getDataArgument } from './data.js'
+import { getDryrunArgument } from './dryrun.js'
 import { getFilterArgument } from './filter.js'
 import { getIdArgument } from './id.js'
 import { getOrderArgument } from './order.js'
 import { getPaginationArgument } from './pagination.js'
-import { getSilentArgument } from './silent.js'
-import { getDryrunArgument } from './dryrun.js'
-import { getCascadeArgument } from './cascade.js'
 import { getParamsArgument } from './params.js'
+import { getSilentArgument } from './silent.js'
 
 // Retrieves all resolver arguments, before resolve function is fired
 export const getArgs = function (def, opts) {

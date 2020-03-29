@@ -1,9 +1,9 @@
 import omit from 'omit.js'
 
+import { throwPb } from '../errors/props.js'
 import { recurseMap, fullRecurseMap } from '../utils/functional/map.js'
 import { isObject } from '../utils/functional/type.js'
 import { transtype } from '../utils/transtype.js'
-import { throwPb } from '../errors/props.js'
 
 import { availableInstructions } from './available.js'
 
