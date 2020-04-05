@@ -1,4 +1,4 @@
-import { promises } from 'fs'
+import { promises as fs } from 'fs'
 
 import { parseContent, serializeContent } from './content.js'
 
@@ -7,7 +7,7 @@ import { parseContent, serializeContent } from './content.js'
 // This might throw for many different reasons, e.g. wrong syntax,
 // or cannot access file (does not exist or no permissions)
 export const parseFile = async function (format, path, { compat }) {
-  const content = await promises.readFile(path, 'utf8')
+  const content = await fs.readFile(path, 'utf8')
 
   const contentA = parseContent(format, content, { path, compat })
   return contentA
@@ -17,6 +17,6 @@ export const parseFile = async function (format, path, { compat }) {
 export const serializeFile = async function (format, path, content) {
   const contentA = serializeContent(format, content)
 
-  const contentB = await promises.writeFile(path, contentA)
+  const contentB = await fs.writeFile(path, contentA)
   return contentB
 }
