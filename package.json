@@ -82,7 +82,7 @@
     "json5": "^2.1.3",
     "keep-func-props": "^3.0.0",
     "li": "^1.3.0",
-    "log-process-errors": "^6.0.1",
+    "log-process-errors": "^6.1.0",
     "moize": "^5.4.5",
     "mongodb": "^3.4.1",
     "mustache": "^2.3.2",
