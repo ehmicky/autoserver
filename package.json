@@ -106,7 +106,7 @@
   },
   "devDependencies": {
     "@ehmicky/dev-tasks": "^0.31.35",
-    "ava": "^3.6.0",
+    "ava": "^3.7.0",
     "execa": "^4.0.0",
     "get-bin-path": "^5.0.1",
     "got": "^10.7.0",
