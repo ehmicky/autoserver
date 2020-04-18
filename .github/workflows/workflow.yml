@@ -3,8 +3,6 @@ on: [push, pull_request]
 env:
   # TODO: add real tests
   COVERAGE: 'false'
-  # GitHub actions does not define this but should
-  CI: 'true'
 jobs:
   combinations:
     # git push --tags does not create any commits so should not trigger a new
