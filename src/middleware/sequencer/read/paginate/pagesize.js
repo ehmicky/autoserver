@@ -32,7 +32,7 @@ const getNestedLength = function ({ model, nestedAttrs }) {
 const getLength = function ({ model, attrName, weight }) {
   const attrVal = model[attrName]
 
-  if (attrVal == null) {
+  if (attrVal === undefined || attrVal === null) {
     return { length: 0 }
   }
 

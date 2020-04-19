@@ -28,7 +28,7 @@ export const parseFilter = function ({
   reason = 'VALIDATION',
   prefix = '',
 }) {
-  if (filter == null) {
+  if (filter === undefined || filter === null) {
     return
   }
 

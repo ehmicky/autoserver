@@ -26,5 +26,5 @@ const applyCollDefault = function ({ coll, collDefault }) {
 }
 
 const isProperColl = function (coll) {
-  return coll != null && typeof coll === 'object'
+  return coll !== null && coll !== undefined && typeof coll === 'object'
 }

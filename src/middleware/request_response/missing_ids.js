@@ -72,8 +72,8 @@ const getMissingIds = function ({ filter, preFilter, response: { data } }) {
     return []
   }
 
-  const responseIds = data.map(({ id }) => id)
-  const ids = filterIds.filter((id) => !responseIds.includes(id))
+  const responseIds = new Set(data.map(({ id }) => id))
+  const ids = filterIds.filter((id) => !responseIds.has(id))
 
   return ids
 }

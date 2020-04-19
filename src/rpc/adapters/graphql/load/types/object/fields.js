@@ -30,5 +30,5 @@ const mapField = function ({ opts, mapper }, def, defName) {
 }
 
 const hasValue = function (key, value) {
-  return value != null
+  return value !== undefined && value !== null
 }

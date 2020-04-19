@@ -29,7 +29,7 @@ export const parseOperation = function ({ type, value, throwErr, parseAttrs }) {
   }
 
   // Normalize `null|undefined` to only `undefined`
-  if (value == null) {
+  if (value === undefined || value === null) {
     return { type }
   }
 

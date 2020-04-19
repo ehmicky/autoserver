@@ -15,7 +15,7 @@ export const validateFilter = function ({
   prefix = '',
   skipConfigFuncs,
 }) {
-  if (filter == null) {
+  if (filter === undefined || filter === null) {
     return
   }
 

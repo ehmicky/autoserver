@@ -15,5 +15,5 @@ const removeEmpty = function (newData) {
 }
 
 const hasValue = function (key, value) {
-  return value != null
+  return value !== undefined && value !== null
 }

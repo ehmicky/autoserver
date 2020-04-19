@@ -9,7 +9,7 @@ export const getDefaultValue = function (def, opts) {
 }
 
 const hasDefaultValue = function (def) {
-  return def.default != null
+  return def.default !== undefined && def.default !== null
 }
 
 // Only for `args.data`

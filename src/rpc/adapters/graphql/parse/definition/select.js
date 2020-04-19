@@ -19,7 +19,7 @@ const parseSelectionSet = function ({
   variables,
   fragments,
 }) {
-  if (selectionSet == null) {
+  if (selectionSet === undefined || selectionSet === null) {
     return []
   }
 
@@ -67,7 +67,10 @@ const getSelectRename = function ({ parentPath, alias, fieldName }) {
   const select = [...parentPath, fieldName].join('.')
   const outputName = alias && alias.value
 
-  const rename = outputName == null ? undefined : `${select}:${outputName}`
+  const rename =
+    outputName === undefined || outputName === null
+      ? undefined
+      : `${select}:${outputName}`
 
   return { select, rename }
 }

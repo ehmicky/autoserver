@@ -43,7 +43,10 @@ const validateType = function ({ datum, commandpath }) {
 }
 
 const validateRequiredId = function ({ datum, commandpath, command }) {
-  if (!REQUIRED_ID_TYPES.has(command.type) || datum.id != null) {
+  if (
+    !REQUIRED_ID_TYPES.has(command.type) ||
+    (datum.id !== undefined && datum.id !== null)
+  ) {
     return
   }
 
@@ -53,8 +56,12 @@ const validateRequiredId = function ({ datum, commandpath, command }) {
 
 const REQUIRED_ID_TYPES = new Set(['upsert'])
 
+// eslint-disable-next-line complexity
 const validateForbiddenId = function ({ datum, commandpath, command }) {
-  const forbidsId = FORBIDDEN_ID_TYPES.has(command.type) && datum.id != null
+  const forbidsId =
+    FORBIDDEN_ID_TYPES.has(command.type) &&
+    datum.id !== undefined &&
+    datum.id !== null
 
   if (!forbidsId) {
     return

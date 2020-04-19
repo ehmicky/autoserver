@@ -30,7 +30,7 @@ const getArgs = function ({ params = {} }) {
 // If request `id` is absent, there should be no response according to
 // JSON-RPC spec. We achieve this by settings `args.silent` `true`
 const addSilent = function ({ args, id }) {
-  if (id != null) {
+  if (id !== undefined && id !== null) {
     return args
   }
 

@@ -9,7 +9,7 @@ const shouldUseDefault = function ({ command }) {
 const DEFAULT_COMMANDS = new Set(['create', 'upsert'])
 
 const shouldSetDefault = function ({ value }) {
-  return value == null
+  return value === undefined || value === null
 }
 
 const setTransform = function ({ transform }) {

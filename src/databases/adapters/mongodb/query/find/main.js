@@ -12,7 +12,7 @@ export const find = function (input) {
 
 const findOne = async function ({ collection, filterIds }) {
   const model = await collection.findOne({ _id: filterIds[0] })
-  return model == null ? [] : [model]
+  return model === undefined || model === null ? [] : [model]
 }
 
 const findMany = function ({ collection, filter, offset, limit, order }) {

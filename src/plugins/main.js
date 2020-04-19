@@ -36,9 +36,9 @@ export const applyPlugins = async function ({ config }) {
 
 // Add builtinPlugins, except the ones that have been overriden
 const addDefaultBuiltinPlugins = function ({ plugins }) {
-  const pluginNames = plugins.map(({ plugin }) => plugin)
+  const pluginNames = new Set(plugins.map(({ plugin }) => plugin))
   const defaultBuiltinPlugins = builtinPlugins.filter(
-    ({ name }) => !pluginNames.includes(name),
+    ({ name }) => !pluginNames.has(name),
   )
 
   return [...plugins, ...defaultBuiltinPlugins]

@@ -17,7 +17,7 @@ const commonAttrs = {
 // Negative indexes are from the end. Null indexes are representing the end.
 // Positive indexes are from the start.
 const argToIndex = function (arg, attrVal) {
-  if (arg == null) {
+  if (arg === undefined || arg === null) {
     return attrVal.length
   }
 
@@ -80,10 +80,13 @@ export const insertstr = {
   },
 }
 
+// eslint-disable-next-line complexity
 const isValidInsertstr = function ({ opVal }) {
   return (
     opVal.length === 2 &&
-    (Number.isInteger(opVal[0]) || opVal[0] == null) &&
+    (Number.isInteger(opVal[0]) ||
+      opVal[0] === undefined ||
+      opVal[0] === null) &&
     typeof opVal[1] === 'string'
   )
 }
@@ -94,7 +97,8 @@ export const insert = {
   argument: ANY_ARRAY,
 
   check({ arg: [index] }) {
-    const isValid = Number.isInteger(index) || index == null
+    const isValid =
+      Number.isInteger(index) || index === undefined || index === null
 
     if (isValid) {
       return

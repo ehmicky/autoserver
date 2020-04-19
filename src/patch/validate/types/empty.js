@@ -15,12 +15,13 @@ export const checkEmpty = function ({ opVal, operator: { argument }, type }) {
 }
 
 const hasWrongNull = function ({ opVal, argument }) {
-  return opVal == null && !argument.includes('empty')
+  return (opVal === undefined || opVal === null) && !argument.includes('empty')
 }
 
 const hasWrongNulls = function ({ opVal, argument }) {
   return (
     Array.isArray(opVal) &&
+    // eslint-disable-next-line unicorn/no-null
     opVal.includes(null) &&
     !argument.includes('empty[]')
   )

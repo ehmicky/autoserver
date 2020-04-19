@@ -8,8 +8,10 @@ import { runConfigFunc } from '../../../functions/run.js'
 //  - current collection's 'id' attribute's config 'default'
 //  - database adapter-specific function
 //  - UUIDv4
+// eslint-disable-next-line complexity
 export const addDefaultIds = function ({ datum, top: { command }, ...rest }) {
-  const shouldAddDefaultId = command.type === 'create' && datum.id == null
+  const shouldAddDefaultId =
+    command.type === 'create' && (datum.id === undefined || datum.id === null)
 
   if (!shouldAddDefaultId) {
     return datum
@@ -17,10 +19,10 @@ export const addDefaultIds = function ({ datum, top: { command }, ...rest }) {
 
   const id = handlers.reduce(
     getIdDefault.bind(null, { ...rest, datum, command }),
-    null,
+    undefined,
   )
 
-  if (id == null) {
+  if (id === undefined) {
     return datum
   }
 
@@ -29,7 +31,7 @@ export const addDefaultIds = function ({ datum, top: { command }, ...rest }) {
 
 // Try each way to set default, in order
 const getIdDefault = function (input, id, handler) {
-  if (id != null) {
+  if (id !== undefined) {
     return id
   }
 
@@ -46,7 +48,7 @@ const applyConfigDefault = function ({
 }) {
   const configFunc = userDefaultsMap[collname].id
 
-  if (configFunc == null) {
+  if (configFunc === undefined || configFunc === null) {
     return
   }
 

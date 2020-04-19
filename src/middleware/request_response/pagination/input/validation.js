@@ -10,9 +10,12 @@ export const validatePaginationInput = function ({ args, topargs, token }) {
   validators.forEach((validator) => validator({ args, topargs, token }))
 }
 
+// eslint-disable-next-line complexity
 const validateBothTypes = function ({ args }) {
-  const hasOffset = args.page != null
-  const hasCursor = args.before != null || args.after != null
+  const hasOffset = args.page !== undefined && args.page !== null
+  const hasCursor =
+    (args.before !== undefined && args.before !== null) ||
+    (args.after !== undefined && args.after !== null)
   const bothTypes = hasOffset && hasCursor
 
   if (!bothTypes) {
@@ -24,8 +27,13 @@ const validateBothTypes = function ({ args }) {
   throwError(message, { reason: 'VALIDATION' })
 }
 
+// eslint-disable-next-line complexity
 const validateBothDirection = function ({ args }) {
-  const bothDirection = args.before != null && args.after != null
+  const bothDirection =
+    args.before !== undefined &&
+    args.before !== null &&
+    args.after !== undefined &&
+    args.after !== null
 
   if (!bothDirection) {
     return

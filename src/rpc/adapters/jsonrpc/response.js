@@ -34,6 +34,7 @@ const getResponse = function ({ payload }) {
   const jsonrpc = getJsonrpc({ payload: payloadA })
   const id = getId({ payload: payloadA })
   // JSON-RPC 2.0 uses `undefined`, 1.0 uses `null`
+  // eslint-disable-next-line unicorn/no-null
   const other = jsonrpc === '2.0' ? undefined : null
 
   return { jsonrpc, id, other }
@@ -56,11 +57,12 @@ const getJsonrpc = function ({ payload: { jsonrpc } }) {
 
 // Reuse request id in response
 const getId = function ({ payload: { jsonrpc, id } }) {
-  if (id != null) {
+  if (id !== undefined && id !== null) {
     return id
   }
 
   // JSON-RPC 2.0 uses `undefined`, 1.0 uses `null`
+  // eslint-disable-next-line unicorn/no-null
   return jsonrpc === '2.0' ? undefined : null
 }
 

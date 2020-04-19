@@ -1,7 +1,7 @@
 // Available types in `patchOp.attribute|argument`
 export const TYPES = {
   empty: {
-    test: (val) => val == null,
+    test: (val) => val === undefined || val === null,
     name: 'null',
     pluralname: 'null',
   },

@@ -12,7 +12,7 @@ const optimizeOr = function (node) {
   const { value } = node
 
   // If some alternatives is already true, whole node is true
-  const hasTrue = value.some((val) => val == null)
+  const hasTrue = value.some((val) => val === undefined || val === null)
 
   if (hasTrue) {
     return
@@ -35,7 +35,7 @@ const optimizeAnd = function (node) {
   const { value } = node
 
   // Remove alternatives that are already true
-  const valueA = value.filter((val) => val != null)
+  const valueA = value.filter((val) => val !== undefined && val !== null)
 
   // When using an empty object
   if (valueA.length === 0) {

@@ -48,7 +48,8 @@ const TOKEN_TESTS = [
 
   ({ order }) => order === undefined || typeof order === 'string',
 
-  ({ filter }) => filter == null || typeof filter === 'object',
+  ({ filter }) =>
+    filter === undefined || filter === null || typeof filter === 'object',
 
   ({ parts }) => Array.isArray(parts) && parts.length > 0,
 ]

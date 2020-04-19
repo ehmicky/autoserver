@@ -52,7 +52,10 @@ const validators = [
   },
   {
     check: ({ id }) =>
-      id == null || typeof id === 'string' || Number.isInteger(id),
+      id === undefined ||
+      id === null ||
+      typeof id === 'string' ||
+      Number.isInteger(id),
     message: "'id' must be a string, an integer, null or undefined",
   },
   {

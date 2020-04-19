@@ -136,7 +136,9 @@ const getError = function ({ error, mInput }) {
 export const getModelParams = function ({ model, previousmodel, attrName }) {
   const value = model[attrName]
   const previousvalue =
-    previousmodel == null ? undefined : previousmodel[attrName]
+    previousmodel === undefined || previousmodel === null
+      ? undefined
+      : previousmodel[attrName]
 
   return { model, value, previousmodel, previousvalue }
 }
