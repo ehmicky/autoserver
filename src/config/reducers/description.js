@@ -52,4 +52,4 @@ const allDescriptions = [
   },
 ]
 
-export const addDescriptions = mapAttrs.bind(null, mapAttr)
+export const addDescriptions = mapAttrs.bind(undefined, mapAttr)

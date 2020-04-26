@@ -29,7 +29,7 @@ const KINDS = {
 export const REQUEST_NEGOTIATION = {
   status: 'CLIENT_ERROR',
   title: 'The request content negotiation failed',
-  getMessage: getMessage.bind(null, 'request'),
+  getMessage: getMessage.bind(undefined, 'request'),
 }
 
 // Extra:
@@ -39,5 +39,5 @@ export const REQUEST_NEGOTIATION = {
 export const RESPONSE_NEGOTIATION = {
   status: 'CLIENT_ERROR',
   title: 'The response content negotiation failed',
-  getMessage: getMessage.bind(null, 'response'),
+  getMessage: getMessage.bind(undefined, 'response'),
 }

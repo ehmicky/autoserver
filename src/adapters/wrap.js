@@ -55,6 +55,8 @@ const isFunction = function (key, value) {
 // Similar to create a new class, but more functional programming-oriented
 const classify = function ({ adapter, members, methods }) {
   const membersA = filterObj(adapter, members)
-  const methodsA = mapValues(methods, (method) => method.bind(null, adapter))
+  const methodsA = mapValues(methods, (method) =>
+    method.bind(undefined, adapter),
+  )
   return { ...membersA, ...methodsA }
 }

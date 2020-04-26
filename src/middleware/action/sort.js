@@ -1,7 +1,7 @@
 import { sortArray, compareArrays } from '../../utils/functional/sort.js'
 
 const sorter = function (obj, key, pathKey) {
-  const val = sortArray(obj[key], sortTwo.bind(null, pathKey))
+  const val = sortArray(obj[key], sortTwo.bind(undefined, pathKey))
   return { [key]: val }
 }
 

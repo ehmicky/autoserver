@@ -44,10 +44,12 @@ const parseEnum = function ({ value }) {
     throwError(message, { reason: 'VALIDATION' })
   }
 
+  // eslint-disable-next-line unicorn/no-null
   return null
 }
 
 const parseNull = function () {
+  // eslint-disable-next-line unicorn/no-null
   return null
 }
 

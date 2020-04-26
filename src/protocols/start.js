@@ -15,7 +15,7 @@ export const start = async function (
 
   const protocolAdapterA = getRequestAdapter({ protocolAdapter })
 
-  const handleRequest = processRequest.bind(null, {
+  const handleRequest = processRequest.bind(undefined, {
     requestHandler,
     getRequestInput,
     protocolAdapter: protocolAdapterA,
@@ -25,7 +25,7 @@ export const start = async function (
   const info = await startServer({ opts, config, handleRequest })
 
   // Expose the `stopServer()` method
-  const stopServerA = stopServer.bind(null, info)
+  const stopServerA = stopServer.bind(undefined, info)
   const protocolAdapterB = {
     ...protocolAdapterA,
     stopServer: stopServerA,
@@ -40,7 +40,7 @@ const getRequestAdapter = function ({
   protocolAdapter,
   protocolAdapter: { wrapped, send },
 }) {
-  const parseRequestA = parseRequest.bind(null, protocolAdapter)
+  const parseRequestA = parseRequest.bind(undefined, protocolAdapter)
   const protocolAdapterA = omit(wrapped, ['startServer'])
 
   return { ...protocolAdapterA, parseRequest: parseRequestA, send }
@@ -68,7 +68,7 @@ const processRequest = function (
 const bindMethods = function ({ protocolAdapter, specific }) {
   const methods = filterObj(protocolAdapter, BOUND_METHODS)
   const methodsA = mapValues(methods, (method) =>
-    wrapMethod.bind(null, { method, specific }),
+    wrapMethod.bind(undefined, { method, specific }),
   )
 
   const protocolAdapterA = { ...protocolAdapter, ...methodsA }

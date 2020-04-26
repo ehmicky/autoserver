@@ -5,7 +5,7 @@ import { sortMeasures } from './sort.js'
 // Returns measures but as a single string, for console debugging
 export const stringifyMeasures = function ({ phase = '', measuresGroups }) {
   const sortedMeasures = sortArray(measuresGroups, sortMeasures)
-  return sortedMeasures.map(stringifyMeasure.bind(null, phase)).join('\n')
+  return sortedMeasures.map(stringifyMeasure.bind(undefined, phase)).join('\n')
 }
 
 // Prints as a table

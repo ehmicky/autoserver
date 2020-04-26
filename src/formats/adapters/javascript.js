@@ -12,7 +12,7 @@ const parse = function ({ content, path }) {
 
 // Serializes a JavaScript file
 const serialize = function ({ content }) {
-  const json = JSON.stringify(content, null, 2)
+  const json = JSON.stringify(content, undefined, 2)
   return `module.exports = ${json}`
 }
 

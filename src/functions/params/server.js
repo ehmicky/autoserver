@@ -27,10 +27,14 @@ const bindServerParam = function ({ serverParam, params }) {
     return serverParam
   }
 
-  // Same as `serverParam.bind(null, params)`, except works when `serverParam`
-  // is both a function and an object with a `bind` member, e.g. Lodash
-  // main object.
-  const serverParamA = Function.prototype.bind.call(serverParam, null, params)
+  // Same as `serverParam.bind(undefined, params)`, except works when
+  // `serverParam` is both a function and an object with a `bind` member, e.g.
+  // Lodash main object.
+  const serverParamA = Function.prototype.bind.call(
+    serverParam,
+    undefined,
+    params,
+  )
 
   // Keep static member
   // E.g. Underscore/Lodash main exported object is both a function and an

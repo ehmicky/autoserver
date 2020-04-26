@@ -30,7 +30,7 @@ const getDbAdapter = function ({
   wrapped,
 }) {
   const methods = mapValues({ disconnect, query }, (method) =>
-    wrapMethod.bind(null, { method, options, connection, config }),
+    wrapMethod.bind(undefined, { method, options, connection, config }),
   )
 
   // Do not connect twice

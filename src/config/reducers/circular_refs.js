@@ -30,7 +30,7 @@ const walkCircularRefs = function (value, { path, pathSet }) {
 
   const iterator = Array.isArray(value)
     ? value.map.bind(value)
-    : mapValues.bind(null, value)
+    : mapValues.bind(undefined, value)
   iterator((child, childKey) => {
     const childPath = Array.isArray(value)
       ? `${path}[${childKey}]`

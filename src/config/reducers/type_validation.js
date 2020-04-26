@@ -31,4 +31,4 @@ const addMultipleValidation = function ({
   }
 }
 
-export const addTypeValidation = mapAttrs.bind(null, mapAttr)
+export const addTypeValidation = mapAttrs.bind(undefined, mapAttr)

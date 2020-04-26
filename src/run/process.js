@@ -11,7 +11,7 @@ import { logEvent } from '../log/main.js'
 export const processErrorHandler = function ({ config }) {
   const stopProcessErrors = logProcessErrors({
     ...LOG_PROCESS_ERRORS_OPTS,
-    log: emitProcessEvent.bind(null, { config }),
+    log: emitProcessEvent.bind(undefined, { config }),
   })
   return { stopProcessErrors }
 }

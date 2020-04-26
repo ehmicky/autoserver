@@ -41,7 +41,7 @@ const findFormatCharset = function ({ format }) {
 
 // Returns a charset adapter object
 const createInstance = function ({ charset, title }) {
-  const decode = decodeCharset.bind(null, charset)
+  const decode = decodeCharset.bind(undefined, charset)
 
   return { name: charset, title, decode }
 }

@@ -41,7 +41,7 @@ const getContent = async function ({ path, cache, stack }) {
   return contentB
 }
 
-const cGetContent = fireCachedFunc.bind(null, getContent)
+const cGetContent = fireCachedFunc.bind(undefined, getContent)
 
 // Dereference children JSON references
 const dereferenceChildren = async function ({ content, path, cache, stack }) {

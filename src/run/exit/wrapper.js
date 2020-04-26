@@ -5,7 +5,7 @@ import { emitMessageEvent } from './message.js'
 
 // Add event handling, message event and monitoring capabilities to the function
 export const wrapCloseFunc = function (func) {
-  const funcA = closeFunc.bind(null, func)
+  const funcA = closeFunc.bind(undefined, func)
 
   const eFunc = addExitHandler(funcA)
 

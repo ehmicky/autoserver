@@ -46,7 +46,7 @@ const parseValue = function ({ operator, type, value, throwErr, parseAttrs }) {
   }
 
   // We pass `parseAttrs` as argument to avoid recursive dependency
-  const parseOperationsA = parseOperations.bind(null, parseAttrs)
+  const parseOperationsA = parseOperations.bind(undefined, parseAttrs)
 
   return operator.parse({
     value,

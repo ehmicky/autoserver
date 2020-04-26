@@ -17,7 +17,7 @@ const mapColl = function ({ func, coll, collname, config }) {
 
 // Apply a mapping function on each collection's attribute
 export const mapAttrs = function (func, { config }) {
-  const funcA = mapCollAttrs.bind(null, func)
+  const funcA = mapCollAttrs.bind(undefined, func)
   return mapColls(funcA, { funcA, config })
 }
 

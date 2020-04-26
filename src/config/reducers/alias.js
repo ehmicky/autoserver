@@ -12,7 +12,7 @@ const mapColl = function ({ coll, coll: { attributes }, collname }) {
   }
 
   const attributesA = Object.entries(attributes).reduce(
-    normalizeAlias.bind(null, { coll, collname }),
+    normalizeAlias.bind(undefined, { coll, collname }),
     {},
   )
 
@@ -83,4 +83,4 @@ const checkAliasDuplicates = function ({
   }
 }
 
-export const normalizeAliases = mapColls.bind(null, mapColl)
+export const normalizeAliases = mapColls.bind(undefined, mapColl)

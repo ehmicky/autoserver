@@ -22,7 +22,7 @@ const kMonitor = function (
     const perf = startPerf(labelA, categoryA)
     const response = func(...args)
     const { measures } = args[measuresIndex]
-    return promiseThen(response, recordPerf.bind(null, measures, perf))
+    return promiseThen(response, recordPerf.bind(undefined, measures, perf))
   }
 }
 
@@ -47,7 +47,7 @@ export const monitoredReduce = function ({
   category,
 }) {
   const funcsA = funcs.map((func) => kMonitor(func, label, category))
-  const reduceFunc = monitoredReduceFunc.bind(null, mapInput)
+  const reduceFunc = monitoredReduceFunc.bind(undefined, mapInput)
   return reduceAsync(funcsA, reduceFunc, initialInput, mapResponse)
 }
 

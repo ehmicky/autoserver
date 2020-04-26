@@ -13,7 +13,7 @@ import { middlewareLayers } from './layers.js'
 export const getRequestHandler = function () {
   // Add performance monitoring
   const allLayersA = middlewareLayers.map(monitorLayers)
-  const requestHandler = eFireLayers.bind(null, allLayersA)
+  const requestHandler = eFireLayers.bind(undefined, allLayersA)
   return { requestHandler }
 }
 
@@ -55,8 +55,8 @@ const fireLayer = function ({ allLayers, reqState }, mInput, name) {
   const { layers } = getLayer({ allLayers, name })
 
   // Each layer can fire the next layer middleware functions by calling this
-  const nextLayer = fireLayer.bind(null, { allLayers, reqState })
-  const fireMiddlewareA = eFireMiddleware.bind(null, nextLayer, reqState)
+  const nextLayer = fireLayer.bind(undefined, { allLayers, reqState })
+  const fireMiddlewareA = eFireMiddleware.bind(undefined, nextLayer, reqState)
 
   // Iterate over each middleware function
   return reduceAsync(layers, fireMiddlewareA, mInput, mergeInput)
@@ -86,7 +86,7 @@ const eFireMiddleware = addErrorHandler(fireMiddleware, fireMiddlewareHandler)
 // Main layers error handler
 const eFireMainLayers = addErrorHandler(
   fireMainLayers,
-  fireMainLayersHandler.bind(null, fireFinalLayer),
+  fireMainLayersHandler.bind(undefined, fireFinalLayer),
 )
 
 // Top-level request error handlers

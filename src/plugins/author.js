@@ -37,12 +37,12 @@ const getAttributes = ({ currentuser, collection }) => ({
   created_by: {
     description: 'Who created this model',
     type: collection,
-    value: getCreatedBy.bind(null, currentuser),
+    value: getCreatedBy.bind(undefined, currentuser),
   },
   updated_by: {
     description: 'Who last updated this model',
     type: collection,
-    value: getUpdatedBy.bind(null, currentuser),
+    value: getUpdatedBy.bind(undefined, currentuser),
   },
 })
 

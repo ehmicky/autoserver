@@ -54,7 +54,7 @@ export const recurseMap = function (
 
 const getRecurseFunc = function (value) {
   if (isObject(value)) {
-    return mapValues.bind(null, value)
+    return mapValues.bind(undefined, value)
   }
 
   if (Array.isArray(value)) {

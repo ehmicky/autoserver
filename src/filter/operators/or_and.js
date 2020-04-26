@@ -91,10 +91,10 @@ const andOrMap = {
 }
 
 // Top-level array
-const evalOr = evalOrAnd.bind(null, '_or')
+const evalOr = evalOrAnd.bind(undefined, '_or')
 
 // Several fields inside a filter object
-const evalAnd = evalOrAnd.bind(null, '_and')
+const evalAnd = evalOrAnd.bind(undefined, '_and')
 
 export const or = { parse: parseOr, optimize: optimizeOr, eval: evalOr }
 export const and = { parse: parseAnd, optimize: optimizeAnd, eval: evalAnd }

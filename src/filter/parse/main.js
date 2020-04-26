@@ -35,7 +35,7 @@ export const parseFilter = function ({
   // Top-level array means `_or` alternatives
   const type = Array.isArray(filter) ? '_or' : '_and'
 
-  const throwErr = getThrowErr.bind(null, { reason, prefix })
+  const throwErr = getThrowErr.bind(undefined, { reason, prefix })
 
   const filterA = parseOperation({ type, value: filter, throwErr, parseAttrs })
 

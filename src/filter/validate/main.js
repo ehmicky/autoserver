@@ -19,7 +19,7 @@ export const validateFilter = function ({
     return
   }
 
-  const throwErr = getThrowErr.bind(null, { reason, prefix })
+  const throwErr = getThrowErr.bind(undefined, { reason, prefix })
 
   crawlAttrs(filter, (nodes) =>
     validateAttr({ nodes, attrs, skipConfigFuncs, throwErr }),
@@ -42,7 +42,7 @@ const validateNode = function ({
 
   const attr = getDeepAttr({ attrs, attrName, throwErr })
 
-  const throwErrA = throwErr.bind(null, attrName)
+  const throwErrA = throwErr.bind(undefined, attrName)
 
   const valueA = getSiblingValue({ node, attrs, throwErr: throwErrA })
 

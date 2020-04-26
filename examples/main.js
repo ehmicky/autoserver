@@ -18,6 +18,7 @@ const setDefaultDebug = function () {
   // eslint-disable-next-line fp/no-mutation
   inspect.defaultOptions = {
     colors: true,
+    // eslint-disable-next-line unicorn/no-null
     depth: null,
     breakLength: columns || COLUMNS_WIDTH,
   }

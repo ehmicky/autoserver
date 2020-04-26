@@ -21,7 +21,7 @@ const setModels = function ({
   const { getModels } = handlers[command.type]
   const models = getModels(action)
   return models
-    .map(findModel.bind(null, { data, metadata, dataPaths, action }))
+    .map(findModel.bind(undefined, { data, metadata, dataPaths, action }))
     .filter(({ path }) => path !== undefined)
 }
 

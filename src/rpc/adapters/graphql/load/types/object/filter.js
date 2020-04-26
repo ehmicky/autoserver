@@ -1,5 +1,6 @@
 export const filterField = function (def, opts) {
   const isFiltered = filters.some((filter) => filter(def, opts))
+  // eslint-disable-next-line unicorn/no-null
   return isFiltered ? null : def
 }
 

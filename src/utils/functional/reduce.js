@@ -16,7 +16,7 @@ const asyncReducer = function (prevVal, input) {
   const nextVal = mapFunc(prevVal, array[index], index, array)
   const inputA = { ...input, index: index + 1 }
 
-  return promiseThen(nextVal, applySecondMap.bind(null, prevVal, inputA))
+  return promiseThen(nextVal, applySecondMap.bind(undefined, prevVal, inputA))
 }
 
 const applySecondMap = function (prevVal, input, nextVal) {

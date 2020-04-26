@@ -1,6 +1,6 @@
 // Adapter feature `featureName` allows for `args[argName]`
 const getGenericValidator = function ({ argName, dbName, featureName }) {
-  const validator = genericValidator.bind(null, { argName, dbName })
+  const validator = genericValidator.bind(undefined, { argName, dbName })
   return { [featureName]: validator }
 }
 

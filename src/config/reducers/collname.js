@@ -7,4 +7,4 @@ const mapColl = function ({ collname, coll: { name = [collname] } }) {
   return { name: nameA }
 }
 
-export const normalizeClientCollname = mapColls.bind(null, mapColl)
+export const normalizeClientCollname = mapColls.bind(undefined, mapColl)

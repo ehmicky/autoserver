@@ -8,7 +8,7 @@ import { throwPb } from './props.js'
 // Wrap a function with a error handler
 // Allow passing an empty error handler, i.e. ignoring any error thrown
 const kAddErrorHandler = function (func, errorHandler = () => undefined) {
-  return errorHandledFunc.bind(null, func, errorHandler)
+  return errorHandledFunc.bind(undefined, func, errorHandler)
 }
 
 export const addErrorHandler = keepFuncProps(kAddErrorHandler)
@@ -28,7 +28,11 @@ const errorHandledFunc = function (func, errorHandler, ...args) {
 
 // Use `addErrorHandler()` with a generic error handler that rethrows
 export const addGenErrorHandler = function (func, { message, reason, extra }) {
-  const errorHandler = genErrorHandler.bind(null, { message, reason, extra })
+  const errorHandler = genErrorHandler.bind(undefined, {
+    message,
+    reason,
+    extra,
+  })
   return kAddErrorHandler(func, errorHandler)
 }
 
@@ -41,7 +45,7 @@ const genErrorHandler = function ({ message, reason, extra }, error, ...args) {
 }
 
 export const addGenPbHandler = function (func, { message, reason, extra }) {
-  const errorHandler = genPbHandler.bind(null, { reason, message, extra })
+  const errorHandler = genPbHandler.bind(undefined, { reason, message, extra })
   return kAddErrorHandler(func, errorHandler)
 }
 
@@ -55,7 +59,7 @@ const genPbHandler = function ({ message, reason, extra }, error, ...args) {
 
 // Error handler that is noop if thrown error is using our error type
 export const addCatchAllHandler = function (func, errorHandler) {
-  const errorHandlerA = catchAllHandler.bind(null, errorHandler)
+  const errorHandlerA = catchAllHandler.bind(undefined, errorHandler)
   return kAddErrorHandler(func, errorHandlerA)
 }
 
@@ -72,6 +76,6 @@ export const addCatchAllPbHandler = function (
   func,
   { message, reason, extra },
 ) {
-  const errorHandler = genPbHandler.bind(null, { message, reason, extra })
+  const errorHandler = genPbHandler.bind(undefined, { message, reason, extra })
   return addCatchAllHandler(func, errorHandler)
 }

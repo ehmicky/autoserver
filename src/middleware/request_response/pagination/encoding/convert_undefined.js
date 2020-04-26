@@ -5,5 +5,6 @@ export const convertUndefined = function (token) {
 }
 
 const convertToNull = function (value) {
+  // eslint-disable-next-line unicorn/no-null
   return value === undefined ? null : value
 }

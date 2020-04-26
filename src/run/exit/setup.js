@@ -13,7 +13,7 @@ export const setupGracefulExit = function ({
   stopProcessErrors,
   config,
 }) {
-  const exitFunc = gracefulExit.bind(null, {
+  const exitFunc = gracefulExit.bind(undefined, {
     protocolAdapters,
     dbAdapters,
     stopProcessErrors,

@@ -2,7 +2,7 @@
 // `key` can a string (the object key), an array (several object keys) or
 // a function returning a string.
 export const groupBy = function (array, key) {
-  return array.reduce(groupByReducer.bind(null, key), {})
+  return array.reduce(groupByReducer.bind(undefined, key), {})
 }
 
 const groupByReducer = function (key, groups, obj) {

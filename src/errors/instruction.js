@@ -5,7 +5,7 @@ import { getStandardError } from './standard.js'
 export const wrapInstruction = function (instructionName, instruction) {
   return addErrorHandler(
     instruction,
-    instructionHandler.bind(null, instructionName),
+    instructionHandler.bind(undefined, instructionName),
   )
 }
 

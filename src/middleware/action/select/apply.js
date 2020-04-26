@@ -45,6 +45,7 @@ const selectFieldsByModel = function ({ model, select }) {
 
 const pickAttr = function ({ model, key }) {
   // When explicitely selected, transform `undefined` to `null`
+  // eslint-disable-next-line unicorn/no-null
   const value = model[key] === undefined ? null : model[key]
   return { [key]: value }
 }

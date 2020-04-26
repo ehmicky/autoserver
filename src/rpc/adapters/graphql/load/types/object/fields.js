@@ -11,7 +11,7 @@ import { addNoAttributes } from './no_attributes.js'
 // Retrieve the fields of an object, using config definition
 export const getObjectFields = function (opts) {
   const fields = mappers.reduce(
-    reduceFields.bind(null, opts),
+    reduceFields.bind(undefined, opts),
     opts.parentDef.attributes,
   )
   const fieldsA = addNoAttributes({ fields })
@@ -21,7 +21,7 @@ export const getObjectFields = function (opts) {
 const mappers = [addCommand, getNestedColl, filterField, getFinalField]
 
 const reduceFields = function (opts, fields, mapper) {
-  const fieldsA = mapValues(fields, mapField.bind(null, { opts, mapper }))
+  const fieldsA = mapValues(fields, mapField.bind(undefined, { opts, mapper }))
   return filterObj(fieldsA, hasValue)
 }
 

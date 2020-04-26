@@ -19,6 +19,7 @@ export const transformError = function ({
   const errors = getError(error)
 
   // According to GraphQL spec, `data` should be `null` if `errors` is set
+  // eslint-disable-next-line unicorn/no-null
   return { data: null, errors, extensions: metadata }
 }
 

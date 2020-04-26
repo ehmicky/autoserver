@@ -17,4 +17,4 @@ const mapAttr = function ({ attr, config: { collections } }) {
   return { type, description }
 }
 
-export const mergeNestedColl = mapAttrs.bind(null, mapAttr)
+export const mergeNestedColl = mapAttrs.bind(undefined, mapAttr)

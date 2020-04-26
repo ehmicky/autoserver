@@ -43,7 +43,7 @@ const launchServer = async function ({
     requestHandler,
   },
 }) {
-  const getRequestInput = getInput.bind(null, { config, dbAdapters })
+  const getRequestInput = getInput.bind(undefined, { config, dbAdapters })
   const opts = protocols[protocol]
   const protocolAdapterA = await protocolAdapter.startServer({
     requestHandler,

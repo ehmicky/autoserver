@@ -17,7 +17,7 @@ const serialize = function ({ content }) {
     return content.toString()
   }
 
-  return JSON.stringify(content, null, 2)
+  return JSON.stringify(content, undefined, 2)
 }
 
 // Means this is not a structured type, like media types,

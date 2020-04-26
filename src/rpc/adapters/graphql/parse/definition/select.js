@@ -25,7 +25,9 @@ const parseSelectionSet = function ({
 
   const select = selectionSet.selections
     .filter((selection) => applyDirectives({ selection, variables }))
-    .flatMap(parseSelection.bind(null, { parentPath, variables, fragments }))
+    .flatMap(
+      parseSelection.bind(undefined, { parentPath, variables, fragments }),
+    )
   return select
 }
 

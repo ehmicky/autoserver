@@ -84,7 +84,7 @@ const eParsePreferHeader = addGenErrorHandler(parsePreferHeader, {
 const TOPARGS_INPUT = {
   silent: getSilent,
 }
-const getTopargs = mapInput.bind(null, TOPARGS_INPUT)
+const getTopargs = mapInput.bind(undefined, TOPARGS_INPUT)
 
 const INPUT = {
   method: getMethod,
@@ -94,4 +94,4 @@ const INPUT = {
   compressResponse: getCompressResponse,
   compressRequest: getCompressRequest,
 }
-export const getInput = mapInput.bind(null, INPUT)
+export const getInput = mapInput.bind(undefined, INPUT)

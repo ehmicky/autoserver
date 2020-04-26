@@ -5,7 +5,7 @@ const parse = function ({ content }) {
 
 // Serializes a JSON file
 const serialize = function ({ content }) {
-  return JSON.stringify(content, null, 2)
+  return JSON.stringify(content, undefined, 2)
 }
 
 export const json = {
