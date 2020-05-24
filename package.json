@@ -113,7 +113,7 @@
     "gulp": "^4.0.2",
     "gulp-execa": "^2.0.0",
     "husky": "^4.2.5",
-    "nodemon": "^2.0.3"
+    "nodemon": "^2.0.4"
   },
   "engines": {
     "node": ">=10.17.0"
