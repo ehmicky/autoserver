@@ -30,7 +30,7 @@ const startServer = async function () {
   try {
     const { protocols, exit } = await autoserver.run({ config: CONFIG })
     return { protocols, exit }
-  } catch (error) {
+  } catch {
     console.log('Startup error')
   }
 }

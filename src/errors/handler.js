@@ -7,7 +7,7 @@ import { throwPb } from './props.js'
 
 // Wrap a function with a error handler
 // Allow passing an empty error handler, i.e. ignoring any error thrown
-const kAddErrorHandler = function (func, errorHandler = () => undefined) {
+const kAddErrorHandler = function (func, errorHandler = () => {}) {
   return errorHandledFunc.bind(undefined, func, errorHandler)
 }
 

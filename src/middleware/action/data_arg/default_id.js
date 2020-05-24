@@ -17,9 +17,8 @@ export const addDefaultIds = function ({ datum, top: { command }, ...rest }) {
     return datum
   }
 
-  const id = handlers.reduce(
+  const id = [undefined, ...handlers].reduce(
     getIdDefault.bind(undefined, { ...rest, datum, command }),
-    undefined,
   )
 
   if (id === undefined) {
