@@ -13,7 +13,9 @@ export const validateClientCollnames = function ({ config: { collections } }) {
 }
 
 const checkCollnames = function ({ name }) {
-  name.forEach((nameA) => checkCollname({ name: nameA }))
+  name.forEach((nameA) => {
+    checkCollname({ name: nameA })
+  })
 }
 
 const checkCollname = function ({ name }) {

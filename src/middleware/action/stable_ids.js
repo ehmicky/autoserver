@@ -38,7 +38,9 @@ export const validateStableIds = function ({
   actions
     // Only for nested actions
     .filter(({ commandpath }) => commandpath.length !== 0)
-    .forEach((action) => validateAction({ action, config, top }))
+    .forEach((action) => {
+      validateAction({ action, config, top })
+    })
 }
 
 const STABLE_IDS_COMMANDS = new Set(['create', 'patch', 'upsert'])

@@ -9,7 +9,9 @@ const validateInNin = function ({ value, type, attr, throwErr }) {
     throwAttrValError({ type, throwErr }, 'an array')
   }
 
-  value.forEach((val) => validateSameType({ value: val, type, attr, throwErr }))
+  value.forEach((val) => {
+    validateSameType({ value: val, type, attr, throwErr })
+  })
 }
 
 // `{ attribute: { _in: [...] } }`

@@ -6,9 +6,9 @@ export const validatePayload = function ({ payload }) {
   const payloadA = typeof payload === 'object' ? payload : {}
   const { jsonrpc, method, id, params } = payloadA
 
-  validators.forEach((validator) =>
-    applyValidator({ validator, payload, jsonrpc, method, id, params }),
-  )
+  validators.forEach((validator) => {
+    applyValidator({ validator, payload, jsonrpc, method, id, params })
+  })
 }
 
 const applyValidator = function ({

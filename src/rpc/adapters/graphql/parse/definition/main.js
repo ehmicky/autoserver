@@ -38,7 +38,9 @@ const getArgs = function ({
 }) {
   const args = parseArgs({ mainSelection, variables })
 
-  FORBIDDEN_ARGS.forEach((argName) => validateForbiddenArg({ args, argName }))
+  FORBIDDEN_ARGS.forEach((argName) => {
+    validateForbiddenArg({ args, argName })
+  })
 
   const argsA = parseSelects({ args, selectionSet, variables, fragments })
   const argsB = addPopulate({ args: argsA, commandName })

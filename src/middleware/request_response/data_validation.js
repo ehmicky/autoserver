@@ -19,13 +19,13 @@ export const dataValidation = function ({
 
   const compiledJsonSchema = validateMap[collname]
 
-  newData.forEach((data, index) =>
+  newData.forEach((data, index) => {
     eValidate({
       compiledJsonSchema,
       data,
       extra: { mInput, currentDatum: currentData[index] },
-    }),
-  )
+    })
+  })
 }
 
 const eValidate = addGenErrorHandler(validate, {

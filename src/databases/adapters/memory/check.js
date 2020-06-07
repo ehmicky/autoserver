@@ -11,9 +11,9 @@ export const check = function ({
 
   checkSave({ options })
 
-  Object.keys(collections).forEach((collname) =>
-    checkCollection({ collname, connection }),
-  )
+  Object.keys(collections).forEach((collname) => {
+    checkCollection({ collname, connection })
+  })
 }
 
 const checkConnection = function ({ connection }) {

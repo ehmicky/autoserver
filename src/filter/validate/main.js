@@ -27,7 +27,9 @@ export const validateFilter = function ({
 }
 
 const validateAttr = function ({ nodes, ...rest }) {
-  nodes.forEach((node) => validateNode({ node, operations: nodes, ...rest }))
+  nodes.forEach((node) => {
+    validateNode({ node, operations: nodes, ...rest })
+  })
 }
 
 const validateNode = function ({
@@ -76,7 +78,7 @@ const validateValue = function ({
   }
 
   if (attrValidate !== undefined) {
-    Object.entries(attrValidate).forEach(([keyword, ruleVal]) =>
+    Object.entries(attrValidate).forEach(([keyword, ruleVal]) => {
       validators[keyword]({
         type,
         value,
@@ -84,8 +86,8 @@ const validateValue = function ({
         validation: attrValidate,
         operations,
         throwErr,
-      }),
-    )
+      })
+    })
   }
 }
 

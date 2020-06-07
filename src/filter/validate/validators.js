@@ -12,9 +12,9 @@ const validateEnum = function ({ type, value, ruleVal, throwErr }) {
   }
 
   if (Array.isArray(value)) {
-    return value.forEach((val) =>
-      validateEnumVal({ ruleVal, value: val, throwErr }),
-    )
+    return value.forEach((val) => {
+      validateEnumVal({ ruleVal, value: val, throwErr })
+    })
   }
 
   validateEnumVal({ ruleVal, value, throwErr })
@@ -40,9 +40,9 @@ const validateRequires = function ({
 }) {
   const enumVals = getEnum({ operations, possVals })
 
-  ruleVal.forEach(([ifVal, thenVal]) =>
-    validateRequirePair({ ifVal, thenVal, enumVals, throwErr }),
-  )
+  ruleVal.forEach(([ifVal, thenVal]) => {
+    validateRequirePair({ ifVal, thenVal, enumVals, throwErr })
+  })
 }
 
 // For operations allowing only `_eq`, `_in`, `_nin`, `_neq`, normalize to `_in`

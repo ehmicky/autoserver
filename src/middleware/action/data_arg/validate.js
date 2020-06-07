@@ -21,14 +21,14 @@ export const validateData = function ({
 
   validateForbiddenId({ datum, commandpath: commandpathA, command })
 
-  Object.entries(datum).forEach(([attrName, value]) =>
+  Object.entries(datum).forEach(([attrName, value]) => {
     validateDataValue({
       value,
       attrName,
       commandpath: commandpathA,
       maxAttrValueSize,
-    }),
-  )
+    })
+  })
 }
 
 const validateType = function ({ datum, commandpath }) {

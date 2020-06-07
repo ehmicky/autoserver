@@ -7,7 +7,9 @@ import { validateToken } from './token.js'
 
 // Validate pagination input arguments
 export const validatePaginationInput = function ({ args, topargs, token }) {
-  validators.forEach((validator) => validator({ args, topargs, token }))
+  validators.forEach((validator) => {
+    validator({ args, topargs, token })
+  })
 }
 
 // eslint-disable-next-line complexity
@@ -44,7 +46,9 @@ const validateBothDirection = function ({ args }) {
 }
 
 const validateSameTopargs = function ({ topargs, token }) {
-  SAME_ARGS.forEach((name) => validateSameToparg({ topargs, token, name }))
+  SAME_ARGS.forEach((name) => {
+    validateSameToparg({ topargs, token, name })
+  })
 }
 
 const validateSameToparg = function ({ topargs, token, name }) {

@@ -1,6 +1,8 @@
 // Upsert models
 export const upsert = function ({ collection, newData }) {
-  newData.forEach((datum) => upsertOne({ collection, datum }))
+  newData.forEach((datum) => {
+    upsertOne({ collection, datum })
+  })
 }
 
 const upsertOne = function ({ collection, datum }) {

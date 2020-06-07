@@ -21,7 +21,9 @@ export const setupGracefulExit = function ({
   })
 
   const exitSignals = getExitSignals()
-  exitSignals.forEach((exitSignal) => process.on(exitSignal, exitFunc))
+  exitSignals.forEach((exitSignal) => {
+    process.on(exitSignal, exitFunc)
+  })
 
   return { exitFunc }
 }

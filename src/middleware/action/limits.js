@@ -10,7 +10,9 @@ import { getColl } from './get_coll.js'
 export const validateRequestLimits = function ({ config, mInput }) {
   const limits = getLimits({ config })
 
-  validators.forEach((validator) => validator({ ...mInput, limits }))
+  validators.forEach((validator) => {
+    validator({ ...mInput, limits })
+  })
 }
 
 const validateMaxActions = function ({ limits: { maxActions }, actions }) {

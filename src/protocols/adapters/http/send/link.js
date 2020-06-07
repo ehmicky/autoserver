@@ -41,7 +41,9 @@ const getLinkUrl = function ({ pages, name, cursorName, url }) {
     return
   }
 
-  CURSOR_NAMES.forEach((cursorNameA) => url.searchParams.delete(cursorNameA))
+  CURSOR_NAMES.forEach((cursorNameA) => {
+    url.searchParams.delete(cursorNameA)
+  })
 
   url.searchParams.set(cursorName, token)
 

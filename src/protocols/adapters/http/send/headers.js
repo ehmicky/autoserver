@@ -66,7 +66,9 @@ const getAllow = function ({ data: { allowed } }) {
 const setAllHeaders = function (res, headers) {
   Object.entries(headers)
     .filter(([, value]) => value !== undefined)
-    .forEach(([name, value]) => res.setHeader(name, value))
+    .forEach(([name, value]) => {
+      res.setHeader(name, value)
+    })
 }
 
 // `Vary` HTTP header

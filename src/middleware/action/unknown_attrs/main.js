@@ -8,7 +8,9 @@ import { validateAllAttr } from './all.js'
 // Also validate special key 'all'
 // `args.cascade` is not validated because already previously checked.
 export const validateUnknownAttrs = function ({ actions, config }) {
-  actions.forEach((action) => validateAction({ action, config }))
+  actions.forEach((action) => {
+    validateAction({ action, config })
+  })
 }
 
 const validateAction = function ({ action, config }) {

@@ -7,9 +7,12 @@ import { throwPb } from './props.js'
 
 // Wrap a function with a error handler
 // Allow passing an empty error handler, i.e. ignoring any error thrown
-const kAddErrorHandler = function (func, errorHandler = () => {}) {
+const kAddErrorHandler = function (func, errorHandler = noop) {
   return errorHandledFunc.bind(undefined, func, errorHandler)
 }
+
+// eslint-disable-next-line no-empty-function
+const noop = function () {}
 
 export const addErrorHandler = keepFuncProps(kAddErrorHandler)
 

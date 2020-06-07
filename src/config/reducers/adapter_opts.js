@@ -5,9 +5,9 @@ import { validate } from '../../validation/validate.js'
 
 // Validates `database.DATABASE.*`, `protocols.PROTOCOL.*` and `log.LOG.*`
 export const validateAdaptersOpts = function ({ opts, adaptersOpts, key }) {
-  Object.entries(opts).forEach(([name, optsA]) =>
-    validateAdapterOpts({ name, opts: optsA, adaptersOpts, key }),
-  )
+  Object.entries(opts).forEach(([name, optsA]) => {
+    validateAdapterOpts({ name, opts: optsA, adaptersOpts, key })
+  })
 }
 
 const validateAdapterOpts = function ({ name, opts, adaptersOpts, key }) {
