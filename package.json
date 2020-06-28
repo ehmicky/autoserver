@@ -83,7 +83,7 @@
     "keep-func-props": "^3.0.0",
     "li": "^1.3.0",
     "log-process-errors": "^6.1.1",
-    "moize": "^5.4.6",
+    "moize": "^5.4.7",
     "mongodb": "^3.5.7",
     "mustache": "^2.3.2",
     "negotiator": "^0.6.2",
