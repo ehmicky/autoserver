@@ -16,7 +16,10 @@ const transformArgs = function ([{ config: { validation = {} } = {} }]) {
   return Object.keys(validation).join(',')
 }
 
-export const getCustomValidator = moize(mGetCustomValidator, { transformArgs })
+export const getCustomValidator = moize(mGetCustomValidator, {
+  transformArgs,
+  maxSize: 1e3,
+})
 
 const addCustomKeyword = function (
   validatorA,

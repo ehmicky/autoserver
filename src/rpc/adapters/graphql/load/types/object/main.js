@@ -35,4 +35,5 @@ const transformArgs = function ([def, opts]) {
 
 export const graphqlObjectTGetter = moize(mGraphqlObjectTGetter, {
   transformArgs,
+  maxSize: Infinity,
 })

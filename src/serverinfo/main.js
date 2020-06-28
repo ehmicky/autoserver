@@ -16,4 +16,7 @@ const mGetServerinfo = function ({ config: { name: processName } = {} }) {
 }
 
 // Speed up memoization because serializing `config` is slow
-export const getServerinfo = moize(mGetServerinfo, { transformArgs: () => pid })
+export const getServerinfo = moize(mGetServerinfo, {
+  transformArgs: () => pid,
+  maxSize: 1e3,
+})
