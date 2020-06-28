@@ -28,35 +28,25 @@ const getCliInstruction = function ({
 // Iterate over instruction options
 const getBuilder = function ({
   instruction,
-  instruction: { describe: desc, options = {} },
+  instruction: { examples, describe: desc, options = {} },
   yargs,
 }) {
-  const yargsA = addInstructionExamples({ instruction, yargs })
-  const yargsB = yargsA
+  const yargsA = yargs
     // Instruction --help header
     .usage(desc)
     // Non-positional arguments
     .option(options)
+    // Add examples in instruction-level --help
+    .example(examples)
     // Positional arguments
     .positional('instruction', INSTRUCTION_OPT)
-  const yargsC = addPositionalArgs({ instruction, yargs: yargsB })
-  return yargsC
+  const yargsB = addPositionalArgs({ instruction, yargs: yargsA })
+  return yargsB
 }
 
 const INSTRUCTION_OPT = {
   type: 'string',
   default: 'run',
-}
-
-// Add examples in instruction-level --help
-const addInstructionExamples = function ({
-  instruction: { name, examples = [] },
-  yargs,
-}) {
-  return examples.reduce(
-    (yargsA, [desc, usageA]) => yargsA.example(`$0 ${name} ${usageA}`, desc),
-    yargs,
-  )
 }
 
 const addPositionalArgs = function ({ instruction: { args = [] }, yargs }) {

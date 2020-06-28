@@ -4,7 +4,7 @@ const runInstruction = {
   name: 'run',
   aliases: '*',
   describe: 'Start the server.',
-  examples: [['Start the server', '--protocols.http.port=5001']],
+  examples: [['$0 run --protocols.http.port=5001', 'Start the server']],
   args: [
     // This is actually not a positional argument, but meant only
     // for --help output
