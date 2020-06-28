@@ -15,9 +15,9 @@ export const report = function ({ log, opts: { method = 'POST', ...opts } }) {
   const req = getRequest({ method: methodA, body, ...opts })
 
   // eslint-disable-next-line promise/avoid-new
-  const promise = new Promise((resolve, reject) =>
-    reqToPromise({ req, resolve, reject }),
-  )
+  const promise = new Promise((resolve, reject) => {
+    reqToPromise({ req, resolve, reject })
+  })
 
   req.end(body)
 
