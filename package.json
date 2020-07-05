@@ -68,7 +68,7 @@
     "ajv": "^6.12.3",
     "ajv-keywords": "^3.5.0",
     "bytes": "^3.1.0",
-    "chalk": "^4.0.0",
+    "chalk": "^4.1.0",
     "compressible": "^2.0.18",
     "content-type": "^1.0.4",
     "core-js": "^3.6.5",
