@@ -23,7 +23,7 @@ const getMainSelection = function ({
   },
   variables,
 }) {
-  const [mainSelection] = selections.filter((selection) =>
+  const mainSelection = selections.find((selection) =>
     applyDirectives({ selection, variables }),
   )
   return mainSelection

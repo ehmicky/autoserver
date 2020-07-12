@@ -25,9 +25,9 @@ export const validateRuntimeFeatures = function (
 const getErrorMessage = function ({ args, args: { filter }, features }) {
   const filterFeatures = getFeatures({ filter })
 
-  const [messageA] = difference(FEATURES, features)
+  const messageA = difference(FEATURES, features)
     .map((feature) => checkFeature({ feature, features, args, filterFeatures }))
-    .filter((message) => message !== undefined)
+    .find((message) => message !== undefined)
   return messageA
 }
 
