@@ -99,7 +99,7 @@
     "signal-exit": "^3.0.3",
     "type-is": "^1.6.18",
     "underscore.string": "^3.3.5",
-    "update-notifier": "^4.1.0",
+    "update-notifier": "^4.1.1",
     "uuid": "^8.3.0",
     "vary": "^1.1.2",
     "yargs": "^15.4.1"
