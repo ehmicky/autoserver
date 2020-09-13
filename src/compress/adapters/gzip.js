@@ -1,8 +1,8 @@
 import { promisify } from 'util'
-import zlib from 'zlib'
+import { gzip as zlibGzip, gunzip as zlibGunzip } from 'zlib'
 
-const pGzip = promisify(zlib.gzip)
-const pGunzip = promisify(zlib.gunzip)
+const pGzip = promisify(zlibGzip)
+const pGunzip = promisify(zlibGunzip)
 
 // Compress to Gzip
 const compress = function (content) {

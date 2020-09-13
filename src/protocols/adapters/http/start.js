@@ -1,4 +1,4 @@
-import http from 'http'
+import { createServer } from 'http'
 import { promisify } from 'util'
 
 // Start HTTP server
@@ -8,7 +8,7 @@ export const startServer = function ({
   handleRequest,
 }) {
   // Create server
-  const server = http.createServer()
+  const server = createServer()
   const promise = waitForConnection({ server })
 
   // In development, Nodemon restarts the server.

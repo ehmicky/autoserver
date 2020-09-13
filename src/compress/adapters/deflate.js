@@ -1,8 +1,8 @@
 import { promisify } from 'util'
-import zlib from 'zlib'
+import { deflate as zlibDeflate, inflate as zlibInflate } from 'zlib'
 
-const pDeflate = promisify(zlib.deflate)
-const pInflate = promisify(zlib.inflate)
+const pDeflate = promisify(zlibDeflate)
+const pInflate = promisify(zlibInflate)
 
 // Compress to Deflate
 const compress = function (content) {
