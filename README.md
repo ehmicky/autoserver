@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/ehmicky/design/master/autoserver/autoserver.svg?sanitize=true" width="500"/>
+<img src="https://raw.githubusercontent.com/ehmicky/design/main/autoserver/autoserver.svg?sanitize=true" width="500"/>
 
 [![Build](https://github.com/ehmicky/autoserver/workflows/Build/badge.svg)](https://github.com/ehmicky/autoserver/actions)
 [![Node](https://img.shields.io/node/v/autoserver.svg?logo=node.js)](https://www.npmjs.com/package/autoserver)
