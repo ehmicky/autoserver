@@ -18,7 +18,7 @@ export const getHeaders = function ({
   return headersC
 }
 
-// Whitelisted headers
+// Allowed headers
 const HEADER_NAMES = ['x-autoserver-params']
 
 // Remove prefix

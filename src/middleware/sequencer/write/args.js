@@ -43,7 +43,7 @@ export const handlers = {
   delete: { getModels: useCurrentData, getArg: setDeletedIds },
 }
 
-// Reuse some whitelisted top-level arguments
+// Reuse some allowed top-level arguments
 const applyTopargs = function ({ args, topargs }) {
   const topargsA = filterObj(topargs, ['dryrun'])
   return { ...topargsA, ...args }

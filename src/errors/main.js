@@ -19,7 +19,7 @@ export const createError = function (message, opts = {}) {
 
 // Make sure signature is correct
 const validateError = function (opts) {
-  // Check whitelisted options
+  // Check allowed options
   const optsKeys = Object.keys(opts)
   const nonAllowedOpts = difference(optsKeys, ALLOWED_OPTS)
 
