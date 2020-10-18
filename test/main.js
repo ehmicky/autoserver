@@ -5,6 +5,8 @@ import execa from 'execa'
 import { getBinPath } from 'get-bin-path'
 import got from 'got'
 
+// TODO: replace with `timers/promises` `setTimeout()` after dropping support
+// for Node <15.0.0
 const pSetTimeout = promisify(setTimeout)
 
 const EXAMPLE_DIR = `${__dirname}/../../examples`
