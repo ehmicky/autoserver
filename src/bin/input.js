@@ -24,9 +24,6 @@ const parseOpts = function () {
       .demandCommand(1, 1)
       // --help option
       .usage(USAGE)
-      .help()
-      // --version option
-      .version()
       // Auto-suggests correction on typos
       .recommendCommands()
       .parse()
