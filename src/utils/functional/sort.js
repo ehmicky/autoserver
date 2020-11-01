@@ -1,27 +1,21 @@
+import sortOn from 'sort-on'
+
 // Like array.sort() but does not mutate argument
 export const sortArray = function (array, func) {
   // eslint-disable-next-line fp/no-mutating-methods
   return [...array].sort(func)
 }
 
-// Like Lodash order() but faster, and using the same format we use in `order`
-export const sortBy = function (array, order) {
-  return sortArray(array, (objA, objB) => sortByFunc({ objA, objB, order }))
+export const sortByAttributes = function (array, order) {
+  return sortOn(array, order.map(getSortAttribute))
 }
 
-const sortByFunc = function ({ objA, objB, order }) {
-  const orderPart = order.find(
-    ({ attrName: attrNameA }) => objA[attrNameA] !== objB[attrNameA],
-  )
-
-  if (orderPart === undefined) {
-    return 0
+const getSortAttribute = function ({ attrName, dir }) {
+  if (dir === 'desc') {
+    return `-${attrName}`
   }
 
-  const { attrName, dir } = orderPart
-  const compResult = objA[attrName] < objB[attrName] ? -1 : 1
-  const compResultA = dir === 'desc' ? compResult * -1 : compResult
-  return compResultA
+  return attrName
 }
 
 // Compare two arrays, element by element
