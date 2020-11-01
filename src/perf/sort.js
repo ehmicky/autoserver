@@ -1,30 +1,12 @@
+import sortOn from 'sort-on'
+
 // Sort by category (asc) then by duration (desc)
-export const sortMeasures = function (
-  { category: catA, average: timeA },
-  { category: catB, average: timeB },
-) {
-  const compNum = sortByCategory({ catA, catB })
-
-  if (compNum !== 0) {
-    return compNum
-  }
-
-  return sortByTime({ timeA, timeB })
+export const sortMeasures = function (measuresGroups) {
+  return sortOn(measuresGroups, [getCategoryIndex, '-average'])
 }
 
-const sortByCategory = function ({ catA, catB }) {
-  const indexCatA = CATEGORIES.indexOf(catA)
-  const indexCatB = CATEGORIES.indexOf(catB)
-
-  if (indexCatA < indexCatB) {
-    return -1
-  }
-
-  if (indexCatA > indexCatB) {
-    return 1
-  }
-
-  return 0
+const getCategoryIndex = function ({ category }) {
+  return CATEGORIES.indexOf(category)
 }
 
 // Order matters, as console printing uses it for sorting
@@ -49,15 +31,3 @@ const CATEGORIES = [
   'response',
   'final',
 ]
-
-const sortByTime = function ({ timeA, timeB }) {
-  if (timeA < timeB) {
-    return 1
-  }
-
-  if (timeA > timeB) {
-    return -1
-  }
-
-  return 0
-}
