@@ -49,6 +49,6 @@ const FAILURE_STATUS_CODE = 500
 // Set response's HTTP status code
 export const setStatusCode = function ({ res, reason }) {
   const statuscode = STATUS_CODE_MAP[reason] || FAILURE_STATUS_CODE
-  // eslint-disable-next-line no-param-reassign, fp/no-mutation
+  // eslint-disable-next-line no-param-reassign
   res.statusCode = statuscode
 }

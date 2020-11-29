@@ -75,7 +75,7 @@ const checkError = function ({ error, commandpath, attrName, patchOp }) {
   )}': `
 
   if (error instanceof Error) {
-    // eslint-disable-next-line fp/no-mutation, no-param-reassign
+    // eslint-disable-next-line no-param-reassign
     error.message = `${prefix}${error.message}`
     throw error
   }
