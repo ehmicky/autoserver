@@ -101,7 +101,7 @@
     "type-is": "^1.6.18",
     "underscore.string": "^3.3.5",
     "update-notifier": "^5.0.1",
-    "uuid": "^8.3.1",
+    "uuid": "^8.3.2",
     "vary": "^1.1.2",
     "yargs": "^16.1.1"
   },
