@@ -1,19 +1,17 @@
 import { EXTENSIONS } from '../formats/info.js'
 
 const runInstruction = {
-  name: 'run',
+  command: 'run',
   aliases: '*',
   describe: 'Start the server.',
   examples: [['$0 run --protocols.http.port=5001', 'Start the server']],
-  args: [
-    // This is actually not a positional argument, but meant only
-    // for --help output
-    {
-      name: 'options',
-      describe: `Any config property, dot-separated.
+  // This is actually not a positional argument, but meant only
+  // for --help output
+  arg: {
+    name: 'options',
+    describe: `Any config property, dot-separated.
 For example: --protocols.http.port=5001`,
-    },
-  ],
+  },
   options: {
     config: {
       type: 'string',

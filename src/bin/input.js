@@ -17,7 +17,7 @@ export const parseInput = monitor(mParseInput, 'cli')
 
 // CLI options parsing
 const parseOpts = function () {
-  const yargsA = addInstructions({ yargs })
+  const yargsA = addInstructions(yargs)
   return (
     yargsA
       // There should be a single instruction, or none (default one)

@@ -30,7 +30,7 @@ const getInstruction = function ({
   posArgs: [instruction, ...posArgsA] = [],
 }) {
   const validInstruction = availableInstructions.some(
-    ({ name }) => name === instruction,
+    ({ command }) => command === instruction,
   )
 
   if (validInstruction) {

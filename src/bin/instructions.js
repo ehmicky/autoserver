@@ -1,57 +1,30 @@
 import { availableInstructions } from './available.js'
 
 // Iterate over `availableOptions` to add all instructions
-export const addInstructions = function ({ yargs }) {
-  return availableInstructions.reduce(
-    (yargsA, instruction) => addInstruction({ yargs: yargsA, instruction }),
-    yargs,
-  )
+export const addInstructions = function (yargs) {
+  return yargs.command(availableInstructions.map(getInstruction))
 }
 
-const addInstruction = function ({ yargs, instruction }) {
-  const cliInstruction = getCliInstruction({ instruction })
-  return yargs.command(cliInstruction)
-}
-
-const getCliInstruction = function ({
-  instruction,
-  instruction: { name, aliases, describe: desc },
+const getInstruction = function ({
+  command,
+  aliases,
+  describe,
+  arg: { name: argName, ...argOpts },
+  examples,
+  options,
 }) {
   return {
-    command: name,
+    command,
     aliases,
-    describe: desc,
-    builder: (yargs) => getBuilder({ instruction, yargs }),
+    describe,
+    builder: (commandYargs) =>
+      commandYargs
+        .usage(describe)
+        .option(options)
+        .example(examples)
+        .positional('instruction', INSTRUCTION_OPT)
+        .positional(argName, argOpts),
   }
 }
 
-// Iterate over instruction options
-const getBuilder = function ({
-  instruction,
-  instruction: { examples, describe: desc, options = {} },
-  yargs,
-}) {
-  const yargsA = yargs
-    // Instruction --help header
-    .usage(desc)
-    // Non-positional arguments
-    .option(options)
-    // Add examples in instruction-level --help
-    .example(examples)
-    // Positional arguments
-    .positional('instruction', INSTRUCTION_OPT)
-  const yargsB = addPositionalArgs({ instruction, yargs: yargsA })
-  return yargsB
-}
-
-const INSTRUCTION_OPT = {
-  type: 'string',
-  default: 'run',
-}
-
-const addPositionalArgs = function ({ instruction: { args = [] }, yargs }) {
-  return args.reduce(
-    (yargsA, { name, ...arg }) => yargsA.positional(name, arg),
-    yargs,
-  )
-}
+const INSTRUCTION_OPT = { type: 'string', default: 'run' }
