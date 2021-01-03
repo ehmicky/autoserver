@@ -25,7 +25,7 @@ export const paginateResults = function ({
   const nestedAttrs = getNestedAttrs({ childActions })
   const nestedPagesize = getNestedPagesize({ results, nestedAttrs, maxmodels })
 
-  if (nestedPagesize === Infinity) {
+  if (nestedPagesize === Number.POSITIVE_INFINITY) {
     return
   }
 
@@ -39,7 +39,9 @@ const shouldPaginateResults = function ({ maxmodels, top, isTopLevel }) {
   // Only depth level 2 is paginated, since deeper levels cannot use findMany
   // commands
   return (
-    isTopLevel && maxmodels !== Infinity && COMMAND_TYPES.has(top.command.type)
+    isTopLevel &&
+    maxmodels !== Number.POSITIVE_INFINITY &&
+    COMMAND_TYPES.has(top.command.type)
   )
 }
 

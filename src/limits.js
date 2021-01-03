@@ -52,7 +52,7 @@ const getConfigLimits = function ({ config }) {
 const getPagesize = function ({ limits: { pagesize } }) {
   // `pagesize` `0` disables pagination
   if (pagesize === 0) {
-    return Infinity
+    return Number.POSITIVE_INFINITY
   }
 
   return pagesize
@@ -69,7 +69,7 @@ const getMaxmodels = function ({ limits: { maxmodels }, pagesize }) {
 
   // `maxmodels` `0` disables it
   if (maxmodels === 0) {
-    return Infinity
+    return Number.POSITIVE_INFINITY
   }
 
   return maxmodels

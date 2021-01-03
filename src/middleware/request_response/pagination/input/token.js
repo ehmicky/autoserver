@@ -51,5 +51,5 @@ const TOKEN_TESTS = [
   ({ filter }) =>
     filter === undefined || filter === null || typeof filter === 'object',
 
-  ({ parts }) => Array.isArray(parts) && parts.length > 0,
+  ({ parts }) => Array.isArray(parts) && parts.length !== 0,
 ]

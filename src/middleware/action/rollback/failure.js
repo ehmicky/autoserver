@@ -22,7 +22,6 @@ const addRollbackFailures = function ({ error, results }) {
     .map(({ message }) => message)
     .join('\n')
 
-  // eslint-disable-next-line no-param-reassign
   error.extra.rollback_failures = rollbackFailuresA
   return error
 }

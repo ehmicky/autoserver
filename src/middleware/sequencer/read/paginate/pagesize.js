@@ -49,7 +49,7 @@ const findNestedPagesize = function ({
 }) {
   // No nested pagination needed to be under `maxmodels` limit
   if (nestedLengths.length === 0) {
-    return Infinity
+    return Number.POSITIVE_INFINITY
   }
 
   // Guess how many models would be added by incrementing `nestedPagesize`

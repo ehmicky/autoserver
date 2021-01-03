@@ -67,7 +67,7 @@ const evalOrAnd = function (
   }
 
   const valueB = valueA.filter((val) => typeof val !== 'boolean')
-  const hasPartialNodes = valueB.length > 0
+  const hasPartialNodes = valueB.length !== 0
 
   if (hasPartialNodes) {
     return simplifyNode({ type: operator, value: valueB })
