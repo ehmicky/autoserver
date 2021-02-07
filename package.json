@@ -91,7 +91,7 @@
     "parse-prefer-header": "^1.0.0",
     "path-to-regexp": "^6.2.0",
     "pluralize": "^8.0.0",
-    "qs": "^6.9.4",
+    "qs": "^6.9.6",
     "raw-body": "^2.4.1",
     "read-pkg-up": "^7.0.1",
     "request-ip": "^2.1.3",
