@@ -45,7 +45,7 @@ const fillLength = function (arr, childKey) {
     return arr
   }
 
-  const extraArr = new Array(childKey - arr.length).fill()
+  const extraArr = Array.from({ length: childKey - arr.length })
   return [...arr, ...extraArr]
 }
 

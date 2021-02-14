@@ -20,6 +20,7 @@ export const validate = function ({ compiledJsonSchema, data, extra = {} }) {
 // Report validation errors by throwing an exception
 const reportErrors = function ({ errors }) {
   // Retrieve error message as string, from error objects
+  // eslint-disable-next-line promise/prefer-await-to-callbacks
   const message = errors.map((error) => getErrorMessage({ error })).join('\n')
 
   throw new Error(message)

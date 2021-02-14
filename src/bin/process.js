@@ -71,7 +71,7 @@ const parseArray = function (value) {
 
   const indexes = arrA.map(([index]) => index)
   const length = Math.max(...indexes)
-  const arrB = new Array(length).fill()
+  const arrB = Array.from({ length })
 
   const arrC = arrA.reduce(addArrayValue, arrB)
   return arrC

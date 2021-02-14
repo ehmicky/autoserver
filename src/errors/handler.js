@@ -22,7 +22,8 @@ const errorHandledFunc = function (func, errorHandler, ...args) {
 
     // eslint-disable-next-line promise/prefer-await-to-then
     return retVal && typeof retVal.then === 'function'
-      ? retVal.catch((error) => errorHandler(error, ...args))
+      ? // eslint-disable-next-line promise/prefer-await-to-callbacks
+        retVal.catch((error) => errorHandler(error, ...args))
       : retVal
   } catch (error) {
     return errorHandler(error, ...args)
