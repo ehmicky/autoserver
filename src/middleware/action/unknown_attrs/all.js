@@ -12,7 +12,7 @@ export const validateAllAttr = function ({
     return
   }
 
-  const hasAllAttr = select.some((key) => key === 'all')
+  const hasAllAttr = select.includes('all')
 
   if (!hasAllAttr) {
     return

@@ -31,7 +31,7 @@ const selectFieldsByModel = function ({ model, select }) {
   }
 
   // Using 'all' means all fields are returned
-  const hasAllAttr = select.some((key) => key === 'all')
+  const hasAllAttr = select.includes('all')
 
   if (hasAllAttr) {
     return model

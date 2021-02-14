@@ -60,7 +60,7 @@ const evalOrAnd = function (
     evalFilter({ attrs, filter, partialNames }),
   )
 
-  const hasSomeFalse = valueA.some((val) => val === operatorMap.some)
+  const hasSomeFalse = valueA.includes(operatorMap.some)
 
   if (hasSomeFalse) {
     return operatorMap.some
