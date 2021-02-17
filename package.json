@@ -3,8 +3,7 @@
   "version": "0.5.0",
   "main": "build/src/main.js",
   "files": [
-    "build/src",
-    "!*~"
+    "build/src/**/*.{js,ts,map,json,sh,md,mustache}"
   ],
   "bin": {
     "autoserver": "build/src/bin/main.js"
