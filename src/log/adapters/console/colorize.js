@@ -1,4 +1,6 @@
-import { magenta, green, yellow, red, gray, reset, dim } from 'chalk'
+import colorsOption from 'colors-option'
+
+const { magenta, green, yellow, red, gray, reset, dim } = colorsOption()
 
 // Colorize a standard error message
 // Not performed if terminal does not support colors
