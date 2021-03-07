@@ -13,7 +13,7 @@ const EXAMPLE_DIR = `${__dirname}/../../examples`
 
 test('Smoke test', async (t) => {
   const binPath = await getBinPath()
-  const server = execa(binPath, {
+  const server = execa('node', ['--no-warnings', binPath], {
     env: { NODE_ENV: 'dev' },
     cwd: EXAMPLE_DIR,
     reject: false,
