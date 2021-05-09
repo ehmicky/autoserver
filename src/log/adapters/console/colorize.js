@@ -24,12 +24,14 @@ export const colorize = function ({ log: { event, level }, consoleMessage }) {
   return colorMessage
 }
 
+/* jscpd:ignore-start */
 // Look for [...] [...] [...] [...] [...] ([...]) ... - ...
 const MESSAGE_REGEXP =
   /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) (.*) (- .*)/su
 // Look for [...] [...] [...] [...] [...] ([...]) ...
 const SHORTMESSAGE_REXEXP =
   /^(\[[^\]]*\] \[[^\]]*\]) (\[[^\]]*\] \[[^\]]*\] \[[^\]]*\] (\[[^\]]*\])?) (.*)/su
+/* jscpd:ignore-end */
 
 // Make it easy to read stack trace with color hints
 const colorStack = function ({ stack }) {
