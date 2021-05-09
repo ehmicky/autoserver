@@ -43,8 +43,9 @@ const oneTypeValidators = {
 }
 
 const getManyTypeValidators = function () {
-  return mapValues(oneTypeValidators, (validator) => (value) =>
-    Array.isArray(value) && value.every(validator),
+  return mapValues(
+    oneTypeValidators,
+    (validator) => (value) => Array.isArray(value) && value.every(validator),
   )
 }
 

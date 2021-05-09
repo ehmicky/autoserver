@@ -5,13 +5,8 @@ import { getLimits } from '../../limits.js'
 
 // Validates `limits`
 export const validateLimits = function ({ config }) {
-  const {
-    maxpayload,
-    minMaxpayload,
-    maxmodels,
-    pagesize,
-    maxActions,
-  } = getLimits({ config })
+  const { maxpayload, minMaxpayload, maxmodels, pagesize, maxActions } =
+    getLimits({ config })
 
   validateMaxpayload({ maxpayload, minMaxpayload })
 

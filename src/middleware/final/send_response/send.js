@@ -29,15 +29,13 @@ export const send = async function ({
     error,
   })
 
-  const {
-    content: contentB,
-    compressResponse: compressResponseA,
-  } = await compressContent({
-    content: contentA,
-    compressResponse,
-    type,
-    contentType,
-  })
+  const { content: contentB, compressResponse: compressResponseA } =
+    await compressContent({
+      content: contentA,
+      compressResponse,
+      type,
+      contentType,
+    })
 
   const reason = getReason(error)
 

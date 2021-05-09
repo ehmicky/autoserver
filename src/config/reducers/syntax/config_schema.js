@@ -629,8 +629,7 @@ export const SCHEMA = {
           $ref: '#/definitions/jsonSchema/definitions/nonNegativeInteger',
         },
         minLength: {
-          $ref:
-            '#/definitions/jsonSchema/definitions/nonNegativeIntegerDefault0',
+          $ref: '#/definitions/jsonSchema/definitions/nonNegativeIntegerDefault0',
         },
         pattern: {
           type: 'string',
@@ -654,8 +653,7 @@ export const SCHEMA = {
           $ref: '#/definitions/jsonSchema/definitions/nonNegativeInteger',
         },
         minItems: {
-          $ref:
-            '#/definitions/jsonSchema/definitions/nonNegativeIntegerDefault0',
+          $ref: '#/definitions/jsonSchema/definitions/nonNegativeIntegerDefault0',
         },
         uniqueItems: {
           type: 'boolean',
