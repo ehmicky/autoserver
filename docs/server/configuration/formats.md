@@ -16,10 +16,12 @@ Most of the examples in this documentation use
 
 # JavaScript
 
+<!-- eslint-disable import/no-anonymous-default-export, import/no-default-export -->
+
 ```js
 // Comment
 
-module.exports = {
+export default {
   limits: {
     pagesize: 10,
   },

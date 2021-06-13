@@ -22,12 +22,12 @@ created. Their parameters are read-only.
 Functions are regular JavaScript files exporting a function and required using a
 [reference](references.md).
 
+<!-- eslint-disable import/no-default-export -->
+
 ```js
-const getDefaultValue = function () {
+export default function getDefaultValue() {
   return Math.random()
 }
-
-module.exports = getDefaultValue
 ```
 
 and in the [configuration](configuration.md):
@@ -76,12 +76,12 @@ with information about the current context.
 
 In the example below, the `timestamp` parameter is used.
 
+<!-- eslint-disable import/no-default-export -->
+
 ```js
-const getDefaultValue = function ({ timestamp }) {
+export default function getDefaultValue({ timestamp }) {
   return timestamp
 }
-
-module.exports = getDefaultValue
 ```
 
 Parameters can be also be used when the function is inline.
@@ -218,14 +218,12 @@ params:
   $secret_password: admin
 ```
 
-<!-- eslint-disable id-match -->
+<!-- eslint-disable id-match, import/no-default-export -->
 
 ```js
-const getDefaultValue = function ({ $secret_password }) {
+export default function getDefaultValue({ $secret_password }) {
   return $secret_password === 'admin' ? 1 : 0
 }
-
-module.exports = getDefaultValue
 ```
 
 Server-specific parameters can be functions themselves:
