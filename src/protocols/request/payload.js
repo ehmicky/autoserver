@@ -50,7 +50,7 @@ const parseRawPayload = async function ({
 
   const payloadB = eDecodeCharset({ content: payloadA, charset })
 
-  const payloadC = eParseContent({ payload: payloadB, format })
+  const payloadC = await eParseContent({ payload: payloadB, format })
 
   // `payloadsize` and `payloadcount` parameters
   const sumParams = getSumParams({ attrName: 'payload', value: payloadC })
@@ -82,8 +82,8 @@ const eDecodeCharset = addGenPbHandler(decodeCharset, {
 })
 
 // Parse content, e.g. JSON/YAML parsing
-const parseContent = function ({ format, payload }) {
-  return format.parseContent(payload)
+const parseContent = async function ({ format, payload }) {
+  return await format.parseContent(payload)
 }
 
 const parseContentHandler = function (error, { payload, format }) {

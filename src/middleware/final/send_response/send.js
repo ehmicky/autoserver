@@ -21,7 +21,7 @@ export const send = async function ({
 
   const contentType = getContentType({ format: formatA, type })
 
-  const contentA = serializeContent({
+  const contentA = await serializeContent({
     format: formatA,
     content,
     type,

@@ -9,13 +9,13 @@ import { parseContent, serializeContent } from './content.js'
 export const parseFile = async function (format, path, { compat }) {
   const content = await fs.readFile(path, 'utf8')
 
-  const contentA = parseContent(format, content, { path, compat })
+  const contentA = await parseContent(format, content, { path, compat })
   return contentA
 }
 
 // Persist file, using any of the supported formats
 export const serializeFile = async function (format, path, content) {
-  const contentA = serializeContent(format, content)
+  const contentA = await serializeContent(format, content)
 
   const contentB = await fs.writeFile(path, contentA)
   return contentB

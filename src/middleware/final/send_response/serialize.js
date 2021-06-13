@@ -3,14 +3,14 @@ import { Buffer } from 'buffer'
 import { isType } from '../../../content_types.js'
 
 // Transform content to a buffer
-export const serializeContent = function ({
+export const serializeContent = async function ({
   format,
   content,
   type,
   topargs,
   error,
 }) {
-  const contentA = stringifyContent({ format, content, type })
+  const contentA = await stringifyContent({ format, content, type })
 
   const contentB = applySilent({ content: contentA, topargs, error })
 
@@ -19,13 +19,10 @@ export const serializeContent = function ({
   return contentC
 }
 
-const stringifyContent = function ({ format, content, type }) {
-  if (!isType(type, 'object')) {
-    return content
-  }
-
-  const contentA = format.serializeContent(content)
-  return contentA
+const stringifyContent = async function ({ format, content, type }) {
+  return isType(type, 'object')
+    ? await format.serializeContent(content)
+    : content
 }
 
 // When `args.silent` is used (unless this is an error response).

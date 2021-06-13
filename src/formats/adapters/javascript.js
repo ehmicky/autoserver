@@ -1,19 +1,18 @@
 import requireFromString from 'require-from-string'
 
 // Parses a JavaScript file
-const parse = function ({ content, path }) {
+const parse = async function ({ content, path }) {
   if (path === undefined) {
     return requireFromString(content)
   }
 
-  // eslint-disable-next-line import/no-dynamic-require, node/global-require
-  return require(path)
+  return await import(path)
 }
 
 // Serializes a JavaScript file
 const serialize = function ({ content }) {
   const json = JSON.stringify(content, undefined, 2)
-  return `module.exports = ${json}`
+  return `export default ${json}`
 }
 
 export const javascript = {
