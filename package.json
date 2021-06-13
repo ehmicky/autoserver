@@ -1,7 +1,8 @@
 {
   "name": "autoserver",
   "version": "0.5.0",
-  "main": "build/src/main.js",
+  "type": "module",
+  "exports": "./build/src/main.js",
   "files": [
     "build/src/**/*.{js,ts,map,json,sh,md,mustache}"
   ],
