@@ -38,7 +38,7 @@ const mergeSiblings = function ({ content, keys, refContent }) {
     return refContent
   }
 
-  const parentA = omit(parent, ['$ref'])
+  const parentA = omit.default(parent, ['$ref'])
   const refContentA = deepMerge(parentA, refContent)
   return refContentA
 }

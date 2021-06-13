@@ -13,6 +13,6 @@ const renameDatum = function ({ datum, newIdName, oldIdName }) {
   }
 
   const { [oldIdName]: attr } = datum
-  const datumA = omit(datum, [oldIdName])
+  const datumA = omit.default(datum, [oldIdName])
   return { ...datumA, [newIdName]: attr }
 }

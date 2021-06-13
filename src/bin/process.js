@@ -10,7 +10,7 @@ import { availableInstructions } from './available.js'
 // Process options after parsing
 export const processOpts = function ({ opts }) {
   // Remove parser-specific values
-  const { _: posArgs, ...optsA } = omit(opts, parserOpts)
+  const { _: posArgs, ...optsA } = omit.default(opts, parserOpts)
 
   const { instruction, posArgs: posArgsA } = getInstruction({ posArgs })
 

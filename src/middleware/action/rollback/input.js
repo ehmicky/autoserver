@@ -15,7 +15,7 @@ const deleteRollback = function ({ newData, ...args }) {
 
   const deletedIds = newData.map(({ id }) => id)
   const argsA = { ...args, deletedIds }
-  const argsB = omit(argsA, ['newData'])
+  const argsB = omit.default(argsA, ['newData'])
   return [{ command: 'delete', args: argsB }]
 }
 
@@ -26,7 +26,7 @@ const upsertRollback = function ({ currentData, ...args }) {
   }
 
   const argsA = { ...args, currentData, newData: currentData }
-  const argsB = omit(argsA, ['deletedIds'])
+  const argsB = omit.default(argsA, ['deletedIds'])
   return [{ command: 'upsert', args: argsB }]
 }
 

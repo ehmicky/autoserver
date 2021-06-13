@@ -101,8 +101,8 @@ const getPluginConf = function ({ pluginConf, pluginConf: { plugin } }) {
   }
 
   return {
-    ...omit(builtinPlugin, ['enabled']),
-    ...omit(pluginConf, ['plugin']),
+    ...omit.default(builtinPlugin, ['enabled']),
+    ...omit.default(pluginConf, ['plugin']),
   }
 }
 

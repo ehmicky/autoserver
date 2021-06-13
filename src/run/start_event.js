@@ -28,7 +28,7 @@ export const emitStartEvent = async function ({
 // or should not be made immutable
 const getEventParams = function ({ protocolAdapters, measures }) {
   const protocols = mapValues(protocolAdapters, ({ info }) =>
-    omit(info, ['server']),
+    omit.default(info, ['server']),
   )
 
   const duration = getDefaultDuration({ measures })

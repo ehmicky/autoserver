@@ -29,7 +29,9 @@ const addValue = function ({
     .map((value) => value[commandpathA])
     .filter((value) => value !== undefined)
   const argsA =
-    valueA.length === 0 ? omit(args, [name]) : { ...args, [name]: valueA }
+    valueA.length === 0
+      ? omit.default(args, [name])
+      : { ...args, [name]: valueA }
 
   return { ...action, args: argsA }
 }

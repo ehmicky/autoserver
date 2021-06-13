@@ -15,7 +15,7 @@ export const fireReadCommand = async function ({
     return []
   }
 
-  const argsA = omit(args, ['data'])
+  const argsA = omit.default(args, ['data'])
 
   const mInputA = {
     ...mInput,

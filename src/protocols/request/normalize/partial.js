@@ -43,7 +43,7 @@ export const normalizePartialProtocol = function ({
     method: getPath,
   })
 
-  const queryvarsA = omit(queryvars, ['method', 'path'])
+  const queryvarsA = omit.default(queryvars, ['method', 'path'])
 
   return {
     payload: body,

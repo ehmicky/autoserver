@@ -20,7 +20,7 @@ export const transformError = function ({
 }) {
   const { jsonrpc, id, other } = getResponse({ payload })
 
-  const data = omit(error, ['description'])
+  const data = omit.default(error, ['description'])
   const code = ERROR_CODES_MAP[type] || DEFAULT_ERROR_CODE
   const errorA = { code, message: description, data, metadata }
 

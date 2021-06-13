@@ -48,7 +48,7 @@ const createAlias = function ({
 }) {
   checkAliasDuplicates({ coll, collname, attrs, attrName, alias })
 
-  const aliasAttr = omit(attr, ['alias'])
+  const aliasAttr = omit.default(attr, ['alias'])
   const attrA = { ...aliasAttr, aliasOf: attrName }
 
   return { [alias]: attrA }

@@ -21,7 +21,7 @@ export const handleContentNegotiation = function ({
     compress: compressA,
   } = getCompress({ queryvars, compressResponse, compressRequest })
 
-  const queryvarsA = omit(queryvars, ['format', 'charset', 'compress'])
+  const queryvarsA = omit.default(queryvars, ['format', 'charset', 'compress'])
 
   return {
     queryvars: queryvarsA,

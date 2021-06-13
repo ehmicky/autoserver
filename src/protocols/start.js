@@ -41,7 +41,7 @@ const getRequestAdapter = function ({
   protocolAdapter: { wrapped, send },
 }) {
   const parseRequestA = parseRequest.bind(undefined, protocolAdapter)
-  const protocolAdapterA = omit(wrapped, ['startServer'])
+  const protocolAdapterA = omit.default(wrapped, ['startServer'])
 
   return { ...protocolAdapterA, parseRequest: parseRequestA, send }
 }

@@ -21,7 +21,7 @@ const parseFilterArg = function ({
     return action
   }
 
-  const argsA = omit(args, ['id'])
+  const argsA = omit.default(args, ['id'])
   return { ...action, args: { ...argsA, filter } }
 }
 

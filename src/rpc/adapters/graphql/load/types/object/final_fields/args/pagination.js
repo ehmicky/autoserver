@@ -20,7 +20,7 @@ export const getPaginationArgument = function ({ command, features }) {
   }
 
   if (!features.includes('offset')) {
-    return omit(PAGINATION_ARGS, ['page'])
+    return omit.default(PAGINATION_ARGS, ['page'])
   }
 
   return PAGINATION_ARGS

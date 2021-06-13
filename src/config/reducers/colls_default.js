@@ -7,7 +7,7 @@ import { deepMerge } from '../../utils/functional/merge.js'
 export const applyCollsDefault = function ({
   config: { collections = {}, collections: { default: collDefault } = {} },
 }) {
-  const collectionsA = omit(collections, ['default'])
+  const collectionsA = omit.default(collections, ['default'])
   const collectionsB = mapValues(collectionsA, (coll) =>
     applyCollDefault({ coll, collDefault }),
   )

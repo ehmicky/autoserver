@@ -77,7 +77,7 @@ const isDefined = function (key, value) {
 // Remove syntax that is not JSON schema
 const removeAltSyntax = function ({ jsonSchema, jsonSchema: { properties } }) {
   const propertiesA = mapValues(properties, (attr) =>
-    omit(attr, NON_JSON_SCHEMA),
+    omit.default(attr, NON_JSON_SCHEMA),
   )
   return { ...jsonSchema, properties: propertiesA }
 }

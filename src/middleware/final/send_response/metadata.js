@@ -36,7 +36,7 @@ const getErrorMetadata = function ({
   const metadataA = filterObj(metadata, ERROR_METADATA)
 
   const params = getParams(mInput, { client: true })
-  const paramsA = omit(params, HIDDEN_ERROR_INFO)
+  const paramsA = omit.default(params, HIDDEN_ERROR_INFO)
   const paramsB = reduceParams({ params: paramsA })
 
   const metadataB = { ...metadataA, info: paramsB }

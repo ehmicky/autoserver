@@ -16,7 +16,7 @@ export const getNestedColl = function (def, { inputObjectType, topDef }) {
   )
   // Command description is only used for Query|Mutation children,
   // not for recursive attributes, which use the normal `attr.description`
-  const topLevelModelA = omit(topLevelModel, ['commandDescription'])
+  const topLevelModelA = omit.default(topLevelModel, ['commandDescription'])
   const topLevelModelB = { ...topLevelModelA, isArray }
 
   return topLevelModelB

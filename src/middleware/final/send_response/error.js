@@ -11,7 +11,7 @@ export const getErrorResponse = function ({ error, mInput, response }) {
   const content = getStandardError({ error, mInput })
 
   // Do not show stack trace in error responses
-  const contentA = omit(content, ['details'])
+  const contentA = omit.default(content, ['details'])
 
   return { type: 'error', content: contentA }
 }

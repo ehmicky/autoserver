@@ -28,7 +28,7 @@ export const applyDataAliases = function ({
 // induce no changes.
 const applyDataAlias = function ({ newData, currentData, attrName, aliases }) {
   const aliasData = getAliasData({ newData, currentData, attrName, aliases })
-  const data = omit(newData, aliases)
+  const data = omit.default(newData, aliases)
 
   const aliasDataKeys = Object.keys(aliasData)
 

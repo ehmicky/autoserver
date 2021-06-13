@@ -34,7 +34,7 @@ const getDbAdapter = function ({
   )
 
   // Do not connect twice
-  const dbAdapter = omit(wrapped, ['connect', 'check'])
+  const dbAdapter = omit.default(wrapped, ['connect', 'check'])
 
   const dbAdapterA = { ...methods, ...dbAdapter }
   return dbAdapterA
