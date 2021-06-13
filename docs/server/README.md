@@ -17,9 +17,9 @@ $ autoserver run
 or from [Node.js](usage/README.md#node.js):
 
 ```javascript
-const autoserver = require('autoserver')
+import { run } from 'autoserver'
 
-autoserver.run()
+run()
 ```
 
 ## Configuration

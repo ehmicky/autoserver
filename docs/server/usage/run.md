@@ -26,17 +26,15 @@ If an error occurred, the promise will be rejected with an
 <!-- eslint-disable promise/always-return -->
 
 ```javascript
-const autoserver = require('autoserver')
+import { run } from 'autoserver'
 
-autoserver
-  .run()
-  .then(({ protocols, serverinfo }) => {
-    console.log('Servers started at:', protocols)
-    console.log('Process id', serverinfo.process.id)
-  })
-  .catch((error) => {
-    console.log('Could not start servers:', error)
-  })
+try {
+  const { protocols, serverinfo } = await run()
+  console.log('Servers started at:', protocols)
+  console.log('Process id', serverinfo.process.id)
+} catch (error) {
+  console.log('Could not start servers:', error)
+}
 ```
 
 # Stopping the server
