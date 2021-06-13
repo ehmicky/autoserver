@@ -1,5 +1,5 @@
 import filterObj from 'filter-obj'
-import { stringify as stringifyLinks } from 'li'
+import li from 'li'
 
 import { mapValues } from '../../../../utils/functional/map.js'
 import { stringifyUrl, getStandardUrl } from '../origin.js'
@@ -23,7 +23,7 @@ export const getLinks = function ({ pages = {}, specific, rpc }) {
     return
   }
 
-  const linksB = stringifyLinks(linksA)
+  const linksB = li.stringify(linksA)
   return linksB
 }
 
