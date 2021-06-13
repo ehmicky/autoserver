@@ -29,7 +29,7 @@ export const opts = {
         },
       ],
       minimum: 0,
-      maximum: 65535,
+      maximum: 65_535,
       minItems: 1,
     },
     username: {

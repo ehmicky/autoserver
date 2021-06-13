@@ -16,7 +16,7 @@ export const opts = {
     port: {
       type: 'integer',
       minimum: 0,
-      maximum: 65535,
+      maximum: 65_535,
     },
     auth: {
       type: 'string',
