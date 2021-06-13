@@ -1,3 +1,4 @@
+import { createRequire } from 'module'
 import { resolve, dirname } from 'path'
 
 import { addGenErrorHandler } from '../errors/handler.js'
@@ -19,9 +20,11 @@ export const getPath = function ({ path, parentPath }) {
 }
 
 // Node module, e.g. $ref: 'lodash.node'
+// TODO: use `import.meta.resolve()` when available
 const getModulePath = function ({ path }) {
   const moduleName = path.replace(NODE_REGEXP, '')
-  const pathA = require.resolve(moduleName)
+  const { resolve: resolveModule } = createRequire(import.meta.url)
+  const pathA = resolveModule(moduleName)
   return pathA
 }
 
