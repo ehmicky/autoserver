@@ -1,11 +1,14 @@
+import { fileURLToPath } from 'url'
 import { promisify } from 'util'
 
 import { getBinPath } from 'get-bin-path'
 import { exec } from 'gulp-execa'
 import Nodemon from 'nodemon'
 
-const EXAMPLE_PATH = `${__dirname}/../examples/main.js`
-const SRC_PATH = `${__dirname}/../build/src`
+const EXAMPLE_PATH = fileURLToPath(
+  new URL('../examples/main.js', import.meta.url),
+)
+const SRC_PATH = fileURLToPath(new URL('../build/src'))
 const BINARY_PATH = getBinPath()
 
 // We use this instead of requiring the application to test the CLI
