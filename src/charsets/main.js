@@ -1,13 +1,13 @@
 import filterObj from 'filter-obj'
-import iconv from 'iconv-lite'
+import iconvLite from 'iconv-lite'
 
 import { decodeCharset } from './transform.js'
 import { validateCharset } from './validate.js'
 
 // `iconv.encodings` is lazily set, i.e. we need to do this noop
-iconv.getCodec('binary')
+iconvLite.getCodec('binary')
 
-const { encodings } = iconv
+const { encodings } = iconvLite
 
 // Normalize charset, including adding defaults and validating
 export const getCharset = function (charset, { format } = {}) {

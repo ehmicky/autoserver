@@ -1,4 +1,4 @@
-import { encodingExists } from 'iconv-lite'
+import iconvLite from 'iconv-lite'
 
 // Validate `charset` name is valid
 export const validateCharset = function ({ charset, format }) {
@@ -7,7 +7,7 @@ export const validateCharset = function ({ charset, format }) {
 }
 
 const validateExisting = function ({ charset }) {
-  if (encodingExists(charset)) {
+  if (iconvLite.encodingExists(charset)) {
     return
   }
 
