@@ -1,4 +1,4 @@
-import { camelize } from 'underscore.string'
+import underscoreString from 'underscore.string'
 
 import { mapKeys } from '../../utils/functional/map.js'
 
@@ -9,6 +9,6 @@ export const renameArgs = function ({ actions }) {
 }
 
 const renameActionArgs = function ({ args, ...action }) {
-  const argsA = mapKeys(args, (arg, name) => camelize(name))
+  const argsA = mapKeys(args, (arg, name) => underscoreString.camelize(name))
   return { ...action, args: argsA }
 }

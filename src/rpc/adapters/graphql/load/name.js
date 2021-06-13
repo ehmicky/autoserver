@@ -1,4 +1,4 @@
-import { camelize, capitalize } from 'underscore.string'
+import underscoreString from 'underscore.string'
 
 // Returns top-level command name, e.g. `find_collection` or `delete_collection`
 export const getCommandName = function ({ clientCollname, command }) {
@@ -16,6 +16,8 @@ export const getTypeName = function ({
     inputObjectType === 'type'
       ? clientCollname
       : `${command}_${clientCollname}_${inputObjectType}`
-  const typeNameA = camelize(capitalize(typeName))
+  const typeNameA = underscoreString.camelize(
+    underscoreString.capitalize(typeName),
+  )
   return typeNameA
 }

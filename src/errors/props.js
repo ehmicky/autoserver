@@ -1,4 +1,4 @@
-import { decapitalize } from 'underscore.string'
+import underscoreString from 'underscore.string'
 
 import { createError } from './main.js'
 import { REASONS } from './reasons/main.js'
@@ -45,7 +45,7 @@ const addPrefix = function ({ message, prefix }) {
     return message
   }
 
-  return `${prefix}: ${decapitalize(message)}`
+  return `${prefix}: ${underscoreString.decapitalize(message)}`
 }
 
 // Get generic standard error properties, according to error reason

@@ -1,4 +1,4 @@
-import { decapitalize } from 'underscore.string'
+import underscoreString from 'underscore.string'
 
 import { addErrorHandler } from '../../errors/handler.js'
 import { createPb } from '../../errors/props.js'
@@ -39,7 +39,7 @@ const getCheckMessage = function ({ type, message }) {
   }
 
   if (typeof message === 'string') {
-    return decapitalize(message)
+    return underscoreString.decapitalize(message)
   }
 
   if (message instanceof Error) {

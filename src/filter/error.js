@@ -1,19 +1,19 @@
-import { decapitalize, capitalize } from 'underscore.string'
+import underscoreString from 'underscore.string'
 
 import { throwError } from '../errors/main.js'
 
 export const getThrowErr = function ({ reason, prefix }, attrName, message) {
   const messageA = getMessage({ attrName, message })
-  const messageB = capitalize(`${prefix}${messageA}`)
+  const messageB = underscoreString.capitalize(`${prefix}${messageA}`)
   throwError(messageB, { reason })
 }
 
 const getMessage = function ({ attrName, message }) {
   if (message === undefined) {
-    return decapitalize(attrName)
+    return underscoreString.decapitalize(attrName)
   }
 
-  return `in '${attrName}' attribute, ${decapitalize(message)}`
+  return `in '${attrName}' attribute, ${underscoreString.decapitalize(message)}`
 }
 
 export const throwAttrValError = function ({ type, throwErr }, message) {

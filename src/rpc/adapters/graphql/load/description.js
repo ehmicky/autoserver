@@ -1,4 +1,4 @@
-import { capitalize } from 'underscore.string'
+import underscoreString from 'underscore.string'
 
 import { COMMANDS } from '../../../../commands/constants.js'
 
@@ -11,7 +11,7 @@ export const TOP_DESCRIPTIONS = {
 export const getCommandDescription = function ({ command, typeName }) {
   const title = getTitle({ command })
   const description = `${title} ${typeName} models`
-  const descriptionA = capitalize(description)
+  const descriptionA = underscoreString.capitalize(description)
   return descriptionA
 }
 

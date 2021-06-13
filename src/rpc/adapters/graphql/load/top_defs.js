@@ -1,4 +1,4 @@
-import { capitalize } from 'underscore.string'
+import underscoreString from 'underscore.string'
 
 import { COMMANDS } from '../../../../commands/constants.js'
 import { mapValues, mapKeys } from '../../../../utils/functional/map.js'
@@ -22,7 +22,7 @@ const GRAPHQL_METHODS = {
 
 const getTopDef = function ({ collections, graphqlMethod, commands }) {
   const attributes = getCommandsDefs({ collections, commands })
-  const collname = capitalize(graphqlMethod)
+  const collname = underscoreString.capitalize(graphqlMethod)
   const description = TOP_DESCRIPTIONS[graphqlMethod]
 
   const topDef = {

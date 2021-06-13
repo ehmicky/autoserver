@@ -1,4 +1,4 @@
-import { toSentence } from 'underscore.string'
+import underscoreString from 'underscore.string'
 
 // Turn ['a', 'b', 'c'] into 'a, b or c'
 export const getWordsList = function (
@@ -11,7 +11,7 @@ export const getWordsList = function (
 
   const wordsA = jsonStringify(words, { json })
   const wordsB = quoteWords(wordsA, { quotes })
-  const wordsC = toSentence(wordsB, ', ', ` ${op} `)
+  const wordsC = underscoreString.toSentence(wordsB, ', ', ` ${op} `)
   return wordsC
 }
 
