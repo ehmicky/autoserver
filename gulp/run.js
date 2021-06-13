@@ -8,7 +8,7 @@ import Nodemon from 'nodemon'
 const EXAMPLE_PATH = fileURLToPath(
   new URL('../examples/main.js', import.meta.url),
 )
-const SRC_PATH = fileURLToPath(new URL('../build/src'))
+const SRC_PATH = fileURLToPath(new URL('../build/src', import.meta.url))
 const BINARY_PATH = getBinPath()
 
 // We use this instead of requiring the application to test the CLI
