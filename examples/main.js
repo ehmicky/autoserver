@@ -1,5 +1,3 @@
-'use strict'
-
 const {
   stdout: { columns },
 } = require('process')
