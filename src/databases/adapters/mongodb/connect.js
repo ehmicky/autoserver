@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb'
+import mongodb from 'mongodb'
 
 // Starts connection
 export const connect = async function ({
@@ -8,7 +8,7 @@ export const connect = async function ({
   const auth = getAuth({ username, password })
   const url = `mongodb://${auth}${host}/${dbname}`
 
-  const mongoClient = new MongoClient()
+  const mongoClient = new mongodb.MongoClient()
   const db = await mongoClient.connect(url, opts)
   return db
 }
