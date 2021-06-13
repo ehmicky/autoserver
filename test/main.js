@@ -14,7 +14,7 @@ const EXAMPLE_DIR = fileURLToPath(new URL('../../examples', import.meta.url))
 
 test('Smoke test', async (t) => {
   const binPath = await getBinPath()
-  const server = execa('node', ['--no-warnings', binPath], {
+  const server = execa('node', [binPath], {
     env: { NODE_ENV: 'dev' },
     cwd: EXAMPLE_DIR,
     reject: false,
