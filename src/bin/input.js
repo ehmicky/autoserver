@@ -1,4 +1,8 @@
+import { argv } from 'process'
+
 import yargs from 'yargs'
+// eslint-disable-next-line node/file-extension-in-import
+import { hideBin } from 'yargs/helpers'
 
 import { monitor } from '../perf/helpers.js'
 
@@ -17,7 +21,7 @@ export const parseInput = monitor(mParseInput, 'cli')
 
 // CLI options parsing
 const parseOpts = function () {
-  const yargsA = addInstructions(yargs)
+  const yargsA = addInstructions(yargs(hideBin(argv)))
   return (
     yargsA
       // There should be a single instruction, or none (default one)
