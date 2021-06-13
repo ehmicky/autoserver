@@ -1,9 +1,7 @@
-import { resolve } from 'path'
-
 import { mapValues } from '../../../../utils/functional/map.js'
 import { renderTemplate } from '../../../../utils/template.js'
 
-const TEMPLATE = resolve(__dirname, './graphiql.mustache')
+const TEMPLATE = new URL('graphiql.mustache', import.meta.url)
 
 // Returns HTML document loading a GraphQL debugger
 // TODO: replace with graphiql-workspace

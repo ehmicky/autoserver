@@ -1,10 +1,8 @@
-import { resolve } from 'path'
-
 import { printSchema } from 'graphql'
 
 import { renderTemplate } from '../../../../utils/template.js'
 
-const TEMPLATE = resolve(__dirname, './print.mustache')
+const TEMPLATE = new URL('print.mustache', import.meta.url)
 
 // Print GraphQL schema as beautified HTML
 export const parse = async function ({ config: { graphqlSchema } }) {

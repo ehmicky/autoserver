@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'url'
 import { promisify } from 'util'
 
 import test from 'ava'
@@ -9,7 +10,7 @@ import got from 'got'
 // for Node <15.0.0
 const pSetTimeout = promisify(setTimeout)
 
-const EXAMPLE_DIR = `${__dirname}/../../examples`
+const EXAMPLE_DIR = fileURLToPath(new URL('../../examples', import.meta.url))
 
 test('Smoke test', async (t) => {
   const binPath = await getBinPath()
