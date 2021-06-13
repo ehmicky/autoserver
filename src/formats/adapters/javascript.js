@@ -1,3 +1,5 @@
+import { pathToFileURL } from 'url'
+
 import requireFromString from 'require-from-string'
 
 // Parses a JavaScript file
@@ -6,7 +8,8 @@ const parse = async function ({ content, path }) {
     return requireFromString(content)
   }
 
-  return (await import(path)).default
+  const url = pathToFileURL(path)
+  return (await import(url)).default
 }
 
 // Serializes a JavaScript file
