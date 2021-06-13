@@ -1,7 +1,9 @@
 #!/usr/bin/env node
+import { dirname } from 'path'
 import { exit } from 'process'
+import { fileURLToPath } from 'url'
 
-import readPkgUp from 'read-pkg-up'
+import { readPackageUpAsync } from 'read-pkg-up'
 import UpdateNotifier from 'update-notifier'
 
 import { addErrorHandler } from '../errors/handler.js'
@@ -19,8 +21,10 @@ const startCli = async function () {
   await instructions[instruction]({ ...opts, measures })
 }
 
+// TODO: use static JSON imports once those are possible
 const checkUpdate = async function () {
-  const { packageJson } = await readPkgUp({ cwd: __dirname, normalize: false })
+  const cwd = dirname(fileURLToPath(import.meta.url))
+  const { packageJson } = await readPackageUpAsync({ cwd, normalize: false })
   UpdateNotifier({ pkg: packageJson }).notify()
 }
 
