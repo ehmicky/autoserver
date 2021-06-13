@@ -1,12 +1,14 @@
+import { dirname } from 'path'
 import { version as nodeVersion } from 'process'
+import { fileURLToPath } from 'url'
 
-import readPkgUp from 'read-pkg-up'
+import { readPackageUpSync } from 'read-pkg-up'
 
 // Caches it.
 // TODO: use async instead
 const {
   packageJson: { version: autoserverVersion },
-} = readPkgUp.sync()
+} = readPackageUpSync({ cwd: dirname(fileURLToPath(import.meta.url)) })
 
 // Retrieve environment-specific versions
 export const getVersionsInfo = function () {
