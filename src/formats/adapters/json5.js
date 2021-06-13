@@ -1,13 +1,13 @@
-import { parse as json5Parse, stringify as json5Stringify } from 'json5'
+import json5Lib from 'json5'
 
 // Parses a JSON5 file
 const parse = function ({ content }) {
-  return json5Parse(content)
+  return json5Lib.parse(content)
 }
 
 // Serializes a JSON5 file
 const serialize = function ({ content }) {
-  return json5Stringify(content, undefined, 2)
+  return json5Lib.stringify(content, undefined, 2)
 }
 
 export const json5 = {
