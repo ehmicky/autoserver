@@ -1,4 +1,4 @@
-import { plural } from 'pluralize'
+import pluralize from 'pluralize'
 
 import { throwError } from '../../errors/main.js'
 import { isObject } from '../../utils/functional/type.js'
@@ -19,7 +19,7 @@ const checkCollnames = function ({ name }) {
 }
 
 const checkCollname = function ({ name }) {
-  const pluralname = plural(name)
+  const pluralname = pluralize.plural(name)
 
   // Collection name must be plural
   // The reason is to avoid having to handle different cases where the
