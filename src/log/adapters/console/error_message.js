@@ -1,4 +1,5 @@
 import { resolve } from 'path'
+import { fileURLToPath } from 'url'
 
 // Retrieve error message of a standard error
 export const getErrorMessage = function ({
@@ -32,4 +33,4 @@ const getStack = function (description, details = '') {
   return stackB
 }
 
-const ROOT_DIR = resolve(__dirname, '../../..')
+const ROOT_DIR = resolve(fileURLToPath(new URL('../../..', import.meta.url)))
