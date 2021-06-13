@@ -1,10 +1,12 @@
-const { nextTick } = require('process')
-const { promisify } = require('util')
+import { nextTick } from 'process'
+import { promisify } from 'util'
 
-const testPlugin = async function ({ config, opts: { example_option: opt } }) {
+// eslint-disable-next-line import/no-default-export
+export default async function testPlugin({
+  config,
+  opts: { example_option: opt },
+}) {
   await promisify(nextTick)()
 
   return { ...config, $plugin_attr: opt }
 }
-
-module.exports = testPlugin

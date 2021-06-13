@@ -1,8 +1,7 @@
-const mathFunc = function ({ ip }, { numA, numB, numC, numD }) {
+// eslint-disable-next-line import/no-default-export
+export default function mathFunc({ ip }, { numA, numB, numC, numD }) {
   const ipNumber = Number(ip.slice(0, IP_NUMBER_LENGTH))
   return ipNumber + numA * numB + numC * numD
 }
 
 const IP_NUMBER_LENGTH = 3
-
-module.exports = mathFunc

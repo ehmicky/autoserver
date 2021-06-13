@@ -1,15 +1,11 @@
-const {
-  stdout: { columns },
-} = require('process')
-const { inspect } = require('util')
+import { stdout } from 'process'
+import { fileURLToPath } from 'url'
+import { inspect } from 'util'
 
-// We need to use this syntax to avoid linting issues: different ESLint
-// rules are reported whether `build` is present or not.
-const pkgDir = '..'
-// eslint-disable-next-line import/no-dynamic-require
-const autoserver = require(pkgDir)
+// eslint-disable-next-line node/no-missing-import
+import autoserver from 'autoserver'
 
-const CONFIG = `${__dirname}/autoserver.config.yml`
+const CONFIG = fileURLToPath(new URL('autoserver.config.yml', import.meta.url))
 
 // Set default console log printing
 const setDefaultDebug = function () {
@@ -18,7 +14,7 @@ const setDefaultDebug = function () {
     colors: true,
     // eslint-disable-next-line unicorn/no-null
     depth: null,
-    breakLength: columns || COLUMNS_WIDTH,
+    breakLength: stdout.columns || COLUMNS_WIDTH,
   }
 }
 
