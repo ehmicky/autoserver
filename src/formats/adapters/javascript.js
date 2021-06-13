@@ -6,7 +6,7 @@ const parse = async function ({ content, path }) {
     return requireFromString(content)
   }
 
-  return await import(path)
+  return (await import(path)).default
 }
 
 // Serializes a JavaScript file
