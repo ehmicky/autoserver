@@ -22,8 +22,6 @@ created. Their parameters are read-only.
 Functions are regular JavaScript files exporting a function and required using a
 [reference](references.md).
 
-<!-- eslint-disable import/no-default-export -->
-
 ```js
 export default function getDefaultValue() {
   return Math.random()
@@ -75,8 +73,6 @@ Every function receives as its first argument an object containing parameters
 with information about the current context.
 
 In the example below, the `timestamp` parameter is used.
-
-<!-- eslint-disable import/no-default-export -->
 
 ```js
 export default function getDefaultValue({ timestamp }) {
@@ -218,7 +214,7 @@ params:
   $secret_password: admin
 ```
 
-<!-- eslint-disable id-match, import/no-default-export -->
+<!-- eslint-disable id-match -->
 
 ```js
 export default function getDefaultValue({ $secret_password }) {
