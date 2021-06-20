@@ -17,24 +17,20 @@ export const runProd = async () => {
   await exec(`node ${binaryPath}`, { cwd: 'examples' })
 }
 
-// eslint-disable-next-line fp/no-mutation
 runProd.description = 'Run an example production server'
 
 export const runDev = () => startNodemon(NODEMON_CONFIG)
 
-// eslint-disable-next-line fp/no-mutation
 runDev.description = 'Start an example dev server'
 
 export const runDebug = () => startNodemon(DEBUG_NODEMON_CONFIG)
 
-// eslint-disable-next-line fp/no-mutation
 runDebug.description = 'Start an example dev server in debug mode'
 
 const startNodemon = async function (config) {
   const nodemon = new Nodemon(config)
 
   // Otherwise Nodemon's log does not appear
-  // eslint-disable-next-line no-console, no-restricted-globals
   nodemon.on('log', ({ colour }) => console.log(colour))
 
   await promisify(nodemon.on.bind(nodemon))('start')
