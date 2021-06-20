@@ -23,7 +23,8 @@ with:
 If an error occurred, the promise will be rejected with an
 [exception object](error.md#exceptions).
 
-<!-- eslint-disable promise/always-return -->
+<!-- Re-enable once top-level await is supported -->
+<!-- eslint-skip -->
 
 ```js
 import { run } from 'autoserver'
