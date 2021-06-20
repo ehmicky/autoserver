@@ -2,7 +2,6 @@ import { stdout } from 'process'
 import { fileURLToPath } from 'url'
 import { inspect } from 'util'
 
-// eslint-disable-next-line node/no-missing-import
 import autoserver from 'autoserver'
 
 const CONFIG = fileURLToPath(new URL('autoserver.config.yml', import.meta.url))

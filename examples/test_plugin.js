@@ -1,7 +1,6 @@
 import { nextTick } from 'process'
 import { promisify } from 'util'
 
-// eslint-disable-next-line import/no-default-export
 export default async function testPlugin({
   config,
   opts: { example_option: opt },
