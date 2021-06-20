@@ -16,8 +16,6 @@ Most of the examples in this documentation use
 
 # JavaScript
 
-<!-- eslint-disable import/no-anonymous-default-export -->
-
 ```js
 // Comment
 
