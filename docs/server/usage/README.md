@@ -26,7 +26,7 @@ $ autoserver run --protocols.http.port=5001
 
 The server can also be used from Node.js:
 
-```javascript
+```js
 import { run } from 'autoserver'
 
 run({ protocols: { http: { port: 5001 } } })

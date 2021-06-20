@@ -25,7 +25,7 @@ If an error occurred, the promise will be rejected with an
 
 <!-- eslint-disable promise/always-return -->
 
-```javascript
+```js
 import { run } from 'autoserver'
 
 try {

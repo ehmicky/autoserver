@@ -16,7 +16,7 @@ $ autoserver run
 
 or from [Node.js](usage/README.md#node.js):
 
-```javascript
+```js
 import { run } from 'autoserver'
 
 run()
