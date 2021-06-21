@@ -12,11 +12,6 @@
   "scripts": {
     "test": "gulp test"
   },
-  "husky": {
-    "hooks": {
-      "pre-push": "gulp -LL check --full"
-    }
-  },
   "description": "Create a full-featured REST/GraphQL API from a configuration file",
   "keywords": [
     "baas",
