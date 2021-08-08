@@ -56,12 +56,12 @@ export const getProps = function (error) {
 }
 
 // Get error reason
-export const getReason = function (
-  { reason = 'UNKNOWN' } = { reason: 'SUCCESS' },
-) {
+export const getReason = function ({ reason = 'UNKNOWN' } = SUCCESS_REASON) {
   if (REASONS[reason] === undefined) {
     return 'UNKNOWN'
   }
 
   return reason
 }
+
+const SUCCESS_REASON = { reason: 'SUCCESS' }
