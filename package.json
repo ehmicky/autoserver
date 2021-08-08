@@ -98,7 +98,7 @@
     "update-notifier": "^5.0.1",
     "uuid": "^8.3.2",
     "vary": "^1.1.2",
-    "yargs": "^17.0.1"
+    "yargs": "^17.1.1"
   },
   "devDependencies": {
     "@ehmicky/dev-tasks": "^1.0.43",
