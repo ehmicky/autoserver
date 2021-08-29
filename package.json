@@ -67,7 +67,7 @@
     "colors-option": "^2.0.1",
     "compressible": "^2.0.18",
     "content-type": "^1.0.4",
-    "filter-obj": "^2.0.1",
+    "filter-obj": "^3.0.0",
     "graphql": "^0.9.1",
     "graphql-type-json": "^0.3.2",
     "hjson": "^3.2.2",
