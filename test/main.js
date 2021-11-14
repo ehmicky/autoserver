@@ -2,7 +2,7 @@ import { fileURLToPath } from 'url'
 import { promisify } from 'util'
 
 import test from 'ava'
-import execa from 'execa'
+import { execa } from 'execa'
 import { getBinPath } from 'get-bin-path'
 import got from 'got'
 
