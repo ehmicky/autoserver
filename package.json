@@ -91,7 +91,7 @@
     "read-pkg-up": "^9.0.0",
     "request-ip": "^2.1.3",
     "require-from-string": "^2.0.2",
-    "signal-exit": "^3.0.5",
+    "signal-exit": "^3.0.6",
     "sort-on": "^5.0.0",
     "type-is": "^1.6.18",
     "underscore.string": "^3.3.5",
