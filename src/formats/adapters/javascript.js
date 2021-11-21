@@ -9,7 +9,8 @@ const parse = async function ({ content, path }) {
   }
 
   const url = pathToFileURL(path)
-  return (await import(url)).default
+  const importedValue = await import(url)
+  return importedValue.default
 }
 
 // Serializes a JavaScript file
