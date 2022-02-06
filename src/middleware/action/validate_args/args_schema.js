@@ -52,6 +52,7 @@ export const SCHEMA = {
           if: {
             type: 'array',
           },
+          // eslint-disable-next-line unicorn/no-thenable
           then: {
             items: {
               type: 'object',
@@ -106,6 +107,7 @@ export const SCHEMA = {
           },
         },
       },
+      // eslint-disable-next-line unicorn/no-thenable
       then: {
         properties: {
           data: {
