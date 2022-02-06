@@ -246,6 +246,7 @@ export const SCHEMA = {
             if: {
               type: 'string',
             },
+            // eslint-disable-next-line unicorn/no-thenable
             then: {
               anyOf: [
                 {
@@ -672,6 +673,7 @@ export const SCHEMA = {
         if: {
           $ref: '#/definitions/jsonSchema',
         },
+        // eslint-disable-next-line unicorn/no-thenable
         then: {
           $ref: '#/definitions/jsonSchema',
         },
