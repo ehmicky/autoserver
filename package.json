@@ -81,7 +81,7 @@
     "moize": "^6.1.0",
     "mongodb": "^3.6.0",
     "mustache": "^2.3.2",
-    "negotiator": "^0.6.2",
+    "negotiator": "^0.6.3",
     "omit.js": "^2.0.2",
     "parse-prefer-header": "^1.0.0",
     "path-to-regexp": "^6.2.0",
