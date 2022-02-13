@@ -10,18 +10,10 @@ import { logEvent } from '../log/main.js'
 // caught as well.
 export const processErrorHandler = function ({ config }) {
   const stopProcessErrors = logProcessErrors({
-    ...LOG_PROCESS_ERRORS_OPTS,
+    exitOn: [],
     log: emitProcessEvent.bind(undefined, { config }),
   })
   return { stopProcessErrors }
-}
-
-const LOG_PROCESS_ERRORS_OPTS = {
-  exitOn: [],
-  // See https://github.com/nodejs/node/issues/24321
-  // We could log it as a `message` instead but it would lack the stack trace,
-  // making it less useful.
-  level: { multipleResolves: 'silent' },
 }
 
 // Report process problems as events with event 'failure'
