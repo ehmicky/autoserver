@@ -30,6 +30,7 @@ export const ini = {
   extensions: ['ini', 'in', 'cfg', 'conf'],
   mimeExtensions: ['+ini'],
   // `node-ini` only supports UTF-8
+  // eslint-disable-next-line unicorn/text-encoding-identifier-case
   charsets: ['utf-8'],
   jsonCompat: ['subset'],
   parse,

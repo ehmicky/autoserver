@@ -16,6 +16,7 @@ export const hjson = {
   extensions: ['hjson'],
   mimes: ['application/hjson', 'text/hjson'],
   mimeExtensions: ['+hjson'],
+  // eslint-disable-next-line unicorn/text-encoding-identifier-case
   charsets: ['utf-8'],
   jsonCompat: [],
   parse,

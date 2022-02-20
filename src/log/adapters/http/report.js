@@ -61,7 +61,7 @@ const responseHandler = async function ({ res, resolve, reject }) {
     resolve()
   }
 
-  const response = await rawBody(res, 'utf-8')
+  const response = await rawBody(res, 'utf8')
   const responseA = JSON.stringify(response)
   reject(responseA)
 }

@@ -14,6 +14,7 @@ export const json = {
   extensions: ['json'],
   mimes: ['application/json'],
   mimeExtensions: ['+json'],
+  // eslint-disable-next-line unicorn/text-encoding-identifier-case
   charsets: ['utf-8'],
   jsonCompat: [],
   parse,

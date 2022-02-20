@@ -16,6 +16,7 @@ export const json5 = {
   extensions: ['json5'],
   mimes: ['application/json5'],
   mimeExtensions: ['+json5'],
+  // eslint-disable-next-line unicorn/text-encoding-identifier-case
   charsets: ['utf-8'],
   jsonCompat: ['superset'],
   parse,

@@ -32,6 +32,7 @@ export const javascript = {
     'text/ecmascript',
   ],
   mimeExtensions: ['+js', '+mjs'],
+  // eslint-disable-next-line unicorn/text-encoding-identifier-case
   charsets: ['utf-8'],
   jsonCompat: ['superset'],
   parse,

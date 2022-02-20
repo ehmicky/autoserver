@@ -41,4 +41,5 @@ export const getContentType = function ({ format, type }) {
   return contentType
 }
 
+// eslint-disable-next-line unicorn/text-encoding-identifier-case
 const DEFAULT_OUTPUT_CHARSET = 'utf-8'
