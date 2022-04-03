@@ -31,7 +31,7 @@ export const getRequestMessage = function ({
     path,
     suffixText,
   ]
-    .filter((val) => val)
+    .filter(Boolean)
     .join(' ')
   return message
 }

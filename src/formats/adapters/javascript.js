@@ -9,6 +9,7 @@ const parse = async function ({ content, path }) {
   }
 
   const url = pathToFileURL(path)
+  // eslint-disable-next-line import/no-dynamic-require
   const importedValue = await import(url)
   return importedValue.default
 }
