@@ -72,7 +72,7 @@
     "graphql-type-json": "^0.3.2",
     "hjson": "^3.2.2",
     "iconv-lite": "^0.6.2",
-    "ini": "^2.0.0",
+    "ini": "^3.0.0",
     "js-yaml": "^4.0.0",
     "json5": "^2.2.1",
     "keep-func-props": "^4.0.1",
