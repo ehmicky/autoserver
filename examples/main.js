@@ -2,7 +2,7 @@ import { stdout } from 'process'
 import { fileURLToPath } from 'url'
 import { inspect } from 'util'
 
-import autoserver from 'autoserver'
+import { run } from 'autoserver'
 
 const CONFIG = fileURLToPath(new URL('autoserver.config.yml', import.meta.url))
 
@@ -21,7 +21,7 @@ const COLUMNS_WIDTH = 80
 
 const startServer = async function () {
   try {
-    const { protocols, exit } = await autoserver.run({ config: CONFIG })
+    const { protocols, exit } = await run({ config: CONFIG })
     return { protocols, exit }
   } catch {
     console.log('Startup error')

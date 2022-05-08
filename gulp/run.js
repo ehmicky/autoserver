@@ -5,16 +5,15 @@ import { getBinPath } from 'get-bin-path'
 import { exec } from 'gulp-execa'
 import Nodemon from 'nodemon'
 
-const EXAMPLE_PATH = fileURLToPath(
-  new URL('../examples/main.js', import.meta.url),
-)
+const EXAMPLES_DIR = new URL('../examples/', import.meta.url)
+const EXAMPLES_PATH = fileURLToPath(new URL('main.js', EXAMPLES_DIR))
 const SRC_PATH = fileURLToPath(new URL('../build/src', import.meta.url))
 const BINARY_PATH = getBinPath()
 
 // We use this instead of requiring the application to test the CLI
 export const runProd = async () => {
   const binaryPath = await BINARY_PATH
-  await exec(`node ${binaryPath}`, { cwd: 'examples' })
+  await exec(`node ${binaryPath}`, { cwd: EXAMPLES_DIR })
 }
 
 runProd.description = 'Run an example production server'
@@ -37,7 +36,7 @@ const startNodemon = async function (config) {
 }
 
 const NODEMON_CONFIG = {
-  script: EXAMPLE_PATH,
+  script: EXAMPLES_PATH,
   nodeArgs: ['--inspect', '--stack-trace-limit=20'],
   env: { NODE_ENV: 'dev' },
   watch: SRC_PATH,
