@@ -1,4 +1,4 @@
-import { promises as fs } from 'fs'
+import { stat } from 'fs/promises'
 
 import { addGenErrorHandler, addErrorHandler } from '../errors/handler.js'
 import { getByExt, DEFAULT_RAW_FORMAT } from '../formats/get.js'
@@ -14,7 +14,7 @@ export const load = async function ({ path }) {
   return content
 }
 
-const eStat = addGenErrorHandler(fs.stat, {
+const eStat = addGenErrorHandler(stat, {
   message: (path) => `Config file does not exist: '${path}'`,
   reason: 'CONFIG_VALIDATION',
 })
