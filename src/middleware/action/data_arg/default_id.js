@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid'
+import { randomUUID } from 'crypto'
 
 import { getModelParams } from '../../../functions/params/values.js'
 import { runConfigFunc } from '../../../functions/run.js'
@@ -74,7 +74,7 @@ const applyDatabaseDefault = function ({ collname, dbAdapters }) {
 
 // UUID default fallback
 const applyUuid = function () {
-  return uuidv4()
+  return randomUUID()
 }
 
 const handlers = [applyConfigDefault, applyDatabaseDefault, applyUuid]

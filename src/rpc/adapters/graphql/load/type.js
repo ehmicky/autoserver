@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid'
+import { randomUUID } from 'crypto'
 
 import { mapValues } from '../../../../utils/functional/map.js'
 
@@ -6,7 +6,7 @@ import { getTypeGetter } from './types/main.js'
 
 // Builds query|mutation type
 export const getTopTypes = function ({ topDefs }) {
-  const graphqlSchemaId = uuidv4()
+  const graphqlSchemaId = randomUUID()
   // `getType`: recursion, while avoiding files circular dependencies
   const opts = {
     inputObjectType: 'type',
