@@ -1,15 +1,17 @@
 import Ajv from 'ajv'
+import ajvFormats from 'ajv-formats'
 import ajvKeywords from 'ajv-keywords'
 
 export const getValidator = function () {
   const ajv = new Ajv(AJV_OPTIONS)
-
-  // Add JSON keywords:
-  //  - typeof: allows checking for `typeof function`
-  ajvKeywords(ajv, ['typeof'])
-
+  ajvKeywords(ajv, CUSTOM_KEYWORDS)
+  ajvFormats(ajv)
   return ajv
 }
+
+// Add JSON keywords:
+//  - typeof: allows checking for `typeof function`
+const CUSTOM_KEYWORDS = ['typeof']
 
 // Intercepts when ajv uses console.* and throw exceptions instead
 const loggerError = function (...args) {
@@ -21,13 +23,10 @@ const logger = { log: loggerError, warn: loggerError, error: loggerError }
 
 const AJV_OPTIONS = {
   allErrors: true,
-  jsonPointers: true,
-  format: 'full',
   $data: true,
   verbose: true,
   logger,
   multipleOfPrecision: 9,
-  extendRefs: true,
-  strictDefaults: true,
-  strictKeywords: true,
+  // TODO: remove
+  allowUnionTypes: true,
 }

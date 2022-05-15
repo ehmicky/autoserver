@@ -12,25 +12,25 @@ export const opts = {
           items: {
             type: 'string',
           },
+          minItems: 1,
         },
       ],
-      minItems: 1,
     },
     port: {
       oneOf: [
         {
           type: 'integer',
+          minimum: 0,
+          maximum: 65_535,
         },
         {
           type: 'array',
           items: {
             type: 'integer',
           },
+          minItems: 1,
         },
       ],
-      minimum: 0,
-      maximum: 65_535,
-      minItems: 1,
     },
     username: {
       type: 'string',

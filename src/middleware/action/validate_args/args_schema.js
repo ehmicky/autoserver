@@ -99,6 +99,7 @@ export const SCHEMA = {
       if: {
         properties: {
           dynamicVars: {
+            type: 'object',
             properties: {
               multiple: {
                 const: true,

@@ -31,7 +31,8 @@ const addCustomKeyword = function (
   validateCustomKeyword({ type: typeA, keyword })
 
   const validate = keywordFunc({ keyword, testFunc, message })
-  const validatorB = validatorA.addKeyword(keyword, {
+  const validatorB = validatorA.addKeyword({
+    keyword,
     validate,
     type: typeA,
     $data: true,
@@ -54,15 +55,14 @@ const validateCustomKeyword = function ({ type, keyword }) {
 
 const keywordFunc = ({ keyword, testFunc, message }) =>
   // eslint-disable-next-line max-params
-  function validate(
-    arg,
-    dataVal,
-    parentSchema,
-    dataPath,
-    model,
-    attrName,
-    { [Symbol.for('extra')]: { mInput, currentDatum: previousmodel } },
-  ) {
+  function validate(arg, dataVal, parentSchema, dataContext) {
+    const {
+      parentData: model,
+      parentDataProperty: attrName,
+      rootData: {
+        [Symbol.for('extra')]: { mInput, currentDatum: previousmodel },
+      },
+    } = dataContext
     const modelParams = getModelParams({ model, attrName, previousmodel })
     const params = { arg, ...modelParams }
 

@@ -19,6 +19,7 @@ export const SCHEMA = {
       enum: ['dev', 'production'],
     },
     collections: {
+      type: 'object',
       additionalProperties: {
         $ref: '#/definitions/collection',
       },
@@ -109,11 +110,13 @@ export const SCHEMA = {
       },
     },
     idAttribute: {
+      type: 'object',
       properties: {
         type: {
           const: 'string',
         },
         validate: {
+          type: 'object',
           properties: {
             required: {
               not: {
@@ -248,6 +251,7 @@ export const SCHEMA = {
             },
             // eslint-disable-next-line unicorn/no-thenable
             then: {
+              type: 'string',
               anyOf: [
                 {
                   pattern: '^must\\s',
@@ -288,7 +292,7 @@ export const SCHEMA = {
           },
           attribute: {
             type: 'array',
-            minLength: 1,
+            minItems: 1,
             uniqueItems: true,
             oneOf: [
               {
@@ -311,7 +315,7 @@ export const SCHEMA = {
           },
           argument: {
             type: 'array',
-            minLength: 1,
+            minItems: 1,
             uniqueItems: true,
             items: {
               enum: [
@@ -530,6 +534,7 @@ export const SCHEMA = {
           $ref: '#/definitions/validName',
         },
         {
+          type: 'string',
           maxLength: 100,
         },
       ],
@@ -540,6 +545,7 @@ export const SCHEMA = {
           $ref: '#/definitions/validName',
         },
         {
+          type: 'string',
           maxLength: 100,
         },
         {
