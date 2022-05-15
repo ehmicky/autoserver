@@ -28,29 +28,29 @@ const reportErrors = function ({ errors }) {
 // Customize error messages when the library's ones are unclear
 const getErrorMessage = function ({
   error,
-  error: { keyword, message, dataPath },
+  error: { keyword, message, instancePath },
 }) {
   const getMessage = errorMessages[keyword]
   // Failsafe
   const messageA = getMessage === undefined ? ` ${message}` : getMessage(error)
 
-  const messageB = addDataPath({ dataPath, message: messageA })
+  const messageB = addDataPath({ instancePath, message: messageA })
   return messageB
 }
 
 // Remove leading dot
 // Prepends argument name to error message
-const addDataPath = function ({ dataPath, message }) {
-  const dataPathA = jsonPointerToDots(dataPath)
-  const messageA = `${dataPathA}${message}`
+const addDataPath = function ({ instancePath, message }) {
+  const dataPath = jsonPointerToDots(instancePath)
+  const messageA = `${dataPath}${message}`
   const messageB = messageA.replace(/^\./u, '')
   return messageB
 }
 
 // We use `jsonPointers` option because it is cleaner,
 // but we want dots (for properties) and brackets (for indexes) not slashes
-const jsonPointerToDots = function (dataPath) {
-  return dataPath
+const jsonPointerToDots = function (instancePath) {
+  return instancePath
     .slice(1)
     .replace(/\/(\d+)/gu, '[$1]')
     .replace(/\//gu, '.')
