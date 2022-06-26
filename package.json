@@ -87,7 +87,7 @@
     "parse-prefer-header": "^1.0.0",
     "path-to-regexp": "^6.2.1",
     "pluralize": "^8.0.0",
-    "qs": "^6.10.3",
+    "qs": "^6.10.5",
     "raw-body": "^2.5.1",
     "read-pkg-up": "^9.1.0",
     "request-ip": "^2.1.3",
