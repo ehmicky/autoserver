@@ -96,7 +96,7 @@
     "sort-on": "^5.0.0",
     "type-is": "^1.6.18",
     "underscore.string": "^3.3.6",
-    "update-notifier": "^5.0.1",
+    "update-notifier": "^6.0.2",
     "uuid": "^8.3.2",
     "vary": "^1.1.2",
     "yargs": "^17.5.1"
