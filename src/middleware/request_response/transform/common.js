@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { includeKeys } from 'filter-obj'
 
 import { getModelParams } from '../../../functions/params/values.js'
 import { runConfigFunc } from '../../../functions/run.js'
@@ -57,7 +57,7 @@ const filterTransforms = function ({ condition, transforms, ...rest }) {
     return transforms
   }
 
-  const transformsA = filterObj(transforms, (attrName) =>
+  const transformsA = includeKeys(transforms, (attrName) =>
     filterTransform({ condition, attrName, ...rest }),
   )
   return transformsA

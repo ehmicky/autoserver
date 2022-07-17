@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { includeKeys } from 'filter-obj'
 
 import { SYSTEM_PARAMS } from '../functions/params/system.js'
 import { mapValues } from '../utils/functional/map.js'
@@ -27,5 +27,5 @@ const getModelAttrs = function ({ config: { collections }, collname }) {
 }
 
 const getModelAttr = function (attr) {
-  return filterObj(attr, ['type', 'isArray'])
+  return includeKeys(attr, ['type', 'isArray'])
 }

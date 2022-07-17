@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { excludeKeys } from 'filter-obj'
 
 import { mapValues } from '../../../../../../utils/functional/map.js'
 
@@ -22,13 +22,13 @@ const mappers = [addCommand, getNestedColl, filterField, getFinalField]
 
 const reduceFields = function (opts, fields, mapper) {
   const fieldsA = mapValues(fields, mapField.bind(undefined, { opts, mapper }))
-  return filterObj(fieldsA, hasValue)
+  return excludeKeys(fieldsA, hasNoValue)
 }
 
 const mapField = function ({ opts, mapper }, def, defName) {
   return mapper(def, { ...opts, defName })
 }
 
-const hasValue = function (key, value) {
-  return value !== undefined && value !== null
+const hasNoValue = function (key, value) {
+  return value === undefined || value === null
 }

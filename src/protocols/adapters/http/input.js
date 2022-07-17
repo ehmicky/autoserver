@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { excludeKeys } from 'filter-obj'
 import parsePreferHeaderLib from 'parse-prefer-header'
 
 import { addGenErrorHandler } from '../../../errors/handler.js'
@@ -16,12 +16,12 @@ import { getAgnosticMethod } from './method.js'
 // HTTP-specific ways to set input
 const mapInput = function (methods, ...args) {
   const input = mapValues(methods, (func) => func(...args))
-  const inputA = filterObj(input, isDefined)
+  const inputA = excludeKeys(input, isUndefined)
   return inputA
 }
 
-const isDefined = function (key, value) {
-  return value !== undefined
+const isUndefined = function (key, value) {
+  return value === undefined
 }
 
 // Using `X-HTTP-Method-Override` changes the method

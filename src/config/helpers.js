@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { includeKeys } from 'filter-obj'
 
 import { mapValues } from '../utils/functional/map.js'
 
@@ -59,7 +59,7 @@ export const getShortcut = function ({
 }
 
 const getShortcutColl = function ({ attributes, filter, mapper }) {
-  const attributesA = filterObj(attributes, (key, attr) =>
+  const attributesA = includeKeys(attributes, (key, attr) =>
     Object.keys(attr).includes(filter),
   )
   const attributesB = mapValues(attributesA, mapper)

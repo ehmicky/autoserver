@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { includeKeys } from 'filter-obj'
 
 import { addCatchAllPbHandler } from '../errors/handler.js'
 import { keyBy } from '../utils/functional/key_by.js'
@@ -37,7 +37,7 @@ const wrapAdapter = function ({ adapter, members, methods, reason }) {
 // reasons
 // Except if they threw using throwError()
 const addErrorHandlers = function ({ adapter, reason }) {
-  const methods = filterObj(adapter, isFunction)
+  const methods = includeKeys(adapter, isFunction)
   const methodsA = mapValues(methods, (method) =>
     addCatchAllPbHandler(method, {
       reason,
@@ -54,7 +54,7 @@ const isFunction = function (key, value) {
 
 // Similar to create a new class, but more functional programming-oriented
 const classify = function ({ adapter, members, methods }) {
-  const membersA = filterObj(adapter, members)
+  const membersA = includeKeys(adapter, members)
   const methodsA = mapValues(methods, (method) =>
     method.bind(undefined, adapter),
   )

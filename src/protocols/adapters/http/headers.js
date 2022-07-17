@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { includeKeys } from 'filter-obj'
 
 import { mapKeys, mapValues } from '../../../utils/functional/map.js'
 import { transtype } from '../../../utils/transtype.js'
@@ -10,7 +10,7 @@ export const getHeaders = function ({
     req: { headers },
   },
 }) {
-  const headersA = filterObj(headers, HEADER_NAMES)
+  const headersA = includeKeys(headers, HEADER_NAMES)
   const headersB = mapKeys(headersA, (value, name) =>
     name.replace(ARGS_REGEXP, '$2'),
   )

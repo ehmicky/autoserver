@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { includeKeys, excludeKeys } from 'filter-obj'
 
 import { addGenErrorHandler } from '../../../../errors/handler.js'
 import { throwError } from '../../../../errors/main.js'
@@ -9,15 +9,15 @@ import { getRightToken, TOKEN_NAMES, BOUNDARY_TOKEN } from '../info.js'
 
 // Parse cursor tokens
 export const getToken = function ({ args }) {
-  const tokens = filterObj(args, TOKEN_NAMES)
-  const tokensA = filterObj(tokens, isValidToken)
+  const tokens = includeKeys(args, TOKEN_NAMES)
+  const tokensA = excludeKeys(tokens, isInvalidToken)
   const tokensB = mapValues(tokensA, (token, name) => eDecode({ token, name }))
   const tokenA = getRightToken({ tokens: tokensB })
   return tokenA
 }
 
-const isValidToken = function (key, token) {
-  return token !== undefined && token !== BOUNDARY_TOKEN
+const isInvalidToken = function (key, token) {
+  return token === undefined || token === BOUNDARY_TOKEN
 }
 
 const eDecode = addGenErrorHandler(decode, {

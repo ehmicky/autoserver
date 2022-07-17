@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { includeKeys } from 'filter-obj'
 
 import { getCurrentData } from './current_data.js'
 import { removeDuplicates } from './duplicate.js'
@@ -45,6 +45,6 @@ export const handlers = {
 
 // Reuse some allowed top-level arguments
 const applyTopargs = function ({ args, topargs }) {
-  const topargsA = filterObj(topargs, ['dryrun'])
+  const topargsA = includeKeys(topargs, ['dryrun'])
   return { ...topargsA, ...args }
 }

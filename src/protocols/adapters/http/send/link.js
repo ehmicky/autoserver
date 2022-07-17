@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { excludeKeys } from 'filter-obj'
 import li from 'li'
 
 import { mapValues } from '../../../../utils/functional/map.js'
@@ -17,7 +17,7 @@ export const getLinks = function ({ pages = {}, specific, rpc }) {
   const links = mapValues(LINKS_NAMES, ({ name, cursorName }) =>
     getLinkUrl({ pages, name, cursorName, url }),
   )
-  const linksA = filterObj(links, isDefined)
+  const linksA = excludeKeys(links, isUndefined)
 
   if (Object.keys(linksA).length === 0) {
     return
@@ -53,6 +53,6 @@ const getLinkUrl = function ({ pages, name, cursorName, url }) {
 
 const CURSOR_NAMES = ['before', 'after']
 
-const isDefined = function (key, value) {
-  return value !== undefined
+const isUndefined = function (key, value) {
+  return value === undefined
 }

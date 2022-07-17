@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { excludeKeys } from 'filter-obj'
 
 // Apply GraphQL-specific error response transformation
 export const transformSuccess = function ({
@@ -29,10 +29,10 @@ const getError = function ({ type, title, description, ...extraContent }) {
   // Custom information not following GraphQL spec is always rendered
   const error = { type, title, message: description, ...extraContent }
 
-  const errorA = filterObj(error, isDefined)
+  const errorA = excludeKeys(error, isUndefined)
   return [errorA]
 }
 
-const isDefined = function (key, value) {
-  return value !== undefined
+const isUndefined = function (key, value) {
+  return value === undefined
 }

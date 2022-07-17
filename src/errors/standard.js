@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { excludeKeys } from 'filter-obj'
 
 import { normalizeError } from './main.js'
 import { getReason, getProps } from './props.js'
@@ -14,7 +14,7 @@ export const getStandardError = function ({ error, mInput }) {
   const errorB = fillError({ error: errorA, mInput })
 
   // Do not expose undefined values
-  const errorC = filterObj(errorB, isDefined)
+  const errorC = excludeKeys(errorB, isUndefined)
   return errorC
 }
 
@@ -36,6 +36,6 @@ const fillError = function ({
   return { type, title, description, status, instance, ...extra, details }
 }
 
-const isDefined = function (key, value) {
-  return value !== undefined
+const isUndefined = function (key, value) {
+  return value === undefined
 }

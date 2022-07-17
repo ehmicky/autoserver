@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { includeKeys } from 'filter-obj'
 
 import { crawlNodes } from '../../../filter/crawl.js'
 import { runConfigFunc } from '../../../functions/run.js'
@@ -15,7 +15,7 @@ export const getServerParams = function ({ authorize, serverParams, mInput }) {
     attrNames,
     serverParams,
   })
-  const serverParamsA = filterObj(serverParams, serverParamsNames)
+  const serverParamsA = includeKeys(serverParams, serverParamsNames)
   const serverParamsB = mapValues(serverParamsA, (configFunc) =>
     runConfigFunc({ configFunc, mInput }),
   )

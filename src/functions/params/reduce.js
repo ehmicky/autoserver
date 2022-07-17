@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { includeKeys, excludeKeys } from 'filter-obj'
 
 import { get, set, has } from '../../utils/functional/get_set.js'
 import { isObject } from '../../utils/functional/type.js'
@@ -10,7 +10,7 @@ export const reduceParams = function ({ params }) {
       reduceInfo({ params: paramsA, path, filter }),
     params,
   )
-  const paramsC = filterObj(paramsB, isDefined)
+  const paramsC = excludeKeys(paramsB, isUndefined)
   return paramsC
 }
 
@@ -35,16 +35,16 @@ const reduceInfo = function ({ params, path, filter }) {
 
 const reduceValue = function ({ value, filter }) {
   if (Array.isArray(value)) {
-    return value.filter(isObject).map((obj) => filterObj(obj, filter))
+    return value.filter(isObject).map((obj) => includeKeys(obj, filter))
   }
 
   if (isObject(value)) {
-    return filterObj(value, filter)
+    return includeKeys(value, filter)
   }
 
   // Otherwise, removes value altogether
 }
 
-const isDefined = function (key, value) {
-  return value !== undefined
+const isUndefined = function (key, value) {
+  return value === undefined
 }

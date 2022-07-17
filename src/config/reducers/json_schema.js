@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { includeKeys, excludeKeys } from 'filter-obj'
 import omit from 'omit.js'
 
 import { addGenErrorHandler } from '../../errors/handler.js'
@@ -46,7 +46,7 @@ const addJsonSchemaRequire = function ({
   jsonSchema,
   jsonSchema: { properties },
 }) {
-  const requiredAttrs = filterObj(properties, isRequired)
+  const requiredAttrs = includeKeys(properties, isRequired)
   const requiredA = Object.keys(requiredAttrs)
   // `id` requiredness is checked by other validators, so we skip it here
   const requiredB = requiredA.filter((attrName) => attrName !== 'id')
@@ -66,12 +66,12 @@ const addJsonSchemaDeps = function ({
     properties,
     ({ dependencies }) => dependencies,
   )
-  const dependenciesB = filterObj(dependenciesA, isDefined)
+  const dependenciesB = excludeKeys(dependenciesA, isUndefined)
   return { ...jsonSchema, dependencies: dependenciesB }
 }
 
-const isDefined = function (key, value) {
-  return value !== undefined
+const isUndefined = function (key, value) {
+  return value === undefined
 }
 
 // Remove syntax that is not JSON schema

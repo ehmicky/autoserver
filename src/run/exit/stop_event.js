@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { excludeKeys } from 'filter-obj'
 
 import { logEvent } from '../../log/main.js'
 import { getDefaultDuration } from '../../perf/measure.js'
@@ -32,11 +32,11 @@ export const emitStopEvent = async function ({ exit, config, measures }) {
 
 // Retrieves which servers exits have failed, if any
 const getFailedProtocols = function ({ exit }) {
-  const failedExits = filterObj(exit, hasFailedCode)
+  const failedExits = excludeKeys(exit, hasCode)
   const failedProtocols = Object.keys(failedExits)
   return failedProtocols
 }
 
-const hasFailedCode = function (key, code) {
-  return !code
+const hasCode = function (key, code) {
+  return code
 }

@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { includeKeys } from 'filter-obj'
 
 import { isOnlyForwardCursor } from '../condition.js'
 import { encode } from '../encoding/main.js'
@@ -66,7 +66,7 @@ const getEncodedToken = function ({ model, args: { order }, topargs }) {
 
   const parts = order.map(({ attrName }) => model[attrName])
 
-  const token = filterObj(topargs, SAME_ARGS)
+  const token = includeKeys(topargs, SAME_ARGS)
   const tokenA = { ...token, parts }
 
   const encodedToken = encode({ token: tokenA })

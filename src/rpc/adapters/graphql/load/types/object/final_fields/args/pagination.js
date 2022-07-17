@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { includeKeys } from 'filter-obj'
 import { GraphQLInt, GraphQLString } from 'graphql'
 import omit from 'omit.js'
 
@@ -16,7 +16,7 @@ export const getPaginationArgument = function ({ command, features }) {
   const hasFullArgs = FULL_PAGINATION_COMMANDS.has(command)
 
   if (!hasFullArgs) {
-    return filterObj(PAGINATION_ARGS, ['pagesize'])
+    return includeKeys(PAGINATION_ARGS, ['pagesize'])
   }
 
   if (!features.includes('offset')) {

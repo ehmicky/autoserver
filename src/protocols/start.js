@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { includeKeys } from 'filter-obj'
 import omit from 'omit.js'
 
 import { identity } from '../utils/functional/identity.js'
@@ -66,7 +66,7 @@ const processRequest = function (
 
 // Pass protocol-specific input to some adapter's methods
 const bindMethods = function ({ protocolAdapter, specific }) {
-  const methods = filterObj(protocolAdapter, BOUND_METHODS)
+  const methods = includeKeys(protocolAdapter, BOUND_METHODS)
   const methodsA = mapValues(methods, (method) =>
     wrapMethod.bind(undefined, { method, specific }),
   )

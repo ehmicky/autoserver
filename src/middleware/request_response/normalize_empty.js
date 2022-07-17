@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { excludeKeys } from 'filter-obj'
 
 // Normalize empty values (undefined, null) by removing their key
 export const normalizeEmpty = function ({ args, args: { newData } }) {
@@ -11,9 +11,9 @@ export const normalizeEmpty = function ({ args, args: { newData } }) {
 }
 
 const removeEmpty = function (newData) {
-  return filterObj(newData, hasValue)
+  return excludeKeys(newData, hasNoValue)
 }
 
-const hasValue = function (key, value) {
-  return value !== undefined && value !== null
+const hasNoValue = function (key, value) {
+  return value === undefined || value === null
 }

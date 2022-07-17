@@ -1,4 +1,4 @@
-import filterObj from 'filter-obj'
+import { excludeKeys } from 'filter-obj'
 import iconvLite from 'iconv-lite'
 
 import { decodeCharset } from './transform.js'
@@ -48,12 +48,12 @@ const createInstance = function ({ charset, title }) {
 
 // Get list of supported charset
 export const getCharsets = function () {
-  const charsets = filterObj(encodings, isNotAlias)
+  const charsets = excludeKeys(encodings, isAlias)
   const charsetsA = Object.keys(charsets)
   return charsetsA
 }
 
 // Remove charsets that are just aliases, to keep return value small
-const isNotAlias = function (key, value) {
-  return typeof value !== 'string'
+const isAlias = function (key, value) {
+  return typeof value === 'string'
 }
