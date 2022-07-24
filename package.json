@@ -68,7 +68,7 @@
     "colors-option": "^4.1.0",
     "compressible": "^2.0.18",
     "content-type": "^1.0.4",
-    "filter-obj": "^4.0.0",
+    "filter-obj": "^5.0.0",
     "graphql": "^0.9.1",
     "graphql-type-json": "^0.3.2",
     "handle-cli-error": "^1.0.1",
