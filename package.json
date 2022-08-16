@@ -5,7 +5,7 @@
   "exports": "./build/src/main.js",
   "main": "./build/src/main.js",
   "files": [
-    "build/src/**/*.{js,ts,map,json,sh,md,mustache}"
+    "build/src/**/*.{js,d.ts,json,mustache}"
   ],
   "bin": {
     "autoserver": "build/src/bin/main.js"
@@ -56,7 +56,6 @@
   "author": "ehmicky <ehmicky@gmail.com> (https://github.com/ehmicky)",
   "directories": {
     "doc": "docs",
-    "example": "examples",
     "lib": "src",
     "test": "test"
   },
