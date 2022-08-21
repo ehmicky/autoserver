@@ -105,7 +105,7 @@
     "@ehmicky/dev-tasks": "^1.0.84",
     "execa": "^6.1.0",
     "get-bin-path": "^7.1.0",
-    "got": "^12.1.0",
+    "got": "^12.3.1",
     "gulp-execa": "^4.2.0",
     "nodemon": "^2.0.18"
   },
