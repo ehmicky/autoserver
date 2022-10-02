@@ -70,7 +70,7 @@
     "filter-obj": "^5.1.0",
     "graphql": "^0.9.1",
     "graphql-type-json": "^0.3.2",
-    "handle-cli-error": "^2.1.0",
+    "handle-cli-error": "^2.2.0",
     "hjson": "^3.2.2",
     "iconv-lite": "^0.6.2",
     "ini": "^3.0.0",
