@@ -21,7 +21,7 @@ const startCli = async function () {
     await instructions[instruction]({ ...opts, measures })
   } catch (error) {
     setErrorDescription(error)
-    handleCliError(error, { short: true })
+    handleCliError(error, { stack: false })
   }
 }
 
