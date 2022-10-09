@@ -10,15 +10,16 @@ import { logEvent } from '../log/main.js'
 // caught as well.
 export const processErrorHandler = function ({ config }) {
   const stopProcessErrors = logProcessErrors({
-    exitOn: [],
-    log: emitProcessEvent.bind(undefined, { config }),
+    exit: false,
+    onError: emitProcessEvent.bind(undefined, { config }),
   })
   return { stopProcessErrors }
 }
 
 // Report process problems as events with event 'failure'
-const emitProcessEvent = async function ({ config }, { stack }, level) {
+const emitProcessEvent = async function ({ config }, { stack }, event) {
   const error = createPb(stack, { reason: 'ENGINE' })
+  const level = event === 'warning' ? 'warn' : 'error'
 
   await logEvent({
     event: 'failure',
