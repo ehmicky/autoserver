@@ -5,7 +5,7 @@
   "exports": "./build/src/main.js",
   "main": "./build/src/main.js",
   "files": [
-    "build/src/**/*.{js,d.ts,json,mustache}"
+    "build/src/**/*.{js,json,mustache}"
   ],
   "bin": {
     "autoserver": "build/src/bin/main.js"
