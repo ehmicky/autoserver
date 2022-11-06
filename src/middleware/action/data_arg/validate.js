@@ -1,4 +1,4 @@
-import { Buffer } from 'buffer'
+import { Buffer } from 'node:buffer'
 
 import { throwError } from '../../../errors/main.js'
 import { isPatchOp } from '../../../patch/parse.js'

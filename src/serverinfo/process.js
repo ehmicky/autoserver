@@ -1,4 +1,4 @@
-import { pid } from 'process'
+import { pid } from 'node:process'
 
 // Retrieve process-specific information
 export const getProcessInfo = function ({ host, processName }) {

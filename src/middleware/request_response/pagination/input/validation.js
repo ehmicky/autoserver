@@ -1,4 +1,4 @@
-import { isDeepStrictEqual } from 'util'
+import { isDeepStrictEqual } from 'node:util'
 
 import { throwError } from '../../../../errors/main.js'
 import { SAME_ARGS } from '../info.js'

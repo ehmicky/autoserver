@@ -1,4 +1,4 @@
-import { promisify } from 'util'
+import { promisify } from 'node:util'
 
 import { setHeaders } from './headers.js'
 import { setStatusCode } from './status.js'

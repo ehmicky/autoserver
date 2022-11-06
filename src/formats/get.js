@@ -1,4 +1,4 @@
-import { extname } from 'path'
+import { extname } from 'node:path'
 
 import { is as isType } from 'type-is'
 

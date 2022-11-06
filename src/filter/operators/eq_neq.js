@@ -1,4 +1,4 @@
-import { isDeepStrictEqual } from 'util'
+import { isDeepStrictEqual } from 'node:util'
 
 import { validateSameType, parseAsIs } from './common.js'
 

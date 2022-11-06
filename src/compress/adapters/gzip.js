@@ -1,5 +1,5 @@
-import { promisify } from 'util'
-import { gzip as zlibGzip, gunzip as zlibGunzip } from 'zlib'
+import { promisify } from 'node:util'
+import { gzip as zlibGzip, gunzip as zlibGunzip } from 'node:zlib'
 
 const pGzip = promisify(zlibGzip)
 const pGunzip = promisify(zlibGunzip)

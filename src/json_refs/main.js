@@ -1,4 +1,4 @@
-import { cwd } from 'process'
+import { cwd } from 'node:process'
 
 import { isObjectType } from '../utils/functional/type.js'
 

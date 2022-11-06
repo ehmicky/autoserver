@@ -1,4 +1,4 @@
-import { isDeepStrictEqual } from 'util'
+import { isDeepStrictEqual } from 'node:util'
 
 import { getSimpleFilter } from '../../../filter/simple_id.js'
 import { uniq } from '../../../utils/functional/uniq.js'

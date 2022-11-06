@@ -1,5 +1,5 @@
-import { promisify } from 'util'
-import { brotliCompress, brotliDecompress } from 'zlib'
+import { promisify } from 'node:util'
+import { brotliCompress, brotliDecompress } from 'node:zlib'
 
 // Compress to Brotli
 const compress = function (content) {

@@ -1,6 +1,6 @@
-import { dirname } from 'path'
-import { version as nodeVersion } from 'process'
-import { fileURLToPath } from 'url'
+import { dirname } from 'node:path'
+import { version as nodeVersion } from 'node:process'
+import { fileURLToPath } from 'node:url'
 
 import { readPackageUpSync } from 'read-pkg-up'
 

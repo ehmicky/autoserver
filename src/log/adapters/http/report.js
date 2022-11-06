@@ -1,5 +1,5 @@
-import { Buffer } from 'buffer'
-import { request } from 'http'
+import { Buffer } from 'node:buffer'
+import { request } from 'node:http'
 
 import rawBody from 'raw-body'
 

@@ -1,5 +1,5 @@
-import { fileURLToPath } from 'url'
-import { promisify } from 'util'
+import { fileURLToPath } from 'node:url'
+import { promisify } from 'node:util'
 
 import { getBinPath } from 'get-bin-path'
 import { exec } from 'gulp-execa'

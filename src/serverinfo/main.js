@@ -1,4 +1,4 @@
-import { pid } from 'process'
+import { pid } from 'node:process'
 
 import moize from 'moize'
 

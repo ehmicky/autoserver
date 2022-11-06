@@ -1,4 +1,4 @@
-import { isDeepStrictEqual } from 'util'
+import { isDeepStrictEqual } from 'node:util'
 
 // Retrieves `summary`
 // This is all `actions`, included nested ones as a nice formatted string,

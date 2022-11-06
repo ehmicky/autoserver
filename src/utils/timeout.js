@@ -1,4 +1,4 @@
-import { promisify } from 'util'
+import { promisify } from 'node:util'
 
 export const pSetTimeout = promisify(setTimeout)
 

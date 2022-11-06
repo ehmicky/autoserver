@@ -1,4 +1,4 @@
-import { stat } from 'fs/promises'
+import { stat } from 'node:fs/promises'
 
 import { addGenErrorHandler, addErrorHandler } from '../errors/handler.js'
 import { getByExt, DEFAULT_RAW_FORMAT } from '../formats/get.js'

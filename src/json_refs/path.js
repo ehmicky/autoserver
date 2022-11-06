@@ -1,5 +1,5 @@
-import { createRequire } from 'module'
-import { resolve, dirname } from 'path'
+import { createRequire } from 'node:module'
+import { resolve, dirname } from 'node:path'
 
 import { addGenErrorHandler } from '../errors/handler.js'
 

@@ -1,4 +1,4 @@
-import { argv } from 'process'
+import { argv } from 'node:process'
 
 import yargs from 'yargs'
 // eslint-disable-next-line n/file-extension-in-import

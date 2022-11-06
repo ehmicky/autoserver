@@ -1,4 +1,4 @@
-import { pathToFileURL } from 'url'
+import { pathToFileURL } from 'node:url'
 
 import requireFromString from 'require-from-string'
 

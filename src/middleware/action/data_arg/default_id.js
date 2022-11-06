@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 
 import { getModelParams } from '../../../functions/params/values.js'
 import { runConfigFunc } from '../../../functions/run.js'

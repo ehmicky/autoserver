@@ -1,5 +1,5 @@
-import { promisify } from 'util'
-import { deflate as zlibDeflate, inflate as zlibInflate } from 'zlib'
+import { promisify } from 'node:util'
+import { deflate as zlibDeflate, inflate as zlibInflate } from 'node:zlib'
 
 const pDeflate = promisify(zlibDeflate)
 const pInflate = promisify(zlibInflate)

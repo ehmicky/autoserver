@@ -20,7 +20,6 @@ const errorHandledFunc = function (func, errorHandler, ...args) {
   try {
     const retVal = func(...args)
 
-    // eslint-disable-next-line promise/prefer-await-to-then
     return retVal && typeof retVal.then === 'function'
       ? // eslint-disable-next-line promise/prefer-await-to-then, promise/prefer-await-to-callbacks
         retVal.catch((error) => errorHandler(error, ...args))

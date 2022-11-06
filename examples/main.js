@@ -1,6 +1,6 @@
-import { stdout } from 'process'
-import { fileURLToPath } from 'url'
-import { inspect } from 'util'
+import { stdout } from 'node:process'
+import { fileURLToPath } from 'node:url'
+import { inspect } from 'node:util'
 
 import { run } from 'autoserver'
 

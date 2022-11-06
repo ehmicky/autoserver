@@ -7,7 +7,7 @@ import {
   totalmem as getMemory,
   cpus as getCpus,
   networkInterfaces as getNetworkInterfaces,
-} from 'os'
+} from 'node:os'
 
 import { v5 as uuidv5 } from 'uuid'
 

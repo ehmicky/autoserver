@@ -1,4 +1,4 @@
-import { env } from 'process'
+import { env } from 'node:process'
 
 import { set } from '../../../utils/functional/get_set.js'
 import { transtype } from '../../../utils/transtype.js'

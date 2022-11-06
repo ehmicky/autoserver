@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 
 // Assigns unique ID (UUIDv4) to each request
 // Available in mInput, events, system parameters and metadata

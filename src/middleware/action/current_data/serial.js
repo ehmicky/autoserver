@@ -1,4 +1,4 @@
-import { isDeepStrictEqual } from 'util'
+import { isDeepStrictEqual } from 'node:util'
 
 // Retrieve `currentData` for `delete` and `patch` by running `find` commands,
 // reusing `arg.filter`.
