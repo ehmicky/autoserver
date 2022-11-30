@@ -7,7 +7,7 @@
   "files": [
     "build/src/**/*.{js,json,mustache}",
     "!build/src/**/*.test.js",
-    "!build/src/{helpers,fixtures}/**/*.js"
+    "!build/src/{helpers,fixtures}/**/*.{js,json,d.ts}"
   ],
   "bin": {
     "autoserver": "build/src/bin/main.js"
