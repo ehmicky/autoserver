@@ -3,7 +3,7 @@ import { promisify } from 'node:util'
 import test from 'ava'
 import { execa } from 'execa'
 import { getBinPath } from 'get-bin-path'
-import got from 'got'
+import { got } from 'got'
 
 // TODO: replace with `timers/promises` `setTimeout()` after dropping support
 // for Node <15.0.0
