@@ -38,4 +38,4 @@ const setErrorDescription = function (error) {
   }
 }
 
-startCli()
+await startCli()

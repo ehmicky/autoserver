@@ -30,4 +30,4 @@ const startServer = async function () {
 
 setDefaultDebug()
 
-startServer()
+await startServer()
