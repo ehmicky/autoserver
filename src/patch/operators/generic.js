@@ -1,5 +1,3 @@
 export const set = {
-  apply({ arg: opVal }) {
-    return opVal
-  },
+  apply: ({ arg: opVal }) => opVal,
 }

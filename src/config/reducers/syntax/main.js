@@ -9,7 +9,7 @@ import { validate } from '../../../validation/validate.js'
 import { SCHEMA } from './config_schema.js'
 
 // General config syntax validation
-export const validateConfigSyntax = function ({ config }) {
+export const validateConfigSyntax = ({ config }) => {
   const data = getConfig(config)
 
   eValidate({ compiledJsonSchema, data })
@@ -20,26 +20,25 @@ const compiledJsonSchema = compile({ jsonSchema: SCHEMA })
 // At the moment, the config needs to be modified for proper JSON schema
 // validation
 // TODO: remove this
-const getConfig = function (config) {
-  return modifiers.reduce((configA, modifier) => modifier(configA), config)
-}
+const getConfig = (config) =>
+  modifiers.reduce((configA, modifier) => modifier(configA), config)
 
 // Adds some temporary property on the config, to help validation
-const addProps = function (config) {
+const addProps = (config) => {
   const collTypes = getCollTypes(config)
   const customValidationNames = getCustomValidationNames(config)
 
   return { ...config, collTypes, customValidationNames }
 }
 
-const getCollTypes = function ({ collections }) {
+const getCollTypes = ({ collections }) => {
   const simpleCollTypes = Object.keys(collections || {})
   const arrayCollTypes = simpleCollTypes.map((name) => `${name}[]`)
 
   return [...simpleCollTypes, ...arrayCollTypes]
 }
 
-const getCustomValidationNames = function ({ validation }) {
+const getCustomValidationNames = ({ validation }) => {
   if (!isObject(validation)) {
     return []
   }
@@ -49,11 +48,9 @@ const getCustomValidationNames = function ({ validation }) {
 
 // At the moment, main config validation does not support `$data`,
 // so we remove them
-const removeData = function (config) {
-  return fullRecurseMap(config, removeDatum)
-}
+const removeData = (config) => fullRecurseMap(config, removeDatum)
 
-const removeDatum = function (obj) {
+const removeDatum = (obj) => {
   if (!isObject(obj)) {
     return obj
   }
@@ -61,9 +58,7 @@ const removeDatum = function (obj) {
   return excludeKeys(obj, hasData)
 }
 
-const hasData = function (key, prop) {
-  return prop && prop.$data
-}
+const hasData = (key, prop) => prop && prop.$data
 
 const modifiers = [addProps, removeData]
 

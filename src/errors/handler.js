@@ -7,16 +7,15 @@ import { throwPb } from './props.js'
 
 // Wrap a function with a error handler
 // Allow passing an empty error handler, i.e. ignoring any error thrown
-const kAddErrorHandler = function (func, errorHandler = noop) {
-  return errorHandledFunc.bind(undefined, func, errorHandler)
-}
+const kAddErrorHandler = (func, errorHandler = noop) =>
+  errorHandledFunc.bind(undefined, func, errorHandler)
 
 // eslint-disable-next-line no-empty-function
-const noop = function () {}
+const noop = () => {}
 
 export const addErrorHandler = keepFuncProps(kAddErrorHandler)
 
-const errorHandledFunc = function (func, errorHandler, ...args) {
+const errorHandledFunc = (func, errorHandler, ...args) => {
   try {
     const retVal = func(...args)
 
@@ -30,7 +29,7 @@ const errorHandledFunc = function (func, errorHandler, ...args) {
 }
 
 // Use `addErrorHandler()` with a generic error handler that rethrows
-export const addGenErrorHandler = function (func, { message, reason, extra }) {
+export const addGenErrorHandler = (func, { message, reason, extra }) => {
   const errorHandler = genErrorHandler.bind(undefined, {
     message,
     reason,
@@ -39,7 +38,7 @@ export const addGenErrorHandler = function (func, { message, reason, extra }) {
   return kAddErrorHandler(func, errorHandler)
 }
 
-const genErrorHandler = function ({ message, reason, extra }, error, ...args) {
+const genErrorHandler = ({ message, reason, extra }, error, ...args) => {
   const innererror = normalizeError({ error })
   const reasonA = result(reason, ...args, innererror) || innererror.reason
   const messageA = result(message, ...args, innererror) || innererror.message
@@ -47,12 +46,12 @@ const genErrorHandler = function ({ message, reason, extra }, error, ...args) {
   throwError(messageA, { reason: reasonA, innererror, extra: extraA })
 }
 
-export const addGenPbHandler = function (func, { message, reason, extra }) {
+export const addGenPbHandler = (func, { message, reason, extra }) => {
   const errorHandler = genPbHandler.bind(undefined, { reason, message, extra })
   return kAddErrorHandler(func, errorHandler)
 }
 
-const genPbHandler = function ({ message, reason, extra }, error, ...args) {
+const genPbHandler = ({ message, reason, extra }, error, ...args) => {
   const innererror = normalizeError({ error })
   const messageA = result(message, ...args, innererror) || innererror.message
   const reasonA = result(reason, ...args, innererror) || innererror.reason
@@ -61,12 +60,12 @@ const genPbHandler = function ({ message, reason, extra }, error, ...args) {
 }
 
 // Error handler that is noop if thrown error is using our error type
-export const addCatchAllHandler = function (func, errorHandler) {
+export const addCatchAllHandler = (func, errorHandler) => {
   const errorHandlerA = catchAllHandler.bind(undefined, errorHandler)
   return kAddErrorHandler(func, errorHandlerA)
 }
 
-const catchAllHandler = function (errorHandler, error, ...args) {
+const catchAllHandler = (errorHandler, error, ...args) => {
   if (isError({ error })) {
     throw error
   }
@@ -75,10 +74,7 @@ const catchAllHandler = function (errorHandler, error, ...args) {
 }
 
 // Combines `addCatchAllHandler()` + `addGenPbHandler()`
-export const addCatchAllPbHandler = function (
-  func,
-  { message, reason, extra },
-) {
+export const addCatchAllPbHandler = (func, { message, reason, extra }) => {
   const errorHandler = genPbHandler.bind(undefined, { message, reason, extra })
   return addCatchAllHandler(func, errorHandler)
 }

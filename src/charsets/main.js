@@ -10,7 +10,7 @@ iconvLite.getCodec('binary')
 const { encodings } = iconvLite
 
 // Normalize charset, including adding defaults and validating
-export const getCharset = function (charset, { format } = {}) {
+export const getCharset = (charset, { format } = {}) => {
   const charsetA = addDefaultCharset({ charset, format })
 
   const charsetB = charsetA.toLowerCase()
@@ -23,7 +23,7 @@ export const getCharset = function (charset, { format } = {}) {
 }
 
 // Add default charsets, including the format's default charset
-const addDefaultCharset = function ({ charset, format }) {
+const addDefaultCharset = ({ charset, format }) => {
   const formatCharset = findFormatCharset({ format })
 
   return charset || formatCharset || DEFAULT_INPUT_CHARSET
@@ -31,7 +31,7 @@ const addDefaultCharset = function ({ charset, format }) {
 
 const DEFAULT_INPUT_CHARSET = 'binary'
 
-const findFormatCharset = function ({ format }) {
+const findFormatCharset = ({ format }) => {
   if (format === undefined) {
     return
   }
@@ -40,20 +40,18 @@ const findFormatCharset = function ({ format }) {
 }
 
 // Returns a charset adapter object
-const createInstance = function ({ charset, title }) {
+const createInstance = ({ charset, title }) => {
   const decode = decodeCharset.bind(undefined, charset)
 
   return { name: charset, title, decode }
 }
 
 // Get list of supported charset
-export const getCharsets = function () {
+export const getCharsets = () => {
   const charsets = excludeKeys(encodings, isAlias)
   const charsetsA = Object.keys(charsets)
   return charsetsA
 }
 
 // Remove charsets that are just aliases, to keep return value small
-const isAlias = function (key, value) {
-  return typeof value === 'string'
-}
+const isAlias = (key, value) => typeof value === 'string'

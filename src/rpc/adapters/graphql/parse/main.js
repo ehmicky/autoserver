@@ -6,12 +6,12 @@ import { getMainDef } from './main_def.js'
 import { validateMainDef } from './validate.js'
 
 // Use GraphQL-specific logic to parse the request into an rpc-agnostic `rpcDef`
-export const parse = function ({
+export const parse = ({
   config: { graphqlSchema },
   queryvars,
   payload,
   method,
-}) {
+}) => {
   const { variables, operationName, queryDocument } = getGraphqlDocument({
     queryvars,
     payload,

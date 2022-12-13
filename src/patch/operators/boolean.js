@@ -3,7 +3,5 @@ export const invert = {
 
   argument: ['empty'],
 
-  apply({ value: attrVal = false }) {
-    return !attrVal
-  },
+  apply: ({ value: attrVal = false }) => !attrVal,
 }

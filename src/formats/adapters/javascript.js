@@ -3,7 +3,7 @@ import { pathToFileURL } from 'node:url'
 import requireFromString from 'require-from-string'
 
 // Parses a JavaScript file
-const parse = async function ({ content, path }) {
+const parse = async ({ content, path }) => {
   if (path === undefined) {
     return requireFromString(content)
   }
@@ -15,7 +15,7 @@ const parse = async function ({ content, path }) {
 }
 
 // Serializes a JavaScript file
-const serialize = function ({ content }) {
+const serialize = ({ content }) => {
   const json = JSON.stringify(content, undefined, 2)
   return `export default ${json}`
 }

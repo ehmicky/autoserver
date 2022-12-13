@@ -7,6 +7,4 @@ import { COMPRESS_ADAPTERS } from './adapters/main.js'
 export const ALGOS = getNames(COMPRESS_ADAPTERS)
 
 // Do not try to compress binary content types
-export const shouldCompress = function ({ contentType }) {
-  return compressible(contentType)
-}
+export const shouldCompress = ({ contentType }) => compressible(contentType)

@@ -1,14 +1,10 @@
-const parseOr = function ({ value, parseOperations, throwErr }) {
-  return value.flatMap((_and) =>
-    parseOperations({ operations: { _and }, throwErr }),
-  )
-}
+const parseOr = ({ value, parseOperations, throwErr }) =>
+  value.flatMap((_and) => parseOperations({ operations: { _and }, throwErr }))
 
-const parseAnd = function ({ value, parseAttrs, throwErr }) {
-  return parseAttrs({ attrs: value, throwErr })
-}
+const parseAnd = ({ value, parseAttrs, throwErr }) =>
+  parseAttrs({ attrs: value, throwErr })
 
-const optimizeOr = function (node) {
+const optimizeOr = (node) => {
   const { value } = node
 
   // If some alternatives is already true, whole node is true
@@ -31,7 +27,7 @@ const optimizeOr = function (node) {
   return node
 }
 
-const optimizeAnd = function (node) {
+const optimizeAnd = (node) => {
   const { value } = node
 
   // Remove alternatives that are already true
@@ -50,10 +46,7 @@ const optimizeAnd = function (node) {
   return { ...node, value: valueA }
 }
 
-const evalOrAnd = function (
-  operator,
-  { attrs, value, partialNames, evalFilter },
-) {
+const evalOrAnd = (operator, { attrs, value, partialNames, evalFilter }) => {
   const operatorMap = andOrMap[operator]
 
   const valueA = value.map((filter) =>
@@ -77,7 +70,7 @@ const evalOrAnd = function (
 }
 
 // Try to simplify a node when possible
-const simplifyNode = function (node) {
+const simplifyNode = (node) => {
   if (node.value.length === 1) {
     return node.value[0]
   }

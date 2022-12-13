@@ -6,7 +6,7 @@ import { parseData } from './data.js'
 import { getDataPath } from './data_path.js'
 
 // Parse `args.data` into write `actions`
-export const parseDataArg = function ({ actions, ...rest }) {
+export const parseDataArg = ({ actions, ...rest }) => {
   const actionsA = addActions({
     actions,
     filter: ['data'],
@@ -16,7 +16,7 @@ export const parseDataArg = function ({ actions, ...rest }) {
   return { actions: actionsA }
 }
 
-const getDataAction = function ({
+const getDataAction = ({
   top,
   top: { command },
   action: {
@@ -29,7 +29,7 @@ const getDataAction = function ({
   },
   mInput,
   dbAdapters,
-}) {
+}) => {
   const { maxAttrValueSize } = getLimits({ config })
 
   // Top-level `dataPaths`

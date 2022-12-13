@@ -1,7 +1,7 @@
 import { excludeKeys } from 'filter-obj'
 
 // Normalize empty values (undefined, null) by removing their key
-export const normalizeEmpty = function ({ args, args: { newData } }) {
+export const normalizeEmpty = ({ args, args: { newData } }) => {
   if (newData === undefined) {
     return
   }
@@ -10,10 +10,6 @@ export const normalizeEmpty = function ({ args, args: { newData } }) {
   return { args: { ...args, newData: newDataA } }
 }
 
-const removeEmpty = function (newData) {
-  return excludeKeys(newData, hasNoValue)
-}
+const removeEmpty = (newData) => excludeKeys(newData, hasNoValue)
 
-const hasNoValue = function (key, value) {
-  return value === undefined || value === null
-}
+const hasNoValue = (key, value) => value === undefined || value === null

@@ -5,11 +5,11 @@ import { transtype } from '../../../utils/transtype.js'
 
 // Returns a request's application-specific HTTP headers, normalized lowercase.
 // At the moment, only keeps X-Autoserver-Params header
-export const getHeaders = function ({
+export const getHeaders = ({
   specific: {
     req: { headers },
   },
-}) {
+}) => {
   const headersA = includeKeys(headers, HEADER_NAMES)
   const headersB = mapKeys(headersA, (value, name) =>
     name.replace(ARGS_REGEXP, '$2'),

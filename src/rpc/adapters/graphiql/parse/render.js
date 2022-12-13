@@ -17,7 +17,7 @@ const TEMPLATE = new URL('graphiql.mustache', import.meta.url)
 // @param {string} [options.result] - the result of the query to pre-fill
 //
 // @returns {string} document - HTML document
-export const renderGraphiql = function (input) {
+export const renderGraphiql = (input) => {
   // Those must be valid JavaScript, so must JSON-stringified
   const dataToEscape = getDataToEscape(input)
   // Those must be valid HTML
@@ -27,22 +27,19 @@ export const renderGraphiql = function (input) {
   return renderTemplate({ template: TEMPLATE, data })
 }
 
-const getDataToEscape = function ({
+const getDataToEscape = ({
   endpointURL,
   query = '',
   variables = '',
   operationName = '',
-}) {
+}) => {
   const variablesA =
     typeof variables === 'object' ? JSON.stringify(variables) : variables
   return { endpointURL, query, variables: variablesA, operationName }
 }
 
-const escapeData = function (dataToEscape) {
-  return mapValues(dataToEscape, (data) => escapeJSON(data))
-}
+const escapeData = (dataToEscape) =>
+  mapValues(dataToEscape, (data) => escapeJSON(data))
 
 // eslint-disable-next-line unicorn/no-null
-const escapeJSON = function (string = null) {
-  return JSON.stringify(string, undefined, 2)
-}
+const escapeJSON = (string = null) => JSON.stringify(string, undefined, 2)

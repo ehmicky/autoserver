@@ -2,7 +2,7 @@ import { mapAttrs } from '../helpers.js'
 
 // Copy `attr.type|description` to nested collections
 // from the `coll.id` they refer to
-const mapAttr = function ({ attr, config: { collections } }) {
+const mapAttr = ({ attr, config: { collections } }) => {
   if (attr.target === undefined) {
     return
   }

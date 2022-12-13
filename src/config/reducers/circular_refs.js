@@ -5,14 +5,14 @@ import { isObjectType } from '../../utils/functional/type.js'
 // There should be no circular references.
 // They may be introduced by e.g. dereferencing JSON references `$ref`
 // or YAML anchors `*var`
-export const validateCircularRefs = function ({ config }) {
+export const validateCircularRefs = ({ config }) => {
   validateCircRefs(config)
 }
 
-const validateCircRefs = function (
+const validateCircRefs = (
   value,
   { path = 'config', pathSet = new WeakSet() } = {},
-) {
+) => {
   if (pathSet.has(value)) {
     const message = `The configuration cannot contain circular references: '${path}'`
     throwError(message, { reason: 'CONFIG_VALIDATION' })
@@ -25,7 +25,7 @@ const validateCircRefs = function (
   walkCircularRefs(value, { path, pathSet })
 }
 
-const walkCircularRefs = function (value, { path, pathSet }) {
+const walkCircularRefs = (value, { path, pathSet }) => {
   pathSet.add(value)
 
   const iterator = Array.isArray(value)

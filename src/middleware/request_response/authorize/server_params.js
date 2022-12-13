@@ -8,7 +8,7 @@ import { uniq } from '../../../utils/functional/uniq.js'
 
 // Retrieve all server-specific parameters used in `coll.authorize`, and
 // resolve their config functions.
-export const getServerParams = function ({ authorize, serverParams, mInput }) {
+export const getServerParams = ({ authorize, serverParams, mInput }) => {
   // Retrieve all `attrName` recursively inside filter AST
   const attrNames = crawlNodes(authorize, ({ attrName }) => attrName)
   const serverParamsNames = getPossibleServerParams({
@@ -23,7 +23,7 @@ export const getServerParams = function ({ authorize, serverParams, mInput }) {
 }
 
 // Only keep the `attrName` that targets a server-specific parameters
-const getPossibleServerParams = function ({ attrNames, serverParams }) {
+const getPossibleServerParams = ({ attrNames, serverParams }) => {
   const possibleServerParams = Object.keys(serverParams)
   const serverParamsNames = intersection(attrNames, possibleServerParams)
   const serverParamsNamesA = uniq(serverParamsNames)

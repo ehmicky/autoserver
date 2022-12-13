@@ -1,7 +1,7 @@
 import { isError } from '../../../errors/main.js'
 
 // Rethrow original error
-export const rethrowFailure = function ({ failedActions: [error], results }) {
+export const rethrowFailure = ({ failedActions: [error], results }) => {
   const errorA = addRollbackFailures({ error, results })
 
   throw errorA
@@ -9,7 +9,7 @@ export const rethrowFailure = function ({ failedActions: [error], results }) {
 
 // If rollback itself fails, give up and add rollback error to error response,
 // as `error.rollback_failures`
-const addRollbackFailures = function ({ error, results }) {
+const addRollbackFailures = ({ error, results }) => {
   const rollbackFailures = results.filter((result) =>
     isError({ error: result }),
   )

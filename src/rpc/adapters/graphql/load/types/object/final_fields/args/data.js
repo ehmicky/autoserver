@@ -3,7 +3,7 @@ import { GraphQLNonNull, GraphQLList } from 'graphql'
 import { getArgTypeDescription } from '../../../../description.js'
 
 // `data` argument
-export const getDataArgument = function (def, opts) {
+export const getDataArgument = (def, opts) => {
   // Only for mutation commands, but not delete
   const hasData = DATA_COMMAND_TYPES.has(def.command)
 
@@ -17,7 +17,7 @@ export const getDataArgument = function (def, opts) {
   return { data: { type, description } }
 }
 
-const getDataObjectType = function ({ command }, { dataObjectType }) {
+const getDataObjectType = ({ command }, { dataObjectType }) => {
   // Only multiple with createMany or upsertMany
   const isMultiple = MANY_DATA_COMMAND_TYPES.has(command)
 

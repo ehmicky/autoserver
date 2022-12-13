@@ -7,10 +7,10 @@ import { mapValues } from '../utils/functional/map.js'
 import { parseRequest } from './request/main.js'
 
 // Start the server
-export const start = async function (
+export const start = async (
   protocolAdapter,
   { requestHandler, getRequestInput = identity, opts = {}, config = {} },
-) {
+) => {
   const { name: protocol, startServer, stopServer } = protocolAdapter
 
   const protocolAdapterA = getRequestAdapter({ protocolAdapter })
@@ -36,10 +36,10 @@ export const start = async function (
 }
 
 // Once the server is started, we add some methods and remove others
-const getRequestAdapter = function ({
+const getRequestAdapter = ({
   protocolAdapter,
   protocolAdapter: { wrapped, send },
-}) {
+}) => {
   const parseRequestA = parseRequest.bind(undefined, protocolAdapter)
   const protocolAdapterA = omit.default(wrapped, ['startServer'])
 
@@ -47,10 +47,10 @@ const getRequestAdapter = function ({
 }
 
 // Request handler fired on each request
-const processRequest = function (
+const processRequest = (
   { requestHandler, getRequestInput, protocolAdapter, protocol },
   specific,
-) {
+) => {
   const protocolAdapterA = bindMethods({ protocolAdapter, specific })
 
   const requestInput = getRequestInput()
@@ -65,7 +65,7 @@ const processRequest = function (
 }
 
 // Pass protocol-specific input to some adapter's methods
-const bindMethods = function ({ protocolAdapter, specific }) {
+const bindMethods = ({ protocolAdapter, specific }) => {
   const methods = includeKeys(protocolAdapter, BOUND_METHODS)
   const methodsA = mapValues(methods, (method) =>
     wrapMethod.bind(undefined, { method, specific }),
@@ -77,6 +77,5 @@ const bindMethods = function ({ protocolAdapter, specific }) {
 
 const BOUND_METHODS = ['send', 'parseRequest']
 
-const wrapMethod = function ({ method, specific }, arg, ...args) {
-  return method({ ...arg, specific }, ...args)
-}
+const wrapMethod = ({ method, specific }, arg, ...args) =>
+  method({ ...arg, specific }, ...args)

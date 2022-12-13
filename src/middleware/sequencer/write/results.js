@@ -3,7 +3,7 @@ import { throwPb } from '../../../errors/props.js'
 import { handlers } from './args.js'
 
 // Transform `data` to normalized `results`
-export const getResults = function ({ actions, data, metadata, ids, top }) {
+export const getResults = ({ actions, data, metadata, ids, top }) => {
   validateData({ ids, data })
 
   return actions.flatMap((action) => setModels({ action, data, metadata, top }))
@@ -11,13 +11,13 @@ export const getResults = function ({ actions, data, metadata, ids, top }) {
 
 // `results` should be in same order as `args.data` or
 // (for `delete`) as `currentData`, and reuse their `dataPaths`
-const setModels = function ({
+const setModels = ({
   data,
   metadata,
   action,
   action: { dataPaths },
   top: { command },
-}) {
+}) => {
   const { getModels } = handlers[command.type]
   const models = getModels(action)
   return models
@@ -25,18 +25,14 @@ const setModels = function ({
     .filter(({ path }) => path !== undefined)
 }
 
-const findModel = function (
-  { data, metadata, dataPaths, action },
-  { id },
-  index,
-) {
+const findModel = ({ data, metadata, dataPaths, action }, { id }, index) => {
   const model = data.find((datum) => datum.id === id)
   const path = dataPaths[index]
   return { path, model, metadata, action }
 }
 
 // Safety check to make sure there is no server-side bugs
-const validateData = function ({ ids, data }) {
+const validateData = ({ ids, data }) => {
   const sameLength = data.length === ids.length
 
   if (sameLength) {

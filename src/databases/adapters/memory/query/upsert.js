@@ -1,11 +1,11 @@
 // Upsert models
-export const upsert = function ({ collection, newData }) {
+export const upsert = ({ collection, newData }) => {
   newData.forEach((datum) => {
     upsertOne({ collection, datum })
   })
 }
 
-const upsertOne = function ({ collection, datum }) {
+const upsertOne = ({ collection, datum }) => {
   const index = collection.findIndex(({ id }) => id === datum.id)
 
   if (index === -1) {

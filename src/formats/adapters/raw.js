@@ -3,12 +3,10 @@ import { Buffer } from 'node:buffer'
 const { isBuffer } = Buffer
 
 // Parses a raw value
-const parse = function ({ content }) {
-  return content
-}
+const parse = ({ content }) => content
 
 // Serializes any value to a string
-const serialize = function ({ content }) {
+const serialize = ({ content }) => {
   if (typeof content === 'string') {
     return content
   }

@@ -4,10 +4,10 @@ import { validateDuplicates } from './duplicates.js'
 
 // Retrieve GraphQL main definition
 // Takes into account GraphQL's `operationName`
-export const getMainDef = function ({
+export const getMainDef = ({
   queryDocument: { definitions },
   operationName,
-}) {
+}) => {
   const defs = definitions.filter(({ kind }) => kind === 'OperationDefinition')
 
   // GraphQL spec 5.1.1.1 'Operation Name Uniqueness'
@@ -21,7 +21,7 @@ export const getMainDef = function ({
 }
 
 // GraphQL spec 5.1.2.1 'Lone Anonymous Operation'
-const validateAnonymousNames = function (defs) {
+const validateAnonymousNames = (defs) => {
   const hasAnonymousOperation = defs.some(({ name }) => name === null)
 
   if (hasAnonymousOperation && defs.length > 1) {

@@ -3,14 +3,14 @@ import { getLimits } from '../../limits.js'
 import { setWeakTimeout } from '../../utils/timeout.js'
 
 // Make request fail after some timeout
-export const setRequestTimeout = function ({ mInput, config }, nextLayer) {
+export const setRequestTimeout = ({ mInput, config }, nextLayer) => {
   const timeoutPromise = startRequestTimeout({ config })
   const nextLayerPromise = nextLayer(mInput, 'protocol')
 
   return Promise.race([timeoutPromise, nextLayerPromise])
 }
 
-const startRequestTimeout = async function ({ config, config: { env } }) {
+const startRequestTimeout = async ({ config, config: { env } }) => {
   const { requestTimeout } = getLimits({ config })
   // When debugging with breakpoints, we do not want any request timeout
   const timeout = env === 'dev' ? HUGE_TIMEOUT : requestTimeout

@@ -1,5 +1,5 @@
 // Retrieve an adapter by its name
-export const getAdapter = function ({ adapters, key, name }) {
+export const getAdapter = ({ adapters, key, name }) => {
   const adapter = adapters[key]
 
   if (adapter !== undefined) {
@@ -10,12 +10,10 @@ export const getAdapter = function ({ adapters, key, name }) {
 }
 
 // Retrieve all adapters' names
-export const getNames = function (adapters) {
-  return adapters.map(({ name }) => name)
-}
+export const getNames = (adapters) => adapters.map(({ name }) => name)
 
 // Retrieve all fields of adapters, for a given field
-export const getMember = function (adapters, member, defaultValue) {
+export const getMember = (adapters, member, defaultValue) => {
   const members = adapters.map((adapter) =>
     getAdapterMember({ adapter, member, defaultValue }),
   )
@@ -23,7 +21,7 @@ export const getMember = function (adapters, member, defaultValue) {
   return membersA
 }
 
-const getAdapterMember = function ({ adapter, member, defaultValue }) {
+const getAdapterMember = ({ adapter, member, defaultValue }) => {
   const memberA = adapter[member]
   const memberB = memberA === undefined ? defaultValue : memberA
   return { [adapter.name]: memberB }

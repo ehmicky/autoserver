@@ -8,7 +8,7 @@ import { decode } from '../encoding/main.js'
 import { getRightToken, TOKEN_NAMES, BOUNDARY_TOKEN } from '../info.js'
 
 // Parse cursor tokens
-export const getToken = function ({ args }) {
+export const getToken = ({ args }) => {
   const tokens = includeKeys(args, TOKEN_NAMES)
   const tokensA = excludeKeys(tokens, isInvalidToken)
   const tokensB = mapValues(tokensA, (token, name) => eDecode({ token, name }))
@@ -16,9 +16,8 @@ export const getToken = function ({ args }) {
   return tokenA
 }
 
-const isInvalidToken = function (key, token) {
-  return token === undefined || token === BOUNDARY_TOKEN
-}
+const isInvalidToken = (key, token) =>
+  token === undefined || token === BOUNDARY_TOKEN
 
 const eDecode = addGenErrorHandler(decode, {
   message: ({ name }) => `Wrong arguments: '${name}' contains an invalid token`,
@@ -26,7 +25,7 @@ const eDecode = addGenErrorHandler(decode, {
 })
 
 // Validate cursor tokens syntax
-export const validateToken = function ({ token }) {
+export const validateToken = ({ token }) => {
   if (token === undefined) {
     return
   }

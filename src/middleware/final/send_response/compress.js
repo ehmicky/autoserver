@@ -4,12 +4,12 @@ import { shouldCompress } from '../../../compress/info.js'
 import { TYPES } from './types.js'
 
 // Response body compression
-export const compressContent = async function ({
+export const compressContent = async ({
   content,
   compressResponse,
   type,
   contentType,
-}) {
+}) => {
   const algo = getAlgo({ compressResponse, type, contentType })
 
   const contentA = await algo.compress(content)
@@ -17,7 +17,7 @@ export const compressContent = async function ({
   return { content: contentA, compressResponse: algo }
 }
 
-const getAlgo = function ({ compressResponse, type, contentType }) {
+const getAlgo = ({ compressResponse, type, contentType }) => {
   const isInvalid =
     compressResponse === undefined ||
     typeof compressResponse === 'string' ||
@@ -30,6 +30,5 @@ const getAlgo = function ({ compressResponse, type, contentType }) {
   return compressResponse
 }
 
-const willCompress = function ({ type, contentType }) {
-  return TYPES[type].isText || shouldCompress({ contentType })
-}
+const willCompress = ({ type, contentType }) =>
+  TYPES[type].isText || shouldCompress({ contentType })

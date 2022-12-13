@@ -1,12 +1,11 @@
-export const filterField = function (def, opts) {
+export const filterField = (def, opts) => {
   const isFiltered = filters.some((filter) => filter(def, opts))
   // eslint-disable-next-line unicorn/no-null
   return isFiltered ? null : def
 }
 
 // `patch` does not allow `data.id`
-const patchIdData = function ({ command }, { inputObjectType, defName }) {
-  return inputObjectType === 'data' && command === 'patch' && defName === 'id'
-}
+const patchIdData = ({ command }, { inputObjectType, defName }) =>
+  inputObjectType === 'data' && command === 'patch' && defName === 'id'
 
 const filters = [patchIdData]

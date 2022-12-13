@@ -5,7 +5,7 @@ import { deepMerge } from '../../utils/functional/merge.js'
 import { mapColls, mapAttrs } from '../helpers.js'
 
 // Add config default values
-export const addDefaults = function ({ config }) {
+export const addDefaults = ({ config }) => {
   const configA = addTopDefaults({ config })
   const configB = addCollsDefaults({ config: configA })
   const configC = addAttrsDefaults({ config: configB })
@@ -13,30 +13,26 @@ export const addDefaults = function ({ config }) {
 }
 
 // Top-level defaults
-const addTopDefaults = function ({ config }) {
+const addTopDefaults = ({ config }) => {
   const configA = deepMerge(TOP_DEFAULT_VALUES, DYNAMIC_DEFAULTS, config)
   return configA
 }
 
 // Collection-level defaults
-const addCollsDefaults = function ({ config }) {
+const addCollsDefaults = ({ config }) => {
   const configA = mapColls(addCollDefaults, { config })
   return { ...config, ...configA }
 }
 
-const addCollDefaults = function ({ coll }) {
-  return deepMerge(COLL_DEFAULTS, coll)
-}
+const addCollDefaults = ({ coll }) => deepMerge(COLL_DEFAULTS, coll)
 
 // Attribute-level defaults
-const addAttrsDefaults = function ({ config }) {
+const addAttrsDefaults = ({ config }) => {
   const configA = mapAttrs(addAttrDefaults, { config })
   return { ...config, ...configA }
 }
 
-const addAttrDefaults = function ({ attr }) {
-  return deepMerge(ATTR_DEFAULTS, attr)
-}
+const addAttrDefaults = ({ attr }) => deepMerge(ATTR_DEFAULTS, attr)
 
 const TOP_DEFAULT_VALUES = {
   env: 'dev',

@@ -2,14 +2,14 @@ import { throwError } from '../../../../errors/main.js'
 import { getWordsList } from '../../../../utils/string.js'
 
 // Validate GraphQL main definition
-export const validateMainDef = function ({ mainDef, operationName, method }) {
+export const validateMainDef = ({ mainDef, operationName, method }) => {
   validateDef({ mainDef, operationName })
   validateMainSelection({ mainDef })
   validateQuery({ mainDef })
   validateMutation({ mainDef, method })
 }
 
-const validateDef = function ({ mainDef, operationName }) {
+const validateDef = ({ mainDef, operationName }) => {
   if (mainDef) {
     return
   }
@@ -23,11 +23,11 @@ const validateDef = function ({ mainDef, operationName }) {
   throwError(msg, { reason: 'VALIDATION' })
 }
 
-const validateMainSelection = function ({
+const validateMainSelection = ({
   mainDef: {
     selectionSet: { selections },
   },
-}) {
+}) => {
   if (selections.length > 1) {
     const names = getOperationNames({ selections })
     const message = `Cannot perform several GraphQL operations at once: ${names}`
@@ -42,21 +42,21 @@ const validateMainSelection = function ({
   }
 }
 
-const getOperationNames = function ({ selections }) {
+const getOperationNames = ({ selections }) => {
   const operationNames = selections.map(({ name: { value } = {} }) => value)
   return getWordsList(operationNames, { op: 'and', quotes: true })
 }
 
 // GraphQL queries must use (e.g. in HTTP) GET, but mutations have no
 // restrictions
-const validateQuery = function ({
+const validateQuery = ({
   mainDef: {
     selectionSet: {
       selections: [{ name }],
     },
     operation,
   },
-}) {
+}) => {
   if (operation !== 'query') {
     return
   }
@@ -67,7 +67,7 @@ const validateQuery = function ({
   }
 }
 
-const validateMutation = function ({
+const validateMutation = ({
   mainDef: {
     selectionSet: {
       selections: [{ name }],
@@ -75,7 +75,7 @@ const validateMutation = function ({
     operation,
   },
   method,
-}) {
+}) => {
   if (operation !== 'mutation') {
     return
   }
@@ -92,6 +92,5 @@ const validateMutation = function ({
   }
 }
 
-const isFindQuery = function ({ name }) {
-  return name.value.startsWith('find') || name.value === '__schema'
-}
+const isFindQuery = ({ name }) =>
+  name.value.startsWith('find') || name.value === '__schema'

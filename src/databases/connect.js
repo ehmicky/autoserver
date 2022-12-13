@@ -5,10 +5,10 @@ import { mapValues } from '../utils/functional/map.js'
 // Start database connection
 // Returns a copy of the database adapter, but with fewer members and some other
 // members bound
-export const connectDatabase = async function (
+export const connectDatabase = async (
   { connect, check, ...rest },
   { options, config },
-) {
+) => {
   const connection = await connect({ options, config })
 
   // Check for data model inconsistencies, and potentially fix them
@@ -21,14 +21,14 @@ export const connectDatabase = async function (
 }
 
 // Pass database state (e.g. connection) to some database adapter's methods
-const getDbAdapter = function ({
+const getDbAdapter = ({
   options,
   connection,
   config,
   disconnect,
   query,
   wrapped,
-}) {
+}) => {
   const methods = mapValues({ disconnect, query }, (method) =>
     wrapMethod.bind(undefined, { method, options, connection, config }),
   )
@@ -40,6 +40,5 @@ const getDbAdapter = function ({
   return dbAdapterA
 }
 
-const wrapMethod = function ({ method, ...rest }, input, ...args) {
-  return method({ ...rest, ...input }, ...args)
-}
+const wrapMethod = ({ method, ...rest }, input, ...args) =>
+  method({ ...rest, ...input }, ...args)

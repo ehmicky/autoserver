@@ -3,11 +3,11 @@
 // `create`, `patch` and `upsert` assumes database does not modify input,
 // i.e. reuse `args.newData`
 // `delete` reuse data before deletion, i.e. use `args.currentData`
-export const getDbResponse = function ({
+export const getDbResponse = ({
   dbData,
   args: { currentData, newData },
   command,
-}) {
+}) => {
   const dataInput = { dbData, newData, currentData }
   const data = dataInput[RESPONSE_MAP[command]]
   const metadata = {}

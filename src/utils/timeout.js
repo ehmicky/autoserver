@@ -6,10 +6,9 @@ export const pSetTimeout = promisify(setTimeout)
 // hanging timeout, e.g. used in request timeout
 // TODO: replace with `timers/promises` `setTimeout()` after dropping support
 // for Node <15.0.0
-export const setWeakTimeout = function (delay) {
+export const setWeakTimeout = (delay) =>
   // eslint-disable-next-line promise/avoid-new
-  return new Promise((resolve) => {
+  new Promise((resolve) => {
     const id = setTimeout(resolve, delay)
     id.unref()
   })
-}

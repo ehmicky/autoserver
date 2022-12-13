@@ -9,7 +9,7 @@ import { getNestedColl } from './nested_colls.js'
 import { addNoAttributes } from './no_attributes.js'
 
 // Retrieve the fields of an object, using config definition
-export const getObjectFields = function (opts) {
+export const getObjectFields = (opts) => {
   const fields = mappers.reduce(
     reduceFields.bind(undefined, opts),
     opts.parentDef.attributes,
@@ -20,15 +20,12 @@ export const getObjectFields = function (opts) {
 
 const mappers = [addCommand, getNestedColl, filterField, getFinalField]
 
-const reduceFields = function (opts, fields, mapper) {
+const reduceFields = (opts, fields, mapper) => {
   const fieldsA = mapValues(fields, mapField.bind(undefined, { opts, mapper }))
   return excludeKeys(fieldsA, hasNoValue)
 }
 
-const mapField = function ({ opts, mapper }, def, defName) {
-  return mapper(def, { ...opts, defName })
-}
+const mapField = ({ opts, mapper }, def, defName) =>
+  mapper(def, { ...opts, defName })
 
-const hasNoValue = function (key, value) {
-  return value === undefined || value === null
-}
+const hasNoValue = (key, value) => value === undefined || value === null

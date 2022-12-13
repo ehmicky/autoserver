@@ -7,12 +7,12 @@ import { uniq } from '../../../utils/functional/uniq.js'
 // E.g. when firing `find_collection { child { id } }`,
 // the nested `child` action needs to know `model.child` first before being
 // fired.
-export const getParentResults = function ({ commandpath, results }) {
+export const getParentResults = ({ commandpath, results }) => {
   const parentPath = commandpath.slice(0, -1)
   return results.filter((result) => isParentResults({ result, parentPath }))
 }
 
-const isParentResults = function ({ result: { path, promise }, parentPath }) {
+const isParentResults = ({ result: { path, promise }, parentPath }) => {
   if (promise !== undefined) {
     return false
   }
@@ -29,7 +29,7 @@ const isParentResults = function ({ result: { path, promise }, parentPath }) {
 // useful to build `args.filter`.
 // `allIds` is like `parentIds`, but with duplicate models. It is used to
 // check against `maxmodels` limit
-export const getParentIds = function ({ commandName, parentResults }) {
+export const getParentIds = ({ commandName, parentResults }) => {
   const nestedParentIds = parentResults.map(({ model }) => model[commandName])
   const allIds = nestedParentIds.flat().filter((ids) => ids !== undefined)
   // We remove duplicate `id`, for efficiency reasons
@@ -43,7 +43,7 @@ export const getParentIds = function ({ commandName, parentResults }) {
 // then a nested query find_child() will be filtered by `id: 1`
 // If the parent returns nothing|null, the nested query won't be performed
 // and null will be returned
-export const addNestedFilter = function ({ args, isTopLevel, parentIds }) {
+export const addNestedFilter = ({ args, isTopLevel, parentIds }) => {
   if (isTopLevel) {
     return args
   }

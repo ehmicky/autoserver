@@ -4,7 +4,7 @@ import { wrapCloseFunc } from './wrapper.js'
 
 // Attempts to close database connections
 // No new connections will be accepted, but we will wait for ongoing ones to end
-export const closeDbAdapters = function ({ dbAdapters, config, measures }) {
+export const closeDbAdapters = ({ dbAdapters, config, measures }) => {
   const dbAdaptersA = Object.values(dbAdapters)
   // The same `dbAdapter` can be used for several models
   const dbAdaptersB = uniq(dbAdaptersA)
@@ -14,8 +14,6 @@ export const closeDbAdapters = function ({ dbAdapters, config, measures }) {
   )
 }
 
-const closeDbAdapter = function ({ adapter: { disconnect } }) {
-  return disconnect()
-}
+const closeDbAdapter = ({ adapter: { disconnect } }) => disconnect()
 
 const eCloseDbAdapter = wrapCloseFunc(closeDbAdapter)

@@ -4,7 +4,7 @@ import { resolve, dirname } from 'node:path'
 import { addGenErrorHandler } from '../errors/handler.js'
 
 // Resolve JSON reference path to an absolute local file
-export const getPath = function ({ path, parentPath }) {
+export const getPath = ({ path, parentPath }) => {
   if (NODE_REGEXP.test(path)) {
     return eGetModulePath({ path })
   }
@@ -21,7 +21,7 @@ export const getPath = function ({ path, parentPath }) {
 
 // Node module, e.g. $ref: 'lodash.node'
 // TODO: use `import.meta.resolve()` when available
-const getModulePath = function ({ path }) {
+const getModulePath = ({ path }) => {
   const moduleName = path.replace(NODE_REGEXP, '')
   const { resolve: resolveModule } = createRequire(import.meta.url)
   const pathA = resolveModule(moduleName)

@@ -1,7 +1,7 @@
 import { getSumParams } from '../../../utils/sums.js'
 
 // Add `response`-related parameters
-export const getResponseParams = function ({ type, content }) {
+export const getResponseParams = ({ type, content }) => {
   // `responsedatasize` and `responsedatacount` parameters
   const sumParams = getSumParams({ attrName: 'responsedata', value: content })
 

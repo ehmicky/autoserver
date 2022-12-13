@@ -2,7 +2,7 @@ import { OPERATORS } from './operators/main.js'
 
 // Properties of errors during `patch`
 // We want to differentiate between errors due to engine bug or wrong config
-export const getPatchErrorProps = function ({ type, extra }) {
+export const getPatchErrorProps = ({ type, extra }) => {
   if (OPERATORS[type] !== undefined) {
     return { reason: 'ENGINE' }
   }

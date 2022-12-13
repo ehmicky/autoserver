@@ -8,13 +8,13 @@ import { validators } from './validators.js'
 
 // `attrs` must be `{ collname: { attrName:
 // { type: 'string|number|integer|boolean', isArray: true|false } } }`
-export const validateFilter = function ({
+export const validateFilter = ({
   filter,
   attrs,
   reason = 'VALIDATION',
   prefix = '',
   skipConfigFuncs,
-}) {
+}) => {
   if (filter === undefined || filter === null) {
     return
   }
@@ -26,20 +26,20 @@ export const validateFilter = function ({
   )
 }
 
-const validateAttr = function ({ nodes, ...rest }) {
+const validateAttr = ({ nodes, ...rest }) => {
   nodes.forEach((node) => {
     validateNode({ node, operations: nodes, ...rest })
   })
 }
 
-const validateNode = function ({
+const validateNode = ({
   node,
   node: { type, attrName },
   operations,
   attrs,
   skipConfigFuncs,
   throwErr,
-}) {
+}) => {
   const operator = getOperator({ node })
 
   const attr = getDeepAttr({ attrs, attrName, throwErr })
@@ -59,7 +59,7 @@ const validateNode = function ({
   })
 }
 
-const validateValue = function ({
+const validateValue = ({
   type,
   value,
   attr,
@@ -68,7 +68,7 @@ const validateValue = function ({
   operations,
   skipConfigFuncs,
   throwErr,
-}) {
+}) => {
   if (isConfigFunc({ skipConfigFuncs, value })) {
     return
   }
@@ -93,6 +93,5 @@ const validateValue = function ({
 
 // Skip config functions
 // If one wants to validate them, they need to be evaluated first
-const isConfigFunc = function ({ skipConfigFuncs, value }) {
-  return skipConfigFuncs && typeof value === 'function'
-}
+const isConfigFunc = ({ skipConfigFuncs, value }) =>
+  skipConfigFuncs && typeof value === 'function'

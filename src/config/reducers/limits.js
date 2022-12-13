@@ -4,7 +4,7 @@ import { throwError } from '../../errors/main.js'
 import { getLimits } from '../../limits.js'
 
 // Validates `limits`
-export const validateLimits = function ({ config }) {
+export const validateLimits = ({ config }) => {
   const { maxpayload, minMaxpayload, maxmodels, pagesize, maxActions } =
     getLimits({ config })
 
@@ -13,7 +13,7 @@ export const validateLimits = function ({ config }) {
   validateMaxmodels({ maxmodels, pagesize, maxActions })
 }
 
-const validateMaxpayload = function ({ maxpayload, minMaxpayload }) {
+const validateMaxpayload = ({ maxpayload, minMaxpayload }) => {
   const maxpayloadA = parseBytes(maxpayload)
 
   if (maxpayloadA === null || Number.isNaN(maxpayloadA)) {
@@ -29,7 +29,7 @@ const validateMaxpayload = function ({ maxpayload, minMaxpayload }) {
   }
 }
 
-const validateMaxmodels = function ({ maxmodels, pagesize, maxActions }) {
+const validateMaxmodels = ({ maxmodels, pagesize, maxActions }) => {
   const isDisabled = pagesize === 0 || maxmodels === 0
 
   // Second depth level actions must be allowed to have at least one item,

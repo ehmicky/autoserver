@@ -2,28 +2,26 @@ import { isObject } from './type.js'
 import { checkObject } from './validate.js'
 
 // Similar to Lodash mapValues(), but with vanilla JavaScript
-export const mapValues = function (obj, mapperFunc) {
-  return generalMap({ obj, mapperFunc, iterationFunc: mapValuesFunc })
-}
+export const mapValues = (obj, mapperFunc) =>
+  generalMap({ obj, mapperFunc, iterationFunc: mapValuesFunc })
 
-const mapValuesFunc = function ({ key, obj, newValue }) {
+const mapValuesFunc = ({ key, obj, newValue }) => {
   // eslint-disable-next-line no-param-reassign, fp/no-mutation
   obj[key] = newValue
   return obj
 }
 
 // Similar to map() for keys
-export const mapKeys = function (obj, mapperFunc) {
-  return generalMap({ obj, mapperFunc, iterationFunc: mapKeysFunc })
-}
+export const mapKeys = (obj, mapperFunc) =>
+  generalMap({ obj, mapperFunc, iterationFunc: mapKeysFunc })
 
-const mapKeysFunc = function ({ value, obj, newValue }) {
+const mapKeysFunc = ({ value, obj, newValue }) => {
   // eslint-disable-next-line no-param-reassign, fp/no-mutation
   obj[newValue] = value
   return obj
 }
 
-const generalMap = function ({ obj, mapperFunc, iterationFunc }) {
+const generalMap = ({ obj, mapperFunc, iterationFunc }) => {
   checkObject(obj)
 
   return Object.entries(obj).reduce((objA, [key, value]) => {
@@ -33,11 +31,11 @@ const generalMap = function ({ obj, mapperFunc, iterationFunc }) {
 }
 
 // Apply map() recursively
-export const recurseMap = function (
+export const recurseMap = (
   value,
   mapperFunc,
   { key, onlyLeaves = true } = {},
-) {
+) => {
   const recurseFunc = getRecurseFunc(value)
   const nextValue = recurseFunc
     ? recurseFunc((child, childKey) =>
@@ -52,7 +50,7 @@ export const recurseMap = function (
   return mapperFunc(nextValue, key)
 }
 
-const getRecurseFunc = function (value) {
+const getRecurseFunc = (value) => {
   if (isObject(value)) {
     return mapValues.bind(undefined, value)
   }
@@ -62,7 +60,7 @@ const getRecurseFunc = function (value) {
   }
 }
 
-export const fullRecurseMap = function (value, mapperFunc, opts = {}) {
+export const fullRecurseMap = (value, mapperFunc, opts = {}) => {
   const optsA = { ...opts, onlyLeaves: false }
   return recurseMap(value, mapperFunc, optsA)
 }

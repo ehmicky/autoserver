@@ -8,7 +8,7 @@ import { formatAdapters } from './wrap.js'
 
 // Retrieve correct format, using MIME type
 // Returns undefined if nothing is found
-export const getByMime = function ({ mime, safe }) {
+export const getByMime = ({ mime, safe }) => {
   const formats = getFormats({ safe })
 
   // We try the extensions MIME (e.g. `+json`) after the other MIME types
@@ -34,12 +34,11 @@ export const getByMime = function ({ mime, safe }) {
 // `application/*` or `+json`. However, we might use them both in
 // `mime` (e.g. with Content-Type HTTP header `application/*`) or in
 // `formats` (e.g. with JSON format `+json`), so we check both sides
-const mimeMatches = function ({ mime, mimes = [] }) {
-  return mimes.some((mimeA) => isType(mime, mimeA) || isType(mimeA, mime))
-}
+const mimeMatches = ({ mime, mimes = [] }) =>
+  mimes.some((mimeA) => isType(mime, mimeA) || isType(mimeA, mime))
 
 // Retrieve correct format, using file extension
-export const getByExt = function ({ path, safe }) {
+export const getByExt = ({ path, safe }) => {
   const formats = getFormats({ safe })
 
   const fileExt = extname(path).slice(1)
@@ -57,7 +56,7 @@ export const getByExt = function ({ path, safe }) {
 // Setting `safe` to `true` removes formats that execute code.
 // For example, JavaScript can be allowed in config files, but should
 // not be allowed in client payloads.
-const getFormats = function ({ safe = false }) {
+const getFormats = ({ safe = false }) => {
   const formats = Object.values(formatAdapters)
 
   if (!safe) {
@@ -69,7 +68,7 @@ const getFormats = function ({ safe = false }) {
 }
 
 // Retrieve format adapter
-export const getFormat = function (key, { safe = false } = {}) {
+export const getFormat = (key, { safe = false } = {}) => {
   const format = getAdapter({ adapters: formatAdapters, key, name: 'format' })
 
   const isSafe = !safe || !format.unsafe
@@ -81,12 +80,12 @@ export const getFormat = function (key, { safe = false } = {}) {
   throwUnsupportedFormat({ format: format.title })
 }
 
-const throwUnsupportedFormat = function ({ format }) {
+const throwUnsupportedFormat = ({ format }) => {
   throw new Error(`Unsupported format: '${format}'`)
 }
 
 // Returns list of allowed MIME types
-export const getMimes = function ({ safe } = {}) {
+export const getMimes = ({ safe } = {}) => {
   const formats = getFormats({ safe })
   const mimesA = formats.flatMap(({ mimes = [], mimeExtensions = [] }) => [
     ...mimes,

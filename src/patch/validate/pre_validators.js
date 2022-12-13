@@ -11,7 +11,7 @@ import { checkAttrType, checkOpValType } from './types/main.js'
 
 const { byteLength } = Buffer
 
-const attributeExists = function ({ attr }) {
+const attributeExists = ({ attr }) => {
   if (attr !== undefined) {
     return
   }
@@ -19,7 +19,7 @@ const attributeExists = function ({ attr }) {
   return 'attribute is unknown'
 }
 
-const isPatchCommand = function ({ top: { command } }) {
+const isPatchCommand = ({ top: { command } }) => {
   if (command.type === 'patch') {
     return
   }
@@ -28,7 +28,7 @@ const isPatchCommand = function ({ top: { command } }) {
 }
 
 // Patch operations cannot be mixed with nested patch actions
-const isNotMixed = function ({ patchOp }) {
+const isNotMixed = ({ patchOp }) => {
   const patchOps = Object.keys(patchOp).filter(isPatchOpName)
   const attrNames = Object.keys(patchOp).filter((key) => !isPatchOpName(key))
 
@@ -47,7 +47,7 @@ const isNotMixed = function ({ patchOp }) {
   )} ${attrNamesA}`
 }
 
-const isSingleOp = function ({ patchOp }) {
+const isSingleOp = ({ patchOp }) => {
   const isSingle = Object.keys(patchOp).length === 1
 
   if (isSingle) {
@@ -58,7 +58,7 @@ const isSingleOp = function ({ patchOp }) {
 }
 
 // Check against `maxAttrValueSize` limit
-const isWithinLimits = function ({ opVal, maxAttrValueSize }) {
+const isWithinLimits = ({ opVal, maxAttrValueSize }) => {
   const size = getSize({ opVal })
 
   if (size <= maxAttrValueSize) {
@@ -68,14 +68,14 @@ const isWithinLimits = function ({ opVal, maxAttrValueSize }) {
   return `the argument must be shorter than ${maxAttrValueSize} bytes`
 }
 
-const getSize = function ({ opVal }) {
+const getSize = ({ opVal }) => {
   const opValA = typeof opVal === 'string' ? opVal : JSON.stringify(opVal)
 
   const size = byteLength(opValA)
   return size
 }
 
-const operatorExists = function ({ operator, type }) {
+const operatorExists = ({ operator, type }) => {
   if (operator !== undefined) {
     return
   }
@@ -83,7 +83,7 @@ const operatorExists = function ({ operator, type }) {
   return `operator '${type}' is unknown`
 }
 
-const checkOpVal = function ({ opVal, ...rest }) {
+const checkOpVal = ({ opVal, ...rest }) => {
   // `patchOp.check()` is not performed if value is `model.ATTR` reference
   // It will be performed later when reference's value is known
   if (isRef(opVal)) {

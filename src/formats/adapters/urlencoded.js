@@ -18,7 +18,7 @@ import { getLimits } from '../../limits.js'
 //  - ?var=undefined -> { var: 'undefined' }
 //  - ? -> {}
 // Performs proper URI decoding, using decodeURIComponent()
-const parse = function ({ content }) {
+const parse = ({ content }) => {
   const { maxQueryStringDepth, maxQueryStringLength } = getLimits()
 
   return qs.parse(content, {
@@ -30,14 +30,10 @@ const parse = function ({ content }) {
   })
 }
 
-const decoder = function (str) {
-  return decodeURIComponent(str.replace(/\+/gu, ' '))
-}
+const decoder = (str) => decodeURIComponent(str.replace(/\+/gu, ' '))
 
 // Inverse of parse()
-const serialize = function ({ content }) {
-  return qs.stringify(content, { allowDots: true })
-}
+const serialize = ({ content }) => qs.stringify(content, { allowDots: true })
 
 export const urlencoded = {
   name: 'urlencoded',

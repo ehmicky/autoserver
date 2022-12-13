@@ -4,7 +4,7 @@ import { normalizeError } from './main.js'
 import { getReason, getProps } from './props.js'
 
 // Gets normalized error information
-export const getStandardError = function ({ error, mInput }) {
+export const getStandardError = ({ error, mInput }) => {
   if (!error) {
     return
   }
@@ -18,10 +18,10 @@ export const getStandardError = function ({ error, mInput }) {
   return errorC
 }
 
-const fillError = function ({
+const fillError = ({
   error,
   mInput: { path: instance, status = 'SERVER_ERROR' } = {},
-}) {
+}) => {
   const type = getReason(error)
   const { title } = getProps(error)
 
@@ -36,6 +36,4 @@ const fillError = function ({
   return { type, title, description, status, instance, ...extra, details }
 }
 
-const isUndefined = function (key, value) {
-  return value === undefined
-}
+const isUndefined = (key, value) => value === undefined

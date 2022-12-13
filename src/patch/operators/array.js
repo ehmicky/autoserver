@@ -26,41 +26,32 @@ const commonEmptyAttrs = {
 export const push = {
   ...commonAttrs,
 
-  apply({ value: attrVal = [], arg: opVal = [] }) {
-    return [...attrVal, ...opVal]
-  },
+  apply: ({ value: attrVal = [], arg: opVal = [] }) => [...attrVal, ...opVal],
 }
 
 export const unshift = {
   ...commonAttrs,
 
-  apply({ value: attrVal = [], arg: opVal = [] }) {
-    return [...opVal, ...attrVal]
-  },
+  apply: ({ value: attrVal = [], arg: opVal = [] }) => [...opVal, ...attrVal],
 }
 
 export const pop = {
   ...commonEmptyAttrs,
 
-  apply({ value: attrVal = [] }) {
-    return attrVal.slice(0, -1)
-  },
+  apply: ({ value: attrVal = [] }) => attrVal.slice(0, -1),
 }
 
 export const shift = {
   ...commonEmptyAttrs,
 
-  apply({ value: attrVal = [] }) {
-    return attrVal.slice(1)
-  },
+  apply: ({ value: attrVal = [] }) => attrVal.slice(1),
 }
 
 export const remove = {
   ...commonAttrs,
 
-  apply({ value: attrVal = [], arg: opVal = [] }) {
-    return difference(attrVal, opVal)
-  },
+  apply: ({ value: attrVal = [], arg: opVal = [] }) =>
+    difference(attrVal, opVal),
 }
 
 export const sort = {
@@ -68,7 +59,7 @@ export const sort = {
 
   argument: ['string'],
 
-  check({ arg: order }) {
+  check: ({ arg: order }) => {
     if (ORDERS.has(order)) {
       return
     }
@@ -76,7 +67,7 @@ export const sort = {
     return "the argument's value must be 'asc' or 'desc'"
   },
 
-  apply({ value: attrVal = [], arg: order = 'asc' }) {
+  apply: ({ value: attrVal = [], arg: order = 'asc' }) => {
     const attrValA = sortArray(attrVal)
     return order === 'asc' ? attrValA : reverseArray(attrValA)
   },

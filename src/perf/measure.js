@@ -14,26 +14,25 @@
 import { hrtime } from 'node:process'
 
 // Start a new measure
-export const startPerf = function (label, category = 'default') {
+export const startPerf = (label, category = 'default') => {
   const pending = hrtime.bigint()
   return { pending, label, category }
 }
 
 // Substracts the current time with the previous time
-export const stopPerf = function ({ pending, label, category }) {
+export const stopPerf = ({ pending, label, category }) => {
   const ending = hrtime.bigint()
   const duration = Number(ending - pending)
   return { duration, label, category }
 }
 
-export const getDefaultDuration = function ({ measures }) {
+export const getDefaultDuration = ({ measures }) => {
   const { duration } = measures.find(({ category }) => category === 'default')
   const durationA = nanoSecsToMilliSecs(duration)
   return durationA
 }
 
-export const nanoSecsToMilliSecs = function (duration) {
-  return Math.round(duration / NANOSECS_TO_MILLISECS)
-}
+export const nanoSecsToMilliSecs = (duration) =>
+  Math.round(duration / NANOSECS_TO_MILLISECS)
 
 const NANOSECS_TO_MILLISECS = 1e6

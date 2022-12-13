@@ -4,19 +4,18 @@ import { SYSTEM_PARAMS } from '../functions/params/system.js'
 import { mapValues } from '../utils/functional/map.js'
 
 // Retrieve type and names of all possible `coll.authorize.*`
-export const getAuthorizeAttrs = function ({ config, collname }) {
+export const getAuthorizeAttrs = ({ config, collname }) => {
   const serverParams = getServerParams({ config })
   const modelAttrs = getModelAttrs({ config, collname })
   return { ...serverParams, ...modelAttrs, ...SYSTEM_PARAMS }
 }
 
 // `coll.authorize.SERVERPARAM`
-const getServerParams = function ({ config: { params = {} } }) {
-  return mapValues(params, () => ({ type: 'dynamic' }))
-}
+const getServerParams = ({ config: { params = {} } }) =>
+  mapValues(params, () => ({ type: 'dynamic' }))
 
 // `coll.authorize['model.ATTR']`
-const getModelAttrs = function ({ config: { collections }, collname }) {
+const getModelAttrs = ({ config: { collections }, collname }) => {
   if (collname === undefined) {
     return
   }
@@ -26,6 +25,4 @@ const getModelAttrs = function ({ config: { collections }, collname }) {
   return { model: modelAttrs }
 }
 
-const getModelAttr = function (attr) {
-  return includeKeys(attr, ['type', 'isArray'])
-}
+const getModelAttr = (attr) => includeKeys(attr, ['type', 'isArray'])

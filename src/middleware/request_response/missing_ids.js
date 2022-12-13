@@ -3,7 +3,7 @@ import { extractSimpleIds, getSimpleFilter } from '../../filter/simple_id.js'
 import { difference } from '../../utils/functional/difference.js'
 
 // Check if any `id` was not found (404) or was unauthorized (403)
-export const validateMissingIds = function (
+export const validateMissingIds = (
   {
     command,
     clientCollname,
@@ -14,7 +14,7 @@ export const validateMissingIds = function (
     mInput,
   },
   nextLayer,
-) {
+) => {
   const noValidate = doesNotValidate({ command, top, commandpath })
 
   if (noValidate) {
@@ -37,26 +37,22 @@ export const validateMissingIds = function (
   })
 }
 
-const doesNotValidate = function ({ command, top, commandpath }) {
-  // Other commands trigger this middleware during their `currentData` actions
-  return (
-    command !== 'find' ||
-    // `create`'s currentData query is skipped.
-    top.command.type === 'create' ||
-    // Top-level `findMany|patchMany|deleteMany` are not checked because:
-    //  - it would only be applied if filter is simple, i.e. behavior is less
-    //    predictable for the client
-    //  - it makes less sense from semantic point of view
-    //  - pagination prevents guessing missing ids
-    (FILTER_MANY_COMMANDS.has(top.command.name) && commandpath === '')
-  )
-}
+const doesNotValidate = ({ command, top, commandpath }) =>
+  command !== 'find' ||
+  // `create`'s currentData query is skipped.
+  top.command.type === 'create' ||
+  // Top-level `findMany|patchMany|deleteMany` are not checked because:
+  //  - it would only be applied if filter is simple, i.e. behavior is less
+  //    predictable for the client
+  //  - it makes less sense from semantic point of view
+  //  - pagination prevents guessing missing ids
+  (FILTER_MANY_COMMANDS.has(top.command.name) && commandpath === '')
 
 // Commands with a `filter` argument
 const FILTER_MANY_COMMANDS = new Set(['findMany', 'patchMany', 'deleteMany'])
 
 // Retrieve missing models ids
-const getMissingIds = function ({ filter, preFilter, response: { data } }) {
+const getMissingIds = ({ filter, preFilter, response: { data } }) => {
   const filterA = preFilter === undefined ? filter : preFilter
   const filterIds = extractSimpleIds({ filter: filterA })
 
@@ -80,7 +76,7 @@ const getMissingIds = function ({ filter, preFilter, response: { data } }) {
 
 // Check whether this is because the model does not exist,
 // or because it is not authorized
-const reportProblem = async function ({ top, clientCollname, ...rest }) {
+const reportProblem = async ({ top, clientCollname, ...rest }) => {
   const idsA = await checkAuthorization({ top, clientCollname, ...rest })
 
   // `upsert` commands might throw authorization errors, but not model not found
@@ -97,7 +93,7 @@ const reportProblem = async function ({ top, clientCollname, ...rest }) {
 // Try the same database query, but this time without the authorization filter,
 // and only on the missing models.
 // If no missing model is missing anymore, flag it as an authorization error.
-const checkAuthorization = async function ({
+const checkAuthorization = async ({
   top,
   clientCollname,
   preFilter,
@@ -105,7 +101,7 @@ const checkAuthorization = async function ({
   nextLayer,
   mInput,
   mInput: { args },
-}) {
+}) => {
   if (preFilter === undefined) {
     return ids
   }

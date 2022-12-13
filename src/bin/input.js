@@ -10,7 +10,7 @@ import { addInstructions } from './instructions.js'
 import { processOpts } from './process.js'
 
 // CLI input parsing
-const mParseInput = function () {
+const mParseInput = () => {
   const opts = parseOpts()
 
   const { instruction, opts: optsA } = processOpts({ opts })
@@ -20,7 +20,7 @@ const mParseInput = function () {
 export const parseInput = monitor(mParseInput, 'cli')
 
 // CLI options parsing
-const parseOpts = function () {
+const parseOpts = () => {
   const yargsA = addInstructions(yargs(hideBin(argv)))
   return (
     yargsA

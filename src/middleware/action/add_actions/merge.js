@@ -3,14 +3,14 @@ import { isDeepStrictEqual } from 'node:util'
 import { getValues } from './values.js'
 
 // Add new actions to the current request
-export const addActions = function ({ actions, filter, mapper, ...rest }) {
+export const addActions = ({ actions, filter, mapper, ...rest }) => {
   const newActions = getValues({ actions, filter, mapper, ...rest })
   const actionsA = mergeActions({ actions, newActions })
   return actionsA
 }
 
 // Merge two sets of actions
-const mergeActions = function ({ actions, newActions }) {
+const mergeActions = ({ actions, newActions }) => {
   if (newActions.length === 0) {
     return actions
   }
@@ -22,7 +22,7 @@ const mergeActions = function ({ actions, newActions }) {
   return [...actionsA, ...newActionsA]
 }
 
-const mergeAction = function ({ action, newActions }) {
+const mergeAction = ({ action, newActions }) => {
   const newActionA = newActions.find((newAction) =>
     hasSamePath({ action, newAction }),
   )
@@ -38,10 +38,8 @@ const mergeAction = function ({ action, newActions }) {
   }
 }
 
-const isNotMerged = function ({ actions, newAction }) {
-  return actions.every((action) => !hasSamePath({ action, newAction }))
-}
+const isNotMerged = ({ actions, newAction }) =>
+  actions.every((action) => !hasSamePath({ action, newAction }))
 
-const hasSamePath = function ({ action, newAction }) {
-  return isDeepStrictEqual(action.commandpath, newAction.commandpath)
-}
+const hasSamePath = ({ action, newAction }) =>
+  isDeepStrictEqual(action.commandpath, newAction.commandpath)

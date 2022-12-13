@@ -8,7 +8,7 @@ import { getWordsList } from '../../../utils/string.js'
 import { getValues } from './values.js'
 
 // Add values to current actions
-export const addToActions = function ({ actions, name, filter, mapper, top }) {
+export const addToActions = ({ actions, name, filter, mapper, top }) => {
   const values = getValues({ actions, filter, mapper })
 
   const actionsA = actions.map((action) => addValue({ action, values, name }))
@@ -18,12 +18,7 @@ export const addToActions = function ({ actions, name, filter, mapper, top }) {
   return actionsA
 }
 
-const addValue = function ({
-  action,
-  action: { args, commandpath },
-  values,
-  name,
-}) {
+const addValue = ({ action, action: { args, commandpath }, values, name }) => {
   const commandpathA = commandpath.join('.')
   const valueA = values
     .map((value) => value[commandpathA])
@@ -37,7 +32,7 @@ const addValue = function ({
 }
 
 // Validate we are adding attributes in actions that are present|populated
-const validateAll = function ({ name, actions, values, top }) {
+const validateAll = ({ name, actions, values, top }) => {
   const wrongPaths = getWrongPaths({ actions, values })
 
   if (wrongPaths.length === 0) {
@@ -50,7 +45,7 @@ const validateAll = function ({ name, actions, values, top }) {
   throwError(message, { reason: 'VALIDATION' })
 }
 
-const getWrongPaths = function ({ actions, values }) {
+const getWrongPaths = ({ actions, values }) => {
   const actionPaths = actions.map(({ commandpath }) => commandpath.join('.'))
 
   const valuePaths = values.flatMap(Object.keys)

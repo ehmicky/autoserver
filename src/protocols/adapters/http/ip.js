@@ -16,6 +16,4 @@ import { getClientIp } from 'request-ip'
 //  - REQ.info.remoteAddress
 // If invalid IPv4|IPv6, throws.
 // If unknown, returns undefined.
-export const getIp = function ({ specific: { req } }) {
-  return getClientIp(req) || ''
-}
+export const getIp = ({ specific: { req } }) => getClientIp(req) || ''

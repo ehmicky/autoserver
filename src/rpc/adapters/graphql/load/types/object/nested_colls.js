@@ -1,7 +1,7 @@
 import omit from 'omit.js'
 
 // Create nested collections definitions
-export const getNestedColl = function (def, { inputObjectType, topDef }) {
+export const getNestedColl = (def, { inputObjectType, topDef }) => {
   const { target, isArray } = def
 
   // Only for nested collections, that are not filter arguments
@@ -22,6 +22,5 @@ export const getNestedColl = function (def, { inputObjectType, topDef }) {
   return topLevelModelB
 }
 
-const topLevelModelMatches = function ({ target, command }, topDef) {
-  return topDef.collname === target && topDef.command === command
-}
+const topLevelModelMatches = ({ target, command }, topDef) =>
+  topDef.collname === target && topDef.command === command

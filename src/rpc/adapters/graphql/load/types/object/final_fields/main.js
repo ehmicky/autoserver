@@ -5,7 +5,7 @@ import { getDefaultValue } from './default.js'
 // i.e. an object that can be passed to new
 // GraphQLObjectType({ fields })
 // Includes return type, resolve function, arguments, etc.
-export const getFinalField = function (def, opts) {
+export const getFinalField = (def, opts) => {
   const type = opts.getType(def, opts)
 
   const args = getArgs(def, opts)

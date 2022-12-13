@@ -1,4 +1,2 @@
 // Fires rpc layer
-export const fireRpc = function (mInput, nextLayer) {
-  return nextLayer(mInput, 'rpc')
-}
+export const fireRpc = (mInput, nextLayer) => nextLayer(mInput, 'rpc')

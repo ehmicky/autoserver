@@ -7,7 +7,7 @@ import { run } from 'autoserver'
 const CONFIG = fileURLToPath(new URL('autoserver.config.yml', import.meta.url))
 
 // Set default console log printing
-const setDefaultDebug = function () {
+const setDefaultDebug = () => {
   // eslint-disable-next-line fp/no-mutation
   inspect.defaultOptions = {
     colors: true,
@@ -19,7 +19,7 @@ const setDefaultDebug = function () {
 
 const COLUMNS_WIDTH = 80
 
-const startServer = async function () {
+const startServer = async () => {
   try {
     const { protocols, exit } = await run({ config: CONFIG })
     return { protocols, exit }

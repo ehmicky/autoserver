@@ -14,23 +14,21 @@ import { getFormat } from './content_negotiation/format.js'
 import { getAgnosticMethod } from './method.js'
 
 // HTTP-specific ways to set input
-const mapInput = function (methods, ...args) {
+const mapInput = (methods, ...args) => {
   const input = mapValues(methods, (func) => func(...args))
   const inputA = excludeKeys(input, isUndefined)
   return inputA
 }
 
-const isUndefined = function (key, value) {
-  return value === undefined
-}
+const isUndefined = (key, value) => value === undefined
 
 // Using `X-HTTP-Method-Override` changes the method
-const getMethod = function ({
+const getMethod = ({
   specific: {
     req: { headers },
   },
   method,
-}) {
+}) => {
   const methodOverride = headers['x-http-method-override']
 
   if (!methodOverride) {
@@ -47,7 +45,7 @@ const getMethod = function ({
 
 // Using `Prefer: return=minimal` request header results in `args.silent` true.
 // Same thing for `HEAD` method
-const getSilent = function ({ specific, method }) {
+const getSilent = ({ specific, method }) => {
   if (method === 'HEAD') {
     return true
   }
@@ -61,13 +59,13 @@ const getSilent = function ({ specific, method }) {
 }
 
 // Parses Prefer HTTP header
-const parsePreferHeader = function ({
+const parsePreferHeader = ({
   specific: {
     req: {
       headers: { prefer },
     },
   },
-}) {
+}) => {
   if (!prefer) {
     return {}
   }

@@ -32,15 +32,11 @@ export const CONTENT_TYPES = {
   },
 }
 
-const isJsonObject = function (value) {
-  return isObject(value) && isJson(value)
-}
+const isJsonObject = (value) => isObject(value) && isJson(value)
 
-const isJsonArray = function (value) {
-  return Array.isArray(value) && isJson(value)
-}
+const isJsonArray = (value) => Array.isArray(value) && isJson(value)
 
-const isJson = function (val) {
+const isJson = (val) => {
   try {
     JSON.stringify(val)
   } catch {
@@ -50,9 +46,6 @@ const isJson = function (val) {
   return true
 }
 
-export const isType = function (contentType, type) {
-  return (
-    CONTENT_TYPES[contentType] !== undefined &&
-    CONTENT_TYPES[contentType].types.has(type)
-  )
-}
+export const isType = (contentType, type) =>
+  CONTENT_TYPES[contentType] !== undefined &&
+  CONTENT_TYPES[contentType].types.has(type)

@@ -5,7 +5,7 @@ import { getDefaultDuration } from '../../perf/measure.js'
 import { getWordsList } from '../../utils/string.js'
 
 // Emit successful or failed shutdown event
-export const emitStopEvent = async function ({ exit, config, measures }) {
+export const emitStopEvent = async ({ exit, config, measures }) => {
   const failedProtocols = getFailedProtocols({ exit })
 
   const isSuccess = failedProtocols.length === 0
@@ -31,12 +31,10 @@ export const emitStopEvent = async function ({ exit, config, measures }) {
 }
 
 // Retrieves which servers exits have failed, if any
-const getFailedProtocols = function ({ exit }) {
+const getFailedProtocols = ({ exit }) => {
   const failedExits = excludeKeys(exit, hasCode)
   const failedProtocols = Object.keys(failedExits)
   return failedProtocols
 }
 
-const hasCode = function (key, code) {
-  return code
-}
+const hasCode = (key, code) => code

@@ -23,9 +23,7 @@ Functions are regular JavaScript files exporting a function and required using a
 [reference](references.md).
 
 ```js
-export default function getDefaultValue() {
-  return Math.random()
-}
+export default () => Math.random()
 ```
 
 and in the [configuration](configuration.md):
@@ -75,9 +73,7 @@ with information about the current context.
 In the example below, the `timestamp` parameter is used.
 
 ```js
-export default function getDefaultValue({ timestamp }) {
-  return timestamp
-}
+export default ({ timestamp }) => timestamp
 ```
 
 Parameters can be also be used when the function is inline.
@@ -217,9 +213,7 @@ params:
 <!-- eslint-disable id-match -->
 
 ```js
-export default function getDefaultValue({ $secret_password }) {
-  return $secret_password === 'admin' ? 1 : 0
-}
+export default ({ $secret_password }) => ($secret_password === 'admin' ? 1 : 0)
 ```
 
 Server-specific parameters can be functions themselves:

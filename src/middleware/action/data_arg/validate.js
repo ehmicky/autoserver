@@ -7,12 +7,12 @@ import { isObject } from '../../../utils/functional/type.js'
 const { byteLength } = Buffer
 
 // Validate that user passed a correct `args.data`
-export const validateData = function ({
+export const validateData = ({
   datum,
   commandpath,
   top: { command },
   maxAttrValueSize,
-}) {
+}) => {
   const commandpathA = commandpath.join('.')
 
   validateType({ datum, commandpath: commandpathA })
@@ -31,7 +31,7 @@ export const validateData = function ({
   })
 }
 
-const validateType = function ({ datum, commandpath }) {
+const validateType = ({ datum, commandpath }) => {
   if (isModelType(datum)) {
     return
   }
@@ -42,7 +42,7 @@ const validateType = function ({ datum, commandpath }) {
   throwError(message, { reason: 'VALIDATION' })
 }
 
-const validateRequiredId = function ({ datum, commandpath, command }) {
+const validateRequiredId = ({ datum, commandpath, command }) => {
   if (
     !REQUIRED_ID_TYPES.has(command.type) ||
     (datum.id !== undefined && datum.id !== null)
@@ -57,7 +57,7 @@ const validateRequiredId = function ({ datum, commandpath, command }) {
 const REQUIRED_ID_TYPES = new Set(['upsert'])
 
 // eslint-disable-next-line complexity
-const validateForbiddenId = function ({ datum, commandpath, command }) {
+const validateForbiddenId = ({ datum, commandpath, command }) => {
   const forbidsId =
     FORBIDDEN_ID_TYPES.has(command.type) &&
     datum.id !== undefined &&
@@ -75,12 +75,12 @@ const validateForbiddenId = function ({ datum, commandpath, command }) {
 const FORBIDDEN_ID_TYPES = new Set(['patch'])
 
 // Validate each attribute's value inside `args.data`
-const validateDataValue = function ({
+const validateDataValue = ({
   value,
   attrName,
   commandpath,
   maxAttrValueSize,
-}) {
+}) => {
   const isValueTooLong =
     typeof value === 'string' && byteLength(value) > maxAttrValueSize
 
@@ -92,7 +92,7 @@ const validateDataValue = function ({
   throwError(message, { reason: 'VALIDATION' })
 }
 
-export const isModelsType = function (val) {
+export const isModelsType = (val) => {
   if (isModelType(val)) {
     return true
   }
@@ -100,6 +100,4 @@ export const isModelsType = function (val) {
   return Array.isArray(val) && val.every(isModelType)
 }
 
-export const isModelType = function (obj) {
-  return isObject(obj) && !isPatchOp(obj)
-}
+export const isModelType = (obj) => isObject(obj) && !isPatchOp(obj)

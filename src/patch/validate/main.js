@@ -5,7 +5,7 @@ import { POST_VALIDATORS } from './post_validators.js'
 import { PRE_VALIDATORS } from './pre_validators.js'
 
 // Validate patch operation has valid syntax, during args.data parsing
-export const preValidate = function ({
+export const preValidate = ({
   patchOp,
   commandpath,
   attrName,
@@ -15,7 +15,7 @@ export const preValidate = function ({
   coll: { attributes },
   mInput,
   config: { operators },
-}) {
+}) => {
   const attr = attributes[attrName]
 
   const { type, opVal } = parsePatchOp(patchOp)
@@ -45,14 +45,14 @@ export const preValidate = function ({
 }
 
 // Validate patch operation has valid syntax, after model.ATTR resolution
-export const postValidate = function (input) {
+export const postValidate = (input) => {
   const validators = POST_VALIDATORS
 
   validatePatchOp({ ...input, validators })
 }
 
 // Try each validator in order, stopping at the first one that returns an error
-const validatePatchOp = function (input) {
+const validatePatchOp = (input) => {
   const { commandpath, attrName, patchOp, validators } = input
 
   const validatorA = validators.find(
@@ -68,7 +68,7 @@ const validatePatchOp = function (input) {
   checkError({ error, commandpath, attrName, patchOp })
 }
 
-const checkError = function ({ error, commandpath, attrName, patchOp }) {
+const checkError = ({ error, commandpath, attrName, patchOp }) => {
   const commandpathA = [...commandpath, attrName].join('.')
   const prefix = `At '${commandpathA}', wrong operation '${JSON.stringify(
     patchOp,

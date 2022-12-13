@@ -1,3 +1,1 @@
-export default function defaultValue({ command }) {
-  return `happy ${command}`
-}
+export default ({ command }) => `happy ${command}`

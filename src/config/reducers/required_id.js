@@ -1,13 +1,13 @@
 import { mapAttrs } from '../helpers.js'
 
 // Make sure `id` attributes are required
-const mapAttr = function ({
+const mapAttr = ({
   attr: {
     validate,
     validate: { required },
   },
   attrName,
-}) {
+}) => {
   if (attrName !== 'id' || required) {
     return
   }

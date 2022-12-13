@@ -5,7 +5,7 @@ import { mapValues } from '../../../../utils/functional/map.js'
 import { getTypeGetter } from './types/main.js'
 
 // Builds query|mutation type
-export const getTopTypes = function ({ topDefs }) {
+export const getTopTypes = ({ topDefs }) => {
   const graphqlSchemaId = randomUUID()
   // `getType`: recursion, while avoiding files circular dependencies
   const opts = {
@@ -18,7 +18,7 @@ export const getTopTypes = function ({ topDefs }) {
 }
 
 // Retrieves the GraphQL type for a given config definition
-const getType = function (def, opts) {
+const getType = (def, opts) => {
   const typeGetter = getTypeGetter(def, opts)
   const type = typeGetter.value(def, opts)
   return type

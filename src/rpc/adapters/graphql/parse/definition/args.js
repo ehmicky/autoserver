@@ -3,17 +3,17 @@ import { mapValues } from '../../../../../utils/functional/map.js'
 import { validateDuplicates } from '../duplicates.js'
 
 // Parse GraphQL arguments, for each possible argument type
-export const parseArgs = function ({
+export const parseArgs = ({
   mainSelection: { arguments: fields },
   variables,
-}) {
+}) => {
   // GraphQL spec 5.3.2 'Argument Uniqueness'
   validateDuplicates({ nodes: fields, type: 'arguments' })
 
   return parseObject({ fields, variables })
 }
 
-const parseObject = function ({ fields: args, variables }) {
+const parseObject = ({ fields: args, variables }) => {
   if (!args || args.length === 0) {
     return {}
   }
@@ -29,16 +29,13 @@ const parseObject = function ({ fields: args, variables }) {
   return argsC
 }
 
-const parseArray = function ({ values, variables }) {
-  return values.map((arg) => argParsers[arg.kind]({ ...arg, variables }))
-}
+const parseArray = ({ values, variables }) =>
+  values.map((arg) => argParsers[arg.kind]({ ...arg, variables }))
 
-const parseNumber = function ({ value }) {
-  return Number(value)
-}
+const parseNumber = ({ value }) => Number(value)
 
 // The only enum value we support is undefined, which is the same as null
-const parseEnum = function ({ value }) {
+const parseEnum = ({ value }) => {
   if (value !== 'undefined') {
     const message = `'${value}' is an unknown constant`
     throwError(message, { reason: 'VALIDATION' })
@@ -48,18 +45,13 @@ const parseEnum = function ({ value }) {
   return null
 }
 
-const parseNull = function () {
-  // eslint-disable-next-line unicorn/no-null
-  return null
-}
+// eslint-disable-next-line unicorn/no-null
+const parseNull = () => null
 
-const parseAsIs = function ({ value }) {
-  return value
-}
+const parseAsIs = ({ value }) => value
 
-const parseVariable = function ({ name, variables }) {
-  return variables && variables[name.value]
-}
+const parseVariable = ({ name, variables }) =>
+  variables && variables[name.value]
 
 const argParsers = {
   ObjectValue: parseObject,

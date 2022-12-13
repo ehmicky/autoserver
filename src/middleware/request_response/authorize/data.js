@@ -2,12 +2,12 @@ import { throwPb } from '../../../errors/props.js'
 import { evalFilter } from '../../../filter/eval.js'
 
 // Check `model.authorize` `model.*` against `args.newData`
-export const checkNewData = function ({
+export const checkNewData = ({
   authorize,
   args: { newData },
   clientCollname,
   top,
-}) {
+}) => {
   if (newData === undefined) {
     return
   }

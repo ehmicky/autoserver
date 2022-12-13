@@ -1,7 +1,7 @@
 import { isModelsType } from './validate.js'
 
 // Retrieve the path to each nested object inside `args.data`
-export const getDataPath = function ({ data, commandpath }) {
+export const getDataPath = ({ data, commandpath }) => {
   if (!isModelsType(data)) {
     return []
   }

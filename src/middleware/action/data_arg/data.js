@@ -7,7 +7,7 @@ import { isModel } from './nested.js'
 import { validateData, isModelsType } from './validate.js'
 
 // Validates `args.data` and adds default ids.
-export const parseData = function ({ data, ...rest }) {
+export const parseData = ({ data, ...rest }) => {
   const { collname } = getColl(rest)
 
   if (!Array.isArray(data)) {
@@ -19,7 +19,7 @@ export const parseData = function ({ data, ...rest }) {
   )
 }
 
-const parseDatum = function ({
+const parseDatum = ({
   datum,
   attrName,
   index,
@@ -27,7 +27,7 @@ const parseDatum = function ({
   top,
   maxAttrValueSize,
   ...rest
-}) {
+}) => {
   const path = [attrName, index].filter((part) => part !== undefined)
   const commandpathA = [...commandpath, ...path]
 
@@ -48,7 +48,7 @@ const parseDatum = function ({
 }
 
 // Recursion over nested collections
-const parseAttr = function ({
+const parseAttr = ({
   obj,
   commandpath,
   attrName,
@@ -58,7 +58,7 @@ const parseAttr = function ({
   config,
   collname,
   ...rest
-}) {
+}) => {
   const coll = config.collections[collname]
   preValidate({
     patchOp: obj,

@@ -2,20 +2,19 @@ import { LEVELS } from '../../constants.js'
 
 // Retrieves `[EVENT] [LEVEL] [HOSTID] [PROCESSNAME] [PROCESSID] [TIMESTAMP]
 // [PHASE]`
-export const getPrefix = function ({ log }) {
-  return PREFIXES.map(({ value, length }) =>
+export const getPrefix = ({ log }) =>
+  PREFIXES.map(({ value, length }) =>
     getEachPrefix({ value, length, log }),
   ).join(' ')
-}
 
-const getEachPrefix = function ({ value, length, log }) {
+const getEachPrefix = ({ value, length, log }) => {
   const prefix = value(log)
   const prefixA = prefix.slice(0, length).padEnd(length)
   const prefixB = `[${prefixA}]`
   return prefixB
 }
 
-const getMaxLength = function (enumVal) {
+const getMaxLength = (enumVal) => {
   const lengths = enumVal.map(({ length }) => length)
   return Math.max(...lengths)
 }

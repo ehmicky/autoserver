@@ -3,7 +3,7 @@ export const replace = {
 
   argument: ['string[]'],
 
-  check({ arg: opVal }) {
+  check: ({ arg: opVal }) => {
     const isValid = opVal.length <= 3 && opVal.length >= 2
 
     if (!isValid) {
@@ -13,13 +13,13 @@ export const replace = {
     return validateRegExp({ opVal })
   },
 
-  apply({ value: attrVal = '', arg: [regExp, str, flags] }) {
+  apply: ({ value: attrVal = '', arg: [regExp, str, flags] }) => {
     const regExpA = getRegExp({ regExp, flags })
     return attrVal.replace(regExpA, str)
   },
 }
 
-const validateRegExp = function ({ opVal }) {
+const validateRegExp = ({ opVal }) => {
   const [regExp, , flags] = opVal
 
   try {
@@ -37,6 +37,4 @@ const validateRegExp = function ({ opVal }) {
   }
 }
 
-const getRegExp = function ({ regExp, flags = 'gi' }) {
-  return new RegExp(regExp, flags)
-}
+const getRegExp = ({ regExp, flags = 'gi' }) => new RegExp(regExp, flags)

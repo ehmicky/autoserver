@@ -8,7 +8,7 @@ import {
 
 // Call `func(node)` recursively over each node of `args.filter`
 // Returns array of func() return values
-export const crawlNodes = function (node, func) {
+export const crawlNodes = (node, func) => {
   const children = getNodeChildren(node)
   const childrenA = children.flatMap((child) => crawlNodes(child, func))
 
@@ -21,7 +21,7 @@ export const crawlNodes = function (node, func) {
   return [returnValue, ...childrenA]
 }
 
-const getNodeChildren = function ({ type, value }) {
+const getNodeChildren = ({ type, value }) => {
   if (!PARENT_OPERATORS.has(type)) {
     return []
   }
@@ -31,7 +31,7 @@ const getNodeChildren = function ({ type, value }) {
 
 // Call `func(node)` recursively over each attribute of `args.filter`
 // Returns array of func() return values
-export const crawlAttrs = function (node, func) {
+export const crawlAttrs = (node, func) => {
   const { type, value } = node
 
   if (!ATTR_ANCESTOR_OPERATORS.has(type)) {
@@ -43,7 +43,7 @@ export const crawlAttrs = function (node, func) {
   return children
 }
 
-const getAttrs = function (node, func) {
+const getAttrs = (node, func) => {
   const { type, value } = node
 
   if (!ATTR_PARENT_OPERATORS.has(type)) {
@@ -59,7 +59,7 @@ const getAttrs = function (node, func) {
 
 // Call `func(node)` recursively over each node of `args.filter`
 // Returns node recursively mapped
-export const mapNodes = function (node, func) {
+export const mapNodes = (node, func) => {
   const value = mapChildren(node, func)
   const nodeA = value === undefined ? node : { ...node, value }
 
@@ -67,7 +67,7 @@ export const mapNodes = function (node, func) {
   return nodeB
 }
 
-const mapChildren = function ({ type, value }, func) {
+const mapChildren = ({ type, value }, func) => {
   if (!PARENT_OPERATORS.has(type)) {
     return value
   }

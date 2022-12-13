@@ -8,7 +8,7 @@ import { transtype } from '../utils/transtype.js'
 import { availableInstructions } from './available.js'
 
 // Process options after parsing
-export const processOpts = function ({ opts }) {
+export const processOpts = ({ opts }) => {
   // Remove parser-specific values
   const { _: posArgs, ...optsA } = omit.default(opts, parserOpts)
 
@@ -25,10 +25,10 @@ export const processOpts = function ({ opts }) {
 const parserOpts = ['$0', 'help', 'version', 'instruction']
 
 // When using default command, `config` will be the first argument
-const getInstruction = function ({
+const getInstruction = ({
   posArgs = [],
   posArgs: [instruction, ...posArgsA] = [],
-}) {
+}) => {
   const validInstruction = availableInstructions.some(
     ({ command }) => command === instruction,
   )
@@ -40,7 +40,7 @@ const getInstruction = function ({
   return { instruction: 'run', posArgs }
 }
 
-const validatePosArgs = function ({ posArgs }) {
+const validatePosArgs = ({ posArgs }) => {
   if (posArgs.length === 0) {
     return
   }
@@ -50,17 +50,13 @@ const validatePosArgs = function ({ posArgs }) {
 }
 
 // Allow JSON values for options
-const transtypeValues = function ({ opts }) {
-  return recurseMap(opts, transtype)
-}
+const transtypeValues = ({ opts }) => recurseMap(opts, transtype)
 
 // `yargs` parses `--OPT.0` as an object `{ OPT: { 0: ... } }`
 // We transform it to an array instead: `{ OPT: [...] }`
-const parseArrays = function ({ opts }) {
-  return fullRecurseMap(opts, parseArray)
-}
+const parseArrays = ({ opts }) => fullRecurseMap(opts, parseArray)
 
-const parseArray = function (value) {
+const parseArray = (value) => {
   const isArray = isObject(value) && Object.keys(value).some(isIndex)
 
   if (!isArray) {
@@ -77,11 +73,9 @@ const parseArray = function (value) {
   return arrC
 }
 
-const isIndex = function (value) {
-  return Number.isInteger(Number(value))
-}
+const isIndex = (value) => Number.isInteger(Number(value))
 
-const addArrayValue = function (arr, [index, val]) {
+const addArrayValue = (arr, [index, val]) => {
   const indexA = Number(index)
   const start = arr.slice(0, indexA)
   const end = arr.slice(indexA + 1)

@@ -10,7 +10,7 @@ import { rpcAdapters } from './wrap.js'
 // Retrieves RPC using URL's path.
 // Find correct route, then get path variables, e.g. /path/:id
 // Will be an incrementing index e.g. for /path/* or /path/(maybe)?/
-export const getRpcByPath = function (path) {
+export const getRpcByPath = (path) => {
   if (path === undefined) {
     throwPb({ reason: 'ROUTE', extra: { value: '' } })
   }
@@ -33,15 +33,12 @@ export const getRpcByPath = function (path) {
 }
 
 // Retrieve all routes regexps, rpc and variable names
-const getAllRoutes = function () {
-  return Object.values(rpcAdapters).flatMap(getRoutes)
-}
+const getAllRoutes = () => Object.values(rpcAdapters).flatMap(getRoutes)
 
-const getRoutes = function ({ routes, name }) {
-  return routes.map((route) => ({
+const getRoutes = ({ routes, name }) =>
+  routes.map((route) => ({
     matchRoute: match(route, { decode: decodeURIComponent }),
     rpc: name,
   }))
-}
 
 const allRoutes = getAllRoutes()

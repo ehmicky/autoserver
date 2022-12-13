@@ -1,14 +1,14 @@
 import { throwPb } from '../../errors/props.js'
 
 // Check if any model already exists, for create actions
-export const validateCreateIds = function ({
+export const validateCreateIds = ({
   response: { data },
   command,
   top: {
     command: { type: topCommand },
   },
   clientCollname,
-}) {
+}) => {
   const isCreateCurrentData = topCommand === 'create' && command === 'find'
 
   if (!isCreateCurrentData) {

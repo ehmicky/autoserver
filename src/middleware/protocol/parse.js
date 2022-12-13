@@ -1,9 +1,7 @@
 // Retrieves protocol request's input
 // TODO: remove specific
-export const parseProtocol = function (
+export const parseProtocol = (
   { protocolAdapter: { parseRequest }, config },
   nextLayer,
   { measures },
-) {
-  return parseRequest({ config, measures })
-}
+) => parseRequest({ config, measures })

@@ -3,7 +3,7 @@ import { find } from './find/main.js'
 import { upsert } from './upsert.js'
 
 // CRUD commands
-export const query = async function (commandInput, ...args) {
+export const query = async (commandInput, ...args) => {
   const { command, connection, collname } = commandInput
 
   // Add convenience input `collection`
@@ -24,9 +24,9 @@ export const query = async function (commandInput, ...args) {
 const COMMANDS = { find, delete: deleteFunc, upsert }
 
 // MongoDB returns `result.ok` `0` when an error happened
-const validateWrongResult = function ({
+const validateWrongResult = ({
   returnValue: { result: { ok, errmsg, code } = {} },
-}) {
+}) => {
   if (ok === 1) {
     return
   }

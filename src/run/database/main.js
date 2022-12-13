@@ -5,7 +5,7 @@ import { uniq } from '../../utils/functional/uniq.js'
 import { startConnections } from './connect.js'
 
 // Create database connections
-export const connectToDatabases = async function ({ config, measures }) {
+export const connectToDatabases = async ({ config, measures }) => {
   const dbAdapters = getDbAdapters({ config })
 
   const dbAdaptersA = await startConnections({ dbAdapters, config, measures })
@@ -16,7 +16,7 @@ export const connectToDatabases = async function ({ config, measures }) {
 }
 
 // Returns array of all database adapters that are defined in config
-const getDbAdapters = function ({ config: { collections } }) {
+const getDbAdapters = ({ config: { collections } }) => {
   const names = Object.values(collections).map(({ database }) => database)
   const namesA = uniq(names)
 
@@ -25,12 +25,10 @@ const getDbAdapters = function ({ config: { collections } }) {
 }
 
 // Returns `{ collname: adapter }` map
-const getCollDbAdapters = function ({ dbAdapters, config: { collections } }) {
-  return mapValues(collections, ({ database }) =>
+const getCollDbAdapters = ({ dbAdapters, config: { collections } }) =>
+  mapValues(collections, ({ database }) =>
     getCollDbAdapter({ dbAdapters, database }),
   )
-}
 
-const getCollDbAdapter = function ({ dbAdapters, database }) {
-  return dbAdapters.find(({ name }) => name === database)
-}
+const getCollDbAdapter = ({ dbAdapters, database }) =>
+  dbAdapters.find(({ name }) => name === database)

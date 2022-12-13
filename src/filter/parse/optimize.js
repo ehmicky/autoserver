@@ -2,11 +2,9 @@ import { mapNodes } from '../crawl.js'
 import { getOperator } from '../operators/main.js'
 
 // Try to simplify AST
-export const optimizeFilter = function ({ filter }) {
-  return mapNodes(filter, optimizeNode)
-}
+export const optimizeFilter = ({ filter }) => mapNodes(filter, optimizeNode)
 
-const optimizeNode = function (node) {
+const optimizeNode = (node) => {
   const { optimize } = getOperator({ node })
 
   if (optimize === undefined) {

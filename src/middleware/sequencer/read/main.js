@@ -9,10 +9,7 @@ import { addNestedFilter } from './parent_results.js'
 import { processResults } from './results.js'
 
 // Fire all commands associated with a set of read actions
-export const sequenceRead = async function (
-  { actions, config, mInput },
-  nextLayer,
-) {
+export const sequenceRead = async ({ actions, config, mInput }, nextLayer) => {
   const { maxmodels } = getLimits({ config })
 
   const actionsA = getParentActions({ actions })
@@ -26,10 +23,7 @@ export const sequenceRead = async function (
   return { results }
 }
 
-const fireReads = function (
-  { actions, results, isTopLevel, ...mInput },
-  nextLayer,
-) {
+const fireReads = ({ actions, results, isTopLevel, ...mInput }, nextLayer) => {
   // Siblings can be run in parallel
   // Children will fire this function recursively, waiting for their parent
   const resultsPromises = actions.map(({ parentAction, childActions }) =>
@@ -45,7 +39,7 @@ const fireReads = function (
   return Promise.all(resultsPromises)
 }
 
-const fireRead = async function ({
+const fireRead = async ({
   action,
   action: { args, collname },
   childActions,
@@ -54,7 +48,7 @@ const fireRead = async function ({
   mInput: { top, maxmodels },
   results,
   isTopLevel,
-}) {
+}) => {
   const { parentResults, commandName, nestedParentIds, parentIds } = getInput({
     action,
     results,

@@ -2,10 +2,10 @@ import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 // Retrieve error message of a standard error
-export const getErrorMessage = function ({
+export const getErrorMessage = ({
   error: { type, description, details },
   message,
-}) {
+}) => {
   // Retrieve both the main message and the stack
   const stack = getStack(description, details)
 
@@ -18,7 +18,7 @@ export const getErrorMessage = function ({
   return errorMessageA
 }
 
-const getStack = function (description, details = '') {
+const getStack = (description, details = '') => {
   // Only include description if it's not already in the stack trace
   const stack =
     !description || details.includes(description)

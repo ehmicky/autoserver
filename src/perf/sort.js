@@ -1,13 +1,10 @@
 import sortOn from 'sort-on'
 
 // Sort by category (asc) then by duration (desc)
-export const sortMeasures = function (measuresGroups) {
-  return sortOn(measuresGroups, [getCategoryIndex, '-average'])
-}
+export const sortMeasures = (measuresGroups) =>
+  sortOn(measuresGroups, [getCategoryIndex, '-average'])
 
-const getCategoryIndex = function ({ category }) {
-  return CATEGORIES.indexOf(category)
-}
+const getCategoryIndex = ({ category }) => CATEGORIES.indexOf(category)
 
 // Order matters, as console printing uses it for sorting
 const CATEGORIES = [

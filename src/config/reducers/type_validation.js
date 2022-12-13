@@ -1,7 +1,7 @@
 import { mapAttrs } from '../helpers.js'
 
 // Add JSON schema validation based on `type`
-const mapAttr = function ({ attr, attr: { type, isArray } }) {
+const mapAttr = ({ attr, attr: { type, isArray } }) => {
   if (!type) {
     return
   }
@@ -13,22 +13,20 @@ const mapAttr = function ({ attr, attr: { type, isArray } }) {
   return addMultipleValidation(attr)
 }
 
-const addSingleValidation = function ({ type, validate }) {
-  return { validate: { ...validate, type } }
-}
+const addSingleValidation = ({ type, validate }) => ({
+  validate: { ...validate, type },
+})
 
-const addMultipleValidation = function ({
+const addMultipleValidation = ({
   type,
   validate,
   validate: { items = {} },
-}) {
-  return {
-    validate: {
-      ...validate,
-      type: 'array',
-      items: { ...items, type },
-    },
-  }
-}
+}) => ({
+  validate: {
+    ...validate,
+    type: 'array',
+    items: { ...items, type },
+  },
+})
 
 export const addTypeValidation = mapAttrs.bind(undefined, mapAttr)

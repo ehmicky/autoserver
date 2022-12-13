@@ -7,7 +7,7 @@ import { isInlineFunc, isEscapedInlineFunc } from './test.js'
 import { getInlineFunc } from './tokenize.js'
 
 // Create all config inline functions, i.e. apply `new Function()`
-export const createInlineFuncs = function ({ config }) {
+export const createInlineFuncs = ({ config }) => {
   const paramsKeys = getParamsKeys({ config })
 
   const configB = getValues(config).reduce(
@@ -18,7 +18,7 @@ export const createInlineFuncs = function ({ config }) {
   return configB
 }
 
-const setInlineFunc = function ({ config, keys, value, paramsKeys }) {
+const setInlineFunc = ({ config, keys, value, paramsKeys }) => {
   const inlineFunc = createInlineFunc(value, paramsKeys)
   return set(config, keys, inlineFunc)
 }
@@ -26,7 +26,7 @@ const setInlineFunc = function ({ config, keys, value, paramsKeys }) {
 // Transform inline functions into a function with the inline function as body
 // Returns if it is not inline function
 // This can throw if inline function's JavaScript is wrong
-const createInlineFunc = function (inlineFunc, paramsKeys) {
+const createInlineFunc = (inlineFunc, paramsKeys) => {
   // If this is not inline function, abort
   if (!isInlineFunc(inlineFunc)) {
     return getNonInlineFunc(inlineFunc)
@@ -36,7 +36,7 @@ const createInlineFunc = function (inlineFunc, paramsKeys) {
   return eCreateFunction(body, paramsKeys)
 }
 
-const getNonInlineFunc = function (inlineFunc) {
+const getNonInlineFunc = (inlineFunc) => {
   // Can escape (...) from being interpreted as inline function by escaping
   // first parenthesis
   if (isEscapedInlineFunc(inlineFunc)) {
@@ -46,11 +46,9 @@ const getNonInlineFunc = function (inlineFunc) {
   return inlineFunc
 }
 
-const createFunction = function (body, { namedKeys, posKeys }) {
-  // Create a function with the inline function as body
+const createFunction = (body, { namedKeys, posKeys }) =>
   // eslint-disable-next-line no-new-func
-  return new Function(`{ ${namedKeys} }, ${posKeys}`, `return (${body});`)
-}
+  new Function(`{ ${namedKeys} }, ${posKeys}`, `return (${body});`)
 
 const eCreateFunction = addGenErrorHandler(createFunction, {
   message: (inlineFunc) => `Invalid function: '${inlineFunc}'`,

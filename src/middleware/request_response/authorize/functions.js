@@ -7,13 +7,13 @@ import { runConfigFunc } from '../../../functions/run.js'
 import { getServerParams } from './server_params.js'
 
 // Handle all config function related logic in `coll.authorize`
-export const handleConfigFuncs = function ({
+export const handleConfigFuncs = ({
   collname,
   authorize,
   serverParams,
   config,
   mInput,
-}) {
+}) => {
   const authorizeA = resolveConfigFuncs({ authorize, mInput })
 
   validateAuthorize({ collname, authorize: authorizeA, config })
@@ -25,11 +25,10 @@ export const handleConfigFuncs = function ({
 
 // Resolve all config functions in `coll.authorize` so all leaves values
 // are constants
-const resolveConfigFuncs = function ({ authorize, mInput }) {
-  return mapNodes(authorize, (node) => resolveConfigFunc({ mInput, node }))
-}
+const resolveConfigFuncs = ({ authorize, mInput }) =>
+  mapNodes(authorize, (node) => resolveConfigFunc({ mInput, node }))
 
-const resolveConfigFunc = function ({ mInput, node: { value, ...node } }) {
+const resolveConfigFunc = ({ mInput, node: { value, ...node } }) => {
   const valueA = runConfigFunc({ configFunc: value, mInput })
   return { ...node, value: valueA }
 }
@@ -37,7 +36,7 @@ const resolveConfigFunc = function ({ mInput, node: { value, ...node } }) {
 // Most `coll.authorize` validation is done startup time
 // But config functions are evaluated runtime. Their validation is
 // skipped startup time, and they are validated here once evaluated.
-const validateAuthorize = function ({ collname, authorize, config }) {
+const validateAuthorize = ({ collname, authorize, config }) => {
   const prefix =
     collname === undefined
       ? "In 'config.authorize', "
@@ -48,7 +47,7 @@ const validateAuthorize = function ({ collname, authorize, config }) {
   validateFilter({ filter: authorize, prefix, reason, attrs })
 }
 
-const getAllParams = function ({ authorize, serverParams, mInput }) {
+const getAllParams = ({ authorize, serverParams, mInput }) => {
   const serverParamsA = getServerParams({ authorize, serverParams, mInput })
   const systemParams = getParams(mInput)
 

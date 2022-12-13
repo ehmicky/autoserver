@@ -5,9 +5,8 @@ import { addNameShortcuts, removeNameShortcuts } from './minify_names.js'
 
 // Encode token from a usable object to a short opaque base64 token
 // Make sure token is small by minifying it
-export const encode = function ({ token }) {
-  return encoders.reduce((tokenA, encoder) => encoder(tokenA), token)
-}
+export const encode = ({ token }) =>
+  encoders.reduce((tokenA, encoder) => encoder(tokenA), token)
 
 const encoders = [
   convertUndefined,
@@ -16,9 +15,8 @@ const encoders = [
   base64UrlEncode,
 ]
 
-export const decode = function ({ token }) {
-  return decoders.reduce((tokenA, decoder) => decoder(tokenA), token)
-}
+export const decode = ({ token }) =>
+  decoders.reduce((tokenA, decoder) => decoder(tokenA), token)
 
 // Inverse
 const decoders = [base64UrlDecode, JSON.parse, removeNameShortcuts]

@@ -4,20 +4,20 @@ import { compile } from '../../validation/compile.js'
 import { validate } from '../../validation/validate.js'
 
 // Validates `database.DATABASE.*`, `protocols.PROTOCOL.*` and `log.LOG.*`
-export const validateAdaptersOpts = function ({ opts, adaptersOpts, key }) {
+export const validateAdaptersOpts = ({ opts, adaptersOpts, key }) => {
   Object.entries(opts).forEach(([name, optsA]) => {
     validateAdapterOpts({ name, opts: optsA, adaptersOpts, key })
   })
 }
 
-const validateAdapterOpts = function ({ name, opts, adaptersOpts, key }) {
+const validateAdapterOpts = ({ name, opts, adaptersOpts, key }) => {
   const jsonSchema = getAdapterOpts({ name, opts, adaptersOpts, key })
   const compiledJsonSchema = compile({ jsonSchema })
 
   eValidate({ compiledJsonSchema, jsonSchema, data: opts, key, name })
 }
 
-const getAdapterOpts = function ({ name, opts, adaptersOpts, key }) {
+const getAdapterOpts = ({ name, opts, adaptersOpts, key }) => {
   const adapterOpts = adaptersOpts[name]
 
   if (adapterOpts !== undefined) {

@@ -8,12 +8,12 @@ import { mapValues } from '../utils/functional/map.js'
 //  - add error handlers to catch adapter bugs
 //  - only expose some `members`
 //  - add `methods` bound with the adapter as first argument
-export const wrapAdapters = function ({
+export const wrapAdapters = ({
   adapters,
   members = [],
   methods = {},
   reason = 'ADAPTER',
-}) {
+}) => {
   const adaptersA = keyBy(adapters)
 
   return mapValues(adaptersA, (adapter) =>
@@ -21,7 +21,7 @@ export const wrapAdapters = function ({
   )
 }
 
-const wrapAdapter = function ({ adapter, members, methods, reason }) {
+const wrapAdapter = ({ adapter, members, methods, reason }) => {
   const adapterA = addErrorHandlers({ adapter, reason })
   const wrapped = classify({ adapter: adapterA, members, methods })
 
@@ -36,7 +36,7 @@ const wrapAdapter = function ({ adapter, members, methods, reason }) {
 // If they do, it indicates an adapter bug, where we assign specific error
 // reasons
 // Except if they threw using throwError()
-const addErrorHandlers = function ({ adapter, reason }) {
+const addErrorHandlers = ({ adapter, reason }) => {
   const methods = includeKeys(adapter, isFunction)
   const methodsA = mapValues(methods, (method) =>
     addCatchAllPbHandler(method, {
@@ -48,12 +48,10 @@ const addErrorHandlers = function ({ adapter, reason }) {
   return adapterA
 }
 
-const isFunction = function (key, value) {
-  return typeof value === 'function'
-}
+const isFunction = (key, value) => typeof value === 'function'
 
 // Similar to create a new class, but more functional programming-oriented
-const classify = function ({ adapter, members, methods }) {
+const classify = ({ adapter, members, methods }) => {
   const membersA = includeKeys(adapter, members)
   const methodsA = mapValues(methods, (method) =>
     method.bind(undefined, adapter),

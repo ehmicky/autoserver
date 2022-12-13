@@ -6,7 +6,7 @@ import { mapColls } from '../helpers.js'
 // Transforms can copy each `alias` as a real attribute,
 // and set `aliasOf` property
 
-const mapColl = function ({ coll, coll: { attributes }, collname }) {
+const mapColl = ({ coll, coll: { attributes }, collname }) => {
   if (!attributes) {
     return
   }
@@ -19,12 +19,12 @@ const mapColl = function ({ coll, coll: { attributes }, collname }) {
   return { attributes: attributesA }
 }
 
-const normalizeAlias = function ({ coll, collname }, attrs, [attrName, attr]) {
+const normalizeAlias = ({ coll, collname }, attrs, [attrName, attr]) => {
   const aliases = createAliases({ coll, collname, attrs, attr, attrName })
   return { ...attrs, ...aliases, [attrName]: attr }
 }
 
-const createAliases = function ({ coll, collname, attrs, attr, attrName }) {
+const createAliases = ({ coll, collname, attrs, attr, attrName }) => {
   if (!attr.alias) {
     return {}
   }
@@ -38,14 +38,7 @@ const createAliases = function ({ coll, collname, attrs, attr, attrName }) {
   return aliasesB
 }
 
-const createAlias = function ({
-  coll,
-  collname,
-  attrs,
-  attr,
-  attrName,
-  alias,
-}) {
+const createAlias = ({ coll, collname, attrs, attr, attrName, alias }) => {
   checkAliasDuplicates({ coll, collname, attrs, attrName, alias })
 
   const aliasAttr = omit.default(attr, ['alias'])
@@ -54,13 +47,7 @@ const createAlias = function ({
   return { [alias]: attrA }
 }
 
-const checkAliasDuplicates = function ({
-  coll,
-  collname,
-  attrs,
-  attrName,
-  alias,
-}) {
+const checkAliasDuplicates = ({ coll, collname, attrs, attrName, alias }) => {
   const path = `collections.${collname}.attributes.${attrName}.alias`
 
   if (coll.attributes[alias]) {

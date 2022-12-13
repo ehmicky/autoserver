@@ -10,29 +10,23 @@ import { transtype } from '../utils/transtype.js'
 //    Those extra types are removed by being JSON serialized.
 // Formats that do not support arrays, objects or strings cannot be specified.
 
-export const applyCompatParse = function ({ jsonCompat, content }) {
-  return jsonCompat.reduce(
+export const applyCompatParse = ({ jsonCompat, content }) =>
+  jsonCompat.reduce(
     (contentA, compatType) => jsonCompatParse[compatType](contentA),
     content,
   )
-}
 
-export const applyCompatSerialize = function ({ jsonCompat, content }) {
-  return jsonCompat.reduce(
+export const applyCompatSerialize = ({ jsonCompat, content }) =>
+  jsonCompat.reduce(
     (contentA, compatType) => jsonCompatSerialize[compatType](contentA),
     content,
   )
-}
 
-const subsetParse = function (value) {
-  return recurseMap(value, transtype)
-}
+const subsetParse = (value) => recurseMap(value, transtype)
 
-const subsetSerialize = function (value) {
-  return recurseMap(value, setToString)
-}
+const subsetSerialize = (value) => recurseMap(value, setToString)
 
-const setToString = function (val) {
+const setToString = (val) => {
   // Strings are kept as is, unless they would be parsed back to a number,
   // boolean or null
   const noJsonNeeded = typeof val === 'string' && transtype(val) === val
@@ -44,9 +38,7 @@ const setToString = function (val) {
   return JSON.stringify(val)
 }
 
-const supersetParseStringify = function (value) {
-  return JSON.parse(JSON.stringify(value))
-}
+const supersetParseStringify = (value) => JSON.parse(JSON.stringify(value))
 
 const jsonCompatParse = {
   subset: subsetParse,

@@ -1,8 +1,6 @@
 // Retrieves path without query string nor hash
-export const getPath = function ({
+export const getPath = ({
   specific: {
     req: { url },
   },
-}) {
-  return url.replace(/[?#].*/u, '')
-}
+}) => url.replace(/[?#].*/u, '')

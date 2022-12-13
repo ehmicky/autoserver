@@ -1,9 +1,7 @@
 import { GraphQLJSON } from 'graphql-type-json'
 
 // `params` argument
-export const getParamsArgument = function () {
-  return PARAMS_ARGS
-}
+export const getParamsArgument = () => PARAMS_ARGS
 
 const PARAMS_ARGS = {
   params: {

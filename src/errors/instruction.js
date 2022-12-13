@@ -2,14 +2,13 @@ import { addErrorHandler } from './handler.js'
 import { getStandardError } from './standard.js'
 
 // Every instruction should throw standard errors
-export const wrapInstruction = function (instructionName, instruction) {
-  return addErrorHandler(
+export const wrapInstruction = (instructionName, instruction) =>
+  addErrorHandler(
     instruction,
     instructionHandler.bind(undefined, instructionName),
   )
-}
 
-const instructionHandler = function (instructionName, error) {
+const instructionHandler = (instructionName, error) => {
   const {
     description = `Could not perform instruction '${instructionName}'.`,
     ...errorA

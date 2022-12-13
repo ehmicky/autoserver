@@ -6,13 +6,13 @@ import { getFormatFunc } from './format.js'
 
 // Retrieve format|charset|compress of the response payloads, and
 // charset of the request payload
-export const handleContentNegotiation = function ({
+export const handleContentNegotiation = ({
   queryvars,
   format,
   charset,
   compressResponse,
   compressRequest,
-}) {
+}) => {
   const formatA = getFormatFunc({ queryvars, format })
   const charsetA = getCharsetFunc({ queryvars, charset, format: formatA })
   const {

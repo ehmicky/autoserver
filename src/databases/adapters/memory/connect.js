@@ -1,11 +1,11 @@
 // Starts connection
-export const connect = function ({ config, options: { data } }) {
+export const connect = ({ config, options: { data } }) => {
   validateEnv({ config })
 
   return data
 }
 
-const validateEnv = function ({ config: { env } }) {
+const validateEnv = ({ config: { env } }) => {
   if (env === 'dev') {
     return
   }

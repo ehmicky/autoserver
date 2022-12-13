@@ -7,7 +7,7 @@ import { throwError } from '../../../errors/main.js'
 import { getByExt } from '../../../formats/get.js'
 
 // Retrieves final config path to use
-export const getConfPath = async function ({ envConfigPath, configPath }) {
+export const getConfPath = async ({ envConfigPath, configPath }) => {
   const path = envConfigPath || configPath
 
   const pathA = await getPath({ path })
@@ -17,7 +17,7 @@ export const getConfPath = async function ({ envConfigPath, configPath }) {
   return pathA
 }
 
-const getPath = function ({ path }) {
+const getPath = ({ path }) => {
   const baseDir = cwd()
 
   if (path === undefined) {
@@ -28,7 +28,7 @@ const getPath = function ({ path }) {
 }
 
 // Try to find autoserver.config.EXT in current directory, or any parent
-const findConfPath = async function (dir) {
+const findConfPath = async (dir) => {
   const paths = await readdir(dir)
   const pathA = paths.find((path) => CONFIG_REGEXP.test(path))
 
@@ -50,7 +50,7 @@ const findConfPath = async function (dir) {
 const CONFIG_REGEXP = /^autoserver.config.[a-z]+$/u
 
 // When `config` option or environment variable is used
-const resolvePath = function ({ path, baseDir }) {
+const resolvePath = ({ path, baseDir }) => {
   validateConfig({ path })
 
   if (isAbsolute(path)) {
@@ -61,7 +61,7 @@ const resolvePath = function ({ path, baseDir }) {
   return pathA
 }
 
-const validateConfig = function ({ path }) {
+const validateConfig = ({ path }) => {
   if (typeof path === 'string') {
     return
   }
@@ -70,7 +70,7 @@ const validateConfig = function ({ path }) {
   throwError(message, { reason: 'CONFIG_VALIDATION' })
 }
 
-const validatePath = function ({ path }) {
+const validatePath = ({ path }) => {
   if (path === undefined) {
     const message = 'No config file was found'
     throwError(message, { reason: 'CONFIG_VALIDATION' })

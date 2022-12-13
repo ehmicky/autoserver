@@ -18,12 +18,12 @@ import { setRef } from './ref_path.js'
 // although this is not standard|spec behavior.
 // This function is called recursively, which is why it is passed to children
 // Recursion is handled.
-export const dereferenceRefs = async function ({
+export const dereferenceRefs = async ({
   path = '',
   parentPath = cwd(),
   cache = {},
   stack = [],
-}) {
+}) => {
   const pathA = getPath({ path, parentPath })
 
   const content = await cGetContent({ path: pathA, cache, stack })
@@ -31,7 +31,7 @@ export const dereferenceRefs = async function ({
   return content
 }
 
-const getContent = async function ({ path, cache, stack }) {
+const getContent = async ({ path, cache, stack }) => {
   const content = await load({ path })
 
   const contentA = await dereferenceChildren({ content, path, cache, stack })
@@ -44,7 +44,7 @@ const getContent = async function ({ path, cache, stack }) {
 const cGetContent = fireCachedFunc.bind(undefined, getContent)
 
 // Dereference children JSON references
-const dereferenceChildren = async function ({ content, path, cache, stack }) {
+const dereferenceChildren = async ({ content, path, cache, stack }) => {
   // If the `content` is not an object or array, it won't have any children
   if (!isObjectType(content)) {
     return content
@@ -63,7 +63,7 @@ const dereferenceChildren = async function ({ content, path, cache, stack }) {
 }
 
 // Resolve child JSON reference to the value it points to
-const dereferenceChild = async function ({ keys, ...rest }) {
+const dereferenceChild = async ({ keys, ...rest }) => {
   const refContent = await dereferenceRefs(rest)
   return { keys, refContent }
 }

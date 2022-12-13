@@ -1,7 +1,7 @@
 import { getArgTypeDescription } from '../../../../description.js'
 
 // `filter` argument
-export const getFilterArgument = function (def, { filterObjectType }) {
+export const getFilterArgument = (def, { filterObjectType }) => {
   const hasFilter = FILTER_COMMAND_TYPES.has(def.command)
 
   if (!hasFilter) {

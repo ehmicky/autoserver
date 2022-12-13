@@ -6,7 +6,7 @@ import { addActions } from './add_actions/merge.js'
 import { getColl } from './get_coll.js'
 
 // Parse `args.populate|cascade` into a set of nested `actions`
-export const parsePopulateCascade = function ({ actions, ...rest }) {
+export const parsePopulateCascade = ({ actions, ...rest }) => {
   const actionsA = addActions({
     actions,
     filter: ['populate', 'cascade'],
@@ -16,12 +16,7 @@ export const parsePopulateCascade = function ({ actions, ...rest }) {
   return { actions: actionsA }
 }
 
-const getActions = function ({
-  top,
-  top: { command },
-  action: { args },
-  config,
-}) {
+const getActions = ({ top, top: { command }, action: { args }, config }) => {
   const argName = ARG_NAMES[command.type]
   const arg = args[argName]
 
@@ -44,7 +39,7 @@ const ARG_NAMES = {
 //   commandpath: ['commandName', 'attr', 'child_attr']
 //   collname
 //   args: {}
-const getAction = function ({ attrName, attrs, top, config, argName }) {
+const getAction = ({ attrName, attrs, top, config, argName }) => {
   validateMiddleAction({ attrName, attrs, argName })
 
   const commandpath = [...top.commandpath, ...attrName]
@@ -59,7 +54,7 @@ const getAction = function ({ attrName, attrs, top, config, argName }) {
 
 // Cannot specify `args.populate|cascade` `parent.child` but not `parent`.
 // Otherwise, this would require create an intermediate `find` action.
-const validateMiddleAction = function ({ attrName, attrs, argName }) {
+const validateMiddleAction = ({ attrName, attrs, argName }) => {
   // Not for top-level attributes
   if (attrName.length <= 1) {
     return
@@ -78,7 +73,7 @@ const validateMiddleAction = function ({ attrName, attrs, argName }) {
   throwError(message, { reason: 'VALIDATION' })
 }
 
-const validateModel = function ({ coll, commandpath, argName }) {
+const validateModel = ({ coll, commandpath, argName }) => {
   if (coll !== undefined) {
     return
   }

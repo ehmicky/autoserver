@@ -4,7 +4,7 @@ import { throwError } from '../../errors/main.js'
 import { isObject } from '../../utils/functional/type.js'
 
 // Validate collections are properly named
-export const validateClientCollnames = function ({ config: { collections } }) {
+export const validateClientCollnames = ({ config: { collections } }) => {
   if (!isObject(collections)) {
     return
   }
@@ -12,13 +12,13 @@ export const validateClientCollnames = function ({ config: { collections } }) {
   Object.values(collections).forEach(checkCollnames)
 }
 
-const checkCollnames = function ({ name }) {
+const checkCollnames = ({ name }) => {
   name.forEach((nameA) => {
     checkCollname({ name: nameA })
   })
 }
 
-const checkCollname = function ({ name }) {
+const checkCollname = ({ name }) => {
   const pluralname = pluralize.plural(name)
 
   // Collection name must be plural

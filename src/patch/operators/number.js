@@ -6,12 +6,12 @@ const commonTypes = {
 const commonChecks = (defaultValue) => ({
   ...commonTypes,
 
-  check({ arg: opVal = defaultValue, type: attrType }) {
+  check: ({ arg: opVal = defaultValue, type: attrType }) => {
     checkInteger({ opVal, attrType })
   },
 })
 
-const checkInteger = function ({ opVal, attrType }) {
+const checkInteger = ({ opVal, attrType }) => {
   if (attrType !== 'integer' || Number.isInteger(opVal)) {
     return
   }
@@ -22,31 +22,25 @@ const checkInteger = function ({ opVal, attrType }) {
 export const add = {
   ...commonChecks(0),
 
-  apply({ value: attrVal = 0, arg: opVal = 0 }) {
-    return attrVal + opVal
-  },
+  apply: ({ value: attrVal = 0, arg: opVal = 0 }) => attrVal + opVal,
 }
 
 export const sub = {
   ...commonChecks(0),
 
-  apply({ value: attrVal = 0, arg: opVal = 0 }) {
-    return attrVal - opVal
-  },
+  apply: ({ value: attrVal = 0, arg: opVal = 0 }) => attrVal - opVal,
 }
 
 export const mul = {
   ...commonChecks(1),
 
-  apply({ value: attrVal = 0, arg: opVal = 1 }) {
-    return attrVal * opVal
-  },
+  apply: ({ value: attrVal = 0, arg: opVal = 1 }) => attrVal * opVal,
 }
 
 export const div = {
   ...commonTypes,
 
-  check({ arg: opVal = 1, type: attrType }) {
+  check: ({ arg: opVal = 1, type: attrType }) => {
     if (opVal === 0) {
       return 'the argument must not be 0'
     }
@@ -54,7 +48,5 @@ export const div = {
     checkInteger({ opVal, attrType })
   },
 
-  apply({ value: attrVal = 0, arg: opVal = 1 }) {
-    return attrVal / opVal
-  },
+  apply: ({ value: attrVal = 0, arg: opVal = 1 }) => attrVal / opVal,
 }

@@ -1,7 +1,7 @@
 import { uniq } from '../../../../../utils/functional/uniq.js'
 
 // Retrieve `rpcDef.args.populate` using GraphQL selection sets
-export const addPopulate = function ({ args, args: { select }, commandName }) {
+export const addPopulate = ({ args, args: { select }, commandName }) => {
   if (!commandName.startsWith('find_')) {
     return args
   }

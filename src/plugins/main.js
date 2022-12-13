@@ -12,7 +12,7 @@ import { timestampPlugin } from './timestamp.js'
 // They can also take an `opts` parameter
 // Use cases can be: adding a attribute to each collection,
 // extending core functionalities, etc.
-export const applyPlugins = async function ({ config }) {
+export const applyPlugins = async ({ config }) => {
   if (!config.collections) {
     return
   }
@@ -35,7 +35,7 @@ export const applyPlugins = async function ({ config }) {
 }
 
 // Add builtinPlugins, except the ones that have been overriden
-const addDefaultBuiltinPlugins = function ({ plugins }) {
+const addDefaultBuiltinPlugins = ({ plugins }) => {
   const pluginNames = new Set(plugins.map(({ plugin }) => plugin))
   const defaultBuiltinPlugins = builtinPlugins.filter(
     ({ name }) => !pluginNames.has(name),
@@ -45,7 +45,7 @@ const addDefaultBuiltinPlugins = function ({ plugins }) {
 }
 
 // Apply each config.plugins as FUNC({ config }) returning config
-const applyPlugin = function (config, pluginConf, index) {
+const applyPlugin = (config, pluginConf, index) => {
   const { plugin, enabled = true, opts = {} } = getPluginConf({ pluginConf })
 
   // Plugins are only enabled if specified in `config.plugins`.
@@ -65,7 +65,7 @@ const applyPlugin = function (config, pluginConf, index) {
 }
 
 // Used if an exception is thrown
-const getPluginName = function ({ plugin, pluginConf, index }) {
+const getPluginName = ({ plugin, pluginConf, index }) => {
   if (typeof pluginConf.plugin === 'string') {
     return pluginConf.plugin
   }
@@ -78,16 +78,14 @@ const getPluginName = function ({ plugin, pluginConf, index }) {
   return pluginName
 }
 
-const firePlugin = function ({ plugin, config, opts }) {
-  return plugin({ config, opts })
-}
+const firePlugin = ({ plugin, config, opts }) => plugin({ config, opts })
 
 const eFirePlugin = addGenPbHandler(firePlugin, {
   reason: 'PLUGIN',
   extra: ({ pluginName }) => ({ plugin: pluginName }),
 })
 
-const getPluginConf = function ({ pluginConf, pluginConf: { plugin } }) {
+const getPluginConf = ({ pluginConf, pluginConf: { plugin } }) => {
   // Plugin is either a function, or a string (for builtin plugins)
   if (typeof plugin !== 'string') {
     return pluginConf

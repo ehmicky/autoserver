@@ -5,11 +5,11 @@ import { handleStartupError } from './error.js'
 import { startupSteps } from './steps.js'
 
 // Start server for each protocol
-export const run = async function ({
+export const run = async ({
   measures = [],
   config: configPath,
   ...config
-} = {}) {
+} = {}) => {
   // Run each startup step
   const { startPayload } = await monitoredReduce({
     funcs: eStartupSteps,

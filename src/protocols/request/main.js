@@ -14,11 +14,8 @@ import { parseQueryvars } from './queryvars.js'
 import { validateSpecific } from './validate.js'
 
 // Retrieves protocol-specific request information
-export const parseRequest = function (
-  protocolAdapter,
-  { specific, config, measures },
-) {
-  return monitoredReduce({
+export const parseRequest = (protocolAdapter, { specific, config, measures }) =>
+  monitoredReduce({
     funcs: METHODS,
     mapInput: (requestInfo) => ({
       protocolAdapter,
@@ -33,7 +30,6 @@ export const parseRequest = function (
     }),
     category: 'protoparse',
   })
-}
 
 const METHODS = [
   validateSpecific,

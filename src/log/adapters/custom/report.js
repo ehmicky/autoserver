@@ -1,9 +1,5 @@
 import { runConfigFunc } from '../../../functions/run.js'
 
 // Report log
-export const report = function ({
-  opts: { report: configFunc },
-  configFuncInput,
-}) {
-  return runConfigFunc({ configFunc, ...configFuncInput })
-}
+export const report = ({ opts: { report: configFunc }, configFuncInput }) =>
+  runConfigFunc({ configFunc, ...configFuncInput })

@@ -1,7 +1,7 @@
 import { GraphQLBoolean } from 'graphql'
 
 // `dryrun` argument
-export const getDryrunArgument = function ({ command }) {
+export const getDryrunArgument = ({ command }) => {
   const hasDryrun = DRYRUN_COMMANDS.has(command)
 
   if (!hasDryrun) {

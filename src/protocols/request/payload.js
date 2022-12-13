@@ -9,14 +9,14 @@ import { validateBoolean } from './validate.js'
 // Are set in a protocol-agnostic format, i.e. each protocol sets the same
 // object.
 // Meant to be used by rpc layer, e.g. to populate `mInput.args`
-export const parsePayload = function ({
+export const parsePayload = ({
   protocolAdapter,
   specific,
   config,
   charset,
   format,
   compressRequest,
-}) {
+}) => {
   const hasPayload = protocolAdapter.hasPayload({ specific })
   validateBoolean(hasPayload, 'hasPayload', protocolAdapter)
 
@@ -34,14 +34,14 @@ export const parsePayload = function ({
   })
 }
 
-const parseRawPayload = async function ({
+const parseRawPayload = async ({
   specific,
   protocolAdapter: { getPayload },
   config,
   format,
   charset,
   compressRequest,
-}) {
+}) => {
   const { maxpayload } = getLimits({ config })
   // Use protocol-specific way to parse payload, using a known type
   const payload = await getPayload({ specific, maxpayload })
@@ -59,9 +59,8 @@ const parseRawPayload = async function ({
 }
 
 // Request body decompression
-const decompressPayload = function ({ compressRequest, payload }) {
-  return compressRequest.decompress(payload)
-}
+const decompressPayload = ({ compressRequest, payload }) =>
+  compressRequest.decompress(payload)
 
 const eDecompressPayload = addGenPbHandler(decompressPayload, {
   reason: 'REQUEST_NEGOTIATION',
@@ -70,9 +69,7 @@ const eDecompressPayload = addGenPbHandler(decompressPayload, {
   extra: { kind: 'compress' },
 })
 
-const decodeCharset = function ({ content, charset }) {
-  return charset.decode(content)
-}
+const decodeCharset = ({ content, charset }) => charset.decode(content)
 
 const eDecodeCharset = addGenPbHandler(decodeCharset, {
   reason: 'REQUEST_NEGOTIATION',
@@ -82,11 +79,10 @@ const eDecodeCharset = addGenPbHandler(decodeCharset, {
 })
 
 // Parse content, e.g. JSON/YAML parsing
-const parseContent = async function ({ format, payload }) {
-  return await format.parseContent(payload)
-}
+const parseContent = async ({ format, payload }) =>
+  await format.parseContent(payload)
 
-const parseContentHandler = function (error, { payload, format }) {
+const parseContentHandler = (error, { payload, format }) => {
   const { message, kind } = getContentErrorProps({ payload, format })
 
   throwPb({
@@ -97,7 +93,7 @@ const parseContentHandler = function (error, { payload, format }) {
   })
 }
 
-const getContentErrorProps = function ({ payload, format: { title } }) {
+const getContentErrorProps = ({ payload, format: { title } }) => {
   if (!payload) {
     return { message: 'The request payload is empty', kind: 'type' }
   }

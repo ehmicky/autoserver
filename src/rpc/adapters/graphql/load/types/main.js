@@ -58,7 +58,7 @@ const graphqlTGetters = [
   },
 ]
 
-export const getTypeGetter = function (def, opts) {
+export const getTypeGetter = (def, opts) => {
   const typeGetter = graphqlTGetters.find(({ condition }) =>
     condition(def, opts),
   )

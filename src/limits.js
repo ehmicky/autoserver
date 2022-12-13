@@ -2,7 +2,7 @@ import bytes from 'bytes'
 
 // Returns the main numerical limits of the engine.
 // Some of those limits cannot be changed by the user.
-export const getLimits = function ({ config } = {}) {
+export const getLimits = ({ config } = {}) => {
   const configLimits = getConfigLimits({ config })
 
   return { ...SYSTEM_LIMITS, ...configLimits }
@@ -20,7 +20,7 @@ const SYSTEM_LIMITS = {
 }
 
 // Limits that can be changed in `config.limits`
-const getConfigLimits = function ({ config }) {
+const getConfigLimits = ({ config }) => {
   if (config === undefined) {
     return
   }
@@ -49,7 +49,7 @@ const getConfigLimits = function ({ config }) {
   }
 }
 
-const getPagesize = function ({ limits: { pagesize } }) {
+const getPagesize = ({ limits: { pagesize } }) => {
   // `pagesize` `0` disables pagination
   if (pagesize === 0) {
     return Number.POSITIVE_INFINITY
@@ -58,11 +58,9 @@ const getPagesize = function ({ limits: { pagesize } }) {
   return pagesize
 }
 
-const getMaxpayload = function ({ limits: { maxpayload } }) {
-  return bytes.parse(maxpayload)
-}
+const getMaxpayload = ({ limits: { maxpayload } }) => bytes.parse(maxpayload)
 
-const getMaxmodels = function ({ limits: { maxmodels }, pagesize }) {
+const getMaxmodels = ({ limits: { maxmodels }, pagesize }) => {
   if (maxmodels === undefined && pagesize !== undefined) {
     return pagesize * MAX_MODELS_FACTOR
   }

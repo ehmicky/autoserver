@@ -4,7 +4,7 @@ const REF_SYM = Symbol('ref')
 
 // Remember original JSON reference absolute path so it can be used later,
 // for example to serialize back
-export const setRef = function ({ content, path }) {
+export const setRef = ({ content, path }) => {
   if (!isObjectType(content)) {
     return content
   }
@@ -13,6 +13,4 @@ export const setRef = function ({ content, path }) {
   return contentA
 }
 
-export const getRef = function (content) {
-  return content[REF_SYM]
-}
+export const getRef = (content) => content[REF_SYM]

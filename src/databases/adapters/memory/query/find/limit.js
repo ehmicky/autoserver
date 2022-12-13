@@ -1,5 +1,5 @@
 // Pagination limiting
-export const limitResponse = function ({ data, limit }) {
+export const limitResponse = ({ data, limit }) => {
   if (limit === undefined) {
     return data
   }

@@ -4,12 +4,12 @@ import { getParams } from './params/values.js'
 import { stringifyConfigFunc } from './tokenize.js'
 
 // Process config function, i.e. fires it and returns its value
-const eRunConfigFunc = function ({
+const eRunConfigFunc = ({
   configFunc,
   mInput,
   mInput: { serverParams },
   params,
-}) {
+}) => {
   // If this is not config function, returns as is
   if (typeof configFunc !== 'function') {
     return configFunc

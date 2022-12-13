@@ -26,7 +26,7 @@ export const runDebug = () => startNodemon(DEBUG_NODEMON_CONFIG)
 
 runDebug.description = 'Start an example dev server in debug mode'
 
-const startNodemon = async function (config) {
+const startNodemon = async (config) => {
   const nodemon = new Nodemon(config)
 
   // Otherwise Nodemon's log does not appear

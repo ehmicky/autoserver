@@ -2,11 +2,11 @@ import { createServer } from 'node:http'
 import { promisify } from 'node:util'
 
 // Start HTTP server
-export const startServer = function ({
+export const startServer = ({
   opts: { hostname, port },
   config: { env },
   handleRequest,
-}) {
+}) => {
   // Create server
   const server = createServer()
   const promise = waitForConnection({ server })
@@ -27,7 +27,7 @@ export const startServer = function ({
   return promise
 }
 
-const waitForConnection = function ({ server }) {
+const waitForConnection = ({ server }) => {
   const serverOn = promisify(server.on.bind(server))
 
   const successPromise = successListener({ server, serverOn })
@@ -36,7 +36,7 @@ const waitForConnection = function ({ server }) {
 }
 
 // Connection success
-const successListener = async function ({ server, serverOn }) {
+const successListener = async ({ server, serverOn }) => {
   await serverOn('listening')
 
   const { address, port } = server.address()
@@ -44,13 +44,13 @@ const successListener = async function ({ server, serverOn }) {
 }
 
 // Connection failure
-const errorListener = async function ({ serverOn }) {
+const errorListener = async ({ serverOn }) => {
   const error = await serverOn('error')
   throw error
 }
 
-const handleClientRequest = function ({ server, handleRequest }) {
-  server.on('request', function requestHandler(req, res) {
+const handleClientRequest = ({ server, handleRequest }) => {
+  server.on('request', (req, res) => {
     handleRequest({ req, res })
   })
 }

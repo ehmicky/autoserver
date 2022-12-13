@@ -23,11 +23,7 @@ import { optimizeFilter } from './optimize.js'
 //      }
 //    }
 //  ]
-export const parseFilter = function ({
-  filter,
-  reason = 'VALIDATION',
-  prefix = '',
-}) {
+export const parseFilter = ({ filter, reason = 'VALIDATION', prefix = '' }) => {
   if (filter === undefined || filter === null) {
     return
   }

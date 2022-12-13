@@ -29,8 +29,8 @@ import { addTypeValidation } from './reducers/type_validation.js'
 import { validateClientCollnames } from './reducers/validate_collname.js'
 
 // Loads config
-export const loadConfig = function ({ measures, configPath, config }) {
-  return monitoredReduce({
+export const loadConfig = ({ measures, configPath, config }) =>
+  monitoredReduce({
     funcs: reducers,
     initialInput: { measures, configPath, config },
     mapResponse: ({ config: configA, ...rest }, newConfig) => ({
@@ -39,7 +39,6 @@ export const loadConfig = function ({ measures, configPath, config }) {
     }),
     category: 'config',
   })
-}
 
 const reducers = [
   // Load config file

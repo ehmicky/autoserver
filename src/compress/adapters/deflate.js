@@ -5,14 +5,10 @@ const pDeflate = promisify(zlibDeflate)
 const pInflate = promisify(zlibInflate)
 
 // Compress to Deflate
-const compress = function (content) {
-  return pDeflate(content)
-}
+const compress = (content) => pDeflate(content)
 
 // Decompress from Deflate
-const decompress = function (content) {
-  return pInflate(content)
-}
+const decompress = (content) => pInflate(content)
 
 export const deflate = {
   name: 'deflate',

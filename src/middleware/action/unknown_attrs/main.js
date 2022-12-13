@@ -7,59 +7,53 @@ import { validateAllAttr } from './all.js'
 // config.
 // Also validate special key 'all'
 // `args.cascade` is not validated because already previously checked.
-export const validateUnknownAttrs = function ({ actions, config }) {
+export const validateUnknownAttrs = ({ actions, config }) => {
   actions.forEach((action) => {
     validateAction({ action, config })
   })
 }
 
-const validateAction = function ({ action, config }) {
+const validateAction = ({ action, config }) => {
   validateAllAttr({ action, config })
   validateUnknown({ action, config })
 }
 
 // Validate that arguments's attributes are present in config
-const validateUnknown = function ({ action, config }) {
+const validateUnknown = ({ action, config }) => {
   argsToValidate.forEach(({ name, getKeys }) => {
     const keys = getKeys({ action })
     validateUnknownArg({ keys, action, config, name })
   })
 }
 
-const getSelectKeys = function ({
+const getSelectKeys = ({
   action: {
     args: { select = [] },
   },
-}) {
-  return select.filter((key) => key !== 'all')
-}
+}) => select.filter((key) => key !== 'all')
 
-const getRenameKeys = function ({
+const getRenameKeys = ({
   action: {
     args: { rename = [] },
   },
-}) {
-  return rename.map(({ key }) => key)
-}
+}) => rename.map(({ key }) => key)
 
 // Turn e.g. [{ a, b }, { a }] into ['a', 'b']
-const getDataKeys = function ({
+const getDataKeys = ({
   action: {
     args: { data = [] },
   },
-}) {
+}) => {
   const keys = data.flatMap(Object.keys)
   const keysA = uniq(keys)
   return keysA
 }
 
-const getOrderKeys = function ({
+const getOrderKeys = ({
   action: {
     args: { order = [] },
   },
-}) {
-  return order.map(({ attrName }) => attrName)
-}
+}) => order.map(({ attrName }) => attrName)
 
 // Each argument type has its own way or specifying attributes
 const argsToValidate = [
@@ -69,12 +63,12 @@ const argsToValidate = [
   { name: 'order', getKeys: getOrderKeys },
 ]
 
-const validateUnknownArg = function ({
+const validateUnknownArg = ({
   keys,
   action: { commandpath, collname },
   config: { collections },
   name,
-}) {
+}) => {
   const keyA = keys.find(
     (key) => collections[collname].attributes[key] === undefined,
   )

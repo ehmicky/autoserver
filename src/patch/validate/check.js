@@ -6,13 +6,13 @@ import { runConfigFunc } from '../../functions/run.js'
 import { getPatchErrorProps } from '../error.js'
 
 // Uses `patchOp.check()`
-export const applyCheck = function ({
+export const applyCheck = ({
   opVal,
   type,
   operator: { check },
   attr: { type: attrType },
   mInput,
-}) {
+}) => {
   if (check === undefined) {
     return
   }
@@ -27,13 +27,11 @@ export const applyCheck = function ({
   return messageA
 }
 
-const applyCheckHandler = function (error) {
-  return error
-}
+const applyCheckHandler = (error) => error
 
 const eRunConfigFunc = addErrorHandler(runConfigFunc, applyCheckHandler)
 
-const getCheckMessage = function ({ type, message }) {
+const getCheckMessage = ({ type, message }) => {
   if (message === undefined) {
     return
   }

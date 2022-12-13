@@ -4,7 +4,7 @@ import { addGenErrorHandler, addErrorHandler } from '../errors/handler.js'
 import { getByExt, DEFAULT_RAW_FORMAT } from '../formats/get.js'
 
 // Load the file pointing to by the JSON reference
-export const load = async function ({ path }) {
+export const load = async ({ path }) => {
   // Checks that the file exists
   await eStat(path)
 
@@ -21,9 +21,7 @@ const eStat = addGenErrorHandler(stat, {
 
 const eGetByExt = addErrorHandler(getByExt, () => DEFAULT_RAW_FORMAT)
 
-const loadFile = function ({ format, path }) {
-  return format.parseFile(path, { compat: false })
-}
+const loadFile = ({ format, path }) => format.parseFile(path, { compat: false })
 
 const eLoadFile = addGenErrorHandler(loadFile, {
   message: ({ path }) => `Config file could not be parsed: '${path}'`,

@@ -7,7 +7,7 @@ import { getWordsList } from '../../utils/string.js'
 import { getColl } from './get_coll.js'
 
 // Validate request limits
-export const validateRequestLimits = function ({ config, mInput }) {
+export const validateRequestLimits = ({ config, mInput }) => {
   const limits = getLimits({ config })
 
   validators.forEach((validator) => {
@@ -15,7 +15,7 @@ export const validateRequestLimits = function ({ config, mInput }) {
   })
 }
 
-const validateMaxActions = function ({ limits: { maxActions }, actions }) {
+const validateMaxActions = ({ limits: { maxActions }, actions }) => {
   if (actions.length <= maxActions) {
     return
   }
@@ -29,7 +29,7 @@ const validateMaxActions = function ({ limits: { maxActions }, actions }) {
 // Nested patch|create|upsert commands use `maxmodels` instead
 // Nested delete commands are not limited, as they are meant not to be performed
 // several times
-const validateNestedFind = function ({ limits, actions, top, config }) {
+const validateNestedFind = ({ limits, actions, top, config }) => {
   if (top.command.type !== 'find') {
     return
   }
@@ -57,12 +57,12 @@ const validateNestedFind = function ({ limits, actions, top, config }) {
   throwPb({ reason: 'PAYLOAD_LIMIT', message, extra })
 }
 
-const isTooNestedFind = function ({
+const isTooNestedFind = ({
   action: { commandpath },
   config,
   top,
   limits: { maxFindManyDepth },
-}) {
+}) => {
   if (commandpath.length < maxFindManyDepth) {
     return false
   }
@@ -71,10 +71,10 @@ const isTooNestedFind = function ({
   return multiple
 }
 
-const getNestedFindExtra = function ({
+const getNestedFindExtra = ({
   tooNestedActions,
   limits: { maxFindManyDepth },
-}) {
+}) => {
   const values = tooNestedActions.map(({ commandpath }) => commandpath.length)
   const value = Math.max(...values)
   const limit = maxFindManyDepth - 1
@@ -83,11 +83,11 @@ const getNestedFindExtra = function ({
 }
 
 // Validate `args.data` against `maxmodels` limit
-const validateMaxData = function ({
+const validateMaxData = ({
   actions,
   limits: { maxmodels },
   top: { command },
-}) {
+}) => {
   // Not applied to:
   //  - find|patch commands: applied later since response size is not known yet
   //  - delete commands: they are never limited

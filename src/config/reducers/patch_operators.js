@@ -3,7 +3,7 @@ import { mapValues } from '../../utils/functional/map.js'
 import { uniq } from '../../utils/functional/uniq.js'
 
 // Parse `operators.attribute|argument` `any`
-export const normalizePatchOperators = function ({ config: { operators } }) {
+export const normalizePatchOperators = ({ config: { operators } }) => {
   if (operators === undefined) {
     return
   }
@@ -16,12 +16,12 @@ export const normalizePatchOperators = function ({ config: { operators } }) {
   return { operators: operatorsB }
 }
 
-const normalizePatchOperator = function (operator) {
+const normalizePatchOperator = (operator) => {
   const field = normalizeField({ operator, name: 'attribute' })
   return { ...operator, ...field }
 }
 
-const normalizeField = function ({ operator, name }) {
+const normalizeField = ({ operator, name }) => {
   const { [name]: field } = operator
 
   if (field === undefined) {

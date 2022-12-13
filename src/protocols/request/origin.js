@@ -3,12 +3,12 @@ import { getLimits } from '../../limits.js'
 
 import { validateString } from './validate.js'
 
-export const parseOrigin = function ({
+export const parseOrigin = ({
   protocolAdapter,
   protocolAdapter: { getUrl, getOrigin },
   specific,
   config,
-}) {
+}) => {
   // Only used to validate URL length
   const url = getUrl({ specific })
 
@@ -22,7 +22,7 @@ export const parseOrigin = function ({
   return { origin }
 }
 
-const validateUrl = function ({ url, config }) {
+const validateUrl = ({ url, config }) => {
   const { maxUrlLength } = getLimits({ config })
 
   if (url.length <= maxUrlLength) {

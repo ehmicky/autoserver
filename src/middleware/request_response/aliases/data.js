@@ -5,13 +5,8 @@ import omit from 'omit.js'
 import { throwError } from '../../../errors/main.js'
 
 // Apply `alias` in `args.data`
-export const applyDataAliases = function ({
-  newData,
-  currentData,
-  attrName,
-  aliases,
-}) {
-  return newData.map((datum, index) =>
+export const applyDataAliases = ({ newData, currentData, attrName, aliases }) =>
+  newData.map((datum, index) =>
     applyDataAlias({
       newData: datum,
       currentData: currentData[index],
@@ -19,14 +14,13 @@ export const applyDataAliases = function ({
       aliases,
     }),
   )
-}
 
 // Copy first defined alias to main attribute,
 // providing main attribute is "not defined".
 // If the main attribute has the same value as the current value in the
 // database, it is considered "not defined", because setting that value would
 // induce no changes.
-const applyDataAlias = function ({ newData, currentData, attrName, aliases }) {
+const applyDataAlias = ({ newData, currentData, attrName, aliases }) => {
   const aliasData = getAliasData({ newData, currentData, attrName, aliases })
   const data = omit.default(newData, aliases)
 
@@ -46,7 +40,7 @@ const applyDataAlias = function ({ newData, currentData, attrName, aliases }) {
 
 // Retrieve subset of `args.data` that is either an alias on an aliased
 // attribute, unless it is "not defined".
-const getAliasData = function ({ newData, currentData, attrName, aliases }) {
+const getAliasData = ({ newData, currentData, attrName, aliases }) => {
   const newDataKeys = Object.keys(newData)
   const aliasData = [attrName, ...aliases]
     .filter(
@@ -60,7 +54,7 @@ const getAliasData = function ({ newData, currentData, attrName, aliases }) {
 }
 
 // If the request specifies several aliases, all values must be equal
-const validateAliases = function ({ newValue, aliasData, firstAttrName }) {
+const validateAliases = ({ newValue, aliasData, firstAttrName }) => {
   const wrongAlias = Object.keys(aliasData).find(
     (name) => !isDeepStrictEqual(aliasData[name], newValue),
   )

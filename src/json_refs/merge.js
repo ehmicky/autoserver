@@ -5,11 +5,10 @@ import { deepMerge } from '../utils/functional/merge.js'
 import { isObjectType } from '../utils/functional/type.js'
 
 // Merge resolved JSON reference values back to original document
-export const mergeChildren = function ({ content, children }) {
-  return children.reduce(mergeChild, content)
-}
+export const mergeChildren = ({ content, children }) =>
+  children.reduce(mergeChild, content)
 
-const mergeChild = function (content, { keys, refContent }) {
+const mergeChild = (content, { keys, refContent }) => {
   // If there was a top-level JSON reference pointing to a string, number, etc.
   // `content` should be that value, and skip other children
   if (!isObjectType(content)) {
@@ -23,7 +22,7 @@ const mergeChild = function (content, { keys, refContent }) {
 }
 
 // Siblings are merged with siblings
-const mergeSiblings = function ({ content, keys, refContent }) {
+const mergeSiblings = ({ content, keys, refContent }) => {
   // If the child is not an object or array, it is directly set without merging
   if (!isObjectType(refContent)) {
     return refContent

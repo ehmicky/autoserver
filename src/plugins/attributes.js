@@ -11,13 +11,13 @@ import { validate } from '../validation/validate.js'
 // Generic plugin factory
 // It adds attributes to each collection, using `getAttributes(pluginOpts)`
 // option which returns the attributes
-export const attributesPlugin = function ({
+export const attributesPlugin = ({
   name,
   getAttributes = () => ({}),
   optsSchema,
   config: { collections },
   opts,
-}) {
+}) => {
   if (!collections) {
     return
   }
@@ -32,7 +32,7 @@ export const attributesPlugin = function ({
 }
 
 // Validate plugin options against `optsSchema`
-const validateOpts = function ({ name, opts = {}, optsSchema, collections }) {
+const validateOpts = ({ name, opts = {}, optsSchema, collections }) => {
   if (optsSchema === undefined) {
     return
   }
@@ -44,11 +44,12 @@ const validateOpts = function ({ name, opts = {}, optsSchema, collections }) {
   eValidate({ compiledJsonSchema, data, name })
 }
 
-const getJsonSchema = function ({ optsSchema }) {
-  return { type: 'object', properties: { plugin: optsSchema } }
-}
+const getJsonSchema = ({ optsSchema }) => ({
+  type: 'object',
+  properties: { plugin: optsSchema },
+})
 
-const getData = function ({ collections, opts }) {
+const getData = ({ collections, opts }) => {
   const collTypes = Object.keys(collections)
   const data = {
     plugin: opts,
@@ -57,18 +58,17 @@ const getData = function ({ collections, opts }) {
   return data
 }
 
-const applyPlugin = function ({ collections, newAttrs }) {
-  return mapValues(collections, (coll, collname) =>
+const applyPlugin = ({ collections, newAttrs }) =>
+  mapValues(collections, (coll, collname) =>
     mergeNewAttrs({ coll, collname, newAttrs }),
   )
-}
 
-const mergeNewAttrs = function ({
+const mergeNewAttrs = ({
   coll,
   coll: { attributes = {} },
   collname,
   newAttrs,
-}) {
+}) => {
   validateAttrs({ attributes, collname, newAttrs })
 
   const collA = { attributes: { ...attributes, ...newAttrs } }
@@ -76,7 +76,7 @@ const mergeNewAttrs = function ({
 }
 
 // Make sure plugin does not override user-defined attributes
-const validateAttrs = function ({ attributes, collname, newAttrs }) {
+const validateAttrs = ({ attributes, collname, newAttrs }) => {
   const attrNames = Object.keys(attributes)
   const newAttrNames = Object.keys(newAttrs)
   const alreadyDefinedAttrs = intersection(attrNames, newAttrNames)

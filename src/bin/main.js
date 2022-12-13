@@ -11,7 +11,7 @@ import * as instructions from '../main.js'
 import { parseInput } from './input.js'
 
 // Run a server instruction, from the CLI
-const startCli = async function () {
+const startCli = async () => {
   try {
     await checkUpdate()
 
@@ -26,13 +26,13 @@ const startCli = async function () {
 }
 
 // TODO: use static JSON imports once those are possible
-const checkUpdate = async function () {
+const checkUpdate = async () => {
   const cwd = dirname(fileURLToPath(import.meta.url))
   const { packageJson } = await readPackageUp({ cwd, normalize: false })
   updateNotifier({ pkg: packageJson }).notify()
 }
 
-const setErrorDescription = function (error) {
+const setErrorDescription = (error) => {
   if (error instanceof Error && error.description !== undefined) {
     error.message = error.description
   }

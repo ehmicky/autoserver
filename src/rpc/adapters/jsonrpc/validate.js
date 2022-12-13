@@ -2,7 +2,7 @@ import { throwPb } from '../../../errors/props.js'
 import { isObject } from '../../../utils/functional/type.js'
 
 // Validate JSON-RPC payload is correct format
-export const validatePayload = function ({ payload }) {
+export const validatePayload = ({ payload }) => {
   const payloadA = typeof payload === 'object' ? payload : {}
   const { jsonrpc, method, id, params } = payloadA
 
@@ -11,14 +11,14 @@ export const validatePayload = function ({ payload }) {
   })
 }
 
-const applyValidator = function ({
+const applyValidator = ({
   validator: { check, message, reason = 'VALIDATION', extra },
   payload,
   jsonrpc,
   method,
   id,
   params,
-}) {
+}) => {
   const isValid = check({ payload, jsonrpc, method, id, params })
 
   if (isValid) {

@@ -4,7 +4,7 @@ import { get, set, has } from '../../utils/functional/get_set.js'
 import { isObject } from '../../utils/functional/type.js'
 
 // Reduce the size of parameters that might be too big
-export const reduceParams = function ({ params }) {
+export const reduceParams = ({ params }) => {
   const paramsB = attributes.reduce(
     (paramsA, { path, filter }) =>
       reduceInfo({ params: paramsA, path, filter }),
@@ -21,7 +21,7 @@ const attributes = [
   { path: ['responsedata'], filter: ['id'] },
 ]
 
-const reduceInfo = function ({ params, path, filter }) {
+const reduceInfo = ({ params, path, filter }) => {
   if (!has(params, path)) {
     return params
   }
@@ -33,7 +33,7 @@ const reduceInfo = function ({ params, path, filter }) {
   return paramsA
 }
 
-const reduceValue = function ({ value, filter }) {
+const reduceValue = ({ value, filter }) => {
   if (Array.isArray(value)) {
     return value.filter(isObject).map((obj) => includeKeys(obj, filter))
   }
@@ -45,6 +45,4 @@ const reduceValue = function ({ value, filter }) {
   // Otherwise, removes value altogether
 }
 
-const isUndefined = function (key, value) {
-  return value === undefined
-}
+const isUndefined = (key, value) => value === undefined

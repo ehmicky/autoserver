@@ -14,22 +14,18 @@ import { getRawBodyHandler } from './error.js'
 //  - charset decoding
 //  - compression/decompression
 //  - content parsing. Return raw buffer instead
-export const getPayload = function ({
-  specific,
-  specific: { req },
-  maxpayload,
-}) {
+export const getPayload = ({ specific, specific: { req }, maxpayload }) => {
   const length = getContentLength({ specific })
 
   return eGetRawBody({ req, length, maxpayload })
 }
 
 // Retrieves payload length
-const getContentLength = function ({
+const getContentLength = ({
   specific: {
     req: { headers },
   },
-}) {
+}) => {
   const contentLength = headers['content-length']
 
   if (contentLength !== undefined) {
@@ -41,13 +37,10 @@ const getContentLength = function ({
   throwPb({ reason: 'NO_CONTENT_LENGTH', message })
 }
 
-const getRawBody = function ({ req, length, maxpayload }) {
-  return getBody(req, { length, limit: maxpayload })
-}
+const getRawBody = ({ req, length, maxpayload }) =>
+  getBody(req, { length, limit: maxpayload })
 
 const eGetRawBody = addErrorHandler(getRawBody, getRawBodyHandler)
 
 // Check if there is a request payload
-export const hasPayload = function ({ specific: { req } }) {
-  return hasBody(req)
-}
+export const hasPayload = ({ specific: { req } }) => hasBody(req)

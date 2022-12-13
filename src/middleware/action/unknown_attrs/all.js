@@ -1,13 +1,13 @@
 import { throwError } from '../../../errors/main.js'
 
 // Validate correct usage of special key 'all'
-export const validateAllAttr = function ({
+export const validateAllAttr = ({
   action: {
     args: { select },
     collname,
   },
   config: { collections },
-}) {
+}) => {
   if (select === undefined) {
     return
   }

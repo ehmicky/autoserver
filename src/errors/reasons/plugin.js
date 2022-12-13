@@ -1,4 +1,4 @@
-const getMessage = function ({ plugin }) {
+const getMessage = ({ plugin }) => {
   if (plugin === undefined) {
     return
   }

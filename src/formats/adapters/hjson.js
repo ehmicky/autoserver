@@ -1,14 +1,11 @@
 import { parse as hjsonParse, stringify as hjsonStringify } from 'hjson'
 
 // Parses a HJSON file
-const parse = function ({ content }) {
-  return hjsonParse(content)
-}
+const parse = ({ content }) => hjsonParse(content)
 
 // Serializes a HJSON file
-const serialize = function ({ content }) {
-  return hjsonStringify(content, { bracesSameLine: true })
-}
+const serialize = ({ content }) =>
+  hjsonStringify(content, { bracesSameLine: true })
 
 export const hjson = {
   name: 'hjson',

@@ -8,13 +8,13 @@ import { replaceSimpleRef, replaceRef } from './ref.js'
 import { parseRef } from './ref_parsing.js'
 
 // Apply patch operation to a single datum
-export const applyPatchOps = function ({
+export const applyPatchOps = ({
   datum,
   patchOps,
   config: { collections, operators },
   collname,
   ...rest
-}) {
+}) => {
   const { attributes } = collections[collname]
 
   const patchOpsA = mapValues(patchOps, (patchOp, attrName) =>
@@ -24,7 +24,7 @@ export const applyPatchOps = function ({
   return { ...datum, ...patchOpsA }
 }
 
-const applyPatchOp = function ({ patchOp, ...rest }) {
+const applyPatchOp = ({ patchOp, ...rest }) => {
   const { type, opVal } = parsePatchOp(patchOp)
 
   if (type === undefined) {
@@ -35,7 +35,7 @@ const applyPatchOp = function ({ patchOp, ...rest }) {
 }
 
 // If no patch operator was used, do a simple shallow merge
-const getSimplePatch = function ({ patchOp, attributes, datum, commandpath }) {
+const getSimplePatch = ({ patchOp, attributes, datum, commandpath }) => {
   const ref = parseRef(patchOp)
 
   if (ref === undefined) {
@@ -46,7 +46,7 @@ const getSimplePatch = function ({ patchOp, attributes, datum, commandpath }) {
 }
 
 // When a patch operator was used
-const getAdvancedPatch = function ({ datum, attrName, attributes, ...rest }) {
+const getAdvancedPatch = ({ datum, attrName, attributes, ...rest }) => {
   const attrVal = datum[attrName]
   // Normalize `null` to `undefined`
   const attrValA = attrVal === null ? undefined : attrVal
@@ -63,7 +63,7 @@ const getAdvancedPatch = function ({ datum, attrName, attributes, ...rest }) {
   return attrValB
 }
 
-const transformPatchOp = function ({ type, attrVal, operators, ...rest }) {
+const transformPatchOp = ({ type, attrVal, operators, ...rest }) => {
   // Uses `patchOp.apply()`, i.e. transform patch operations
   // into normal values to merge
   const operator = operators[type]
@@ -81,16 +81,13 @@ const transformPatchOp = function ({ type, attrVal, operators, ...rest }) {
 
 // When the patch operator is not specific to array attributes, but the
 // attribute is an array, the patch operator is being iterator
-const shouldIterateOp = function ({ attrVal, operator: { attribute } }) {
-  return (
-    Array.isArray(attrVal) &&
-    attribute !== undefined &&
-    attribute.every((attr) => !attr.endsWith('[]'))
-  )
-}
+const shouldIterateOp = ({ attrVal, operator: { attribute } }) =>
+  Array.isArray(attrVal) &&
+  attribute !== undefined &&
+  attribute.every((attr) => !attr.endsWith('[]'))
 
 // Do the actual merging operation
-const fireApply = function ({
+const fireApply = ({
   operator,
   operator: { apply },
   attr,
@@ -99,7 +96,7 @@ const fireApply = function ({
   type,
   mInput,
   ...rest
-}) {
+}) => {
   const opValA = replaceRef({ operator, mInput, attr, type, ...rest })
 
   // Normalize `null` to `undefined`

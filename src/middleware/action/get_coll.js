@@ -1,12 +1,12 @@
 // Turn a `commandpath` into a `collname`, using config
-export const getColl = function ({
+export const getColl = ({
   commandpath,
   config,
   top: {
     collname,
     command: { multiple },
   },
-}) {
+}) => {
   // Ignore array indices
   const commandpathA = commandpath.filter((key) => typeof key !== 'number')
 
@@ -19,12 +19,12 @@ export const getColl = function ({
 }
 
 // Recurse over `config.collections`, using `commandpath`
-const findColl = function ({
+const findColl = ({
   config,
   config: { collections },
   collname,
   commandpath,
-}) {
+}) => {
   const [attrName, ...childCommandpath] = commandpath
   const attr = collections[collname].attributes[attrName]
 

@@ -5,14 +5,10 @@ const pGzip = promisify(zlibGzip)
 const pGunzip = promisify(zlibGunzip)
 
 // Compress to Gzip
-const compress = function (content) {
-  return pGzip(content)
-}
+const compress = (content) => pGzip(content)
 
 // Decompress from Gzip
-const decompress = function (content) {
-  return pGunzip(content)
-}
+const decompress = (content) => pGunzip(content)
 
 export const gzip = {
   name: 'gzip',

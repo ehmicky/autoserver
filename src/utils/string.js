@@ -1,10 +1,10 @@
 import underscoreString from 'underscore.string'
 
 // Turn ['a', 'b', 'c'] into 'a, b or c'
-export const getWordsList = function (
+export const getWordsList = (
   words,
   { op = 'or', quotes = false, json = false } = {},
-) {
+) => {
   if (words.length === 0) {
     return ''
   }
@@ -15,7 +15,7 @@ export const getWordsList = function (
   return wordsC
 }
 
-const jsonStringify = function (words, { json }) {
+const jsonStringify = (words, { json }) => {
   if (!json) {
     return words
   }
@@ -23,7 +23,7 @@ const jsonStringify = function (words, { json }) {
   return words.map(JSON.stringify)
 }
 
-const quoteWords = function (words, { quotes }) {
+const quoteWords = (words, { quotes }) => {
   if (!quotes) {
     return words
   }

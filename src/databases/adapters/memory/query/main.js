@@ -5,7 +5,7 @@ import { find } from './find/main.js'
 import { upsert } from './upsert.js'
 
 // CRUD commands
-export const query = async function ({
+export const query = async ({
   collname,
   command,
   filter,
@@ -15,7 +15,7 @@ export const query = async function ({
   limit,
   offset,
   connection,
-}) {
+}) => {
   // Simulate asynchronousity
   await pSetTimeout(0)
 

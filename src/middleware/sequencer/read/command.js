@@ -3,12 +3,12 @@ import omit from 'omit.js'
 import { extractSimpleIds } from '../../../filter/simple_id.js'
 
 // Fire the actual command
-export const fireReadCommand = async function ({
+export const fireReadCommand = async ({
   action: { commandpath, collname, clientCollname },
   mInput,
   nextLayer,
   args,
-}) {
+}) => {
   const emptyCommand = isEmptyCommand({ args })
 
   if (emptyCommand) {
@@ -33,13 +33,13 @@ export const fireReadCommand = async function ({
 }
 
 // When parent value is not defined, directly returns empty value
-const isEmptyCommand = function ({ args }) {
+const isEmptyCommand = ({ args }) => {
   const ids = extractSimpleIds(args)
   return Array.isArray(ids) && ids.length === 0
 }
 
 // Fire `request`, `database` and `response` layers serially
-const getResponse = async function ({ nextLayer, mInput }) {
+const getResponse = async ({ nextLayer, mInput }) => {
   const mInputA = nextLayer(mInput, 'request')
 
   const { response } = await nextLayer(mInputA, 'database')

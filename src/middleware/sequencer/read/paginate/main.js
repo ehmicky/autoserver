@@ -4,13 +4,13 @@ import { truncateAttrs } from './truncate.js'
 
 // Paginates nested find commands, to ensure response does not hit `maxmodels`
 // limit
-export const paginateResults = function ({
+export const paginateResults = ({
   results,
   maxmodels,
   top,
   isTopLevel,
   childActions,
-}) {
+}) => {
   const shouldPaginate = shouldPaginateResults({
     results,
     maxmodels,
@@ -35,14 +35,9 @@ export const paginateResults = function ({
   results.splice(0, results.length, ...resultsA)
 }
 
-const shouldPaginateResults = function ({ maxmodels, top, isTopLevel }) {
-  // Only depth level 2 is paginated, since deeper levels cannot use findMany
-  // commands
-  return (
-    isTopLevel &&
-    maxmodels !== Number.POSITIVE_INFINITY &&
-    COMMAND_TYPES.has(top.command.type)
-  )
-}
+const shouldPaginateResults = ({ maxmodels, top, isTopLevel }) =>
+  isTopLevel &&
+  maxmodels !== Number.POSITIVE_INFINITY &&
+  COMMAND_TYPES.has(top.command.type)
 
 const COMMAND_TYPES = new Set(['find'])

@@ -11,7 +11,7 @@ const {
 } = readPackageUpSync({ cwd: dirname(fileURLToPath(import.meta.url)) })
 
 // Retrieve environment-specific versions
-export const getVersionsInfo = function () {
+export const getVersionsInfo = () => {
   const autoserver = `v${autoserverVersion}`
 
   return { node: nodeVersion, autoserver }

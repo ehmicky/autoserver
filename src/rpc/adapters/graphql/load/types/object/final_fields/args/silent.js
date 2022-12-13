@@ -1,9 +1,7 @@
 import { GraphQLBoolean } from 'graphql'
 
 // `silent` argument
-export const getSilentArgument = function () {
-  return SILENT_ARGS
-}
+export const getSilentArgument = () => SILENT_ARGS
 
 const SILENT_ARGS = {
   silent: {

@@ -2,13 +2,13 @@ import omit from 'omit.js'
 
 // Retrieve a database input that reverts the write action, if it was
 // successful, or is a noop, if it was not performed.
-export const getRollbackInput = function ({ command, args, ...input }) {
+export const getRollbackInput = ({ command, args, ...input }) => {
   const inputs = handlers[command](args)
   return inputs.map((inputA) => ({ ...input, ...inputA }))
 }
 
 // Rollback `create` with a `delete`
-const deleteRollback = function ({ newData, ...args }) {
+const deleteRollback = ({ newData, ...args }) => {
   if (newData.length === 0) {
     return []
   }
@@ -20,7 +20,7 @@ const deleteRollback = function ({ newData, ...args }) {
 }
 
 // Rollback `patch|delete` by upserting the original models
-const upsertRollback = function ({ currentData, ...args }) {
+const upsertRollback = ({ currentData, ...args }) => {
   if (currentData.length === 0) {
     return []
   }
@@ -32,11 +32,12 @@ const upsertRollback = function ({ currentData, ...args }) {
 
 // Rollback `upsert` by either deleting the model (if it did not exist before),
 // or upserting the original model (it it existed before)
-const deleteOrUpsertRollback = function (args) {
-  return [...getDeleteRollback(args), ...getUpsertRollback(args)]
-}
+const deleteOrUpsertRollback = (args) => [
+  ...getDeleteRollback(args),
+  ...getUpsertRollback(args),
+]
 
-const getDeleteRollback = function ({ currentData, newData, ...args }) {
+const getDeleteRollback = ({ currentData, newData, ...args }) => {
   const deletedData = newData.filter(
     (datum, index) => currentData[index] === undefined,
   )
@@ -52,7 +53,7 @@ const getDeleteRollback = function ({ currentData, newData, ...args }) {
   return deleteInput
 }
 
-const getUpsertRollback = function ({ currentData, ...args }) {
+const getUpsertRollback = ({ currentData, ...args }) => {
   const upsertData = currentData.filter(
     (currentDatum) => currentDatum !== undefined,
   )

@@ -4,14 +4,14 @@ import { willPaginate } from '../condition.js'
 import { getPaginationOutput } from './response.js'
 
 // Add response metadata related to pagination
-export const handlePaginationOutput = function ({
+export const handlePaginationOutput = ({
   top,
   args,
   topargs,
   config,
   response,
   ...rest
-}) {
+}) => {
   if (!willPaginate({ top, args, config, ...rest })) {
     return
   }

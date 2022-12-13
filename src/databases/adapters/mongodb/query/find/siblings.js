@@ -1,9 +1,9 @@
 // When using model.ATTR
-export const getSiblingNode = function ({
+export const getSiblingNode = ({
   type,
   value: { value: otherAttr },
   attrName,
-}) {
+}) => {
   const text = WHERE_TEXTS[type]({ attrName, otherAttr })
   return { $where: text }
 }

@@ -9,7 +9,7 @@ import { difference } from '../../../utils/functional/difference.js'
 //  - efficiency
 //  - output consistency, i.e. each model has a single representation for a
 //    given request
-export const getConcurrentCommand = function ({ args, results, collname }) {
+export const getConcurrentCommand = ({ args, results, collname }) => {
   const ids = extractSimpleIds(args) || []
   const concurrentResults = getConcurrentResults({ ids, results, collname })
 
@@ -30,21 +30,19 @@ export const getConcurrentCommand = function ({ args, results, collname }) {
 }
 
 // Looks for concurrent `find` commands searching for the same models
-const getConcurrentResults = function ({ ids, results, collname }) {
-  return ids
+const getConcurrentResults = ({ ids, results, collname }) =>
+  ids
     .map((id) => getConcurrentResult({ id, results, collname }))
     .filter((result) => result !== undefined)
-}
 
-const getConcurrentResult = function ({ id, results, collname }) {
-  return results.find(
+const getConcurrentResult = ({ id, results, collname }) =>
+  results.find(
     (result) => result.model.id === id && result.collname === collname,
   )
-}
 
 // Do not try to search for models while waiting for another command to
 // fetch them, i.e. remove them from `args.filter.id`
-const removeConcurrentIds = function ({ concurrentResults, ids, args }) {
+const removeConcurrentIds = ({ concurrentResults, ids, args }) => {
   const concurrentIds = concurrentResults.map(({ model: { id } }) => id)
   const idsA = difference(ids, concurrentIds)
 
@@ -55,12 +53,7 @@ const removeConcurrentIds = function ({ concurrentResults, ids, args }) {
 // Communicate to parallel commands which `id`s are currently being searched
 // so that each call can reuse the result from other calls when targetting
 // the same model.
-export const addPendingResults = function ({
-  args,
-  results,
-  collname,
-  promise,
-}) {
+export const addPendingResults = ({ args, results, collname, promise }) => {
   const ids = extractSimpleIds(args) || []
   const pendingResults = ids.map((id) => ({ model: { id }, collname, promise }))
 

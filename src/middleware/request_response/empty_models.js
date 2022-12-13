@@ -2,7 +2,7 @@
 // Those can happen with some database. E.g. MongoDB sometimes release read
 // locks in the middle of a query, which can result in the same model appearing
 // twice in the response.
-export const removeEmptyModels = function ({ response: { data, ...rest } }) {
+export const removeEmptyModels = ({ response: { data, ...rest } }) => {
   const dataA = data.filter((datum) => datum !== undefined && datum !== null)
   return { response: { data: dataA, ...rest } }
 }

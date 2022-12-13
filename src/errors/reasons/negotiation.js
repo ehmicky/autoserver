@@ -2,7 +2,7 @@ import pluralize from 'pluralize'
 
 import { getWordsList } from '../../utils/string.js'
 
-const getMessage = function (type, { kind, value }) {
+const getMessage = (type, { kind, value }) => {
   if (value === undefined) {
     return
   }

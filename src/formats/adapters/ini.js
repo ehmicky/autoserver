@@ -3,18 +3,16 @@ import { parse as iniParse, stringify as iniStringify } from 'ini'
 import { fullRecurseMap } from '../../utils/functional/map.js'
 
 // Parses an INI file
-const parse = function ({ content }) {
-  return iniParse(content)
-}
+const parse = ({ content }) => iniParse(content)
 
 // Serializes an INI file
-const serialize = function ({ content }) {
+const serialize = ({ content }) => {
   const contentA = fullRecurseMap(content, escapeEmptyArrays)
   return iniStringify(contentA)
 }
 
 // Empty arrays are ignored by `node-ini`, so we need to escape them
-const escapeEmptyArrays = function (val) {
+const escapeEmptyArrays = (val) => {
   const isEmptyArray = Array.isArray(val) && val.length === 0
 
   if (!isEmptyArray) {

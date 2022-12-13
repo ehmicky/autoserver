@@ -2,11 +2,7 @@ import { getRef } from '../../../json_refs/ref_path.js'
 import { isObject } from '../../../utils/functional/type.js'
 
 // Check for data model inconsistencies, and potentially fix them
-export const check = function ({
-  config: { collections },
-  connection,
-  options,
-}) {
+export const check = ({ config: { collections }, connection, options }) => {
   checkConnection({ connection })
 
   checkSave({ options })
@@ -16,7 +12,7 @@ export const check = function ({
   })
 }
 
-const checkConnection = function ({ connection }) {
+const checkConnection = ({ connection }) => {
   if (isObject(connection)) {
     return
   }
@@ -24,7 +20,7 @@ const checkConnection = function ({ connection }) {
   throw new Error("'config.databases.memory.data' must be an object")
 }
 
-const checkSave = function ({ options: { save, data } }) {
+const checkSave = ({ options: { save, data } }) => {
   const path = getRef(data)
 
   if (!save || path !== undefined) {
@@ -36,7 +32,7 @@ const checkSave = function ({ options: { save, data } }) {
   )
 }
 
-const checkCollection = function ({ collname, connection }) {
+const checkCollection = ({ collname, connection }) => {
   if (Array.isArray(connection[collname])) {
     return
   }

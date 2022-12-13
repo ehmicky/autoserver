@@ -5,7 +5,7 @@ import { makeImmutable } from '../../utils/functional/immutable.js'
 
 // Retrieve all parameters
 // eslint-disable-next-line max-lines-per-function
-export const getParams = function (
+export const getParams = (
   mInput,
   {
     params: { error, ...params } = {},
@@ -13,7 +13,7 @@ export const getParams = function (
     mutable = true,
     client = false,
   } = {},
-) {
+) => {
   const {
     requestid,
     timestamp = new Date().toISOString(),
@@ -123,7 +123,7 @@ export const getParams = function (
 }
 
 // Normalize `params.error` so the caller does not have to
-const getError = function ({ error, mInput }) {
+const getError = ({ error, mInput }) => {
   if (error === undefined) {
     return
   }
@@ -133,7 +133,7 @@ const getError = function ({ error, mInput }) {
 }
 
 // Retrieve model-related system parameters
-export const getModelParams = function ({ model, previousmodel, attrName }) {
+export const getModelParams = ({ model, previousmodel, attrName }) => {
   const value = model[attrName]
   const previousvalue =
     previousmodel === undefined || previousmodel === null

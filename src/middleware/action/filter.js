@@ -4,16 +4,16 @@ import { parseFilter as parseFilterExpr } from '../../filter/parse/main.js'
 import { validateFilter } from '../../filter/validate/main.js'
 
 // Parse `args.filter` and `args.id` into AST
-export const parseFilter = function ({ actions, config }) {
+export const parseFilter = ({ actions, config }) => {
   const actionsA = actions.map((action) => parseFilterArg({ action, config }))
   return { actions: actionsA }
 }
 
-const parseFilterArg = function ({
+const parseFilterArg = ({
   action,
   action: { args, collname },
   config: { collections },
-}) {
+}) => {
   const { attributes } = collections[collname]
   const filter = parseFilterOrId({ args, attributes })
 
@@ -25,7 +25,7 @@ const parseFilterArg = function ({
   return { ...action, args: { ...argsA, filter } }
 }
 
-const parseFilterOrId = function ({ args: { id, filter }, attributes }) {
+const parseFilterOrId = ({ args: { id, filter }, attributes }) => {
   if (id !== undefined) {
     return getIdFilter({ id })
   }
@@ -39,6 +39,4 @@ const parseFilterOrId = function ({ args: { id, filter }, attributes }) {
 }
 
 // `args.id`
-const getIdFilter = function ({ id }) {
-  return { type: '_eq', attrName: 'id', value: id }
-}
+const getIdFilter = ({ id }) => ({ type: '_eq', attrName: 'id', value: id })

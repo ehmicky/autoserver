@@ -3,7 +3,7 @@ import { DEEP_OPERATORS } from '../operators/main.js'
 
 import { parseOperations } from './operations.js'
 
-export const parseAttrs = function ({ attrs, throwErr }) {
+export const parseAttrs = ({ attrs, throwErr }) => {
   if (!isObject(attrs)) {
     const message = 'There should be an object containing the filter attributes'
     throwErr(message)
@@ -15,18 +15,17 @@ export const parseAttrs = function ({ attrs, throwErr }) {
 }
 
 // Prepend `attrName.`, then recurse
-const parseNestedAttrs = function ({ attrName, attrVal, throwErr }) {
-  return Object.entries(attrVal).flatMap(([nestedName, nestedAttrVal]) =>
+const parseNestedAttrs = ({ attrName, attrVal, throwErr }) =>
+  Object.entries(attrVal).flatMap(([nestedName, nestedAttrVal]) =>
     parseNestedAttr({
       attrName: `${attrName}.${nestedName}`,
       attrVal: nestedAttrVal,
       throwErr,
     }),
   )
-}
 
 // `{ attribute: { child: value } }` is parsed as `{ attribute.child: value }`
-const parseNestedAttr = function ({ attrName, attrVal, throwErr }) {
+const parseNestedAttr = ({ attrName, attrVal, throwErr }) => {
   const nestedName = findNestedAttr({ attrVal })
 
   // No nested attributes
@@ -39,7 +38,7 @@ const parseNestedAttr = function ({ attrName, attrVal, throwErr }) {
   return parseNestedAttrs({ attrName, attrVal, throwErr })
 }
 
-const findNestedAttr = function ({ attrVal }) {
+const findNestedAttr = ({ attrVal }) => {
   if (typeof attrVal !== 'object' || attrVal === null) {
     return
   }
@@ -51,7 +50,7 @@ const findNestedAttr = function ({ attrVal }) {
 
 // Cannot mix with operators,
 // e.g. `{ attribute: { child: value, _eq: value } }`
-const validateMixedOp = function ({ nestedName, attrVal, throwErr }) {
+const validateMixedOp = ({ nestedName, attrVal, throwErr }) => {
   const mixedOp = Object.keys(attrVal).find((nestedAttrName) =>
     nestedAttrName.startsWith('_'),
   )
@@ -64,14 +63,13 @@ const validateMixedOp = function ({ nestedName, attrVal, throwErr }) {
   throwErr(message)
 }
 
-const parseAttr = function ({ attrName, attrVal, throwErr }) {
-  return parseOperations(parseAttrs, {
+const parseAttr = ({ attrName, attrVal, throwErr }) =>
+  parseOperations(parseAttrs, {
     operations: attrVal,
     throwErr,
   }).map((node) => addAttrName({ node, attrName }))
-}
 
-const addAttrName = function ({ node, node: { type, value }, attrName }) {
+const addAttrName = ({ node, node: { type, value }, attrName }) => {
   if (value === undefined) {
     return { ...node, attrName }
   }
@@ -80,7 +78,7 @@ const addAttrName = function ({ node, node: { type, value }, attrName }) {
   return { type, value: valueA, attrName }
 }
 
-const addDeepAttrName = function ({ type, value, attrName }) {
+const addDeepAttrName = ({ type, value, attrName }) => {
   if (!DEEP_OPERATORS.has(type)) {
     return value
   }

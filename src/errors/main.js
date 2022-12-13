@@ -4,7 +4,7 @@ import { getInnerError } from './inner.js'
 
 // Note that any exception thrown in the `error` module might not create an
 // event (since this is the error), so we must be precautious.
-export const createError = function (message, opts = {}) {
+export const createError = (message, opts = {}) => {
   validateError(opts)
 
   const innererror = getInnerError(opts)
@@ -18,7 +18,7 @@ export const createError = function (message, opts = {}) {
 }
 
 // Make sure signature is correct
-const validateError = function (opts) {
+const validateError = (opts) => {
   // Check allowed options
   const optsKeys = Object.keys(opts)
   const nonAllowedOpts = difference(optsKeys, ALLOWED_OPTS)
@@ -33,13 +33,11 @@ const validateError = function (opts) {
 
 const ALLOWED_OPTS = ['reason', 'stack', 'innererror', 'extra']
 
-export const isError = function ({ error }) {
-  return error && error.type === ERROR_TYPE
-}
+export const isError = ({ error }) => error && error.type === ERROR_TYPE
 
 const ERROR_TYPE = Symbol('error')
 
-export const throwError = function (message = MISSING_MESSAGE, opts = {}) {
+export const throwError = (message = MISSING_MESSAGE, opts = {}) => {
   const stack = message.stack || getStack({ caller: throwError })
   const error = createError(message, { ...opts, stack })
   throw error
@@ -49,7 +47,7 @@ const MISSING_MESSAGE = 'Missing error message'
 
 // External dependencies might throw errors that are not instances of
 // our types of error, so we want to fix those.
-export const normalizeError = function ({ error }) {
+export const normalizeError = ({ error }) => {
   if (isError({ error })) {
     return error
   }
@@ -59,7 +57,7 @@ export const normalizeError = function ({ error }) {
   return createError(errorMessage, { stack })
 }
 
-const getErrorMessage = function ({ error }) {
+const getErrorMessage = ({ error }) => {
   if (typeof error === 'string') {
     return error
   }
@@ -71,7 +69,7 @@ const getErrorMessage = function ({ error }) {
   return ''
 }
 
-const getStack = function ({ caller } = {}) {
+const getStack = ({ caller } = {}) => {
   const stackObj = {}
   Error.captureStackTrace(stackObj, caller)
   return stackObj.stack

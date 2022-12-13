@@ -2,7 +2,7 @@ import Ajv from 'ajv'
 import ajvFormats from 'ajv-formats'
 import ajvKeywords from 'ajv-keywords'
 
-export const getValidator = function () {
+export const getValidator = () => {
   const ajv = new Ajv(AJV_OPTIONS)
   ajvKeywords(ajv, CUSTOM_KEYWORDS)
   ajvFormats(ajv)
@@ -14,7 +14,7 @@ export const getValidator = function () {
 const CUSTOM_KEYWORDS = ['typeof']
 
 // Intercepts when ajv uses console.* and throw exceptions instead
-const loggerError = function (...args) {
+const loggerError = (...args) => {
   const message = args.join(' ')
   throw new Error(message)
 }

@@ -3,7 +3,7 @@ import { evalAuthorize } from './eval.js'
 import { addAuthorizeFilter } from './filter.js'
 
 // Handles `config.authorize` and `collection.authorize`
-export const validateAuthorization = function ({
+export const validateAuthorization = ({
   args,
   collname,
   clientCollname,
@@ -16,7 +16,7 @@ export const validateAuthorization = function ({
   top: {
     command: { type: topCommand },
   },
-}) {
+}) => {
   // `create`'s currentData query
   if (topCommand === 'create' && command === 'find') {
     return
@@ -41,14 +41,14 @@ export const validateAuthorization = function ({
 }
 
 // Handles `config.authorize`
-const validateConfigAuth = function ({
+const validateConfigAuth = ({
   clientCollname,
   config,
   config: { authorize },
   serverParams,
   mInput,
   top,
-}) {
+}) => {
   if (authorize === undefined) {
     return
   }
@@ -64,7 +64,7 @@ const validateConfigAuth = function ({
 }
 
 // Handles `collection.authorize`
-const validateCollAuth = function ({
+const validateCollAuth = ({
   args,
   coll: { authorize },
   collname,
@@ -74,7 +74,7 @@ const validateCollAuth = function ({
   mInput,
   command,
   top,
-}) {
+}) => {
   if (authorize === undefined) {
     return args
   }

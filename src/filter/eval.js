@@ -5,12 +5,12 @@ import { getSiblingValue } from './siblings.js'
 
 // Check if a set of `attrs` matches a filter such as `args.filter` or
 // `coll.authorize`
-export const evalFilter = function ({
+export const evalFilter = ({
   filter,
   filter: { type, attrName, value } = {},
   attrs,
   partialNames,
-}) {
+}) => {
   // E.g. when there is no `args.filter`
   if (type === undefined) {
     return true
@@ -36,7 +36,7 @@ export const evalFilter = function ({
 
 // Nodes marked as partial, i.e. whose name matches the `partialNames` regexp,
 // are unknown, i.e. left as is unless they can be deduced from boolean logic.
-const isPartial = function ({ partialNames, attrName }) {
+const isPartial = ({ partialNames, attrName }) => {
   if (attrName === undefined || partialNames === undefined) {
     return false
   }
@@ -45,7 +45,7 @@ const isPartial = function ({ partialNames, attrName }) {
 }
 
 // Attribute names can use dot-notation for deep access
-const getAttr = function ({ attrs, attrName }) {
+const getAttr = ({ attrs, attrName }) => {
   if (attrName === undefined) {
     return
   }

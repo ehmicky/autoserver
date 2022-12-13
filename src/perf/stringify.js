@@ -1,16 +1,16 @@
 import { sortMeasures } from './sort.js'
 
 // Returns measures but as a single string, for console debugging
-export const stringifyMeasures = function ({ phase = '', measuresGroups }) {
+export const stringifyMeasures = ({ phase = '', measuresGroups }) => {
   const sortedMeasures = sortMeasures(measuresGroups)
   return sortedMeasures.map(stringifyMeasure.bind(undefined, phase)).join('\n')
 }
 
 // Prints as a table
-const stringifyMeasure = function (
+const stringifyMeasure = (
   phase,
   { category, label, average, count, duration },
-) {
+) => {
   const phaseS = phase.padEnd(LENGTHS.phase)
   const categoryS = category.padEnd(LENGTHS.category)
   const labelS = label.padEnd(LENGTHS.label)
@@ -22,7 +22,7 @@ const stringifyMeasure = function (
   return `${phaseS} ${categoryS} ${labelS} ${durationS} = ${averageS} * ${countS}`
 }
 
-const formatDuration = function (duration) {
+const formatDuration = (duration) => {
   const durationA = Math.round(duration * DECIMALS_EXP) / DECIMALS_EXP
 
   const durationB = String(durationA)

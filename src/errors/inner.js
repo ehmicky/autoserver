@@ -1,5 +1,5 @@
 // Keep track of innererror
-export const getInnerError = function ({ stack: upperStack, ...opts }) {
+export const getInnerError = ({ stack: upperStack, ...opts }) => {
   const { shallowInnerError, deepInnerError, innererror } = getInnerErrors({
     opts,
   })
@@ -20,7 +20,7 @@ export const getInnerError = function ({ stack: upperStack, ...opts }) {
   return innererror
 }
 
-const getInnerErrors = function ({ opts }) {
+const getInnerErrors = ({ opts }) => {
   const shallowInnerError = opts.innererror
   const deepInnerError = shallowInnerError && shallowInnerError.innererror
 
@@ -30,10 +30,10 @@ const getInnerErrors = function ({ opts }) {
   return { shallowInnerError, deepInnerError, innererror }
 }
 
-const getInnerErrorStack = function ({
+const getInnerErrorStack = ({
   innererror: { message, stack = '' },
   upperStack,
-}) {
+}) => {
   // Node core errors include a `stack` property, but it actually does not
   // have any stack, and just repeats the `message`. We don't want this.
   if (!/\n/u.test(stack)) {

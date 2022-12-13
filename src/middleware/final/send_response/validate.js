@@ -2,7 +2,7 @@ import { throwPb } from '../../../errors/props.js'
 
 import { TYPES } from './types.js'
 
-export const validateResponse = function ({ response: { type, content } }) {
+export const validateResponse = ({ response: { type, content } }) => {
   if (!type) {
     const message = 'Server sent an response with no content type'
     throwPb({ message, reason: 'ENGINE' })

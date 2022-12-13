@@ -3,7 +3,7 @@ import { GraphQLInt, GraphQLString } from 'graphql'
 import omit from 'omit.js'
 
 // Pagination arguments
-export const getPaginationArgument = function ({ command, features }) {
+export const getPaginationArgument = ({ command, features }) => {
   // Only with commands that return an array and do not provide array of data,
   // i.e. only with findMany, deleteMany and patchMany
   const hasPaginationArgs = PAGINATION_COMMANDS.has(command)

@@ -1,5 +1,3 @@
 // Like array.reverse() but does not mutate argument
-export const reverseArray = function (array) {
-  // eslint-disable-next-line fp/no-mutating-methods
-  return [...array].reverse()
-}
+// eslint-disable-next-line fp/no-mutating-methods
+export const reverseArray = (array) => [...array].reverse()

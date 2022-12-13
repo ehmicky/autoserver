@@ -9,18 +9,18 @@ import { errorHandler } from './handler.js'
 
 // Middleware function error handler, which just rethrow the error,
 // and adds the current `mInput` as information by setting `error.mInput`
-export const fireMiddlewareHandler = function (error, ...args) {
+export const fireMiddlewareHandler = (error, ...args) => {
   // Skip `nextLayer` and `reqState` arguments
   const errorA = error.mInput ? error : addMInput(error, args[2])
   throw errorA
 }
 
 // Main layers error handler
-export const fireMainLayersHandler = async function (
+export const fireMainLayersHandler = async (
   fireFinalLayer,
   error,
   { allLayers, reqState },
-) {
+) => {
   const mInput = getErrorMInput({ error })
 
   // Only fire main error handler on server-side errors
@@ -39,7 +39,7 @@ export const fireMainLayersHandler = async function (
 }
 
 // Fire request error handlers
-const eFireErrorHandler = function (errorA) {
+const eFireErrorHandler = (errorA) => {
   const mInputA = getErrorMInput({ error: errorA })
   return errorHandler(mInputA)
 }
@@ -51,7 +51,7 @@ export const fireErrorHandler = addErrorHandler(
 )
 
 // Add `error.mInput`, to keep track of current `mInput` during exception flow
-const addMInput = function (error, mInput) {
+const addMInput = (error, mInput) => {
   const mInputA = omit.default(mInput, ['error'])
   const errorA = normalizeError({ error })
   // We need to directly mutate to keep Error constructor
@@ -62,7 +62,7 @@ const addMInput = function (error, mInput) {
 }
 
 // Builds `mInput` with a `mInput.error` property
-const getErrorMInput = function ({ error, error: { mInput = {} } }) {
+const getErrorMInput = ({ error, error: { mInput = {} } }) => {
   const errorA = normalizeError({ error })
   return { ...mInput, mInput, error: errorA }
 }

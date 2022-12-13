@@ -3,7 +3,7 @@ import { throwPb } from '../../../errors/props.js'
 import { mapValues } from '../../../utils/functional/map.js'
 
 // Use query variables, request payload and URL /ID to retrieve `args`
-export const getArgs = function ({ method, payload, queryvars, id }) {
+export const getArgs = ({ method, payload, queryvars, id }) => {
   const args = mapValues(queryvars, addDefaultTrue)
   const argsA = addData({ args, payload })
   const argsB = addId({ method, args: argsA, id })
@@ -12,7 +12,7 @@ export const getArgs = function ({ method, payload, queryvars, id }) {
 
 // Omitting a query variable's value defaults to `true`
 // Except for arguments which can be an empty strings, like pagination cursors
-const addDefaultTrue = function (value, name) {
+const addDefaultTrue = (value, name) => {
   if (value !== '') {
     return value
   }
@@ -27,7 +27,7 @@ const addDefaultTrue = function (value, name) {
 const NO_DEFAULT_NAMES = new Set(['before', 'after'])
 
 // Use request payload for `args.data`
-const addData = function ({ args, payload }) {
+const addData = ({ args, payload }) => {
   if (payload === undefined) {
     return args
   }
@@ -37,7 +37,7 @@ const addData = function ({ args, payload }) {
   return { ...args, data: payload }
 }
 
-const validatePayload = function ({ payload }) {
+const validatePayload = ({ payload }) => {
   if (payload && typeof payload === 'object') {
     return
   }
@@ -47,7 +47,7 @@ const validatePayload = function ({ payload }) {
 }
 
 // Use ID in URL /rest/COLLECTION/ID for `args.id`
-const addId = function ({ method, args, args: { data }, id }) {
+const addId = ({ method, args, args: { data }, id }) => {
   if (id === undefined) {
     return args
   }
@@ -68,7 +68,7 @@ const addId = function ({ method, args, args: { data }, id }) {
 
 const NO_ID_METHODS = new Set(['POST', 'PUT'])
 
-const validateId = function ({ data, id }) {
+const validateId = ({ data, id }) => {
   if (Array.isArray(data)) {
     const message = 'Payload must be a single object'
     throwError(message, { reason: 'VALIDATION' })

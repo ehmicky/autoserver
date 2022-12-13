@@ -1,11 +1,11 @@
 // Normalize results to an object with `path`, `model`, `collname`, `select`
 // Then push to shared `results` variable
-export const processResults = function ({
+export const processResults = ({
   results,
   finishedResults,
   pendingResults,
   ...rest
-}) {
+}) => {
   const finishedResultsA = finishedResults.flat()
 
   const finishedResultsB = getResults({ ...rest, results: finishedResultsA })
@@ -21,13 +21,13 @@ export const processResults = function ({
   results.push(...finishedResultsB)
 }
 
-const getResults = function ({
+const getResults = ({
   isTopLevel,
   parentResults,
   nestedParentIds,
   results,
   ...rest
-}) {
+}) => {
   if (isTopLevel) {
     return results.map(({ model, metadata }, index) =>
       getResult({ model, metadata, index, ...rest }),
@@ -43,7 +43,7 @@ const getResults = function ({
   return finishedResults
 }
 
-const getEachResults = function ({ ids, results, ...rest }) {
+const getEachResults = ({ ids, results, ...rest }) => {
   const multiple = Array.isArray(ids)
   return results
     .filter(({ model }) => filterResult({ model, ids, multiple }))
@@ -52,11 +52,10 @@ const getEachResults = function ({ ids, results, ...rest }) {
     )
 }
 
-const filterResult = function ({ model: { id }, ids, multiple }) {
-  return multiple ? ids.includes(id) : ids === id
-}
+const filterResult = ({ model: { id }, ids, multiple }) =>
+  multiple ? ids.includes(id) : ids === id
 
-const getResult = function ({
+const getResult = ({
   action,
   model,
   metadata,
@@ -66,7 +65,7 @@ const getResult = function ({
   multiple,
   top: { command },
   collname,
-}) {
+}) => {
   const multipleA = multiple === undefined ? command.multiple : multiple
 
   const pathA = commandName === undefined ? path : [...path, commandName]

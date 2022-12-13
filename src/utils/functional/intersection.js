@@ -2,7 +2,7 @@ import { includes } from './includes.js'
 import { uniq } from './uniq.js'
 
 // Like Lodash intersection()
-export const intersection = function (arrA, arrB, ...arrays) {
+export const intersection = (arrA, arrB, ...arrays) => {
   const arrC = arrA.filter((val) => includes(arrB, val))
 
   if (arrays.length === 0) {

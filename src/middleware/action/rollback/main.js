@@ -5,7 +5,7 @@ import { rethrowFailure } from './failure.js'
 import { getRollbackInput } from './input.js'
 
 // Rollback write actions if any of them failed
-export const rollback = function ({ results, inputs }, nextLayer) {
+export const rollback = ({ results, inputs }, nextLayer) => {
   const failedActions = results.filter((result) => isError({ error: result }))
 
   if (failedActions.length === 0) {
@@ -15,7 +15,7 @@ export const rollback = function ({ results, inputs }, nextLayer) {
   return rollbackActions({ failedActions, inputs, nextLayer })
 }
 
-const rollbackActions = async function ({ failedActions, inputs, nextLayer }) {
+const rollbackActions = async ({ failedActions, inputs, nextLayer }) => {
   const promises = inputs
     .flatMap(getRollbackInput)
     .map((input) => eFireResponseLayer({ input, nextLayer }))
@@ -27,12 +27,8 @@ const rollbackActions = async function ({ failedActions, inputs, nextLayer }) {
 
 // Only need to fire `database` layer, not `request` nor `response` layers
 // This also means we are bypassing authorization
-const fireResponseLayer = function ({ input, nextLayer }) {
-  return nextLayer(input, 'database')
-}
+const fireResponseLayer = ({ input, nextLayer }) => nextLayer(input, 'database')
 
-const responseHandler = function (error) {
-  return normalizeError({ error })
-}
+const responseHandler = (error) => normalizeError({ error })
 
 const eFireResponseLayer = addErrorHandler(fireResponseLayer, responseHandler)

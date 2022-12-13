@@ -6,25 +6,24 @@ import { runConfigFunc } from '../functions/run.js'
 import { getValidator } from './validator.js'
 
 // Add custom validation keywords, from config.validation
-const mGetCustomValidator = function ({ config: { validation = {} } = {} }) {
+const mGetCustomValidator = ({ config: { validation = {} } = {} }) => {
   const validator = getValidator()
   return Object.entries(validation).reduce(addCustomKeyword, validator)
 }
 
 // Serializing the whole config as is too slow, so we just take keywords list.
-const transformArgs = function ([{ config: { validation = {} } = {} }]) {
-  return Object.keys(validation).join(',')
-}
+const transformArgs = ([{ config: { validation = {} } = {} }]) =>
+  Object.keys(validation).join(',')
 
 export const getCustomValidator = moize(mGetCustomValidator, {
   transformArgs,
   maxSize: 1e3,
 })
 
-const addCustomKeyword = function (
+const addCustomKeyword = (
   validatorA,
   [keyword, { test: testFunc, message, type }],
-) {
+) => {
   // We name `null` `empty` in config, as it is more YAML-friendly
   const typeA = type === 'empty' ? 'null' : type
 
@@ -41,7 +40,7 @@ const addCustomKeyword = function (
   return validatorB
 }
 
-const validateCustomKeyword = function ({ type, keyword }) {
+const validateCustomKeyword = ({ type, keyword }) => {
   const isRedundant =
     Array.isArray(type) && type.includes('number') && type.includes('integer')
 
@@ -54,7 +53,7 @@ const validateCustomKeyword = function ({ type, keyword }) {
 }
 
 const keywordFunc = ({ keyword, testFunc, message }) =>
-  // eslint-disable-next-line max-params
+  // eslint-disable-next-line max-params, prefer-arrow-functions/prefer-arrow-functions
   function validate(arg, dataVal, parentSchema, dataContext) {
     const {
       parentData: model,

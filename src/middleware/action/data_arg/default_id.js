@@ -9,7 +9,7 @@ import { runConfigFunc } from '../../../functions/run.js'
 //  - database adapter-specific function
 //  - UUIDv4
 // eslint-disable-next-line complexity
-export const addDefaultIds = function ({ datum, top: { command }, ...rest }) {
+export const addDefaultIds = ({ datum, top: { command }, ...rest }) => {
   const shouldAddDefaultId =
     command.type === 'create' && (datum.id === undefined || datum.id === null)
 
@@ -29,7 +29,7 @@ export const addDefaultIds = function ({ datum, top: { command }, ...rest }) {
 }
 
 // Try each way to set default, in order
-const getIdDefault = function (input, id, handler) {
+const getIdDefault = (input, id, handler) => {
   if (id !== undefined) {
     return id
   }
@@ -38,13 +38,13 @@ const getIdDefault = function (input, id, handler) {
 }
 
 // Apply default current collection's 'id' attribute
-const applyConfigDefault = function ({
+const applyConfigDefault = ({
   collname,
   command,
   datum,
   userDefaultsMap,
   mInput,
-}) {
+}) => {
   const configFunc = userDefaultsMap[collname].id
 
   if (configFunc === undefined || configFunc === null) {
@@ -62,7 +62,7 @@ const applyConfigDefault = function ({
 
 // Apply database adapter-specific id default, i.e. adapter.getDefaultId()
 // Database adapters should prefer using UUID, to keep it consistent
-const applyDatabaseDefault = function ({ collname, dbAdapters }) {
+const applyDatabaseDefault = ({ collname, dbAdapters }) => {
   const { getDefaultId } = dbAdapters[collname]
 
   if (getDefaultId === undefined) {
@@ -73,8 +73,6 @@ const applyDatabaseDefault = function ({ collname, dbAdapters }) {
 }
 
 // UUID default fallback
-const applyUuid = function () {
-  return randomUUID()
-}
+const applyUuid = () => randomUUID()
 
 const handlers = [applyConfigDefault, applyDatabaseDefault, applyUuid]

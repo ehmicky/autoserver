@@ -2,13 +2,13 @@ import { get, set } from '../../../utils/functional/get_set.js'
 
 // Applies `args.select`.
 // Only output the fields that were picked by the client.
-export const applySelect = function ({ response, results }) {
+export const applySelect = ({ response, results }) => {
   // Need to recurse through children first
   const responseA = results.reduceRight(selectFieldsByResult, response)
   return { response: responseA }
 }
 
-const selectFieldsByResult = function (
+const selectFieldsByResult = (
   response,
   {
     path,
@@ -16,7 +16,7 @@ const selectFieldsByResult = function (
       args: { select },
     },
   },
-) {
+) => {
   const model = get(response, path)
 
   const modelA = selectFieldsByModel({ model, select })
@@ -25,7 +25,7 @@ const selectFieldsByResult = function (
   return responseA
 }
 
-const selectFieldsByModel = function ({ model, select }) {
+const selectFieldsByModel = ({ model, select }) => {
   if (select === undefined) {
     return model
   }
@@ -43,7 +43,7 @@ const selectFieldsByModel = function ({ model, select }) {
   return modelB
 }
 
-const pickAttr = function ({ model, key }) {
+const pickAttr = ({ model, key }) => {
   // When explicitely selected, transform `undefined` to `null`
   // eslint-disable-next-line unicorn/no-null
   const value = model[key] === undefined ? null : model[key]

@@ -23,20 +23,18 @@ test('Smoke test', async (t) => {
   t.snapshot({ message, stderr })
 })
 
-const request = async function (server) {
+const request = async (server) => {
   await pSetTimeout(STARTUP_TIMEOUT)
   await got('http://localhost:5001/rest/pets/2')
   server.kill('SIGKILL')
 }
 
-const normalizeStdout = function (stdout) {
+const normalizeStdout = (stdout) =>
   // eslint-disable-next-line fp/no-mutating-methods
-  return stdout.split('\n').map(normalizeLine).sort().join('\n')
-}
+  stdout.split('\n').map(normalizeLine).sort().join('\n')
 
-const normalizeLine = function (line) {
-  return line.replace(START_LINE_REGEXP, '').replace(PORT_REGEXP, '$1').trim()
-}
+const normalizeLine = (line) =>
+  line.replace(START_LINE_REGEXP, '').replace(PORT_REGEXP, '$1').trim()
 
 const STARTUP_TIMEOUT = 6e4
 

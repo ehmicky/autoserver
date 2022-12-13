@@ -8,7 +8,7 @@ export const TOP_DESCRIPTIONS = {
 }
 
 // Top-level action descriptions
-export const getCommandDescription = function ({ command, typeName }) {
+export const getCommandDescription = ({ command, typeName }) => {
   const title = getTitle({ command })
   const description = `${title} ${typeName} models`
   const descriptionA = underscoreString.capitalize(description)
@@ -17,13 +17,13 @@ export const getCommandDescription = function ({ command, typeName }) {
 
 // Retrieve the description of a `args.data|filter` type, and of
 // `args.data|filter|id` arguments
-export const getArgTypeDescription = function ({ command }, type) {
+export const getArgTypeDescription = ({ command }, type) => {
   const title = getTitle({ command })
   const description = `${ARG_TYPES_DESCRIPTIONS[type]} models to ${title}`
   return description
 }
 
-const getTitle = function ({ command }) {
+const getTitle = ({ command }) => {
   const { title } = COMMANDS.find(
     ({ type, multiple }) => type === command && multiple,
   )

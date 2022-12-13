@@ -1,14 +1,13 @@
 // Modify `args.order`
-export const renameOrder = function ({ value, newIdName, oldIdName }) {
-  return value.map((part) => renameOrderPart({ part, newIdName, oldIdName }))
-}
+export const renameOrder = ({ value, newIdName, oldIdName }) =>
+  value.map((part) => renameOrderPart({ part, newIdName, oldIdName }))
 
-const renameOrderPart = function ({
+const renameOrderPart = ({
   part,
   part: { attrName },
   newIdName,
   oldIdName,
-}) {
+}) => {
   if (attrName !== oldIdName) {
     return part
   }

@@ -1,36 +1,34 @@
 import { format as urlFormat } from 'node:url'
 
 // Retrieves full URL
-export const getUrl = function ({
+export const getUrl = ({
   specific,
   specific: {
     req: { url },
   },
-}) {
+}) => {
   const origin = getOrigin({ specific })
   return `${origin}${url}`
 }
 
 // Used by `Link` HTTP header
-export const getStandardUrl = function ({ specific }) {
+export const getStandardUrl = ({ specific }) => {
   const url = getUrl({ specific })
   const urlA = new URL(url)
   return urlA
 }
 
-export const stringifyUrl = function ({ url }) {
-  return urlFormat(url, { fragment: false })
-}
+export const stringifyUrl = ({ url }) => urlFormat(url, { fragment: false })
 
 // Retrieves origin, i.e. protocol + hostname + port
-export const getOrigin = function ({
+export const getOrigin = ({
   specific: {
     req: {
       headers,
       connection: { encrypted },
     },
   },
-}) {
+}) => {
   const nonProxiedProtocol = encrypted ? 'https' : 'http'
   const proxiedProtocol = headers['x-forwarded-proto']
   const protocol = proxiedProtocol || nonProxiedProtocol

@@ -4,18 +4,18 @@ import { getQueryFilter } from './operators.js'
 import { sortResponse } from './order.js'
 
 // Find models
-export const find = function (input) {
+export const find = (input) => {
   const { filterIds } = input
   const func = filterIds && filterIds.length === 1 ? findOne : findMany
   return func(input)
 }
 
-const findOne = async function ({ collection, filterIds }) {
+const findOne = async ({ collection, filterIds }) => {
   const model = await collection.findOne({ _id: filterIds[0] })
   return model === undefined || model === null ? [] : [model]
 }
 
-const findMany = function ({ collection, filter, offset, limit, order }) {
+const findMany = ({ collection, filter, offset, limit, order }) => {
   const queryFilter = getQueryFilter(filter)
   const cursor = collection.find(queryFilter)
 

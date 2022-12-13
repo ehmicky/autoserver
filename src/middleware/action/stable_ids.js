@@ -24,12 +24,12 @@ import { getColl } from './get_coll.js'
 //     - no way for client to know response does not match current data state
 //  - replace nested actions by find actions:
 //     - request might not be authorized to fetch those models
-export const validateStableIds = function ({
+export const validateStableIds = ({
   actions,
   config,
   top,
   top: { command },
-}) {
+}) => {
   // Only for commands with `args.data`
   if (!STABLE_IDS_COMMANDS.has(command.type)) {
     return
@@ -45,7 +45,7 @@ export const validateStableIds = function ({
 
 const STABLE_IDS_COMMANDS = new Set(['create', 'patch', 'upsert'])
 
-const validateAction = function ({ action: { commandpath }, config, top }) {
+const validateAction = ({ action: { commandpath }, config, top }) => {
   const serverSet = isServerSet({ commandpath, config, top })
 
   if (!serverSet) {
@@ -57,18 +57,13 @@ const validateAction = function ({ action: { commandpath }, config, top }) {
   throwError(message, { reason: 'VALIDATION' })
 }
 
-const isServerSet = function ({ commandpath, config, top }) {
+const isServerSet = ({ commandpath, config, top }) => {
   const attr = getAttr({ commandpath, config, top })
   const serverSet = attr.readonly !== undefined || attr.value !== undefined
   return serverSet
 }
 
-const getAttr = function ({
-  commandpath,
-  config,
-  config: { collections },
-  top,
-}) {
+const getAttr = ({ commandpath, config, config: { collections }, top }) => {
   const parentPath = commandpath.slice(0, -1)
   const { collname } = getColl({ commandpath: parentPath, top, config })
   const attrName = commandpath[commandpath.length - 1]

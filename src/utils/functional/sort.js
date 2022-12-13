@@ -1,16 +1,13 @@
 import sortOn from 'sort-on'
 
 // Like array.sort() but does not mutate argument
-export const sortArray = function (array, func) {
-  // eslint-disable-next-line fp/no-mutating-methods
-  return [...array].sort(func)
-}
+// eslint-disable-next-line fp/no-mutating-methods
+export const sortArray = (array, func) => [...array].sort(func)
 
-export const sortByAttributes = function (array, order) {
-  return sortOn(array, order.map(getSortAttribute))
-}
+export const sortByAttributes = (array, order) =>
+  sortOn(array, order.map(getSortAttribute))
 
-const getSortAttribute = function ({ attrName, dir }) {
+const getSortAttribute = ({ attrName, dir }) => {
   if (dir === 'desc') {
     return `-${attrName}`
   }
@@ -19,7 +16,7 @@ const getSortAttribute = function ({ attrName, dir }) {
 }
 
 // Compare two arrays, element by element
-export const compareArrays = function (arrA, arrB, index = 0) {
+export const compareArrays = (arrA, arrB, index = 0) => {
   const result = compareLengths(arrA, arrB, index)
 
   if (result !== undefined) {
@@ -37,7 +34,7 @@ export const compareArrays = function (arrA, arrB, index = 0) {
   return compareArrays(arrA, arrB, index + 1)
 }
 
-const compareLengths = function (arrA, arrB, index) {
+const compareLengths = (arrA, arrB, index) => {
   const isEmptyA = arrA.length < index
   const isEmptyB = arrB.length < index
 

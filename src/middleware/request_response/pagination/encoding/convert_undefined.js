@@ -1,10 +1,8 @@
 // Make sure undefined and null compare the same
-export const convertUndefined = function (token) {
+export const convertUndefined = (token) => {
   const parts = token.parts.map(convertToNull)
   return { ...token, parts }
 }
 
-const convertToNull = function (value) {
-  // eslint-disable-next-line unicorn/no-null
-  return value === undefined ? null : value
-}
+// eslint-disable-next-line unicorn/no-null
+const convertToNull = (value) => (value === undefined ? null : value)

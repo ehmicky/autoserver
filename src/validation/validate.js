@@ -1,7 +1,7 @@
 import { errorMessages } from './messages.js'
 
 // Perform a validation, using a JSON schema, and a `data` as input
-export const validate = function ({ compiledJsonSchema, data, extra = {} }) {
+export const validate = ({ compiledJsonSchema, data, extra = {} }) => {
   // Hack to be able to pass information to custom validation keywords
   const dataA = { ...data, [Symbol.for('extra')]: extra }
 
@@ -18,7 +18,7 @@ export const validate = function ({ compiledJsonSchema, data, extra = {} }) {
 }
 
 // Report validation errors by throwing an exception
-const reportErrors = function ({ errors }) {
+const reportErrors = ({ errors }) => {
   // Retrieve error message as string, from error objects
   const message = errors.map((error) => getErrorMessage({ error })).join('\n')
 
@@ -26,10 +26,10 @@ const reportErrors = function ({ errors }) {
 }
 
 // Customize error messages when the library's ones are unclear
-const getErrorMessage = function ({
+const getErrorMessage = ({
   error,
   error: { keyword, message, instancePath },
-}) {
+}) => {
   const getMessage = errorMessages[keyword]
   // Failsafe
   const messageA = getMessage === undefined ? ` ${message}` : getMessage(error)
@@ -40,7 +40,7 @@ const getErrorMessage = function ({
 
 // Remove leading dot
 // Prepends argument name to error message
-const addDataPath = function ({ instancePath, message }) {
+const addDataPath = ({ instancePath, message }) => {
   const dataPath = jsonPointerToDots(instancePath)
   const messageA = `${dataPath}${message}`
   const messageB = messageA.replace(/^\./u, '')
@@ -49,9 +49,8 @@ const addDataPath = function ({ instancePath, message }) {
 
 // We use `jsonPointers` option because it is cleaner,
 // but we want dots (for properties) and brackets (for indexes) not slashes
-const jsonPointerToDots = function (instancePath) {
-  return instancePath
+const jsonPointerToDots = (instancePath) =>
+  instancePath
     .slice(1)
     .replace(/\/(\d+)/gu, '[$1]')
     .replace(/\//gu, '.')
-}

@@ -24,7 +24,7 @@ const OPERATORS = {
   _nlike: nlike,
 }
 
-export const getOperator = function ({ node }) {
+export const getOperator = ({ node }) => {
   const hasOperator = isObject(node) && OPERATORS[node.type] !== undefined
 
   if (!hasOperator) {

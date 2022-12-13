@@ -7,10 +7,7 @@ import { getArgs } from './args.js'
 import { getResults } from './results.js'
 
 // Fire all commands associated with a set of write actions
-export const sequenceWrite = async function (
-  { actions, top, mInput },
-  nextLayer,
-) {
+export const sequenceWrite = async ({ actions, top, mInput }, nextLayer) => {
   // Run write commands in parallel, for each `collname`
   const actionsGroups = groupValuesBy(actions, 'collname')
   const allInputs = actionsGroups
@@ -32,18 +29,16 @@ export const sequenceWrite = async function (
 }
 
 // Add next layers's `args` and `ids`
-const getCommandArgs = function ({ actions, top }) {
+const getCommandArgs = ({ actions, top }) => {
   const { args, ids } = getArgs({ actions, top })
   return { actions, args, ids }
 }
 
 // If no model to modify, can return empty array right away
-const isNotEmpty = function ({ ids }) {
-  return ids.length !== 0
-}
+const isNotEmpty = ({ ids }) => ids.length !== 0
 
 // Add next layers's whole input
-const getInput = function ({
+const getInput = ({
   actions,
   actions: [{ collname, clientCollname }],
   args,
@@ -52,7 +47,7 @@ const getInput = function ({
   },
   mInput,
   ...rest
-}) {
+}) => {
   const commandpath = mergeCommandpaths({ actions })
   const input = {
     ...mInput,
@@ -69,18 +64,12 @@ const getInput = function ({
 // We make sure all commands went through the `request` layer before firing
 // the `response` layer because we want to avoid unnecessary
 // rollbacks if `request` layer throws
-const fireRequestLayer = function ({ input, nextLayer, ...rest }) {
+const fireRequestLayer = ({ input, nextLayer, ...rest }) => {
   const inputA = nextLayer(input, 'request')
   return { ...rest, input: inputA }
 }
 
-const fireResponseLayer = async function ({
-  actions,
-  ids,
-  top,
-  input,
-  nextLayer,
-}) {
+const fireResponseLayer = async ({ actions, ids, top, input, nextLayer }) => {
   // Since some commands will wait for others to finish, and I/O is slow,
   // we fire `response` layer right away, to save CPU time
   const { response } = await nextLayer(input, 'database')
@@ -96,7 +85,7 @@ const fireResponseLayer = async function ({
 
 // If write action fails, we wait for the other write actions to end,
 // then perform a rollback later. We return the error with success.
-const responseHandler = function (error) {
+const responseHandler = (error) => {
   const errorA = normalizeError({ error })
   return [errorA]
 }

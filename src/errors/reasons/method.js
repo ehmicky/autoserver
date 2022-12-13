@@ -1,6 +1,6 @@
 import { getWordsList } from '../../utils/string.js'
 
-const getMessage = function ({ value, suggestions }) {
+const getMessage = ({ value, suggestions }) => {
   const protocols = getWordsList(suggestions, { op: 'or' })
   return `Protocol ${value} is invalid: it should be ${protocols}`
 }

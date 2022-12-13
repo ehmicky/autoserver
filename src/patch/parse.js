@@ -1,18 +1,13 @@
 import { isObject } from '../utils/functional/type.js'
 
 // Check if this is a patch operation, e.g. `{ _add: 10 }`
-export const isPatchOp = function (patchOp) {
-  // Patch operations should have a single property, but this is not
-  // validated here
-  return isObject(patchOp) && Object.keys(patchOp).some(isPatchOpName)
-}
+export const isPatchOp = (patchOp) =>
+  isObject(patchOp) && Object.keys(patchOp).some(isPatchOpName)
 
 // Patch operations are prefixed with _ to differentiate from nested attributes
-export const isPatchOpName = function (key) {
-  return key.startsWith('_')
-}
+export const isPatchOpName = (key) => key.startsWith('_')
 
-export const parsePatchOp = function (patchOp) {
+export const parsePatchOp = (patchOp) => {
   if (!isPatchOp(patchOp)) {
     return {}
   }

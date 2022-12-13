@@ -1,7 +1,7 @@
 import { GraphQLString } from 'graphql'
 
 // `cascade` argument
-export const getCascadeArgument = function ({ command }) {
+export const getCascadeArgument = ({ command }) => {
   const hasCascade = CASCADE_COMMANDS.has(command)
 
   if (!hasCascade) {

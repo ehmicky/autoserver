@@ -1,17 +1,15 @@
 import { mapValues } from '../../utils/functional/map.js'
 import { throwAttrValError, throwAttrTypeError } from '../error.js'
 
-export const parseAsIs = function ({ value }) {
-  return value
-}
+export const parseAsIs = ({ value }) => value
 
-export const validateSameType = function ({
+export const validateSameType = ({
   type,
   value,
   attr,
   attr: { type: attrType, isArray },
   throwErr,
-}) {
+}) => {
   const valid = isValid({ value, attr })
 
   if (valid) {
@@ -24,7 +22,7 @@ export const validateSameType = function ({
   throwAttrValError({ type, throwErr }, message)
 }
 
-const isValid = function ({ value, attr: { type: attrType, isArray } }) {
+const isValid = ({ value, attr: { type: attrType, isArray } }) => {
   if (value === undefined) {
     return true
   }
@@ -42,19 +40,18 @@ const oneTypeValidators = {
   dynamic: () => true,
 }
 
-const getManyTypeValidators = function () {
-  return mapValues(
+const getManyTypeValidators = () =>
+  mapValues(
     oneTypeValidators,
     (validator) => (value) => Array.isArray(value) && value.every(validator),
   )
-}
 
 const typeValidators = {
   one: oneTypeValidators,
   many: getManyTypeValidators(),
 }
 
-export const validateNotArray = function ({ type, attr, throwErr }) {
+export const validateNotArray = ({ type, attr, throwErr }) => {
   if (!attr.isArray) {
     return
   }
@@ -62,7 +59,7 @@ export const validateNotArray = function ({ type, attr, throwErr }) {
   throwAttrTypeError({ attr, type, throwErr }, 'an array')
 }
 
-export const validateArray = function ({ type, attr, throwErr }) {
+export const validateArray = ({ type, attr, throwErr }) => {
   if (attr.isArray) {
     return
   }

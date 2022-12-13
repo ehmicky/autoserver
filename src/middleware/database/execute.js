@@ -1,13 +1,13 @@
 import { extractSimpleIds } from '../../filter/simple_id.js'
 
 // Delegates to database adapter
-export const databaseExecute = async function ({
+export const databaseExecute = async ({
   dbAdapter,
   collname,
   args,
   args: { dryrun },
   command,
-}) {
+}) => {
   // Make write commands not change data, if argument `dryrun` is used
   if (dryrun && command !== 'find') {
     return
@@ -20,11 +20,11 @@ export const databaseExecute = async function ({
 }
 
 // Database adapter input
-const getCommandInput = function ({
+const getCommandInput = ({
   command,
   collname,
   args: { filter = {}, order, limit, offset, newData, deletedIds },
-}) {
+}) => {
   const filterIds = extractSimpleIds({ filter })
 
   const commandA = commandMap[command]

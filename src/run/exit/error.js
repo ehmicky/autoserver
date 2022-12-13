@@ -4,14 +4,12 @@ import { createPb } from '../../errors/props.js'
 import { logEvent } from '../../log/main.js'
 
 // Shutdown failures events
-export const addExitHandler = function (func) {
-  return addErrorHandler(func, funcHandler)
-}
+export const addExitHandler = (func) => addErrorHandler(func, funcHandler)
 
-const funcHandler = async function (
+const funcHandler = async (
   error,
   { config, type, adapter: { title, name } },
-) {
+) => {
   const message = FAILURE_MESSAGES[type]
   const reason = REASONS[type]
 

@@ -1,10 +1,10 @@
 // Merge `coll.authorize` `model.*` to `args.filter`
-export const addAuthorizeFilter = function ({
+export const addAuthorizeFilter = ({
   command,
   authorize,
   args,
   args: { filter },
-}) {
+}) => {
   // `coll.authorize` is merged `args.filter` only for `find` commands since
   // other commands do not have `args.filter`.
   // However, all write commands first fire `currentData` `find` actions,
@@ -27,7 +27,7 @@ export const addAuthorizeFilter = function ({
 const FILTER_COMMANDS = new Set(['find'])
 
 // Merge `authorizeFilter` to `args.filter`
-const getFilter = function ({ authorize, filter }) {
+const getFilter = ({ authorize, filter }) => {
   // If no `args.filter`, no need to merge
   if (filter === undefined) {
     return authorize

@@ -1,11 +1,7 @@
 // No compression
-const compress = function (content) {
-  return content
-}
+const compress = (content) => content
 
-const decompress = function (content) {
-  return content
-}
+const decompress = (content) => content
 
 export const identity = {
   name: 'identity',

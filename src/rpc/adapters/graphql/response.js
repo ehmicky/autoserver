@@ -1,21 +1,18 @@
 import { excludeKeys } from 'filter-obj'
 
 // Apply GraphQL-specific error response transformation
-export const transformSuccess = function ({
+export const transformSuccess = ({
   response: {
     content: { metadata, ...content },
   },
-}) {
-  // According to GraphQL spec, extra metadata should be called `extensions`
-  return { ...content, extensions: metadata }
-}
+}) => ({ ...content, extensions: metadata })
 
 // Apply GraphQL-specific error response transformation
-export const transformError = function ({
+export const transformError = ({
   response: {
     content: { error, metadata },
   },
-}) {
+}) => {
   const errors = getError(error)
 
   // According to GraphQL spec, `data` should be `null` if `errors` is set
@@ -24,7 +21,7 @@ export const transformError = function ({
 }
 
 // GraphQL spec error format
-const getError = function ({ type, title, description, ...extraContent }) {
+const getError = ({ type, title, description, ...extraContent }) => {
   // Content following GraphQL spec
   // Custom information not following GraphQL spec is always rendered
   const error = { type, title, message: description, ...extraContent }
@@ -33,6 +30,4 @@ const getError = function ({ type, title, description, ...extraContent }) {
   return [errorA]
 }
 
-const isUndefined = function (key, value) {
-  return value === undefined
-}
+const isUndefined = (key, value) => value === undefined

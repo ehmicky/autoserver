@@ -1,15 +1,15 @@
 // Modify models
-export const upsert = function ({ collection, newData }) {
+export const upsert = ({ collection, newData }) => {
   const func = newData.length === 1 ? upsertOne : upsertMany
   return func({ collection, newData })
 }
 
-const upsertOne = function ({ collection, newData: [data] }) {
+const upsertOne = ({ collection, newData: [data] }) => {
   const { _id: id } = data
   return collection.replaceOne({ _id: id }, data, { upsert: true })
 }
 
-const upsertMany = async function ({ collection, newData }) {
+const upsertMany = async ({ collection, newData }) => {
   const bulkCommands = newData.map((replacement) =>
     getBulkCommand({ replacement }),
   )
@@ -17,7 +17,7 @@ const upsertMany = async function ({ collection, newData }) {
   return { result }
 }
 
-const getBulkCommand = function ({ replacement }) {
+const getBulkCommand = ({ replacement }) => {
   const { _id: id } = replacement
   return { replaceOne: { filter: { _id: id }, replacement, upsert: true } }
 }

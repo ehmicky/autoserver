@@ -47,7 +47,7 @@ const STATUS_CODE_MAP = {
 const FAILURE_STATUS_CODE = 500
 
 // Set response's HTTP status code
-export const setStatusCode = function ({ res, reason }) {
+export const setStatusCode = ({ res, reason }) => {
   const statuscode = STATUS_CODE_MAP[reason] || FAILURE_STATUS_CODE
   res.statusCode = statuscode
 }

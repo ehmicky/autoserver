@@ -3,11 +3,11 @@ import { fullRecurseMap } from '../../utils/functional/map.js'
 import { isObject } from '../../utils/functional/type.js'
 
 // Validate JSON schema `$data` properties
-export const validateJsonSchemaData = function ({ config }) {
+export const validateJsonSchemaData = ({ config }) => {
   fullRecurseMap(config, validateDataMapper)
 }
 
-const validateDataMapper = function (obj) {
+const validateDataMapper = (obj) => {
   if (!isObject(obj)) {
     return
   }
@@ -22,7 +22,7 @@ const validateDataMapper = function (obj) {
 }
 
 // Validates that $data is { $data: '...' }
-const validateDataFormat = function (obj) {
+const validateDataFormat = (obj) => {
   if (typeof obj.$data !== 'string') {
     const message = `'$data' must be a string: ${obj.$data}`
     throwError(message, { reason: 'CONFIG_VALIDATION' })

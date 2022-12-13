@@ -1,29 +1,21 @@
 // Truncate nested attributes to fit `nestedPagesize`
 // Append a `null` after truncating
-export const truncateAttrs = function ({
-  results,
-  nestedAttrs,
-  nestedPagesize,
-}) {
-  return nestedAttrs.reduce(
+export const truncateAttrs = ({ results, nestedAttrs, nestedPagesize }) =>
+  nestedAttrs.reduce(
     (resultsA, { attrName }) =>
       truncateAttr({ results: resultsA, attrName, nestedPagesize }),
     results,
   )
-}
 
-const truncateAttr = function ({ results, attrName, nestedPagesize }) {
-  return results.map((result) =>
-    truncateModel({ result, attrName, nestedPagesize }),
-  )
-}
+const truncateAttr = ({ results, attrName, nestedPagesize }) =>
+  results.map((result) => truncateModel({ result, attrName, nestedPagesize }))
 
-const truncateModel = function ({
+const truncateModel = ({
   result,
   result: { model, metadata },
   attrName,
   nestedPagesize,
-}) {
+}) => {
   const { [attrName]: attrVal } = model
   const noPagination =
     !Array.isArray(attrVal) || attrVal.length <= nestedPagesize

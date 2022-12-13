@@ -2,7 +2,7 @@ import { throwAttrValError } from '../error.js'
 
 import { parseAsIs, validateNotArray, validateSameType } from './common.js'
 
-const validateInNin = function ({ value, type, attr, throwErr }) {
+const validateInNin = ({ value, type, attr, throwErr }) => {
   validateNotArray({ type, attr, throwErr })
 
   if (!Array.isArray(value)) {
@@ -15,14 +15,10 @@ const validateInNin = function ({ value, type, attr, throwErr }) {
 }
 
 // `{ attribute: { _in: [...] } }`
-const evalIn = function ({ attr, value }) {
-  return value.includes(attr)
-}
+const evalIn = ({ attr, value }) => value.includes(attr)
 
 // `{ attribute: { _nin: [...] } }`
-const evalNin = function ({ attr, value }) {
-  return !value.includes(attr)
-}
+const evalNin = ({ attr, value }) => !value.includes(attr)
 
 export const inOperator = {
   parse: parseAsIs,

@@ -1,13 +1,12 @@
 import { sortArray, compareArrays } from '../../utils/functional/sort.js'
 
-const sorter = function (obj, key, pathKey) {
+const sorter = (obj, key, pathKey) => {
   const val = sortArray(obj[key], sortTwo.bind(undefined, pathKey))
   return { [key]: val }
 }
 
-const sortTwo = function (pathKey, objA, objB) {
-  return compareArrays(objA[pathKey], objB[pathKey])
-}
+const sortTwo = (pathKey, objA, objB) =>
+  compareArrays(objA[pathKey], objB[pathKey])
 
 // Sort `actions` so that top-level ones are fired first
 export const sortActions = (obj) => sorter(obj, 'actions', 'commandpath')

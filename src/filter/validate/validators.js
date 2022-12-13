@@ -4,7 +4,7 @@ import { getWordsList } from '../../utils/string.js'
 import { ENUM_OPERATORS } from '../operators/main.js'
 
 // Validate value is among set of values
-const validateEnum = function ({ type, value, ruleVal, throwErr }) {
+const validateEnum = ({ type, value, ruleVal, throwErr }) => {
   if (!ENUM_OPERATORS.has(type)) {
     const operators = getWordsList([...ENUM_OPERATORS], { quotes: true })
     const message = `must use operator ${operators}`
@@ -20,7 +20,7 @@ const validateEnum = function ({ type, value, ruleVal, throwErr }) {
   validateEnumVal({ ruleVal, value, throwErr })
 }
 
-const validateEnumVal = function ({ ruleVal, value, throwErr }) {
+const validateEnumVal = ({ ruleVal, value, throwErr }) => {
   if (!ruleVal.includes(value)) {
     const message = `must be ${getWordsList(ruleVal, { json: true })}`
     throwErr(message)
@@ -32,12 +32,12 @@ const validateEnumVal = function ({ ruleVal, value, throwErr }) {
 // E.g. it does not make sense to forbid command `patch` while allowing `find`
 // and `upsert`, so they must be specified together. I.e. we specify the
 // `ruleVal` `[['patch'], ['find', 'upsert']]`
-const validateRequires = function ({
+const validateRequires = ({
   ruleVal,
   validation: { enum: possVals },
   operations,
   throwErr,
-}) {
+}) => {
   const enumVals = getEnum({ operations, possVals })
 
   ruleVal.forEach(([ifVal, thenVal]) => {
@@ -47,7 +47,7 @@ const validateRequires = function ({
 
 // For operations allowing only `_eq`, `_in`, `_nin`, `_neq`, normalize to `_in`
 // values, using the set of possible values.
-const getEnum = function ({ operations, possVals }) {
+const getEnum = ({ operations, possVals }) => {
   const values = operations.map(({ type, value }) =>
     enumOperations[type]({ value, possVals }),
   )
@@ -62,7 +62,7 @@ const enumOperations = {
   _neq: ({ value, possVals }) => difference(possVals, [value]),
 }
 
-const validateRequirePair = function ({ ifVal, thenVal, enumVals, throwErr }) {
+const validateRequirePair = ({ ifVal, thenVal, enumVals, throwErr }) => {
   const missingIfVals = difference(ifVal, enumVals)
 
   if (missingIfVals.length !== 0) {

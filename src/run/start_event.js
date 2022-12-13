@@ -7,11 +7,11 @@ import { mapValues } from '../utils/functional/map.js'
 import { pSetTimeout } from '../utils/timeout.js'
 
 // Create event when all protocol-specific servers have started
-export const emitStartEvent = async function ({
+export const emitStartEvent = async ({
   protocolAdapters,
   config,
   measures,
-}) {
+}) => {
   // Let other events finish first
   await pSetTimeout(0)
 
@@ -26,7 +26,7 @@ export const emitStartEvent = async function ({
 
 // Remove some properties from event payload as they are not serializable,
 // or should not be made immutable
-const getEventParams = function ({ protocolAdapters, measures }) {
+const getEventParams = ({ protocolAdapters, measures }) => {
   const protocols = mapValues(protocolAdapters, ({ info }) =>
     omit.default(info, ['server']),
   )
@@ -36,7 +36,7 @@ const getEventParams = function ({ protocolAdapters, measures }) {
   return { protocols, duration }
 }
 
-const getStartPayload = function ({ params: { protocols }, config }) {
+const getStartPayload = ({ params: { protocols }, config }) => {
   const serverinfo = getServerinfo({ config })
 
   return { protocols, serverinfo }

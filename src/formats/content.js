@@ -1,11 +1,11 @@
 import { applyCompatParse, applyCompatSerialize } from './compat.js'
 
 // Generic parser, delegating to the format specified in `format`
-export const parseContent = async function (
+export const parseContent = async (
   { parse, jsonCompat },
   content,
   { path, compat = true } = {},
-) {
+) => {
   const contentA = await parse({ content, path })
 
   if (!compat) {
@@ -17,10 +17,7 @@ export const parseContent = async function (
 }
 
 // Generic serializer, delegating to the format specified in `format`
-export const serializeContent = async function (
-  { serialize, jsonCompat },
-  content,
-) {
+export const serializeContent = async ({ serialize, jsonCompat }, content) => {
   const contentA = applyCompatSerialize({ jsonCompat, content })
   const contentB = await serialize({ content: contentA })
   return contentB

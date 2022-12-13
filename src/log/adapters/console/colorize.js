@@ -4,7 +4,7 @@ const { magenta, green, yellow, red, gray, reset, dim } = colorsOption()
 
 // Colorize a standard error message
 // Not performed if terminal does not support colors
-export const colorize = function ({ log: { event, level }, consoleMessage }) {
+export const colorize = ({ log: { event, level }, consoleMessage }) => {
   const [, first, second, , third, fourth = ''] = MESSAGE_REGEXP.test(
     consoleMessage,
   )
@@ -34,27 +34,24 @@ const SHORTMESSAGE_REXEXP =
 /* jscpd:ignore-end */
 
 // Make it easy to read stack trace with color hints
-const colorStack = function ({ stack }) {
-  return (
-    stack
-      // Error message is the most visible, other lines (stack trace) are gray
-      .replace(/.*/u, (firstLine) => reset.dim(firstLine))
-      .replace(
-        /(.*\n)(([^ ].*\n)*)/u,
-        (full, firstLine, secondLine) => firstLine + reset(secondLine),
-      )
-      .replace(/ {4,}at.*/gu, (allLines) => gray(allLines))
-      // Filepath is a bit more visible, and so is line number
-      .replace(
-        /(\/[^:]+)(:)(\d+)(:\d+)/gu,
-        // eslint-disable-next-line max-params
-        (full, path, colon, line, loc) =>
-          reset.dim(path) + gray(colon) + gray.bold(line) + gray(loc),
-      )
-      // Filepath slashes are less visible, so the filenames are easy to pick
-      .replace(/\//gu, (slash) => gray(slash))
-  )
-}
+const colorStack = ({ stack }) =>
+  stack
+    // Error message is the most visible, other lines (stack trace) are gray
+    .replace(/.*/u, (firstLine) => reset.dim(firstLine))
+    .replace(
+      /(.*\n)(([^ ].*\n)*)/u,
+      (full, firstLine, secondLine) => firstLine + reset(secondLine),
+    )
+    .replace(/ {4,}at.*/gu, (allLines) => gray(allLines))
+    // Filepath is a bit more visible, and so is line number
+    .replace(
+      /(\/[^:]+)(:)(\d+)(:\d+)/gu,
+      // eslint-disable-next-line max-params
+      (full, path, colon, line, loc) =>
+        reset.dim(path) + gray(colon) + gray.bold(line) + gray(loc),
+    )
+    // Filepath slashes are less visible, so the filenames are easy to pick
+    .replace(/\//gu, (slash) => gray(slash))
 
 const colors = {
   info: magenta,

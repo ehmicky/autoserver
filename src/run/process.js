@@ -8,7 +8,7 @@ import { logEvent } from '../log/main.js'
 // will collect the warnings of all the instances.
 // Note that process events fired that do not belong to autoserver might be
 // caught as well.
-export const processErrorHandler = function ({ config }) {
+export const processErrorHandler = ({ config }) => {
   const stopProcessErrors = logProcessErrors({
     exit: false,
     onError: emitProcessEvent.bind(undefined, { config }),
@@ -17,7 +17,7 @@ export const processErrorHandler = function ({ config }) {
 }
 
 // Report process problems as events with event 'failure'
-const emitProcessEvent = async function ({ config }, { stack }, event) {
+const emitProcessEvent = async ({ config }, { stack }, event) => {
   const error = createPb(stack, { reason: 'ENGINE' })
   const level = event === 'warning' ? 'warn' : 'error'
 
