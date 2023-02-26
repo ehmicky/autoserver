@@ -89,7 +89,7 @@
     "path-to-regexp": "^6.2.1",
     "pluralize": "^8.0.0",
     "qs": "^6.11.0",
-    "raw-body": "^2.5.1",
+    "raw-body": "^2.5.2",
     "read-pkg-up": "^9.1.0",
     "request-ip": "^3.3.0",
     "require-from-string": "^2.0.2",
