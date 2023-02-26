@@ -108,7 +108,7 @@
     "get-bin-path": "^8.0.0",
     "got": "^12.6.0",
     "gulp-execa": "^4.5.0",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.21"
   },
   "engines": {
     "node": ">=14.18.0"
