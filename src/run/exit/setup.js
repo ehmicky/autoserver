@@ -29,9 +29,5 @@ export const setupGracefulExit = ({
 }
 
 // Add `SIGUSR2` for Nodemon
-const getExitSignals = () => {
-  const exitSignals = signals()
-  return exitSignals.includes('SIGUSR2')
-    ? exitSignals
-    : [...exitSignals, 'SIGUSR2']
-}
+const getExitSignals = () =>
+  signals.includes('SIGUSR2') ? signals : [...signals, 'SIGUSR2']
