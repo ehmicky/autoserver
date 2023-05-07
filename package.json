@@ -71,7 +71,7 @@
     "filter-obj": "^5.1.0",
     "graphql": "^0.9.1",
     "graphql-type-json": "^0.3.2",
-    "handle-cli-error": "^3.1.1",
+    "handle-cli-error": "^4.0.0",
     "hjson": "^3.2.2",
     "iconv-lite": "^0.6.2",
     "ini": "^4.1.0",
