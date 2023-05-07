@@ -1,13 +1,9 @@
-import { promisify } from 'node:util'
+import { setTimeout } from 'node:timers/promises'
 
 import test from 'ava'
 import { execa } from 'execa'
 import { getBinPath } from 'get-bin-path'
 import { got } from 'got'
-
-// TODO: replace with `timers/promises` `setTimeout()` after dropping support
-// for Node <15.0.0
-const pSetTimeout = promisify(setTimeout)
 
 const EXAMPLES_DIR = new URL('../../examples/', import.meta.url)
 
@@ -24,7 +20,7 @@ test('Smoke test', async (t) => {
 })
 
 const request = async (server) => {
-  await pSetTimeout(STARTUP_TIMEOUT)
+  await setTimeout(STARTUP_TIMEOUT)
   await got('http://localhost:5001/rest/pets/2')
   server.kill('SIGKILL')
 }

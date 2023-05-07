@@ -1,4 +1,4 @@
-import { pSetTimeout } from '../../../../utils/timeout.js'
+import { setTimeout } from 'node:timers/promises'
 
 import { deleteMany } from './delete.js'
 import { find } from './find/main.js'
@@ -17,7 +17,7 @@ export const query = async ({
   connection,
 }) => {
   // Simulate asynchronousity
-  await pSetTimeout(0)
+  await setTimeout(0)
 
   const collection = connection[collname]
 
