@@ -74,7 +74,7 @@
     "handle-cli-error": "^4.0.2",
     "hjson": "^3.2.2",
     "iconv-lite": "^0.6.2",
-    "ini": "^4.1.0",
+    "ini": "^4.1.1",
     "js-yaml": "^4.0.0",
     "json5": "^2.2.3",
     "keep-func-props": "^6.0.0",
