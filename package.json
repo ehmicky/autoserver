@@ -90,7 +90,7 @@
     "pluralize": "^8.0.0",
     "qs": "^6.11.2",
     "raw-body": "^2.5.2",
-    "read-pkg-up": "^9.1.0",
+    "read-pkg-up": "^10.0.0",
     "request-ip": "^3.3.0",
     "require-from-string": "^2.0.2",
     "signal-exit": "^4.0.2",
