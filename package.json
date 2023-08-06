@@ -51,7 +51,10 @@
   ],
   "license": "Apache-2.0",
   "homepage": "https://www.github.com/ehmicky/autoserver",
-  "repository": "ehmicky/autoserver",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ehmicky/autoserver.git"
+  },
   "bugs": {
     "url": "https://github.com/ehmicky/autoserver/issues"
   },
