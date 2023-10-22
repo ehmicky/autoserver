@@ -52,5 +52,5 @@ const addDataPath = ({ instancePath, message }) => {
 const jsonPointerToDots = (instancePath) =>
   instancePath
     .slice(1)
-    .replace(/\/(\d+)/gu, '[$1]')
-    .replace(/\//gu, '.')
+    .replaceAll(/\/(\d+)/gu, '[$1]')
+    .replaceAll('/', '.')

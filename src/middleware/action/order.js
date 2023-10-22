@@ -31,7 +31,7 @@ const parseOrderArg = ({ order }) => {
 
   const orderA = order
     // Remove whitespaces
-    .replace(/\s+/gu, '')
+    .replaceAll(/\s+/gu, '')
     // Multiple attributes sorting
     .split(',')
     // Transform each attribute to an object

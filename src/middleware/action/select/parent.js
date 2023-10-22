@@ -37,7 +37,7 @@ const getSiblingsSelects = ({ selects, parentSelect }) =>
     .filter((selectA) => selectA.length === parentSelect.length)
 
 const hasAllParent = ({ selects }) =>
-  selects.some((selectA) => selectA[selectA.length - 1] === 'all')
+  selects.some((selectA) => selectA.at(-1) === 'all')
 
 // Remove last select part, e.g. `parent.child` -> `parent`
 const PARENT_SELECT_REGEXP = /\.?[^.]+$/u

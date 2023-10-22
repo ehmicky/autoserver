@@ -33,9 +33,7 @@ const getEachSummary = ({ actions, commandpath: path, top }) => {
 }
 
 const getCommandName = ({ path, top: { clientCollname, command } }) =>
-  path.length === 0
-    ? `${command.type}_${clientCollname}`
-    : path[path.length - 1]
+  path.length === 0 ? `${command.type}_${clientCollname}` : path.at(-1)
 
 // List of all actions's `commandpath`
 const getCommandpaths = ({ actions }) =>

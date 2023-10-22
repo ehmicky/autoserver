@@ -27,7 +27,7 @@ const formatDuration = (duration) => {
 
   const durationB = String(durationA)
   const [, integer, decimals] = DECIMALS_REGEXP.exec(durationB)
-  const decimalsA = decimals.padEnd(DECIMALS_COUNT).replace(/ /gu, '0')
+  const decimalsA = decimals.padEnd(DECIMALS_COUNT).replaceAll(' ', '0')
 
   const durationC = `${integer}.${decimalsA}ms`
   return durationC

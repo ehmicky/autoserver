@@ -30,7 +30,7 @@ const parse = ({ content }) => {
   })
 }
 
-const decoder = (str) => decodeURIComponent(str.replace(/\+/gu, ' '))
+const decoder = (str) => decodeURIComponent(str.replaceAll('+', ' '))
 
 // Inverse of parse()
 const serialize = ({ content }) => qs.stringify(content, { allowDots: true })

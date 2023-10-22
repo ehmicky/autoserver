@@ -42,7 +42,7 @@ const getRenamePart = ({ rename, commandpath }) => {
 
   const commandpathB = commandpathA.split('.')
   const commandpathC = commandpathB.slice(0, -1).join('.')
-  const key = commandpathB[commandpathB.length - 1]
+  const key = commandpathB.at(-1)
 
   return { [commandpathC]: { key, outputName } }
 }

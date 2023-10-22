@@ -9,7 +9,7 @@ export const getInput = ({
   top,
 }) => {
   const parentResults = getParentResults({ commandpath, results })
-  const commandName = commandpath[commandpath.length - 1]
+  const commandName = commandpath.at(-1)
   const { nestedParentIds, parentIds, allIds } = getParentIds({
     commandName,
     parentResults,

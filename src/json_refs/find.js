@@ -5,7 +5,7 @@ export const findRefs = ({ content }) =>
   getValues(content).filter(isRef).map(removeLastPath)
 
 const isRef = ({ value, keys }) =>
-  typeof value === 'string' && keys[keys.length - 1] === '$ref'
+  typeof value === 'string' && keys.at(-1) === '$ref'
 
 // Remove `$ref` from keys
 const removeLastPath = ({ value, keys }) => {

@@ -43,7 +43,7 @@ const getNextTokens = ({ data, top, args, topargs, hasNextPage }) => {
     return
   }
 
-  const model = data[data.length - 1]
+  const model = data.at(-1)
   const nextToken = getEncodedToken({ model, args, topargs })
   // `last_token` is not useful with patch commands
   const lastToken = isOnlyForwardCursor({ top }) ? undefined : BOUNDARY_TOKEN

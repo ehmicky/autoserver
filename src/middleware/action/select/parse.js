@@ -36,7 +36,7 @@ const getSelectArg = ({
 // Turns `args.select` 'aaa.bbb.ccc' into: { 'aaa.bbb': 'ccc' }
 const getSelectPart = ({ select, commandpath }) => {
   const parts = select.split('.')
-  const key = parts[parts.length - 1]
+  const key = parts.at(-1)
   const commandpathA = parts.slice(0, -1)
   const commandpathB = [...commandpath, ...commandpathA].join('.')
 

@@ -66,7 +66,7 @@ const isServerSet = ({ commandpath, config, top }) => {
 const getAttr = ({ commandpath, config, config: { collections }, top }) => {
   const parentPath = commandpath.slice(0, -1)
   const { collname } = getColl({ commandpath: parentPath, top, config })
-  const attrName = commandpath[commandpath.length - 1]
+  const attrName = commandpath.at(-1)
   const { attributes } = collections[collname]
   const attr = attributes[attrName]
   return attr

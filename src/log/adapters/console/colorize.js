@@ -42,16 +42,16 @@ const colorStack = ({ stack }) =>
       /(.*\n)(([^ ].*\n)*)/u,
       (full, firstLine, secondLine) => firstLine + reset(secondLine),
     )
-    .replace(/ {4,}at.*/gu, (allLines) => gray(allLines))
+    .replaceAll(/ {4,}at.*/gu, (allLines) => gray(allLines))
     // Filepath is a bit more visible, and so is line number
-    .replace(
+    .replaceAll(
       /(\/[^:]+)(:)(\d+)(:\d+)/gu,
       // eslint-disable-next-line max-params
       (full, path, colon, line, loc) =>
         reset.dim(path) + gray(colon) + gray.bold(line) + gray(loc),
     )
     // Filepath slashes are less visible, so the filenames are easy to pick
-    .replace(/\//gu, (slash) => gray(slash))
+    .replaceAll('/', (slash) => gray(slash))
 
 const colors = {
   info: magenta,
