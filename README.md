@@ -17,11 +17,10 @@ technical lead for 2.5 years. I am available for full-time remote positions.
 
 # Development status
 
-This project is still in active development, and is not ready for production.
-[Key features](docs/dev/ROADMAP.md) are currently missing.
+This project is not yet ready for production; it is currently under active development
+There are currently missing [Key features](docs/dev/ROADMAP.md).
 
-If you want to follow our progress in the meantime, you are welcome to star this
-repository.
+You are invited to star this repository if you would want to keep track of our efforts in the meantime.
 
 # Overview
 
