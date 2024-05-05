@@ -110,7 +110,7 @@
     "execa": "^9.0.1",
     "get-bin-path": "^11.0.0",
     "got": "^13.0.0",
-    "gulp-execa": "^6.0.0",
+    "gulp-execa": "^7.0.0",
     "nodemon": "^3.0.1"
   },
   "engines": {
