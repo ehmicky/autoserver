@@ -1,15 +1,14 @@
 import { setTimeout } from 'node:timers/promises'
 
 import test from 'ava'
-import { execa } from 'execa'
+import { execaNode } from 'execa'
 import { getBinPath } from 'get-bin-path'
 import { got } from 'got'
 
 const EXAMPLES_DIR = new URL('../../examples/', import.meta.url)
 
 test('Smoke test', async (t) => {
-  const binPath = await getBinPath()
-  const server = execa('node', [binPath], {
+  const server = execaNode(await getBinPath(), {
     env: { NODE_ENV: 'dev' },
     cwd: EXAMPLES_DIR,
     reject: false,
