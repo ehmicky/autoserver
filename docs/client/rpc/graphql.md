@@ -65,7 +65,7 @@ Fetching `users` with `id` `1`:
 
 GraphQL error responses follow the usual error
 [response format](../request/error.md#error-responses), with some changes to
-accomodate the [GraphQL spec](https://facebook.github.io/graphql/#sec-Errors):
+accommodate the [GraphQL spec](http://spec.graphql.org/draft/#sec-Errors):
 
 - `error` is called `errors`, and is an array containing a single object.
 - `description` is named `message`

@@ -1,7 +1,7 @@
 # Arguments
 
 Each [CRUD command](../request/crud.md) has its own set of
-[arguments](../rpc/README.md#rpc).
+[arguments](../rpc/README.md).
 
 The following [arguments](../rpc/README.md#rpc) are available:
 

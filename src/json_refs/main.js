@@ -10,7 +10,7 @@ import { getPath } from './path.js'
 import { setRef } from './ref_path.js'
 
 // Dereference JSON references, i.e. $ref
-// RFC: https://tools.ietf.org/id/draft-pbryan-zyp-json-ref-03.html
+// RFC: https://www.ietf.org/archive/id/draft-pbryan-zyp-json-ref-03.txt
 // I.e. { $ref: "path" } will be replaced by the target, which must be
 // a local path or a Node module ending with `.node`
 // Each $ref is relative to the current file.

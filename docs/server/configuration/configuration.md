@@ -11,7 +11,7 @@ lowest):
   `AUTOSERVER__LIMITS__PAGESIZE=10`
 - using a [command line option](../usage/README.md#usage):
   `autoserver run --limits.pagesize=10`
-- passing the option via [Node.js](../usage/README.md#node.js):
+- passing the option via [Node.js](../usage/README.md#nodejs):
   `autoserver.run({ limits: { pagesize: 10 } })`
 - using a [configuration file](#configuration-file)
 

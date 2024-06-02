@@ -14,7 +14,7 @@ To run the server from the [command line](usage/README.md#usage):
 $ autoserver run
 ```
 
-or from [Node.js](usage/README.md#node.js):
+or from [Node.js](usage/README.md#nodejs):
 
 ```js
 import { run } from 'autoserver'
@@ -25,14 +25,14 @@ run()
 ## Configuration
 
 The [configuration](configuration/README.md) can be passed directly as
-[command line](usage/README.md#usage) or [Node.js](usage/README.md#node.js)
+[command line](usage/README.md#usage) or [Node.js](usage/README.md#nodejs)
 options, but is usually specified using a
 [configuration file](configuration/configuration.md#configuration-file) named
 `autoserver.config.yml` in the current directory.
 
 It can be divided into [several files](configuration/references.md), use custom
 [functions](configuration/functions.md) or import
-[Node.js modules](configuration/references.md#node.js-modules).
+[Node.js modules](configuration/references.md#nodejs-modules).
 
 ```yml
 engine: 0

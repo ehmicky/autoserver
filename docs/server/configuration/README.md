@@ -9,7 +9,7 @@ There are several ways to define the [configuration](configuration.md):
 - as a [file](configuration.md#configuration-file)
 - as an [environment variable](configuration.md#environment-variables)
 - as a [command line option](../usage/README.md#usage)
-- as a [Node.js option](../usage/README.md#node.js).
+- as a [Node.js option](../usage/README.md#nodejs).
 
 When using a [configuration file](configuration.md#configuration-file), several
 [formats](formats.md) can be used. It can also be broken down into several files

@@ -89,8 +89,8 @@ error-specific [additional properties](#error-responses).
   `id`s were invalid.
 - [`METHOD`](#method): the [protocol](../protocols/README.md) method is unknown
   or invalid.
-- [`COMMAND`](#command): the [command](../arguments/README.md#rpc) name is
-  unknown or invalid.
+- [`COMMAND`](#command): the [command](../arguments/README.md) name is unknown
+  or invalid.
 - [`RESPONSE_NEGOTIATION`](#response_negotiation): the response could not be
   serialized or [content negotiation](../protocols/formats.md) failed.
 - [`TIMEOUT`](#timeout): the request took
@@ -103,7 +103,7 @@ error-specific [additional properties](#error-responses).
   [too big](../../server/quality/limits.md).
 - [`URL_LIMIT`](#url_limit): the URL is
   [too big](../../server/quality/limits.md).
-- [`REQUEST_NEGOTIATION`](#payload_negotiation): the request payload could not
+- [`REQUEST_NEGOTIATION`](#request_negotiation): the request payload could not
   be loaded, parsed or [content negotiation](../protocols/formats.md) failed.
 
 [Server-side errors](#server-side-errors):
@@ -284,7 +284,7 @@ The [protocol](../protocols/README.md) method is unknown or invalid.
 
 ### `COMMAND`
 
-The [command](../arguments/README.md#rpc) name is unknown or invalid.
+The [command](../arguments/README.md) name is unknown or invalid.
 
 [_HTTP status code_](../protocols/http.md#error-responses): `405`
 

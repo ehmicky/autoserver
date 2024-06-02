@@ -48,6 +48,6 @@ The `PID` (process ID) is available:
 
 - using the [`serverinfo.process.id`](../configuration/functions.md#parameters)
   parameter. This parameter is also available in the resolved value of the
-  promise returned by [`autoserver.run()`](#node.js).
+  promise returned by [`autoserver.run()`](#nodejs).
 - printed on the console by the
   [`console log provider`](../quality/logging.md#console-log-provider)
