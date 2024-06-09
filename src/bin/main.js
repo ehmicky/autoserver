@@ -3,7 +3,7 @@ import { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import handleCliError from 'handle-cli-error'
-import { readPackageUp } from 'read-pkg-up'
+import { readPackageUp } from 'read-package-up'
 import updateNotifier from 'update-notifier'
 
 import * as instructions from '../main.js'

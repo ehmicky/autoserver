@@ -2,7 +2,7 @@ import { dirname } from 'node:path'
 import { version as nodeVersion } from 'node:process'
 import { fileURLToPath } from 'node:url'
 
-import { readPackageUp } from 'read-pkg-up'
+import { readPackageUp } from 'read-package-up'
 
 // Caches it.
 const {
