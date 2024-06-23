@@ -36,9 +36,6 @@ export const getRpcByPath = (path) => {
 const getAllRoutes = () => Object.values(rpcAdapters).flatMap(getRoutes)
 
 const getRoutes = ({ routes, name }) =>
-  routes.map((route) => ({
-    matchRoute: match(route, { decode: decodeURIComponent }),
-    rpc: name,
-  }))
+  routes.map((route) => ({ matchRoute: match(route), rpc: name }))
 
 const allRoutes = getAllRoutes()
