@@ -100,7 +100,7 @@
     "sort-on": "^6.0.0",
     "type-is": "^1.6.18",
     "underscore.string": "^3.3.6",
-    "update-notifier": "^7.0.0",
+    "update-notifier": "^7.1.0",
     "uuid": "^10.0.0",
     "vary": "^1.1.2",
     "yargs": "^17.7.2"
