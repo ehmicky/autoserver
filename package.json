@@ -107,10 +107,10 @@
   },
   "devDependencies": {
     "@ehmicky/dev-tasks": "^3.0.9",
-    "execa": "^9.3.1",
     "get-bin-path": "^11.0.0",
     "got": "^13.0.0",
     "gulp-execa": "^7.0.1",
+    "nano-spawn": "^0.1.0",
     "nodemon": "^3.1.4"
   },
   "engines": {
