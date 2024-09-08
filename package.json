@@ -89,7 +89,7 @@
     "negotiator": "^0.6.3",
     "omit.js": "^2.0.2",
     "parse-prefer-header": "^1.0.0",
-    "path-to-regexp": "^7.1.0",
+    "path-to-regexp": "^8.1.0",
     "pluralize": "^8.0.0",
     "qs": "^6.13.0",
     "raw-body": "^3.0.0",
