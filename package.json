@@ -111,7 +111,7 @@
     "got": "^13.0.0",
     "gulp-execa": "^7.0.1",
     "nano-spawn": "^0.1.0",
-    "nodemon": "^3.1.6"
+    "nodemon": "^3.1.7"
   },
   "engines": {
     "node": ">=18.18.0"
