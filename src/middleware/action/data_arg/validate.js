@@ -56,7 +56,6 @@ const validateRequiredId = ({ datum, commandpath, command }) => {
 
 const REQUIRED_ID_TYPES = new Set(['upsert'])
 
-// eslint-disable-next-line complexity
 const validateForbiddenId = ({ datum, commandpath, command }) => {
   const forbidsId =
     FORBIDDEN_ID_TYPES.has(command.type) &&

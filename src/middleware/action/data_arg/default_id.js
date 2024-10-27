@@ -8,7 +8,6 @@ import { runConfigFunc } from '../../../functions/run.js'
 //  - current collection's 'id' attribute's config 'default'
 //  - database adapter-specific function
 //  - UUIDv4
-// eslint-disable-next-line complexity
 export const addDefaultIds = ({ datum, top: { command }, ...rest }) => {
   const shouldAddDefaultId =
     command.type === 'create' && (datum.id === undefined || datum.id === null)

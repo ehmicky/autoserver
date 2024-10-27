@@ -12,7 +12,6 @@ export const validatePaginationInput = ({ args, topargs, token }) => {
   })
 }
 
-// eslint-disable-next-line complexity
 const validateBothTypes = ({ args }) => {
   const hasOffset = args.page !== undefined && args.page !== null
   const hasCursor =
@@ -29,7 +28,6 @@ const validateBothTypes = ({ args }) => {
   throwError(message, { reason: 'VALIDATION' })
 }
 
-// eslint-disable-next-line complexity
 const validateBothDirection = ({ args }) => {
   const bothDirection =
     args.before !== undefined &&

@@ -78,7 +78,6 @@ export const insertstr = {
   },
 }
 
-// eslint-disable-next-line complexity
 const isValidInsertstr = ({ opVal }) =>
   opVal.length === 2 &&
   (Number.isInteger(opVal[0]) || opVal[0] === undefined || opVal[0] === null) &&
