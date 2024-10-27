@@ -9,7 +9,6 @@ import { transtype } from '../utils/transtype.js'
 //  - 'superset': supports some types not allowed in JSON.
 //    Those extra types are removed by being JSON serialized.
 // Formats that do not support arrays, objects or strings cannot be specified.
-
 export const applyCompatParse = ({ jsonCompat, content }) =>
   jsonCompat.reduce(
     (contentA, compatType) => jsonCompatParse[compatType](contentA),
@@ -38,6 +37,7 @@ const setToString = (val) => {
   return JSON.stringify(val)
 }
 
+// eslint-disable-next-line unicorn/prefer-structured-clone
 const supersetParseStringify = (value) => JSON.parse(JSON.stringify(value))
 
 const jsonCompatParse = {
