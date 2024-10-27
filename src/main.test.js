@@ -24,7 +24,6 @@ test('Smoke test', async (t) => {
 const STARTUP_TIMEOUT = 6e4
 
 const normalizeStdout = (stdout) =>
-  // eslint-disable-next-line fp/no-mutating-methods
   stdout.split('\n').map(normalizeLine).sort().join('\n')
 
 const normalizeLine = (line) =>

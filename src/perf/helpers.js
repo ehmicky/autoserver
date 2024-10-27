@@ -27,7 +27,6 @@ const recordPerf = (measures, perf, response) => {
   const perfA = stopPerf(perf)
   // We directly mutate the passed argument, because it greatly simplifies
   // the code
-  // eslint-disable-next-line fp/no-mutating-methods
   measures.push(perfA)
   return response
 }

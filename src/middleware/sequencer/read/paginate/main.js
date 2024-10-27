@@ -31,7 +31,6 @@ export const paginateResults = ({
 
   const resultsA = truncateAttrs({ results, nestedAttrs, nestedPagesize })
 
-  // eslint-disable-next-line fp/no-mutating-methods
   results.splice(0, results.length, ...resultsA)
 }
 

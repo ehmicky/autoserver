@@ -59,7 +59,6 @@ export const addPendingResults = ({ args, results, collname, promise }) => {
 
   // Since we are sharing between parallel calls, `results` must be a mutable
   // variable.
-  // eslint-disable-next-line fp/no-mutating-methods
   results.push(...pendingResults)
 
   return pendingResults
