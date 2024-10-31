@@ -1,4 +1,4 @@
-import { load as yamlParse, dump as yamlStringify, JSON_SCHEMA } from 'js-yaml'
+import { dump as yamlStringify, JSON_SCHEMA, load as yamlParse } from 'js-yaml'
 
 // Parses a YAML file
 const parse = ({ content, path }) =>

@@ -3,9 +3,9 @@ import { isObject } from '../../utils/functional/type.js'
 import { eq, neq } from './eq_neq.js'
 import { inOperator, nin } from './in_nin.js'
 import { like, nlike } from './like_nlike.js'
-import { lt, gt, lte, gte } from './lt_gt_lte_gte.js'
-import { or, and } from './or_and.js'
-import { some, all } from './some_all.js'
+import { gt, gte, lt, lte } from './lt_gt_lte_gte.js'
+import { and, or } from './or_and.js'
+import { all, some } from './some_all.js'
 
 const OPERATORS = {
   _or: or,

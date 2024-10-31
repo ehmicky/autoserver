@@ -53,9 +53,9 @@ import { handlePaginationInput } from './request_response/pagination/input/main.
 import { handlePaginationOutput } from './request_response/pagination/output/main.js'
 import { responseValidation } from './request_response/response_validation.js'
 import {
-  handleValue,
   handleReadonly,
   handleUserDefault,
+  handleValue,
 } from './request_response/transform/main.js'
 import { fireActions } from './rpc/actions.js'
 import { methodCheck } from './rpc/method_check.js'

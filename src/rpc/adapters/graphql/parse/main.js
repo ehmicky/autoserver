@@ -1,7 +1,7 @@
 import { parseRpcDef } from './definition/main.js'
 import { getGraphqlDocument } from './document.js'
 import { getFragments } from './fragments.js'
-import { isIntrospectionQuery, handleIntrospection } from './introspection.js'
+import { handleIntrospection, isIntrospectionQuery } from './introspection.js'
 import { getMainDef } from './main_def.js'
 import { validateMainDef } from './validate.js'
 

@@ -1,8 +1,8 @@
-import { push, unshift, pop, shift, remove, sort } from './array.js'
+import { pop, push, remove, shift, sort, unshift } from './array.js'
 import { invert } from './boolean.js'
 import { set } from './generic.js'
-import { add, sub, div, mul } from './number.js'
-import { slicestr, slice, insert, insertstr } from './slice.js'
+import { add, div, mul, sub } from './number.js'
+import { insert, insertstr, slice, slicestr } from './slice.js'
 import { replace } from './string.js'
 
 // All patch operators

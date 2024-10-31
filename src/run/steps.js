@@ -4,7 +4,7 @@ import { getRequestHandler } from '../middleware/main.js'
 import { connectToDatabases } from './database/main.js'
 import { setupGracefulExit } from './exit/setup.js'
 import { launchProtocols } from './launch.js'
-import { startStartupPerf, stopStartupPerf, reportStartupPerf } from './perf.js'
+import { reportStartupPerf, startStartupPerf, stopStartupPerf } from './perf.js'
 import { processErrorHandler } from './process.js'
 import { emitStartEvent } from './start_event.js'
 

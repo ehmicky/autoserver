@@ -2,7 +2,7 @@ import { addErrorHandler } from '../errors/handler.js'
 import { normalizeError } from '../errors/main.js'
 import { createPb } from '../errors/props.js'
 
-import { LEVELS, DEFAULT_LOGGER } from './constants.js'
+import { DEFAULT_LOGGER, LEVELS } from './constants.js'
 import { getLog } from './get.js'
 import { getLogParams } from './params.js'
 

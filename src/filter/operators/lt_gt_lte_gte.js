@@ -1,4 +1,4 @@
-import { validateSameType, parseAsIs } from './common.js'
+import { parseAsIs, validateSameType } from './common.js'
 
 // `{ attribute: { _lt: value } }`
 const evalLt = ({ attr, value }) => attr < value

@@ -1,4 +1,4 @@
-import { GraphQLNonNull, GraphQLList } from 'graphql'
+import { GraphQLList, GraphQLNonNull } from 'graphql'
 
 import { getArgTypeDescription } from '../../../../description.js'
 

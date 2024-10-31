@@ -3,9 +3,9 @@ import { monitor } from '../perf/helpers.js'
 import { reduceAsync } from '../utils/functional/reduce.js'
 
 import {
-  fireMiddlewareHandler,
-  fireMainLayersHandler,
   fireErrorHandler,
+  fireMainLayersHandler,
+  fireMiddlewareHandler,
 } from './error/main.js'
 import { middlewareLayers } from './layers.js'
 

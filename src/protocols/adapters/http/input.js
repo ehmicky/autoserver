@@ -7,8 +7,8 @@ import { mapValues } from '../../../utils/functional/map.js'
 
 import { getCharset } from './content_negotiation/charset.js'
 import {
-  getCompressResponse,
   getCompressRequest,
+  getCompressResponse,
 } from './content_negotiation/compress.js'
 import { getFormat } from './content_negotiation/format.js'
 import { getAgnosticMethod } from './method.js'

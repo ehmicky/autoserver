@@ -1,7 +1,7 @@
 import { excludeKeys } from 'filter-obj'
 
 import { normalizeError } from './main.js'
-import { getReason, getProps } from './props.js'
+import { getProps, getReason } from './props.js'
 
 // Gets normalized error information
 export const getStandardError = ({ error, mInput }) => {

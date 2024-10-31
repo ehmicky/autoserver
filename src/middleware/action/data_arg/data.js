@@ -4,7 +4,7 @@ import { getColl } from '../get_coll.js'
 
 import { addDefaultIds } from './default_id.js'
 import { isModel } from './nested.js'
-import { validateData, isModelsType } from './validate.js'
+import { isModelsType, validateData } from './validate.js'
 
 // Validates `args.data` and adds default ids.
 export const parseData = ({ data, ...rest }) => {

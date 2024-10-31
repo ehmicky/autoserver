@@ -1,5 +1,5 @@
 import { isOnlyForwardCursor } from '../condition.js'
-import { isOffset, getLimit, hasToken } from '../info.js'
+import { getLimit, hasToken, isOffset } from '../info.js'
 
 import { getMetadata } from './metadata.js'
 

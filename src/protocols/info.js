@@ -1,4 +1,4 @@
-import { getNames, getMember } from '../adapters/get.js'
+import { getMember, getNames } from '../adapters/get.js'
 
 import { PROTOCOL_ADAPTERS } from './adapters/main.js'
 

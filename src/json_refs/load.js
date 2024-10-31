@@ -1,7 +1,7 @@
 import { stat } from 'node:fs/promises'
 
-import { addGenErrorHandler, addErrorHandler } from '../errors/handler.js'
-import { getByExt, DEFAULT_RAW_FORMAT } from '../formats/get.js'
+import { addErrorHandler, addGenErrorHandler } from '../errors/handler.js'
+import { DEFAULT_RAW_FORMAT, getByExt } from '../formats/get.js'
 
 // Load the file pointing to by the JSON reference
 export const load = async ({ path }) => {

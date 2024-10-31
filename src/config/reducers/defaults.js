@@ -2,7 +2,7 @@ import { DEFAULT_DATABASE } from '../../databases/get.js'
 import { DATABASE_DEFAULTS } from '../../databases/info.js'
 import { PROTOCOL_DEFAULTS } from '../../protocols/info.js'
 import { deepMerge } from '../../utils/functional/merge.js'
-import { mapColls, mapAttrs } from '../helpers.js'
+import { mapAttrs, mapColls } from '../helpers.js'
 
 // Add config default values
 export const addDefaults = ({ config }) => {

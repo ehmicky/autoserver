@@ -1,4 +1,4 @@
-import { addGenPbHandler, addErrorHandler } from '../../errors/handler.js'
+import { addErrorHandler, addGenPbHandler } from '../../errors/handler.js'
 import { throwPb } from '../../errors/props.js'
 import { getLimits } from '../../limits.js'
 import { getSumParams } from '../../utils/sums.js'

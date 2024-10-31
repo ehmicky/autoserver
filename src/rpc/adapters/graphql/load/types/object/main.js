@@ -1,4 +1,4 @@
-import { GraphQLObjectType, GraphQLInputObjectType } from 'graphql'
+import { GraphQLInputObjectType, GraphQLObjectType } from 'graphql'
 import moize from 'moize'
 
 import { getTypeName } from '../../name.js'

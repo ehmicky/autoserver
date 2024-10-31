@@ -1,9 +1,9 @@
 import { groupBy } from '../utils/functional/group.js'
 
 import {
-  PARENT_OPERATORS,
-  ATTR_PARENT_OPERATORS,
   ATTR_ANCESTOR_OPERATORS,
+  ATTR_PARENT_OPERATORS,
+  PARENT_OPERATORS,
 } from './operators/main.js'
 
 // Call `func(node)` recursively over each node of `args.filter`

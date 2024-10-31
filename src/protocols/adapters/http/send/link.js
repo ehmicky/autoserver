@@ -2,7 +2,7 @@ import { excludeKeys } from 'filter-obj'
 import li from 'li'
 
 import { mapValues } from '../../../../utils/functional/map.js'
-import { stringifyUrl, getStandardUrl } from '../origin.js'
+import { getStandardUrl, stringifyUrl } from '../origin.js'
 
 // `Link` HTTP header, using pagination metadata,
 // with `rel` `first|last|next|prev`

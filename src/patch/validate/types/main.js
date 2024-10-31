@@ -1,5 +1,5 @@
 import { uniq } from '../../../utils/functional/uniq.js'
-import { getOpValRef, cannotCheckType } from '../../ref_parsing.js'
+import { cannotCheckType, getOpValRef } from '../../ref_parsing.js'
 
 import { TYPES } from './available.js'
 import { validateTypes } from './validate.js'

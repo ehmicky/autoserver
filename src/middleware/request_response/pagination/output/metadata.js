@@ -2,7 +2,7 @@ import { includeKeys } from 'filter-obj'
 
 import { isOnlyForwardCursor } from '../condition.js'
 import { encode } from '../encoding/main.js'
-import { isOffset, SAME_ARGS, BOUNDARY_TOKEN } from '../info.js'
+import { BOUNDARY_TOKEN, isOffset, SAME_ARGS } from '../info.js'
 
 export const getMetadata = ({
   data,

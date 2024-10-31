@@ -1,9 +1,9 @@
 import underscoreString from 'underscore.string'
 
 import { COMMANDS } from '../../../../commands/constants.js'
-import { mapValues, mapKeys } from '../../../../utils/functional/map.js'
+import { mapKeys, mapValues } from '../../../../utils/functional/map.js'
 
-import { TOP_DESCRIPTIONS, getCommandDescription } from './description.js'
+import { getCommandDescription, TOP_DESCRIPTIONS } from './description.js'
 import { getCommandName, getTypeName } from './name.js'
 
 // Retrieve the GraphQL definitions for Query|Mutation,

@@ -1,4 +1,4 @@
-import { has, get } from '../utils/functional/get_set.js'
+import { get, has } from '../utils/functional/get_set.js'
 
 import { getOperator } from './operators/main.js'
 import { getSiblingValue } from './siblings.js'

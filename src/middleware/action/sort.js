@@ -1,4 +1,4 @@
-import { sortArray, compareArrays } from '../../utils/functional/sort.js'
+import { compareArrays, sortArray } from '../../utils/functional/sort.js'
 
 const sorter = (obj, key, pathKey) => {
   const val = sortArray(obj[key], sortTwo.bind(undefined, pathKey))

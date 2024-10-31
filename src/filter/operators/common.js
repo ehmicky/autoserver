@@ -1,5 +1,5 @@
 import { mapValues } from '../../utils/functional/map.js'
-import { throwAttrValError, throwAttrTypeError } from '../error.js'
+import { throwAttrTypeError, throwAttrValError } from '../error.js'
 
 export const parseAsIs = ({ value }) => value
 

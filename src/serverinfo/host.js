@@ -1,12 +1,12 @@
 import {
+  arch as getArch,
+  cpus as getCpus,
   hostname as getHostname,
-  type as getOs,
+  networkInterfaces as getNetworkInterfaces,
   platform as getPlatform,
   release as getRelease,
-  arch as getArch,
   totalmem as getMemory,
-  cpus as getCpus,
-  networkInterfaces as getNetworkInterfaces,
+  type as getOs,
 } from 'node:os'
 
 import { v5 as uuidv5 } from 'uuid'

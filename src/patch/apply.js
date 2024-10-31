@@ -4,7 +4,7 @@ import { mapValues } from '../utils/functional/map.js'
 
 import { getPatchErrorProps } from './error.js'
 import { parsePatchOp } from './parse.js'
-import { replaceSimpleRef, replaceRef } from './ref.js'
+import { replaceRef, replaceSimpleRef } from './ref.js'
 import { parseRef } from './ref_parsing.js'
 
 // Apply patch operation to a single datum

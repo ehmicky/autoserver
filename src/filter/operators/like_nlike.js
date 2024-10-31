@@ -1,5 +1,5 @@
 import { addErrorHandler } from '../../errors/handler.js'
-import { throwAttrValError, throwAttrTypeError } from '../error.js'
+import { throwAttrTypeError, throwAttrValError } from '../error.js'
 
 import { validateNotArray } from './common.js'
 

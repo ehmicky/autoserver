@@ -3,7 +3,7 @@ import { set } from '../utils/functional/get_set.js'
 import { getValues } from '../utils/functional/values.js'
 
 import { getParamsKeys } from './params/keys.js'
-import { isInlineFunc, isEscapedInlineFunc } from './test.js'
+import { isEscapedInlineFunc, isInlineFunc } from './test.js'
 import { getInlineFunc } from './tokenize.js'
 
 // Create all config inline functions, i.e. apply `new Function()`

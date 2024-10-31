@@ -1,4 +1,4 @@
-import { parse, format as formatContentType } from 'content-type'
+import { format as formatContentType, parse } from 'content-type'
 
 import { formatAdapters } from './wrap.js'
 

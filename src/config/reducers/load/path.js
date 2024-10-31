@@ -1,5 +1,5 @@
 import { readdir } from 'node:fs/promises'
-import { resolve, isAbsolute } from 'node:path'
+import { isAbsolute, resolve } from 'node:path'
 import { cwd } from 'node:process'
 
 import { addGenErrorHandler } from '../../../errors/handler.js'

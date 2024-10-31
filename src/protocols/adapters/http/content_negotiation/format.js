@@ -3,9 +3,9 @@ import { Negotiator } from 'negotiator'
 import { addErrorHandler } from '../../../../errors/handler.js'
 import { throwPb } from '../../../../errors/props.js'
 import {
+  DEFAULT_RAW_FORMAT,
   getByMime,
   getMimes,
-  DEFAULT_RAW_FORMAT,
 } from '../../../../formats/get.js'
 
 import { getContentType } from './content_type.js'

@@ -1,6 +1,6 @@
 import { isDeepStrictEqual } from 'node:util'
 
-import { validateSameType, parseAsIs } from './common.js'
+import { parseAsIs, validateSameType } from './common.js'
 
 // `{ attribute: { _eq: value } }` or `{ attribute: value }`
 const evalEq = ({ attr, value }) => isDeepStrictEqual(attr, value)

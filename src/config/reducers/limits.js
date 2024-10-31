@@ -1,4 +1,4 @@
-import { parse as parseBytes, format as formatBytes } from 'bytes'
+import { format as formatBytes, parse as parseBytes } from 'bytes'
 
 import { throwError } from '../../errors/main.js'
 import { getLimits } from '../../limits.js'

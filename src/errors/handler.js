@@ -2,7 +2,7 @@ import keepFuncProps from 'keep-func-props'
 
 import { result } from '../utils/functional/result.js'
 
-import { throwError, normalizeError, isError } from './main.js'
+import { isError, normalizeError, throwError } from './main.js'
 import { throwPb } from './props.js'
 
 // Wrap a function with a error handler
