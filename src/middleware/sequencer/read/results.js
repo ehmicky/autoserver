@@ -13,9 +13,11 @@ export const processResults = ({
   // Replace `pendingResults` promises by their resolved values
   if (pendingResults.length !== 0) {
     const index = results.findIndex((result) => pendingResults.includes(result))
+    // eslint-disable-next-line fp/no-mutating-methods
     results.splice(index, pendingResults.length)
   }
 
+  // eslint-disable-next-line fp/no-mutating-methods
   results.push(...finishedResultsB)
 }
 

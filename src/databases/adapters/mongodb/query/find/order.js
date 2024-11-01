@@ -8,5 +8,6 @@ export const sortResponse = ({ cursor, order }) => {
     [attrName]: dir === 'asc' ? 1 : -1,
   }))
   const orderB = Object.assign({}, ...orderA)
+  // eslint-disable-next-line fp/no-mutating-methods
   return cursor.sort(orderB)
 }
