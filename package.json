@@ -98,7 +98,7 @@
     "require-from-string": "^2.0.2",
     "signal-exit": "^4.1.0",
     "sort-on": "^6.1.0",
-    "type-is": "^1.6.18",
+    "type-is": "^2.0.1",
     "underscore.string": "^3.3.6",
     "update-notifier": "^7.3.1",
     "uuid": "^11.1.0",
