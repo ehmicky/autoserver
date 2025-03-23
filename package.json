@@ -108,7 +108,7 @@
   "devDependencies": {
     "@ehmicky/dev-tasks": "^3.0.33",
     "@ehmicky/eslint-config": "^20.0.31",
-    "@ehmicky/prettier-config": "^1.0.5",
+    "@ehmicky/prettier-config": "^1.0.6",
     "get-bin-path": "^11.0.0",
     "got": "^13.0.0",
     "gulp-execa": "^8.0.0",
