@@ -109,7 +109,7 @@
     "@ehmicky/dev-tasks": "^3.0.33",
     "@ehmicky/eslint-config": "^20.0.31",
     "@ehmicky/prettier-config": "^1.0.6",
-    "get-bin-path": "^11.0.0",
+    "get-bin-path": "^11.0.1",
     "got": "^13.0.0",
     "gulp-execa": "^8.0.1",
     "nano-spawn": "^0.2.0",
